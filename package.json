@@ -1,7 +1,7 @@
 {
-  "name": "occiali-api",
+  "name": "opengar-api",
   "version": "0.0.1",
-  "description": "Optic Management Api Service ",
+  "description": "Opengar Api Service",
   "main": "src/index.ts",
   "scripts": {
     "start": "nodemon",
@@ -50,7 +50,7 @@
     "jest": "^26.6.3",
     "jest-json-schema": "^2.1.0",
     "jest-json-schema-matchers": "0.0.5",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.7",
     "prettier": "2.2.1",
     "supertest": "^6.0.1",
     "ts-jest": "^26.4.4",
