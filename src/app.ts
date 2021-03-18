@@ -1,5 +1,5 @@
-import { App, Response, Request } from "./routes/router";
-import { requireRouterPaths } from "./routes/index";
+import { App, Response, Request } from "./rest/routes/router";
+import { requireRouterPaths } from "./rest/routes/index";
 import { GraphQlServer } from "./servers/graphql";
 import { DBConector } from "./database/typeorm";
 import { DataSeeder } from "./content/Seeder";
@@ -17,6 +17,7 @@ export class Application {
       await GraphQlServer.bootGraphql(App);
       const dataSeeder = Container.get(DataSeeder);
       await dataSeeder.init();
+
       requireRouterPaths();
 
       App.get("/", (req: Request, res: Response) => {
