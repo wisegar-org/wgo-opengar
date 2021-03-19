@@ -1,37 +1,32 @@
-import {
-  RouterApp,
-  registerRouterController,
-  Response,
-  Request,
-} from "./router";
+import { Request, Response, Express } from 'express'
 import { AuthController } from "../controllers/AuthController";
 import Container from "typedi";
 
-const authController = Container.get(AuthController);
-RouterApp.get("/", (req: Request, res: Response) => res.send("Auth Paths"));
+export function InitializeAuthRouter(App: Express) {
+  const authController = Container.get(AuthController);
+  App.get("/auth", (req: Request, res: Response) => res.send("Auth Paths"));
 
-RouterApp.post("/login", (req: Request, res: Response) =>
-  authController.loginUser(req, res)
-);
+  App.post("/auth/login", (req: Request, res: Response) =>
+    authController.loginUser(req, res)
+  );
 
-RouterApp.post("/registerCustomer", (req: Request, res: Response) =>
-  authController.registerCustomer(req, res)
-);
+  App.post("/auth/registerCustomer", (req: Request, res: Response) =>
+    authController.registerCustomer(req, res)
+  );
 
-RouterApp.post("/updateCustomer", (req: Request, res: Response) =>
-  authController.updateCustomerProfile(req, res)
-);
+  App.post("/auth/updateCustomer", (req: Request, res: Response) =>
+    authController.updateCustomerProfile(req, res)
+  );
 
-RouterApp.post("/checkPasswordStrength", (req: Request, res: Response) =>
-  authController.checkPasswordStrength(req, res)
-);
+  App.post("/auth/checkPasswordStrength", (req: Request, res: Response) =>
+    authController.checkPasswordStrength(req, res)
+  );
 
-RouterApp.post("/checkEmailConfirmation", (req: Request, res: Response) =>
-  authController.checkEmailConfirmation(req, res)
-);
+  App.post("/auth/checkEmailConfirmation", (req: Request, res: Response) =>
+    authController.checkEmailConfirmation(req, res)
+  );
 
-RouterApp.post("/resendEmailConfirmation", (req: Request, res: Response) =>
-  authController.resendEmailConfirmation(req, res)
-);
-
-registerRouterController("/auth", RouterApp);
+  App.post("/auth/resendEmailConfirmation", (req: Request, res: Response) =>
+    authController.resendEmailConfirmation(req, res)
+  );
+}

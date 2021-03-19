@@ -1,4 +1,4 @@
-import { Request, Response } from "../routes/router";
+import { Request, Response } from "express";
 import { MediaEntity, Repository, Connection } from "../../database/index";
 import { SaveImageResponse, MediaEntityTypeEnum } from "../../models/index";
 import { UploadedFile } from "express-fileupload";
@@ -14,7 +14,7 @@ export class MediaController {
   constructor(
     @InjectRepository(MediaEntity, "development")
     private readonly mediaRepository: MediaRepository
-  ) {}
+  ) { }
   imagePath = __dirname + "\\..\\..\\public\\img\\";
   async saveImage(req: Request, res: Response) {
     const file = req.files.file as UploadedFile;

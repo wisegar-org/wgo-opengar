@@ -1,14 +1,16 @@
-import { App, Response, Request } from "./rest/routes/router";
-import { requireRouterPaths } from "./rest/routes/index";
+import { Response, Request } from "express";
 import { GraphQlServer } from "./servers/graphql";
 import { DBConector } from "./database/typeorm";
 import { DataSeeder } from "./content/Seeder";
 import Container, { Inject, Service } from "typedi";
+import express = require("express");
+import { InitializeRouter } from './rest/routes/router';
 
 @Service()
 export class Application {
   public async init(port, connectionName?: string | undefined) {
     try {
+      const App = express();
       const connection = await DBConector.connect(connectionName);
       if (!connection)
         throw Error(
@@ -18,7 +20,7 @@ export class Application {
       const dataSeeder = Container.get(DataSeeder);
       await dataSeeder.init();
 
-      requireRouterPaths();
+      InitializeRouter(App)
 
       App.get("/", (req: Request, res: Response) => {
         res.send("API Rest");

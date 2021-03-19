@@ -1,4 +1,4 @@
-import { Request, Response } from "../routes/router";
+import { Request, Response } from "express";
 import { UserEntity, RolEntity, MediaEntity } from "../../database/index";
 import {
   UserLoginSuccessResponse,
@@ -35,7 +35,7 @@ export class AuthController {
     private readonly RolRepository: RoleRepository,
     @InjectRepository(MediaEntity, "development")
     private readonly MediaRepository: MediaRepository
-  ) {}
+  ) { }
 
   async loginUser(req: Request, res: Response) {
     const { user, password }: { user: string; password: string } = req.body;

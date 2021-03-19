@@ -1,18 +1,20 @@
 import {
-  RouterApp,
-  registerRouterController,
+  Express,
   Response,
   Request,
-} from "./router";
+} from "express";
 import { MediaController } from "../controllers/MediaController";
 import Container from "typedi";
 
-const mediaController = Container.get(MediaController);
 
-RouterApp.get("/", (req: Request, res: Response) => res.send("Media Paths"));
+export function InitializeMediaRouter(App: Express) {
+  const mediaController = Container.get(MediaController);
+  App.get("/media", (req: Request, res: Response) => res.send("Media Paths"));
 
-RouterApp.post("/saveImage", (req: Request, res: Response) =>
-  mediaController.saveImage(req, res)
-);
+  App.post("/media/saveImage", (req: Request, res: Response) =>
+    mediaController.saveImage(req, res)
+  );
+}
 
-registerRouterController("/media", RouterApp);
+
+
