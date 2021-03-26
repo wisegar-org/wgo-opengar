@@ -1,6 +1,5 @@
 //export typeorm.ts methods
-export { Connection, Repository } from "./ConnectionService";
-
+export { Connection, Repository } from "./DBConector";
 //export entities
 export {
   MediaEntity,

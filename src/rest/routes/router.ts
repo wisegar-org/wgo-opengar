@@ -1,18 +1,15 @@
 import { static as expStatic, Express } from "express";
 import { InitializeGithubRouter } from "wgo-github-module/dist";
-import { InitializeAuthRouter } from './AuthRouter'
-import { InitializeMediaRouter } from './MediaRouter';
-import { InitializeMiddlewares } from '../middlewares'
+import { InitializeAuthRouter } from "./AuthRouter";
+import { InitializeMediaRouter } from "./MediaRouter";
+import { InitializeMiddlewares } from "../middlewares";
 
 export function InitializeRouter(App: Express) {
-
-  InitializeMiddlewares(App)
-  InitializeAuthRouter(App)
-  InitializeMediaRouter(App)
+  InitializeMiddlewares(App);
+  InitializeAuthRouter(App);
+  InitializeMediaRouter(App);
 
   App.use(expStatic(__dirname + "\\..\\..\\public"));
-  debugger;
+
   InitializeGithubRouter(App);
 }
-
-
