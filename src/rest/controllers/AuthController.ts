@@ -10,8 +10,8 @@ import {
 } from "../../models/index";
 import _ from "lodash";
 import { ErrorResponse } from "../../models/responseModels/BasicResponse";
-import { JwtService } from "wgo-opengar-js/src/index";
-import { IUser } from "wgo-opengar-js/src/index";
+import { JwtService } from "@wisegar-org/wgo-opengar-core";
+import { IUser } from "@wisegar-org/wgo-opengar-core";
 import { privateKey, publicKey } from "../../settings";
 import { EmailServer } from "../../services/EmailService";
 import { Service } from "typedi";
@@ -35,7 +35,7 @@ export class AuthController {
     private readonly RolRepository: RoleRepository,
     @InjectRepository(MediaEntity, "development")
     private readonly MediaRepository: MediaRepository
-  ) { }
+  ) {}
 
   async loginUser(req: Request, res: Response) {
     const { user, password }: { user: string; password: string } = req.body;

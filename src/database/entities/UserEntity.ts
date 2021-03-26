@@ -10,8 +10,8 @@ import {
 } from "typeorm";
 import { RolEntity } from "./RolEntity";
 import { MediaEntity } from "./MediaEntity";
-import { IUser } from "wgo-opengar-js/src/index";
-import { Field, ObjectType } from 'type-graphql';
+import { IUser } from "@wisegar-org/wgo-opengar-core";
+import { Field, ObjectType } from "type-graphql";
 @Entity({ name: "users" })
 export class UserEntity extends BaseEntity {
   @Field()
@@ -69,7 +69,9 @@ export class UserEntity extends BaseEntity {
     this.roles = roles;
     this.profileImage = profileImage;
     this.isEmailConfirmed = !!isEmailConfirmed;
-    this.uuid = Math.random().toString(16).substring(2) + (new Date()).getTime().toString(16)
+    this.uuid =
+      Math.random().toString(16).substring(2) +
+      new Date().getTime().toString(16);
   }
 
   getJWTUser(): IUser {

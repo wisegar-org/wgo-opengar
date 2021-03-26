@@ -8,7 +8,7 @@ import {
 } from "../../models/responseModels/Response";
 import RolEntity from "../../database/entities/RolEntity";
 import { LoginModel, UserLoginToken } from "../../models/AuthModels";
-import { IUser, JwtService } from "wgo-opengar-js/src";
+import { IUser, JwtService } from "@wisegar-org/wgo-opengar-core";
 import { privateKey, publicKey } from "../../settings";
 import { EmailServer } from "../EmailService";
 import { Service } from "typedi";

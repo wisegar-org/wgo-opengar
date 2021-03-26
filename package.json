@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash": "^4.14.167",
+    "@wisegar-org/wgo-opengar-core": "file:../wgo-opengar-core",
     "apollo-server-express": "^2.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -36,8 +37,7 @@
     "typeorm": "^0.2.30",
     "typeorm-typedi-extensions": "^0.4.0",
     "uuid-validate": "0.0.3",
-    "wgo-github-module": "file:../wgo-github",
-    "wgo-opengar-js": "file:../wgo-opengar-core"
+    "wgo-github-module": "file:../wgo-github"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
