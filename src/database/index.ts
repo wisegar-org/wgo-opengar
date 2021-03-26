@@ -1,7 +1,9 @@
 //export typeorm.ts methods
-export { Connection, Repository } from './typeorm'
+export { Connection, Repository } from "./ConnectionService";
 
 //export entities
-export { MediaEntity } from './entities/MediaEntity'
-export { RolEntity } from './entities/RolEntity'
-export { UserEntity } from './entities/UserEntity'
+export {
+  MediaEntity,
+  RolEntity,
+  UserEntity,
+} from "@wisegar-org/wgo-opengar-core";

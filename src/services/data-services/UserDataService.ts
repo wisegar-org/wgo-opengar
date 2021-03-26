@@ -1,4 +1,4 @@
-import UserEntity from "../../database/entities/UserEntity";
+import { UserEntity, RolEntity } from "@wisegar-org/wgo-opengar-core";
 import * as _ from "lodash";
 import * as bcrypt from "bcrypt";
 import {
@@ -6,7 +6,6 @@ import {
   Response,
   SuccessResponse,
 } from "../../models/responseModels/Response";
-import RolEntity from "../../database/entities/RolEntity";
 import { LoginModel, UserLoginToken } from "../../models/AuthModels";
 import { IUser, JwtService } from "@wisegar-org/wgo-opengar-core";
 import { privateKey, publicKey } from "../../settings";
@@ -30,14 +29,6 @@ export class UserDataService {
     });
     return SuccessResponse.Response(users);
   };
-
-  // all = async (criteria?: any, relations?: string[]): Promise<Response<UserEntity[]>> => {
-  //     const users = await (await this._userRepository.find({
-  //         relations: relations,
-  //         where: criteria
-  //     }))
-  //     return SuccessResponse.Response(users)
-  // }
 
   one = async (criteria?: any): Promise<Response<UserEntity>> => {
     const user = await this._userRepository.findOne({

@@ -2,10 +2,10 @@ import { UserEntity, RolEntity, Repository } from "../database/index";
 import { RolEntityEnum } from "../models/index";
 import * as _ from "lodash";
 import Container, { Inject, Service } from "typedi";
-import { InjectRepository } from "typeorm-typedi-extensions";
 import { UserRepository } from "../database/repositories/UserRepository";
 import { RoleRepository } from "../database/repositories/RoleRepository";
 import { UserDataService } from "../services/data-services/UserDataService";
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 @Service()
 export class DataSeeder {

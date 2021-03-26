@@ -1,9 +1,9 @@
 import { Field, ObjectType } from "type-graphql";
 import { RolEntity } from "../../../database";
 import { Role } from "../../../services/RolesClass";
-import { RoleGQL } from '../inputs/RoleInputGQL';
-import { GenericArrayResponseGQL, GenericResponseGQL } from './ResponseGQL';
-import UserEntity from '../../../database/entities/UserEntity';
+import { RoleGQL } from "../inputs/RoleInputGQL";
+import { GenericArrayResponseGQL, GenericResponseGQL } from "./ResponseGQL";
+import { UserEntity } from "@wisegar-org/wgo-opengar-core";
 
 @ObjectType()
 export class UserGQL {
@@ -30,18 +30,17 @@ export class UserLoginToken {
   @Field(() => String, { nullable: true })
   token: string;
   @Field(() => UserGQL)
-  user: UserEntity
+  user: UserEntity;
 }
 
 @ObjectType()
 export class UserResponseGQL extends GenericResponseGQL(UserGQL) {}
 
 @ObjectType()
-export class UserListResponseGQL extends GenericArrayResponseGQL(UserGQL) { }
+export class UserListResponseGQL extends GenericArrayResponseGQL(UserGQL) {}
 
 @ObjectType()
-export class UserLoginResponseGQL extends GenericResponseGQL(UserLoginToken) { }
-
+export class UserLoginResponseGQL extends GenericResponseGQL(UserLoginToken) {}
 
 @ObjectType()
 export class RoleResponse {

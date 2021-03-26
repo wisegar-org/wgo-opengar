@@ -1,8 +1,4 @@
-import { IsEmail, Length } from "class-validator";
-import { isLength } from "lodash";
-import { ArgsType, Field, ID, InputType, Int, ObjectType } from "type-graphql";
-import { RoleGQL, RoleInputGQL } from './RoleInputGQL';
-import RolEntity from '../../../database/entities/RolEntity';
+import { ArgsType, Field, ID, InputType, Int } from "type-graphql";
 
 //  @InputType()
 // export class ProfiloInput {
@@ -79,7 +75,6 @@ import RolEntity from '../../../database/entities/RolEntity';
 //   roles: string[];
 // }
 
-
 // @ObjectType()
 // export class UserGQL {
 //   @Field(() => ID)
@@ -115,12 +110,11 @@ import RolEntity from '../../../database/entities/RolEntity';
 
 @InputType()
 export class UserInputGQL {
-
   @Field(() => ID, { nullable: true })
-  id?: number
-  
+  id?: number;
+
   @Field(() => String, { nullable: true })
-  uuid: string
+  uuid: string;
 
   @Field({ nullable: true })
   name: string;
@@ -140,30 +134,29 @@ export class UserInputGQL {
   @Field(() => [Int], { nullable: true })
   roles: number[];
 
-  isEmailConfirmed: boolean
+  isEmailConfirmed: boolean;
 }
 
 @InputType()
 export class LoginModelInputGQL {
   @Field()
-  userName: string
-  
+  userName: string;
+
   @Field()
-  password: string
+  password: string;
 }
 
 @InputType()
 export class UserRolesInputGQL {
   @Field()
-  userUuid: string
+  userUuid: string;
 
   @Field(() => [Int])
-  roleIds: number[]
+  roleIds: number[];
 }
 
 @ArgsType()
 export class UserCreateArgs {
-
   @Field()
   name: string;
 
@@ -189,10 +182,9 @@ export class UserCreateArgs {
   // profileImage: MediaEntity;
 }
 
-
 @ArgsType()
 export class UserFilterArgs {
-  @Field(type => Int, { nullable: true })
+  @Field((type) => Int, { nullable: true })
   id?: number;
 
   @Field(() => String, { nullable: true })

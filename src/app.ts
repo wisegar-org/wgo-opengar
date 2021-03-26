@@ -1,17 +1,22 @@
 import { Response, Request } from "express";
 import { GraphQlServer } from "./servers/graphql";
-import { DBConector } from "./database/typeorm";
+import { ConnectionService } from "./database/ConnectionService";
 import { DataSeeder } from "./content/Seeder";
 import Container, { Inject, Service } from "typedi";
 import express = require("express");
-import { InitializeRouter } from './rest/routes/router';
+import { InitializeRouter } from "./rest/routes/router";
+import { OGConnection } from "./database/connections";
 
 @Service()
 export class Application {
-  public async init(port, connectionName?: string | undefined) {
+  @Inject()
+  private connectionService: ConnectionService;
+
+  public async init(port: any) {
     try {
+      debugger;
       const App = express();
-      const connection = await DBConector.connect(connectionName);
+      const connection = await this.connectionService.Connect();
       if (!connection)
         throw Error(
           `Application init: Error trying to connect to the database`
@@ -20,7 +25,7 @@ export class Application {
       const dataSeeder = Container.get(DataSeeder);
       await dataSeeder.init();
 
-      InitializeRouter(App)
+      InitializeRouter(App);
 
       App.get("/", (req: Request, res: Response) => {
         res.send("API Rest");
@@ -28,6 +33,7 @@ export class Application {
       App.listen(port, () => console.log(`> Listening on port ${port}`));
     } catch (error) {
       console.log(`Application init error: ${error.message}`);
+      process.exit(1);
     }
   }
 }
