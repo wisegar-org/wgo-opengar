@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Arg, Args } from "type-graphql";
-import { UserEntity } from "@wisegar-org/wgo-opengar-core";
+import { UserEntity, UserDataService } from "@wisegar-org/wgo-opengar-core";
 import {
   UserResponseGQL,
   UserListResponseGQL,
@@ -7,7 +7,6 @@ import {
   UserLoginToken,
 } from "../types/responses/UserResponsesGQL";
 import { ErrorResponse, Response } from "../../models/responseModels/Response";
-import { UserDataService } from "../../services/data-services/UserDataService";
 import {
   LoginModelInputGQL,
   UserFilterArgs,
@@ -17,15 +16,16 @@ import {
 import * as _ from "lodash";
 import { Inject, Service } from "typedi";
 import Container from "typedi";
+import { Connection, DBConector } from '../../database/DBConector';
 
 @Service()
 @Resolver()
 export class UserResolver {
-  @Inject()
   private readonly _userDataSerive: UserDataService;
 
   constructor() {
-    this._userDataSerive = Container.get(UserDataService);
+    const conn: Connection = Container.get('connection')
+    this._userDataSerive = new UserDataService(conn);
   }
 
   @Query(() => UserListResponseGQL)

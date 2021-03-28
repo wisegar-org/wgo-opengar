@@ -5,6 +5,8 @@ import { DataSeeder } from "./content/Seeder";
 import Container, { Inject, Service } from "typedi";
 import express = require("express");
 import { InitializeRouter } from "./rest/routes/router";
+import { UserDataService } from '@wisegar-org/wgo-opengar-core';
+require('@wisegar-org/wgo-opengar-core/dist/src/services/UserDataService')
 
 @Service()
 export class Application {
@@ -16,9 +18,10 @@ export class Application {
         throw Error(
           `Application init: Error trying to connect to the database`
         );
+      Container.set(UserDataService, UserDataService)
       await GraphQlServer.bootGraphql(App);
       const dataSeeder = Container.get(DataSeeder);
-      await dataSeeder.init();
+      await dataSeeder.init(connection);
       InitializeRouter(App);
       App.get("/", (req: Request, res: Response) => {
         res.send("API Rest");

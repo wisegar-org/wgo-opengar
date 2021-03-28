@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserEntity, RolEntity, MediaEntity } from "../../database/index";
+import { UserEntity, RolEntity, MediaEntity } from "@wisegar-org/wgo-opengar-core";
 import {
   UserLoginSuccessResponse,
   SuccessRequest,
@@ -16,26 +16,33 @@ import { privateKey, publicKey } from "../../settings";
 import { EmailServer } from "../../services/EmailService";
 import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { UserRepository } from "../../database/repositories/UserRepository";
-import { RoleRepository } from "../../database/repositories/RoleRepository";
-import { MediaRepository } from "../../database/repositories/MediaRepository";
+import { Connection, Repository, getConnection } from 'typeorm'
+import { DBConector } from '../../database/DBConector';
+// import { UserRepository } from "../../database/repositories/UserRepository";
+// import { RoleRepository } from "../../database/repositories/RoleRepository";
+// import { MediaRepository } from "../../database/repositories/MediaRepository";
 
 // const connection: Connection = getConnection()
 // const UserRepository: Repository<UserEntity> = connection.getRepository(UserEntity)
 // const RolRepository: Repository<RolEntity> = connection.getRepository(RolEntity)
 // const MediaRepository: Repository<MediaEntity> = connection.getRepository(MediaEntity)
 
+
+
 ////////-----------OLD CONTROLLER --------------------///////
 @Service()
 export class AuthController {
-  constructor(
-    @InjectRepository(UserEntity, "development")
-    private readonly UserRepository: UserRepository,
-    @InjectRepository(RolEntity, "development")
-    private readonly RolRepository: RoleRepository,
-    @InjectRepository(MediaEntity, "development")
-    private readonly MediaRepository: MediaRepository
-  ) {}
+  connection: Connection
+  UserRepository: Repository<UserEntity>
+  RolRepository: Repository<RolEntity>
+  MediaRepository: Repository<MediaEntity>
+
+  constructor(conn: Connection) {
+    this.connection = conn
+    this.UserRepository = this.connection.getRepository(UserEntity)
+    this.RolRepository = this.connection.getRepository(RolEntity)
+    this.MediaRepository = this.connection.getRepository(MediaEntity)
+  }
 
   async loginUser(req: Request, res: Response) {
     const { user, password }: { user: string; password: string } = req.body;

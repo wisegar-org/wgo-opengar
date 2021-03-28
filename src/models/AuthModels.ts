@@ -1,4 +1,4 @@
-import UserEntity from '../database/entities/UserEntity';
+import { UserEntity } from '@wisegar-org/wgo-opengar-core';
 export interface LoginModel {
     userName: string
     password: string

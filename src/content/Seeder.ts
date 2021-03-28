@@ -1,22 +1,17 @@
-import { UserEntity, RolEntity, Repository } from "../database/index";
-import { RolEntityEnum } from "../models/index";
+import { UserEntity, RolEntity, RolEntityEnum, UserDataService } from "@wisegar-org/wgo-opengar-core";
 import * as _ from "lodash";
-import Container, { Inject, Service } from "typedi";
-import { UserRepository } from "../database/repositories/UserRepository";
-import { RoleRepository } from "../database/repositories/RoleRepository";
-import { UserDataService } from "../services/data-services/UserDataService";
-import { InjectRepository } from "typeorm-typedi-extensions";
+import { Inject, Service } from "typedi";
+import { Connection, Repository } from 'typeorm';
 
 @Service()
 export class DataSeeder {
+  _userDataSerive: UserDataService
+  userRepository: Repository<UserEntity>
+  roleRepository: Repository<RolEntity>
+  connection: Connection
   constructor(
-    @InjectRepository(UserEntity, "development")
-    private readonly userRepository: UserRepository,
-    @InjectRepository(RolEntity, "development")
-    private readonly roleRepository: RoleRepository,
-    @Inject()
-    private readonly _userDataSerive: UserDataService
-  ) {}
+  ) {
+  }
 
   /** TODO: PLEASE Store superuser schema on a json config file */
   public async createUserSeeder() {
@@ -66,7 +61,11 @@ export class DataSeeder {
     }
   }
 
-  init = async () => {
+  init = async (conn: Connection) => {
+    this.connection = conn
+    this.userRepository = this.connection.getRepository(UserEntity)
+    this.roleRepository = this.connection.getRepository(RolEntity)
+    this._userDataSerive = new UserDataService(conn)
     await this.createRolesSeeder();
     await this.createUserSeeder();
   };

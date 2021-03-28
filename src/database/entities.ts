@@ -1,4 +1,4 @@
-import { MediaEntity, UserEntity, RolEntity } from './index'
+import { MediaEntity, UserEntity, RolEntity } from '@wisegar-org/wgo-opengar-core'
 
 export default [
     MediaEntity,

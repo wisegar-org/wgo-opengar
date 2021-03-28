@@ -2,7 +2,7 @@ import { Request, Response, Express } from 'express'
 import { AuthController } from "../controllers/AuthController";
 import Container from "typedi";
 
-export function InitializeAuthRouter(App: Express) {
+export async function InitializeAuthRouter(App: Express) {
   const authController = Container.get(AuthController);
   App.get("/auth", (req: Request, res: Response) => res.send("Auth Paths"));
 

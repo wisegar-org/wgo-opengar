@@ -1,7 +1,7 @@
 import { createConnection, Connection, ConnectionOptions } from "typeorm";
 export { Connection, Repository } from "typeorm";
 import _ from "lodash";
-import { Service } from "typedi";
+import Container, { Service } from "typedi";
 import {
   OGConnection,
   developmentConnection,
@@ -52,7 +52,7 @@ export class DBConector {
     const connectionOptions = await DBConector.GetConnectionOptions(
       connectionType
     );
-    let connection: any;
+    let connection: Connection;
     try {
       if (!_.isUndefined(connectionOptions)) {
         console.log(
@@ -69,6 +69,7 @@ export class DBConector {
     }
     if (connection)
       console.log(`DBConector: connection successfully stabilished`);
+    Container.set('connection', connection)
     return connection;
   }
 }
