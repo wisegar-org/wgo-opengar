@@ -15,4 +15,3 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "wgo-opengar-api" #Must be unique in Heroku
           heroku_email: "info@wisegar.org"
-          appdir: "wgo-opengar-api" # <- This will point to the api folder in your project
