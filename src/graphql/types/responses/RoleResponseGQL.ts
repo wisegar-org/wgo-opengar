@@ -3,7 +3,7 @@ import { GenericArrayResponseGQL, GenericResponseGQL } from "./ResponseGQL";
 import { RoleGQL } from '../inputs/RoleInputGQL';
 
 @ObjectType()
-export class RoleResponseGQL extends GenericResponseGQL(RoleGQL) { }
+export class RoleResponseGQL extends GenericResponseGQL(RoleGQL) {}
 
 @ObjectType()
 export class RoleListResponseGQL extends GenericArrayResponseGQL(RoleGQL) { }

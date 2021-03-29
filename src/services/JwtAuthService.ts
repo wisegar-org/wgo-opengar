@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
-import { privateKey, publicKey } from '../config/tokenCert';
-import {ITokenCheckResult, CheckJwt } from 'quickweb-admin-lib';
+import { privateKey, publicKey } from '../settings';
+import { JwtService, TokenResult } from '@wisegar-org/wgo-opengar-core';
 
 export interface jwtUser {
   user: string;
@@ -16,6 +16,8 @@ declare global {
   }
 }
 
+const _jwtService = new JwtService({ privateKey: privateKey, publicKey: publicKey })
+
 export const saveJwt = (jwtUser: jwtUser) => {
   const newToken = jwt.sign(jwtUser, privateKey, {
     expiresIn: "7d",
@@ -24,21 +26,19 @@ export const saveJwt = (jwtUser: jwtUser) => {
   return newToken;
 };
 
-const checkJwtLib = new CheckJwt(publicKey);
-
 export const checkJwt = (req: Request, res: Response): unknown => {
   //Get the jwt token from the head
   const token = <string>req.headers["auth-token"];
   if (!token) return undefined;
   //Try to validate the token and get data
   try {
-    const result = checkJwtLib.checkJwt(token) as ITokenCheckResult;
-    const { user, session } = result;
-    if (result.expiring) {
-      const newToken = saveJwt({ user, session });
+    const result = _jwtService.verifyToken(token) as TokenResult;
+    const { username, session } = result;
+    if (result.isExpiring) {
+      const newToken = saveJwt({ user: username, session });
       res.set("auth-token", newToken);
     }
-    return { user, session };
+    return { user: username, session };
   } catch (error) {
     return undefined;
   }
