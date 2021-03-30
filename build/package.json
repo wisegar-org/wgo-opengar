@@ -9,6 +9,7 @@
     
   },
   "dependencies": {
+    "@types/lodash": "^4.14.167",
     "apollo-server-express": "^2.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -31,7 +32,8 @@
     "typedi": "^0.10.0",
     "typeorm": "^0.2.30",
     "typeorm-typedi-extensions": "^0.4.0",
-    "uuid-validate": "0.0.3"
+    "uuid-validate": "0.0.3",
+    "@wisegar-org/wgo-opengar-core": "0.0.1-dev.5"
   },
   "author": "Wisegar.org",
   "license": "ISC"
