@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash": "^4.14.167",
+    "@wisegar-org/wgo-github": "file:../wgo-github",
     "@wisegar-org/wgo-opengar-core": "file:../wgo-opengar-core",
     "apollo-server-express": "^2.21.0",
     "bcrypt": "^5.0.0",
@@ -23,10 +24,8 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "express-graphql": "^0.12.0",
-    "github-api": "^3.4.0",
     "global": "^4.4.0",
     "graphql": "^15.5.0",
-    "html-pdf": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "mime-types": "^2.1.28",

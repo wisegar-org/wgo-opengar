@@ -36,7 +36,8 @@
     "@wisegar-org/wgo-opengar-core": "0.0.1-dev.5",
     "axios": "^0.21.1",
     "github-api": "^3.4.0",
-    "html-pdf": "^2.2.0"
+    "html-pdf": "^2.2.0",
+    "@wisegar-org/wgo-github": "0.0.1"
   },
   "author": "Wisegar.org",
   "license": "ISC"
