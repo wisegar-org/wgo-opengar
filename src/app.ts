@@ -1,3 +1,4 @@
+import { OGConnection } from './database/DBConnections';
 import { Response, Request } from "express";
 import { GraphQlServer } from "./servers/graphql";
 import { DBConector } from "./database/DBConector";
@@ -13,7 +14,15 @@ export class Application {
   public async init(port: any) {
     try {
       const App = express();
-      const connection = await DBConector.Connect();
+
+      let ogConn = OGConnection.Development
+      // if DATABASE_URL
+      if(process.env.DATABASE_URL)
+      {
+        ogConn = OGConnection.Production
+      }
+
+      const connection = await DBConector.Connect(ogConn);
       if (!connection)
         throw Error(
           `Application init: Error trying to connect to the database`
