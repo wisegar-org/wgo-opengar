@@ -26,6 +26,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Application = void 0;
+const DBConnections_1 = require("./database/DBConnections");
 const graphql_1 = require("./servers/graphql");
 const DBConector_1 = require("./database/DBConector");
 const Seeder_1 = require("./content/Seeder");
@@ -38,7 +39,12 @@ let Application = class Application {
     async init(port) {
         try {
             const App = express();
-            const connection = await DBConector_1.DBConector.Connect();
+            let ogConn = DBConnections_1.OGConnection.Development;
+            // if DATABASE_URL
+            if (process.env.DATABASE_URL) {
+                ogConn = DBConnections_1.OGConnection.Production;
+            }
+            const connection = await DBConector_1.DBConector.Connect(ogConn);
             if (!connection)
                 throw Error(`Application init: Error trying to connect to the database`);
             typedi_1.default.set(wgo_opengar_core_1.UserDataService, wgo_opengar_core_1.UserDataService);
