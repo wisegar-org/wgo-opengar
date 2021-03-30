@@ -12,7 +12,7 @@ typeorm_1.useContainer(typedi_1.default);
 dotenv_1.default.config({
     path: ".env",
 });
-const port = process.env.SERVER_PORT || 3000;
+const port = process.env.PORT || 3000;
 const app = typedi_1.default.get(app_1.Application);
 app.init(port);
 //# sourceMappingURL=index.js.map
