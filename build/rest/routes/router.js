@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InitializeRouter = void 0;
 const express_1 = require("express");
-const dist_1 = require("wgo-github-module/dist");
+const dist_1 = require("../../../build/wgo-github-module/dist");
 // import { InitializeAuthRouter } from "./AuthRouter";
 // import { InitializeMediaRouter } from "./MediaRouter";
 const middlewares_1 = require("../middlewares");
