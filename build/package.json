@@ -33,7 +33,7 @@
     "typeorm": "^0.2.30",
     "typeorm-typedi-extensions": "^0.4.0",
     "uuid-validate": "0.0.3",
-    "github.com/wisegar-org/wgo-opengar-core": "0.0.1-dev.5"
+    "@wisegar-org/wgo-opengar-core": "0.0.1-dev.5"
   },
   "author": "Wisegar.org",
   "license": "ISC"
