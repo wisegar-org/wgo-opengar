@@ -49,5 +49,6 @@ export const productionConnection: ConnectionOptions = {
   database: "d5ol14rgdbg8sd",
   logging: false,
   synchronize: true,
+  ssl: { rejectUnauthorized: false },
   entities: [UserEntity, MediaEntity, Session, RolEntity],
 };

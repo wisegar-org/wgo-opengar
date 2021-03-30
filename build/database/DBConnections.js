@@ -43,6 +43,7 @@ exports.productionConnection = {
     database: "d5ol14rgdbg8sd",
     logging: false,
     synchronize: true,
+    ssl: { rejectUnauthorized: false },
     entities: [wgo_opengar_core_1.UserEntity, wgo_opengar_core_1.MediaEntity, wgo_opengar_core_1.Session, wgo_opengar_core_1.RolEntity],
 };
 //# sourceMappingURL=DBConnections.js.map
