@@ -1,5 +1,5 @@
 import { static as expStatic, Express } from "express";
-import { InitializeGithubRouter } from "@wisegar-org/wgo-github/src/index";
+import { InitializeGithubRouter } from "@wisegar-org/wgo-github";
 // import { InitializeAuthRouter } from "./AuthRouter";
 // import { InitializeMediaRouter } from "./MediaRouter";
 import { InitializeMiddlewares } from "../middlewares";
