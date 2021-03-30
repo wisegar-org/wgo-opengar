@@ -8,6 +8,9 @@
     "start": "node index.js"
     
   },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13"
+  },
   "author": "Wisegar.org",
   "license": "ISC"
 }
