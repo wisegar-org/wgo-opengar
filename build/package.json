@@ -1,0 +1,11 @@
+{
+  "name": "opengar-api",
+  "version": "0.0.1",
+  "description": "Opengar Api Service",
+  "main": "src/index.ts",
+  "scripts": {
+    "postinstall": "npm install express"
+  },
+  "author": "Wisegar.org",
+  "license": "ISC"
+}
