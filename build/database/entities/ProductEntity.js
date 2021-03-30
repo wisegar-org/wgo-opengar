@@ -8,17 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var ProductEntity_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductEntity = void 0;
 const typeorm_1 = require("typeorm");
 const BillEntity_1 = require("./BillEntity");
-const mappingConfig = require("../mappings/mapping.json");
+const mapping_json_1 = __importDefault(require("../mappings/mapping.json"));
 let ProductEntity = ProductEntity_1 = class ProductEntity {
     toProductEntity(obj) {
         const product = new ProductEntity_1();
-        Object.keys(mappingConfig.ProductEntity.fields).forEach((property) => {
-            product[property] = obj[mappingConfig.ProductEntity.fields[property]];
+        Object.keys(mapping_json_1.default.ProductEntity.fields).forEach((property) => {
+            product[property] = obj[mapping_json_1.default.ProductEntity.fields[property]];
         });
         return product;
     }

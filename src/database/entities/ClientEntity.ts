@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { BillEntity } from "./BillEntity";
-const mappingConfig = require("../mappings/mapping.json");
+import mappingConfig from "../mappings/mapping.json";
 
 @Entity({ name: "clients" })
 export class ClientEntity {

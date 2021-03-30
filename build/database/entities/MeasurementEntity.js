@@ -8,19 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var MeasurementEntity_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MeasurementEntity = void 0;
 const typeorm_1 = require("typeorm");
 const ClientEntity_1 = require("./ClientEntity");
 const OpticEntity_1 = require("./OpticEntity");
-const mappingConfig = require("../mappings/mapping.json");
+const mapping_json_1 = __importDefault(require("../mappings/mapping.json"));
 let MeasurementEntity = MeasurementEntity_1 = class MeasurementEntity {
     toMeasurementEntity(obj) {
         const measurment = new MeasurementEntity_1();
-        Object.keys(mappingConfig.MeasurementEntity.fields).forEach((property) => {
+        Object.keys(mapping_json_1.default.MeasurementEntity.fields).forEach((property) => {
             measurment[property] =
-                obj[mappingConfig.MeasurementEntity.fields[property]];
+                obj[mapping_json_1.default.MeasurementEntity.fields[property]];
         });
         return measurment;
     }

@@ -8,16 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var OpticEntity_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OpticEntity = void 0;
 const typeorm_1 = require("typeorm");
-const mappingConfig = require("../mappings/mapping.json");
+const mapping_json_1 = __importDefault(require("../mappings/mapping.json"));
 let OpticEntity = OpticEntity_1 = class OpticEntity {
     toOpticEntity(obj) {
         const optic = new OpticEntity_1();
-        Object.keys(mappingConfig.OpticEntity.fields).forEach((property) => {
-            optic[property] = obj[mappingConfig.OpticEntity.fields[property]];
+        Object.keys(mapping_json_1.default.OpticEntity.fields).forEach((property) => {
+            optic[property] = obj[mapping_json_1.default.OpticEntity.fields[property]];
         });
         return optic;
     }

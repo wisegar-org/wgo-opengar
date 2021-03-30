@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import ClientEntity from "./ClientEntity";
 import ProductEntity from "./ProductEntity";
-const mappingConfig = require("../mappings/mapping.json");
+import mappingConfig from "../mappings/mapping.json";
 
 @Entity({ name: "bills" })
 export class BillEntity {

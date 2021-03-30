@@ -6,7 +6,7 @@ import {
   ManyToOne,
 } from "typeorm";
 
-const mappingConfig = require("../mappings/mapping.json");
+import mappingConfig from "../mappings/mapping.json";
 
 @Entity({ name: "optics" })
 export class OpticEntity {

@@ -16,7 +16,6 @@ exports.BillEntity = void 0;
 const typeorm_1 = require("typeorm");
 const ClientEntity_1 = __importDefault(require("./ClientEntity"));
 const ProductEntity_1 = __importDefault(require("./ProductEntity"));
-const mappingConfig = require("../mappings/mapping.json");
 let BillEntity = class BillEntity {
 };
 __decorate([

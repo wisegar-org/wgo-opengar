@@ -6,7 +6,7 @@ import {
   ManyToOne,
 } from "typeorm";
 import { BillEntity } from "./BillEntity";
-const mappingConfig = require("../mappings/mapping.json");
+import mappingConfig from "../mappings/mapping.json";
 
 @Entity({ name: "products" })
 export class ProductEntity {
