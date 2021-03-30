@@ -23,8 +23,10 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "express-graphql": "^0.12.0",
+    "github-api": "^3.4.0",
     "global": "^4.4.0",
     "graphql": "^15.5.0",
+    "html-pdf": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "mime-types": "^2.1.28",
@@ -37,7 +39,7 @@
     "typeorm": "^0.2.30",
     "typeorm-typedi-extensions": "^0.4.0",
     "uuid-validate": "0.0.3",
-    "wgo-github-module": "file:../wgo-github"
+    "wgo-github-module": "file:build/wgo-github-module"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
