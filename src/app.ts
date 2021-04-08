@@ -7,7 +7,7 @@ import Container, { Inject, Service } from "typedi";
 import express = require("express");
 import { InitializeRouter } from "./rest/routes/router";
 import { UserDataService } from '@wisegar-org/wgo-opengar-core';
-require('@wisegar-org/wgo-opengar-core/dist/src/services/UserDataService')
+require('@wisegar-org/wgo-opengar-core')
 
 @Service()
 export class Application {
