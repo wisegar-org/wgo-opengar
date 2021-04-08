@@ -34,7 +34,7 @@ const typedi_1 = __importStar(require("typedi"));
 const express = require("express");
 const router_1 = require("./rest/routes/router");
 const wgo_opengar_core_1 = require("@wisegar-org/wgo-opengar-core");
-require('@wisegar-org/wgo-opengar-core/dist/src/services/UserDataService');
+require('@wisegar-org/wgo-opengar-core');
 let Application = class Application {
     async init(port) {
         try {
