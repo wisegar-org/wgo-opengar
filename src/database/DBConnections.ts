@@ -17,7 +17,7 @@ export const developmentConnection: ConnectionOptions = {
   name: "development",
   type: "postgres",
   host: "localhost",
-  port: 5434,
+  port: 5432,
   username: "github",
   password: "github",
   database: "github",
