@@ -13,8 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash": "^4.14.167",
-    "@wisegar-org/wgo-github": "file:../wgo-github",
-    "@wisegar-org/wgo-opengar-core": "file:../wgo-opengar-core",
+    "@wisegar-org/wgo-github": "0.0.1-dev.10",
+    "@wisegar-org/wgo-opengar-core": "0.0.1-build.9",
     "apollo-server-express": "^2.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
