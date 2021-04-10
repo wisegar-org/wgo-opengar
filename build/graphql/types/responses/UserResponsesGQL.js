@@ -8,7 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RolesResponse = exports.RoleResponse = exports.UserLoginResponseGQL = exports.UserListResponseGQL = exports.UserResponseGQL = exports.UserLoginToken = exports.UserGQL = void 0;
 const type_graphql_1 = require("type-graphql");
@@ -61,7 +60,7 @@ __decorate([
 ], UserLoginToken.prototype, "token", void 0);
 __decorate([
     type_graphql_1.Field(() => UserGQL),
-    __metadata("design:type", typeof (_a = typeof wgo_opengar_core_1.UserEntity !== "undefined" && wgo_opengar_core_1.UserEntity) === "function" ? _a : Object)
+    __metadata("design:type", wgo_opengar_core_1.UserEntity)
 ], UserLoginToken.prototype, "user", void 0);
 UserLoginToken = __decorate([
     type_graphql_1.ObjectType()
