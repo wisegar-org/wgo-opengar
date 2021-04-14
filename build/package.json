@@ -37,7 +37,7 @@
     "axios": "^0.21.1",
     "github-api": "^3.4.0",
     "html-pdf": "^2.2.0",
-    "@wisegar-org/wgo-github": "0.0.1-dev.14"
+    "@wisegar-org/wgo-github": "0.0.1-dev.15"
   },
   "author": "Wisegar.org",
   "license": "ISC"
