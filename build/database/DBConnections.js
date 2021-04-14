@@ -33,7 +33,8 @@ exports.stagingConnection = {
     synchronize: true,
     entities: [wgo_opengar_core_1.UserEntity, wgo_opengar_core_1.MediaEntity, wgo_opengar_core_1.Session, wgo_opengar_core_1.RolEntity],
 };
-exports.productionConnection = {
+var connUrl = process.env.DATABASE_URL;
+var auxProd = {
     name: "staging",
     type: "postgres",
     host: "ec2-108-128-104-50.eu-west-1.compute.amazonaws.com",
@@ -46,4 +47,30 @@ exports.productionConnection = {
     ssl: { rejectUnauthorized: false },
     entities: [wgo_opengar_core_1.UserEntity, wgo_opengar_core_1.MediaEntity, wgo_opengar_core_1.Session, wgo_opengar_core_1.RolEntity],
 };
+if (connUrl != undefined) {
+    // connUrl = 'postgres://zpzcjivqrnwrrr:d2b59769e642ad04e2cd5f3d29a6da9430989a241ae63305e84712c992e3198d@ec2-108-128-104-50.eu-west-1.compute.amazonaws.com:5432/d5ol14rgdbg8sd'
+    connUrl = connUrl.replace('postgres://', '');
+    const pgUserPass = connUrl.split('@')[0];
+    const pgHostPortDb = connUrl.split('@')[1];
+    const pgHostPort = pgHostPortDb.split('/')[0];
+    const pgDb = pgHostPortDb.split('/')[1];
+    const pgUser = pgUserPass.split(':')[0];
+    const pgPass = pgUserPass.split(':')[1];
+    const pgHost = pgHostPort.split(':')[0];
+    const pgPort = parseInt(pgHostPort.split(':')[1]);
+    auxProd = {
+        name: "staging",
+        type: "postgres",
+        host: pgHost,
+        port: pgPort,
+        username: pgUser,
+        password: pgPass,
+        database: pgDb,
+        logging: false,
+        synchronize: true,
+        ssl: { rejectUnauthorized: false },
+        entities: [wgo_opengar_core_1.UserEntity, wgo_opengar_core_1.MediaEntity, wgo_opengar_core_1.Session, wgo_opengar_core_1.RolEntity],
+    };
+}
+exports.productionConnection = auxProd;
 //# sourceMappingURL=DBConnections.js.map
