@@ -47,8 +47,8 @@ var auxProd = {
     ssl: { rejectUnauthorized: false },
     entities: [wgo_opengar_core_1.UserEntity, wgo_opengar_core_1.MediaEntity, wgo_opengar_core_1.Session, wgo_opengar_core_1.RolEntity],
 };
+//connUrl = 'postgres://uyvdeckksuenyr:db0dbc4055934e74607e797ebef3119b09ca5bc5e3d660398bf6f55451e1c8a7@ec2-54-228-139-34.eu-west-1.compute.amazonaws.com:5432/d59bkv47v3c4kj'
 if (connUrl != undefined) {
-    // connUrl = 'postgres://zpzcjivqrnwrrr:d2b59769e642ad04e2cd5f3d29a6da9430989a241ae63305e84712c992e3198d@ec2-108-128-104-50.eu-west-1.compute.amazonaws.com:5432/d5ol14rgdbg8sd'
     connUrl = connUrl.replace('postgres://', '');
     const pgUserPass = connUrl.split('@')[0];
     const pgHostPortDb = connUrl.split('@')[1];
