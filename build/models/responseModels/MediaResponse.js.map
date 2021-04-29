@@ -1,1 +1,0 @@
-{"version":3,"file":"MediaResponse.js","sourceRoot":"","sources":["../../../src/models/responseModels/MediaResponse.ts"],"names":[],"mappings":";;;AAAA,mDAAiD;AAEjD,MAAa,iBAAkB,SAAQ,+BAAe;IAGlD;;OAEG;IACH,YAAY,EAAU,EAAE,GAAW;QAC/B,KAAK,EAAE,CAAC;QACR,IAAI,CAAC,OAAO,GAAG,EAAE,CAAC;QAClB,IAAI,CAAC,QAAQ,GAAG,GAAG,CAAC;IACxB,CAAC;CACJ;AAXD,8CAWC"}

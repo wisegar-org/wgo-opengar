@@ -1,1 +1,0 @@
-{"version":3,"file":"UserRegisterResponse.js","sourceRoot":"","sources":["../../../src/models/responseModels/UserRegisterResponse.ts"],"names":[],"mappings":";;;AAAA,mDAAgD;AAEhD,MAAa,yBAA0B,SAAQ,6BAAa;IAExD;;OAEG;IACH,YAAY,aAAqB,EAAE,OAAe;QAC9C,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,aAAa,GAAG,aAAa,CAAC;IACvC,CAAC;CACJ;AATD,8DASC"}
