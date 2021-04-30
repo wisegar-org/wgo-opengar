@@ -14,9 +14,8 @@ import {
   UserRolesInputGQL,
 } from "../types/inputs/UserInputsGQL";
 import * as _ from "lodash";
-import { Inject, Service } from "typedi";
-import Container from "typedi";
-import { Connection, DBConector } from '../../database/DBConector';
+import { Service } from "typedi";
+import { Connection, DBConector } from "../../database/DBConector";
 
 @Service()
 @Resolver()
@@ -24,7 +23,7 @@ export class UserResolver {
   private readonly _userDataSerive: UserDataService;
 
   constructor() {
-    const conn: Connection = Container.get('connection')
+    const conn: Connection = DBConector.GetConnection();
     this._userDataSerive = new UserDataService(conn);
   }
 

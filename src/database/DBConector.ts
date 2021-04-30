@@ -1,4 +1,10 @@
-import { createConnection, Connection, ConnectionOptions } from "typeorm";
+import {
+  createConnection,
+  Connection,
+  ConnectionOptions,
+  getConnection,
+  getConnectionManager,
+} from "typeorm";
 export { Connection, Repository } from "typeorm";
 import _ from "lodash";
 import Container, { Service } from "typedi";
@@ -69,7 +75,17 @@ export class DBConector {
     }
     if (connection)
       console.log(`DBConector: connection successfully stabilished`);
-    Container.set('connection', connection)
     return connection;
+  }
+
+  public static GetConnection() {
+    const connectionManager = getConnectionManager();
+    if (process.env.NODE_ENV && connectionManager.has(process.env.NODE_ENV)) {
+      return getConnection(process.env.NODE_ENV);
+    }
+    if (connectionManager.has("development")) {
+      return getConnection("development");
+    }
+    return getConnection();
   }
 }
