@@ -3,6 +3,7 @@ import { InitializeGithubRouter } from "@wisegar-org/wgo-github";
 // import { InitializeAuthRouter } from "./AuthRouter";
 // import { InitializeMediaRouter } from "./MediaRouter";
 import { InitializeMiddlewares } from "../middlewares";
+import { DBConector } from "../../database/DBConector";
 
 export function InitializeRouter(App: Express) {
   InitializeMiddlewares(App);
@@ -11,5 +12,5 @@ export function InitializeRouter(App: Express) {
 
   App.use(expStatic(__dirname + "\\..\\..\\public"));
 
-  InitializeGithubRouter(App);
+  InitializeGithubRouter(App, DBConector.GetConnection());
 }
