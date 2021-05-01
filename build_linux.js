@@ -23,6 +23,8 @@ fs.emptyDirSync(destination);
 console.log("\x1b[33m", "Running npm install...");
 execSync("npm install", { stdio: "inherit" });
 
+execSync("npm install -g typescript", { stdio: "inherit" });
+
 console.log("\x1b[33m", "Running tsc...");
 execSync("tsc", { stdio: "inherit" });
 
