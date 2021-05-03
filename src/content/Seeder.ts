@@ -29,7 +29,7 @@ export class DataSeeder {
     const userRepository = connection.getRepository(UserEntity);
 
     const roleObj = await roleRepository.findOne({
-      id: RolEntityEnum.superAdmin,
+      name: RolEntityEnum.superAdmin,
     });
     const rolesList = [roleObj];
     let admin = await userRepository.findOne({
@@ -48,7 +48,7 @@ export class DataSeeder {
       try {
         const _userDataSerive = new UserDataService(connection);
         const userSeedResult = await _userDataSerive.create(superAdmin, [
-          RolEntityEnum.superAdmin,
+          roleObj.id,
         ]);
       } catch (error) {}
     }
@@ -61,7 +61,7 @@ export class DataSeeder {
     const userRepository = connection.getRepository(UserEntity);
 
     let roleObj = await this.roleRepository.findOne({
-      id: RolEntityEnum.superAdmin,
+      name: RolEntityEnum.superAdmin,
     });
 
     if (_.isEmpty(roleObj)) {
@@ -71,7 +71,7 @@ export class DataSeeder {
     }
 
     roleObj = await this.roleRepository.findOne({
-      id: RolEntityEnum.customer,
+      name: RolEntityEnum.customer,
     });
 
     if (_.isEmpty(roleObj)) {
