@@ -62,7 +62,7 @@ export class DBConector {
     try {
       if (!_.isUndefined(connectionOptions)) {
         console.log(
-          `DBConector: trying to connect to ${connectionOptions.name} connection`
+          `DBConector: trying to connect to ${connectionOptions.name} connection in env ${process.env.NODE_ENV}`
         );
         connection = await createConnection(connectionOptions);
       } else {
