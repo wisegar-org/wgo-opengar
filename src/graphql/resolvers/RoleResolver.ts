@@ -38,7 +38,7 @@ export class RoleResolver {
   async addRole(
     @Arg("data") { name }: RoleInputGQL
   ): Promise<Response<RolEntity>> {
-    const role = new RolEntity(name);
+    const role = new RolEntity();
     return await this._roleDataSerive.create(role);
   }
 

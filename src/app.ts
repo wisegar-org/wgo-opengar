@@ -18,11 +18,6 @@ export class Application {
       let ogConn = process.env.NODE_ENV
         ? OGConnection.Environment
         : OGConnection.Development;
-      // if DATABASE_URL
-      if (process.env.DATABASE_URL) {
-        process.env.NODE_ENV = "production";
-        ogConn = OGConnection.Production;
-      }
 
       const connection = await DBConector.Connect(ogConn);
       if (!connection)
@@ -31,7 +26,7 @@ export class Application {
         );
       await GraphQlServer.bootGraphql(App);
       InitializeRouter(App);
-      const dataSeeder = Container.get(DataSeeder);
+      const dataSeeder = new DataSeeder();
       await dataSeeder.createData();
       App.get("/", (req: Request, res: Response) => {
         res.send("API Rest");

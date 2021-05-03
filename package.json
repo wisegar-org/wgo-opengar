@@ -13,8 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@types/lodash": "^4.14.167",
-    "@wisegar-org/wgo-github": "0.0.1-dev.31",
-    "@wisegar-org/wgo-opengar-core": "0.0.1-build.20",
+    "@wisegar-org/wgo-github": "0.0.1-dev.32",
+    "@wisegar-org/wgo-opengar-core": "0.0.1-build.22",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link": "^1.2.14",
+    "apollo-link-error": "^1.1.13",
+    "apollo-link-http": "^1.5.17",
     "apollo-server-express": "^2.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
@@ -30,6 +35,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "mime-types": "^2.1.28",
+    "mkdirp": "^1.0.4",
     "node-pre-gyp": "^0.17.0",
     "nodemailer": "^6.4.17",
     "pg": "^8.5.1",
@@ -37,7 +43,7 @@
     "type-graphql": "^1.1.1",
     "typedi": "^0.10.0",
     "typeorm": "^0.2.30",
-    "typeorm-typedi-extensions": "^0.4.0",
+    "typeorm-typedi-extensions": "^0.4.1",
     "uuid-validate": "0.0.3"
   },
   "devDependencies": {
