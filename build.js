@@ -1,7 +1,7 @@
 const fs = require("fs-extra");
 const { execSync } = require("child_process");
 
-console.log("\x1b[33m", "BUILDING & DEPLOYING QUICKUFF API");
+console.log("\x1b[33m", "BUILDING & DEPLOYING OPENGAR API");
 const destination = "./build";
 const sourceFiles = [
   "package.json",
