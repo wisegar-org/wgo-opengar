@@ -44,7 +44,7 @@ export enum OGConnection {
 }
 
 export const developmentConnection: ConnectionOptions = {
-  name: "development",
+  name: "default",
   type: "postgres",
   host: "localhost",
   port: 5432,
@@ -57,7 +57,7 @@ export const developmentConnection: ConnectionOptions = {
 };
 
 export const stagingConnection: ConnectionOptions = {
-  name: "staging",
+  name: "default",
   type: "postgres",
   host: "localhost",
   port: 5432,
@@ -70,7 +70,7 @@ export const stagingConnection: ConnectionOptions = {
 };
 
 export const productionConnection: ConnectionOptions = {
-  name: "production",
+  name: "default",
   type: "postgres",
   host: "localhost",
   port: 5432,

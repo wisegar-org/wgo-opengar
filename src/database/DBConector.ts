@@ -86,6 +86,15 @@ export class DBConector {
     if (connectionManager.has("development")) {
       return getConnection("development");
     }
-    return getConnection();
+    if (connectionManager.has("default")) {
+      return getConnection();
+    }
+    throw Error(
+      `DB Connection error: Don't exist database connection "${
+        process.env.NODE_ENV && process.env.NODE_ENV !== "development"
+          ? process.env.NODE_ENV + "|"
+          : ""
+      }development|default"`
+    );
   }
 }

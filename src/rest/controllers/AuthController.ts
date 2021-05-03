@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { UserEntity, RolEntity, MediaEntity } from "@wisegar-org/wgo-opengar-core";
+import {
+  UserEntity,
+  RolEntity,
+  MediaEntity,
+} from "@wisegar-org/wgo-opengar-core";
 import {
   UserLoginSuccessResponse,
   SuccessRequest,
@@ -16,8 +20,8 @@ import { privateKey, publicKey } from "../../settings";
 import { EmailServer } from "../../services/EmailService";
 import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { Connection, Repository, getConnection } from 'typeorm'
-import { DBConector } from '../../database/DBConector';
+import { Connection, Repository, getConnection } from "typeorm";
+import { DBConector } from "../../database/DBConector";
 // import { UserRepository } from "../../database/repositories/UserRepository";
 // import { RoleRepository } from "../../database/repositories/RoleRepository";
 // import { MediaRepository } from "../../database/repositories/MediaRepository";
@@ -27,21 +31,19 @@ import { DBConector } from '../../database/DBConector';
 // const RolRepository: Repository<RolEntity> = connection.getRepository(RolEntity)
 // const MediaRepository: Repository<MediaEntity> = connection.getRepository(MediaEntity)
 
-
-
 ////////-----------OLD CONTROLLER --------------------///////
 @Service()
 export class AuthController {
-  connection: Connection
-  UserRepository: Repository<UserEntity>
-  RolRepository: Repository<RolEntity>
-  MediaRepository: Repository<MediaEntity>
+  connection: Connection;
+  UserRepository: Repository<UserEntity>;
+  RolRepository: Repository<RolEntity>;
+  MediaRepository: Repository<MediaEntity>;
 
   constructor(conn: Connection) {
-    this.connection = conn
-    this.UserRepository = this.connection.getRepository(UserEntity)
-    this.RolRepository = this.connection.getRepository(RolEntity)
-    this.MediaRepository = this.connection.getRepository(MediaEntity)
+    this.connection = conn;
+    this.UserRepository = this.connection.getRepository(UserEntity);
+    this.RolRepository = this.connection.getRepository(RolEntity);
+    this.MediaRepository = this.connection.getRepository(MediaEntity);
   }
 
   async loginUser(req: Request, res: Response) {
@@ -164,7 +166,7 @@ export class AuthController {
     }
 
     const rol = await this.RolRepository.findOne({
-      id: RolEntityEnum.customer,
+      name: RolEntityEnum.customer,
     });
 
     let profileImg: MediaEntity = null;
