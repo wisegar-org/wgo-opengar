@@ -24,11 +24,15 @@ export class DataSeeder {
 
   /** TODO: PLEASE Store superuser schema on a json config file */
   public async createUserSeeder() {
-    const roleObj = await this.roleRepository.findOne({
+    const connection = DBConector.GetConnection();
+    const roleRepository = connection.getRepository(RolEntity);
+    const userRepository = connection.getRepository(UserEntity);
+
+    const roleObj = await roleRepository.findOne({
       id: RolEntityEnum.superAdmin,
     });
     const rolesList = [roleObj];
-    let admin = await this.userRepository.findOne({
+    let admin = await userRepository.findOne({
       userName: "wisegar",
     });
     if (_.isEmpty(admin)) {
@@ -42,7 +46,8 @@ export class DataSeeder {
         true
       );
       try {
-        const userSeedResult = await this._userDataSerive.create(superAdmin, [
+        const _userDataSerive = new UserDataService(connection);
+        const userSeedResult = await _userDataSerive.create(superAdmin, [
           RolEntityEnum.superAdmin,
         ]);
       } catch (error) {}
@@ -51,12 +56,17 @@ export class DataSeeder {
 
   /** TODO: PLEASE Store roles schema on a json config file */
   public async createRolesSeeder() {
+    const connection = DBConector.GetConnection();
+    const roleRepository = connection.getRepository(RolEntity);
+    const userRepository = connection.getRepository(UserEntity);
+
     let roleObj = await this.roleRepository.findOne({
       id: RolEntityEnum.superAdmin,
     });
 
     if (_.isEmpty(roleObj)) {
-      let userRole = new RolEntity("superAdmin", 1);
+      let userRole = new RolEntity();
+      userRole.name = "superAdmin";
       await this.roleRepository.save(userRole);
     }
 
@@ -65,7 +75,8 @@ export class DataSeeder {
     });
 
     if (_.isEmpty(roleObj)) {
-      let userRole = new RolEntity("customer", 2);
+      let userRole = new RolEntity();
+      userRole.name = "customer";
       await this.roleRepository.save(userRole);
     }
   }
