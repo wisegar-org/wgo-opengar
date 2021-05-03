@@ -14,7 +14,7 @@ export class MediaController {
   constructor(
     @InjectRepository(MediaEntity, "development")
     private readonly mediaRepository: MediaRepository
-  ) { }
+  ) {}
   imagePath = __dirname + "\\..\\..\\public\\img\\";
   async saveImage(req: Request, res: Response) {
     const file = req.files.file as UploadedFile;
@@ -26,13 +26,11 @@ export class MediaController {
     if (_.isEmpty(media)) {
       const path = md5 + "." + mimeTypes.extension(mimetype);
       await file.mv(this.imagePath + path);
-      media = new MediaEntity(
-        name,
-        new Date(),
-        MediaEntityTypeEnum.image,
-        md5,
-        "img/" + path
-      );
+      media = new MediaEntity();
+      media.name = name;
+      media.mediaType = MediaEntityTypeEnum.image;
+      media.checkSum = md5;
+      media.path = "img/" + path;
       media = await this.mediaRepository.save(media);
     }
 
