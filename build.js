@@ -11,7 +11,7 @@ const sourceFiles = [
   "node_modules",
 ];
 
-const APP_DEAMON_NAME = "opengar-api";
+const APP_DEAMON_NAME = "wgo-opengar-api";
 const APP_WEB_ROOT = `C:\\Web\\Sites\\${APP_DEAMON_NAME}`;
 const APP_START_FILE = `${APP_WEB_ROOT}\\index.js`;
 
