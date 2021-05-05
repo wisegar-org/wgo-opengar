@@ -89,6 +89,9 @@ export class DBConector {
     if (connectionManager.has("default")) {
       return getConnection();
     }
+    if (connectionManager.connections.length > 0) {
+      return connectionManager.connections[0];
+    }
     throw Error(
       `DB Connection error: Don't exist database connection "${
         process.env.NODE_ENV && process.env.NODE_ENV !== "development"

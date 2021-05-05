@@ -20,31 +20,31 @@ import { Connection, DBConector } from "../../database/DBConector";
 @Service()
 @Resolver()
 export class UserResolver {
-  private readonly _userDataSerive: UserDataService;
+  private readonly _userDataService: UserDataService;
 
   constructor() {
     const conn: Connection = DBConector.GetConnection();
-    this._userDataSerive = new UserDataService(conn);
+    this._userDataService = new UserDataService(conn);
   }
 
   @Query(() => UserListResponseGQL)
   async users(@Args() criteria?: UserFilterArgs) {
-    return await this._userDataSerive.all(criteria);
+    return await this._userDataService.all(criteria);
   }
 
   @Query(() => UserResponseGQL)
   async user(@Args() criteria?: UserFilterArgs) {
-    return await this._userDataSerive.one(criteria);
+    return await this._userDataService.one(criteria);
   }
 
   @Query(() => UserResponseGQL)
   async userById(@Arg("id") id: number) {
-    return await this._userDataSerive.oneById(id);
+    return await this._userDataService.oneById(id);
   }
 
   @Query(() => UserResponseGQL)
   async userByUuid(@Arg("uuid") uuid: string) {
-    return await this._userDataSerive.oneByUuId(uuid);
+    return await this._userDataService.oneByUuId(uuid);
   }
 
   //In roles arg we have the roleIds we want to set to the user we are creating
@@ -59,10 +59,10 @@ export class UserResolver {
     user.email = email;
     user.userName = userName;
     user.password = password;
-    const registerResponse = await this._userDataSerive.create(user);
+    const registerResponse = await this._userDataService.create(user);
     if (registerResponse.isSuccess) {
       const uuid = registerResponse.result.uuid;
-      const result = await this._userDataSerive.setUserRoles(uuid, roles);
+      const result = await this._userDataService.setUserRoles(uuid, roles);
       if (result.isSuccess) {
         return registerResponse;
       }
@@ -77,19 +77,20 @@ export class UserResolver {
   async setRoles(
     @Arg("data") { userUuid, roleIds }: UserRolesInputGQL
   ): Promise<Response<UserEntity>> {
-    return this._userDataSerive.setUserRoles(userUuid, roleIds);
+    return this._userDataService.setUserRoles(userUuid, roleIds);
   }
 
   @Mutation(() => UserLoginResponseGQL)
   async login(
     @Arg("data") data: LoginModelInputGQL
   ): Promise<Response<UserLoginToken>> {
-    return this._userDataSerive.login(data);
+    return this._userDataService.login(data);
   }
 
   @Mutation(() => UserResponseGQL)
   async updateUser(
-    @Arg("data") { id, name, lastName, email, userName, roles }: UserInputGQL
+    @Arg("data")
+    { id, name, lastName, email, userName, roles, password }: UserInputGQL
   ): Promise<Response<UserEntity>> {
     const userResponse = await this.userById(id);
     if (!userResponse.isSuccess) {
@@ -102,7 +103,15 @@ export class UserResolver {
     user.lastName = lastName ? lastName : user.lastName;
     user.email = email ? email : user.email;
     user.userName = userName ? userName : user.userName;
-    const updateResp = await this._userDataSerive.update(user);
+    let updateResp = await this._userDataService.update(user);
+
+    if (updateResp.isSuccess && password) {
+      updateResp = await this._userDataService.updatePassword(
+        user.uuid,
+        password
+      );
+    }
+
     if (!updateResp.isSuccess) {
       return ErrorResponse.Response(`Error trying to update user.`);
     }
@@ -110,11 +119,11 @@ export class UserResolver {
     if (_.isUndefined(roles) || !_.isArray<number>(roles)) {
       return updateResp;
     }
-    return await this._userDataSerive.setUserRoles(user.uuid, roles);
+    return await this._userDataService.setUserRoles(user.uuid, roles);
   }
 
   @Mutation(() => UserResponseGQL)
   async removeUser(@Arg("uuid") uuid: string) {
-    return await this._userDataSerive.remove(uuid);
+    return await this._userDataService.remove(uuid);
   }
 }
