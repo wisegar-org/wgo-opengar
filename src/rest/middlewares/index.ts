@@ -1,4 +1,4 @@
-import { Express } from 'express'
+import { Express } from "express";
 
 export function InitializeMiddlewares(App: Express) {
   const cors = require("cors");

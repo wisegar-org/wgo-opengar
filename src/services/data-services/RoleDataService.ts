@@ -1,15 +1,14 @@
-import { RolEntity } from "../../database";
-import { RoleRepository } from "../../database/repositories/RoleRepository";
 import {
   SuccessResponse,
   Response,
   ErrorResponse,
 } from "../../models/responseModels/Response";
 import * as _ from "lodash";
-import { DBConector } from "../../database/DBConector";
+import { DBConector, Repository } from "../../database/DBConector";
+import { RolEntity } from "@wisegar-org/wgo-opengar-core";
 
 export class RoleDataService {
-  private readonly _roleRepository: RoleRepository;
+  private readonly _roleRepository: Repository<RolEntity>;
 
   /**
    *
