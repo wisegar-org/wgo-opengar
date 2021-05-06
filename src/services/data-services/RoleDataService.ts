@@ -1,4 +1,3 @@
-import { InjectRepository } from "typeorm-typedi-extensions";
 import { RolEntity } from "../../database";
 import { RoleRepository } from "../../database/repositories/RoleRepository";
 import {
@@ -7,10 +6,18 @@ import {
   ErrorResponse,
 } from "../../models/responseModels/Response";
 import * as _ from "lodash";
+import { DBConector } from "../../database/DBConector";
 
 export class RoleDataService {
-  @InjectRepository(RolEntity, "development")
   private readonly _roleRepository: RoleRepository;
+
+  /**
+   *
+   */
+  constructor() {
+    const connection = DBConector.GetConnection();
+    this._roleRepository = connection.getRepository(RolEntity);
+  }
 
   all = async (criteria?: any): Promise<Response<RolEntity[]>> => {
     const roles = await this._roleRepository.find({

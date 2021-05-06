@@ -5,11 +5,9 @@ import {
   UserDataService,
 } from "@wisegar-org/wgo-opengar-core";
 import * as _ from "lodash";
-import { Service } from "typedi";
 import { Connection, Repository } from "typeorm";
 import { DBConector } from "../database/DBConector";
 
-@Service()
 export class DataSeeder {
   _userDataSerive: UserDataService;
   userRepository: Repository<UserEntity>;

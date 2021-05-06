@@ -1,5 +1,4 @@
 import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
-import Container, { Inject, Service } from "typedi";
 import { Response } from "../../models/responseModels/Response";
 import { ClientDataService } from "../../services/data-services/ClientDataService";
 import {
@@ -12,14 +11,12 @@ import {
 } from "../types/inputs/ClientInputGQL";
 import ClientEntity from "../../database/entities/ClientEntity";
 
-@Service()
 @Resolver()
 export class ClientResolver {
-  @Inject()
   private readonly _clientDataService: ClientDataService;
 
   constructor() {
-    this._clientDataService = Container.get(ClientDataService);
+    this._clientDataService = new ClientDataService();
   }
 
   @Query(() => ClientListResponseGQL)
