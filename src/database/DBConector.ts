@@ -7,7 +7,6 @@ import {
 } from "typeorm";
 export { Connection, Repository } from "typeorm";
 import _ from "lodash";
-import Container, { Service } from "typedi";
 import {
   OGConnection,
   developmentConnection,
@@ -15,7 +14,6 @@ import {
   stagingConnection,
 } from "./DBConnections";
 
-@Service()
 export class DBConector {
   private _connection: Connection;
 

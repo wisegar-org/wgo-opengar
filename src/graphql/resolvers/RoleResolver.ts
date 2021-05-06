@@ -1,5 +1,4 @@
 import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
-import Container, { Inject, Service } from "typedi";
 import { RoleDataService } from "../../services/data-services/RoleDataService";
 import { RoleFilterArgs, RoleInputGQL } from "../types/inputs/RoleInputGQL";
 import {
@@ -9,14 +8,12 @@ import {
 import { RolEntity } from "@wisegar-org/wgo-opengar-core";
 import { Response } from "../../models/responseModels/Response";
 
-@Service()
 @Resolver()
 export class RoleResolver {
-  @Inject()
   private readonly _roleDataSerive: RoleDataService;
 
   constructor() {
-    this._roleDataSerive = Container.get(RoleDataService);
+    this._roleDataSerive = new RoleDataService();
   }
 
   @Query(() => RoleListResponseGQL)

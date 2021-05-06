@@ -3,13 +3,9 @@ import { Response, Request } from "express";
 import { GraphQlServer } from "./servers/graphql";
 import { DBConector } from "./database/DBConector";
 import { DataSeeder } from "./content/Seeder";
-import Container, { Inject, Service } from "typedi";
 import express = require("express");
 import { InitializeRouter } from "./rest/routes/router";
-import { UserDataService } from "@wisegar-org/wgo-opengar-core";
-require("@wisegar-org/wgo-opengar-core");
 
-@Service()
 export class Application {
   public async init(port: any) {
     try {

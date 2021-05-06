@@ -14,10 +14,8 @@ import {
   UserRolesInputGQL,
 } from "../types/inputs/UserInputsGQL";
 import * as _ from "lodash";
-import { Service } from "typedi";
 import { Connection, DBConector } from "../../database/DBConector";
 
-@Service()
 @Resolver()
 export class UserResolver {
   private readonly _userDataService: UserDataService;

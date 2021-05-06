@@ -1,6 +1,5 @@
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { Service } from "typedi";
 import { Session } from "@wisegar-org/wgo-opengar-core";
 import { UserResolver } from "../graphql/resolvers/UserResolver";
 import {
@@ -12,16 +11,13 @@ import {
 import { verifyAccessToken } from "../services/jwtToken";
 import { RoleResolver } from "../graphql/resolvers/RoleResolver";
 import { ClientResolver } from "../graphql/resolvers/ClientResolver";
-import { Container } from "typedi";
 
-@Service()
 export class GraphQlServer {
   static bootGraphql = async (app: any) => {
     const schema = await buildSchema({
       resolvers: [UserResolver, RoleResolver, ClientResolver],
       authChecker: authChecker,
       authMode: "null",
-      container: Container,
     });
 
     const server = new ApolloServer({
