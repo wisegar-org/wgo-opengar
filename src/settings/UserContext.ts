@@ -1,4 +1,4 @@
-import { Context, ContextUser, Session, verifyAccessToken } from '@wisegar-org/wgo-opengar-core';
+import { Context, ContextUser, Session, validateAccessToken } from '@wisegar-org/wgo-opengar-core';
 import { getConnection } from 'typeorm';
 
 export const GetContext = async ({ req, res }) => {
@@ -15,7 +15,7 @@ export const GetContext = async ({ req, res }) => {
 
   let data = null;
   try {
-    data = verifyAccessToken(res, token);
+    data = validateAccessToken(token);
   } catch (error) {
     console.log('Error getting user context : verifyAccessToken ', error);
     return ctx;
