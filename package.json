@@ -16,7 +16,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.167",
     "@wisegar-org/wgo-github": "0.0.1-dev.41",
-    "@wisegar-org/wgo-opengar-core": "0.0.1-build.42",
+    "@wisegar-org/wgo-opengar-core": "0.0.1-build.48",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",

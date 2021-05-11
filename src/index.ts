@@ -1,5 +1,12 @@
 import 'reflect-metadata';
-import { boot, GetNodeEnvKey, GetPortKey } from '@wisegar-org/wgo-opengar-core';
+import {
+  boot,
+  Context,
+  GetNodeEnvKey,
+  GetPortKey,
+  UserEntity,
+  validateAccessToken,
+} from '@wisegar-org/wgo-opengar-core';
 import { OGConnection } from './database/DBConnections';
 import { DBConector } from './database/DBConector';
 import { DataSeeder } from './content/Seeder';
@@ -23,8 +30,41 @@ DBConector.Connect(ogConn)
     };
 
     const serverOptions: IServerOptions = {
-      authenticator: Authenticate,
-      context: GetContext,
+      authenticator: async (userContext, roles) => {
+        console.log('authenticator userContext: ', userContext);
+        console.log('authenticator roles: ', roles);
+        return true;
+      },
+      context: async (payload) => {
+        debugger;
+        const ctx: Context = {
+          user: null,
+        };
+        try {
+          const authHeader = payload.req.headers.authorization.split(' ')[1];
+          const tokenResult = validateAccessToken(authHeader);
+
+          const user = await connection.getRepository(UserEntity).findOne({
+            where: { id: tokenResult.userId },
+            relations: ['roles'],
+          });
+          if (!user) return ctx;
+          ctx.user = {
+            applicazioni: null,
+            email: user.email,
+            extra: null,
+            permissions: null,
+            roles: user.roles.map((role) => role.name),
+            sessionId: '',
+            userId: user.id.toString(),
+          };
+          return ctx;
+        } catch (error) {
+          payload.req.context = {};
+        }
+
+        return ctx;
+      },
       formatError: (err: Error) => {
         return err;
       },
