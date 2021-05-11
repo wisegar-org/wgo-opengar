@@ -9,7 +9,7 @@ import { GetContext } from './settings/UserContext';
 import { RoleResolver } from './graphql/resolvers/RoleResolver';
 import { UserResolver } from './graphql/resolvers/UserResolver';
 import { ClientResolver } from './graphql/resolvers/ClientResolver';
-import { InitializeRouter } from './rest/routes/router';
+import { InitializeGithubRouter } from '@wisegar-org/wgo-github';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
@@ -31,7 +31,7 @@ DBConector.Connect(ogConn)
       controllers: [],
       port: parseInt(port),
       middlewares: (app) => {
-        InitializeRouter(app);
+        InitializeGithubRouter(app, connection);
       },
       resolvers: [ClientResolver, RoleResolver, UserResolver],
     };
