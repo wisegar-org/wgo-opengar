@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import {
+  AccessTokenData,
   boot,
   Context,
   GetNodeEnvKey,
@@ -35,17 +36,15 @@ DBConector.Connect(ogConn)
         console.log('authenticator roles: ', roles);
         return true;
       },
-      context: async (payload) => {
-        debugger;
+      context: async (payload: AccessTokenData) => {
         const ctx: Context = {
           user: null,
         };
+        if (!payload) return ctx;
         try {
-          const authHeader = payload.req.headers.authorization.split(' ')[1];
-          const tokenResult = validateAccessToken(authHeader);
-
+          console.log(payload);
           const user = await connection.getRepository(UserEntity).findOne({
-            where: { id: tokenResult.userId },
+            where: { id: payload.userId },
             relations: ['roles'],
           });
           if (!user) return ctx;
@@ -60,7 +59,7 @@ DBConector.Connect(ogConn)
           };
           return ctx;
         } catch (error) {
-          payload.req.context = {};
+          throw error;
         }
 
         return ctx;
