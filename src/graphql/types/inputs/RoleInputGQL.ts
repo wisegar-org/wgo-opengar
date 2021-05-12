@@ -1,6 +1,6 @@
-import { Field, ObjectType, InputType, ArgsType, Int } from "type-graphql";
-import { UserGQL } from "../responses/UserResponsesGQL";
-import { UserEntity } from "@wisegar-org/wgo-opengar-core";
+import { Field, ObjectType, InputType, ArgsType } from 'type-graphql';
+import { UserGQL } from '../responses/UserResponsesGQL';
+import { UserEntity } from '@wisegar-org/wgo-opengar-core';
 
 @ObjectType()
 export class RoleGQL {
@@ -27,7 +27,7 @@ export class RoleInputGQL {
 
 @ArgsType()
 export class RoleFilterArgs {
-  @Field(() => Int, { nullable: true })
+  @Field(() => Number, { nullable: true })
   id?: number;
 
   @Field(() => String, { nullable: true })

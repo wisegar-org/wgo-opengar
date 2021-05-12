@@ -1,4 +1,4 @@
-import { ArgsType, Field, ID, InputType, Int } from "type-graphql";
+import { ArgsType, Field, InputType } from 'type-graphql';
 
 //  @InputType()
 // export class ProfiloInput {
@@ -110,7 +110,7 @@ import { ArgsType, Field, ID, InputType, Int } from "type-graphql";
 
 @InputType()
 export class UserInputGQL {
-  @Field(() => ID, { nullable: true })
+  @Field(() => Number, { nullable: true })
   id?: number;
 
   @Field(() => String, { nullable: true })
@@ -131,7 +131,7 @@ export class UserInputGQL {
   @Field({ nullable: true })
   password: string;
 
-  @Field(() => [Int], { nullable: true })
+  @Field(() => [Number], { nullable: true })
   roles: number[];
 
   isEmailConfirmed: boolean;
@@ -151,7 +151,7 @@ export class UserRolesInputGQL {
   @Field()
   userUuid: string;
 
-  @Field(() => [Int])
+  @Field(() => [Number])
   roleIds: number[];
 }
 
@@ -184,7 +184,7 @@ export class UserCreateArgs {
 
 @ArgsType()
 export class UserFilterArgs {
-  @Field((type) => Int, { nullable: true })
+  @Field((type) => Number, { nullable: true })
   id?: number;
 
   @Field(() => String, { nullable: true })
