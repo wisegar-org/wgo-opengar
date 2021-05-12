@@ -7,6 +7,6 @@
   "DB_HOST": "localhost",
   "DB_PORT": "5432",
   "DB_USERNAME": "opengar",
-  "DB_NAME": "opengar",
+  "DB_NAME": "opengar-stg",
   "DB_PASSWORD": "opengar"
 }
