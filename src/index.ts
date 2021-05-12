@@ -43,7 +43,7 @@ DBConector.Connect(ogConn)
         if (!payload) return ctx;
         try {
           console.log(payload);
-          const user = await connection.getRepository(UserEntity).findOne({
+          const user: UserEntity = await connection.getRepository(UserEntity).findOne({
             where: { id: payload.userId },
             relations: ['roles'],
           });
