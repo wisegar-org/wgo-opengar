@@ -1,10 +1,12 @@
-import { ConnectionOptions } from "typeorm";
+import { ConnectionOptions } from 'typeorm';
+import { UserEntity, MediaEntity, Session, RolEntity } from '@wisegar-org/wgo-opengar-core';
 import {
-  UserEntity,
-  MediaEntity,
-  Session,
-  RolEntity,
-} from "@wisegar-org/wgo-opengar-core";
+  GetDBHostKey,
+  GetDBNameKey,
+  GetDBPasswordKey,
+  GetDBPortKey,
+  GetDBUserNameKey,
+} from '@wisegar-org/wgo-opengar-core';
 
 import {
   AccountEntity,
@@ -17,7 +19,7 @@ import {
   ProjectEntity,
   RepositoryEntity,
   TransactionEntity,
-} from "@wisegar-org/wgo-github";
+} from '@wisegar-org/wgo-github';
 
 const entities = [
   UserEntity,
@@ -43,41 +45,23 @@ export enum OGConnection {
   Environment = 3,
 }
 
-export const developmentConnection: ConnectionOptions = {
-  name: "default",
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "opengar",
-  password: "opengar",
-  database: "opengar-dev",
-  logging: false,
-  synchronize: true,
-  entities: entities,
-};
+export const getConnectionOptions = () => {
+  const dbHost: string = GetDBHostKey();
+  const dbPort: number = parseInt(GetDBPortKey());
+  const dbName: string = GetDBNameKey();
+  const dbUser: string = GetDBUserNameKey();
+  const dbPassword: string = GetDBPasswordKey();
 
-export const stagingConnection: ConnectionOptions = {
-  name: "default",
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "opengar",
-  password: "opengar",
-  database: "opengar-stg",
-  logging: false,
-  synchronize: true,
-  entities: entities,
-};
-
-export const productionConnection: ConnectionOptions = {
-  name: "default",
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "opengar",
-  password: "opengar",
-  database: "opengar",
-  logging: false,
-  synchronize: true,
-  entities: entities,
+  return <ConnectionOptions>{
+    name: 'default',
+    type: 'postgres',
+    host: dbHost,
+    port: dbPort,
+    username: dbUser,
+    password: dbPassword,
+    database: dbName,
+    logging: false,
+    synchronize: true,
+    entities: entities,
+  };
 };
