@@ -71,7 +71,6 @@ export class UserResolver {
 
   @Mutation(() => UserLoginResponseGQL)
   async login(@Arg('data') data: LoginModelInputGQL): Promise<Response<UserLoginToken>> {
-    debugger;
     return this._userDataService.login(data);
   }
 
