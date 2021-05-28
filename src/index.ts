@@ -19,6 +19,8 @@ import { RoleResolver } from './graphql/resolvers/RoleResolver';
 import { UserResolver } from './graphql/resolvers/UserResolver';
 import { ClientResolver } from './graphql/resolvers/ClientResolver';
 import { InitializeGithubRouter } from '@wisegar-org/wgo-github';
+import { ServerContext } from './servers/ServerContext';
+import { ServerAuthenticator } from './servers/ServerAuthenticator';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
@@ -32,46 +34,8 @@ DBConector.Connect(ogConn)
     };
 
     const serverOptions: IServerOptions = {
-      authenticator: async (userContext: any, roles: any) => {
-        console.log('authenticator userContext: ', userContext);
-        console.log('authenticator roles: ', roles);
-
-        const {
-          context: { user },
-        } = userContext;
-        // TODO: Logica del authorizacion
-        return true;
-      },
-      context: async (payload: AccessTokenData) => {
-        const ctx: Context = {
-          user: null,
-        };
-        if (!payload) return ctx;
-        try {
-          if (environment === 'development') {
-            console.log(payload);
-          }
-          const user: UserEntity = await connection.getRepository(UserEntity).findOne({
-            where: { id: payload.userId },
-            relations: ['roles'],
-          });
-          if (!user) return ctx;
-          ctx.user = {
-            applicazioni: null,
-            email: user.email,
-            extra: null,
-            permissions: null,
-            roles: user.roles.map((role) => role.name),
-            sessionId: '',
-            userId: user.id.toString(),
-          };
-          return ctx;
-        } catch (error) {
-          throw error;
-        }
-
-        return ctx;
-      },
+      authenticator: ServerAuthenticator,
+      context: ServerContext(connection),
       formatError: (err: Error) => {
         return err;
       },
