@@ -38,7 +38,7 @@ pm2.connect(function (err) {
     }
     const appDemon = list ? list.find((app) => app.name === APP_DEAMON_NAME) : undefined;
     if (appDemon) {
-      console.log('\x1b[33m', 'Application founded!');
+      console.log('\x1b[33m', 'Application found!');
       console.log('\x1b[33m', 'Stopping application deamon!');
       pm2.stop(APP_DEAMON_NAME, (err, proc) => {
         console.log('\x1b[33m', 'Deploying application files...');
