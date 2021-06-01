@@ -18,7 +18,7 @@ console.log('\x1b[33m', 'Running npm install...');
 execSync('npm install', { stdio: 'inherit' });
 
 console.log('\x1b[33m', 'Running tsc...');
-execSync('tsc', { stdio: 'inherit' });
+execSync('npx tsc', { stdio: 'inherit' });
 
 sourceFiles.forEach((file) => {
   fs.copySync(file, `${destination}/${file}`);
