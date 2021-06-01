@@ -1,11 +1,11 @@
 const fs = require('fs-extra');
 const { execSync } = require('child_process');
 
-console.log('\x1b[33m', 'BUILDING & DEPLOYING OPENGAR API');
+console.log('\x1b[33m', 'BUILDING & DEPLOYING FINANCE API');
 const destination = './build';
 const sourceFiles = ['package.json', 'package-lock.json', '.npmrc', '.env', 'node_modules'];
 
-const APP_DEAMON_NAME = 'wgo-opengar-api';
+const APP_DEAMON_NAME = 'wgo-finance-api-stg';
 const APP_WEB_ROOT = `C:\\Web\\Sites\\${APP_DEAMON_NAME}`;
 const APP_START_FILE = `${APP_WEB_ROOT}\\index.js`;
 
