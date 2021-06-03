@@ -2,12 +2,41 @@ const fs = require('fs-extra');
 const { execSync } = require('child_process');
 
 console.log('\x1b[33m', 'BUILDING & DEPLOYING FINANCE API');
-const destination = './build';
-const sourceFiles = ['package.json', 'package-lock.json', '.npmrc', '.env', 'node_modules'];
 
-const APP_DEAMON_NAME = 'wgo-finance-api';
-const APP_WEB_ROOT = `C:\\Web\\Sites\\${APP_DEAMON_NAME}`;
-const APP_START_FILE = `${APP_WEB_ROOT}\\index.js`;
+const BUILD_ARGS = process.argv.slice(2);
+console.log('\x1b[33m', `BUILD_ARGS: ${BUILD_ARGS}`);
+
+const APP_DEAMON_NAME = BUILD_ARGS && BUILD_ARGS.length > 0 ? BUILD_ARGS[0] : 'wgo-wip-api';
+console.log('\x1b[33m', `APP_DEAMON_NAME: ${APP_DEAMON_NAME}`);
+
+const NODE_ENV = BUILD_ARGS && BUILD_ARGS.length > 1 ? BUILD_ARGS[1] : 'development';
+console.log('\x1b[33m', `NODE_ENV: ${NODE_ENV}`);
+
+const PORT_ENV = BUILD_ARGS && BUILD_ARGS.length > 2 ? BUILD_ARGS[2] : '5020';
+console.log('\x1b[33m', `PORT_ENV: ${PORT_ENV}`);
+
+const PM2_ENV = {};
+PM2_ENV['NODE_ENV'] = NODE_ENV;
+PM2_ENV['PORT'] = PORT_ENV;
+console.log('\x1b[33m', `PM2_ENV: ${PM2_ENV['NODE_ENV']}`);
+
+const WEB_ROOT = BUILD_ARGS && BUILD_ARGS.length > 3 ? BUILD_ARGS[3] : 'C:\\Web\\Sites';
+console.log('\x1b[33m', `WEB_ROOT: ${WEB_ROOT}`);
+
+const APP_WEB_ROOT = `${WEB_ROOT}\\${APP_DEAMON_NAME}`;
+console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
+
+const destination = './build';
+const sourceFiles = [
+  'package.json',
+  'package-lock.json',
+  '.npmrc',
+  '.env',
+  'node_modules',
+  'settings.json',
+  'settings.staging.json',
+  'settings.development.json',
+];
 
 if (!fs.existsSync(destination)) {
   fs.mkdirSync(destination);
@@ -23,6 +52,13 @@ execSync('npx tsc', { stdio: 'inherit' });
 sourceFiles.forEach((file) => {
   fs.copySync(file, `${destination}/${file}`);
 });
+
+console.log('\x1b[33m', 'Creating env file...');
+const ENV_FILENAME = `${destination}/.env`;
+fs.writeFileSync(ENV_FILENAME, `NODE_ENV=${NODE_ENV} \n`, function (err) {
+  if (err) return console.log(err);
+});
+fs.appendFileSync(ENV_FILENAME, `PORT=${PORT_ENV} \n`);
 
 const pm2 = require('pm2');
 pm2.connect(function (err) {
