@@ -6,7 +6,7 @@ console.log('\x1b[33m', 'BUILDING & DEPLOYING FINANCE API');
 const BUILD_ARGS = process.argv.slice(2);
 console.log('\x1b[33m', `BUILD_ARGS: ${BUILD_ARGS}`);
 
-const APP_DEAMON_NAME = BUILD_ARGS && BUILD_ARGS.length > 0 ? BUILD_ARGS[0] : 'wgo-wip-api';
+const APP_DEAMON_NAME = BUILD_ARGS && BUILD_ARGS.length > 0 ? BUILD_ARGS[0] : 'wgo-finance-api';
 console.log('\x1b[33m', `APP_DEAMON_NAME: ${APP_DEAMON_NAME}`);
 
 const NODE_ENV = BUILD_ARGS && BUILD_ARGS.length > 1 ? BUILD_ARGS[1] : 'development';
