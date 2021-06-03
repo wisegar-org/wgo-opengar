@@ -15,9 +15,13 @@ console.log('\x1b[33m', `NODE_ENV: ${NODE_ENV}`);
 const PORT_ENV = BUILD_ARGS && BUILD_ARGS.length > 2 ? BUILD_ARGS[2] : '5020';
 console.log('\x1b[33m', `PORT_ENV: ${PORT_ENV}`);
 
+const API_TOKEN = BUILD_ARGS && BUILD_ARGS.length > 3 ? BUILD_ARGS[3] : '';
+console.log('\x1b[33m', `API_TOKEN: ${API_TOKEN}`);
+
 const PM2_ENV = {};
 PM2_ENV['NODE_ENV'] = NODE_ENV;
 PM2_ENV['PORT'] = PORT_ENV;
+PM2_ENV['API_TOKEN'] = API_TOKEN;
 console.log('\x1b[33m', `PM2_ENV: ${PM2_ENV['NODE_ENV']}`);
 
 const WEB_ROOT = BUILD_ARGS && BUILD_ARGS.length > 3 ? BUILD_ARGS[3] : 'C:\\Web\\Sites';
@@ -61,6 +65,7 @@ fs.writeFileSync(ENV_FILENAME, `NODE_ENV=${NODE_ENV} \n`, function (err) {
   if (err) return console.log(err);
 });
 fs.appendFileSync(ENV_FILENAME, `PORT=${PORT_ENV} \n`);
+fs.appendFileSync(ENV_FILENAME, `API_TOKEN=${API_TOKEN} \n`);
 
 const pm2 = require('pm2');
 pm2.connect(function (err) {
