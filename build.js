@@ -37,7 +37,6 @@ const sourceFiles = [
   'package.json',
   'package-lock.json',
   '.npmrc',
-  '.env',
   'node_modules',
   'settings.json',
   'settings.staging.json',
