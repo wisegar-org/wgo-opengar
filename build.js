@@ -26,6 +26,8 @@ console.log('\x1b[33m', `WEB_ROOT: ${WEB_ROOT}`);
 const APP_WEB_ROOT = `${WEB_ROOT}\\${APP_DEAMON_NAME}`;
 console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
 
+const APP_START_FILE = `${APP_WEB_ROOT}\\index.js`;
+
 const destination = './build';
 const sourceFiles = [
   'package.json',
@@ -98,6 +100,7 @@ pm2.connect(function (err) {
           name: APP_DEAMON_NAME,
           script: APP_START_FILE,
           max_memory_restart: '200M',
+          env: PM2_ENV,
         },
         (err, apps) => {
           execSync('pm2 save', { stdio: 'inherit' });
