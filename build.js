@@ -67,6 +67,11 @@ fs.writeFileSync(ENV_FILENAME, `NODE_ENV=${NODE_ENV} \n`, function (err) {
 fs.appendFileSync(ENV_FILENAME, `PORT=${PORT_ENV} \n`);
 fs.appendFileSync(ENV_FILENAME, `API_TOKEN=${API_TOKEN} \n`);
 
+if (!fs.existsSync(APP_WEB_ROOT)) {
+  fs.mkdirSync(APP_WEB_ROOT);
+}
+fs.emptyDirSync(APP_WEB_ROOT);
+
 const pm2 = require('pm2');
 pm2.connect(function (err) {
   if (err) {
@@ -85,7 +90,6 @@ pm2.connect(function (err) {
       console.log('\x1b[33m', 'Stopping application deamon!');
       pm2.stop(APP_DEAMON_NAME, (err, proc) => {
         console.log('\x1b[33m', 'Deploying application files...');
-        fs.removeSync(APP_WEB_ROOT);
         fs.copySync('build', APP_WEB_ROOT);
         console.log('\x1b[33m', 'Restarting application deamon...');
         pm2.start(APP_DEAMON_NAME, (err, proc) => {
@@ -97,7 +101,6 @@ pm2.connect(function (err) {
     } else {
       console.log('\x1b[33m', 'Application not found!');
       console.log('\x1b[33m', 'Deploying application files...');
-      fs.removeSync(APP_WEB_ROOT);
       fs.copySync('build', APP_WEB_ROOT);
       console.log('\x1b[33m', 'Adding application Deamon!');
       pm2.start(
