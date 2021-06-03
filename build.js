@@ -105,7 +105,6 @@ pm2.connect(function (err) {
           name: APP_DEAMON_NAME,
           script: APP_START_FILE,
           max_memory_restart: '200M',
-          env: PM2_ENV,
         },
         (err, apps) => {
           execSync('pm2 save', { stdio: 'inherit' });
