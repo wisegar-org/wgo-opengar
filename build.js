@@ -15,14 +15,14 @@ console.log('\x1b[33m', `NODE_ENV: ${NODE_ENV}`);
 const PORT_ENV = BUILD_ARGS && BUILD_ARGS.length > 2 ? BUILD_ARGS[2] : '5010';
 console.log('\x1b[33m', `PORT_ENV: ${PORT_ENV}`);
 
-const WEB_ROOT = BUILD_ARGS && BUILD_ARGS.length > 3 ? BUILD_ARGS[3] : 'C:\\Web\\Sites';
+const API_TOKEN = BUILD_ARGS && BUILD_ARGS.length > 3 ? BUILD_ARGS[3] : '';
+console.log('\x1b[33m', `API_TOKEN: ${API_TOKEN}`);
+
+const WEB_ROOT = BUILD_ARGS && BUILD_ARGS.length > 4 ? BUILD_ARGS[4] : 'C:\\Web\\Sites';
 console.log('\x1b[33m', `WEB_ROOT: ${WEB_ROOT}`);
 
 const APP_WEB_ROOT = `${WEB_ROOT}\\${APP_DEAMON_NAME}`;
 console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
-
-const API_TOKEN = BUILD_ARGS && BUILD_ARGS.length > 4 ? BUILD_ARGS[4] : '';
-console.log('\x1b[33m', `API_TOKEN: ${API_TOKEN}`);
 
 const APP_START_FILE = `${APP_WEB_ROOT}\\index.js`;
 
