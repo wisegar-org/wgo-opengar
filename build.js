@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const path = require('path');
 const { execSync } = require('child_process');
 
 console.log('\x1b[33m', 'BUILDING & DEPLOYING FINANCE API');
@@ -21,10 +22,10 @@ console.log('\x1b[33m', `API_TOKEN: ${API_TOKEN}`);
 const WEB_ROOT = BUILD_ARGS && BUILD_ARGS.length > 4 ? BUILD_ARGS[4] : 'C:\\Web\\Sites';
 console.log('\x1b[33m', `WEB_ROOT: ${WEB_ROOT}`);
 
-const APP_WEB_ROOT = `${WEB_ROOT}\\${APP_DEAMON_NAME}`;
+const APP_WEB_ROOT = path.join(WEB_ROOT, APP_DEAMON_NAME);
 console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
 
-const APP_START_FILE = `${APP_WEB_ROOT}\\index.js`;
+const APP_START_FILE = path.join(APP_WEB_ROOT, 'index.js');
 
 const PM2_ENV = {};
 PM2_ENV['NODE_ENV'] = NODE_ENV;
