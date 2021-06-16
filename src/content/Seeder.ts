@@ -1,12 +1,7 @@
-import {
-  UserEntity,
-  RolEntity,
-  RolEntityEnum,
-  UserDataService,
-} from "@wisegar-org/wgo-opengar-core";
-import * as _ from "lodash";
-import { Connection, Repository } from "typeorm";
-import { DBConector } from "../database/DBConector";
+import { UserEntity, RolEntity, RolEntityEnum, UserDataService } from '@wisegar-org/wgo-opengar-core';
+import * as _ from 'lodash';
+import { Connection, Repository } from 'typeorm';
+import { DBConector } from '../database/DBConector';
 
 export class DataSeeder {
   _userDataSerive: UserDataService;
@@ -31,23 +26,13 @@ export class DataSeeder {
     });
     const rolesList = [roleObj];
     let admin = await userRepository.findOne({
-      userName: "wisegar",
+      userName: 'wisegar',
     });
     if (_.isEmpty(admin)) {
-      let superAdmin = new UserEntity(
-        "Wisegar",
-        "Admin",
-        "wisegar",
-        "info@wisegar.org",
-        "Wisegar.0",
-        rolesList,
-        true
-      );
+      let superAdmin = new UserEntity('Wisegar', 'Admin', 'wisegar', 'info@wisegar.org', 'Wisegar.0', rolesList, true);
       try {
         const _userDataSerive = new UserDataService(connection);
-        const userSeedResult = await _userDataSerive.create(superAdmin, [
-          roleObj.id,
-        ]);
+        const userSeedResult = await _userDataSerive.create(superAdmin, [roleObj.id]);
       } catch (error) {}
     }
   }
@@ -64,7 +49,7 @@ export class DataSeeder {
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
-      userRole.name = "superAdmin";
+      userRole.name = 'superAdmin';
       await this.roleRepository.save(userRole);
     }
 
@@ -74,7 +59,7 @@ export class DataSeeder {
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
-      userRole.name = "customer";
+      userRole.name = 'customer';
       await this.roleRepository.save(userRole);
     }
   }
