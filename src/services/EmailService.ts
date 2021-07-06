@@ -21,7 +21,7 @@ export class EmailServer {
         if (err) {
           reject(new ErrorResponse('Error sending email: ' + err.stack));
         } else {
-          resolve(new SuccessResponse('Email sent: ' + info.response));
+          resolve(new SuccessResponse('Email sent'));
         }
       });
     });
