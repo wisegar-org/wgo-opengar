@@ -20,7 +20,7 @@ import {
   ProjectEntity,
   RepositoryEntity,
   TransactionEntity,
-} from '@wisegar-org/wgo-github';
+} from '../modules/finance';
 
 const entities = [
   UserEntity,

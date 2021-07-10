@@ -1,9 +1,5 @@
 import 'reflect-metadata';
-import {
-  boot,
-  GetNodeEnvKey,
-  GetPortKey
-} from '@wisegar-org/wgo-opengar-core';
+import { boot, GetNodeEnvKey, GetPortKey } from '@wisegar-org/wgo-opengar-core';
 import { OGConnection } from './database/DBConnections';
 import { DBConector } from './database/DBConector';
 import { DataSeeder } from './content/Seeder';
@@ -11,7 +7,7 @@ import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/m
 import { RoleResolver } from './graphql/resolvers/RoleResolver';
 import { UserResolver } from './graphql/resolvers/UserResolver';
 import { ClientResolver } from './graphql/resolvers/ClientResolver';
-import { InitializeGithubRouter } from '@wisegar-org/wgo-github';
+import { InitializeGithubRouter } from './modules/finance';
 import { ServerContext } from './servers/ServerContext';
 import { ServerAuthenticator } from './servers/ServerAuthenticator';
 
