@@ -1,33 +1,33 @@
-import { AccountController, IssueController } from '../controllers'
-import { OrganizationDataController } from '../controllers/OrganizationDataController'
-import { AccountEntity } from '../database/entities/AccountEntity'
-import { IssueEntity } from '../database/entities/IssueEntity'
-import { OrganizationDataEntity } from '../database/entities/OrganizationDataEntity'
-import { ReadStream } from 'node:fs'
-import moment from 'moment'
-import { exportHTMLToPdf, CreateOptions } from '@wisegar-org/wgo-opengar-core'
+import { AccountController, IssueController } from '../controllers';
+import { OrganizationDataController } from '../controllers/OrganizationDataController';
+import { AccountEntity } from '../database/entities/AccountEntity';
+import { IssueEntity } from '../database/entities/IssueEntity';
+import { OrganizationDataEntity } from '../database/entities/OrganizationDataEntity';
+import { ReadStream } from 'fs-extra';
+import moment from 'moment';
+import { exportHTMLToPdf, CreateOptions } from '@wisegar-org/wgo-opengar-core';
 
 class GenerateAccountingPDF {
-  accountigController: AccountController
-  issuesController: IssueController
-  organizationDataController: OrganizationDataController
-  accounting: AccountEntity | undefined
-  issues: IssueEntity[]
-  organizationData: OrganizationDataEntity
+  accountigController: AccountController;
+  issuesController: IssueController;
+  organizationDataController: OrganizationDataController;
+  accounting: AccountEntity | undefined;
+  issues: IssueEntity[];
+  organizationData: OrganizationDataEntity;
   constructor() {
-    this.accountigController = new AccountController()
-    this.issuesController = new IssueController()
-    this.organizationDataController = new OrganizationDataController()
-    this.accounting = undefined
-    this.issues = []
-    this.organizationData = <OrganizationDataEntity>{}
+    this.accountigController = new AccountController();
+    this.issuesController = new IssueController();
+    this.organizationDataController = new OrganizationDataController();
+    this.accounting = undefined;
+    this.issues = [];
+    this.organizationData = <OrganizationDataEntity>{};
   }
 
   async generatePDF(idAccounting: number) {
-    this.accounting = await this.accountigController.getAccountingById(idAccounting)
-    this.issues = await this.issuesController.getIssuesFromAccount(idAccounting)
-    this.organizationData = await this.organizationDataController.getOrganizationData()
-    return this.generateReportHTML()
+    this.accounting = await this.accountigController.getAccountingById(idAccounting);
+    this.issues = await this.issuesController.getIssuesFromAccount(idAccounting);
+    this.organizationData = await this.organizationDataController.getOrganizationData();
+    return this.generateReportHTML();
   }
 
   private generateReportHTML() {
@@ -125,7 +125,7 @@ class GenerateAccountingPDF {
         </body>
       </html>
 
-    `
+    `;
   }
 
   private generateReportHeader() {
@@ -137,18 +137,18 @@ class GenerateAccountingPDF {
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Tel. ${this.organizationData.phone}</p>
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">E-mail: ${this.organizationData.email}</p>
       <br/><br/><br/>
-    `
+    `;
   }
 
   private generatePaymentInfo() {
-    const date = moment(this.accounting?.date).format('DD/MM/YYYY')
+    const date = moment(this.accounting?.date).format('DD/MM/YYYY');
     return `
       <div style="width: 100%;">
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">No. ${this.accounting?.payment_code}</p>
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Data: ${date}</p>
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Pagamento: ${this.accounting?.payment_comment}</p>
       </div>
-    `
+    `;
   }
 
   private generateUserInfo() {
@@ -158,7 +158,7 @@ class GenerateAccountingPDF {
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Address: ${this.accounting?.contributor.address}</p>
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">E-mail: ${this.accounting?.contributor.email}</p>
       </div>
-    `
+    `;
   }
 
   private generateTable() {
@@ -169,7 +169,7 @@ class GenerateAccountingPDF {
           ${this.generateTableBody()}
         </table>
       </div>
-    `
+    `;
   }
 
   private generateTableHeader() {
@@ -192,13 +192,13 @@ class GenerateAccountingPDF {
             <th class="">Sub Total</th>
           </tr>
       </thead>
-    `
+    `;
   }
 
   private generateTableBody() {
-    let body = ''
-    let date = moment(this.accounting?.date).format('DD/MM/YYYY')
-    const pay_by_hours = this.accounting?.contributor.pay_by_hours || 0
+    let body = '';
+    let date = moment(this.accounting?.date).format('DD/MM/YYYY');
+    const pay_by_hours = this.accounting?.contributor.pay_by_hours || 0;
     this.issues.forEach((issue: IssueEntity) => {
       body += `
         <tr style="page-break-inside:avoid; page-break-after:auto">
@@ -209,14 +209,14 @@ class GenerateAccountingPDF {
           <td class="">${issue.number} - ${issue.title}</td>
           <td class="">${issue.hours * pay_by_hours}</td>
         </tr>
-      `
-    })
+      `;
+    });
 
     return `
       <tbody class="">
         ${body}
       </tbody>
-    `
+    `;
   }
 
   private generateBankInfo() {
@@ -231,26 +231,27 @@ class GenerateAccountingPDF {
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">DIRECCION:  ${
           this.accounting?.contributor.address
         } </p>
-    `
+    `;
   }
 
   private generateHoursInfo() {
-    let internet = ((this.accounting?.total_hours || 0) * 60) / 1024
-    internet = Math.round(internet * 100) / 100
+    let internet = ((this.accounting?.total_hours || 0) * 60) / 1024;
+    internet = Math.round(internet * 100) / 100;
     return `
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">No. Horas</p>
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">${this.accounting?.total_hours} ${this.organizationData.accountingUnit}</p>
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Internet</p>
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">${internet} gb</p>
-    `
+    `;
   }
 
   private generatePaymet() {
-    const total_hours = this.accounting?.total_hours || 0
-    const total_issues = total_hours * (this.accounting?.pay_by_hours || 0)
-    const total_internet = total_hours * (this.accounting?.pay_to_internet || 0) * (this.accounting?.internet_cost || 0)
-    let taxes = this.accounting?.taxes || 0
-    const total = total_issues + total_internet
+    const total_hours = this.accounting?.total_hours || 0;
+    const total_issues = total_hours * (this.accounting?.pay_by_hours || 0);
+    const total_internet =
+      total_hours * (this.accounting?.pay_to_internet || 0) * (this.accounting?.internet_cost || 0);
+    let taxes = this.accounting?.taxes || 0;
+    const total = total_issues + total_internet;
     return `
             <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Sub Total:  ${total_issues} ${
       this.organizationData.accountingCoin
@@ -264,18 +265,18 @@ class GenerateAccountingPDF {
             <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">A pagar:    ${
               total - taxes
             } ${this.organizationData.accountingCoin}</p>
-    `
+    `;
   }
 }
 
 export async function GenerateAccountHTML(id: number, callback: (doc: ReadStream) => void) {
-  const generatePDF = new GenerateAccountingPDF()
-  const content = await generatePDF.generatePDF(id)
+  const generatePDF = new GenerateAccountingPDF();
+  const content = await generatePDF.generatePDF(id);
   const config: CreateOptions = {
     format: 'A4',
     orientation: 'portrait',
     type: 'pdf',
-    border: { left: '35', right: '35', top: '45', bottom: '45' }
-  }
-  await exportHTMLToPdf(content, config, callback)
+    border: { left: '35', right: '35', top: '45', bottom: '45' },
+  };
+  await exportHTMLToPdf(content, config, callback);
 }
