@@ -5,7 +5,7 @@
   "TOKEN_EXPIRES_IN": "7d",
   "TOKEN_TIME_TO_EXPIRE": "324000",
   "DB_HOST": "wisegar.synology.me",
-  "DB_PORT": "49176",
+  "DB_PORT": "49153",
   "DB_USERNAME": "opengar",
   "DB_NAME": "opengar-stg",
   "DB_PASSWORD": "sSP3Rf22UUH9364A"
