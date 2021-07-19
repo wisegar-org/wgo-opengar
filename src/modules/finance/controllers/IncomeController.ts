@@ -1,114 +1,45 @@
-import { Context, FrequencyRepeatEnum } from '@wisegar-org/wgo-opengar-core'
-import { Connection, Repository } from 'typeorm'
-import { GetConnection } from '../database'
-import { ExpenseStatusEnum } from '../database/entities/ExpenseEntity'
-import IncomeEntity from '../database/entities/IncomeEntity'
-import { TransactionTypeEnum } from '../database/entities/TransactionEntity'
-import { FinanceMediaService } from '../services/FinanceMediaService'
-import { CollaboratorController } from './CollaboratorController'
-import { TransactionController } from './TransactionController'
+import { Express } from 'express';
+import { Connection } from 'typeorm';
+import { AuthorizeUserRol, RolEntityEnum } from '@wisegar-org/wgo-opengar-core';
+import { IncomeService } from '../services/IncomeService';
+export const IncomeController = (app: Express, conn: Connection) => {
+  app.get('/api/incomes', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const incomesService = new IncomeService(req.context);
+    const result = {
+      incomes: await incomesService.getAllIncomes(),
+    };
+    res.send(result);
+  });
 
-export class IncomeController {
-  private connection: Connection
-  private incomeRepository: Repository<IncomeEntity>
-  private financeMediaService: FinanceMediaService
-  private transactionController: TransactionController
-  private collaboratorController: CollaboratorController
-  constructor(userContext?: Context) {
-    this.connection = GetConnection()
-    this.incomeRepository = this.connection.getRepository(IncomeEntity)
-    this.financeMediaService = new FinanceMediaService()
-    this.transactionController = new TransactionController(userContext)
-    this.collaboratorController = new CollaboratorController(userContext)
-  }
+  app.post('/api/addIncome', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const incomesService = new IncomeService(req.context);
+    const { name, description, amount, date, repeat, invoiceDocs, collaboratorId } = req.body;
 
-  async getAllIncomes(): Promise<any[]> {
-    const result = await this.incomeRepository.find({
-      relations: ['invoiceDocs', 'collaborator'],
-      order: { id: 'DESC' }
-    })
+    const income = await incomesService.addIncome(name, description, amount, date, collaboratorId, repeat, invoiceDocs);
+    res.send({ created: !!income, incomes: [income] });
+  });
 
-    const incomes = result.map((exp: IncomeEntity) => {
-      const docs = exp.invoiceDocs.map((media) => ({
-        id: media.id,
-        fileName: media.fileName,
-        type: media.mimeType,
-        displayName: media.displayName
-      }))
-      return {
-        amount: exp.amount,
-        date: exp.date,
-        description: exp.description,
-        id: exp.id,
-        name: exp.name,
-        repeat: exp.repeat,
-        invoiceDocs: docs,
-        status: exp.status,
-        collaborator: exp.collaborator,
-        collaboratorId: exp.collaboratorId
-      }
-    })
-    return incomes
-  }
+  app.post('/api/changeIncomeStatus', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const incomeService = new IncomeService(req.context);
+    const { id, status } = req.body;
 
-  async addIncome(
-    name: string,
-    description: string,
-    amount: number,
-    date: Date,
-    collaboratorId: number,
-    repeat: FrequencyRepeatEnum,
-    invoiceDocs: number[]
-  ) {
-    const income = new IncomeEntity(name, description, amount, date, repeat)
-    income.invoiceDocs = await this.financeMediaService.getMediaList(invoiceDocs)
-    const coll = await this.collaboratorController.findCollaboratorById(collaboratorId)
-    if (coll) {
-      income.collaborator = coll
-    }
-    return await this.incomeRepository.manager.save(income)
-  }
+    const income = await incomeService.changeStatus(id, status);
+    res.send({ updated: !!income, incomes: [income] });
+  });
 
-  async changeStatus(id: number, status: number): Promise<IncomeEntity | undefined> {
-    let income = await this.incomeRepository.findOne({ id: id })
-    if (income) {
-      income.status = status in ExpenseStatusEnum ? status : ExpenseStatusEnum.ToByPayed
-      income = await income.save()
-
-      this.transactionController.createTransactionByCollaborator(
-        income.collaboratorId,
-        income.id,
-        income.amount,
-        `Income Transaction ${income.id}`,
-        TransactionTypeEnum.Income
-      )
-    }
-    return income
-  }
-
-  async updateIncomeById(
-    id: number,
-    name: string,
-    description: string,
-    amount: number,
-    date: Date,
-    collaboratorId: number,
-    repeat: FrequencyRepeatEnum,
-    invoiceDocs: number[]
-  ) {
-    const income = await this.incomeRepository.findOne({ id: id })
-    if (income) {
-      income.description = description
-      income.name = name
-      income.amount = amount
-      income.repeat = repeat
-      income.date = date
-      income.invoiceDocs = await this.financeMediaService.getMediaList(invoiceDocs)
-      const coll = await this.collaboratorController.findCollaboratorById(collaboratorId || 0)
-      if (coll) {
-        income.collaborator = coll
-      }
-      return await this.incomeRepository.manager.save(income)
-    }
-  }
-}
+  app.post('/api/updateIncome', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const incomesService = new IncomeService(req.context);
+    const { id, name, description, amount, repeat, invoiceDocs, date, collaboratorId } = req.body;
+    const income = await incomesService.updateIncomeById(
+      id,
+      name,
+      description,
+      amount,
+      date,
+      collaboratorId,
+      repeat,
+      invoiceDocs
+    );
+    res.send({ updated: !!income });
+  });
+};

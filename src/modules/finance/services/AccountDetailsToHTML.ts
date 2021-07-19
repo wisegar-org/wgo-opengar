@@ -1,5 +1,4 @@
-import { AccountController, IssueController } from '../controllers';
-import { OrganizationDataController } from '../controllers/OrganizationDataController';
+import { AccountService, IssueService, OrganizationDataService } from './';
 import { AccountEntity } from '../database/entities/AccountEntity';
 import { IssueEntity } from '../database/entities/IssueEntity';
 import { OrganizationDataEntity } from '../database/entities/OrganizationDataEntity';
@@ -8,25 +7,25 @@ import moment from 'moment';
 import { exportHTMLToPdf, CreateOptions } from '@wisegar-org/wgo-opengar-core';
 
 class GenerateAccountingPDF {
-  accountigController: AccountController;
-  issuesController: IssueController;
-  organizationDataController: OrganizationDataController;
+  accountigService: AccountService;
+  issuesService: IssueService;
+  organizationDataService: OrganizationDataService;
   accounting: AccountEntity | undefined;
   issues: IssueEntity[];
   organizationData: OrganizationDataEntity;
   constructor() {
-    this.accountigController = new AccountController();
-    this.issuesController = new IssueController();
-    this.organizationDataController = new OrganizationDataController();
+    this.accountigService = new AccountService();
+    this.issuesService = new IssueService();
+    this.organizationDataService = new OrganizationDataService();
     this.accounting = undefined;
     this.issues = [];
     this.organizationData = <OrganizationDataEntity>{};
   }
 
   async generatePDF(idAccounting: number) {
-    this.accounting = await this.accountigController.getAccountingById(idAccounting);
-    this.issues = await this.issuesController.getIssuesFromAccount(idAccounting);
-    this.organizationData = await this.organizationDataController.getOrganizationData();
+    this.accounting = await this.accountigService.getAccountingById(idAccounting);
+    this.issues = await this.issuesService.getIssuesFromAccount(idAccounting);
+    this.organizationData = await this.organizationDataService.getOrganizationData();
     return this.generateReportHTML();
   }
 
