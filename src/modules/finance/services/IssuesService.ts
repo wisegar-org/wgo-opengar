@@ -1,26 +1,26 @@
 import { Connection, Repository } from 'typeorm';
 import { IssueEntity } from '../database/entities/IssueEntity';
-import { CollaboratorController } from './CollaboratorController';
-import { ProjectController } from './ProjectController';
+import { CollaboratorService } from './CollaboratorService';
+import { ProjectService } from './ProjectService';
 import { GetConnection } from '../database';
-import { RepositoryController } from './RepositoryController';
+import { RepositoryService } from './RepositoryService';
 import { AccountEntity } from '../database/entities/AccountEntity';
 import Requestable from 'github-api/dist/components/Requestable';
 import { Context } from '@wisegar-org/wgo-opengar-core';
 
-export class IssueController {
+export class IssueService {
   private connection: Connection;
   private issueConnection: Repository<IssueEntity>;
-  private collaboratorController: CollaboratorController;
-  private projectController: ProjectController;
-  private repositoryController: RepositoryController;
+  private collaboratorController: CollaboratorService;
+  private projectController: ProjectService;
+  private repositoryController: RepositoryService;
 
   constructor(userContext?: Context) {
     this.connection = GetConnection();
     this.issueConnection = this.connection.getRepository(IssueEntity);
-    this.collaboratorController = new CollaboratorController(userContext);
-    this.projectController = new ProjectController();
-    this.repositoryController = new RepositoryController();
+    this.collaboratorController = new CollaboratorService(userContext);
+    this.projectController = new ProjectService();
+    this.repositoryController = new RepositoryService();
   }
 
   async addIssue(
