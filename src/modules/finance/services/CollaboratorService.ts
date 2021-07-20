@@ -132,7 +132,7 @@ export class CollaboratorService {
       id_github: numberId,
     });
     collaborator = await this.updateCollaborator(
-      collaborator?.id || 0,
+      collaborator ? collaborator.id : 0,
       login,
       node_id,
       type,
