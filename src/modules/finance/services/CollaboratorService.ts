@@ -145,7 +145,7 @@ export class CollaboratorService {
       isCollaborator
     );
 
-    if (collaborator?.isCollaborator || isCollaborator) {
+    if (collaborator ? collaborator.isCollaborator : isCollaborator) {
       await this.createUser(name, login, email);
     }
 
