@@ -44,8 +44,31 @@ export class ExpensesService {
 
   async getAllExpenses(): Promise<any[]> {
     const result = await this.expenseConnection.find({
-      relations: ['bildDocs', 'collaborator'],
+      relations: ['collaborator'],
       order: { id: 'DESC' },
+    });
+
+    const expenses = result.map((exp: ExpenseEntity) => {
+      return {
+        cost: exp.cost,
+        date: exp.date,
+        description: exp.description,
+        id: exp.id,
+        name: exp.name,
+        status: exp.status,
+        repeat: exp.repeat,
+        bildDocs: exp.bildDocs,
+        collaborator: exp.collaborator,
+        collaboratorId: exp.collaboratorId,
+      };
+    });
+    return expenses;
+  }
+
+  async getExpenseDetailsById(id: number) {
+    const result = await this.expenseConnection.find({
+      relations: ['bildDocs', 'collaborator'],
+      where: { id },
     });
 
     const expenses = result.map((exp: ExpenseEntity) => {
@@ -68,7 +91,7 @@ export class ExpensesService {
         collaboratorId: exp.collaboratorId,
       };
     });
-    return expenses;
+    return expenses.length ? expenses : undefined;
   }
 
   async changeStatus(id: number, status: number): Promise<ExpenseEntity | undefined> {

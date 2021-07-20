@@ -24,8 +24,31 @@ export class IncomeService {
 
   async getAllIncomes(): Promise<any[]> {
     const result = await this.incomeRepository.find({
-      relations: ['invoiceDocs', 'collaborator'],
+      relations: ['collaborator'],
       order: { id: 'DESC' },
+    });
+
+    const incomes = result.map((exp: IncomeEntity) => {
+      return {
+        amount: exp.amount,
+        date: exp.date,
+        description: exp.description,
+        id: exp.id,
+        name: exp.name,
+        repeat: exp.repeat,
+        invoiceDocs: exp.invoiceDocs,
+        status: exp.status,
+        collaborator: exp.collaborator,
+        collaboratorId: exp.collaboratorId,
+      };
+    });
+    return incomes;
+  }
+
+  async getIncomeDetailsById(id: number): Promise<any[]> {
+    const result = await this.incomeRepository.find({
+      relations: ['invoiceDocs', 'collaborator'],
+      where: { id },
     });
 
     const incomes = result.map((exp: IncomeEntity) => {
@@ -48,7 +71,7 @@ export class IncomeService {
         collaboratorId: exp.collaboratorId,
       };
     });
-    return incomes;
+    return incomes.length ? incomes : undefined;
   }
 
   async addIncome(
