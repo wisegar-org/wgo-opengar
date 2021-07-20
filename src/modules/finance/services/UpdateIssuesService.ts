@@ -72,7 +72,7 @@ export class UpdateIssuesService {
                   function (_err: string, comments: [{ [id: string]: unknown }]) {
                     last_comment = comments[comments.length - 1].body as string;
                     const matches = last_comment.match(/\d*.?\d*h/);
-                    if (matches?.length == 1) {
+                    if (matches && matches.length == 1) {
                       hours = parseFloat(last_comment);
                       if (isNaN(hours)) {
                         hours = 0;
@@ -263,7 +263,7 @@ export class UpdateIssuesService {
         console.log('entre b');
         last_comment = comment.body;
         const matches = last_comment.match(/\d*.?\d*h/);
-        if (matches?.length == 1) {
+        if (matches && matches.length == 1) {
           console.log('entre d');
           hours = parseFloat(last_comment);
           if (isNaN(hours)) {
@@ -281,7 +281,7 @@ export class UpdateIssuesService {
             console.log('entre g');
             last_comment = comments[comments.length - 1].body as string;
             const matches = last_comment.match(/\d*.?\d*h/);
-            if (matches?.length == 1) {
+            if (matches && matches.length == 1) {
               console.log('entre h');
               hours = parseFloat(last_comment);
               if (isNaN(hours)) {

@@ -143,7 +143,7 @@ export class ExpensesService {
     const collaborator = await this.collaboratorController.findCollaboratorById(accounting.contributorId);
     const expense = new ExpenseEntity(
       'Confirmed accounting',
-      `Pay to ${collaborator?.name} (${collaborator?.login})`,
+      `Pay to ${collaborator ? collaborator.name : ''} (${collaborator ? collaborator.login : ''})`,
       total_to_pay,
       new Date(),
       ExpenseStatusEnum.ToByPayed,
