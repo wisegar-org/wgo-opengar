@@ -10,7 +10,14 @@ export const IncomeController = (app: Express, conn: Connection) => {
     };
     res.send(result);
   });
-
+  app.get('/api/incomeDetail', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const incomesService = new IncomeService(req.context);
+    const { id } = req.query;
+    const result = {
+      incomes: await incomesService.getIncomeDetailsById(parseInt(id.toString())),
+    };
+    res.send(result);
+  });
   app.post('/api/addIncome', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const incomesService = new IncomeService(req.context);
     const { name, description, amount, date, repeat, invoiceDocs, collaboratorId } = req.body;

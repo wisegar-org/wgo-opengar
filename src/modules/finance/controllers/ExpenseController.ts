@@ -10,6 +10,14 @@ export const ExpenseController = (app: Express, conn: Connection) => {
     };
     res.send(result);
   });
+  app.get('/api/expenseDetail', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const expenseService = new ExpensesService(req.context);
+    const { id } = req.query;
+    const result = {
+      expenses: await expenseService.getExpenseDetailsById(parseInt(id.toString())),
+    };
+    res.send(result);
+  });
   app.post('/api/addExpense', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const expenseService = new ExpensesService(req.context);
     const { name, description, cost, date, status, repeat, bildDocs, collaboratorId } = req.body;
