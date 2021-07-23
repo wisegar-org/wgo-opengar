@@ -119,7 +119,7 @@ class GenerateAccountingPDF {
           </div>
           <div class="padding_class" style="position: relative;">
             <p  style="margin-top: unset; margin-bottom: 0.5rem;">Observaciones:</p>
-            ${this.accounting?.details}
+            ${this.accounting ? this.accounting.details : ''}
           </div>
         </body>
       </html>
@@ -140,12 +140,12 @@ class GenerateAccountingPDF {
   }
 
   private generatePaymentInfo() {
-    const date = moment(this.accounting?.date).format('DD/MM/YYYY');
+    const date = this.accounting ? moment(this.accounting.date).format('DD/MM/YYYY') : '';
     return `
       <div style="width: 100%;">
-        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">No. ${this.accounting?.payment_code}</p>
+        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">No. ${this.accounting ? this.accounting.payment_code : ''}</p>
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Data: ${date}</p>
-        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Pagamento: ${this.accounting?.payment_comment}</p>
+        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Pagamento: ${this.accounting ? this.accounting.payment_comment : ''}</p>
       </div>
     `;
   }
@@ -153,9 +153,9 @@ class GenerateAccountingPDF {
   private generateUserInfo() {
     return `
       <div style="width: 100%; text-a">
-        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">${this.accounting?.contributor.name}</p>
-        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Address: ${this.accounting?.contributor.address}</p>
-        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">E-mail: ${this.accounting?.contributor.email}</p>
+        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">${this.accounting? this.accounting.contributor.name : ''}</p>
+        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Address: ${this.accounting ?this.accounting.contributor.address :''}</p>
+        <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">E-mail: ${this.accounting? this.accounting.contributor.email: ''}</p>
       </div>
     `;
   }
@@ -196,8 +196,8 @@ class GenerateAccountingPDF {
 
   private generateTableBody() {
     let body = '';
-    let date = moment(this.accounting?.date).format('DD/MM/YYYY');
-    const pay_by_hours = this.accounting?.contributor.pay_by_hours || 0;
+    let date = this.accounting ? moment(this.accounting.date).format('DD/MM/YYYY') : '';
+    const pay_by_hours = this.accounting ? this.accounting.contributor.pay_by_hours : 0;
     this.issues.forEach((issue: IssueEntity) => {
       body += `
         <tr style="page-break-inside:avoid; page-break-after:auto">
@@ -222,34 +222,34 @@ class GenerateAccountingPDF {
     return `
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Información del banco</p>
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">IBAN:  ${
-          this.accounting?.contributor.card_number
+          this.accounting ? this.accounting.contributor.card_number : ''
         } </p>
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">A FAVOR DE:  ${(
-          this.accounting?.contributor.name || ''
+          this.accounting ? this.accounting.contributor.name : ''
         ).toUpperCase()}</p>
         <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">DIRECCION:  ${
-          this.accounting?.contributor.address
+          this.accounting ? this.accounting.contributor.address : ''
         } </p>
     `;
   }
 
   private generateHoursInfo() {
-    let internet = ((this.accounting?.total_hours || 0) * 60) / 1024;
+    let internet = ((this.accounting ? this.accounting.total_hours : 0) * 60) / 1024;
     internet = Math.round(internet * 100) / 100;
     return `
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">No. Horas</p>
-      <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">${this.accounting?.total_hours} ${this.organizationData.accountingUnit}</p>
+      <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">${this.accounting ? this.accounting.total_hours : 0} ${this.organizationData.accountingUnit}</p>
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Internet</p>
       <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">${internet} gb</p>
     `;
   }
 
   private generatePaymet() {
-    const total_hours = this.accounting?.total_hours || 0;
-    const total_issues = total_hours * (this.accounting?.pay_by_hours || 0);
+    const total_hours = this.accounting ? this.accounting.total_hours : 0;
+    const total_issues = total_hours * (this.accounting ? this.accounting.pay_by_hours : 0);
     const total_internet =
-      total_hours * (this.accounting?.pay_to_internet || 0) * (this.accounting?.internet_cost || 0);
-    let taxes = this.accounting?.taxes || 0;
+      total_hours * (this.accounting ? this.accounting.pay_to_internet : 0) * (this.accounting ? this.accounting.internet_cost : 0);
+    let taxes = this.accounting ? this.accounting.taxes : 0;
     const total = total_issues + total_internet;
     return `
             <p class="unset_margin_top" style="margin-top: unset; margin-bottom: 0.5rem;">Sub Total:  ${total_issues} ${
