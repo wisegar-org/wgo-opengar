@@ -10,6 +10,7 @@ import { ClientResolver } from './graphql/resolvers/ClientResolver';
 import { InitializeGithubRouter } from './modules/finance';
 import { ServerContext } from './servers/ServerContext';
 import { ServerAuthenticator } from './servers/ServerAuthenticator';
+import { AppResolver } from './graphql/resolvers/AppResolver';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
@@ -33,7 +34,7 @@ DBConector.Connect(ogConn)
       middlewares: (app) => {
         InitializeGithubRouter(app, connection);
       },
-      resolvers: [ClientResolver, RoleResolver, UserResolver],
+      resolvers: [ClientResolver, RoleResolver, UserResolver, AppResolver],
     };
 
     boot(serverOptions, seeder);
