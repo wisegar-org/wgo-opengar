@@ -27,10 +27,13 @@ console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
 
 const APP_START_FILE = path.join(APP_WEB_ROOT, 'index.js');
 
+const packageJson = fs.readJsonSync('package.json', { throws: false });
+
 const PM2_ENV = {};
 PM2_ENV['NODE_ENV'] = NODE_ENV;
 PM2_ENV['PORT'] = PORT_ENV;
 PM2_ENV['API_TOKEN'] = API_TOKEN;
+PM2_ENV['API_VERSION'] = packageJson ? packageJson.version : 'unknown version';
 console.log('\x1b[33m', `PM2_ENV: ${PM2_ENV['NODE_ENV']}`);
 
 const destination = './build';
@@ -66,6 +69,7 @@ fs.writeFileSync(ENV_FILENAME, `NODE_ENV=${NODE_ENV} \n`, function (err) {
 });
 fs.appendFileSync(ENV_FILENAME, `PORT=${PORT_ENV} \n`);
 fs.appendFileSync(ENV_FILENAME, `API_TOKEN=${API_TOKEN} \n`);
+fs.appendFileSync(ENV_FILENAME, `API_VERSION=${PM2_ENV['API_VERSION']} \n`);
 
 if (!fs.existsSync(APP_WEB_ROOT)) {
   fs.mkdirSync(APP_WEB_ROOT);
