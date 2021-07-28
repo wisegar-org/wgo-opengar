@@ -7,3 +7,4 @@ export * from './IncomeController';
 export * from './OrganizationController';
 export * from './MediaController';
 export * from './ExpenseController';
+export * from './ProductController';
