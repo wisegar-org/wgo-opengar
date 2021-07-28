@@ -35,18 +35,9 @@ export const CollaboratorController = (app: Express, conn: Connection) => {
     AuthorizeUserRol([RolEntityEnum.superAdmin, RolEntityEnum.customer]),
     async (req, res) => {
       const colService = new CollaboratorService(req.context);
-      const { id, name, card_number, pay_by_hours, pay_to_internet, email, address, bio } = req.body;
+      const { id, name, card_number, pay_by_hours, email, address, bio } = req.body;
 
-      const updated = await colService.updateAccountingInfo(
-        id,
-        name,
-        card_number,
-        pay_by_hours,
-        pay_to_internet,
-        email,
-        address,
-        bio
-      );
+      const updated = await colService.updateAccountingInfo(id, name, card_number, pay_by_hours, email, address, bio);
 
       res.send({ update: !!updated, collaborators: [updated] });
     }

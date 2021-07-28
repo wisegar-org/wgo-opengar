@@ -72,7 +72,6 @@ export class CollaboratorService {
       bio,
       card_number,
       0,
-      0,
       address
     );
     proj.login = isCollaborator ? proj.login : name;
@@ -196,7 +195,6 @@ export class CollaboratorService {
     name: string,
     card_number: string,
     pay_by_hours: number,
-    pay_to_internet: number,
     email: string,
     address: string,
     bio: string
@@ -211,7 +209,6 @@ export class CollaboratorService {
       collaborator.login = !collaborator.isCollaborator ? name : collaborator.login;
       collaborator.card_number = card_number;
       collaborator.pay_by_hours = pay_by_hours;
-      collaborator.pay_to_internet = pay_to_internet;
       collaborator.email = email;
       collaborator.address = address;
       collaborator.bio = !collaborator.isCollaborator ? bio : collaborator.bio;
