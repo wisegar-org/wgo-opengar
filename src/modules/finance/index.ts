@@ -14,6 +14,9 @@ export * from './database/entities/OrganizationDataEntity';
 export * from './database/entities/ProjectEntity';
 export * from './database/entities/RepositoryEntity';
 export * from './database/entities/TransactionEntity';
+export * from './database/entities/ProductEntity';
+export * from './database/entities/BillProductRelationEntity';
+export * from './database/entities/BillEntity';
 
 import dotenv from 'dotenv';
 dotenv.config({
