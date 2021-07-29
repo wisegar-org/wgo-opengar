@@ -1,21 +1,23 @@
 import { MediaEntity } from '@wisegar-org/wgo-opengar-core';
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import BillProductRelationEntity from './BillProductRelationEntity';
 import CollaboratorEntity from './CollaboratorEntity';
 
-export enum ProductType {
-  Product = 1,
-  Service = 2,
-}
-
 @Entity()
-export class ProductEntity extends BaseEntity {
+export class BillEntity extends BaseEntity {
   @PrimaryGeneratedColumn() id!: number;
   @Column({ default: '' }) name: string;
   @Column({ default: '' }) description: string;
-  @Column({ type: 'float', default: 0 }) buyPrice: number;
-  @Column({ type: 'float', default: 0 }) sellPrice: number;
-  @Column({ default: 0 }) unitCount: number;
-  @Column({ default: ProductType.Product }) type: ProductType;
+  @Column({ type: 'float', default: 0 }) totalPrice: number;
 
   @Column({ nullable: true }) clientId!: number;
   @ManyToOne(() => CollaboratorEntity, (col) => col.id, {
@@ -23,26 +25,25 @@ export class ProductEntity extends BaseEntity {
   })
   client!: CollaboratorEntity;
 
+  @OneToMany(() => BillProductRelationEntity, (billProducts) => billProducts.bill, {
+    nullable: true,
+  })
+  billProducts!: BillProductRelationEntity[];
+
   @ManyToMany(() => MediaEntity)
   @JoinTable()
   docs!: MediaEntity[];
 
-  constructor(
-    name: string,
-    description: string,
-    buyPrice: number,
-    sellPrice: number,
-    unitCount: number,
-    type: ProductType = ProductType.Product
-  ) {
+  constructor(name: string, description: string, totalPrice: number, client: CollaboratorEntity) {
     super();
     this.name = name;
     this.description = description;
-    this.buyPrice = buyPrice;
-    this.sellPrice = sellPrice;
-    this.unitCount = unitCount;
-    this.type = type;
+    this.totalPrice = totalPrice;
+    if (client) {
+      this.client = client;
+      this.clientId = client.id;
+    }
   }
 }
 
-export default ProductEntity;
+export default BillEntity;
