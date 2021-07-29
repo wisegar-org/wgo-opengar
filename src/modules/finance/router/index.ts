@@ -11,9 +11,11 @@ import {
   IncomeController,
   MediaController,
   OrganizationController,
+  ProductController,
   TransactionController,
 } from '../controllers';
 import { ExportController } from '../controllers/ExportController';
+import { BillController } from '../controllers/BillController';
 
 console.log('Use environment API_TOKEN: ', process.env.API_TOKEN ? true : false);
 
@@ -30,6 +32,8 @@ export const InitializeRouter = async (app: Express, conn: Connection) => {
   OrganizationController(app, conn);
   MediaController(app, conn);
   ExportController(app, conn);
+  ProductController(app, conn);
+  BillController(app, conn);
 
   await CheckCollaboratosId(conn);
 };

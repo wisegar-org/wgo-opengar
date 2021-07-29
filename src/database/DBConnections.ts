@@ -20,6 +20,9 @@ import {
   ProjectEntity,
   RepositoryEntity,
   TransactionEntity,
+  ProductEntity,
+  BillEntity,
+  BillProductRelationEntity,
 } from '../modules/finance';
 
 const entities = [
@@ -38,6 +41,9 @@ const entities = [
   ProjectEntity,
   RepositoryEntity,
   TransactionEntity,
+  ProductEntity,
+  BillEntity,
+  BillProductRelationEntity,
 ];
 
 export enum OGConnection {
