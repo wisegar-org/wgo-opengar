@@ -2,12 +2,14 @@ import { Connection, Repository } from 'typeorm';
 import { GetConnection } from '../database';
 import { Context } from '@wisegar-org/wgo-opengar-core';
 import { FinanceMediaService } from './FinanceMediaService';
-import BillEntity from '../database/entities/BillEntity';
+import BillEntity, { BillStatus } from '../database/entities/BillEntity';
 import { CollaboratorService } from './CollaboratorService';
 import { ProductsBill } from '../utils/models';
 import BillProductRelationEntity from '../database/entities/BillProductRelationEntity';
 import { ProductsService } from './ProductService';
-import ProductEntity, { ProductType } from '../database/entities/ProductEntity';
+import { ProductType } from '../database/entities/ProductEntity';
+import { TransactionService } from './TransactionService';
+import { TransactionTypeEnum } from '../database/entities/TransactionEntity';
 
 export class BillsService {
   private connection: Connection;
@@ -16,6 +18,7 @@ export class BillsService {
   private collaboratorService: CollaboratorService;
   private productsService: ProductsService;
   private financeMediaService: FinanceMediaService;
+  private transactionService: TransactionService;
   constructor(userContext?: Context) {
     this.connection = GetConnection();
     this.billConnection = this.connection.getRepository(BillEntity);
@@ -23,6 +26,7 @@ export class BillsService {
     this.financeMediaService = new FinanceMediaService();
     this.collaboratorService = new CollaboratorService(userContext);
     this.productsService = new ProductsService(userContext);
+    this.transactionService = new TransactionService(userContext);
   }
 
   async addBill(
@@ -67,16 +71,18 @@ export class BillsService {
       order: { id: 'DESC' },
     });
 
-    const bills = result.map((prod: BillEntity) => {
+    const bills = result.map((bill: BillEntity) => {
       return {
-        id: prod.id,
-        name: prod.name,
-        description: prod.description,
-        client: prod.client,
-        clientId: prod.clientId,
-        totalPrice: prod.totalPrice,
-        docs: prod.docs,
-        products: prod.billProducts.map((prod) => ({ ...prod, productId: prod.product.id })),
+        id: bill.id,
+        name: bill.name,
+        description: bill.description,
+        client: bill.client,
+        clientId: bill.clientId,
+        totalPrice: bill.totalPrice,
+        docs: bill.docs,
+        products: bill.billProducts.map((prodBill) => ({ ...prodBill, productId: prodBill.product.id })),
+        status: bill.status,
+        date: bill.date,
       };
     });
     return bills;
@@ -145,24 +151,62 @@ export class BillsService {
       where: { id },
     });
 
-    const bill = result.map((prod: BillEntity) => {
-      const docs = prod.docs.map((media) => ({
+    const bill = result.map((bill: BillEntity) => {
+      const docs = bill.docs.map((media) => ({
         id: media.id,
         fileName: media.fileName,
         type: media.mimeType,
         displayName: media.displayName,
       }));
       return {
-        id: prod.id,
-        name: prod.name,
-        description: prod.description,
-        client: prod.client,
-        clientId: prod.clientId,
-        totalPrice: prod.totalPrice,
-        products: prod.billProducts.map((prod) => ({ ...prod, productId: prod.product.id })),
+        id: bill.id,
+        name: bill.name,
+        description: bill.description,
+        client: bill.client,
+        clientId: bill.clientId,
+        totalPrice: bill.totalPrice,
+        products: bill.billProducts.map((prodBill) => ({ ...prodBill, productId: prodBill.product.id })),
         docs: docs,
+        status: bill.status,
+        date: bill.date,
       };
     });
+    return bill;
+  }
+
+  async payBill(id: number) {
+    const bill = await this.billConnection.findOne({ where: { id } });
+    if (bill) {
+      const transaction = await this.transactionService.createTransactionByCollaborator(
+        bill.clientId,
+        bill.id,
+        bill.totalPrice,
+        `Bill Transaction ${bill.id}`,
+        TransactionTypeEnum.Bill
+      );
+      if (transaction) {
+        bill.status = BillStatus.Payed;
+        await this.billConnection.manager.save(bill);
+      }
+    }
+    return bill;
+  }
+
+  async cancelBill(id: number) {
+    const bill = await this.billConnection.findOne({
+      where: { id },
+      relations: ['billProducts', 'billProducts.product'],
+    });
+    if (bill) {
+      for await (let productBill of bill.billProducts) {
+        const prod = productBill.product;
+        prod.unitCount = prod.unitCount + productBill.count;
+        await prod.save();
+      }
+
+      bill.status = BillStatus.Cancelled;
+      await this.billConnection.manager.save(bill);
+    }
     return bill;
   }
 }
