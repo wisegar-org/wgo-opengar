@@ -12,12 +12,20 @@ import {
 import BillProductRelationEntity from './BillProductRelationEntity';
 import CollaboratorEntity from './CollaboratorEntity';
 
+export enum BillStatus {
+  Pending = 1,
+  Payed = 2,
+  Cancelled = 3,
+}
+
 @Entity()
 export class BillEntity extends BaseEntity {
   @PrimaryGeneratedColumn() id!: number;
   @Column({ default: '' }) name: string;
   @Column({ default: '' }) description: string;
   @Column({ type: 'float', default: 0 }) totalPrice: number;
+  @Column({ default: new Date(Date.now()) }) date: Date;
+  @Column({ default: BillStatus.Pending }) status: BillStatus;
 
   @Column({ nullable: true }) clientId!: number;
   @ManyToOne(() => CollaboratorEntity, (col) => col.id, {
