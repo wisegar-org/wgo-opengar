@@ -33,4 +33,22 @@ export const BillController = (app: Express, conn: Connection) => {
     };
     res.send(result);
   });
+
+  app.post('/api/payBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const { id } = req.body;
+    const result = {
+      updated: !!(await billService.payBill(parseInt(id.toString()))),
+    };
+    res.send(result);
+  });
+
+  app.post('/api/cancelBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const { id } = req.body;
+    const result = {
+      updated: !!(await billService.cancelBill(parseInt(id.toString()))),
+    };
+    res.send(result);
+  });
 };
