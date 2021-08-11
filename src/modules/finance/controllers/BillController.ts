@@ -51,4 +51,28 @@ export const BillController = (app: Express, conn: Connection) => {
     };
     res.send(result);
   });
+
+  app.get('/api/loadBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const result = await billService.loadTemplate();
+    res.send(result);
+  });
+
+  app.post('/api/saveBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const { value } = req.body;
+
+    const updated = await billService.saveTemplate(value);
+
+    res.send(updated);
+  });
+
+  app.post('/api/sendBillLink', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const { id, urlApi } = req.body;
+
+    const updated = await billService.sendBillLink(id, urlApi);
+
+    res.send(updated);
+  });
 };
