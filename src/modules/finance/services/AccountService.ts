@@ -204,40 +204,49 @@ export class AccountService {
   }
 
   async sendAccountingLink(id: number, urlApi: string) {
-    const accounting = await this.accountConnection.findOne({
-      where: {
-        id: id,
-      },
-      relations: ['contributor', 'projects', 'repos'],
-    });
+    try {
+      const accounting = await this.accountConnection.findOne({
+        where: {
+          id: id,
+        },
+        relations: ['contributor', 'projects', 'repos'],
+      });
 
-    accounting.issues = await this.issueService.getIssuesFromAccount(id);
+      accounting.issues = await this.issueService.getIssuesFromAccount(id);
 
-    const organization = await this.orgDataService.getOrganizationData();
-    const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
-    const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_ACCOUNTING);
-    const template = await this.loadTemplate();
-    const tokensTemplate = this.getAccountingTokens(accounting, organization, template);
-    const tokensTable = this.getAccountingTableTokens(accounting, organization);
-    const nameFile = `${uuidv4()}.html`;
-    const path = this.templateService.createDocument(nameFile, pageTemplate, tokensTemplate, tokensTable);
-    const secret = GetPublicKey();
-    const token = jsonwebtoken.sign(
-      { clientId: accounting.contributorId, nameDoc: nameFile, billId: accounting.id },
-      secret
-    );
+      const organization = await this.orgDataService.getOrganizationData();
+      const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
+      const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_ACCOUNTING);
+      const template = await this.loadTemplate();
+      const tokensTemplate = this.getAccountingTokens(accounting, organization, template);
+      const tokensTable = this.getAccountingTableTokens(accounting, organization);
+      const nameFile = `${uuidv4()}.html`;
+      const path = this.templateService.createDocument(nameFile, pageTemplate, tokensTemplate, tokensTable);
+      const secret = GetPublicKey();
+      const token = jsonwebtoken.sign(
+        { clientId: accounting.contributorId, nameDoc: nameFile, billId: accounting.id },
+        secret
+      );
 
-    const urlBill = `${urlApi}${path}?token=${token}`;
-    const emailTokens = this.getAccountingEmailTokens(accounting.payment_code, urlBill);
-    await this.emailService.sendEmail(
-      `<${organization.email}> ${organization.name}`,
-      accounting.contributor.email,
-      // `${accounting.contributor.name} <${accounting.contributor.email}>`,
-      `Accounting ${accounting.payment_code}`,
-      this.templateService.replaceTokens(emailTemplate, emailTokens)
-    );
-    console.log(urlBill);
-    return urlBill;
+      const urlBill = `${urlApi}${path}?token=${token}`;
+      const emailTokens = this.getAccountingEmailTokens(accounting.payment_code, urlBill);
+      const message = await this.emailService.sendEmail(
+        `<${organization.email}> ${organization.name}`,
+        accounting.contributor.email,
+        // `${accounting.contributor.name} <${accounting.contributor.email}>`,
+        `Accounting ${accounting.payment_code}`,
+        this.templateService.replaceTokens(emailTemplate, emailTokens)
+      );
+      message.message = urlBill;
+      console.log(urlBill);
+      return message;
+    } catch (error) {
+      return {
+        isSuccess: false,
+        message: 'Error',
+        error: error.message,
+      };
+    }
   }
 
   getAccountingEmailTokens(name: string, link: string) {

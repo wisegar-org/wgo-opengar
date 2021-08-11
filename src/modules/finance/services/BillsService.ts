@@ -235,37 +235,46 @@ export class BillsService {
   }
 
   async sendBillLink(id: number, urlApi: string) {
-    const bill = await this.billConnection.findOne({
-      where: { id },
-      relations: ['client', 'billProducts', 'billProducts.product'],
-    });
-    bill.status = bill.status === BillStatus.Pending ? BillStatus.Sent : bill.status;
-    if (!bill.sendDate) {
-      bill.sendDate = new Date(Date.now());
-    }
-    await bill.save();
-    const organization = await this.organizationService.getOrganizationData();
-    const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
-    const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_BILL);
-    const template = await this.loadTemplate();
-    const tokensTemplate = this.getBillTokens(bill, organization, template);
-    const tokensTable = this.getBillTableTokens(bill);
-    const nameFile = `${uuidv4()}.html`;
-    const path = this.templateService.createDocument(nameFile, pageTemplate, tokensTemplate, tokensTable);
-    const secret = GetPublicKey();
-    const token = jsonwebtoken.sign({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id }, secret);
+    try {
+      const bill = await this.billConnection.findOne({
+        where: { id },
+        relations: ['client', 'billProducts', 'billProducts.product'],
+      });
+      bill.status = bill.status === BillStatus.Pending ? BillStatus.Sent : bill.status;
+      if (!bill.sendDate) {
+        bill.sendDate = new Date(Date.now());
+      }
+      await bill.save();
+      const organization = await this.organizationService.getOrganizationData();
+      const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
+      const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_BILL);
+      const template = await this.loadTemplate();
+      const tokensTemplate = this.getBillTokens(bill, organization, template);
+      const tokensTable = this.getBillTableTokens(bill);
+      const nameFile = `${uuidv4()}.html`;
+      const path = this.templateService.createDocument(nameFile, pageTemplate, tokensTemplate, tokensTable);
+      const secret = GetPublicKey();
+      const token = jsonwebtoken.sign({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id }, secret);
 
-    const urlBill = `${urlApi}${path}?token=${token}`;
-    const emailTokens = this.getBillEmailTokens(bill.client.name, urlBill);
-    await this.emailService.sendEmail(
-      `<${organization.email}> ${organization.name}`,
-      bill.client.email,
-      //`${bill.client.name} <${bill.client.email}>`,
-      'Bill info',
-      this.templateService.replaceTokens(emailTemplate, emailTokens)
-    );
-    console.log(urlBill);
-    return urlBill;
+      const urlBill = `${urlApi}${path}?token=${token}`;
+      const emailTokens = this.getBillEmailTokens(bill.client.name, urlBill);
+      const message = await this.emailService.sendEmail(
+        `<${organization.email}> ${organization.name}`,
+        bill.client.email,
+        //`${bill.client.name} <${bill.client.email}>`,
+        'Bill info',
+        this.templateService.replaceTokens(emailTemplate, emailTokens)
+      );
+      message.message = urlBill;
+      console.log(urlBill);
+      return message;
+    } catch (error) {
+      return {
+        isSuccess: false,
+        message: 'Error',
+        error: error.message,
+      };
+    }
   }
 
   getBillEmailTokens(name: string, link: string) {
