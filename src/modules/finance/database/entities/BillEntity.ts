@@ -14,8 +14,9 @@ import CollaboratorEntity from './CollaboratorEntity';
 
 export enum BillStatus {
   Pending = 1,
-  Payed = 2,
-  Cancelled = 3,
+  Sent = 2,
+  Payed = 3,
+  Cancelled = 4,
 }
 
 @Entity()
@@ -25,6 +26,7 @@ export class BillEntity extends BaseEntity {
   @Column({ default: '' }) description: string;
   @Column({ type: 'float', default: 0 }) totalPrice: number;
   @Column({ default: new Date(Date.now()) }) date: Date;
+  @Column({ default: null }) sendDate: Date;
   @Column({ default: BillStatus.Pending }) status: BillStatus;
 
   @Column({ nullable: true }) clientId!: number;
