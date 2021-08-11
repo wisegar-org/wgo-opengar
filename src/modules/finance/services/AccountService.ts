@@ -229,7 +229,7 @@ export class AccountService {
 
     const urlBill = `${urlApi}${path}?token=${token}`;
     const emailTokens = this.getAccountingEmailTokens(accounting.payment_code, urlBill);
-    this.emailService.sendEmail(
+    await this.emailService.sendEmail(
       organization.name,
       accounting.contributor.email,
       // `${accounting.contributor.name} <${accounting.contributor.email}>`,
