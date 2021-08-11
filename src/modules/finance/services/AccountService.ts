@@ -230,7 +230,7 @@ export class AccountService {
     const urlBill = `${urlApi}${path}?token=${token}`;
     const emailTokens = this.getAccountingEmailTokens(accounting.payment_code, urlBill);
     await this.emailService.sendEmail(
-      organization.name,
+      `<${organization.email}> ${organization.name}`,
       accounting.contributor.email,
       // `${accounting.contributor.name} <${accounting.contributor.email}>`,
       `Accounting ${accounting.payment_code}`,
@@ -243,7 +243,7 @@ export class AccountService {
   getAccountingEmailTokens(name: string, link: string) {
     const tokens = <TemplateTokens>{};
     tokens['[NAME]'] = name;
-    tokens['[BILL_LINK]'] = link;
+    tokens['[ACCOUNTING_LINK]'] = link;
     return tokens;
   }
 
