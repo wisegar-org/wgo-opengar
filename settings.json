@@ -8,5 +8,12 @@
   "DB_PORT": "49153",
   "DB_USERNAME": "opengar",
   "DB_NAME": "opengar",
-  "DB_PASSWORD": "sSP3Rf22UUH9364A"
+  "DB_PASSWORD": "sSP3Rf22UUH9364A",
+  "EMAIL_HOST": "ssl0.ovh.net",
+  "EMAIL_SENDER_ADDRESS": "noreplay@wisegar.org",
+  "EMAIL_PORT": "587",
+  "EMAIL_SENDER_PASSWORD": "!=UgJ4P9=bCH%uUj",
+  "EMAIL_LOG": "false",
+  "EMAIL_DEBUG": "false",
+  "EMAIL_SECURE": "ciw7p02f70000ysjon7gztjn7c2x7GfJ"
 }
