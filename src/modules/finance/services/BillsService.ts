@@ -257,8 +257,8 @@ export class BillsService {
 
     const urlBill = `${urlApi}${path}?token=${token}`;
     const emailTokens = this.getBillEmailTokens(bill.client.name, urlBill);
-    this.emailService.sendEmail(
-      organization.name,
+    await this.emailService.sendEmail(
+      `<${organization.email}> ${organization.name}`,
       bill.client.email,
       //`${bill.client.name} <${bill.client.email}>`,
       'Bill info',
