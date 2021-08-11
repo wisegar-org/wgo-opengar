@@ -1,12 +1,21 @@
 import { EmailOptions, EmailServer } from '@wisegar-org/wgo-opengar-core';
+import { values } from 'lodash';
 
 export class EmailService {
   async sendEmail(from: string, to: string, subject: string, html: string) {
+    let result;
     await EmailServer.sendEmail(<EmailOptions>{
       from: from,
       to: to,
       subject: subject,
       html: html,
-    }).catch((err) => console.log(err));
+    })
+      .then((value: any) => {
+        result = value;
+      })
+      .catch((error: any) => {
+        result = error;
+      });
+    return result;
   }
 }
