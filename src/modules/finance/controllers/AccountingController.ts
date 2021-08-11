@@ -57,4 +57,28 @@ export const AccountingController = (app: Express, conn: Connection) => {
     const confirm = await accountService.confirmAccountById(accountingId);
     res.send({ updated: confirm });
   });
+
+  app.get('/api/loadAccountingTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const accountService = new AccountService(req.context);
+    const result = await accountService.loadTemplate();
+    res.send(result);
+  });
+
+  app.post('/api/saveAccountingTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const accountService = new AccountService(req.context);
+    const { value } = req.body;
+
+    const updated = await accountService.saveTemplate(value);
+
+    res.send(updated);
+  });
+
+  app.post('/api/sendAccountingLink', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const accountService = new AccountService(req.context);
+    const { id, urlApi } = req.body;
+
+    const updated = await accountService.sendAccountingLink(id, urlApi);
+
+    res.send(updated);
+  });
 };
