@@ -100,4 +100,15 @@ export class TransactionService {
 
     return undefined;
   }
+
+  async getTransactionBySourceID(idSource: number, transactionType: TransactionTypeEnum) {
+    const transaction = await this.transactionConnection.findOne({
+      where: {
+        sourceID: idSource,
+        type: transactionType,
+      },
+    });
+
+    return transaction;
+  }
 }
