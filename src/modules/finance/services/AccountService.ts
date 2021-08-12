@@ -244,7 +244,7 @@ export class AccountService {
       return {
         isSuccess: false,
         message: 'Error',
-        error: error.message,
+        error: error,
       };
     }
   }
