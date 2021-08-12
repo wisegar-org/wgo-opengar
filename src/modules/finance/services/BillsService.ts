@@ -10,7 +10,7 @@ import BillProductRelationEntity from '../database/entities/BillProductRelationE
 import { ProductsService } from './ProductService';
 import { ProductType } from '../database/entities/ProductEntity';
 import { TransactionService } from './TransactionService';
-import { TransactionTypeEnum } from '../database/entities/TransactionEntity';
+import TransactionEntity, { TransactionTypeEnum } from '../database/entities/TransactionEntity';
 import { TemplateService } from './TemplateService';
 import jsonwebtoken from 'jsonwebtoken';
 import OrganizationDataEntity from '../database/entities/OrganizationDataEntity';
@@ -245,11 +245,12 @@ export class BillsService {
         bill.sendDate = new Date(Date.now());
       }
       await bill.save();
+      const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
       const organization = await this.organizationService.getOrganizationData();
       const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
       const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_BILL);
       const template = await this.loadTemplate();
-      const tokensTemplate = this.getBillTokens(bill, organization, template);
+      const tokensTemplate = this.getBillTokens(bill, organization, transaction, template);
       const tokensTable = this.getBillTableTokens(bill);
       const nameFile = `${uuidv4()}.html`;
       const path = this.templateService.createDocument(nameFile, pageTemplate, tokensTemplate, tokensTable);
@@ -284,7 +285,12 @@ export class BillsService {
     return tokens;
   }
 
-  getBillTokens(bill: BillEntity, organization: OrganizationDataEntity, template: string) {
+  getBillTokens(
+    bill: BillEntity,
+    organization: OrganizationDataEntity,
+    transaction: TransactionEntity,
+    template: string
+  ) {
     const tokens = <TemplateTokens>{};
     tokens['[TITLEPAGE]'] = 'Bill';
     tokens['[BODYPAGE]'] = template;
@@ -292,7 +298,7 @@ export class BillsService {
     tokens['[CLIENT_ADDRESS]'] = bill.client.address;
     tokens['[CLIENT_EMAIL]'] = bill.client.email;
     tokens['[BILL_TOTAL]'] = `${bill.totalPrice}`;
-    tokens['[BILL_ID]'] = 'Preguntar!!!!';
+    tokens['[BILL_ID]'] = transaction && transaction.idTransaction ? transaction.idTransaction : 'Unset';
     tokens['[BILL_STATUS]'] = bill.status === BillStatus.Payed ? 'Payed' : 'Unpaid';
     const date = bill.sendDate;
     tokens['[BILL_SEND_DATE]'] = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
