@@ -272,7 +272,7 @@ export class BillsService {
       return {
         isSuccess: false,
         message: 'Error',
-        error: error.message,
+        error: error,
       };
     }
   }
