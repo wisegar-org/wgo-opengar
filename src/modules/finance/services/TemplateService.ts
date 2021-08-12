@@ -18,6 +18,23 @@ export class TemplateService {
     return result;
   }
 
+  setTableStyle(body: string) {
+    const splitBody = body.split('<tbody');
+    let result = splitBody.splice(0, 1)[0];
+    splitBody.forEach((str: string) => {
+      const strPatern = str.split('</tbody>');
+      const patern = strPatern.splice(0, 1)[0];
+      if (patern.indexOf('[PRODUCT_NAME]') !== -1 || patern.indexOf('[ISSUE_TITLE]') !== -1) {
+        result += `<tbody class="tokenTable" ${patern.replace('<tr>', '<tr class="tokenTable">')} ${strPatern.join(
+          '</tbody>'
+        )}`;
+      } else {
+        result += `<tbody ${str}`;
+      }
+    });
+    return result;
+  }
+
   replaceTokensTable(body: string, tokens: TemplateTokens[]) {
     const splitBlody = body.split('<tr');
     let result = splitBlody.splice(0, 1)[0];
@@ -40,6 +57,7 @@ export class TemplateService {
 
   createDocument(titleDoc: string, html: string, tokens?: TemplateTokens, tableTokens?: TemplateTokens[]) {
     let body = !!tokens ? this.replaceTokens(html, tokens) : html;
+    body = this.setTableStyle(body);
     body = !!tableTokens ? this.replaceTokensTable(body, tableTokens) : body;
     const filePath = normalize(join(GetPublicReportPath(), titleDoc));
     const fileRelativePath = `${REPORT_STORAGE_FOLDER_NAME}/${titleDoc}`;
