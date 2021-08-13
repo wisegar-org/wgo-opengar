@@ -14,6 +14,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import { TemplateService } from './TemplateService';
 import { EmailService } from './EmailService';
 import { v4 as uuidv4 } from 'uuid';
+import { getTokenToReport } from './SettingsService';
 
 const PATH_ACCOUTING = '/content/AccountingTemplate.html';
 const PATH_EMAIL_ACCOUNTING = '/content/AccountingEmailTemplate.html';
@@ -220,25 +221,27 @@ export class AccountService {
       const template = await this.loadTemplate();
       const tokensTemplate = this.getAccountingTokens(accounting, organization, template);
       const tokensTable = this.getAccountingTableTokens(accounting, organization);
+      const accountingBody = this.templateService.getDocumentBody(template, tokensTemplate, tokensTable);
       const nameFile = `${uuidv4()}.html`;
-      const path = this.templateService.createDocument(nameFile, pageTemplate, tokensTemplate, tokensTable);
-      const secret = GetPublicKey();
-      const token = jsonwebtoken.sign(
-        { clientId: accounting.contributorId, nameDoc: nameFile, billId: accounting.id },
-        secret
+      const documentInfo = this.templateService.createDocument(
+        nameFile,
+        pageTemplate,
+        this.getDocumentTokens(accounting, accountingBody)
       );
+      const token = getTokenToReport({ clientId: accounting.contributorId, nameDoc: nameFile, billId: accounting.id });
 
-      const urlBill = `${urlApi}${path}?token=${token}`;
-      const emailTokens = this.getAccountingEmailTokens(accounting.payment_code, urlBill);
+      const urlAccounting = `${urlApi}${documentInfo.path}?token=${token}`;
+      const emailTokens = this.getAccountingEmailTokens(accounting.contributor.name, urlAccounting, accountingBody);
+      const emailBody = this.templateService.replaceTokens(emailTemplate, emailTokens);
       const message = await this.emailService.sendEmail(
         `<${organization.email}> ${organization.name}`,
         accounting.contributor.email,
         // `${accounting.contributor.name} <${accounting.contributor.email}>`,
         `Accounting ${accounting.payment_code}`,
-        this.templateService.replaceTokens(emailTemplate, emailTokens)
+        this.templateService.replaceTokens(pageTemplate, this.getDocumentTokens(accounting, emailBody))
       );
-      message.message = urlBill;
-      console.log(urlBill);
+      message.message = urlAccounting;
+      console.log(urlAccounting);
       return message;
     } catch (error) {
       return {
@@ -249,10 +252,18 @@ export class AccountService {
     }
   }
 
-  getAccountingEmailTokens(name: string, link: string) {
+  getAccountingEmailTokens(name: string, link: string, bodyAccoutning: string) {
     const tokens = <TemplateTokens>{};
     tokens['[NAME]'] = name;
     tokens['[ACCOUNTING_LINK]'] = link;
+    tokens['[ACCOUTING_BODY]'] = bodyAccoutning;
+    return tokens;
+  }
+
+  getDocumentTokens(accounting: AccountEntity, body: string) {
+    const tokens = <TemplateTokens>{};
+    tokens['[TITLEPAGE]'] = `${accounting.payment_code}`;
+    tokens['[BODYPAGE]'] = body;
     return tokens;
   }
 
@@ -269,8 +280,6 @@ export class AccountService {
     const total = total_issues + total_internet;
 
     const tokens = <TemplateTokens>{};
-    tokens['[TITLEPAGE]'] = `${accounting.payment_code}`;
-    tokens['[BODYPAGE]'] = template;
     tokens['[COLLABORATOR_NAME]'] = `${collaborator.name}`;
     tokens['[COLLABORATOR_ADDRESS]'] = `${collaborator.address}`;
     tokens['[COLLABORATOR_EMAIL]'] = `${collaborator.email}`;
