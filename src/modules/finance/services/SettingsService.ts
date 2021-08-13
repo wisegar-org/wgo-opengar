@@ -1,3 +1,4 @@
+import { cypherData, decypherData } from '@wisegar-org/wgo-opengar-core';
 import { join } from 'path';
 
 export const PUBLIC_FOLDER_NAME = 'public';
@@ -24,4 +25,12 @@ export const GetPublicPathKey = () => {
 export const GetPublicReportPath = () => {
   const APP_WEB_ROOT = GetWebRootKey();
   return join(APP_WEB_ROOT, PUBLIC_REPORT_RELATIVE_PATH);
+};
+
+export const getTokenToReport = (data: any) => {
+  return cypherData(JSON.stringify(data));
+};
+
+export const getDataOfToken = (token: string) => {
+  return JSON.parse(decypherData(token));
 };

@@ -1,4 +1,3 @@
-import { EmailServer } from '@wisegar-org/wgo-opengar-core';
 import { unlinkSync, writeFileSync, existsSync, readFileSync } from 'fs-extra';
 import { join, normalize } from 'path';
 import { TemplateTokens } from '../utils/models';
@@ -57,15 +56,30 @@ export class TemplateService {
 
   createDocument(titleDoc: string, html: string, tokens?: TemplateTokens, tableTokens?: TemplateTokens[]) {
     let body = !!tokens ? this.replaceTokens(html, tokens) : html;
-    body = this.setTableStyle(body);
-    body = !!tableTokens ? this.replaceTokensTable(body, tableTokens) : body;
+    if (tableTokens) {
+      body = this.setTableStyle(body);
+      body = this.replaceTokensTable(body, tableTokens);
+    }
+
     const filePath = normalize(join(GetPublicReportPath(), titleDoc));
     const fileRelativePath = `${REPORT_STORAGE_FOLDER_NAME}/${titleDoc}`;
     if (existsSync(filePath)) {
       unlinkSync(filePath);
     }
     writeFileSync(filePath, body, { encoding: 'utf-8' });
-    return fileRelativePath;
+    return {
+      body: body,
+      path: fileRelativePath,
+    };
+  }
+
+  getDocumentBody(html: string, tokens?: TemplateTokens, tableTokens?: TemplateTokens[]) {
+    let body = !!tokens ? this.replaceTokens(html, tokens) : html;
+    if (tableTokens) {
+      body = this.setTableStyle(body);
+      body = this.replaceTokensTable(body, tableTokens);
+    }
+    return body;
   }
 
   getTemplateContent(path: string) {
