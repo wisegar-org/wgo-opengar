@@ -17,6 +17,7 @@ import OrganizationDataEntity from '../database/entities/OrganizationDataEntity'
 import { OrganizationDataService } from './OrganizationDataService';
 import { EmailService } from './EmailService';
 import { v4 as uuidv4 } from 'uuid';
+import { getTokenToReport } from './SettingsService';
 
 const PATH_BILL = '/content/BillTemplate.html';
 const PATH_EMAIL_BILL = '/content/BillEmailTemplate.html';
@@ -250,21 +251,26 @@ export class BillsService {
       const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
       const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_BILL);
       const template = await this.loadTemplate();
-      const tokensTemplate = this.getBillTokens(bill, organization, transaction, template);
+      const tokensTemplate = this.getBillTokens(bill, transaction);
       const tokensTable = this.getBillTableTokens(bill);
+      const billBody = this.templateService.getDocumentBody(template, tokensTemplate, tokensTable);
       const nameFile = `${uuidv4()}.html`;
-      const path = this.templateService.createDocument(nameFile, pageTemplate, tokensTemplate, tokensTable);
-      const secret = GetPublicKey();
-      const token = jsonwebtoken.sign({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id }, secret);
+      const documentBill = this.templateService.createDocument(
+        nameFile,
+        pageTemplate,
+        this.getDocumentTokens(billBody)
+      );
+      const token = getTokenToReport({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id });
 
-      const urlBill = `${urlApi}${path}?token=${token}`;
-      const emailTokens = this.getBillEmailTokens(bill.client.name, urlBill);
+      const urlBill = `${urlApi}${documentBill.path}?token=${token}`;
+      const emailTokens = this.getBillEmailTokens(bill.client.name, urlBill, billBody);
+      const emailBody = this.templateService.replaceTokens(emailTemplate, emailTokens);
       const message = await this.emailService.sendEmail(
         `<${organization.email}> ${organization.name}`,
         bill.client.email,
         //`${bill.client.name} <${bill.client.email}>`,
         'Bill info',
-        this.templateService.replaceTokens(emailTemplate, emailTokens)
+        this.templateService.replaceTokens(pageTemplate, this.getDocumentTokens(emailBody))
       );
       message.message = urlBill;
       console.log(urlBill);
@@ -278,22 +284,23 @@ export class BillsService {
     }
   }
 
-  getBillEmailTokens(name: string, link: string) {
+  getBillEmailTokens(name: string, link: string, bodyBill: string) {
     const tokens = <TemplateTokens>{};
     tokens['[NAME]'] = name;
     tokens['[BILL_LINK]'] = link;
+    tokens['[BILL_BODY]'] = bodyBill;
     return tokens;
   }
 
-  getBillTokens(
-    bill: BillEntity,
-    organization: OrganizationDataEntity,
-    transaction: TransactionEntity,
-    template: string
-  ) {
+  getDocumentTokens(body: string) {
     const tokens = <TemplateTokens>{};
     tokens['[TITLEPAGE]'] = 'Bill';
-    tokens['[BODYPAGE]'] = template;
+    tokens['[BODYPAGE]'] = body;
+    return tokens;
+  }
+
+  getBillTokens(bill: BillEntity, transaction: TransactionEntity) {
+    const tokens = <TemplateTokens>{};
     tokens['[CLIENT_NAME]'] = bill.client.name;
     tokens['[CLIENT_ADDRESS]'] = bill.client.address;
     tokens['[CLIENT_EMAIL]'] = bill.client.email;
