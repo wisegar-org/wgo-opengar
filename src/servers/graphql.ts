@@ -1,23 +1,17 @@
-import { ApolloServer } from "apollo-server-express";
-import { buildSchema } from "type-graphql";
-import { Session } from "@wisegar-org/wgo-opengar-core";
-import { UserResolver } from "../graphql/resolvers/UserResolver";
-import {
-  authChecker,
-  Context,
-  formatError,
-  IContextUser,
-} from "../graphql/types/graphql-utils";
-import { verifyAccessToken } from "../services/jwtToken";
-import { RoleResolver } from "../graphql/resolvers/RoleResolver";
-import { ClientResolver } from "../graphql/resolvers/ClientResolver";
+import { ApolloServer } from 'apollo-server-express';
+import { buildSchema } from 'type-graphql';
+import { Session } from '@wisegar-org/wgo-opengar-core';
+import { UserResolver } from '../graphql/resolvers/UserResolver';
+import { authChecker, Context, formatError, IContextUser } from '../graphql/types/graphql-utils';
+import { verifyAccessToken } from '../services/jwtToken';
+import { RoleResolver } from '../graphql/resolvers/RoleResolver';
 
 export class GraphQlServer {
   static bootGraphql = async (app: any) => {
     const schema = await buildSchema({
-      resolvers: [UserResolver, RoleResolver, ClientResolver],
+      resolvers: [UserResolver, RoleResolver],
       authChecker: authChecker,
-      authMode: "null",
+      authMode: 'null',
     });
 
     const server = new ApolloServer({
@@ -25,8 +19,8 @@ export class GraphQlServer {
       formatError,
       context: async ({ req, res }) => {
         let user = undefined;
-        const token = req.headers.authorization || "";
-        console.log("TOKEN ", token);
+        const token = req.headers.authorization || '';
+        console.log('TOKEN ', token);
         const data = verifyAccessToken(res, token);
         if (data) {
           const session = await Session.findOne({ uuid: data.session });

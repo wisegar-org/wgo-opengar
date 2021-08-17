@@ -1,6 +1,5 @@
 import { Query, Resolver } from 'type-graphql';
 import { ApiService } from '../../services/ApiService';
-import { ClientDataService } from '../../services/data-services/ClientDataService';
 
 @Resolver()
 export class AppResolver {
