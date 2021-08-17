@@ -15,7 +15,6 @@ import { DataSeeder } from './content/Seeder';
 import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/ServerOptions';
 import { RoleResolver } from './graphql/resolvers/RoleResolver';
 import { UserResolver } from './graphql/resolvers/UserResolver';
-import { ClientResolver } from './graphql/resolvers/ClientResolver';
 import { InitializeGithubRouter } from './modules/finance';
 import { ServerContext } from './servers/ServerContext';
 import { ServerAuthenticator } from './servers/ServerAuthenticator';
@@ -43,7 +42,7 @@ DBConector.Connect(ogConn)
       middlewares: (app) => {
         InitializeGithubRouter(app, connection);
       },
-      resolvers: [ClientResolver, RoleResolver, UserResolver, AppResolver],
+      resolvers: [RoleResolver, UserResolver, AppResolver],
     };
 
     boot(serverOptions, seeder);
