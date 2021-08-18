@@ -1,6 +1,13 @@
 import { Connection, Repository } from 'typeorm';
 import { GetConnection } from '../database';
-import { Context, GetPublicKey } from '@wisegar-org/wgo-opengar-core';
+import {
+  Context,
+  GetPublicKey,
+  EmailServer,
+  TemplateService,
+  TemplateEntity,
+  ParseTemplateService,
+} from '@wisegar-org/wgo-opengar-core';
 import { FinanceMediaService } from './FinanceMediaService';
 import BillEntity, { BillStatus } from '../database/entities/BillEntity';
 import { CollaboratorService } from './CollaboratorService';
@@ -11,17 +18,13 @@ import { ProductsService } from './ProductService';
 import { ProductType } from '../database/entities/ProductEntity';
 import { TransactionService } from './TransactionService';
 import TransactionEntity, { TransactionTypeEnum } from '../database/entities/TransactionEntity';
-import { TemplateService } from './TemplateService';
-import jsonwebtoken from 'jsonwebtoken';
 import OrganizationDataEntity from '../database/entities/OrganizationDataEntity';
 import { OrganizationDataService } from './OrganizationDataService';
-import { EmailService } from './EmailService';
 import { v4 as uuidv4 } from 'uuid';
-import { getTokenToReport } from './SettingsService';
+import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
 
-const PATH_BILL = '/content/BillTemplate.html';
-const PATH_EMAIL_BILL = '/content/BillEmailTemplate.html';
-const PATH_PAGE_TEMPLATE = '/content/TemplatePage.html';
+const BILL_CONSTANT = 'BILL_TEMPLATE';
+const BILL_EMAIL_CONSTANT = 'BILL_EMAIL_TEMPLATE';
 export class BillsService {
   private connection: Connection;
   private billConnection: Repository<BillEntity>;
@@ -30,9 +33,10 @@ export class BillsService {
   private productsService: ProductsService;
   private financeMediaService: FinanceMediaService;
   private transactionService: TransactionService;
-  private templateService: TemplateService;
+  private parseTemplateService: ParseTemplateService;
   private organizationService: OrganizationDataService;
-  private emailService: EmailService;
+  private emailService: EmailServer;
+  private templateService: TemplateService;
   constructor(userContext?: Context) {
     this.connection = GetConnection();
     this.billConnection = this.connection.getRepository(BillEntity);
@@ -42,8 +46,9 @@ export class BillsService {
     this.productsService = new ProductsService(userContext);
     this.transactionService = new TransactionService(userContext);
     this.organizationService = new OrganizationDataService();
-    this.templateService = new TemplateService();
-    this.emailService = new EmailService();
+    this.emailService = new EmailServer();
+    this.templateService = new TemplateService(this.connection);
+    this.parseTemplateService = new ParseTemplateService();
   }
 
   async addBill(
@@ -227,54 +232,81 @@ export class BillsService {
     return bill;
   }
 
-  async loadTemplate(): Promise<string> {
-    return this.templateService.getTemplateContent(PATH_BILL);
+  async loadTemplate(entityTemplate: string): Promise<TemplateEntity> {
+    let bill = await this.templateService.getTemplateByEntityTemplate(entityTemplate);
+    if (!bill) {
+      bill = await this.templateService.saveDocumentTamplate(0, entityTemplate, '', entityTemplate, null);
+    }
+    if (!bill.styleTemplateId) {
+      bill.styleTemplate = await this.templateService.saveStyleTemplate(0, `STYLE_${entityTemplate}`, '', bill.id);
+      bill.styleTemplateId = bill.styleTemplate.id;
+    }
+    return bill;
   }
 
-  async saveTemplate(value: string) {
-    return this.templateService.setTemplateContent(PATH_BILL, value);
+  async saveTemplate(value: TemplateEntity) {
+    return await this.templateService.saveDocumentTamplate(
+      value.id,
+      value.title,
+      value.body,
+      value.entityTemplate,
+      value.styleTemplate.id
+    );
+  }
+  async saveStyleTemplate(value: TemplateEntity, documentToSet: number) {
+    return await this.templateService.saveStyleTemplate(value.id, value.title, value.body, documentToSet);
   }
 
   async sendBillLink(id: number, urlApi: string) {
     try {
+      const templateDoc = await this.loadTemplate(BILL_CONSTANT);
+      const templateStyle = await this.loadTemplate(BILL_EMAIL_CONSTANT);
       const bill = await this.billConnection.findOne({
-        where: { id },
+        where: { id: id },
         relations: ['client', 'billProducts', 'billProducts.product'],
       });
-      bill.status = bill.status === BillStatus.Pending ? BillStatus.Sent : bill.status;
-      if (!bill.sendDate) {
-        bill.sendDate = new Date(Date.now());
-      }
-      await bill.save();
+      const nameFile = `${uuidv4()}.html`;
+      const path_token = getTokenToReport({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id });
+      const urlBill = `${urlApi}${REPORT_STORAGE_FOLDER_NAME}/${nameFile}?token=${path_token}`;
+      console.log(urlBill);
       const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
       const organization = await this.organizationService.getOrganizationData();
-      const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
-      const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_BILL);
-      const template = await this.loadTemplate();
-      const tokensTemplate = this.getBillTokens(bill, transaction);
-      const tokensTable = this.getBillTableTokens(bill);
-      const billBody = this.templateService.getDocumentBody(template, tokensTemplate, tokensTable);
-      const nameFile = `${uuidv4()}.html`;
-      const documentBill = this.templateService.createDocument(
-        nameFile,
-        pageTemplate,
-        this.getDocumentTokens(billBody)
-      );
-      const token = getTokenToReport({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id });
+      const tokens = this.getBillTokens(bill, transaction, organization);
+      tokens['[BILL_LINK]'] = urlBill;
+      const tableTokens = this.getBillTableTokens(bill);
+      const exportPath = GetPublicReportPath();
 
-      const urlBill = `${urlApi}${documentBill.path}?token=${token}`;
-      const emailTokens = this.getBillEmailTokens(bill.client.name, urlBill, billBody);
-      const emailBody = this.templateService.replaceTokens(emailTemplate, emailTokens);
-      const message = await this.emailService.sendEmail(
-        `<${organization.email}> ${organization.name}`,
-        bill.client.email,
-        //`${bill.client.name} <${bill.client.email}>`,
-        'Bill info',
-        this.templateService.replaceTokens(pageTemplate, this.getDocumentTokens(emailBody))
+      let doc = await this.parseTemplateService.parseDocumentBody(
+        templateDoc.body,
+        templateDoc.styleTemplate.body,
+        tokens,
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: tableTokens,
+        }
       );
-      message.message = urlBill;
-      console.log(urlBill);
-      return message;
+
+      await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
+
+      doc = await this.parseTemplateService.parseDocumentBody(
+        templateStyle.body,
+        templateStyle.styleTemplate.body,
+        tokens,
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: tableTokens,
+        }
+      );
+
+      // await this.templateService.createDocument(exportPath, `email_${nameFile}`, doc);
+      const result = await this.emailService.send({
+        from: `<${organization.email}> ${organization.name}`,
+        to: bill.client.email,
+        subject: 'Bill info',
+        html: doc,
+      });
+      result.message = urlBill;
+      return result;
     } catch (error) {
       return {
         isSuccess: false,
@@ -284,23 +316,40 @@ export class BillsService {
     }
   }
 
-  getBillEmailTokens(name: string, link: string, bodyBill: string) {
-    const tokens = <TemplateTokens>{};
-    tokens['[NAME]'] = name;
-    tokens['[BILL_LINK]'] = link;
-    tokens['[BILL_BODY]'] = bodyBill;
-    return tokens;
+  async getDocumentBody(entityTemplate: string, idBill: number, templateHTML?: string, templateStyle?: string) {
+    const templateDoc = await this.loadTemplate(entityTemplate);
+    const bill = await this.billConnection.findOne({
+      where: { id: idBill },
+      relations: ['client', 'billProducts', 'billProducts.product'],
+    });
+    const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
+    const organization = await this.organizationService.getOrganizationData();
+    const tokens = this.getBillTokens(bill, transaction, organization);
+    const tableTokens = this.getBillTableTokens(bill);
+
+    return await this.parseTemplateService.parseDocumentBody(
+      templateHTML || templateDoc.body,
+      templateStyle || templateDoc.styleTemplate.body,
+      tokens,
+      {
+        cicleParse: this.replaceTableTokens,
+        tokens: tableTokens,
+      }
+    );
   }
 
-  getDocumentTokens(body: string) {
+  replaceTableTokens(templateHTML: string, tokens: TemplateTokens[], templateService: ParseTemplateService) {
+    let result = '';
+    tokens.forEach((token) => {
+      result += templateService.replaceTokens(templateHTML, token);
+    });
+    return result;
+  }
+
+  getBillTokens(bill: BillEntity, transaction: TransactionEntity, organization: OrganizationDataEntity) {
     const tokens = <TemplateTokens>{};
     tokens['[TITLEPAGE]'] = 'Bill';
-    tokens['[BODYPAGE]'] = body;
-    return tokens;
-  }
-
-  getBillTokens(bill: BillEntity, transaction: TransactionEntity) {
-    const tokens = <TemplateTokens>{};
+    tokens['[ORGANIZATION_NAME]'] = organization.name;
     tokens['[CLIENT_NAME]'] = bill.client.name;
     tokens['[CLIENT_ADDRESS]'] = bill.client.address;
     tokens['[CLIENT_EMAIL]'] = bill.client.email;

@@ -1,6 +1,6 @@
 import { Express } from 'express';
 import { Connection } from 'typeorm';
-import { AuthorizeUserRol, RolEntityEnum } from '@wisegar-org/wgo-opengar-core';
+import { AuthorizeUserRol, RolEntityEnum, TemplateEntity } from '@wisegar-org/wgo-opengar-core';
 import { BillsService } from '../services/BillsService';
 
 export const BillController = (app: Express, conn: Connection) => {
@@ -54,7 +54,19 @@ export const BillController = (app: Express, conn: Connection) => {
 
   app.get('/api/loadBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const billService = new BillsService(req.context);
-    const result = await billService.loadTemplate();
+    const { entityTemplate } = req.query;
+    const result = await billService.loadTemplate(entityTemplate as string);
+    res.send(result);
+  });
+  app.post('/api/getBillDocumentPreview', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const { entityTemplate, idBill, templateHTML, templateStyle } = req.body;
+    const result = await billService.getDocumentBody(
+      entityTemplate as string,
+      parseInt(idBill as string),
+      templateHTML as string,
+      templateStyle as string
+    );
     res.send(result);
   });
 
@@ -62,7 +74,15 @@ export const BillController = (app: Express, conn: Connection) => {
     const billService = new BillsService(req.context);
     const { value } = req.body;
 
-    const updated = await billService.saveTemplate(value);
+    const updated = await billService.saveTemplate(value as TemplateEntity);
+
+    res.send(updated);
+  });
+  app.post('/api/saveBillStyleTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const { value, documentToSet } = req.body;
+
+    const updated = await billService.saveStyleTemplate(value as TemplateEntity, parseInt(documentToSet as string));
 
     res.send(updated);
   });
