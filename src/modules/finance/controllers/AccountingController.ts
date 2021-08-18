@@ -1,6 +1,6 @@
 import { Express } from 'express';
 import { Connection } from 'typeorm';
-import { AuthorizeUserRol, RolEntityEnum } from '@wisegar-org/wgo-opengar-core';
+import { AuthorizeUserRol, RolEntityEnum, TemplateEntity } from '@wisegar-org/wgo-opengar-core';
 import { AccountService } from '../services';
 import { AddAccountParams } from '../utils/models';
 
@@ -60,7 +60,19 @@ export const AccountingController = (app: Express, conn: Connection) => {
 
   app.get('/api/loadAccountingTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const accountService = new AccountService(req.context);
-    const result = await accountService.loadTemplate();
+    const { entityTemplate } = req.query;
+    const result = await accountService.loadTemplate(entityTemplate as string);
+    res.send(result);
+  });
+  app.post('/api/getAccountingDocumentPreview', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const accountingService = new AccountService(req.context);
+    const { entityTemplate, idAccounting, templateHTML, templateStyle } = req.body;
+    const result = await accountingService.getDocumentBody(
+      entityTemplate as string,
+      parseInt(idAccounting as string),
+      templateHTML as string,
+      templateStyle as string
+    );
     res.send(result);
   });
 
@@ -68,7 +80,15 @@ export const AccountingController = (app: Express, conn: Connection) => {
     const accountService = new AccountService(req.context);
     const { value } = req.body;
 
-    const updated = await accountService.saveTemplate(value);
+    const updated = await accountService.saveTemplate(value as TemplateEntity);
+
+    res.send(updated);
+  });
+  app.post('/api/saveAccountingStyleTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+    const accountService = new AccountService(req.context);
+    const { value, documentToSet } = req.body;
+
+    const updated = await accountService.saveStyleTemplate(value as TemplateEntity, parseInt(documentToSet as string));
 
     res.send(updated);
   });
