@@ -15,5 +15,6 @@
   "EMAIL_SENDER_PASSWORD": "!=UgJ4P9=bCH%uUj",
   "EMAIL_LOG": "false",
   "EMAIL_DEBUG": "false",
-  "EMAIL_SECURE": "ciw7p02f70000ysjon7gztjn7c2x7GfJ"
+  "EMAIL_SECURE": "ciw7p02f70000ysjon7gztjn7c2x7GfJ",
+  "EMAIL_SENDER_ANONYMOUS": "false"
 }
