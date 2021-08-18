@@ -7,18 +7,22 @@ import { CollaboratorService, ProjectService } from '.';
 import { TransactionService } from './TransactionService';
 import { OrganizationDataService } from './OrganizationDataService';
 import { ExpensesService } from './ExpensesService';
-import { Context, GetPublicKey } from '@wisegar-org/wgo-opengar-core';
-import { TemplateTokens } from '../utils/models';
+import {
+  Context,
+  EmailServer,
+  GetPublicKey,
+  ParseTemplateService,
+  TemplateEntity,
+  TemplateService,
+} from '@wisegar-org/wgo-opengar-core';
 import OrganizationDataEntity from '../database/entities/OrganizationDataEntity';
 import jsonwebtoken from 'jsonwebtoken';
-import { TemplateService } from './TemplateService';
-import { EmailService } from './EmailService';
 import { v4 as uuidv4 } from 'uuid';
-import { getTokenToReport } from './SettingsService';
+import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
+import { TemplateTokens } from '../utils/models';
 
-const PATH_ACCOUTING = '/content/AccountingTemplate.html';
-const PATH_EMAIL_ACCOUNTING = '/content/AccountingEmailTemplate.html';
-const PATH_PAGE_TEMPLATE = '/content/TemplatePage.html';
+const ACCOUNTING_CONSTANT = 'ACCOUNTING_TEMPLATE';
+const ACCOUNTING_EMAIL_CONSTANT = 'ACCOUNTING_EMAIL_TEMPLATE';
 export class AccountService {
   private connection: Connection;
   private accountConnection: Repository<AccountEntity>;
@@ -28,7 +32,8 @@ export class AccountService {
   private issueService: IssueService;
   private expenseService: ExpensesService;
   private templateService: TemplateService;
-  private emailService: EmailService;
+  private parseTemplateService: ParseTemplateService;
+  private emailService: EmailServer;
 
   private orgDataService: OrganizationDataService;
   path: string;
@@ -43,8 +48,9 @@ export class AccountService {
     this.issueService = new IssueService(userContext);
     this.expenseService = new ExpensesService(userContext);
     this.orgDataService = new OrganizationDataService();
-    this.templateService = new TemplateService();
-    this.emailService = new EmailService();
+    this.templateService = new TemplateService(this.connection);
+    this.parseTemplateService = new ParseTemplateService();
+    this.emailService = new EmailServer();
   }
 
   async Add(
@@ -196,54 +202,93 @@ export class AccountService {
     return false;
   }
 
-  async loadTemplate(): Promise<string> {
-    return this.templateService.getTemplateContent(PATH_ACCOUTING);
+  async loadTemplate(entityTemplate: string): Promise<TemplateEntity> {
+    let accountingTemplate = await this.templateService.getTemplateByEntityTemplate(entityTemplate);
+    if (!accountingTemplate) {
+      accountingTemplate = await this.templateService.saveDocumentTamplate(0, entityTemplate, '', entityTemplate, null);
+    }
+    if (!accountingTemplate.styleTemplateId) {
+      accountingTemplate.styleTemplate = await this.templateService.saveStyleTemplate(
+        0,
+        `STYLE_${entityTemplate}`,
+        '',
+        accountingTemplate.id
+      );
+      accountingTemplate.styleTemplateId = accountingTemplate.styleTemplate.id;
+    }
+    return accountingTemplate;
   }
 
-  async saveTemplate(value: string) {
-    return this.templateService.setTemplateContent(PATH_ACCOUTING, value);
+  async saveTemplate(value: TemplateEntity) {
+    return await this.templateService.saveDocumentTamplate(
+      value.id,
+      value.title,
+      value.body,
+      value.entityTemplate,
+      value.styleTemplate.id
+    );
+  }
+
+  async saveStyleTemplate(value: TemplateEntity, documentToSet: number) {
+    return await this.templateService.saveStyleTemplate(value.id, value.title, value.body, documentToSet);
   }
 
   async sendAccountingLink(id: number, urlApi: string) {
     try {
+      const templateDoc = await this.loadTemplate(ACCOUNTING_CONSTANT);
+      const templateStyle = await this.loadTemplate(ACCOUNTING_EMAIL_CONSTANT);
       const accounting = await this.accountConnection.findOne({
-        where: {
-          id: id,
-        },
+        where: { id: id },
         relations: ['contributor', 'projects', 'repos'],
       });
-
       accounting.issues = await this.issueService.getIssuesFromAccount(id);
-
-      const organization = await this.orgDataService.getOrganizationData();
-      const pageTemplate = this.templateService.getTemplateContent(PATH_PAGE_TEMPLATE);
-      const emailTemplate = this.templateService.getTemplateContent(PATH_EMAIL_ACCOUNTING);
-      const template = await this.loadTemplate();
-      const tokensTemplate = this.getAccountingTokens(accounting, organization, template);
-      const tokensTable = this.getAccountingTableTokens(accounting, organization);
-      const accountingBody = this.templateService.getDocumentBody(template, tokensTemplate, tokensTable);
       const nameFile = `${uuidv4()}.html`;
-      const documentInfo = this.templateService.createDocument(
-        nameFile,
-        pageTemplate,
-        this.getDocumentTokens(accounting, accountingBody)
-      );
-      const token = getTokenToReport({ clientId: accounting.contributorId, nameDoc: nameFile, billId: accounting.id });
-
-      const urlAccounting = `${urlApi}${documentInfo.path}?token=${token}`;
-      const emailTokens = this.getAccountingEmailTokens(accounting.contributor.name, urlAccounting, accountingBody);
-      const emailBody = this.templateService.replaceTokens(emailTemplate, emailTokens);
-      const message = await this.emailService.sendEmail(
-        `<${organization.email}> ${organization.name}`,
-        accounting.contributor.email,
-        // `${accounting.contributor.name} <${accounting.contributor.email}>`,
-        `Accounting ${accounting.payment_code}`,
-        this.templateService.replaceTokens(pageTemplate, this.getDocumentTokens(accounting, emailBody))
-      );
-      message.message = urlAccounting;
+      const path_token = getTokenToReport({
+        clientId: accounting.contributor.id,
+        nameDoc: nameFile,
+        billId: accounting.id,
+      });
+      const urlAccounting = `${urlApi}${REPORT_STORAGE_FOLDER_NAME}/${nameFile}?token=${path_token}`;
       console.log(urlAccounting);
-      return message;
+      const organization = await this.orgDataService.getOrganizationData();
+      const tokens = this.getAccountingTokens(accounting, organization);
+      tokens['[ACCOUNTING_LINK]'] = urlAccounting;
+      const tableTokens = this.getAccountingTableTokens(accounting, organization);
+      const exportPath = GetPublicReportPath();
+
+      let doc = await this.parseTemplateService.parseDocumentBody(
+        templateDoc.body,
+        templateDoc.styleTemplate.body,
+        tokens,
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: tableTokens,
+        }
+      );
+
+      await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
+
+      doc = await this.parseTemplateService.parseDocumentBody(
+        templateStyle.body,
+        templateStyle.styleTemplate.body,
+        tokens,
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: tableTokens,
+        }
+      );
+
+      await this.parseTemplateService.createDocument(exportPath, `email_${nameFile}`, doc);
+      const result = await this.emailService.send({
+        from: `<${organization.email}> ${organization.name}`,
+        to: accounting.contributor.email,
+        subject: `Accounting ${accounting.payment_code}`,
+        html: doc,
+      });
+      result.message = urlAccounting;
+      return result;
     } catch (error) {
+      console.log(error);
       return {
         isSuccess: false,
         message: 'Error',
@@ -252,22 +297,37 @@ export class AccountService {
     }
   }
 
-  getAccountingEmailTokens(name: string, link: string, bodyAccoutning: string) {
-    const tokens = <TemplateTokens>{};
-    tokens['[NAME]'] = name;
-    tokens['[ACCOUNTING_LINK]'] = link;
-    tokens['[ACCOUTING_BODY]'] = bodyAccoutning;
-    return tokens;
+  async getDocumentBody(entityTemplate: string, idAccounting: number, templateHTML?: string, templateStyle?: string) {
+    const templateDoc = await this.loadTemplate(entityTemplate);
+    const accounting = await this.accountConnection.findOne({
+      where: { id: idAccounting },
+      relations: ['contributor', 'projects', 'repos'],
+    });
+    accounting.issues = await this.issueService.getIssuesFromAccount(idAccounting);
+    const organization = await this.orgDataService.getOrganizationData();
+    const tokens = this.getAccountingTokens(accounting, organization);
+    const tableTokens = this.getAccountingTableTokens(accounting, organization);
+
+    return await this.parseTemplateService.parseDocumentBody(
+      templateHTML || templateDoc.body,
+      templateStyle || templateDoc.styleTemplate.body,
+      tokens,
+      {
+        cicleParse: this.replaceTableTokens,
+        tokens: tableTokens,
+      }
+    );
   }
 
-  getDocumentTokens(accounting: AccountEntity, body: string) {
-    const tokens = <TemplateTokens>{};
-    tokens['[TITLEPAGE]'] = `${accounting.payment_code}`;
-    tokens['[BODYPAGE]'] = body;
-    return tokens;
+  replaceTableTokens(templateHTML: string, tokens: TemplateTokens[], templateService: ParseTemplateService) {
+    let result = '';
+    tokens.forEach((token) => {
+      result += templateService.replaceTokens(templateHTML, token);
+    });
+    return result;
   }
 
-  getAccountingTokens(accounting: AccountEntity, organization: OrganizationDataEntity, template: string) {
+  getAccountingTokens(accounting: AccountEntity, organization: OrganizationDataEntity) {
     const collaborator = accounting.contributor;
     let internet = (accounting.total_hours * 60) / 1024;
     internet = Math.round(internet * 100) / 100;
@@ -280,10 +340,13 @@ export class AccountService {
     const total = total_issues + total_internet;
 
     const tokens = <TemplateTokens>{};
+
+    tokens['[TITLEPAGE]'] = `${accounting.payment_code}`;
     tokens['[COLLABORATOR_NAME]'] = `${collaborator.name}`;
     tokens['[COLLABORATOR_ADDRESS]'] = `${collaborator.address}`;
     tokens['[COLLABORATOR_EMAIL]'] = `${collaborator.email}`;
     tokens['[ACCOUNTING_ID]'] = `${accounting.payment_code}`;
+    tokens['[ACCOUNTING_STATUS]'] = `${accounting.status === AccountingStatus.Confirmed ? 'Confirmed' : 'Pending'}`;
     tokens['[ACCOUNTING_DATE]'] = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
     tokens['[ACCOUNTING_HOURS]'] = `${accounting.total_hours}`;
     tokens['[ACCOUNTING_INTERNET]'] = `${internet}Gb`;
