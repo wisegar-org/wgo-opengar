@@ -1,5 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
-import { UserEntity, MediaEntity, Session, RolEntity } from '@wisegar-org/wgo-opengar-core';
+import { UserEntity, MediaEntity, Session, RolEntity, TemplateEntity } from '@wisegar-org/wgo-opengar-core';
 import {
   GetDBHostKey,
   GetDBNameKey,
@@ -44,6 +44,7 @@ const entities = [
   ProductEntity,
   BillEntity,
   BillProductRelationEntity,
+  TemplateEntity,
 ];
 
 export enum OGConnection {
