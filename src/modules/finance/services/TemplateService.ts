@@ -1,6 +1,6 @@
+import { ITemplateTokens } from '@wisegar-org/wgo-opengar-core';
 import { unlinkSync, writeFileSync, existsSync, readFileSync } from 'fs-extra';
 import { join, normalize } from 'path';
-import { TemplateTokens } from '../utils/models';
 import { GetPublicReportPath, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
 
 export class TemplateService {
@@ -9,7 +9,7 @@ export class TemplateService {
     this.path = __filename.split('services')[0];
   }
 
-  replaceTokens(body: string, tokens: TemplateTokens) {
+  replaceTokens(body: string, tokens: ITemplateTokens) {
     let result = body;
     Object.keys(tokens).forEach((token: string) => {
       result = result.split(token).join(tokens[token]);
@@ -34,7 +34,7 @@ export class TemplateService {
     return result;
   }
 
-  replaceTokensTable(body: string, tokens: TemplateTokens[]) {
+  replaceTokensTable(body: string, tokens: ITemplateTokens[]) {
     const splitBlody = body.split('<tr');
     let result = splitBlody.splice(0, 1)[0];
     splitBlody.forEach((str: string) => {
@@ -43,7 +43,7 @@ export class TemplateService {
       if (patern.indexOf('[PRODUCT_NAME]') !== -1 || patern.indexOf('[ISSUE_TITLE]') !== -1) {
         const tableCell = `<tr${patern}</tr>`;
         let cells = '';
-        tokens.forEach((token: TemplateTokens) => {
+        tokens.forEach((token: ITemplateTokens) => {
           cells += this.replaceTokens(tableCell, token);
         });
         result += `${cells}${strPatern.join('</tr>')}`;
@@ -54,7 +54,7 @@ export class TemplateService {
     return result;
   }
 
-  createDocument(titleDoc: string, html: string, tokens?: TemplateTokens, tableTokens?: TemplateTokens[]) {
+  createDocument(titleDoc: string, html: string, tokens?: ITemplateTokens, tableTokens?: ITemplateTokens[]) {
     let body = !!tokens ? this.replaceTokens(html, tokens) : html;
     if (tableTokens) {
       body = this.setTableStyle(body);
@@ -73,7 +73,7 @@ export class TemplateService {
     };
   }
 
-  getDocumentBody(html: string, tokens?: TemplateTokens, tableTokens?: TemplateTokens[]) {
+  getDocumentBody(html: string, tokens?: ITemplateTokens, tableTokens?: ITemplateTokens[]) {
     let body = !!tokens ? this.replaceTokens(html, tokens) : html;
     if (tableTokens) {
       body = this.setTableStyle(body);
