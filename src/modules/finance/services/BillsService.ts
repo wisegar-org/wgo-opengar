@@ -7,11 +7,11 @@ import {
   TemplateService,
   TemplateEntity,
   ParseTemplateService,
+  ITemplateTokens,
 } from '@wisegar-org/wgo-opengar-core';
 import { FinanceMediaService } from './FinanceMediaService';
 import BillEntity, { BillStatus } from '../database/entities/BillEntity';
 import { CollaboratorService } from './CollaboratorService';
-import { TemplateTokens } from '../utils/models';
 import { ProductsBill } from '../utils/models';
 import BillProductRelationEntity from '../database/entities/BillProductRelationEntity';
 import { ProductsService } from './ProductService';
@@ -338,7 +338,7 @@ export class BillsService {
     );
   }
 
-  replaceTableTokens(templateHTML: string, tokens: TemplateTokens[], templateService: ParseTemplateService) {
+  replaceTableTokens(templateHTML: string, tokens: ITemplateTokens[], templateService: ParseTemplateService) {
     let result = '';
     tokens.forEach((token) => {
       result += templateService.replaceTokens(templateHTML, token);
@@ -347,7 +347,7 @@ export class BillsService {
   }
 
   getBillTokens(bill: BillEntity, transaction: TransactionEntity, organization: OrganizationDataEntity) {
-    const tokens = <TemplateTokens>{};
+    const tokens = <ITemplateTokens>{};
     tokens['[TITLEPAGE]'] = 'Bill';
     tokens['[ORGANIZATION_NAME]'] = organization.name;
     tokens['[CLIENT_NAME]'] = bill.client.name;
@@ -362,8 +362,8 @@ export class BillsService {
   }
 
   getBillTableTokens(bill: BillEntity) {
-    const tokens: TemplateTokens[] = bill.billProducts.map((billProd, index) => {
-      const tokensBill = <TemplateTokens>{};
+    const tokens: ITemplateTokens[] = bill.billProducts.map((billProd, index) => {
+      const tokensBill = <ITemplateTokens>{};
       tokensBill['[INDEX]'] = `${index + 1}`;
       tokensBill['[PRODUCT_NAME]'] = billProd.product.name;
       tokensBill['[PRODUCT_QTY]'] = `${billProd.count}`;

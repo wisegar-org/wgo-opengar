@@ -11,6 +11,7 @@ import {
   Context,
   EmailServer,
   GetPublicKey,
+  ITemplateTokens,
   ParseTemplateService,
   TemplateEntity,
   TemplateService,
@@ -19,10 +20,9 @@ import OrganizationDataEntity from '../database/entities/OrganizationDataEntity'
 import jsonwebtoken from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
-import { TemplateTokens } from '../utils/models';
 
-const ACCOUNTING_CONSTANT = 'ACCOUNTING_TEMPLATE';
-const ACCOUNTING_EMAIL_CONSTANT = 'ACCOUNTING_EMAIL_TEMPLATE';
+export const ACCOUNTING_CONSTANT = 'ACCOUNTING_TEMPLATE';
+export const ACCOUNTING_EMAIL_CONSTANT = 'ACCOUNTING_EMAIL_TEMPLATE';
 export class AccountService {
   private connection: Connection;
   private accountConnection: Repository<AccountEntity>;
@@ -319,7 +319,7 @@ export class AccountService {
     );
   }
 
-  replaceTableTokens(templateHTML: string, tokens: TemplateTokens[], templateService: ParseTemplateService) {
+  replaceTableTokens(templateHTML: string, tokens: ITemplateTokens[], templateService: ParseTemplateService) {
     let result = '';
     tokens.forEach((token) => {
       result += templateService.replaceTokens(templateHTML, token);
@@ -339,7 +339,7 @@ export class AccountService {
     let taxes = accounting.taxes;
     const total = total_issues + total_internet;
 
-    const tokens = <TemplateTokens>{};
+    const tokens = <ITemplateTokens>{};
 
     tokens['[TITLEPAGE]'] = `${accounting.payment_code}`;
     tokens['[COLLABORATOR_NAME]'] = `${collaborator.name}`;
@@ -367,8 +367,8 @@ export class AccountService {
 
   getAccountingTableTokens(accounting: AccountEntity, organization: OrganizationDataEntity) {
     const collaborator = accounting.contributor;
-    const tokens: TemplateTokens[] = accounting.issues.map((issue, index) => {
-      const tokensBill = <TemplateTokens>{};
+    const tokens: ITemplateTokens[] = accounting.issues.map((issue, index) => {
+      const tokensBill = <ITemplateTokens>{};
       tokensBill['[INDEX]'] = `${index + 1}`;
       tokensBill['[ORGANIZATION_UNIT]'] = `${organization.accountingUnit}`;
       tokensBill['[ISSUE_HOURS]'] = `${issue.hours}`;

@@ -127,7 +127,3 @@ export interface ProductsBill {
   count: number;
   remove: boolean;
 }
-
-export interface TemplateTokens {
-  [key: string]: string;
-}
