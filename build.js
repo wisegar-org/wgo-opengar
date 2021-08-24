@@ -56,13 +56,10 @@ if (!fs.existsSync(destination)) {
 }
 fs.emptyDirSync(destination);
 
-
-console.log('\x1b[33m', 'Creating build.cfg file...');
-const BUILD_FILE_CONF = `./build.cfg`;
-fs.writeFileSync(BUILD_FILE_CONF, `MODULES=${MODULES} \n`, function (err) {
-  if (err) return console.log(err);
+console.log('\x1b[33m', 'Creating settings.build.json file...');
+fs.writeJsonSync('settings.build.json', {
+  MODULES: MODULES
 });
-
 
 console.log('\x1b[33m', 'Running npm install...');
 execSync('npm install', { stdio: 'inherit' });
