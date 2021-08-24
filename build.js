@@ -25,6 +25,9 @@ console.log('\x1b[33m', `WEB_ROOT: ${WEB_ROOT}`);
 const APP_WEB_ROOT = path.join(WEB_ROOT, APP_DEAMON_NAME);
 console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
 
+const MODULES = BUILD_ARGS && BUILD_ARGS.length > 5 ? BUILD_ARGS[5] : '';
+console.log('\x1b[33m', `MODULES: ${MODULES}`);
+
 const APP_START_FILE = path.join(APP_WEB_ROOT, 'index.js');
 
 const packageJson = fs.readJsonSync('package.json', { throws: false });
@@ -52,6 +55,14 @@ if (!fs.existsSync(destination)) {
   fs.mkdirSync(destination);
 }
 fs.emptyDirSync(destination);
+
+
+console.log('\x1b[33m', 'Creating build.cfg file...');
+const BUILD_FILE_CONF = `./build.cfg`;
+fs.writeFileSync(BUILD_FILE_CONF, `MODULES=${MODULES} \n`, function (err) {
+  if (err) return console.log(err);
+});
+
 
 console.log('\x1b[33m', 'Running npm install...');
 execSync('npm install', { stdio: 'inherit' });
