@@ -8,44 +8,17 @@ import {
   GetDBUserNameKey,
 } from '@wisegar-org/wgo-opengar-core';
 
-import {
-  AccountEntity,
-  CollaboratorEntity,
-  ExpenseEntity,
-  IncomeEntity,
-  IssueEntity,
-  LabelEntity,
-  MilestoneEntity,
-  OrganizationDataEntity,
-  ProjectEntity,
-  RepositoryEntity,
-  TransactionEntity,
-  ProductEntity,
-  BillEntity,
-  BillProductRelationEntity,
-} from '../modules/finance';
+import { FINANCE_MODULE, getFinanceEntities } from '../modules/finance';
+import { AGV_MODULE, getAGVEntities } from '../modules/agv';
+import { BuildSettings } from '../settings/BuildSettings';
 
-const entities = [
-  UserEntity,
-  MediaEntity,
-  Session,
-  RolEntity,
-  AccountEntity,
-  CollaboratorEntity,
-  ExpenseEntity,
-  IncomeEntity,
-  IssueEntity,
-  LabelEntity,
-  MilestoneEntity,
-  OrganizationDataEntity,
-  ProjectEntity,
-  RepositoryEntity,
-  TransactionEntity,
-  ProductEntity,
-  BillEntity,
-  BillProductRelationEntity,
-  TemplateEntity,
-];
+const buildConfig = new BuildSettings();
+
+const entities: any[] = [UserEntity, MediaEntity, Session, RolEntity, TemplateEntity]
+  .concat(buildConfig.isModuleInConfig(FINANCE_MODULE) ? getFinanceEntities() : [])
+  .concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVEntities() : []);
+
+console.log('Loaded entities: ', entities);
 
 export enum OGConnection {
   Development = 0,
