@@ -46,6 +46,8 @@ DBConector.Connect(ogConn)
       },
       controllers: [],
       port: parseInt(port),
+      maxFileSize: 50000000,
+      maxFiles: 10,
       middlewares: (app) => {
         if (buildConfig.isModuleInConfig(FINANCE_MODULE)) InitializeGithubRouter(app, connection);
       },
