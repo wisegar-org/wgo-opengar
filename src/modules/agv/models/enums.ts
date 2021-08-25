@@ -8,3 +8,7 @@ export enum EventStateEnum {
   Confirmed = 'Confirmed',
   Cancelled = 'Cancelled',
 }
+
+export enum AGVRoles {
+  Admin = 'agvAdmin',
+}

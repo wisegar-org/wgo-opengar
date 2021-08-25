@@ -2,6 +2,7 @@ import { UserEntity, RolEntity, RolEntityEnum, UserDataService } from '@wisegar-
 import * as _ from 'lodash';
 import { Connection, Repository } from 'typeorm';
 import { DBConector } from '../database/DBConector';
+import { AGVRoles } from '../modules/agv/models';
 
 export class DataSeeder {
   _userDataSerive: UserDataService;
@@ -20,6 +21,7 @@ export class DataSeeder {
     const connection = DBConector.GetConnection();
     const roleRepository = connection.getRepository(RolEntity);
     const userRepository = connection.getRepository(UserEntity);
+    const _userDataSerive = new UserDataService(connection);
 
     const roleObj = await roleRepository.findOne({
       name: RolEntityEnum.superAdmin,
@@ -31,8 +33,29 @@ export class DataSeeder {
     if (_.isEmpty(admin)) {
       let superAdmin = new UserEntity('Wisegar', 'Admin', 'wisegar', 'info@wisegar.org', 'Wisegar.0', rolesList, true);
       try {
-        const _userDataSerive = new UserDataService(connection);
         const userSeedResult = await _userDataSerive.create(superAdmin, [roleObj.id]);
+      } catch (error) {}
+    }
+
+    const roleAGV = await roleRepository.findOne({
+      name: AGVRoles.Admin,
+    });
+    const rolesAGVList = [roleAGV];
+    let adminAGV = await userRepository.findOne({
+      userName: 'agvAdmin',
+    });
+    if (_.isEmpty(adminAGV)) {
+      let superAdmin = new UserEntity(
+        'AGV',
+        'Admin',
+        'agvAdmin',
+        'assembleagenitorivezia@gmail.com',
+        'agvAdmin.0',
+        rolesAGVList,
+        true
+      );
+      try {
+        const userSeedResult = await _userDataSerive.create(superAdmin, [roleAGV.id]);
       } catch (error) {}
     }
   }
@@ -49,7 +72,7 @@ export class DataSeeder {
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
-      userRole.name = 'superAdmin';
+      userRole.name = RolEntityEnum.superAdmin;
       await this.roleRepository.save(userRole);
     }
 
@@ -59,7 +82,17 @@ export class DataSeeder {
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
-      userRole.name = 'customer';
+      userRole.name = RolEntityEnum.customer;
+      await this.roleRepository.save(userRole);
+    }
+
+    roleObj = await this.roleRepository.findOne({
+      name: AGVRoles.Admin,
+    });
+
+    if (_.isEmpty(roleObj)) {
+      let userRole = new RolEntity();
+      userRole.name = AGVRoles.Admin;
       await this.roleRepository.save(userRole);
     }
   }
