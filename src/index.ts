@@ -15,14 +15,21 @@ import { DataSeeder } from './content/Seeder';
 import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/ServerOptions';
 import { RoleResolver } from './graphql/resolvers/RoleResolver';
 import { UserResolver } from './graphql/resolvers/UserResolver';
-import { InitializeGithubRouter } from './modules/finance';
+import { FINANCE_MODULE, InitializeGithubRouter } from './modules/finance';
 import { ServerContext } from './servers/ServerContext';
 import { ServerAuthenticator } from './servers/ServerAuthenticator';
 import { AppResolver } from './graphql/resolvers/AppResolver';
+import { BuildSettings } from './settings/BuildSettings';
+import { AGV_MODULE, getAGVResolvers } from './modules/agv';
+import { NonEmptyArray } from 'type-graphql';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
 let ogConn = environment ? OGConnection.Environment : OGConnection.Development;
+
+const buildConfig = new BuildSettings();
+const resolvers: any[] = [RoleResolver, UserResolver, AppResolver];
+resolvers.concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVResolvers() : []);
 
 DBConector.Connect(ogConn)
   .then(async (connection) => {
@@ -40,9 +47,9 @@ DBConector.Connect(ogConn)
       controllers: [],
       port: parseInt(port),
       middlewares: (app) => {
-        InitializeGithubRouter(app, connection);
+        if (buildConfig.isModuleInConfig(FINANCE_MODULE)) InitializeGithubRouter(app, connection);
       },
-      resolvers: [RoleResolver, UserResolver, AppResolver],
+      resolvers: resolvers as NonEmptyArray<Function>,
     };
 
     boot(serverOptions, seeder);
