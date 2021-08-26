@@ -22,13 +22,14 @@ import { AppResolver } from './graphql/resolvers/AppResolver';
 import { BuildSettings } from './settings/BuildSettings';
 import { AGV_MODULE, getAGVResolvers } from './modules/agv';
 import { NonEmptyArray } from 'type-graphql';
+import { MediaResolver } from './graphql/resolvers/MediaResolver';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
 let ogConn = environment ? OGConnection.Environment : OGConnection.Development;
 
 const buildConfig = new BuildSettings();
-const resolvers: any[] = [RoleResolver, UserResolver, AppResolver];
+const resolvers: any[] = [RoleResolver, UserResolver, AppResolver, MediaResolver];
 resolvers.concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVResolvers() : []);
 
 DBConector.Connect(ogConn)
