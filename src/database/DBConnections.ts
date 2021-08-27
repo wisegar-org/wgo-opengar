@@ -1,5 +1,4 @@
 import { ConnectionOptions } from 'typeorm';
-import { UserEntity, MediaEntity, Session, RolEntity, TemplateEntity } from '@wisegar-org/wgo-opengar-core';
 import {
   GetDBHostKey,
   GetDBNameKey,
@@ -7,16 +6,9 @@ import {
   GetDBPortKey,
   GetDBUserNameKey,
 } from '@wisegar-org/wgo-opengar-core';
+import { BuildEntities } from './entities';
 
-import { FINANCE_MODULE, getFinanceEntities } from '../modules/finance';
-import { AGV_MODULE, getAGVEntities } from '../modules/agv';
-import { BuildSettings } from '../settings/BuildSettings';
-
-const buildConfig = new BuildSettings();
-
-const entities: any[] = [UserEntity, MediaEntity, Session, RolEntity, TemplateEntity]
-  .concat(buildConfig.isModuleInConfig(FINANCE_MODULE) ? getFinanceEntities() : [])
-  .concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVEntities() : []);
+const entities: any[] = BuildEntities;
 
 console.log('Loaded entities: ', entities);
 
