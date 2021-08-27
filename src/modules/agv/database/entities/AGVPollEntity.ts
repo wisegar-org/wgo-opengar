@@ -8,7 +8,7 @@ export class AGVPollEntity extends BaseEntity {
   @Column({ default: '' }) email: string;
   @Column({ default: '' }) name: string;
   @Column({ default: '' }) class: string;
-  @Column({ default: '' }) allowPhoto: string;
+  @Column({ default: false }) allowPhoto: boolean;
   @Column({ default: false }) allergy: boolean;
   @Column({ default: '' }) foodAllergy: string;
   @Column({ default: false }) intolerance: boolean;
