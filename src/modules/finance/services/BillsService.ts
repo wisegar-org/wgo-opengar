@@ -322,20 +322,32 @@ export class BillsService {
       where: { id: idBill },
       relations: ['client', 'billProducts', 'billProducts.product'],
     });
-    const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
-    const organization = await this.organizationService.getOrganizationData();
-    const tokens = this.getBillTokens(bill, transaction, organization);
-    const tableTokens = this.getBillTableTokens(bill);
+    if (bill) {
+      const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
+      const organization = await this.organizationService.getOrganizationData();
+      const tokens = this.getBillTokens(bill, transaction, organization);
+      const tableTokens = this.getBillTableTokens(bill);
 
-    return await this.parseTemplateService.parseDocumentBody(
-      templateHTML || templateDoc.body,
-      templateStyle || templateDoc.styleTemplate.body,
-      tokens,
-      {
-        cicleParse: this.replaceTableTokens,
-        tokens: tableTokens,
-      }
-    );
+      return await this.parseTemplateService.parseDocumentBody(
+        templateHTML || templateDoc.body,
+        templateStyle || templateDoc.styleTemplate.body,
+        tokens,
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: tableTokens,
+        }
+      );
+    } else {
+      return await this.parseTemplateService.parseDocumentBody(
+        templateHTML || templateDoc.body,
+        templateStyle || templateDoc.styleTemplate.body,
+        <ITemplateTokens>{},
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: [],
+        }
+      );
+    }
   }
 
   replaceTableTokens(templateHTML: string, tokens: ITemplateTokens[], templateService: ParseTemplateService) {
