@@ -12,7 +12,7 @@ export class BuildSettings {
 
   constructor() {
     this.buildJsonPath = normalize(join(process.env.APP_WEB_ROOT, 'settings.build.json'));
-    this.buildJson = readJsonSync(this.buildJsonPath, { throws: false }) || { MODULES: 'wgo' };
+    this.buildJson = readJsonSync(this.buildJsonPath, { throws: false }) || { MODULES: 'finance' };
     this.listModules = this.buildJson.MODULES;
   }
 
