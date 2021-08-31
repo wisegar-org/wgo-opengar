@@ -1,4 +1,4 @@
-import { Context, ContextUser, Session, validateAccessToken } from '@wisegar-org/wgo-opengar-core';
+import { Context, ContextUser, SessionEntity, validateAccessToken } from '@wisegar-org/wgo-opengar-core';
 import { getConnection } from 'typeorm';
 
 export const GetContext = async ({ req, res }) => {
@@ -24,7 +24,7 @@ export const GetContext = async ({ req, res }) => {
   if (data) {
     try {
       const connection = getConnection();
-      const sessionRepository = connection.getRepository(Session);
+      const sessionRepository = connection.getRepository(SessionEntity);
       const session = await sessionRepository.findOne({ id: data.sessionId });
 
       if (session) {
