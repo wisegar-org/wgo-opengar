@@ -70,7 +70,7 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.post('/api/saveBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/saveBillTemplate', AuthorizeUserRol([]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { value } = req.body;
 
@@ -78,7 +78,7 @@ export const BillController = (app: Express, conn: Connection) => {
 
     res.send(updated);
   });
-  app.post('/api/saveBillStyleTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/saveBillStyleTemplate', AuthorizeUserRol([]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { value, documentToSet } = req.body;
 
@@ -87,7 +87,7 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send(updated);
   });
 
-  app.post('/api/sendBillLink', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/sendBillLink', AuthorizeUserRol([]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { id, urlApi } = req.body;
 
