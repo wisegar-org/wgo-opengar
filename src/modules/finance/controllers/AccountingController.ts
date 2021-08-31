@@ -76,7 +76,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.post('/api/saveAccountingTemplate', AuthorizeUserRol([]), async (req, res) => {
+  app.post('/api/saveAccountingTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { value } = req.body;
 
@@ -84,7 +84,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
 
     res.send(updated);
   });
-  app.post('/api/saveAccountingStyleTemplate', AuthorizeUserRol([]), async (req, res) => {
+  app.post('/api/saveAccountingStyleTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { value, documentToSet } = req.body;
 
