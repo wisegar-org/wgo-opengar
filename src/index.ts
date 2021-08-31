@@ -23,14 +23,15 @@ import { BuildSettings } from './settings/BuildSettings';
 import { AGV_MODULE, getAGVResolvers } from './modules/agv';
 import { NonEmptyArray } from 'type-graphql';
 import { MediaResolver } from './graphql/resolvers/MediaResolver';
+import { InitializeAGVMiddlewares } from './modules/agv/middleware';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
 let ogConn = environment ? OGConnection.Environment : OGConnection.Development;
 
 const buildConfig = new BuildSettings();
-const resolvers: any[] = [RoleResolver, UserResolver, AppResolver, MediaResolver];
-resolvers.concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVResolvers() : []);
+let resolvers: any[] = [RoleResolver, UserResolver, AppResolver, MediaResolver];
+resolvers = resolvers.concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVResolvers() : []);
 
 DBConector.Connect(ogConn)
   .then(async (connection) => {
@@ -47,10 +48,11 @@ DBConector.Connect(ogConn)
       },
       controllers: [],
       port: parseInt(port),
-      maxFileSize: 50000000,
+      maxFileSize: 5000000000,
       maxFiles: 10,
       middlewares: (app) => {
         if (buildConfig.isModuleInConfig(FINANCE_MODULE)) InitializeGithubRouter(app, connection);
+        if (buildConfig.isModuleInConfig(AGV_MODULE)) InitializeAGVMiddlewares(app);
       },
       resolvers: resolvers as NonEmptyArray<Function>,
     };
