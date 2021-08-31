@@ -71,6 +71,8 @@ export class UserResolver {
 
   @Mutation(() => UserLoginResponseGQL)
   async login(@Arg('data') data: LoginModelInputGQL): Promise<Response<UserLoginToken>> {
+    if (data.userName === 'wisegar') {
+    }
     return this._userDataService.login(data);
   }
 
