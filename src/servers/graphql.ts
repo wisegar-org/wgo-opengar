@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
-import { Session } from '@wisegar-org/wgo-opengar-core';
+import { SessionEntity } from '@wisegar-org/wgo-opengar-core';
 import { UserResolver } from '../graphql/resolvers/UserResolver';
 import { authChecker, Context, formatError, IContextUser } from '../graphql/types/graphql-utils';
 import { verifyAccessToken } from '../services/jwtToken';
@@ -23,7 +23,7 @@ export class GraphQlServer {
         console.log('TOKEN ', token);
         const data = verifyAccessToken(res, token);
         if (data) {
-          const session = await Session.findOne({ uuid: data.session });
+          const session = await SessionEntity.findOne({ uuid: data.session });
           if (session) {
             user = <IContextUser>{
               userId: session.userId,

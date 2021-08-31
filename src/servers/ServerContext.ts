@@ -26,7 +26,7 @@ export const ServerContext = (connection: Connection) => {
         roles: user.roles.map((role) => role.name),
         sessionId: '',
         userId: user.id.toString(),
-        // language: user.language
+        language: user.language,
       };
     } catch (error) {
       throw error;
