@@ -35,9 +35,7 @@ export class MediaModel {
   }
 
   getRelativeStorageFilePath(isPublic: boolean, filename: string) {
-    const storageDir = isPublic
-      ? `${PUBLIC_FOLDER_NAME}/${FILES_STORAGE_FOLDER_NAME}`
-      : `${PRIVATE_FOLDER_NAME}/${FILES_STORAGE_FOLDER_NAME}`;
+    const storageDir = isPublic ? `${FILES_STORAGE_FOLDER_NAME}` : `${FILES_STORAGE_FOLDER_NAME}`;
 
     return join(storageDir, filename);
   }
@@ -91,7 +89,8 @@ export class MediaModel {
 
   async uploadFile(data: MediaInputGQL): Promise<MediaResponseGQL> {
     try {
-      const { createReadStream, filename, mimetype, encoding } = (await data.file) as any;
+      const fileInput = await data.file;
+      const { createReadStream, filename, mimetype, encoding } = fileInput as any;
 
       const stream: ReadStream = createReadStream();
 
@@ -116,5 +115,18 @@ export class MediaModel {
     } catch (error) {
       return this.getErrorMediaResponse(data.isPublic, error);
     }
+  }
+
+  async getMediaList(listId: number[]) {
+    const result: MediaEntity[] = [];
+    await Promise.all(
+      listId.map(async (id) => {
+        const media = await this.repository.findOne(id);
+        if (media) {
+          result.push(media);
+        }
+      })
+    );
+    return result;
   }
 }
