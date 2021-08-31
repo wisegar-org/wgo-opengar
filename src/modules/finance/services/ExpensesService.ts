@@ -139,7 +139,11 @@ export class ExpensesService {
   }
 
   async createExpenseByAccounting(accounting: AccountEntity): Promise<ExpenseEntity | undefined> {
-    const total_to_pay = accounting.getTotalToPay();
+    if (accounting.value === 0) {
+      accounting.value = accounting.getTotalToPay();
+      await accounting.save();
+    }
+    const total_to_pay = accounting.value;
     const collaborator = await this.collaboratorController.findCollaboratorById(accounting.contributorId);
     const expense = new ExpenseEntity(
       'Confirmed accounting',

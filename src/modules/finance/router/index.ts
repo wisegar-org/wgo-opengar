@@ -2,7 +2,7 @@ import { Express, static as expressStatics } from 'express';
 import { Connection } from 'typeorm';
 import { RegisterConnection } from '../database';
 import { InitializeMiddlewares } from '../middlewares';
-import { CheckCollaboratosId, exportPublicPaths } from '../content';
+import { CheckCollaboratosId, exportPublicPaths, SetAccountingValue } from '../content';
 import {
   AccountingController,
   CollaboratorController,
@@ -41,4 +41,5 @@ export const InitializeRouter = async (app: Express, conn: Connection) => {
 
   exportPublicPaths();
   await CheckCollaboratosId(conn);
+  await SetAccountingValue(conn);
 };
