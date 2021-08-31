@@ -2,7 +2,7 @@ import { Field, ObjectType } from 'type-graphql';
 import { MediaResponseGQL } from '../../../../graphql/types/responses/MediaResponseGQL';
 
 @ObjectType()
-export class AGVEnventResponse {
+export class AGVEventResponse {
   @Field(() => Number, { nullable: false }) id: number;
   @Field(() => String) title: string;
   @Field(() => String) description: string;
@@ -16,7 +16,7 @@ export class AGVEnventResponse {
   @Field(() => Boolean) enrollment: boolean;
 
   @Field((type) => MediaResponseGQL, { nullable: true })
-  imgTile?: MediaResponseGQL;
+  imgTitle?: MediaResponseGQL;
   @Field((type) => [MediaResponseGQL], { nullable: true })
   imgList?: MediaResponseGQL[];
 }

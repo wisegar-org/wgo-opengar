@@ -32,9 +32,9 @@ export class AGVEventEntity extends BaseEntity {
   state: EventStateEnum;
 
   @Column({ nullable: true })
-  imgTileId: number;
+  imgTitleId: number;
   @ManyToOne(() => MediaEntity, (media) => media.id)
-  imgTile: MediaEntity;
+  imgTitle: MediaEntity;
 
   @ManyToMany(() => MediaEntity)
   @JoinTable()

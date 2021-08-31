@@ -15,7 +15,7 @@ export class AGVEnventInput {
   @Field(() => Boolean) enrollment: boolean;
 
   @Field((type) => Int, { nullable: true })
-  imgTile?: number;
+  imgTitle?: number;
   @Field((type) => [Int], { nullable: true })
   imgList?: number[];
 }
