@@ -139,6 +139,7 @@ export class AccountService {
       accounting.taxes = taxes || 0;
       accounting.details = details ? details : accounting.details;
       accounting.payment_comment = payment_comment ? payment_comment : accounting.payment_comment;
+      accounting.value = accounting.getTotalToPay();
       await accounting.save();
 
       return true;

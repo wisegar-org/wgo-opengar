@@ -6,81 +6,85 @@ import {
   Entity,
   Column,
   BaseEntity,
-  OneToMany
-} from 'typeorm'
-import { RepositoryEntity } from './RepositoryEntity'
-import { ProjectEntity } from './ProjectEntity'
-import { CollaboratorEntity } from './CollaboratorEntity'
-import { IssueEntity } from './IssueEntity'
-import { ObjExt as ObjExtUtils } from '@wisegar-org/wgo-opengar-core'
-import moment from 'moment'
+  OneToMany,
+  BeforeInsert,
+} from 'typeorm';
+import { RepositoryEntity } from './RepositoryEntity';
+import { ProjectEntity } from './ProjectEntity';
+import { CollaboratorEntity } from './CollaboratorEntity';
+import { IssueEntity } from './IssueEntity';
+import { ObjExt as ObjExtUtils } from '@wisegar-org/wgo-opengar-core';
+import moment from 'moment';
 
 export enum AccountingStatus {
   Pending = 1,
   Confirmed = 2,
-  Cancelled = 3
+  Cancelled = 3,
 }
 
 @Entity()
 export class AccountEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
   @Column()
-  date: Date
+  date: Date;
   @Column({ nullable: true })
-  initDate: Date
+  initDate: Date;
   @Column({ nullable: true })
-  endDate: Date
+  endDate: Date;
   @Column({ type: 'float' })
-  total_hours: number
+  total_hours: number;
   @Column({ default: 0 })
-  total_projects: number
+  total_projects: number;
   @Column({ default: 0 })
-  total_issues: number
+  total_issues: number;
   @Column({ default: 0 })
-  total_repos: number
+  total_repos: number;
   @Column({ type: 'float', default: 0 })
-  pay_by_hours: number
+  pay_by_hours: number;
   @Column({ type: 'float', default: 0 })
-  pay_to_internet: number
+  pay_to_internet: number;
 
   @Column({ type: 'float', nullable: true, default: 0 })
-  internet_cost: number
+  internet_cost: number;
 
   @Column({ type: 'float', nullable: true, default: 0 })
-  taxes: number
+  taxes: number;
   @Column({ type: 'text', nullable: true, default: '' })
-  details: string
+  details: string;
   @Column({ nullable: true, default: '' })
-  payment_comment: string
+  payment_comment: string;
 
   @Column({ default: '' })
-  payment_code: string
+  payment_code: string;
 
   @Column({ default: AccountingStatus.Pending })
-  status: AccountingStatus
+  status: AccountingStatus;
+
+  @Column({ type: 'float', default: 0 })
+  value: number;
 
   @Column({ nullable: true })
-  contributorId!: number
+  contributorId!: number;
   @ManyToOne(() => CollaboratorEntity, (coll) => coll.accounts, {
-    nullable: true
+    nullable: true,
   })
-  contributor!: CollaboratorEntity
+  contributor!: CollaboratorEntity;
 
   @OneToMany(() => IssueEntity, (issue) => issue.accountId, { cascade: true })
-  issues?: IssueEntity[]
+  issues?: IssueEntity[];
 
   @ManyToMany(() => ProjectEntity, (project) => project.accounts, {
-    cascade: true
+    cascade: true,
   })
   @JoinTable()
-  projects?: ProjectEntity[]
+  projects?: ProjectEntity[];
 
   @ManyToMany(() => RepositoryEntity, (repo) => repo.accounts, {
-    cascade: true
+    cascade: true,
   })
   @JoinTable()
-  repos?: RepositoryEntity[]
+  repos?: RepositoryEntity[];
 
   constructor(
     total_hours: number,
@@ -99,46 +103,54 @@ export class AccountEntity extends BaseEntity {
     initDate: Date,
     endDate: Date
   ) {
-    super()
-    let contributorCode = 'NC'
+    super();
+    let contributorCode = 'NC';
 
-    this.date = new Date(Date.now())
-    this.total_hours = total_hours
-    this.total_issues = total_issues
-    this.total_projects = total_projects
-    this.total_repos = total_repos
-    this.pay_by_hours = pay_by_hours
-    this.pay_to_internet = pay_to_internet
-    this.initDate = initDate
-    this.endDate = endDate
+    this.date = new Date(Date.now());
+    this.total_hours = total_hours;
+    this.total_issues = total_issues;
+    this.total_projects = total_projects;
+    this.total_repos = total_repos;
+    this.pay_by_hours = pay_by_hours;
+    this.pay_to_internet = pay_to_internet;
+    this.initDate = initDate;
+    this.endDate = endDate;
 
     if (contributor) {
-      this.contributorId = contributor.id
-      this.contributor = contributor
+      this.contributorId = contributor.id;
+      this.contributor = contributor;
       const nameContributor = !ObjExtUtils.IsStringEmpty(contributor.name)
         ? contributor.name
             .split(' ')
             .map((strg) => strg[0])
             .join('')
             .toUpperCase()
-        : this.contributor.login.slice(0, 3).toUpperCase()
-      contributorCode = nameContributor
+        : this.contributor.login.slice(0, 3).toUpperCase();
+      contributorCode = nameContributor;
     }
 
     if (projects) {
-      this.projects = projects
+      this.projects = projects;
     }
 
     if (repos) {
-      this.repos = repos
+      this.repos = repos;
     }
 
-    this.internet_cost = internet_cost
-    this.taxes = taxes
-    this.details = details
-    this.payment_comment = payment_comment
-    this.payment_code = `${contributorCode}${moment(this.date).format('YYYYMM')}`
-    this.status = AccountingStatus.Pending
+    this.internet_cost = internet_cost;
+    this.taxes = taxes;
+    this.details = details;
+    this.payment_comment = payment_comment;
+    this.payment_code = `${contributorCode}${moment(this.date).format('YYYYMM')}`;
+    this.status = AccountingStatus.Pending;
+    this.value = this.getTotalToPay();
+  }
+
+  @BeforeInsert()
+  beforeInsertSetValue() {
+    if (this.value === 0) {
+      this.value = this.getTotalToPay();
+    }
   }
 
   getTotalToPay(): number {
@@ -146,9 +158,9 @@ export class AccountEntity extends BaseEntity {
       (this.total_hours * (this.pay_by_hours * 1000) +
         this.total_hours * this.pay_to_internet * this.internet_cost * 1000 -
         this.taxes * 1000) /
-      1000
-    return total_to_pay
+      1000;
+    return total_to_pay;
   }
 }
 
-export default AccountEntity
+export default AccountEntity;
