@@ -40,5 +40,5 @@ export const InitializeRouter = async (app: Express, conn: Connection) => {
   app.use(PUBLIC_REPORT_APP_PATH, ReportsMiddleware(), expressStatics(GetPublicReportPath()));
 
   exportPublicPaths();
-  await fixUserAdminTemplate(conn, true);
+  await fixUserAdminTemplate(conn, false);
 };
