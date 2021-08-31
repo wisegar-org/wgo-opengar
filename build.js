@@ -56,10 +56,10 @@ if (!fs.existsSync(destination)) {
 }
 fs.emptyDirSync(destination);
 
-console.log('\x1b[33m', 'Creating settings.build.json file...');
-fs.writeJsonSync('settings.build.json', {
-  MODULES: MODULES
-});
+// console.log('\x1b[33m', 'Creating settings.build.json file...');
+// fs.writeJsonSync('settings.build.json', {
+//   MODULES: MODULES
+// });
 
 console.log('\x1b[33m', 'Running npm install...');
 execSync('npm install', { stdio: 'inherit' });
@@ -80,6 +80,7 @@ fs.appendFileSync(ENV_FILENAME, `PORT=${PORT_ENV} \n`);
 fs.appendFileSync(ENV_FILENAME, `API_TOKEN=${API_TOKEN} \n`);
 fs.appendFileSync(ENV_FILENAME, `API_VERSION=${PM2_ENV['API_VERSION']} \n`);
 fs.appendFileSync(ENV_FILENAME, `APP_WEB_ROOT=${PM2_ENV['APP_WEB_ROOT']} \n`);
+fs.appendFileSync(ENV_FILENAME, `MODULES=${MODULES} \n`);
 
 if (!fs.existsSync(APP_WEB_ROOT)) {
   fs.mkdirSync(APP_WEB_ROOT);
