@@ -2,7 +2,7 @@ import { Express, static as expressStatics } from 'express';
 import { Connection } from 'typeorm';
 import { RegisterConnection } from '../database';
 import { InitializeMiddlewares } from '../middlewares';
-import { exportPublicPaths } from '../content';
+import { exportPublicPaths, fixUserAdminTemplate } from '../content';
 import {
   AccountingController,
   CollaboratorController,
@@ -40,4 +40,5 @@ export const InitializeRouter = async (app: Express, conn: Connection) => {
   app.use(PUBLIC_REPORT_APP_PATH, ReportsMiddleware(), expressStatics(GetPublicReportPath()));
 
   exportPublicPaths();
+  await fixUserAdminTemplate(conn, true);
 };
