@@ -17,8 +17,8 @@ export class AGVEventResolver {
   }
 
   @Query(() => [AGVEventResponse])
-  async agvAllEvents() {
-    return await this.eventService.all();
+  async agvAllEvents(@Arg('urlApi') urlApi: string) {
+    return await this.eventService.all(urlApi);
   }
 
   @Mutation(() => Boolean)

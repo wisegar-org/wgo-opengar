@@ -25,7 +25,7 @@ export class MediaModel {
     this.repository = conn.getRepository(MediaEntity);
   }
 
-  getStorageFilePath(isPublic: boolean, filename: string): string {
+  static getStorageFilePath(isPublic: boolean, filename: string): string {
     const storageDir = isPublic ? GetPublicFilesPath() : GetPublicFilesPath();
 
     if (!existsSync(storageDir)) {
@@ -40,18 +40,18 @@ export class MediaModel {
     return join(storageDir, filename);
   }
 
-  getRelativeFileUrl(isPublic: boolean, filename: string) {
+  static getRelativeFileUrl(isPublic: boolean, filename: string) {
     if (!isPublic) return '';
-    return `/${FILES_STORAGE_FOLDER_NAME}/${filename}`;
+    return `${FILES_STORAGE_FOLDER_NAME}/${filename}`;
   }
 
-  getMediaResponse(media: MediaEntity) {
+  static getMediaResponse(media: MediaEntity, urlApi: string) {
     return <MediaResponseGQL>{
       data: media.fileContent.toString('base64'),
       isPublic: media.isPublic,
       id: media.id,
       mimetype: media.mimeType,
-      url: this.getRelativeFileUrl(media.isPublic, media.fileName),
+      url: `${urlApi}${MediaModel.getRelativeFileUrl(media.isPublic, media.fileName)}`,
     };
   }
 
@@ -62,8 +62,8 @@ export class MediaModel {
     };
   }
 
-  saveMediaFile(media: MediaEntity) {
-    const filePath = normalize(this.getStorageFilePath(media.isPublic, media.fileName));
+  static saveMediaFile(media: MediaEntity) {
+    const filePath = normalize(MediaModel.getStorageFilePath(media.isPublic, media.fileName));
     if (!existsSync(filePath)) {
       writeFileSync(filePath, media.fileContent);
     }
@@ -87,7 +87,7 @@ export class MediaModel {
     );
   }
 
-  async uploadFile(data: MediaInputGQL): Promise<MediaResponseGQL> {
+  async uploadFile(data: MediaInputGQL, urlApi: string): Promise<MediaResponseGQL> {
     try {
       const fileInput = await data.file;
       const { createReadStream, filename, mimetype, encoding } = fileInput as any;
@@ -97,7 +97,7 @@ export class MediaModel {
       const storageFileUuid = uuidv4();
       const storageFileExt = extname(filename);
       const storageFileName = `${storageFileUuid}${storageFileExt}`;
-      const storageFilePath = this.getStorageFilePath(data.isPublic, storageFileName);
+      const storageFilePath = MediaModel.getStorageFilePath(data.isPublic, storageFileName);
       const storedFilePath = await this.saveStreamFile(stream, storageFilePath);
       const storedFileContent = readFileSync(storedFilePath);
 
@@ -111,7 +111,7 @@ export class MediaModel {
       file.path = this.getRelativeStorageFilePath(data.isPublic, storageFileName);
       const savedFile = await file.save();
 
-      return this.getMediaResponse(savedFile);
+      return MediaModel.getMediaResponse(savedFile, urlApi);
     } catch (error) {
       return this.getErrorMediaResponse(data.isPublic, error);
     }

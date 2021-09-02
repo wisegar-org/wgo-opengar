@@ -1,4 +1,5 @@
 import { Connection, Repository } from 'typeorm';
+import { MediaResponseGQL } from '../../../graphql/types/responses/MediaResponseGQL';
 import { MediaModel } from '../../../models/MediaModel';
 import AGVEventEntity from '../database/entities/AGVEventEntity';
 import { EventStateEnum, EventTypeEnum } from '../models';
@@ -17,7 +18,7 @@ export class AGVEventService {
     this.mediaModel = new MediaModel();
   }
 
-  public async all(): Promise<AGVEventResponse[]> {
+  public async all(urlApi: string): Promise<AGVEventResponse[]> {
     const events = await this.eventRepository.find({
       relations: ['imgTitle', 'imgList'],
       order: { id: 'DESC' },
@@ -25,7 +26,21 @@ export class AGVEventService {
 
     const eventResponses: AGVEventResponse[] = [];
     events.map((evnt) => {
-      eventResponses.push({ ...new AGVEventResponse(), ...evnt });
+      let imgTitle = undefined;
+      const imgList: MediaResponseGQL[] = [];
+
+      if (!!evnt.imgTitle) {
+        imgTitle = MediaModel.getMediaResponse(evnt.imgTitle, urlApi);
+        MediaModel.saveMediaFile(evnt.imgTitle);
+      }
+
+      if (!!evnt.imgList) {
+        evnt.imgList.forEach((img) => {
+          imgList.push(MediaModel.getMediaResponse(img, urlApi));
+          MediaModel.saveMediaFile(img);
+        });
+      }
+      eventResponses.push({ ...new AGVEventResponse(), ...evnt, imgTitle: imgTitle, imgList: imgList });
     });
 
     return eventResponses;
@@ -50,9 +65,9 @@ export class AGVEventService {
     evnt.enrollment = agvEvent.enrollment;
     evnt.shortDescription = agvEvent.shortDescription;
     evnt.startDate = agvEvent.startDate;
-    evnt.state = agvEvent.state as EventStateEnum;
+    evnt.state = agvEvent.state;
     evnt.title = agvEvent.title;
-    evnt.type = agvEvent.type as EventTypeEnum;
+    evnt.type = agvEvent.type;
     evnt.visible = agvEvent.visible;
 
     const mediaTitle = agvEvent.imgTitle ? await this.mediaModel.getMediaList([agvEvent.imgTitle]) : null;
