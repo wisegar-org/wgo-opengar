@@ -82,7 +82,7 @@ if (!fs.existsSync(client_folder)) {
 fs.emptyDirSync(client_folder);
 
 /// Clone wgo-opengar
-execSync(`git clone ${GIT_PATH_UI}`, {cwd: client_folder});
+execSync(`git clone ${GIT_PATH_UI}`, {cwd: client_folder, stdio: 'inherit'});
 console.log('\x1b[33m', 'Running npm install...');
 execSync('npm install', { cwd: client_folder, stdio: 'inherit' });
 /// Run build.js del wgo-opengar
