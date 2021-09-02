@@ -16,7 +16,7 @@ export class AGVEventEntity extends BaseEntity {
   @Column({ default: '' })
   class: string;
   @Column({ default: EventTypeEnum.Event })
-  type: EventTypeEnum;
+  type: string;
 
   @Column({ nullable: true })
   startDate: Date;
@@ -29,7 +29,7 @@ export class AGVEventEntity extends BaseEntity {
   enrollment: boolean;
 
   @Column({ default: EventStateEnum.Waiting })
-  state: EventStateEnum;
+  state: string;
 
   @Column({ nullable: true })
   imgTitleId: number;
