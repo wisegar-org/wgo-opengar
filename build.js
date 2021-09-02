@@ -43,7 +43,10 @@ console.log('\x1b[33m', `MODULES: ${MODULES}`);
 const GIT_PATH_UI = BUILD_ARGS && BUILD_ARGS.length > 6 ? BUILD_ARGS[6] : '';
 console.log('\x1b[33m', `GIT_PATH_UI: ${GIT_PATH_UI}`);
 
-const API_BASE = BUILD_ARGS && BUILD_ARGS.length > 7 ? BUILD_ARGS[7] : '';
+const REPO_NAME = BUILD_ARGS && BUILD_ARGS.length > 7 ? BUILD_ARGS[7] : '';
+console.log('\x1b[33m', `REPO_NAME: ${REPO_NAME}`);
+
+const API_BASE = BUILD_ARGS && BUILD_ARGS.length > 8 ? BUILD_ARGS[8] : '';
 console.log('\x1b[33m', `API_BASE: ${API_BASE}`);
 
 const APP_START_FILE = path.join(APP_WEB_ROOT, 'index.js');
