@@ -31,10 +31,12 @@ fs.writeFileSync(BUILD_FILE_CONF, `MODULES=${MODULES} \n`, function (err) {
   if (err) return console.log(err);
 });
 
+const client_folder2 = path.join(client_folder, REPO_NAME);
+
 /// Clone wgo-opengar
 execSync(`git clone ${GIT_PATH_UI}`, { cwd: client_folder });
 console.log('\x1b[33m', 'Running npm install...');
-execSync('npm install', { cwd: client_folder, stdio: 'inherit' });
+execSync('npm install', { cwd: client_folder2, stdio: 'inherit' });
 /// Run build.js del wgo-opengar
 /// Pasarle como argumentos los siguientes
 /// Args:
