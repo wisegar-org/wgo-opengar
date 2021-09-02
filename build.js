@@ -1,3 +1,15 @@
+/// Build file
+/// Args:
+/// - APP_DEAMON_NAME
+/// - NODE_ENV
+/// - PORT_ENV
+/// - API_TOKEN
+/// - WEB_ROOT
+/// - MODULES
+/// - GIT_PATH_UI
+/// - API_BASE
+
+
 const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -28,6 +40,12 @@ console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
 const MODULES = BUILD_ARGS && BUILD_ARGS.length > 5 ? BUILD_ARGS[5] : '';
 console.log('\x1b[33m', `MODULES: ${MODULES}`);
 
+const GIT_PATH_UI = BUILD_ARGS && BUILD_ARGS.length > 6 ? BUILD_ARGS[6] : '';
+console.log('\x1b[33m', `GIT_PATH_UI: ${GIT_PATH_UI}`);
+
+const API_BASE = BUILD_ARGS && BUILD_ARGS.length > 7 ? BUILD_ARGS[7] : '';
+console.log('\x1b[33m', `API_BASE: ${API_BASE}`);
+
 const APP_START_FILE = path.join(APP_WEB_ROOT, 'index.js');
 
 const packageJson = fs.readJsonSync('package.json', { throws: false });
@@ -56,20 +74,30 @@ if (!fs.existsSync(destination)) {
 }
 fs.emptyDirSync(destination);
 
-// console.log('\x1b[33m', 'Creating settings.build.json file...');
-// fs.writeJsonSync('settings.build.json', {
-//   MODULES: MODULES
-// });
+// Crear carpeta donde clonar el cliente
+const client_folder = './client';
+if (!fs.existsSync(client_folder)) {
+  fs.mkdirSync(client_folder);
+}
+fs.emptyDirSync(client_folder);
 
+/// Clone wgo-opengar
+execSync(`git clone ${GIT_PATH_UI}`, {cwd: client_folder});
+console.log('\x1b[33m', 'Running npm install...');
+execSync('npm install', { cwd: client_folder, stdio: 'inherit' });
+/// Run build.js del wgo-opengar
+/// Pasarle como argumentos los siguientes 
+/// Args:
+/// - APP_NAME: APP_DEAMON_NAME + '-ui'
+/// - API_BASE: ???
+/// - WEB_ROOT: WEB_ROOT + '/client'
+/// - MODULES: MODULES
+console.log('\x1b[33m', 'Running node build.js...');
+execSync(`node build.js ${APP_DEAMON_NAME}-UI ${API_BASE} ${WEB_ROOT}/client ${MODULES}`, { cwd: client_folder, stdio: 'inherit' });
+
+/// Build API
 console.log('\x1b[33m', 'Running npm install...');
 execSync('npm install', { stdio: 'inherit' });
-
-console.log('\x1b[33m', 'Running tsc...');
-execSync('npx tsc', { stdio: 'inherit' });
-
-sourceFiles.forEach((file) => {
-  fs.copySync(file, `${destination}/${file}`);
-});
 
 console.log('\x1b[33m', 'Creating env file...');
 const ENV_FILENAME = `${destination}/.env`;
@@ -81,6 +109,13 @@ fs.appendFileSync(ENV_FILENAME, `API_TOKEN=${API_TOKEN} \n`);
 fs.appendFileSync(ENV_FILENAME, `API_VERSION=${PM2_ENV['API_VERSION']} \n`);
 fs.appendFileSync(ENV_FILENAME, `APP_WEB_ROOT=${PM2_ENV['APP_WEB_ROOT']} \n`);
 fs.appendFileSync(ENV_FILENAME, `MODULES=${MODULES} \n`);
+
+console.log('\x1b[33m', 'Running tsc...');
+execSync('npx tsc', { stdio: 'inherit' });
+
+sourceFiles.forEach((file) => {
+  fs.copySync(file, `${destination}/${file}`);
+});
 
 if (!fs.existsSync(APP_WEB_ROOT)) {
   fs.mkdirSync(APP_WEB_ROOT);
