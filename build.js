@@ -98,7 +98,7 @@ execSync('npm install', { cwd: client_folder2, stdio: 'inherit' });
 /// - WEB_ROOT: WEB_ROOT + '/client'
 /// - MODULES: MODULES
 console.log('\x1b[33m', 'Running node build.js...');
-execSync(`node build.js ${APP_DEAMON_NAME}-UI ${API_BASE} ${WEB_ROOT}/client ${MODULES}`, { cwd: client_folder2, stdio: 'inherit' });
+execSync(`node build.js ${APP_DEAMON_NAME}-UI ${API_BASE} client/ ${MODULES}`, { cwd: client_folder2, stdio: 'inherit' });
 
 /// Build API
 console.log('\x1b[33m', 'Running npm install...');
