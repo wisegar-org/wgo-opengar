@@ -139,6 +139,7 @@ export class AccountService {
       accounting.taxes = taxes || 0;
       accounting.details = details ? details : accounting.details;
       accounting.payment_comment = payment_comment ? payment_comment : accounting.payment_comment;
+      accounting.value = accounting.getTotalToPay();
       await accounting.save();
 
       return true;
@@ -303,20 +304,32 @@ export class AccountService {
       where: { id: idAccounting },
       relations: ['contributor', 'projects', 'repos'],
     });
-    accounting.issues = await this.issueService.getIssuesFromAccount(idAccounting);
-    const organization = await this.orgDataService.getOrganizationData();
-    const tokens = this.getAccountingTokens(accounting, organization);
-    const tableTokens = this.getAccountingTableTokens(accounting, organization);
+    if (accounting) {
+      accounting.issues = await this.issueService.getIssuesFromAccount(idAccounting);
+      const organization = await this.orgDataService.getOrganizationData();
+      const tokens = this.getAccountingTokens(accounting, organization);
+      const tableTokens = this.getAccountingTableTokens(accounting, organization);
 
-    return await this.parseTemplateService.parseDocumentBody(
-      templateHTML || templateDoc.body,
-      templateStyle || templateDoc.styleTemplate.body,
-      tokens,
-      {
-        cicleParse: this.replaceTableTokens,
-        tokens: tableTokens,
-      }
-    );
+      return await this.parseTemplateService.parseDocumentBody(
+        templateHTML || templateDoc.body,
+        templateStyle || templateDoc.styleTemplate.body,
+        tokens,
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: tableTokens,
+        }
+      );
+    } else {
+      return await this.parseTemplateService.parseDocumentBody(
+        templateHTML || templateDoc.body,
+        templateStyle || templateDoc.styleTemplate.body,
+        <ITemplateTokens>{},
+        {
+          cicleParse: this.replaceTableTokens,
+          tokens: [],
+        }
+      );
+    }
   }
 
   replaceTableTokens(templateHTML: string, tokens: ITemplateTokens[], templateService: ParseTemplateService) {

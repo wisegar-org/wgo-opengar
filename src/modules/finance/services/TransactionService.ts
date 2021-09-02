@@ -40,7 +40,11 @@ export class TransactionService {
   }
 
   async createTransactionByAccounting(accounting: AccountEntity): Promise<TransactionEntity | undefined> {
-    const total_to_pay = accounting.getTotalToPay();
+    if (accounting.value === 0) {
+      accounting.value = accounting.getTotalToPay();
+      await accounting.save();
+    }
+    const total_to_pay = accounting.value;
     return await this.createTransactionByCollaborator(
       accounting.contributorId,
       0,

@@ -93,7 +93,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
     res.send(updated);
   });
 
-  app.post('/api/sendAccountingLink', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/sendAccountingLink', AuthorizeUserRol([]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { id, urlApi } = req.body;
 

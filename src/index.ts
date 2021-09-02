@@ -15,6 +15,7 @@ import { AGV_MODULE, getAGVResolvers } from './modules/agv';
 import { NonEmptyArray } from 'type-graphql';
 import { MediaResolver } from './graphql/resolvers/MediaResolver';
 import { InitializeAGVMiddlewares } from './modules/agv/middleware';
+import { SedderAGV } from './modules/agv/seeder';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
@@ -29,6 +30,7 @@ DBConector.Connect(ogConn)
     const seeder = async () => {
       const dataSeeder = new DataSeeder();
       await dataSeeder.createData();
+      if (buildConfig.isModuleInConfig(AGV_MODULE)) await SedderAGV();
     };
 
     const serverOptions: IServerOptions = {

@@ -13,9 +13,9 @@ export class MediaResolver {
 
   @Authorized()
   @Mutation(() => MediaResponseGQL)
-  async saveImage(@Arg('data') data: MediaInputGQL) {
+  async saveImage(@Arg('data') data: MediaInputGQL, @Arg('urlApi') urlApi: string) {
     try {
-      return await this.mediaModel.uploadFile(data);
+      return await this.mediaModel.uploadFile(data, urlApi);
     } catch (error) {
       throw new ApolloError({
         errorMessage: error,

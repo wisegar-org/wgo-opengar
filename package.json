@@ -1,6 +1,6 @@
 {
   "name": "opengar-api",
-  "version": "0.0.2-build.6",
+  "version": "0.0.2-build.7",
   "description": "Opengar Api Service",
   "main": "src/index.ts",
   "scripts": {

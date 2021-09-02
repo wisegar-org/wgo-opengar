@@ -87,7 +87,7 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send(updated);
   });
 
-  app.post('/api/sendBillLink', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/sendBillLink', AuthorizeUserRol([]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { id, urlApi } = req.body;
 

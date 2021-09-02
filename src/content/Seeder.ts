@@ -36,28 +36,6 @@ export class DataSeeder {
         const userSeedResult = await _userDataSerive.create(superAdmin, [roleObj.id]);
       } catch (error) {}
     }
-
-    const roleAGV = await roleRepository.findOne({
-      name: AGVRoles.Admin,
-    });
-    const rolesAGVList = [roleAGV];
-    let adminAGV = await userRepository.findOne({
-      userName: 'agvAdmin',
-    });
-    if (_.isEmpty(adminAGV)) {
-      let superAdmin = new UserEntity(
-        'AGV',
-        'Admin',
-        'agvAdmin',
-        'assembleagenitorivezia@gmail.com',
-        'agvAdmin.0',
-        rolesAGVList,
-        true
-      );
-      try {
-        const userSeedResult = await _userDataSerive.create(superAdmin, [roleAGV.id]);
-      } catch (error) {}
-    }
   }
 
   /** TODO: PLEASE Store roles schema on a json config file */
