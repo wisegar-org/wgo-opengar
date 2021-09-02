@@ -1,12 +1,12 @@
 export enum EventTypeEnum {
-  Event = 'Event',
-  Course = 'Course',
+  Event = 'Evento',
+  Course = 'Corso',
 }
 
 export enum EventStateEnum {
-  Waiting = 'Waiting',
-  Confirmed = 'Confirmed',
-  Cancelled = 'Cancelled',
+  Waiting = 'In sospeso',
+  Confirmed = 'Confermato',
+  Cancelled = 'Annullato',
 }
 
 export enum AGVRoles {
