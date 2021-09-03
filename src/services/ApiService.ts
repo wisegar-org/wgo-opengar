@@ -1,5 +1,6 @@
 import { normalize, join } from 'path';
 import { readJsonSync, existsSync } from 'fs-extra';
+import { GetWebRootKey } from '../settings/ConfigService';
 
 export class ApiService {
   public getApiVersion() {
@@ -7,7 +8,7 @@ export class ApiService {
     if (path.length === 0) {
       path = __filename.split('services');
     }
-    const packagePath = normalize(join(path[0], 'package.json'));
+    const packagePath = normalize(join(GetWebRootKey(), 'package.json'));
     if (existsSync(packagePath)) {
       const packageJson = readJsonSync(packagePath);
       return packageJson.version;
