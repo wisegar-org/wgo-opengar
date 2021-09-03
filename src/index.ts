@@ -12,7 +12,7 @@ import {
 import { OGConnection } from './database/DBConnections';
 import { DBConector } from './database/DBConector';
 import { DataSeeder } from './content/Seeder';
-import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/ServerOptions';
+import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/IServerOptions';
 import { RoleResolver } from './graphql/resolvers/RoleResolver';
 import { UserResolver } from './graphql/resolvers/UserResolver';
 import { FINANCE_MODULE, InitializeGithubRouter } from './modules/finance';
@@ -25,13 +25,15 @@ import { NonEmptyArray } from 'type-graphql';
 import { MediaResolver } from './graphql/resolvers/MediaResolver';
 import { InitializeAGVMiddlewares } from './modules/agv/middleware';
 import { SedderAGV } from './modules/agv/seeder';
+import { Context } from './graphql/types/graphql-utils';
+import { EmailResolver } from './graphql/resolvers/EmailResolver';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
 let ogConn = environment ? OGConnection.Environment : OGConnection.Development;
 
 const buildConfig = new BuildSettings();
-let resolvers: any[] = [RoleResolver, UserResolver, AppResolver, MediaResolver];
+let resolvers: any[] = [RoleResolver, UserResolver, AppResolver, MediaResolver, EmailResolver];
 resolvers = resolvers.concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVResolvers() : []);
 
 DBConector.Connect(ogConn)
@@ -44,7 +46,7 @@ DBConector.Connect(ogConn)
 
     const serverOptions: IServerOptions = {
       authenticator: ServerAuthenticator,
-      context: ServerContext(connection),
+      context: ServerContext,
       formatError: (err: Error) => {
         return err;
       },
