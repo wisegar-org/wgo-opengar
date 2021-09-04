@@ -65,3 +65,4 @@ typings/
 #/build
 build
 .env
+.DS_Store
