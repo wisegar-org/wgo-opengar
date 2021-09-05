@@ -15,7 +15,7 @@ export interface IItemEvent {
 export const EventsList = [
   {
     id: 1,
-    imgTitle: 'images/card-road.jpg',
+    imgTile: 'images/card-road.jpg',
     title: 'Regolamento Doposcuola - Corsi',
     shortDescription:
       'Anche per i doposcuola organizzati dal Comitato Genitori restano  in vigore le regole del nostro Istituto Scolastico...',
@@ -26,7 +26,7 @@ export const EventsList = [
     startDate: '1/1/2020',
     visible: true,
     state: 'In sospeso',
-    enrollment: true,
+    enrollment: false,
     endDate: '31/12/2021',
     imgList: [
       {
@@ -45,7 +45,7 @@ export const EventsList = [
   },
   {
     id: 2,
-    imgTitle: 'images/papa6.jpeg',
+    imgTile: 'images/papa6.jpeg',
     title: 'Festa del papà 2020-2021',
     shortDescription:
       'Sorprendiamo i papà preparando un bel grembiule personalizzandolo come meglio volete: con stampini, pennarelli...',
@@ -56,7 +56,7 @@ export const EventsList = [
     startDate: '1/1/2021',
     visible: true,
     state: 'In sospeso',
-    enrollment: true,
+    enrollment: false,
     endDate: '31/12/2021',
     imgList: [
       {
@@ -91,7 +91,7 @@ export const EventsList = [
   },
   {
     id: 3,
-    imgTitle: 'images/mama4.jpeg',
+    imgTile: 'images/mama4.jpeg',
     title: 'Festa della mamma 2020-2021',
     shortDescription:
       'Un regalo utile per questo giorno speciale. Date libero sfogo alla fantasia per decorare questa piccola sorpresa!',
@@ -129,7 +129,7 @@ export const EventsList = [
   },
   {
     id: 4,
-    imgTitle: 'images/san-nicolao-2021-2022.jpg',
+    imgTile: 'images/san-nicolao-2021-2022.jpg',
     title: 'San Nicolao 2020-2021',
     shortDescription:
       'Per la gioia di tutti i bimbi della Scuola dell’Infanzia  e della Scuola Elementare è venuto a trovarci...',
@@ -159,7 +159,7 @@ export const EventsList = [
   },
   {
     id: 5,
-    imgTitle: 'images/card-Ndr2020.png',
+    imgTile: 'images/card-Ndr2020.png',
     title: 'Notte del Racconto 2020-2021',
     shortDescription:
       'Durante questo periodo così delicato, per noi è stata  una sfida completamente nuova organizzare un appuntamento...',
@@ -176,7 +176,7 @@ export const EventsList = [
   },
   {
     id: 6,
-    imgTitle: 'images/san-nicolao-2021-2022.jpg',
+    imgTile: 'images/san-nicolao-2021-2022.jpg',
     title: 'San Nicolao 2021-2022',
     shortDescription: 'San Nicolao',
     description: 'San Nicolao',
@@ -191,7 +191,7 @@ export const EventsList = [
   },
   {
     id: 7,
-    imgTitle: 'images/notte_racconto_copertina2.jpg',
+    imgTile: 'images/notte_racconto_copertina2.jpg',
     title: 'Notte del racconto 2021-2022',
     shortDescription:
       'Notte del racconto 2021<br/>Il nostro pianeta - la nostra casa / Notre planète-notre maison / Unser Planet-unser Zuhause / Noss planet-noss dachasa',
@@ -208,24 +208,24 @@ export const EventsList = [
   },
   {
     id: 8,
-    imgTitle: 'images/festa-nonni-2022.jpg',
+    imgTile: 'images/festa-nonni-2022.jpg',
     title: 'Festa dei nonni 2021-2022',
     shortDescription:
-      'Spesso ci dimentichiamo che anche i nonni come mamma e papà hanno una loro festa, perchè non creare un piccolo pensiero anche a loro?<br/>Quando: 2 ottobre 2021<br/>Orario: 16:20-17:30ca<br/>',
+      'Spesso ci dimentichiamo che anche i nonni come mamma e papà hanno una loro festa, perchè non creare un piccolo pensiero anche a loro?<br/>Quando: data da concordare<br/>Orario: 16:20-17:30ca<br/>',
     description:
-      'Spesso ci dimentichiamo che anche i nonni come mamma e papà hanno una loro festa, perchè non creare un piccolo pensiero anche a loro?<br/>Quando: 2 ottobre 2021 <br/>Orario: 16.20 - 17.30ca <br/>Costo: 2 CHF',
+      'Spesso ci dimentichiamo che anche i nonni come mamma e papà hanno una loro festa, perchè non creare un piccolo pensiero anche a loro?<br/>Quando: data da concordare <br/>Orario: 16.20 - 17.30ca <br/>Costo: 2 CHF',
     class: '2021-2022',
     type: 'Corso',
-    startDate: '02/10/2021',
+    startDate: '15/09/2021',
     visible: true,
     state: 'In sospeso',
     enrollment: false,
-    endDate: '02/10/2021',
+    endDate: '15/09/2021',
     imgList: [],
   },
   {
     id: 9,
-    imgTitle: 'images/pasqua_copertina.jpg',
+    imgTile: 'images/pasqua_copertina.jpg',
     title: 'Pasqua 2021-2022',
     shortDescription: 'Lavoretto per pasqua<br/>Inizio: Le date verranno aggiornate in seguito<br/>',
     description:
@@ -241,7 +241,7 @@ export const EventsList = [
   },
   {
     id: 10,
-    imgTitle: 'images/natale-2021-22.jpg',
+    imgTile: 'images/natale-2021-22.jpg',
     title: 'Lavoretto di Natale 2021-2022',
     shortDescription: 'Lavoretto per Natale<br/>Inizio: Le date verranno aggiornate in seguito<br/>',
     description:
@@ -257,7 +257,7 @@ export const EventsList = [
   },
   {
     id: 11,
-    imgTitle: 'images/papa1.jpeg',
+    imgTile: 'images/papa1.jpeg',
     title: 'Festa del papà 2021-2022',
     shortDescription: 'Lavoretto per la festa del papà<br/>Inizio: Le date verranno aggiornate in seguito<br/>',
     description:
@@ -273,7 +273,7 @@ export const EventsList = [
   },
   {
     id: 12,
-    imgTitle: 'images/festa-mamma-2021-22.jpg',
+    imgTile: 'images/festa-mamma-2021-22.jpg',
     title: 'Festa della mamma 2021-2022',
     shortDescription: 'Lavoretto per la festa del mamma<br/>Inizio: Le date verranno aggiornate in seguito<br/>',
     description:
@@ -310,7 +310,7 @@ export const EventsList = [
   },
   {
     id: 13,
-    imgTitle: 'images/fotografia_copertina 2.jpg',
+    imgTile: 'images/fotografia_copertina 2.jpg',
     title: 'Corso di fotografia 2021-2022',
     shortDescription: 'Fotografia<br/>Numero lezioni: 5<br/>Inizio: Aprile data da convenire<br/>',
     description: 'Fotografia<br/>Numero lezioni: 5<br/>Inizio: Aprile data da convenire<br/>Classi: dalla II alla V',
@@ -325,23 +325,23 @@ export const EventsList = [
   },
   {
     id: 14,
-    imgTitle: 'images/scacchi-2021-22.jpg',
+    imgTile: 'images/scacchi-2021-22.jpg',
     title: 'Corso di scacchi avanzati 2021-2022',
     shortDescription: 'Scacchi avanzati',
     description:
       'Scacchi avanzati<br/>Secondo semestre<br/>Numero lezioni: 6<br/>Ogni martedì<br/>Orario: 16:20 - 17:30<br/>Costo: 30 CHF<br/>Classe: dalla 2da alla 5ta',
     class: '2021-2022',
     type: 'Corso',
-    startDate: '01/01/2022',
+    startDate: '11/01/2022',
     visible: true,
     state: 'In sospeso',
     enrollment: true,
-    endDate: '01/03/2022',
+    endDate: '11/01/2022',
     imgList: [],
   },
   {
     id: 15,
-    imgTitle: 'images/scacchi-2021-22.jpg',
+    imgTile: 'images/scacchi-2021-22.jpg',
     title: 'Corso di scacchi principianti 2021-2022',
     shortDescription:
       'Scacchi principianti : primo semestre Numero lezioni: 6 Tutti i martedì Orario: 16:20 - 17:30 Costo: 30 CHF Classe: dalla 2da alla 5ta',
@@ -349,32 +349,33 @@ export const EventsList = [
       'Scacchi principianti: <br/>primo semestre <br/>Numero lezioni: 6 <br/>Tutti i martedì <br/>Orario: 16:20 - 17:30 <br/>Costo: 30 CHF <br/>Classe: dalla 2da alla 5ta',
     class: '2021-2022',
     type: 'Corso',
-    startDate: '01/09/2021',
+    startDate: '09/11/2021',
     visible: true,
     state: 'In sospeso',
     enrollment: true,
-    endDate: '01/11/2021',
+    endDate: '09/11/2021',
     imgList: [],
   },
   {
     id: 16,
-    imgTitle: 'images/chitarra_copertina 2.jpg',
+    imgTile: 'images/chitarra_copertina 2.jpg',
     title: 'Corso di chitarra 2021-2022',
-    shortDescription: 'Chitarra<br/>Inizio anno<br/>Ogni mercoledì',
+    shortDescription:
+      "Il corso di Chitarra con il maestro Aldo Steiger si rivolge ai bambini che si avvicinano per la prima volta alla chitarra così come a chi è già in grado di suonare questo bellissimo strumento. Per partecipare al corso è necessario possedere una chitarra proprio ed è possibile rivolgersi al maestro per trovare delle occasioni o consigli per l'acquisto.<br/>Possibile lezione di prova per il mercoledì 15 settembre (orario da concordare)",
     description:
-      "Chitarra<br/>Inizio anno<br/>Ogni mercoledì<br/>Numero lezioni: 30<br/>Durata: 15 minuti<br/>Maestro: Aldo Steiger<br/>Possibilità di effettuare lezione di prova<br/>Necessario possedere una chitarra ( il maestro può aiutare a trovare delle occasione per l'acquisto)<br/>Classi: dalla 2da alla 5ta",
+      "Il corso di Chitarra con il maestro Aldo Steiger si rivolge ai bambini che si avvicinano per la prima volta alla chitarra così come a chi è già in grado di suonare questo bellissimo strumento. Per partecipare al corso è necessario possedere una chitarra proprio ed è possibile rivolgersi al maestro per trovare delle occasioni o consigli per l'acquisto.<br/><br/>Quando: il mercoledì con lezioni individuali di 15 min o a coppie di 30 min - orario da definire con il maestro<br/>Classi: dalla 2. Alla 5. elementare<br/>Dove: Classe di Musica presso la SE Vezia<br/>Lezioni: 32 lezioni - Inizio del corso da definire<br/>Costo: chf12.-- per bambino/lezione<br/>Nota: Sarà possibile organizzare una lezione di prova mercoledì 15 settembre - orario concordare. L'iscrizione implica il pagamento dell'intero anno scolastico anche in caso di interruzione spontanea da parte dell'allievo.",
     class: '2021-2022',
     type: 'Corso',
-    startDate: '01/09/2021',
+    startDate: '22/09/2021',
     visible: true,
     state: 'In sospeso',
     enrollment: true,
-    endDate: '01/06/2022',
+    endDate: '22/09/2021',
     imgList: [],
   },
   {
     id: 17,
-    imgTitle: 'images/cucina-2021-22.jpg',
+    imgTile: 'images/cucina-2021-22.jpg',
     title: 'Corso di cucina Cuoca con il mappamondo (SE) 2021-2022',
     shortDescription: 'Corso di cucina Cuoca con il mappamondo per la scuola elementare (SE)',
     description:
@@ -390,14 +391,14 @@ export const EventsList = [
   },
   {
     id: 18,
-    imgTitle: 'images/pittura_copertina2.jpg',
+    imgTile: 'images/pittura_copertina2.jpg',
     title: 'Corso di pittura 2021-2022',
     shortDescription: "Varie tecniche di pittura, sperimentazione dell'arte<br/>Ogni martedì",
     description:
       "Varie tecniche di pittura, sperimentazione dell'arte<br/>Ogni martedì<br/>Numero lezioni: 8<br/>Inizio 21.09.2021 fino al 16.10.2021<br/>Classe: dalla 1ma alla 5ta<br/>Orario: 16:15 - 17:45<br/>Massimo partecipanti: 10<br/>Costo: 20 CHF",
     class: '2021-2022',
     type: 'Corso',
-    startDate: '21/09/2021',
+    startDate: '01/10/2021',
     visible: true,
     state: 'In sospeso',
     enrollment: true,
@@ -406,11 +407,11 @@ export const EventsList = [
   },
   {
     id: 19,
-    imgTitle: 'images/cucina-2021-22.jpg',
+    imgTile: 'images/cucina-2021-22.jpg',
     title: 'Corso di cucina Cuoca con il mappamondo (SI) 2021-2022',
     shortDescription: "Corso di cucina Cuoca con il mappamondo per la scuola dell'Infanzia",
     description:
-      "Corso di cucina Cuoca con il mappamondo <br/>Scuola dell'Infanzia<br/>Inizio: 28/09/2021<br/>Fine 26/10/2021<br/>Giorno della settimana: martedì<br/>Orario: 15:45 - 16:30<br/>Massimo partecipanti: 10<br/>Costo: 20 CHF",
+      "Corso di cucina Cuoca con il mappamondo <br/>Scuola dell'Infanzia<br/>Inizio: 28/09/2021<br/>Fine: 26/10/2021<br/>Giorno della settimana: martedì<br/>Orario: 15:45 - 16:30<br/>Massimo partecipanti: 10<br/>Costo: 35 CHF per intero corso, da pagare alla prima lezione <br/>Luogo: Scuola elementare, entrata bibliocabina <br/>Segnalare eventuali intolleranze nel formulario d'iscrizione",
     class: '2021-2022',
     type: 'Corso',
     startDate: '28/09/2021',
@@ -422,18 +423,19 @@ export const EventsList = [
   },
   {
     id: 20,
-    imgTitle: 'images/capoeira-2021-22.jpg',
+    imgTile: 'images/capoeira-2021-22.jpg',
     title: 'Corsi di capoeira 2021-2022',
-    shortDescription: 'Corso Capoeira<br/>Numero lezioni: 10<br/>',
+    shortDescription:
+      "La Capoeira è un gioco; un insieme di danza, musica e lotta che arriva dall'Africa e dal Brasile. È l'unica arte marziale che si fonde con la musica aiutando a sviluppare l'equilibrio, l'orecchio musicale, la concentrazione, il rispetto reciproco e lo spirito di collaborazione.",
     description:
-      'Corso Capoeira<br/>Numero lezioni: 10<br/>Ogni lunedì dalle 16:15-17:30 presso la nostra palestra<br/>Classi: dalla 1ma alla 5ta',
+      "La Capoeira è un gioco; un insieme di danza, musica e lotta che arriva dall'Africa e dal Brasile. È l'unica arte marziale che si fonde con la musica aiutando a sviluppare l'equilibrio, l'orecchio musicale, la concentrazione, il rispetto reciproco e lo spirito di collaborazione.<br/><br/>Quando: il lunedì dalle 16.15 alle 17.30<br/>Classi: dalla 1. alla 5. elementare<br/>Dove: nella palestra della SE Vezia<br/>Lezioni: 10 lezioni - Inizio del corso da definire<br/>Costo: chf150.-- a bambino/corso<br/><br/>Nota: Il corso verrà organizzato a partire da un minimo di 8 iscritti.",
     class: '2021-2022',
     type: 'Corso',
-    startDate: '01/09/2021',
+    startDate: '08/09/2021',
     visible: true,
     state: 'In sospeso',
     enrollment: true,
-    endDate: '01/12/2021',
+    endDate: '22/11/2021',
     imgList: [
       {
         id: 1,
@@ -443,7 +445,7 @@ export const EventsList = [
   },
   {
     id: 21,
-    imgTitle: 'images/locandina_tom_Jerry.jpg',
+    imgTile: 'images/locandina_tom_Jerry.jpg',
     title: 'Film Tom & Jerry, Migliori nemici, Peggiori amici',
     shortDescription:
       'Il municipio di Vezia ha il piacere di offrire la visione di: <br/> Tom & Jerry, Migliori nemici, Peggiori amici, film di animazione<br/> Quando: venerdi 3 settembre 2021 <br/> Ore: 20:30 <br/> Dove: Piazzale delle scuole di Vezia',
@@ -454,7 +456,7 @@ export const EventsList = [
     startDate: '03/09/2021',
     visible: true,
     state: 'Confermato',
-    enrollment: true,
+    enrollment: false,
     endDate: '03/09/2021',
     imgList: [
       {
