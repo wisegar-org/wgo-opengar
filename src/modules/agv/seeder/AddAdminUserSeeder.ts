@@ -13,15 +13,15 @@ export async function AddAdminUserSeeder(conn: Connection) {
   });
   const rolesAGVList = [roleAGV];
   let adminAGV = await userRepository.findOne({
-    userName: 'agvAdmin',
+    userName: 'admin',
   });
   if (_.isEmpty(adminAGV)) {
     let superAdmin = new UserEntity(
       'AGV',
       'Admin',
-      'agvAdmin',
+      'admin',
       'assembleagenitorivezia@gmail.com',
-      'agvAdmin.0',
+      '@dmin.21',
       rolesAGVList,
       true
     );
