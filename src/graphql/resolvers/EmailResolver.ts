@@ -1,9 +1,8 @@
 import { ApolloError } from 'apollo-client';
 import { Arg, Query, Resolver } from 'type-graphql';
 import { EmailModel } from '../../models/EmailModel';
-import { EmailInputGQL } from '../types/inputs/EmailInputGQL';
+import { EmailInputGQL, EmailToAppInputGQL } from '../types/inputs/EmailInputGQL';
 import { EmailResponseGQL } from '../types/responses/EmailResponseGQL';
-import { MediaResponseGQL } from '../types/responses/MediaResponseGQL';
 
 @Resolver()
 export class EmailResolver {
@@ -16,6 +15,17 @@ export class EmailResolver {
   async sendEmail(@Arg('data') data: EmailInputGQL): Promise<EmailResponseGQL> {
     try {
       return await this.emailModel.sendEmail(data);
+    } catch (error) {
+      throw new ApolloError({
+        errorMessage: error,
+      });
+    }
+  }
+
+  @Query(() => EmailResponseGQL)
+  async sendEmailToApp(@Arg('data') data: EmailToAppInputGQL): Promise<EmailResponseGQL> {
+    try {
+      return await this.emailModel.sendEmailToApp(data);
     } catch (error) {
       throw new ApolloError({
         errorMessage: error,
