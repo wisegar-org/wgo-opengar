@@ -13,6 +13,12 @@ export async function AddAdminUserSeeder(conn: Connection) {
   });
   const rolesAGVList = [roleAGV];
   let adminAGV = await userRepository.findOne({
+    userName: 'agvAdmin',
+  });
+  if (!!adminAGV) {
+    await adminAGV.remove();
+  }
+  adminAGV = await userRepository.findOne({
     userName: 'admin',
   });
   if (_.isEmpty(adminAGV)) {
