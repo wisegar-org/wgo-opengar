@@ -11,7 +11,6 @@ export class MediaResolver {
     this.mediaModel = new MediaModel();
   }
 
-  @Authorized()
   @Mutation(() => MediaResponseGQL)
   async saveImage(@Arg('data') data: MediaInputGQL, @Arg('urlApi') urlApi: string) {
     try {
