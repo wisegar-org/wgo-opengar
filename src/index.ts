@@ -18,6 +18,7 @@ import { InitializeAGVMiddlewares } from './modules/agv/middleware';
 import { SedderAGV } from './modules/agv/seeder';
 import { Context } from './graphql/types/graphql-utils';
 import { EmailResolver } from './graphql/resolvers/EmailResolver';
+import { ApolloError } from 'apollo-client';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
@@ -39,7 +40,10 @@ DBConector.Connect(ogConn)
       authenticator: ServerAuthenticator,
       context: ServerContext,
       formatError: (err: Error) => {
-        return err;
+        console.log(err);
+        return new ApolloError({
+          errorMessage: err.message,
+        });
       },
       controllers: [],
       port: parseInt(port),
