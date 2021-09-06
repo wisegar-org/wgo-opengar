@@ -1,3 +1,4 @@
+import { CreatePathInPrivateFolder, CreatePathInPublicFolder } from '../../settings/ConfigService';
 import AGVEventEntity from './database/entities/AGVEventEntity';
 import AGVPollEntity from './database/entities/AGVPollEntity';
 import { AGVEventResolver, AGVPollResolver } from './resolvers';

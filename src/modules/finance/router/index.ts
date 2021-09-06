@@ -2,7 +2,7 @@ import { Express, static as expressStatics } from 'express';
 import { Connection } from 'typeorm';
 import { RegisterConnection } from '../database';
 import { InitializeMiddlewares } from '../middlewares';
-import { exportPublicPaths, fixUserAdminTemplate } from '../content';
+import { fixUserAdminTemplate } from '../content';
 import {
   AccountingController,
   CollaboratorController,
@@ -16,8 +16,9 @@ import {
 } from '../controllers';
 import { ExportController } from '../controllers/ExportController';
 import { BillController } from '../controllers/BillController';
-import { GetPublicReportPath, PUBLIC_REPORT_APP_PATH } from '../services/SettingsService';
+import { GetPublicReportPath, PUBLIC_REPORT_APP_PATH, REPORT_STORAGE_FOLDER_NAME } from '../services/SettingsService';
 import { ReportsMiddleware } from '../middlewares/ReportsMiddleware';
+import { CreatePathInPublicFolder } from '../../../settings/ConfigService';
 
 console.log('Use environment API_TOKEN: ', process.env.API_TOKEN ? true : false);
 
@@ -38,7 +39,7 @@ export const InitializeRouter = async (app: Express, conn: Connection) => {
   BillController(app, conn);
 
   app.use(PUBLIC_REPORT_APP_PATH, ReportsMiddleware(), expressStatics(GetPublicReportPath()));
+  CreatePathInPublicFolder(REPORT_STORAGE_FOLDER_NAME);
 
-  exportPublicPaths();
   await fixUserAdminTemplate(conn, false);
 };
