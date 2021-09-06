@@ -1,4 +1,4 @@
-import { cypherData, decypherData } from '@wisegar-org/wgo-opengar-core';
+import { mkdirSync, existsSync } from 'fs-extra';
 import { join } from 'path';
 
 export const PUBLIC_FOLDER_NAME = 'public';
@@ -34,4 +34,38 @@ export const GetPublicFilesPath = () => {
 export const GetPrivateFilesPath = () => {
   const pathPrivate = GetPrivatePathKey();
   return join(pathPrivate, FILES_STORAGE_FOLDER_NAME);
+};
+
+export const CreatePublicPath = () => {
+  const path = GetPublicPathKey();
+  createDir(path, `Create public folder`);
+  return path;
+};
+
+export const CreatePrivatePath = () => {
+  const path = GetPrivatePathKey();
+  createDir(path, `Create private folder`);
+  return path;
+};
+
+export const CreatePathInPublicFolder = (path: string) => {
+  const publicPath = CreatePublicPath();
+  return createDir(join(publicPath, path), `Create '${path}' in public folder`);
+};
+
+export const CreatePathInPrivateFolder = (path: string) => {
+  const privatePath = CreatePrivatePath();
+  return createDir(join(privatePath, path), `Create '${path}' in private folder`);
+};
+
+export const CreatePath = (path: string) => {
+  return createDir(path);
+};
+
+const createDir = (path: string, description?: string) => {
+  if (!existsSync(path)) {
+    mkdirSync(path);
+    if (description) console.log(description);
+  }
+  return path;
 };
