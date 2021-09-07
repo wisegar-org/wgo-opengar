@@ -23,6 +23,6 @@ const packageJson = fs.readJsonSync('package.json', { throws: false });
 
 const mainmodule = require(`./src/modules/${MODULE_ENV}/deploy`);
 mainmodule.build(NODE_ENV, PORT_ENV);
-mainmodule.buildClient(NODE_ENV);
+// mainmodule.buildClient(NODE_ENV);
 
 //execSync(`npm run ./src/modules/agv/deploy.js production 5677`, { stdio: 'inherit' });
