@@ -1,28 +1,27 @@
-FROM node:12.13.0 AS builder
+FROM node:14.17.6-bullseye AS builder
+
+ARG envname=development
+ARG port=5010
+ARG modulename=agv
 
 WORKDIR /usr/src/app
 COPY *.npmrc ./
 COPY *.json ./
 COPY *.js ./
 COPY ./src ./src
+RUN add-apt-repository ppa:git-core/ppa
+RUN apt update
+RUN apt install git
 RUN npm install
-RUN npm install typescript -g
-RUN tsc
+RUN node ./build.js ${envname} ${port} ${modulename}
+RUN ls ./build
 
-FROM node:12.13.0-alpine
+FROM node:14.17.6-bullseye
 
 WORKDIR /usr/src/app
-COPY --from=builder /usr/src/app/package.json ./
-COPY --from=builder /usr/src/app/package-lock.json ./
-COPY --from=builder /usr/src/app/settings.json ./
-COPY --from=builder /usr/src/app/settings.development.json ./
-COPY --from=builder /usr/src/app/.npmrc ./
 COPY --from=builder /usr/src/app/build ./
 
 RUN npm ci --quiet --only=production
-
-ENV NODE_ENV=development
-ENV PORT=8088
 
 EXPOSE  8088
 CMD [ "node", "index.js" ]
