@@ -9,9 +9,9 @@ COPY *.npmrc ./
 COPY *.json ./
 COPY *.js ./
 COPY ./src ./src
-RUN add-apt-repository ppa:git-core/ppa
-RUN apt update
-RUN apt install git
+# RUN add-apt-repository ppa:git-core/ppa
+# RUN apt update
+# RUN apt install git
 RUN npm install
 RUN node ./build.js ${envname} ${port} ${modulename}
 RUN ls ./build
