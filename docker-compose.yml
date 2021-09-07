@@ -1,0 +1,33 @@
+version: '2'
+services:
+  dbpostgres:
+    container_name: postgres
+    image: postgres
+    hostname: postgres
+    volumes:
+      - ./docker/postgresql:/var/lib/postgresql
+    ports:
+      - '5444:5432'
+    networks:
+      - wgo-network
+    environment:
+      POSTGRES_USER: opengar
+      POSTGRES_PASSWORD: opengar
+      POSTGRES_DB: opengar-dev
+  node-app:
+    image: 'opengar-api-service'
+    hostname: opengar-api-service
+    build: .
+    ports:
+      - '8889:8088'
+    networks:
+      - wgo-network
+    command: ['node', 'index.js']
+
+networks:
+  wgo-network:
+    name: wgonet
+    driver: bridge
+volumes:
+  pg_data:
+    driver: local

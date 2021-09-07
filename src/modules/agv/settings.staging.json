@@ -14,7 +14,7 @@
   "DB_HOST": "localhost",
   "DB_PORT": "5432",
   "DB_USERNAME": "opengar",
-  "DB_NAME": "agv-dev",
+  "DB_NAME": "agv-stg",
   "DB_PASSWORD": "sSP3Rf22UUH9364A",
   "EMAIL_HOST": "ssl0.ovh.net",
   "EMAIL_SENDER_ADDRESS": "noreplay@wisegar.org",
