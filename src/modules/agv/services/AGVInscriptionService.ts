@@ -16,13 +16,7 @@ export class AGVInscriptionService {
   }
 
   public async create(agvInscription: AGVInscriptionInput): Promise<Boolean> {
-    let inscription = await this.inscriptionRepository.findOne({
-      eventId: agvInscription.eventId,
-      email: agvInscription.email,
-    });
-    if (!!inscription) return false;
-
-    inscription = new AGVInscriptionEntity();
+    const inscription = new AGVInscriptionEntity();
     inscription.nome = agvInscription.nome;
     inscription.cognome = agvInscription.cognome;
     inscription.email = agvInscription.email;
