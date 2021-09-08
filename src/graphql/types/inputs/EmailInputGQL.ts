@@ -1,10 +1,13 @@
 import { Field, InputType, ObjectType } from 'type-graphql';
 
 @InputType()
-export class EmailToAppInputGQL {
-  @Field(() => String) from: string;
+export class EmailFromToAppInputGQL {
   @Field(() => String) subject: string;
   @Field(() => String) body: string;
+}
+@InputType()
+export class EmailToAppInputGQL extends EmailFromToAppInputGQL {
+  @Field(() => String) from: string;
 }
 @InputType()
 export class EmailInputGQL extends EmailToAppInputGQL {
@@ -12,10 +15,13 @@ export class EmailInputGQL extends EmailToAppInputGQL {
 }
 
 @ObjectType()
-export class EmailToAppGQL {
-  @Field(() => String) from: string;
+export class EmailFromToAppGQL {
   @Field(() => String) subject: string;
   @Field(() => String) body: string;
+}
+@ObjectType()
+export class EmailToAppGQL extends EmailFromToAppGQL {
+  @Field(() => String) from: string;
 }
 @ObjectType()
 export class EmailGQL extends EmailToAppGQL {
