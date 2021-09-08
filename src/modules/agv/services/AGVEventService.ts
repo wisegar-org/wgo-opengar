@@ -2,8 +2,7 @@ import { Connection, Repository } from 'typeorm';
 import { MediaResponseGQL } from '../../../graphql/types/responses/MediaResponseGQL';
 import { MediaModel } from '../../../models/MediaModel';
 import AGVEventEntity from '../database/entities/AGVEventEntity';
-import { EventStateEnum, EventTypeEnum } from '../models';
-import { AGVEnventInput } from '../modules/agvEvent/AGVEventInputs';
+import { AGVEventInput } from '../modules/agvEvent/AGVEventInputs';
 import { AGVEventResponse } from '../modules/agvEvent/AGVEventResponses';
 
 export class AGVEventService {
@@ -46,19 +45,19 @@ export class AGVEventService {
     return eventResponses;
   }
 
-  public async create(agvEvent: AGVEnventInput): Promise<Boolean> {
+  public async create(agvEvent: AGVEventInput): Promise<Boolean> {
     let evnt = new AGVEventEntity();
     evnt = await this.setEventProperties(evnt, agvEvent);
     return !!evnt;
   }
 
-  public async modify(agvEvent: AGVEnventInput): Promise<Boolean> {
+  public async modify(agvEvent: AGVEventInput): Promise<Boolean> {
     let evnt = await this.eventRepository.findOne(agvEvent.id);
     if (evnt) evnt = await this.setEventProperties(evnt, agvEvent);
     return !!evnt;
   }
 
-  private async setEventProperties(evnt: AGVEventEntity, agvEvent: AGVEnventInput) {
+  private async setEventProperties(evnt: AGVEventEntity, agvEvent: AGVEventInput) {
     evnt.class = agvEvent.class;
     evnt.description = agvEvent.description;
     evnt.endDate = agvEvent.endDate;
@@ -81,5 +80,9 @@ export class AGVEventService {
     }
 
     return await this.eventRepository.manager.save(evnt);
+  }
+
+  public async getEvent(eventId: number) {
+    return await this.eventRepository.findOne(eventId);
   }
 }

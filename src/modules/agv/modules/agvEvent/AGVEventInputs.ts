@@ -1,7 +1,7 @@
 import { Field, InputType, Int } from 'type-graphql';
 
 @InputType()
-export class AGVEnventInput {
+export class AGVEventInput {
   @Field(() => Number, { nullable: false }) id: number;
   @Field(() => String) title: string;
   @Field(() => String) description: string;
