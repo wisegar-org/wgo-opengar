@@ -74,8 +74,8 @@ const clientBuild = (environment) => {
   const giturl = new URL(APP_CLIENT_GIT_PATH);
   const reponame = path.basename(giturl.pathname);
   const repofolder = path.basename(reponame, path.extname(reponame));
-
-  execSync(`git clone --branch ${MODULE_NAME}  ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
+  // --branch ${MODULE_NAME}
+  execSync(`git clone ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
   const localRepoPath = path.join(tempDir, repofolder);
   const sourceFiles = ['.npmrc'];
   sourceFiles.forEach((file) => {
