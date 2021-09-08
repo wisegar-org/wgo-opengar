@@ -18,6 +18,7 @@
   "DB_PASSWORD": "sSP3Rf22UUH9364A",
   "EMAIL_HOST": "ssl0.ovh.net",
   "EMAIL_SENDER_ADDRESS": "noreplay@wisegar.org",
+  "EMAIL_SENDER_ADDRESS_NAME": "Noreplay Wisegar",
   "EMAIL_APP_ADDRESS": "info@wisegar.org",
   "EMAIL_APP_ADDRESS_NAME": "Wisegar Org",
   "EMAIL_PORT": "587",
