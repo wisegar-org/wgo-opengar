@@ -1,5 +1,11 @@
-import { EmailServer, GetEmailAppAddressKey, GetEmailAppAddressNameKey } from '@wisegar-org/wgo-opengar-core';
-import { EmailInputGQL, EmailToAppInputGQL } from '../graphql/types/inputs/EmailInputGQL';
+import {
+  EmailServer,
+  GetEmailAppAddressKey,
+  GetEmailAppAddressNameKey,
+  GetEmailSenderKey,
+  GetEmailSenderNameKey,
+} from '@wisegar-org/wgo-opengar-core';
+import { EmailFromToAppInputGQL, EmailInputGQL, EmailToAppInputGQL } from '../graphql/types/inputs/EmailInputGQL';
 import { EmailResponseGQL } from '../graphql/types/responses/EmailResponseGQL';
 
 export class EmailModel {
@@ -30,6 +36,24 @@ export class EmailModel {
     try {
       const result = await this.emailServer.send({
         from: data.from,
+        to: `<${GetEmailAppAddressKey()}> ${GetEmailAppAddressNameKey()}`,
+        subject: data.subject,
+        html: data.body,
+      });
+      return <EmailResponseGQL>result;
+    } catch (error) {
+      return <EmailResponseGQL>{
+        isSuccess: false,
+        message: 'Error',
+        error: error,
+      };
+    }
+  }
+
+  async sendEmailFromToApp(data: EmailFromToAppInputGQL): Promise<EmailResponseGQL> {
+    try {
+      const result = await this.emailServer.send({
+        from: `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`,
         to: `<${GetEmailAppAddressKey()}> ${GetEmailAppAddressNameKey()}`,
         subject: data.subject,
         html: data.body,
