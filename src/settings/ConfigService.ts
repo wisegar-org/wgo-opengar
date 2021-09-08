@@ -4,6 +4,7 @@ import { join } from 'path';
 export const PUBLIC_FOLDER_NAME = 'public';
 export const PRIVATE_FOLDER_NAME = 'private';
 export const FILES_STORAGE_FOLDER_NAME = 'files';
+export const CLIENT_FOLDER_NAME = 'client';
 export const APP_SERVER_NAME = 'api';
 export const PUBLIC_FILES_APP_PATH = `/${APP_SERVER_NAME}/${FILES_STORAGE_FOLDER_NAME}`;
 
@@ -24,6 +25,11 @@ export const GetPublicPathKey = () => {
 export const GetPrivatePathKey = () => {
   const APP_WEB_ROOT = GetWebRootKey();
   return join(APP_WEB_ROOT, PRIVATE_FOLDER_NAME);
+};
+
+export const GetClientFilesPath = () => {
+  const APP_WEB_ROOT = GetWebRootKey();
+  return join(APP_WEB_ROOT, CLIENT_FOLDER_NAME);
 };
 
 export const GetPublicFilesPath = () => {

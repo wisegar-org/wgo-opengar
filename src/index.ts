@@ -28,6 +28,7 @@ import { SedderAGV } from './modules/agv/seeder';
 import { Context } from './graphql/types/graphql-utils';
 import { EmailResolver } from './graphql/resolvers/EmailResolver';
 import { ApolloError } from 'apollo-client';
+import { HostClientMiddleware } from './middlewares/HostClientMiddleware';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
@@ -59,6 +60,8 @@ DBConector.Connect(ogConn)
       maxFileSize: 5000000000,
       maxFiles: 10,
       middlewares: (app) => {
+        //TODO: Use Host Client Middleware only if configured
+        HostClientMiddleware(app);
         if (buildConfig.isModuleInConfig(FINANCE_MODULE)) InitializeGithubRouter(app, connection);
         if (buildConfig.isModuleInConfig(AGV_MODULE)) InitializeAGVMiddlewares(app);
       },

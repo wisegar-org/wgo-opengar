@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const buildModule = (environment, port) => {
+const buildApi = (environment, port) => {
   const settingsFileName = environment === 'production' ? 'settings.json' : `settings.${environment}.json`;
   const deploySettings = fs.readJsonSync(`./src/modules/agv/${settingsFileName}`, { throws: false });
 
@@ -44,6 +44,7 @@ const buildModule = (environment, port) => {
   });
   fs.appendFileSync(ENV_FILENAME, `PORT=${port} \n`);
   fs.appendFileSync(ENV_FILENAME, `MODULES=${[MODULE_NAME]} \n`);
+  fs.appendFileSync(ENV_FILENAME, `APP_WEB_ROOT=${[APP_WEB_ROOT]} \n`);
 
   console.log('\x1b[33m', 'Updating build settings & dependencies'.toUpperCase());
   sourceFiles.forEach((file) => {
@@ -68,30 +69,51 @@ const clientBuild = (environment) => {
   console.log('\x1b[33m', `APP_CLIENT_GIT_PATH: ${APP_CLIENT_GIT_PATH}`);
 
   console.log('\x1b[33m', 'Clone client version'.toUpperCase());
-  execSync(`git clone --branch ${MODULE_NAME}  ${APP_CLIENT_GIT_PATH}`, { stdio: 'inherit' });
-
+  const os = require('os');
+  const tempDir = os.tmpdir();
   const giturl = new URL(APP_CLIENT_GIT_PATH);
   const reponame = path.basename(giturl.pathname);
   const repofolder = path.basename(reponame, path.extname(reponame));
 
-  execSync('npm install', { cwd: `./${repofolder}`, stdio: 'inherit' });
+  execSync(`git clone --branch ${MODULE_NAME}  ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
+  const localRepoPath = path.join(tempDir, repofolder);
+  const sourceFiles = ['.npmrc'];
+  sourceFiles.forEach((file) => {
+    fs.copySync(file, `${localRepoPath}/${file}`);
+  });
+
+  execSync('npm install', { cwd: `${localRepoPath}`, stdio: 'inherit' });
 
   const APP_CLIENT_BASEURL = deploySettings.APP_CLIENT_BASEURL;
   console.log('\x1b[33m', `APP_CLIENT_BASEURL: ${APP_CLIENT_BASEURL}`);
 
-  execSync(`node ./${repofolder}/build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ./${repofolder} ${MODULE_NAME}`, {
-    cwd: `./${repofolder}`,
+  const clientTempbuild = path.join(tempDir, `${repofolder}-build`);
+  console.log('\x1b[33m', 'Cleaning client destination folder'.toUpperCase());
+  if (!fs.existsSync(clientTempbuild)) {
+    fs.mkdirSync(clientTempbuild);
+  }
+  fs.emptyDirSync(clientTempbuild);
+  execSync(`node ${localRepoPath}/build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempbuild} ${MODULE_NAME}`, {
+    cwd: `${localRepoPath}`,
     stdio: 'inherit',
   });
 
-  console.log('\x1b[33m', 'Cleaning client destination folder'.toUpperCase());
-  const clientbuild = path.join(destination, 'client');
+  console.log('\x1b[33m', 'Building client build folder'.toUpperCase());
+  let clientbuild = './build';
+  if (!fs.existsSync(clientbuild)) {
+    fs.mkdirSync(clientbuild);
+  }
+  clientbuild = path.join(clientbuild, 'client');
   if (!fs.existsSync(clientbuild)) {
     fs.mkdirSync(clientbuild);
   }
   fs.emptyDirSync(clientbuild);
-  fs.copySync(`./${repofolder}`, clientbuild);
-  execSync('npx rimraf `./${repofolder}`,', { stdio: 'inherit' });
+  fs.copySync(`${localRepoPath}/dist/spa`, clientbuild);
+
+  console.log('\x1b[33m', 'Cleaning build folders'.toUpperCase());
+  execSync(`npx rimraf ${localRepoPath}`, { stdio: 'inherit' });
+  execSync(`npx rimraf ${clientTempbuild}`, { stdio: 'inherit' });
+  console.log('\x1b[33m', 'Client UI Deploy Complete'.toUpperCase());
 };
 
 const selfRun = () => {
@@ -101,10 +123,10 @@ const selfRun = () => {
   console.log('\x1b[33m', `NODE_ENV: ${NODE_ENV}`);
   const PORT_ENV = BUILD_ARGS && BUILD_ARGS.length > 2 ? BUILD_ARGS[1] : '5010';
   console.log('\x1b[33m', `PORT_ENV: ${PORT_ENV}`);
-  buildModule(NODE_ENV, PORT_ENV);
+  buildApi(NODE_ENV, PORT_ENV);
 };
 
 module.exports = {
-  build: buildModule,
+  buildApi: buildApi,
   buildClient: clientBuild,
 };
