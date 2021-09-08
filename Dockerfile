@@ -12,7 +12,6 @@ COPY ./src ./src
 RUN apk add --no-cache git
 RUN npm install
 RUN node ./build.js ${envname} ${port} ${modulename}
-RUN ls ./build
 
 FROM node:14.17.6-alpine
 
