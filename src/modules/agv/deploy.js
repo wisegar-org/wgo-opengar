@@ -26,9 +26,6 @@ const buildApi = (environment, port) => {
   const moduleFiles = ['settings.json', 'settings.staging.json', 'settings.development.json'];
 
   console.log('\x1b[33m', 'Cleaning build destination folder'.toUpperCase());
-  if (!fs.existsSync(destination)) {
-    fs.mkdirSync(destination);
-  }
   fs.emptyDirSync(destination);
 
   console.log('\x1b[33m', 'Installing dependencies'.toUpperCase());
@@ -89,9 +86,6 @@ const clientBuild = (environment) => {
 
   const clientTempbuild = path.join(tempDir, `${repofolder}-build`);
   console.log('\x1b[33m', 'Cleaning client destination folder'.toUpperCase());
-  if (!fs.existsSync(clientTempbuild)) {
-    fs.mkdirSync(clientTempbuild);
-  }
   fs.emptyDirSync(clientTempbuild);
   execSync(`node ${localRepoPath}/build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempbuild} ${MODULE_NAME}`, {
     cwd: `${localRepoPath}`,
@@ -104,9 +98,6 @@ const clientBuild = (environment) => {
     fs.mkdirSync(clientbuild);
   }
   clientbuild = path.join(clientbuild, 'client');
-  if (!fs.existsSync(clientbuild)) {
-    fs.mkdirSync(clientbuild);
-  }
   fs.emptyDirSync(clientbuild);
   fs.copySync(`${localRepoPath}/dist/spa`, clientbuild);
 
