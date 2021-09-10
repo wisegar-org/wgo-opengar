@@ -1,6 +1,6 @@
 {
   "NAME": "finance",
-  "APP_NAME": "wgo-finance-api",
+  "APP_NAME": "wgo-finance-development",
   "WEB_ROOT": "/users/yarielre/web",
   "API_BASEURL": "http://localhost:5010",
   "APP_START_FILE": "index.js",
