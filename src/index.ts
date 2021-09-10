@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { boot, ContextUser, GetNodeEnvKey, GetPortKey, IContextOptions } from '@wisegar-org/wgo-opengar-core';
+import { boot, GetNodeEnvKey, GetPortKey, IContextOptions } from '@wisegar-org/wgo-opengar-core';
 import { OGConnection } from './database/DBConnections';
 import { DBConector } from './database/DBConector';
 import { DataSeeder } from './content/Seeder';
