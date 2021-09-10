@@ -2,10 +2,11 @@ const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const buildApi = (module, environment, port) => {
+const buildApi = (module, environment, port, apiWebRoot) => {
   const settingsFileName = environment === 'production' ? 'settings.json' : `settings.${environment}.json`;
   const deploySettings = fs.readJsonSync(`./src/modules/${module}/${settingsFileName}`, { throws: false });
   deploySettings.APP_CLIENT_BASEURL = `${deploySettings.API_BASEURL}:${port}`;
+  deploySettings.WEB_ROOT = apiWebRoot;
   fs.writeJsonSync(`./src/modules/${module}/${settingsFileName}`, deploySettings);
 
   const MODULE_NAME = deploySettings.NAME;
