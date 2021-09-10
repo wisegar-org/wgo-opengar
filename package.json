@@ -5,9 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "nodemon",
-    "build": "node ./build.js staging 5010 wgo",
-    "build:fin": "node ./build.js staging 5010 finance",
-    "build:agv": "node ./build.js staging 5010 agv",
+    "build": "node ./build.js staging 5010 wgo /users/yarielre/web",
+    "build:fin": "node ./build.js development 5010 finance /users/yarielre/web",
+    "build:agv": "node ./build.js staging 5010 agv /users/yarielre/web",
     "update:core": "npx rimraf node_modules/@wisegar-org/wgo-opengar-core && npm install @wisegar-org/wgo-opengar-core@latest --save",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "test": "test",
