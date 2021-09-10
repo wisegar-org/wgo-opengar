@@ -55,6 +55,8 @@ const buildApi = (module, environment, port, apiWebRoot) => {
     fs.copySync(`./src/modules/${MODULE_NAME}/${file}`, `${destination}/${file}`);
   });
 
+  execSync('npm ci --quiet --only=production', { cwd: `${destination}`, stdio: 'inherit' });
+
   console.log('\x1b[33m', 'Deployment complete'.toUpperCase());
 };
 
