@@ -1,6 +1,7 @@
 import { Connection, Repository } from 'typeorm';
 import { AGVInscriptionEntity } from '../database/entities/AGVInscriptionEntity';
 import { AGVInscriptionInput } from '../modules/agvInscription/AGVInscriptionInputs';
+import { AGVInscriptionResponse } from '../modules/agvInscription/AGVInscriptionResponses';
 import { AGVEventService } from './AGVEventService';
 
 export class AGVInscriptionService {
@@ -13,6 +14,28 @@ export class AGVInscriptionService {
   constructor(conn: Connection) {
     this.inscriptionRepository = conn.getRepository(AGVInscriptionEntity);
     this.eventService = new AGVEventService(conn);
+  }
+
+  public async all(): Promise<AGVInscriptionResponse[]> {
+    const inscriptions = await this.inscriptionRepository.find({
+      relations: ['event'],
+    });
+
+    const inscriptionList: AGVInscriptionResponse[] = [];
+    inscriptions.map((inscrpt) => {
+      inscriptionList.push(<AGVInscriptionResponse>{
+        id: inscrpt.id,
+        nome: inscrpt.nome,
+        cognome: inscrpt.cognome,
+        email: inscrpt.email,
+        phone: inscrpt.phone,
+        message: inscrpt.message,
+        eventId: inscrpt.event.id,
+        eventTitle: inscrpt.event.title,
+        date: inscrpt.inscriptionDate,
+      });
+    });
+    return inscriptionList;
   }
 
   public async create(agvInscription: AGVInscriptionInput): Promise<Boolean> {
