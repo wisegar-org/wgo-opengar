@@ -5,7 +5,6 @@ const { execSync } = require('child_process');
 const buildApi = (module, environment, port, apiWebRoot) => {
   const settingsFileName = environment === 'production' ? 'settings.json' : `settings.${environment}.json`;
   const deploySettings = fs.readJsonSync(`./src/modules/${module}/${settingsFileName}`, { throws: false });
-  deploySettings.APP_CLIENT_BASEURL = `${deploySettings.API_BASEURL}:${port}`;
   deploySettings.WEB_ROOT = apiWebRoot;
   fs.writeJsonSync(`./src/modules/${module}/${settingsFileName}`, deploySettings);
 
@@ -21,7 +20,7 @@ const buildApi = (module, environment, port, apiWebRoot) => {
   const APP_WEB_ROOT = path.join(WEB_ROOT, APP_NAME);
   console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
 
-  const API_BASEURL = deploySettings.APP_CLIENT_BASEURL;
+  const API_BASEURL = `${deploySettings.API_BASEURL}:${port}`;
   console.log('\x1b[33m', `API_BASE: ${API_BASEURL}`);
 
   const destination = './build';
