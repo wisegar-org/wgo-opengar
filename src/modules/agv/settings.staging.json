@@ -15,7 +15,7 @@
   "DB_PORT": "5432",
   "DB_USERNAME": "postgres",
   "DB_NAME": "agv-stg",
-  "DB_PASSWORD": "postgres",
+  "DB_PASSWORD": "Wisegar.-0",
   "EMAIL_HOST": "ssl0.ovh.net",
   "EMAIL_SENDER_ADDRESS": "noreplay@wisegar.org",
   "EMAIL_SENDER_ADDRESS_NAME": "Wisegar Email Service",
