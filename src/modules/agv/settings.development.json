@@ -1,7 +1,7 @@
 {
   "NAME": "agv",
-  "APP_NAME": "wgo-agv-api",
-  "WEB_ROOT": "/users/yarielre/web",
+  "APP_NAME": "wgo-agv-development",
+  "WEB_ROOT": "/web_root_path",
   "API_BASEURL": "http://localhost",
   "APP_START_FILE": "index.js",
   "APP_CLIENT_GIT_PATH": "https://yarielre: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@github.com/wisegar-org/wgo-opengar.git",
