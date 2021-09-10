@@ -16,7 +16,7 @@ export class AGVInscriptionEntity extends BaseEntity {
   phone: string;
   @Column({ default: '' })
   message: string;
-  @Column({ type: 'date', default: new Date(Date.now()) })
+  @Column({ default: new Date(Date.now()) })
   inscriptionDate: Date;
 
   @Column({ nullable: true }) eventId!: number;
