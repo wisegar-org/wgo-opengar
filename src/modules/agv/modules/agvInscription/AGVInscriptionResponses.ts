@@ -13,6 +13,7 @@ export class AGVInscriptionResponse {
 
   @Field(() => Number) eventId: number;
   @Field(() => String) eventTitle: string;
+  @Field(() => String) eventClass: string;
 
   @Field(() => AGVEventResponse) event: AGVEventResponse;
 }

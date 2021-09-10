@@ -32,6 +32,7 @@ export class AGVInscriptionService {
         message: inscrpt.message,
         eventId: inscrpt.event.id,
         eventTitle: inscrpt.event.title,
+        eventClass: inscrpt.event.class,
         date: inscrpt.inscriptionDate,
       });
     });
