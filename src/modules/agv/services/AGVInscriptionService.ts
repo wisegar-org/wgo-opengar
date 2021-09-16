@@ -30,6 +30,7 @@ export class AGVInscriptionService {
         email: inscrpt.email,
         phone: inscrpt.phone,
         message: inscrpt.message,
+        class: inscrpt.class,
         eventId: inscrpt.event.id,
         eventTitle: inscrpt.event.title,
         eventClass: inscrpt.event.class,
@@ -46,6 +47,7 @@ export class AGVInscriptionService {
     inscription.email = agvInscription.email;
     inscription.phone = agvInscription.phone;
     inscription.message = agvInscription.message;
+    inscription.class = agvInscription.class;
 
     if (agvInscription.eventId) {
       inscription.event = await this.eventService.getEvent(agvInscription.eventId);

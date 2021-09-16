@@ -8,6 +8,7 @@ export class AGVInscriptionInput {
   @Field(() => String, { nullable: false }) email: string;
   @Field(() => String, { nullable: false }) phone: string;
   @Field(() => String, { nullable: false }) message: string;
+  @Field(() => String, { nullable: false }) class: string;
 
   @Field(() => Int, { nullable: false }) eventId: number;
 }
