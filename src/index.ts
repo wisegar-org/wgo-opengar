@@ -1,33 +1,27 @@
 import 'reflect-metadata';
-import { boot, GetNodeEnvKey, GetPortKey, IContextOptions } from '@wisegar-org/wgo-opengar-core';
-import { OGConnection } from './database/DBConnections';
-import { DBConector } from './database/DBConector';
-import { DataSeeder } from './content/Seeder';
+import { boot, GetNodeEnvKey, GetPortKey } from '@wisegar-org/wgo-opengar-core';
 import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/IServerOptions';
-import { RoleResolver } from './graphql/resolvers/RoleResolver';
-import { UserResolver } from './graphql/resolvers/UserResolver';
-import { FINANCE_MODULE, InitializeGithubRouter } from './modules/finance';
-import { ServerContext } from './servers/ServerContext';
-import { ServerAuthenticator } from './servers/ServerAuthenticator';
-import { AppResolver } from './graphql/resolvers/AppResolver';
+import { OGConnection, DBConector } from './database';
+import { DataSeeder } from './content/Seeder';
+import { ServerContext, ServerAuthenticator } from './servers';
 import { BuildSettings } from './settings/BuildSettings';
-import { AGV_MODULE, getAGVResolvers } from './modules/agv';
 import { NonEmptyArray } from 'type-graphql';
-import { MediaResolver } from './graphql/resolvers/MediaResolver';
-import { InitializeAGVMiddlewares } from './modules/agv/middleware';
-import { SedderAGV } from './modules/agv/seeder';
-import { Context } from './graphql/types/graphql-utils';
-import { EmailResolver } from './graphql/resolvers/EmailResolver';
 import { ApolloError } from 'apollo-client';
 import { HostClientMiddleware } from './middlewares/HostClientMiddleware';
+import { getWGOResolvers } from './graphql/resolvers';
+
+import { FINANCE_MODULE, InitializeGithubRouter } from './modules/finance';
+import { AGV_MODULE, getAGVResolvers, SedderAGV, InitializeAGVMiddlewares } from './modules/agv';
+import { ALBANI_MODULE, getAlbaniResolvers, InitializeAlbaniMiddlewares, SedderAlbani } from './modules/albani';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
 let ogConn = environment ? OGConnection.Environment : OGConnection.Development;
 
 const buildConfig = new BuildSettings();
-let resolvers: any[] = [RoleResolver, UserResolver, AppResolver, MediaResolver, EmailResolver];
+let resolvers: any[] = getWGOResolvers();
 resolvers = resolvers.concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVResolvers() : []);
+resolvers = resolvers.concat(buildConfig.isModuleInConfig(ALBANI_MODULE) ? getAlbaniResolvers() : []);
 
 DBConector.Connect(ogConn)
   .then(async (connection) => {
@@ -35,6 +29,7 @@ DBConector.Connect(ogConn)
       const dataSeeder = new DataSeeder();
       await dataSeeder.createData();
       if (buildConfig.isModuleInConfig(AGV_MODULE)) await SedderAGV();
+      if (buildConfig.isModuleInConfig(ALBANI_MODULE)) await SedderAlbani();
     };
 
     const serverOptions: IServerOptions = {
@@ -55,6 +50,7 @@ DBConector.Connect(ogConn)
         HostClientMiddleware(app);
         if (buildConfig.isModuleInConfig(FINANCE_MODULE)) InitializeGithubRouter(app, connection);
         if (buildConfig.isModuleInConfig(AGV_MODULE)) InitializeAGVMiddlewares(app);
+        if (buildConfig.isModuleInConfig(ALBANI_MODULE)) InitializeAlbaniMiddlewares(app);
       },
       resolvers: resolvers as NonEmptyArray<Function>,
     };

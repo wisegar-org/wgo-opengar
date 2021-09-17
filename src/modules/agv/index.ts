@@ -1,3 +1,6 @@
+export { SedderAGV } from './seeder';
+export { InitializeAGVMiddlewares } from './middleware';
+
 import AGVEventEntity from './database/entities/AGVEventEntity';
 import { AGVInscriptionEntity } from './database/entities/AGVInscriptionEntity';
 import AGVPollEntity from './database/entities/AGVPollEntity';
