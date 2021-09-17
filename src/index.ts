@@ -12,7 +12,7 @@ import { getWGOResolvers } from './graphql/resolvers';
 
 import { FINANCE_MODULE, InitializeGithubRouter } from './modules/finance';
 import { AGV_MODULE, getAGVResolvers, SedderAGV, InitializeAGVMiddlewares } from './modules/agv';
-import { ALBANI_MODULE, getAlbaniResolvers, InitializeAlbaniMiddlewares, SedderAlbani } from './modules/albani';
+import { CASINA_MODULE, getCasinaResolvers, InitializeCasinaMiddlewares, SedderCasina } from './modules/casina';
 
 const environment = GetNodeEnvKey();
 const port = GetPortKey();
@@ -21,7 +21,7 @@ let ogConn = environment ? OGConnection.Environment : OGConnection.Development;
 const buildConfig = new BuildSettings();
 let resolvers: any[] = getWGOResolvers();
 resolvers = resolvers.concat(buildConfig.isModuleInConfig(AGV_MODULE) ? getAGVResolvers() : []);
-resolvers = resolvers.concat(buildConfig.isModuleInConfig(ALBANI_MODULE) ? getAlbaniResolvers() : []);
+resolvers = resolvers.concat(buildConfig.isModuleInConfig(CASINA_MODULE) ? getCasinaResolvers() : []);
 
 DBConector.Connect(ogConn)
   .then(async (connection) => {
@@ -29,7 +29,7 @@ DBConector.Connect(ogConn)
       const dataSeeder = new DataSeeder();
       await dataSeeder.createData();
       if (buildConfig.isModuleInConfig(AGV_MODULE)) await SedderAGV();
-      if (buildConfig.isModuleInConfig(ALBANI_MODULE)) await SedderAlbani();
+      if (buildConfig.isModuleInConfig(CASINA_MODULE)) await SedderCasina();
     };
 
     const serverOptions: IServerOptions = {
@@ -50,7 +50,7 @@ DBConector.Connect(ogConn)
         HostClientMiddleware(app);
         if (buildConfig.isModuleInConfig(FINANCE_MODULE)) InitializeGithubRouter(app, connection);
         if (buildConfig.isModuleInConfig(AGV_MODULE)) InitializeAGVMiddlewares(app);
-        if (buildConfig.isModuleInConfig(ALBANI_MODULE)) InitializeAlbaniMiddlewares(app);
+        if (buildConfig.isModuleInConfig(CASINA_MODULE)) InitializeCasinaMiddlewares(app);
       },
       resolvers: resolvers as NonEmptyArray<Function>,
     };

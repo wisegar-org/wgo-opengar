@@ -1,6 +1,6 @@
 import { DBConector } from '../../../database/DBConector';
 
-export const SedderAlbani = async () => {
+export const SedderCasina = async () => {
   const connection = DBConector.GetConnection();
-  //Albani Seeder
+  //Casina Seeder
 };
