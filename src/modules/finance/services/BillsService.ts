@@ -8,6 +8,8 @@ import {
   TemplateEntity,
   ParseTemplateService,
   ITemplateTokens,
+  EmailNotifyService,
+  HandlebarsTemplateService,
 } from '@wisegar-org/wgo-opengar-core';
 import { FinanceMediaService } from './FinanceMediaService';
 import BillEntity, { BillStatus } from '../database/entities/BillEntity';
@@ -17,8 +19,7 @@ import BillProductRelationEntity from '../database/entities/BillProductRelationE
 import { ProductsService } from './ProductService';
 import { ProductType } from '../database/entities/ProductEntity';
 import { TransactionService } from './TransactionService';
-import TransactionEntity, { TransactionTypeEnum } from '../database/entities/TransactionEntity';
-import OrganizationDataEntity from '../database/entities/OrganizationDataEntity';
+import { TransactionTypeEnum } from '../database/entities/TransactionEntity';
 import { OrganizationDataService } from './OrganizationDataService';
 import { v4 as uuidv4 } from 'uuid';
 import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
@@ -35,8 +36,9 @@ export class BillsService {
   private transactionService: TransactionService;
   private parseTemplateService: ParseTemplateService;
   private organizationService: OrganizationDataService;
-  private emailService: EmailServer;
   private templateService: TemplateService;
+  private handlebarsTemplate: HandlebarsTemplateService;
+  private emailNotify: EmailNotifyService;
   constructor(userContext?: Context) {
     this.connection = GetConnection();
     this.billConnection = this.connection.getRepository(BillEntity);
@@ -46,9 +48,10 @@ export class BillsService {
     this.productsService = new ProductsService(userContext);
     this.transactionService = new TransactionService(userContext);
     this.organizationService = new OrganizationDataService();
-    this.emailService = new EmailServer();
     this.templateService = new TemplateService(this.connection);
     this.parseTemplateService = new ParseTemplateService();
+    this.handlebarsTemplate = new HandlebarsTemplateService();
+    this.emailNotify = new EmailNotifyService();
   }
 
   async addBill(
@@ -260,7 +263,7 @@ export class BillsService {
   async sendBillLink(id: number, urlApi: string) {
     try {
       const templateDoc = await this.loadTemplate(BILL_CONSTANT);
-      const templateStyle = await this.loadTemplate(BILL_EMAIL_CONSTANT);
+      const templateEmail = await this.loadTemplate(BILL_EMAIL_CONSTANT);
       const bill = await this.billConnection.findOne({
         where: { id: id },
         relations: ['client', 'billProducts', 'billProducts.product'],
@@ -271,39 +274,32 @@ export class BillsService {
       console.log(urlBill);
       const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
       const organization = await this.organizationService.getOrganizationData();
-      const tokens = this.getBillTokens(bill, transaction, organization);
-      tokens['[BILL_LINK]'] = urlBill;
-      const tableTokens = this.getBillTableTokens(bill);
+
       const exportPath = GetPublicReportPath();
 
-      let doc = await this.parseTemplateService.parseDocumentBody(
-        templateDoc.body,
-        templateDoc.styleTemplate.body,
-        tokens,
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: tableTokens,
-        }
-      );
+      const data = {
+        style: templateDoc.styleTemplate.body,
+        titlePage: 'Bill',
+        bill: bill,
+        products: bill.billProducts,
+        status: BillStatus.Payed ? 'Payed' : 'Unpaid',
+        transaction: transaction,
+        organization: organization,
+        billLink: urlBill,
+      };
 
+      let doc = this.handlebarsTemplate.getTemplateData(templateDoc.body, data);
       await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
 
-      doc = await this.parseTemplateService.parseDocumentBody(
-        templateStyle.body,
-        templateStyle.styleTemplate.body,
-        tokens,
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: tableTokens,
-        }
-      );
-
-      // await this.templateService.createDocument(exportPath, `email_${nameFile}`, doc);
-      const result = await this.emailService.send({
-        from: `<${organization.email}> ${organization.name}`,
-        to: bill.client.email,
-        subject: 'Bill info',
-        html: doc,
+      const result = await this.emailNotify.sendNotification({
+        emailOptions: {
+          to: bill.client.email,
+          subject: 'Bill info',
+        },
+        bodyTemplate: {
+          template: templateEmail.body,
+          data: { ...data, style: templateEmail.styleTemplate.body },
+        },
       });
       result.message = urlBill;
       return result;
@@ -325,64 +321,20 @@ export class BillsService {
     if (bill) {
       const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
       const organization = await this.organizationService.getOrganizationData();
-      const tokens = this.getBillTokens(bill, transaction, organization);
-      const tableTokens = this.getBillTableTokens(bill);
 
-      return await this.parseTemplateService.parseDocumentBody(
-        templateHTML || templateDoc.body,
-        templateStyle || templateDoc.styleTemplate.body,
-        tokens,
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: tableTokens,
-        }
-      );
+      return this.handlebarsTemplate.getTemplateData(templateHTML || templateDoc.body, {
+        style: templateStyle || templateDoc.styleTemplate.body,
+        titlePage: 'Bill',
+        bill: bill,
+        products: bill.billProducts,
+        status: BillStatus.Payed ? 'Payed' : 'Unpaid',
+        transaction: transaction,
+        organization: organization,
+      });
     } else {
-      return await this.parseTemplateService.parseDocumentBody(
-        templateHTML || templateDoc.body,
-        templateStyle || templateDoc.styleTemplate.body,
-        <ITemplateTokens>{},
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: [],
-        }
-      );
+      return await this.handlebarsTemplate.getTemplateData(templateHTML || templateDoc.body, {
+        style: templateStyle || templateDoc.styleTemplate.body,
+      });
     }
-  }
-
-  replaceTableTokens(templateHTML: string, tokens: ITemplateTokens[], templateService: ParseTemplateService) {
-    let result = '';
-    tokens.forEach((token) => {
-      result += templateService.replaceTokens(templateHTML, token);
-    });
-    return result;
-  }
-
-  getBillTokens(bill: BillEntity, transaction: TransactionEntity, organization: OrganizationDataEntity) {
-    const tokens = <ITemplateTokens>{};
-    tokens['[TITLEPAGE]'] = 'Bill';
-    tokens['[ORGANIZATION_NAME]'] = organization.name;
-    tokens['[CLIENT_NAME]'] = bill.client.name;
-    tokens['[CLIENT_ADDRESS]'] = bill.client.address;
-    tokens['[CLIENT_EMAIL]'] = bill.client.email;
-    tokens['[BILL_TOTAL]'] = `${bill.totalPrice}`;
-    tokens['[BILL_ID]'] = transaction && transaction.idTransaction ? transaction.idTransaction : 'Unset';
-    tokens['[BILL_STATUS]'] = bill.status === BillStatus.Payed ? 'Payed' : 'Unpaid';
-    const date = bill.sendDate;
-    tokens['[BILL_SEND_DATE]'] = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
-    return tokens;
-  }
-
-  getBillTableTokens(bill: BillEntity) {
-    const tokens: ITemplateTokens[] = bill.billProducts.map((billProd, index) => {
-      const tokensBill = <ITemplateTokens>{};
-      tokensBill['[INDEX]'] = `${index + 1}`;
-      tokensBill['[PRODUCT_NAME]'] = billProd.product.name;
-      tokensBill['[PRODUCT_QTY]'] = `${billProd.count}`;
-      tokensBill['[PRODUCT_PRICE]'] = `${billProd.price}`;
-      tokensBill['[PRODUCT_AMOUNT]'] = `${billProd.price * billProd.count}`;
-      return tokensBill;
-    });
-    return tokens;
   }
 }

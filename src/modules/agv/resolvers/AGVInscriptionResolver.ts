@@ -18,8 +18,8 @@ export class AGVInscriptionResolver {
   }
 
   @Query(() => [AGVInscriptionResponse])
-  async agvAllInscriptions(@Arg('urlApi') urlApi: string) {
-    // return await this.inscriptionService.all(urlApi);
+  async agvAllInscriptions() {
+    return await this.inscriptionService.all();
   }
 
   @Mutation(() => Boolean)

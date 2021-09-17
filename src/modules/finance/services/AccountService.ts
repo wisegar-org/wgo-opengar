@@ -15,6 +15,8 @@ import {
   ParseTemplateService,
   TemplateEntity,
   TemplateService,
+  EmailNotifyService,
+  HandlebarsTemplateService,
 } from '@wisegar-org/wgo-opengar-core';
 import OrganizationDataEntity from '../database/entities/OrganizationDataEntity';
 import jsonwebtoken from 'jsonwebtoken';
@@ -33,7 +35,9 @@ export class AccountService {
   private expenseService: ExpensesService;
   private templateService: TemplateService;
   private parseTemplateService: ParseTemplateService;
-  private emailService: EmailServer;
+  private emailNotify: EmailNotifyService;
+
+  private handlebarsTemplate: HandlebarsTemplateService;
 
   private orgDataService: OrganizationDataService;
   path: string;
@@ -50,7 +54,8 @@ export class AccountService {
     this.orgDataService = new OrganizationDataService();
     this.templateService = new TemplateService(this.connection);
     this.parseTemplateService = new ParseTemplateService();
-    this.emailService = new EmailServer();
+    this.emailNotify = new EmailNotifyService();
+    this.handlebarsTemplate = new HandlebarsTemplateService();
   }
 
   async Add(
@@ -237,7 +242,7 @@ export class AccountService {
   async sendAccountingLink(id: number, urlApi: string) {
     try {
       const templateDoc = await this.loadTemplate(ACCOUNTING_CONSTANT);
-      const templateStyle = await this.loadTemplate(ACCOUNTING_EMAIL_CONSTANT);
+      const templateEmail = await this.loadTemplate(ACCOUNTING_EMAIL_CONSTANT);
       const accounting = await this.accountConnection.findOne({
         where: { id: id },
         relations: ['contributor', 'projects', 'repos'],
@@ -250,41 +255,35 @@ export class AccountService {
         billId: accounting.id,
       });
       const urlAccounting = `${urlApi}${REPORT_STORAGE_FOLDER_NAME}/${nameFile}?token=${path_token}`;
-      console.log(urlAccounting);
       const organization = await this.orgDataService.getOrganizationData();
-      const tokens = this.getAccountingTokens(accounting, organization);
-      tokens['[ACCOUNTING_LINK]'] = urlAccounting;
-      const tableTokens = this.getAccountingTableTokens(accounting, organization);
+
       const exportPath = GetPublicReportPath();
 
-      let doc = await this.parseTemplateService.parseDocumentBody(
-        templateDoc.body,
-        templateDoc.styleTemplate.body,
-        tokens,
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: tableTokens,
-        }
-      );
+      const data = {
+        style: templateDoc.styleTemplate.body,
+        titlePage: 'Bill',
+        accounting: accounting,
+        issues: accounting.issues,
+        status: `${accounting.status === AccountingStatus.Confirmed ? 'Confirmed' : 'Pending'}`,
+        organization: organization,
+        collaborator: accounting.contributor,
+        pay_internet: accounting.total_hours * accounting.pay_to_internet * accounting.internet_cost,
+        pay_issues: accounting.total_hours * accounting.pay_by_hours,
+        accountingLink: urlAccounting,
+      };
 
+      let doc = this.handlebarsTemplate.getTemplateData(templateDoc.body, data);
       await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
 
-      doc = await this.parseTemplateService.parseDocumentBody(
-        templateStyle.body,
-        templateStyle.styleTemplate.body,
-        tokens,
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: tableTokens,
-        }
-      );
-
-      await this.parseTemplateService.createDocument(exportPath, `email_${nameFile}`, doc);
-      const result = await this.emailService.send({
-        from: `<${organization.email}> ${organization.name}`,
-        to: accounting.contributor.email,
-        subject: `Accounting ${accounting.payment_code}`,
-        html: doc,
+      const result = await this.emailNotify.sendNotification({
+        emailOptions: {
+          to: accounting.contributor.email,
+          subject: `Accounting ${accounting.payment_code}`,
+        },
+        bodyTemplate: {
+          template: templateEmail.body,
+          data: { ...data, style: templateEmail.styleTemplate.body },
+        },
       });
       result.message = urlAccounting;
       return result;
@@ -307,28 +306,22 @@ export class AccountService {
     if (accounting) {
       accounting.issues = await this.issueService.getIssuesFromAccount(idAccounting);
       const organization = await this.orgDataService.getOrganizationData();
-      const tokens = this.getAccountingTokens(accounting, organization);
-      const tableTokens = this.getAccountingTableTokens(accounting, organization);
 
-      return await this.parseTemplateService.parseDocumentBody(
-        templateHTML || templateDoc.body,
-        templateStyle || templateDoc.styleTemplate.body,
-        tokens,
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: tableTokens,
-        }
-      );
+      return this.handlebarsTemplate.getTemplateData(templateHTML || templateDoc.body, {
+        style: templateStyle || templateDoc.styleTemplate.body,
+        titlePage: 'Bill',
+        accounting: accounting,
+        issues: accounting.issues,
+        status: `${accounting.status === AccountingStatus.Confirmed ? 'Confirmed' : 'Pending'}`,
+        organization: organization,
+        collaborator: accounting.contributor,
+        pay_internet: accounting.total_hours * accounting.pay_to_internet * accounting.internet_cost,
+        pay_issues: accounting.total_hours * accounting.pay_by_hours,
+      });
     } else {
-      return await this.parseTemplateService.parseDocumentBody(
-        templateHTML || templateDoc.body,
-        templateStyle || templateDoc.styleTemplate.body,
-        <ITemplateTokens>{},
-        {
-          cicleParse: this.replaceTableTokens,
-          tokens: [],
-        }
-      );
+      return this.handlebarsTemplate.getTemplateData(templateHTML || templateDoc.body, {
+        style: templateStyle || templateDoc.styleTemplate.body,
+      });
     }
   }
 

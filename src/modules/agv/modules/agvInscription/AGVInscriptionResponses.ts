@@ -9,6 +9,12 @@ export class AGVInscriptionResponse {
   @Field(() => String, { nullable: false }) email: string;
   @Field(() => String, { nullable: false }) phone: string;
   @Field(() => String, { nullable: false }) message: string;
+  @Field(() => String, { nullable: false }) class: string;
+  @Field(() => Date, { nullable: false }) date: Date;
+
+  @Field(() => Number) eventId: number;
+  @Field(() => String) eventTitle: string;
+  @Field(() => String) eventClass: string;
 
   @Field(() => AGVEventResponse) event: AGVEventResponse;
 }

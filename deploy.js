@@ -2,9 +2,11 @@ const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const buildApi = (environment, port) => {
+const buildApi = (module, environment, port, apiWebRoot) => {
   const settingsFileName = environment === 'production' ? 'settings.json' : `settings.${environment}.json`;
-  const deploySettings = fs.readJsonSync(`./src/modules/agv/${settingsFileName}`, { throws: false });
+  const deploySettings = fs.readJsonSync(`./src/modules/${module}/${settingsFileName}`, { throws: false });
+  deploySettings.WEB_ROOT = apiWebRoot;
+  fs.writeJsonSync(`./src/modules/${module}/${settingsFileName}`, deploySettings);
 
   const MODULE_NAME = deploySettings.NAME;
   console.log('\x1b[33m', `MODULE_NAME: ${MODULE_NAME}`);
@@ -18,7 +20,7 @@ const buildApi = (environment, port) => {
   const APP_WEB_ROOT = path.join(WEB_ROOT, APP_NAME);
   console.log('\x1b[33m', `APP_WEB_ROOT: ${APP_WEB_ROOT}`);
 
-  const API_BASEURL = deploySettings.API_BASEURL;
+  const API_BASEURL = `${deploySettings.API_BASEURL}:${port}`;
   console.log('\x1b[33m', `API_BASE: ${API_BASEURL}`);
 
   const destination = './build';
@@ -26,9 +28,6 @@ const buildApi = (environment, port) => {
   const moduleFiles = ['settings.json', 'settings.staging.json', 'settings.development.json'];
 
   console.log('\x1b[33m', 'Cleaning build destination folder'.toUpperCase());
-  if (!fs.existsSync(destination)) {
-    fs.mkdirSync(destination);
-  }
   fs.emptyDirSync(destination);
 
   console.log('\x1b[33m', 'Installing dependencies'.toUpperCase());
@@ -55,12 +54,14 @@ const buildApi = (environment, port) => {
     fs.copySync(`./src/modules/${MODULE_NAME}/${file}`, `${destination}/${file}`);
   });
 
+  execSync('npm ci --quiet --only=production', { cwd: `${destination}`, stdio: 'inherit' });
+
   console.log('\x1b[33m', 'Deployment complete'.toUpperCase());
 };
 
-const clientBuild = (environment) => {
+const clientBuild = (module, environment) => {
   const settingsFileName = environment === 'production' ? 'settings.json' : `settings.${environment}.json`;
-  const deploySettings = fs.readJsonSync(`./src/modules/agv/${settingsFileName}`, { throws: false });
+  const deploySettings = fs.readJsonSync(`./src/modules/${module}/${settingsFileName}`, { throws: false });
 
   const MODULE_NAME = deploySettings.NAME;
   console.log('\x1b[33m', `MODULE_NAME: ${MODULE_NAME}`);
@@ -89,9 +90,6 @@ const clientBuild = (environment) => {
 
   const clientTempbuild = path.join(tempDir, `${repofolder}-build`);
   console.log('\x1b[33m', 'Cleaning client destination folder'.toUpperCase());
-  if (!fs.existsSync(clientTempbuild)) {
-    fs.mkdirSync(clientTempbuild);
-  }
   fs.emptyDirSync(clientTempbuild);
   execSync(`node ${localRepoPath}/build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempbuild} ${MODULE_NAME}`, {
     cwd: `${localRepoPath}`,
@@ -104,9 +102,6 @@ const clientBuild = (environment) => {
     fs.mkdirSync(clientbuild);
   }
   clientbuild = path.join(clientbuild, 'client');
-  if (!fs.existsSync(clientbuild)) {
-    fs.mkdirSync(clientbuild);
-  }
   fs.emptyDirSync(clientbuild);
   fs.copySync(`${localRepoPath}/dist/spa`, clientbuild);
 
@@ -119,9 +114,11 @@ const clientBuild = (environment) => {
 const selfRun = () => {
   const BUILD_ARGS = process.argv.slice(2);
   console.log('\x1b[33m', `BUILD_ARGS: ${BUILD_ARGS}`);
-  const NODE_ENV = BUILD_ARGS && BUILD_ARGS.length > 1 ? BUILD_ARGS[0] : 'development';
+  const MODULE = BUILD_ARGS && BUILD_ARGS.length > 1 ? BUILD_ARGS[0] : 'wgo';
+  console.log('\x1b[33m', `MODULE: ${MODULE}`);
+  const NODE_ENV = BUILD_ARGS && BUILD_ARGS.length > 2 ? BUILD_ARGS[1] : 'development';
   console.log('\x1b[33m', `NODE_ENV: ${NODE_ENV}`);
-  const PORT_ENV = BUILD_ARGS && BUILD_ARGS.length > 2 ? BUILD_ARGS[1] : '5010';
+  const PORT_ENV = BUILD_ARGS && BUILD_ARGS.length > 3 ? BUILD_ARGS[2] : '5010';
   console.log('\x1b[33m', `PORT_ENV: ${PORT_ENV}`);
   buildApi(NODE_ENV, PORT_ENV);
 };

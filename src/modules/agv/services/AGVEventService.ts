@@ -2,11 +2,13 @@ import { Connection, Repository } from 'typeorm';
 import { MediaResponseGQL } from '../../../graphql/types/responses/MediaResponseGQL';
 import { MediaModel } from '../../../models/MediaModel';
 import AGVEventEntity from '../database/entities/AGVEventEntity';
+import { AGVInscriptionEntity } from '../database/entities/AGVInscriptionEntity';
 import { AGVEventInput } from '../modules/agvEvent/AGVEventInputs';
 import { AGVEventResponse } from '../modules/agvEvent/AGVEventResponses';
 
 export class AGVEventService {
   private eventRepository: Repository<AGVEventEntity>;
+  private inscriptionRepository: Repository<AGVInscriptionEntity>;
   private mediaModel: MediaModel;
 
   /**
@@ -14,6 +16,7 @@ export class AGVEventService {
    */
   constructor(conn: Connection) {
     this.eventRepository = conn.getRepository(AGVEventEntity);
+    this.inscriptionRepository = conn.getRepository(AGVInscriptionEntity);
     this.mediaModel = new MediaModel();
   }
 
@@ -24,9 +27,15 @@ export class AGVEventService {
     });
 
     const eventResponses: AGVEventResponse[] = [];
-    events.map((evnt) => {
+
+    for (const evnt of events) {
       let imgTitle = undefined;
       const imgList: MediaResponseGQL[] = [];
+      const inscriptionCount = await this.inscriptionRepository.count({
+        where: {
+          eventId: evnt.id,
+        },
+      });
 
       if (!!evnt.imgTitle) {
         imgTitle = MediaModel.getMediaResponse(evnt.imgTitle, urlApi);
@@ -39,8 +48,14 @@ export class AGVEventService {
           MediaModel.saveMediaFile(img);
         });
       }
-      eventResponses.push({ ...new AGVEventResponse(), ...evnt, imgTitle: imgTitle, imgList: imgList });
-    });
+      eventResponses.push({
+        ...new AGVEventResponse(),
+        ...evnt,
+        imgTitle: imgTitle,
+        imgList: imgList,
+        inscriptions: inscriptionCount,
+      });
+    }
 
     return eventResponses;
   }

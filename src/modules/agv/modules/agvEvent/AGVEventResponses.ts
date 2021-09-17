@@ -14,6 +14,7 @@ export class AGVEventResponse {
   @Field(() => Date, { nullable: true }) endDate: Date;
   @Field(() => Boolean) visible: boolean;
   @Field(() => Boolean) enrollment: boolean;
+  @Field(() => Number) inscriptions: number;
 
   @Field((type) => MediaResponseGQL, { nullable: true })
   imgTitle?: MediaResponseGQL;
