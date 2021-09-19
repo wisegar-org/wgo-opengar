@@ -1,9 +1,9 @@
-import { DBConector } from '../../../database/DBConector';
+import { GetConnection } from '../../wgo/database';
 import { AddAdminUserSeeder } from './AddAdminUserSeeder';
 import { EventsSeeder } from './EventsSeeder';
 
-export const SedderAGV = async () => {
-  const connection = DBConector.GetConnection();
+export const SeederAGV = async () => {
+  const connection = GetConnection();
   await AddAdminUserSeeder(connection);
   await EventsSeeder(connection);
 };
