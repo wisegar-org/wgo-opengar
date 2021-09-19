@@ -1,9 +1,11 @@
-import { Language, TranslationEntity } from '@wisegar-org/wgo-opengar-core';
 import fs, { readFileSync, WriteStream, unlinkSync } from 'fs';
 import { join } from 'path';
 import { UploadedFile } from 'express-fileupload';
 import { Repository, ILike, Connection } from 'typeorm';
 import { GetPublicFilesPath } from '../settings/ConfigService';
+import TranslationEntity from '../database/entities/TranslationEntity';
+import { LanguageEntity } from '../database/entities/LanguageEntity';
+import { LanguageService } from './LanguageService';
 
 export type TransaltionsType = {
   [key: string]: string;
@@ -17,17 +19,19 @@ export type TranslationsByCulture = {
 
 export class TranslationService {
   translationRepository: Repository<TranslationEntity>;
+  languageService: LanguageService;
   /**
    *
    */
   constructor(conn: Connection) {
     this.translationRepository = conn.getRepository(TranslationEntity);
+    this.languageService = new LanguageService(conn);
   }
 
-  async getTranslation(lang: Language, key: string, trim = true) {
+  async getTranslation(lang: string, key: string, trim = true) {
     const translation = await this.translationRepository.findOne({
       where: {
-        language: lang,
+        languageCode: lang,
         key,
       },
     });
@@ -39,7 +43,7 @@ export class TranslationService {
     return !str ? '' : str.replace(/(<([^>]+)>)/gi, '');
   }
 
-  async setTranslation(lang: Language, key: string, value: string) {
+  async setTranslation(lang: string, key: string, value: string) {
     let translationEntity = await this.translationRepository.findOne({
       where: {
         key,
@@ -49,7 +53,7 @@ export class TranslationService {
     if (!translationEntity) {
       translationEntity = new TranslationEntity();
       translationEntity.key = key;
-      translationEntity.language = lang;
+      translationEntity.languageCode = lang;
     }
     translationEntity.value = value;
     await this.translationRepository.manager.save(translationEntity);
@@ -62,20 +66,21 @@ export class TranslationService {
       if (!(tranlation.key in translations)) {
         translations[tranlation.key] = <CultureTranslation>{};
       }
-      translations[tranlation.key][tranlation.language] = tranlation.value;
+      translations[tranlation.key][tranlation.languageCode] = tranlation.value;
     });
     return translations;
   }
 
-  async getTranslationsByFilter(lang: Language, search: string = '', skip: number = 0, take: number = 10) {
+  async getTranslationsByFilter(lang: string, search: string = '', skip: number = 0, take: number = 10) {
     const searchTranslationskeys: { [key: string]: boolean } = {};
     const translationsFile: TransaltionsType = {};
-    for (const language in Language) {
+    const langs: LanguageEntity[] = await this.languageService.all(false);
+    for (const language of langs) {
       await this.getKeysByFilterInDB(
-        language as Language,
+        language.code,
         search,
         searchTranslationskeys,
-        lang === Language.IT ? translationsFile : null
+        lang === language.code ? translationsFile : null
       );
     }
 
@@ -98,7 +103,7 @@ export class TranslationService {
     };
   }
 
-  async editTranslation(language: Language, cultureId: string, key: string, value: string, save: boolean = true) {
+  async editTranslation(language: string, cultureId: string, key: string, value: string, save: boolean = true) {
     const message = await this.getTranslation(language, 'WG_Manager_Translator_EditSuccess');
     if (cultureId) {
       const lang = cultureId;
@@ -113,7 +118,7 @@ export class TranslationService {
     if (!translation) {
       translation = new TranslationEntity();
       translation.key = key;
-      translation.language = language;
+      translation.languageCode = language;
     }
     translation.value = value;
     await this.translationRepository.manager.save(translation);
@@ -123,20 +128,22 @@ export class TranslationService {
     };
   }
 
-  async importExcel(lang: Language, buffer: UploadedFile) {
+  async importExcel(lang: string, buffer: UploadedFile) {
+    const langs: LanguageEntity[] = await this.languageService.all(false);
     const format = ' __*__,';
     const path = GetPublicFilesPath();
     const docType = join(path, buffer.name);
     await buffer.mv(docType);
     let doc: string = readFileSync(docType, 'utf-8');
-    doc = doc.split(`\n${Language.IT}`).join(`${format}${Language.IT}`);
-    doc = doc.split(`\n${Language.EN}`).join(`${format}${Language.EN}`);
+    langs.forEach((lang) => {
+      doc = doc.split(`\n${lang.code}`).join(`${format}${lang.code}`);
+    });
     const translations = doc.split(format).slice(1);
     const translationsEntity: TranslationEntity[] = [];
     translations.forEach((str) => {
       const trans = str.split(',');
       const translationEntity = new TranslationEntity();
-      translationEntity.language = trans[0] as Language;
+      translationEntity.languageCode = trans[0];
       translationEntity.key = trans[1];
       translationEntity.value = trans[2];
       translationsEntity.push(translationEntity);
@@ -148,21 +155,22 @@ export class TranslationService {
     };
   }
 
-  async exportTranslation(lang: Language) {
+  async exportTranslation(lang: string) {
+    const langs: LanguageEntity[] = await this.languageService.all(false);
     const path = GetPublicFilesPath();
     const documentName = 'translations.csv';
     const searchTranslationskeys: { [key: string]: boolean } = {};
 
-    for (const lang in Language) {
-      await this.getKeysByFilterInDB(lang as Language, '', searchTranslationskeys);
+    for (const lang of langs) {
+      await this.getKeysByFilterInDB(lang.code, '', searchTranslationskeys);
     }
 
     const writeStream = fs.createWriteStream(join(path, documentName));
 
     writeStream.write('" Language "," Key "," Value "\n');
 
-    for (const lang in Language) {
-      this.writeTranslations(lang as Language, searchTranslationskeys, writeStream);
+    for (const lang of langs) {
+      this.writeTranslations(lang.code, searchTranslationskeys, writeStream);
     }
 
     return {
@@ -172,10 +180,10 @@ export class TranslationService {
     };
   }
 
-  private async writeTranslations(language: Language, keys: { [key: string]: boolean }, writeStream: WriteStream) {
+  private async writeTranslations(language: string, keys: { [key: string]: boolean }, writeStream: WriteStream) {
     const translations: TransaltionsType = {};
     const translationsEntities: TranslationEntity[] = await this.translationRepository.find({
-      language,
+      languageCode: language,
     });
     translationsEntities.forEach((translation) => {
       translations[translation.key] = translation.value;
@@ -205,7 +213,7 @@ export class TranslationService {
   }
 
   private async getKeysByFilterInDB(
-    language: Language,
+    language: string,
     filter = '',
     searchTranslationskeys: { [key: string]: boolean },
     translationFile: TransaltionsType | null = null
