@@ -1,5 +1,5 @@
 export { InitializeCasinaMiddlewares } from './middleware';
-export { SedderCasina } from './seeder';
+export { SeederCasina } from './seeder';
 
 export const getCasinaResolvers = () => {
   return [];
