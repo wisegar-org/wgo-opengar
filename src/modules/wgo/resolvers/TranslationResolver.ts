@@ -1,5 +1,5 @@
 import { Arg, Query, Resolver } from 'type-graphql';
-import { DBConector } from '../database';
+import { GetConnection } from '../database';
 import { TranslationService } from '../services/TranslationService';
 import { TranslationFilterInputGQL, TranslationFilterPageResponseGQL } from '../modules';
 
@@ -7,7 +7,7 @@ import { TranslationFilterInputGQL, TranslationFilterPageResponseGQL } from '../
 export class TranslationResolver {
   private translationService: TranslationService;
   constructor() {
-    const conn = DBConector.GetConnection();
+    const conn = GetConnection();
     this.translationService = new TranslationService(conn);
   }
 

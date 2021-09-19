@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { DBConector } from '../database';
+import { GetConnection } from '../database';
 import { MediaModel } from '../models/MediaModel';
 import { ILanguage, LanguageService } from '../services/LanguageService';
 import { LanguageInputGQL, LanguageResponseGQL } from '../modules';
@@ -8,7 +8,7 @@ import { LanguageInputGQL, LanguageResponseGQL } from '../modules';
 export class LanguageResolver {
   private languageService: LanguageService;
   constructor() {
-    const conn = DBConector.GetConnection();
+    const conn = GetConnection();
     this.languageService = new LanguageService(conn);
   }
 
