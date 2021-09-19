@@ -1,6 +1,6 @@
-import { DBConector } from '../../../database/DBConector';
+import { GetConnection } from '../../wgo/database';
 
-export const SedderCasina = async () => {
-  const connection = DBConector.GetConnection();
+export const SeederCasina = async () => {
+  const connection = GetConnection();
   //Casina Seeder
 };
