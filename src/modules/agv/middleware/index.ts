@@ -5,7 +5,7 @@ import {
   CreatePathInPublicFolder,
   CreatePathInPrivateFolder,
   FILES_STORAGE_FOLDER_NAME,
-} from '../../../settings/ConfigService';
+} from '../../wgo/settings/ConfigService';
 
 export function InitializeAGVMiddlewares(App: Express) {
   App.use(PUBLIC_FILES_APP_PATH, expressStatics(GetPublicFilesPath()));

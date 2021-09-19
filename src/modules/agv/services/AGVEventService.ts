@@ -1,6 +1,6 @@
 import { Connection, Repository } from 'typeorm';
-import { MediaResponseGQL } from '../../../graphql/types/responses/MediaResponseGQL';
-import { MediaModel } from '../../../models/MediaModel';
+import { MediaModel } from '../../wgo/models/MediaModel';
+import { MediaResponseGQL } from '../../wgo/modules';
 import AGVEventEntity from '../database/entities/AGVEventEntity';
 import { AGVInscriptionEntity } from '../database/entities/AGVInscriptionEntity';
 import { AGVEventInput } from '../modules/agvEvent/AGVEventInputs';

@@ -1,4 +1,4 @@
-export { SedderAGV } from './seeder';
+export { SeederAGV } from './seeder';
 export { InitializeAGVMiddlewares } from './middleware';
 
 import AGVEventEntity from './database/entities/AGVEventEntity';
