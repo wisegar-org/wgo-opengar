@@ -12,9 +12,9 @@ import {
   writeFileSync,
 } from 'fs-extra';
 import { Repository } from 'typeorm';
-import { FILES_STORAGE_FOLDER_NAME, GetPublicFilesPath } from '../settings/ConfigService';
 import { GetConnection } from '../database/DBGetConnection';
 import { MediaInputGQL, MediaResponseGQL } from '../modules';
+import { FILES_STORAGE_FOLDER_NAME, GetPublicFilesPath } from '../settings/ConfigService';
 
 export class MediaModel {
   private repository: Repository<MediaEntity>;

@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { boot, GetNodeEnvKey, GetPortKey } from '@wisegar-org/wgo-opengar-core';
 import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/IServerOptions';
-import { ServerContext, ServerAuthenticator } from './modules/wgo';
 import { callSeeders } from './seeder';
 import { initializeMiddlewares } from './middlewares';
 import { getResolvers } from './resolvers';
 import { BuildSettings } from './settings/BuildSettings';
 import { formatError } from './settings/ErrorSettings';
 import { DBConector, OGConnection } from './database';
+import { ServerAuthenticator, ServerContext } from './modules/wgo/servers';
 
 const buildConfig = new BuildSettings();
 const port = GetPortKey();
