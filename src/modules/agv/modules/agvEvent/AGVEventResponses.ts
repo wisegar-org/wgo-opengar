@@ -1,5 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
-import { MediaResponseGQL } from '../../../../graphql/types/responses/MediaResponseGQL';
+import { MediaResponseGQL } from '../../../wgo/modules';
 
 @ObjectType()
 export class AGVEventResponse {

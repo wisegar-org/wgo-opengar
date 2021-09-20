@@ -6,11 +6,8 @@ import {
   GetDBPortKey,
   GetDBUserNameKey,
 } from '@wisegar-org/wgo-opengar-core';
-import { BuildEntities } from './entities';
-
-const entities: any[] = BuildEntities;
-
-console.log('Loaded entities: ', entities);
+import { BuildSettings } from '../settings/BuildSettings';
+import { getEntities } from './entities';
 
 export enum OGConnection {
   Development = 0,
@@ -19,7 +16,9 @@ export enum OGConnection {
   Environment = 3,
 }
 
-export const getConnectionOptions = () => {
+export const getConnectionOptions = (buildConfig: BuildSettings) => {
+  const entities = getEntities(buildConfig);
+  console.log('Loaded entities: ', entities);
   const dbHost: string = GetDBHostKey();
   const dbPort: number = parseInt(GetDBPortKey());
   const dbName: string = GetDBNameKey();

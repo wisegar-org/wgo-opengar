@@ -1,10 +1,8 @@
 import { Connection } from 'typeorm';
 import CollaboratorEntity from '../database/entities/CollaboratorEntity';
-import { REPORT_STORAGE_FOLDER_NAME } from '../services/SettingsService';
 import AccountEntity from '../database/entities/AccountEntity';
 import { RolEntity, RolEntityEnum, UserDataService, UserEntity } from '@wisegar-org/wgo-opengar-core';
 import _ from 'lodash';
-import { CreatePathInPrivateFolder, CreatePathInPublicFolder } from '../../../settings/ConfigService';
 
 export async function CheckCollaboratosId(conn: Connection) {
   const collaboratorConnection = conn.getRepository(CollaboratorEntity);

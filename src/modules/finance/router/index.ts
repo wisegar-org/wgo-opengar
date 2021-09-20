@@ -18,7 +18,7 @@ import { ExportController } from '../controllers/ExportController';
 import { BillController } from '../controllers/BillController';
 import { GetPublicReportPath, PUBLIC_REPORT_APP_PATH, REPORT_STORAGE_FOLDER_NAME } from '../services/SettingsService';
 import { ReportsMiddleware } from '../middlewares/ReportsMiddleware';
-import { CreatePathInPublicFolder } from '../../../settings/ConfigService';
+import { CreatePathInPublicFolder } from '../../wgo/settings/ConfigService';
 
 console.log('Use environment API_TOKEN: ', process.env.API_TOKEN ? true : false);
 

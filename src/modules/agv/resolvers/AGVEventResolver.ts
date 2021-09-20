@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { DBConector } from '../../../database/DBConector';
+import { GetConnection } from '../../wgo/database';
 import { AGVEventInput } from '../modules/agvEvent/AGVEventInputs';
 import { AGVEventResponse } from '../modules/agvEvent/AGVEventResponses';
 import { AGVEventService } from '../services/AGVEventService';
@@ -12,7 +12,7 @@ export class AGVEventResolver {
    *
    */
   constructor() {
-    const conn = DBConector.GetConnection();
+    const conn = GetConnection();
     this.eventService = new AGVEventService(conn);
   }
 
