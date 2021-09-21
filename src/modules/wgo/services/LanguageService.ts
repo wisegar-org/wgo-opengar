@@ -5,7 +5,7 @@ import { LanguageEntity } from '../database/entities/LanguageEntity';
 export interface ILanguage {
   id: number;
   code: string;
-  disabled: boolean;
+  enabled: boolean;
   default: boolean;
   logoId: number;
 }
@@ -23,6 +23,7 @@ export class LanguageService {
 
   async all(whitRelations: boolean = false) {
     const language = await this.languageRepository.find({
+      // relations: ['logo'],
       relations: whitRelations ? ['logo'] : [],
     });
 
@@ -33,7 +34,7 @@ export class LanguageService {
     let lang = await this.languageRepository.findOne({
       where: { code: language.code },
     });
-    if (!!language) return false;
+    if (!!lang) return false;
 
     lang = new LanguageEntity();
     return !!(await this.setProperties(lang, language));
@@ -52,7 +53,7 @@ export class LanguageService {
   private async setProperties(lang: LanguageEntity, language: ILanguage) {
     lang.code = language.code;
     lang.default = language.default;
-    lang.disabled = language.disabled;
+    lang.enabled = language.enabled;
     if (language.logoId) {
       const media = await this.mediaRepository.findOne({
         id: language.logoId,

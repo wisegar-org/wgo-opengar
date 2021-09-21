@@ -8,7 +8,7 @@ export class LanguageEntity extends BaseEntity {
   @Column({ default: '' })
   code!: string;
   @Column({ default: false })
-  disabled!: boolean;
+  enabled!: boolean;
   @Column({ default: false })
   default!: boolean;
 

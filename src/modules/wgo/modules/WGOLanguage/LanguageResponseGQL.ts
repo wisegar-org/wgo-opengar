@@ -6,6 +6,6 @@ export class LanguageResponseGQL {
   @Field(() => Number) id: number;
   @Field(() => String) code: string;
   @Field(() => Boolean) default: boolean;
-  @Field(() => Boolean) disabled: boolean;
+  @Field(() => Boolean) enabled: boolean;
   @Field(() => MediaResponseGQL, { nullable: true }) logo: MediaResponseGQL;
 }
