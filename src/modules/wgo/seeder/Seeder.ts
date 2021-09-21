@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { Connection, Repository } from 'typeorm';
 import { AGVRoles } from '../../agv/models';
 import { GetConnection } from '../database';
+import { LanguageService } from '../services/LanguageService';
 
 export class DataSeeder {
   _userDataSerive: UserDataService;
@@ -75,8 +76,20 @@ export class DataSeeder {
     }
   }
 
+  public async createLanguageSeeder() {
+    const languageService = new LanguageService(this.connection);
+    await languageService.create({
+      code: 'EN',
+      default: false,
+      enabled: true,
+      logoId: 0,
+      id: 0,
+    });
+  }
+
   public async createData() {
     await this.createRolesSeeder();
     await this.createUserSeeder();
+    await this.createLanguageSeeder();
   }
 }

@@ -6,10 +6,10 @@ export * from './settings';
 import { MediaEntity, RolEntity, SessionEntity, TemplateEntity, UserEntity } from '@wisegar-org/wgo-opengar-core';
 import { LanguageEntity } from './database/entities/LanguageEntity';
 import TranslationEntity from './database/entities/TranslationEntity';
-import { AppResolver, EmailResolver, MediaResolver, RoleResolver, UserResolver } from './resolvers';
+import { AppResolver, EmailResolver, LanguageResolver, MediaResolver, RoleResolver, UserResolver } from './resolvers';
 
 export const getWGOResolvers = () => {
-  return [AppResolver, EmailResolver, MediaResolver, RoleResolver, UserResolver];
+  return [AppResolver, EmailResolver, MediaResolver, RoleResolver, UserResolver, LanguageResolver];
 };
 
 export const getWGOEntities = () => {

@@ -20,7 +20,7 @@ export class LanguageResolver {
         id: lang.id,
         code: lang.code,
         default: lang.default,
-        disabled: lang.disabled,
+        enabled: lang.enabled,
         logo: lang.logo ? MediaModel.getMediaResponse(lang.logo, urlApi) : null,
       };
     });
