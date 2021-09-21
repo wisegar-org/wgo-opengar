@@ -39,13 +39,11 @@ export class AGVEventService {
 
       if (!!evnt.imgTitle) {
         imgTitle = MediaModel.getMediaResponse(evnt.imgTitle, urlApi);
-        MediaModel.saveMediaFile(evnt.imgTitle);
       }
 
       if (!!evnt.imgList) {
         evnt.imgList.forEach((img) => {
           imgList.push(MediaModel.getMediaResponse(img, urlApi));
-          MediaModel.saveMediaFile(img);
         });
       }
       eventResponses.push({

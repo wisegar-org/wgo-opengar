@@ -14,7 +14,7 @@ import {
 import { Repository } from 'typeorm';
 import { GetConnection } from '../database/DBGetConnection';
 import { MediaInputGQL, MediaResponseGQL } from '../modules';
-import { FILES_STORAGE_FOLDER_NAME, GetPublicFilesPath } from '../settings/ConfigService';
+import { FILES_STORAGE_FOLDER_NAME, GetPrivateFilesPath, GetPublicFilesPath } from '../settings/ConfigService';
 
 export class MediaModel {
   private repository: Repository<MediaEntity>;
@@ -24,7 +24,7 @@ export class MediaModel {
   }
 
   static getStorageFilePath(isPublic: boolean, filename: string): string {
-    const storageDir = isPublic ? GetPublicFilesPath() : GetPublicFilesPath();
+    const storageDir = isPublic ? GetPublicFilesPath() : GetPrivateFilesPath();
 
     if (!existsSync(storageDir)) {
       mkdirSync(storageDir);
@@ -44,6 +44,7 @@ export class MediaModel {
   }
 
   static getMediaResponse(media: MediaEntity, urlApi: string) {
+    if (media.isPublic) MediaModel.saveMediaFile(media);
     return <MediaResponseGQL>{
       data: media.fileContent.toString('base64'),
       isPublic: media.isPublic,
