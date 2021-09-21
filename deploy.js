@@ -23,6 +23,9 @@ const buildApi = (module, environment, port, apiWebRoot) => {
   const API_BASEURL = `${deploySettings.API_BASEURL}:${port}`;
   console.log('\x1b[33m', `API_BASE: ${API_BASEURL}`);
 
+  const API_TOKEN = deploySettings.GITHUB_API_TOKEN || 'API_TOKEN';
+  console.log('\x1b[33m', `API_TOKEN: ${deploySettings.GITHUB_API_TOKEN ? API_TOKEN : 'NULL'}`);
+
   const destination = './build';
   const sourceFiles = ['package.json', 'package-lock.json', '.npmrc'];
   const moduleFiles = ['settings.json', 'settings.staging.json', 'settings.development.json'];
@@ -44,6 +47,7 @@ const buildApi = (module, environment, port, apiWebRoot) => {
   fs.appendFileSync(ENV_FILENAME, `PORT=${port} \n`);
   fs.appendFileSync(ENV_FILENAME, `MODULES=${[MODULE_NAME]} \n`);
   fs.appendFileSync(ENV_FILENAME, `APP_WEB_ROOT=${[APP_WEB_ROOT]} \n`);
+  fs.appendFileSync(ENV_FILENAME, `API_TOKEN=${[API_TOKEN]} \n`);
 
   console.log('\x1b[33m', 'Updating build settings & dependencies'.toUpperCase());
   sourceFiles.forEach((file) => {
