@@ -14,4 +14,8 @@ export class MediaResponseGQL {
   url?: string;
   @Field(() => String, { nullable: true })
   error?: string;
+  @Field(() => String, { nullable: true })
+  displayName?: string;
+  @Field(() => String, { nullable: true })
+  fileName?: string;
 }

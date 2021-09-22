@@ -8,3 +8,8 @@ export class MediaInputGQL {
   @Field(() => Boolean, { description: 'Flag public file' })
   isPublic: boolean;
 }
+@InputType()
+export class MediasInputGQL {
+  @Field(() => [MediaInputGQL], { description: 'File uploaded' })
+  files: MediaInputGQL[];
+}
