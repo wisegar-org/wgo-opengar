@@ -1,10 +1,7 @@
-import { Express } from 'express'
-import fileupload from 'express-fileupload'
+import { Express } from 'express';
 
 export function InitializeMiddlewares(App: Express) {
-  const bodyParser = require('body-parser')
-  App.use(fileupload())
-
-  App.use(bodyParser.json())
-  App.use(bodyParser.urlencoded({ extended: true }))
+  const bodyParser = require('body-parser');
+  App.use(bodyParser.json());
+  App.use(bodyParser.urlencoded({ extended: true }));
 }

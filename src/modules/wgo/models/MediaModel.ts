@@ -13,7 +13,7 @@ import {
 } from 'fs-extra';
 import { Repository } from 'typeorm';
 import { GetConnection } from '../database/DBGetConnection';
-import { MediaInputGQL, MediaResponseGQL } from '../modules';
+import { MediaInputGQL, MediaResponseGQL, MediasInputGQL } from '../modules';
 import { FILES_STORAGE_FOLDER_NAME, GetPrivateFilesPath, GetPublicFilesPath } from '../settings/ConfigService';
 
 export class MediaModel {
@@ -46,10 +46,10 @@ export class MediaModel {
   static getMediaResponse(media: MediaEntity, urlApi: string) {
     if (media.isPublic) MediaModel.saveMediaFile(media);
     return <MediaResponseGQL>{
-      data: media.fileContent.toString('base64'),
       isPublic: media.isPublic,
       id: media.id,
       mimetype: media.mimeType,
+      displayName: media.displayName,
       url: `${urlApi}${MediaModel.getRelativeFileUrl(media.isPublic, media.fileName)}`,
     };
   }
@@ -114,6 +114,23 @@ export class MediaModel {
     } catch (error) {
       return this.getErrorMediaResponse(data.isPublic, error);
     }
+  }
+
+  async uploadFiles(data: MediasInputGQL, urlApi: string): Promise<MediaResponseGQL[]> {
+    const result: MediaResponseGQL[] = [];
+    for (const fileItem of data.files) {
+      const media = await this.uploadFile(fileItem, urlApi);
+      if (!media.error) result.push(media);
+    }
+    return result;
+  }
+
+  async getFile(id: number) {
+    const media = await this.repository.findOne(id);
+    return <MediaResponseGQL>{
+      mimetype: media.mimeType,
+      data: media.fileContent.toString('base64'),
+    };
   }
 
   async getMediaList(listId: number[]) {
