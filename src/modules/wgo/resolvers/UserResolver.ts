@@ -48,7 +48,7 @@ export class UserResolver {
   @Mutation(() => UserResponseGQL)
   async addUser(
     @Arg('data')
-    { name, lastName, email, userName, password, roles }: UserInputGQL
+    { name, lastName, email, userName, password, roles, isEmailConfirmed }: UserInputGQL
   ): Promise<Response<UserEntity>> {
     const user = new UserEntity();
     user.name = name;
@@ -56,6 +56,7 @@ export class UserResolver {
     user.email = email;
     user.userName = userName;
     user.password = password;
+    user.isEmailConfirmed = isEmailConfirmed;
     const registerResponse = await this._userDataService.create(user);
     if (registerResponse.isSuccess) {
       const uuid = registerResponse.result.uuid;
@@ -81,7 +82,7 @@ export class UserResolver {
   @Mutation(() => UserResponseGQL)
   async updateUser(
     @Arg('data')
-    { id, name, lastName, email, userName, roles, password }: UserInputGQL
+    { id, name, lastName, email, userName, roles, password, isEmailConfirmed }: UserInputGQL
   ): Promise<Response<UserEntity>> {
     const userResponse = await this.userById(id);
     if (!userResponse.isSuccess) {
@@ -92,6 +93,7 @@ export class UserResolver {
     user.lastName = lastName ? lastName : user.lastName;
     user.email = email ? email : user.email;
     user.userName = userName ? userName : user.userName;
+    user.isEmailConfirmed = isEmailConfirmed != null ? isEmailConfirmed : user.isEmailConfirmed;
     let updateResp = await this._userDataService.update(user);
 
     if (updateResp.isSuccess && password) {

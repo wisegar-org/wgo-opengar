@@ -134,6 +134,7 @@ export class UserInputGQL {
   @Field(() => [Number], { nullable: true })
   roles: number[];
 
+  @Field(() => Boolean)
   isEmailConfirmed: boolean;
 }
 
