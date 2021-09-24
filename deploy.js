@@ -2,12 +2,10 @@ const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const clearBuildFolders = (localRepoPath, clientTempbuild) => {
-  if (localRepoPath && fs.existsSync(localRepoPath)) {
-    execSync(`npx rimraf ${localRepoPath}`, { stdio: 'inherit' });
-  }
-  if (clientTempbuild && fs.existsSync(clientTempbuild)) {
-    execSync(`npx rimraf ${clientTempbuild}`, { stdio: 'inherit' });
+const cleanFolder = (folderPath) => {
+  if (folderPath && fs.existsSync(folderPath)) {
+    console.log(`CLEANING FOLDER ${folderPath}`);
+    execSync(`npx rimraf ${folderPath}`, { stdio: 'inherit' });
   }
 };
 
@@ -90,7 +88,7 @@ const clientBuild = (module, environment) => {
   const repofolder = path.basename(reponame, path.extname(reponame));
   const localRepoPath = path.join(tempDir, repofolder);
   // --branch ${MODULE_NAME}
-  // clearBuildFolders(localRepoPath, undefined);
+  cleanFolder(localRepoPath);
   execSync(`git clone ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
   const sourceFiles = ['.npmrc'];
   sourceFiles.forEach((file) => {
@@ -102,10 +100,10 @@ const clientBuild = (module, environment) => {
   const APP_CLIENT_BASEURL = deploySettings.APP_CLIENT_BASEURL;
   console.log('\x1b[33m', `APP_CLIENT_BASEURL: ${APP_CLIENT_BASEURL}`);
 
-  const clientTempbuild = path.join(tempDir, `${repofolder}-build`);
+  const clientTempBuild = path.join(tempDir, `${repofolder}-build`);
   console.log('\x1b[33m', 'Cleaning client destination folder'.toUpperCase());
-  fs.emptyDirSync(clientTempbuild);
-  execSync(`node ${localRepoPath}/build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempbuild} ${MODULE_NAME}`, {
+  fs.emptyDirSync(clientTempBuild);
+  execSync(`node ${localRepoPath}/build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempBuild} ${MODULE_NAME}`, {
     cwd: `${localRepoPath}`,
     stdio: 'inherit',
   });
@@ -120,7 +118,8 @@ const clientBuild = (module, environment) => {
   fs.copySync(`${localRepoPath}/dist/spa`, clientbuild);
 
   console.log('\x1b[33m', 'Cleaning build folders'.toUpperCase());
-  clearBuildFolders(localRepoPath, clientbuild);
+  cleanFolder(localRepoPath);
+  cleanFolder(clientTempBuild);
   console.log('\x1b[33m', 'Client UI Deploy Complete'.toUpperCase());
 };
 
