@@ -2,6 +2,15 @@ const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
 
+const clearBuildFolders = (localRepoPath, clientTempbuild) => {
+  if (localRepoPath && !fs.existsSync(localRepoPath)) {
+    execSync(`npx rimraf ${localRepoPath}`, { stdio: 'inherit' });
+  }
+  if (clientTempbuild && !fs.existsSync(clientTempbuild)) {
+    execSync(`npx rimraf ${clientTempbuild}`, { stdio: 'inherit' });
+  }
+};
+
 const buildApi = (module, environment, port, apiWebRoot) => {
   const settingsFileName = environment === 'production' ? 'settings.json' : `settings.${environment}.json`;
   const deploySettings = fs.readJsonSync(`./src/modules/${module}/${settingsFileName}`, { throws: false });
@@ -79,9 +88,10 @@ const clientBuild = (module, environment) => {
   const giturl = new URL(APP_CLIENT_GIT_PATH);
   const reponame = path.basename(giturl.pathname);
   const repofolder = path.basename(reponame, path.extname(reponame));
-  // --branch ${MODULE_NAME}
-  execSync(`git clone ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
   const localRepoPath = path.join(tempDir, repofolder);
+  // --branch ${MODULE_NAME}
+  clearBuildFolders(localRepoPath, undefined);
+  execSync(`git clone ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
   const sourceFiles = ['.npmrc'];
   sourceFiles.forEach((file) => {
     fs.copySync(file, `${localRepoPath}/${file}`);
@@ -110,8 +120,7 @@ const clientBuild = (module, environment) => {
   fs.copySync(`${localRepoPath}/dist/spa`, clientbuild);
 
   console.log('\x1b[33m', 'Cleaning build folders'.toUpperCase());
-  execSync(`npx rimraf ${localRepoPath}`, { stdio: 'inherit' });
-  execSync(`npx rimraf ${clientTempbuild}`, { stdio: 'inherit' });
+  clearBuildFolders(localRepoPath, clientbuild);
   console.log('\x1b[33m', 'Client UI Deploy Complete'.toUpperCase());
 };
 
