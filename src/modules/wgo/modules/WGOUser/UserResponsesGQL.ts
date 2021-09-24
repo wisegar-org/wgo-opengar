@@ -1,7 +1,7 @@
 import { Field, ObjectType } from 'type-graphql';
 import { RolEntity } from '@wisegar-org/wgo-opengar-core';
 import { UserEntity } from '@wisegar-org/wgo-opengar-core';
-import { RoleGQL } from '..';
+import { LanguageResponseGQL, RoleGQL } from '..';
 import { GenericArrayResponseGQL, GenericResponseGQL } from '../ResponseGQL';
 import { Role } from '../../models/RolesClass';
 
@@ -24,6 +24,10 @@ export class UserGQL {
 
   @Field(() => [RoleGQL])
   roles: RolEntity[];
+  @Field(() => Number, { nullable: true })
+  languageId: number;
+  @Field(() => LanguageResponseGQL, { nullable: true })
+  language: LanguageResponseGQL;
 }
 @ObjectType()
 export class UserLoginToken {

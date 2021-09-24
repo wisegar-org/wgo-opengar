@@ -1,6 +1,5 @@
-import { MediaEntity } from '@wisegar-org/wgo-opengar-core';
+import { LanguageEntity, MediaEntity, TranslationEntity } from '@wisegar-org/wgo-opengar-core';
 import { Connection, Repository } from 'typeorm';
-import { LanguageEntity } from '../database/entities/LanguageEntity';
 
 export interface ILanguage {
   id: number;
@@ -13,11 +12,13 @@ export interface ILanguage {
 export class LanguageService {
   languageRepository: Repository<LanguageEntity>;
   mediaRepository: Repository<MediaEntity>;
+  translationRepository: Repository<TranslationEntity>;
   /**
    *
    */
   constructor(conn: Connection) {
     this.languageRepository = conn.getRepository(LanguageEntity);
+    this.translationRepository = conn.getRepository(TranslationEntity);
     this.mediaRepository = conn.getRepository(MediaEntity);
   }
 
@@ -47,7 +48,27 @@ export class LanguageService {
       },
     });
     if (!language) return false;
+    if (lang.code !== language.code) {
+    }
     return !!(await this.setProperties(lang, language));
+  }
+
+  async getLanguageByCode(code: string) {
+    const lang = await this.languageRepository.findOne({
+      where: {
+        code: code,
+      },
+    });
+    return lang;
+  }
+
+  async getLanguageById(id: number) {
+    const lang = await this.languageRepository.findOne({
+      where: {
+        id,
+      },
+    });
+    return lang;
   }
 
   private async setProperties(lang: LanguageEntity, language: ILanguage) {
