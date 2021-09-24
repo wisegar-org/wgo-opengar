@@ -3,10 +3,10 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 const clearBuildFolders = (localRepoPath, clientTempbuild) => {
-  if (localRepoPath && !fs.existsSync(localRepoPath)) {
+  if (localRepoPath && fs.existsSync(localRepoPath)) {
     execSync(`npx rimraf ${localRepoPath}`, { stdio: 'inherit' });
   }
-  if (clientTempbuild && !fs.existsSync(clientTempbuild)) {
+  if (clientTempbuild && fs.existsSync(clientTempbuild)) {
     execSync(`npx rimraf ${clientTempbuild}`, { stdio: 'inherit' });
   }
 };
