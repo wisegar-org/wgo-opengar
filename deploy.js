@@ -90,7 +90,7 @@ const clientBuild = (module, environment) => {
   const repofolder = path.basename(reponame, path.extname(reponame));
   const localRepoPath = path.join(tempDir, repofolder);
   // --branch ${MODULE_NAME}
-  clearBuildFolders(localRepoPath, undefined);
+  // clearBuildFolders(localRepoPath, undefined);
   execSync(`git clone ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
   const sourceFiles = ['.npmrc'];
   sourceFiles.forEach((file) => {
