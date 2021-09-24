@@ -1,11 +1,10 @@
-import fs, { readFileSync, WriteStream, unlinkSync } from 'fs';
+import fs, { readFileSync, WriteStream, unlinkSync } from 'fs-extra';
 import { join } from 'path';
 import { UploadedFile } from 'express-fileupload';
 import { Repository, ILike, Connection } from 'typeorm';
-import { GetPublicFilesPath } from '../settings/ConfigService';
-import TranslationEntity from '../database/entities/TranslationEntity';
-import { LanguageEntity } from '../database/entities/LanguageEntity';
+import { GetPrivateFilesPath, GetPublicFilesPath } from '../settings/ConfigService';
 import { LanguageService } from './LanguageService';
+import { LanguageEntity, TranslationEntity } from '@wisegar-org/wgo-opengar-core';
 
 export type TransaltionsType = {
   [key: string]: string;
@@ -28,10 +27,10 @@ export class TranslationService {
     this.languageService = new LanguageService(conn);
   }
 
-  async getTranslation(lang: string, key: string, trim = true) {
+  async getTranslation(lang: number, key: string, trim = true) {
     const translation = await this.translationRepository.findOne({
       where: {
-        languageCode: lang,
+        languageId: lang,
         key,
       },
     });
@@ -43,20 +42,24 @@ export class TranslationService {
     return !str ? '' : str.replace(/(<([^>]+)>)/gi, '');
   }
 
-  async setTranslation(lang: string, key: string, value: string) {
+  async setTranslation(lang: number, key: string, value: string) {
     let translationEntity = await this.translationRepository.findOne({
       where: {
         key,
-        language: lang,
+        languageId: lang,
       },
     });
     if (!translationEntity) {
       translationEntity = new TranslationEntity();
       translationEntity.key = key;
-      translationEntity.languageCode = lang;
+    }
+    const language = await this.languageService.getLanguageById(lang);
+    if (language) {
+      translationEntity.languageId = lang;
+      translationEntity.language = language;
     }
     translationEntity.value = value;
-    await this.translationRepository.manager.save(translationEntity);
+    return !!(await this.translationRepository.manager.save(translationEntity));
   }
 
   async getAllTranslations() {
@@ -66,21 +69,21 @@ export class TranslationService {
       if (!(tranlation.key in translations)) {
         translations[tranlation.key] = <CultureTranslation>{};
       }
-      translations[tranlation.key][tranlation.languageCode] = tranlation.value;
+      translations[tranlation.key][tranlation.languageId] = tranlation.value;
     });
     return translations;
   }
 
-  async getTranslationsByFilter(lang: string, search: string = '', skip: number = 0, take: number = 10) {
+  async getTranslationsByFilter(lang: number, search: string = '', skip: number = 0, take: number = 10) {
     const searchTranslationskeys: { [key: string]: boolean } = {};
     const translationsFile: TransaltionsType = {};
     const langs: LanguageEntity[] = await this.languageService.all(false);
     for (const language of langs) {
       await this.getKeysByFilterInDB(
-        language.code,
+        language.id,
         search,
         searchTranslationskeys,
-        lang === language.code ? translationsFile : null
+        lang === language.id ? translationsFile : null
       );
     }
 
@@ -103,22 +106,19 @@ export class TranslationService {
     };
   }
 
-  async editTranslation(language: string, cultureId: string, key: string, value: string, save: boolean = true) {
-    const message = await this.getTranslation(language, 'WG_Manager_Translator_EditSuccess');
-    if (cultureId) {
-      const lang = cultureId;
-    }
+  async editTranslation(langId: number, cultureId: number, key: string, value: string, save: boolean = true) {
+    const message = await this.getTranslation(langId, 'WG_Manager_Translator_EditSuccess');
 
     let translation = await this.translationRepository.findOne({
       where: {
         key,
-        language: language,
+        languageId: langId,
       },
     });
     if (!translation) {
       translation = new TranslationEntity();
       translation.key = key;
-      translation.languageCode = language;
+      translation.languageId = langId;
     }
     translation.value = value;
     await this.translationRepository.manager.save(translation);
@@ -128,7 +128,7 @@ export class TranslationService {
     };
   }
 
-  async importExcel(lang: string, buffer: UploadedFile) {
+  async importExcel(lang: number, buffer: UploadedFile) {
     const langs: LanguageEntity[] = await this.languageService.all(false);
     const format = ' __*__,';
     const path = GetPublicFilesPath();
@@ -143,9 +143,9 @@ export class TranslationService {
     translations.forEach((str) => {
       const trans = str.split(',');
       const translationEntity = new TranslationEntity();
-      translationEntity.languageCode = trans[0];
-      translationEntity.key = trans[1];
-      translationEntity.value = trans[2];
+      translationEntity.languageId = parseInt(trans[0]);
+      translationEntity.key = trans[2];
+      translationEntity.value = trans[3];
       translationsEntity.push(translationEntity);
     });
     unlinkSync(docType);
@@ -155,42 +155,53 @@ export class TranslationService {
     };
   }
 
-  async exportTranslation(lang: string) {
+  async exportTranslation() {
     const langs: LanguageEntity[] = await this.languageService.all(false);
-    const path = GetPublicFilesPath();
+    const path = GetPrivateFilesPath();
     const documentName = 'translations.csv';
     const searchTranslationskeys: { [key: string]: boolean } = {};
 
     for (const lang of langs) {
-      await this.getKeysByFilterInDB(lang.code, '', searchTranslationskeys);
+      if (lang.enabled) {
+        await this.getKeysByFilterInDB(lang.id, '', searchTranslationskeys);
+      }
     }
 
-    const writeStream = fs.createWriteStream(join(path, documentName));
+    const pathDoc = join(join(path, documentName));
+    const writeStream = fs.createWriteStream(pathDoc);
 
-    writeStream.write('" Language "," Key "," Value "\n');
+    writeStream.write('"Language Id"," Language "," Key "," Value ",\n');
 
     for (const lang of langs) {
-      this.writeTranslations(lang.code, searchTranslationskeys, writeStream);
+      if (lang.enabled) {
+        await this.writeTranslations(lang, searchTranslationskeys, writeStream);
+      }
     }
 
+    writeStream.close();
+    const storedFileContent = readFileSync(pathDoc);
+
     return {
-      message: await this.getTranslation(lang, 'WG_Manager_Translator_ExportSuccess'),
-      result: documentName,
+      data: storedFileContent.toString('base64'),
       isSuccess: true,
     };
   }
 
-  private async writeTranslations(language: string, keys: { [key: string]: boolean }, writeStream: WriteStream) {
+  private async writeTranslations(
+    language: LanguageEntity,
+    keys: { [key: string]: boolean },
+    writeStream: WriteStream
+  ) {
     const translations: TransaltionsType = {};
     const translationsEntities: TranslationEntity[] = await this.translationRepository.find({
-      languageCode: language,
+      languageId: language.id,
     });
     translationsEntities.forEach((translation) => {
       translations[translation.key] = translation.value;
     });
     Object.keys(keys).forEach((key) => {
-      const value = key in translations ? translations[key] : key;
-      writeStream.write(`${language},${key},${value}\n`);
+      const value = key in translations && !!translations[key] ? translations[key] : key;
+      writeStream.write(`${language.id},${language.code},${key},${value}\n`);
     });
   }
 
@@ -213,13 +224,13 @@ export class TranslationService {
   }
 
   private async getKeysByFilterInDB(
-    language: string,
+    language: number,
     filter = '',
     searchTranslationskeys: { [key: string]: boolean },
     translationFile: TransaltionsType | null = null
   ) {
     const search = filter.toLowerCase();
-    const filterLanguage = { language: language };
+    const filterLanguage = { languageId: language };
     const translations = await this.translationRepository.find({
       where: search
         ? [

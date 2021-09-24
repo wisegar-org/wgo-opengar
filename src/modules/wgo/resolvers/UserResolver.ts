@@ -110,6 +110,11 @@ export class UserResolver {
     return await this._userDataService.setUserRoles(user.uuid, roles);
   }
 
+  @Mutation(() => Boolean)
+  async setUserLanguage(@Arg('uuid') uuid: string, @Arg('langId') langId: number) {
+    return !!(await this._userDataService.setUserLanguage(uuid, langId));
+  }
+
   @Mutation(() => UserResponseGQL)
   async removeUser(@Arg('uuid') uuid: string) {
     return await this._userDataService.remove(uuid);
