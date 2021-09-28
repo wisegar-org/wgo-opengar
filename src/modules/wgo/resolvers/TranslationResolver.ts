@@ -2,19 +2,25 @@ import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { GetConnection } from '../database';
 import { TranslationService } from '../services/TranslationService';
 import {
+  GetListTranslationsInputGQL,
+  GetListTranslationsResponseGQL,
   GetTranslationInputGQL,
+  ImportTranslationsInputGQL,
   TranslationExportResponseGQL,
   TranslationFilterInputGQL,
   TranslationFilterPageResponseGQL,
   TranslationInputGQL,
 } from '../modules';
+import { ContentModel } from '../models/ContentModel';
 
 @Resolver()
 export class TranslationResolver {
   private translationService: TranslationService;
+  private contentModel: ContentModel;
   constructor() {
     const conn = GetConnection();
     this.translationService = new TranslationService(conn);
+    this.contentModel = new ContentModel(conn);
   }
 
   @Query(() => TranslationFilterPageResponseGQL)
@@ -45,6 +51,18 @@ export class TranslationResolver {
   @Query(() => TranslationExportResponseGQL)
   async exportTranslations() {
     const result = await this.translationService.exportTranslation();
+    return result;
+  }
+
+  @Mutation(() => Boolean)
+  async importTranslations(@Arg('data') data: ImportTranslationsInputGQL) {
+    const result = await this.translationService.importTranslations(data.languageId, await data.file);
+    return result.isSuccess;
+  }
+
+  @Query(() => GetListTranslationsResponseGQL)
+  async getTranslationsContent(@Arg('data') data: GetListTranslationsInputGQL) {
+    const result = await this.contentModel.getContent(data);
     return result;
   }
 }
