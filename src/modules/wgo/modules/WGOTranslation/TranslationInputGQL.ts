@@ -1,6 +1,7 @@
 //TranslationInputGQL
 
 import { Field, InputType } from 'type-graphql';
+import { GraphQLUpload } from 'apollo-server-express';
 
 @InputType()
 export class TranslationInputGQL {
@@ -22,4 +23,23 @@ export class TranslationFilterInputGQL {
 export class GetTranslationInputGQL {
   @Field(() => Number, { nullable: false }) languageId: number;
   @Field(() => String, { nullable: false }) key: string;
+}
+
+@InputType()
+export class ItemTranslationsInputGQL {
+  @Field(() => String, { nullable: false }) key: string;
+  @Field(() => Boolean, { nullable: false }) trim: boolean;
+}
+@InputType()
+export class GetListTranslationsInputGQL {
+  @Field(() => Number, { nullable: false }) languageId: number;
+  @Field(() => [ItemTranslationsInputGQL], { nullable: false }) items: ItemTranslationsInputGQL[];
+}
+
+@InputType()
+export class ImportTranslationsInputGQL {
+  @Field(() => GraphQLUpload, { description: 'File uploaded' })
+  file: typeof GraphQLUpload;
+  @Field(() => Number, { description: 'Language id' })
+  languageId: number;
 }

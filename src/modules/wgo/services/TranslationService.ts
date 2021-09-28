@@ -1,10 +1,10 @@
-import fs, { readFileSync, WriteStream, unlinkSync } from 'fs-extra';
+import fs, { readFileSync, WriteStream, unlinkSync, ReadStream, createWriteStream, existsSync } from 'fs-extra';
 import { join } from 'path';
-import { UploadedFile } from 'express-fileupload';
 import { Repository, ILike, Connection } from 'typeorm';
 import { GetPrivateFilesPath, GetPublicFilesPath } from '../settings/ConfigService';
 import { LanguageService } from './LanguageService';
 import { LanguageEntity, TranslationEntity } from '@wisegar-org/wgo-opengar-core';
+import { GraphQLUpload } from 'apollo-server-express';
 
 export type TransaltionsType = {
   [key: string]: string;
@@ -27,15 +27,20 @@ export class TranslationService {
     this.languageService = new LanguageService(conn);
   }
 
-  async getTranslation(lang: number, key: string, trim = true) {
-    const translation = await this.translationRepository.findOne({
+  async getTranslation(lang: number, key: string, trim = true): Promise<string> {
+    let translation = await this.translationRepository.findOne({
       where: {
         languageId: lang,
         key,
       },
     });
 
-    return !translation ? key : trim ? this.removeTags(translation.value) : translation.value;
+    if (!translation) {
+      await this.setTranslation(lang, key, key);
+      return key;
+    }
+
+    return trim ? this.removeTags(translation.value) : translation.value;
   }
 
   private removeTags(str: string) {
@@ -43,6 +48,11 @@ export class TranslationService {
   }
 
   async setTranslation(lang: number, key: string, value: string) {
+    const translationEntity = await this.setTranslationValue(lang, key, value);
+    return !!(await this.translationRepository.manager.save(translationEntity));
+  }
+
+  async setTranslationValue(lang: number, key: string, value: string) {
     let translationEntity = await this.translationRepository.findOne({
       where: {
         key,
@@ -59,7 +69,7 @@ export class TranslationService {
       translationEntity.language = language;
     }
     translationEntity.value = value;
-    return !!(await this.translationRepository.manager.save(translationEntity));
+    return translationEntity;
   }
 
   async getAllTranslations() {
@@ -89,7 +99,7 @@ export class TranslationService {
 
     const translationsKeys = Object.keys(searchTranslationskeys);
     const translationsCount = translationsKeys.length;
-    const keys = translationsKeys.splice(skip, take);
+    const keys = translationsKeys.sort().splice(skip, take);
 
     const translations: { id: string; value: string; key: string }[] = [];
     keys.forEach((key) => {
@@ -128,37 +138,67 @@ export class TranslationService {
     };
   }
 
-  async importExcel(lang: number, buffer: UploadedFile) {
-    const langs: LanguageEntity[] = await this.languageService.all(false);
-    const format = ' __*__,';
-    const path = GetPublicFilesPath();
-    const docType = join(path, buffer.name);
-    await buffer.mv(docType);
-    let doc: string = readFileSync(docType, 'utf-8');
-    langs.forEach((lang) => {
-      doc = doc.split(`\n${lang.code}`).join(`${format}${lang.code}`);
-    });
-    const translations = doc.split(format).slice(1);
-    const translationsEntity: TranslationEntity[] = [];
-    translations.forEach((str) => {
-      const trans = str.split(',');
-      const translationEntity = new TranslationEntity();
-      translationEntity.languageId = parseInt(trans[0]);
-      translationEntity.key = trans[2];
-      translationEntity.value = trans[3];
-      translationsEntity.push(translationEntity);
-    });
-    unlinkSync(docType);
-    return {
-      isSuccess: true,
-      message: await this.getTranslation(lang, 'WG_Manager_Translator_ImportSuccess'),
-    };
+  private saveStreamFile(stream: any, filepath: string): Promise<string> {
+    return new Promise((resolve, reject) =>
+      stream
+        .on('error', (error: any) => {
+          if (stream.truncated) unlinkSync(filepath);
+          reject(error);
+        })
+        .pipe(createWriteStream(filepath))
+        .on('error', (error: any) => {
+          return reject(error);
+        })
+        .on('finish', () => {
+          return resolve(filepath);
+        })
+    );
+  }
+
+  async importTranslations(lang: number, buffer: any) {
+    try {
+      const documentName = 'translationsImport.csv';
+      const path = GetPrivateFilesPath();
+      const pathDoc = join(path, documentName);
+      if (existsSync(pathDoc)) unlinkSync(pathDoc);
+
+      const { createReadStream } = buffer;
+      const stream: ReadStream = createReadStream();
+      await this.saveStreamFile(stream, pathDoc);
+
+      const langs: LanguageEntity[] = await this.languageService.all(false);
+      const format = ' __*__,';
+      let doc: string = readFileSync(pathDoc, 'utf-8');
+      langs.forEach((lang) => {
+        doc = doc.split(`\n${lang.id}`).join(`${format}${lang.id}`);
+      });
+      const translations = doc.split(format).slice(1);
+      const translationsEntity: TranslationEntity[] = [];
+      for (const str of translations) {
+        const trans = str.split(',');
+        const entity = await this.setTranslationValue(parseInt(trans[0]), trans[2], trans[3]);
+        translationsEntity.push(entity);
+      }
+      await this.translationRepository.manager.save(translationsEntity);
+      unlinkSync(pathDoc);
+      return {
+        isSuccess: true,
+        message: await this.getTranslation(lang, 'WG_Manager_Translator_ImportSuccess'),
+      };
+    } catch (error) {
+      return {
+        isSuccess: false,
+        message: error,
+      };
+    }
   }
 
   async exportTranslation() {
     const langs: LanguageEntity[] = await this.languageService.all(false);
-    const path = GetPrivateFilesPath();
     const documentName = 'translations.csv';
+    const path = GetPrivateFilesPath();
+    const pathDoc = join(join(path, documentName));
+    if (existsSync(pathDoc)) unlinkSync(pathDoc);
     const searchTranslationskeys: { [key: string]: boolean } = {};
 
     for (const lang of langs) {
@@ -167,31 +207,36 @@ export class TranslationService {
       }
     }
 
-    const pathDoc = join(join(path, documentName));
     const writeStream = fs.createWriteStream(pathDoc);
 
     writeStream.write('"Language Id"," Language "," Key "," Value ",\n');
 
     for (const lang of langs) {
       if (lang.enabled) {
-        await this.writeTranslations(lang, searchTranslationskeys, writeStream);
+        const translations = await this.writeTranslations(lang);
+        const rows = Object.keys(searchTranslationskeys).map((key) => {
+          const value = key in translations && !!translations[key] ? translations[key] : key;
+          return `${lang.id},${lang.code},${key},${value},\n`;
+        });
+
+        writeStream.write(rows.join(''));
       }
     }
 
-    writeStream.close();
-    const storedFileContent = readFileSync(pathDoc);
-
-    return {
-      data: storedFileContent.toString('base64'),
-      isSuccess: true,
-    };
+    return new Promise((resolve, reject) => {
+      new Promise((res, rej) => {
+        writeStream.end(res);
+      }).then(() => {
+        const storedFileContent = readFileSync(pathDoc, 'base64');
+        resolve({
+          data: storedFileContent,
+          isSuccess: true,
+        });
+      });
+    });
   }
 
-  private async writeTranslations(
-    language: LanguageEntity,
-    keys: { [key: string]: boolean },
-    writeStream: WriteStream
-  ) {
+  private async writeTranslations(language: LanguageEntity) {
     const translations: TransaltionsType = {};
     const translationsEntities: TranslationEntity[] = await this.translationRepository.find({
       languageId: language.id,
@@ -199,10 +244,8 @@ export class TranslationService {
     translationsEntities.forEach((translation) => {
       translations[translation.key] = translation.value;
     });
-    Object.keys(keys).forEach((key) => {
-      const value = key in translations && !!translations[key] ? translations[key] : key;
-      writeStream.write(`${language.id},${language.code},${key},${value}\n`);
-    });
+
+    return translations;
   }
 
   private getKeysByFilter(

@@ -19,3 +19,13 @@ export class TranslationExportResponseGQL {
   @Field(() => String) data: string;
   @Field(() => Boolean) isSuccess: boolean;
 }
+
+@ObjectType()
+export class ItemTranslationsResponseGQL {
+  @Field(() => String, { nullable: false }) key: string;
+  @Field(() => String, { nullable: false }) value: string;
+}
+@ObjectType()
+export class GetListTranslationsResponseGQL {
+  @Field(() => [ItemTranslationsResponseGQL], { nullable: false }) items: ItemTranslationsResponseGQL[];
+}
