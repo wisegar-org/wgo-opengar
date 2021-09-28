@@ -24,7 +24,7 @@ export class LanguageService {
 
   async all(whitRelations: boolean = false) {
     const language = await this.languageRepository.find({
-      // relations: ['logo'],
+      order: { code: 'ASC' },
       relations: whitRelations ? ['logo'] : [],
     });
 
@@ -48,7 +48,18 @@ export class LanguageService {
       },
     });
     if (!language) return false;
-    if (lang.code !== language.code) {
+    if (!language.enabled && lang.enabled) {
+      const count = await this.languageRepository.count({ where: { enabled: true } });
+      if (count === 1) language.enabled = true;
+    }
+    if (language.default && !lang.default) {
+      const defaultLangs = await this.languageRepository.find({
+        where: { default: true },
+      });
+      for (const langD of defaultLangs) {
+        langD.default = false;
+      }
+      await this.languageRepository.manager.save(defaultLangs);
     }
     return !!(await this.setProperties(lang, language));
   }
