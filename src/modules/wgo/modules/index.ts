@@ -10,3 +10,7 @@ export * from './WGOTranslation/TranslationInputGQL';
 export * from './WGOTranslation/TranslationResponseGQL';
 export * from './WGOUser/UserInputsGQL';
 export * from './WGOUser/UserResponsesGQL';
+
+export * from './WGOSeo/SeoModel';
+export * from './WGOSeo/SeoResolver';
+export * from './WGOSeo/SeoResponseGQL';
