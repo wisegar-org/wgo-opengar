@@ -10,5 +10,5 @@ export enum EventStateEnum {
 }
 
 export enum AGVRoles {
-  Admin = 'agvAdmin',
+  Admin = 'admin',
 }

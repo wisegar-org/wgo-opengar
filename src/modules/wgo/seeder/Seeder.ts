@@ -1,28 +1,21 @@
 import { UserEntity, RolEntity, RolEntityEnum, UserDataService } from '@wisegar-org/wgo-opengar-core';
 import _ from 'lodash';
-import { Connection, Repository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { AGVRoles } from '../../agv/models';
-import { GetConnection } from '../database';
+import { SeoModel } from '../modules';
 import { LanguageService } from '../services/LanguageService';
 
 export class DataSeeder {
-  _userDataSerive: UserDataService;
-  userRepository: Repository<UserEntity>;
-  roleRepository: Repository<RolEntity>;
   connection: Connection;
   constructor(conn: Connection) {
     this.connection = conn;
-    this.userRepository = this.connection.getRepository(UserEntity);
-    this.roleRepository = this.connection.getRepository(RolEntity);
-    this._userDataSerive = new UserDataService(this.connection);
   }
 
   /** TODO: PLEASE Store superuser schema on a json config file */
   public async createUserSeeder() {
-    const connection = GetConnection();
-    const roleRepository = connection.getRepository(RolEntity);
-    const userRepository = connection.getRepository(UserEntity);
-    const _userDataSerive = new UserDataService(connection);
+    const roleRepository = this.connection.getRepository(RolEntity);
+    const userRepository = this.connection.getRepository(UserEntity);
+    const _userDataSerive = new UserDataService(this.connection);
 
     const roleObj = await roleRepository.findOne({
       name: RolEntityEnum.superAdmin,
@@ -41,38 +34,51 @@ export class DataSeeder {
 
   /** TODO: PLEASE Store roles schema on a json config file */
   public async createRolesSeeder() {
-    const connection = GetConnection();
-    const roleRepository = connection.getRepository(RolEntity);
-    const userRepository = connection.getRepository(UserEntity);
-
-    let roleObj = await this.roleRepository.findOne({
+    const roleRepository = this.connection.getRepository(RolEntity);
+    const userRepository = this.connection.getRepository(UserEntity);
+    let roleObj = await roleRepository.findOne({
       name: RolEntityEnum.superAdmin,
     });
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
       userRole.name = RolEntityEnum.superAdmin;
-      await this.roleRepository.save(userRole);
+      await roleRepository.save(userRole);
     }
 
-    roleObj = await this.roleRepository.findOne({
+    roleObj = await roleRepository.findOne({
       name: RolEntityEnum.customer,
     });
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
       userRole.name = RolEntityEnum.customer;
-      await this.roleRepository.save(userRole);
+      await roleRepository.save(userRole);
     }
 
-    roleObj = await this.roleRepository.findOne({
+    roleObj = await roleRepository.findOne({
+      name: 'agvAdmin',
+    });
+    if (!!roleObj) {
+      const role = await roleRepository.count({ where: { name: AGVRoles.Admin } });
+      if (role > 0) {
+        const user = await userRepository.findOne({ where: { userName: 'admin' } });
+        await userRepository.manager.remove(user);
+        await roleRepository.manager.remove(roleObj);
+      } else {
+        roleObj.name = AGVRoles.Admin;
+        await roleRepository.save(roleObj);
+      }
+    }
+
+    roleObj = await roleRepository.findOne({
       name: AGVRoles.Admin,
     });
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
       userRole.name = AGVRoles.Admin;
-      await this.roleRepository.save(userRole);
+      await roleRepository.save(userRole);
     }
   }
 
@@ -87,9 +93,16 @@ export class DataSeeder {
     });
   }
 
+  public async setSeoDataSeeder() {
+    const seoModel = new SeoModel(this.connection);
+    const seo = await seoModel.getSeoData();
+    await seoModel.setSeoInFile(seo);
+  }
+
   public async createData() {
     await this.createRolesSeeder();
     await this.createUserSeeder();
     await this.createLanguageSeeder();
+    await this.setSeoDataSeeder();
   }
 }
