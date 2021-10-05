@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
-import { ISeo, SeoMetaPropResponseGQL, SeoMetaResponseGQL } from '..';
+import { ISeo } from '..';
 import { GetConnection } from '../../database';
 import { SeoInputGQL } from './SeoInputsGQL';
 import { SeoModel } from './SeoModel';
@@ -23,6 +23,7 @@ export class SeoResolver {
 
   @Mutation(() => Boolean)
   async setSeoData(@Arg('data') data: SeoInputGQL) {
-    return await this.seoModel.setSeoData(data as ISeo);
+    const result = await this.seoModel.setSeoData(data as ISeo);
+    return result;
   }
 }
