@@ -1,19 +1,13 @@
 import { Field, InputType } from 'type-graphql';
 
 @InputType()
-export class SeoMetaPropsInputGQL {
-  @Field(() => String, { nullable: false })
-  name?: string;
-  @Field(() => String, { nullable: false })
-  value?: string;
-}
-
-@InputType()
 export class SeoMetaInputGQL {
-  @Field(() => String, { nullable: false })
+  @Field(() => String, { nullable: true })
   name?: string;
-  @Field(() => [SeoMetaPropsInputGQL], { nullable: false })
-  props?: SeoMetaPropsInputGQL[];
+  @Field(() => String, { nullable: true })
+  property?: string;
+  @Field(() => String, { nullable: true })
+  content?: string;
 }
 
 @InputType()
