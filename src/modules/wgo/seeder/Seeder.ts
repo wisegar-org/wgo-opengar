@@ -2,7 +2,7 @@ import { UserEntity, RolEntity, RolEntityEnum, UserDataService } from '@wisegar-
 import _ from 'lodash';
 import { Connection } from 'typeorm';
 import { AGVRoles } from '../../agv/models';
-import { SeoModel } from '../modules';
+import { IMetaProps, SeoModel } from '../modules';
 import { LanguageService } from '../services/LanguageService';
 
 export class DataSeeder {
@@ -95,8 +95,48 @@ export class DataSeeder {
 
   public async setSeoDataSeeder() {
     const seoModel = new SeoModel(this.connection);
-    const seo = await seoModel.getSeoData();
-    await seoModel.setSeoInFile(seo);
+    const seo = await seoModel.getSeoEntity();
+    const meta = seo.meta;
+    const defaultMetas = {
+      title: { name: 'title', content: '' },
+      description: { name: 'description', content: '' },
+      keywords: { name: 'keywords', content: '' },
+      robots: { name: 'robots', content: '' },
+      'google-site-verification': { name: 'google-site-verification', content: '' },
+      googlebot: { name: 'googlebot', content: '' },
+      google: { name: 'google', content: '' },
+      viewport: { name: 'viewport', content: '' },
+      rating: { name: 'rating', content: '' },
+      'og:locale': { property: 'og:locale', content: '' },
+      'og:type': { property: 'og:type', content: '' },
+      'og:title': { property: 'og:title', content: '' },
+      'og:description': { property: 'og:description', content: '' },
+      'og:url': { property: 'og:url', content: '' },
+      'og:site_name': { property: 'og:site_name', content: '' },
+      'og:image': { property: 'og:image', content: '' },
+      'og:image:width': { property: 'og:image:width', content: '' },
+      'og:image:height': { property: 'og:image:height', content: '' },
+      'article:publisher': { property: 'article:publisher', content: '' },
+      'article:modified_time': { property: 'article:modified_time', content: '' },
+      'twitter:card': { name: 'twitter:card', content: '' },
+      'twitter:image': { name: 'twitter:image', content: '' },
+      'twitter:site': { name: 'twitter:site', content: '' },
+      'twitter:label1': { name: 'twitter:label1', content: '' },
+      'twitter:data1': { name: 'twitter:data1', content: '' },
+    };
+
+    const temp: { [key: string]: IMetaProps } = {};
+    Object.keys(defaultMetas).forEach((key) => {
+      if (key in seo.meta) {
+        temp[key] = { ...defaultMetas[key], ...(seo.meta[key] as IMetaProps) };
+      } else {
+        temp[key] = defaultMetas[key];
+      }
+    });
+    seo.meta = temp;
+    await seo.save();
+    const iseo = await seoModel.getSeoData();
+    await seoModel.setSeoInFile(iseo);
   }
 
   public async createData() {

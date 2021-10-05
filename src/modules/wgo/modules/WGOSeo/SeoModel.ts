@@ -6,7 +6,9 @@ import SeoEntity from '../../database/entities/SeoEntity';
 import { GetWebRootKey } from '../../settings/ConfigService';
 
 export interface IMetaProps {
-  [key: string]: string;
+  name: string;
+  property: string;
+  content: string;
 }
 
 export interface IMeta {
@@ -16,7 +18,7 @@ export interface IMeta {
 export interface ISeo {
   module: string;
   path: string;
-  meta: { name: string; props: { name: string; value: string }[] }[];
+  meta: IMetaProps[];
 }
 
 export class SeoModel {
@@ -28,7 +30,7 @@ export class SeoModel {
     this.seoRepository = conn.getRepository(SeoEntity);
   }
 
-  async getSeoData(): Promise<ISeo> {
+  async getSeoEntity(): Promise<SeoEntity> {
     const module = process.env.MODULES;
     let seoModule = await this.seoRepository.findOne({
       where: {
@@ -41,9 +43,12 @@ export class SeoModel {
       seoModule.meta = {};
       seoModule = await this.seoRepository.manager.save(seoModule);
     }
+    return seoModule;
+  }
 
+  async getSeoData(): Promise<ISeo> {
+    const seoModule = await this.getSeoEntity();
     const meta = this.parseEntityMetaToISeoMeta(seoModule);
-
     return {
       module: seoModule.module,
       path: seoModule.path,
@@ -57,14 +62,20 @@ export class SeoModel {
       seoModule = new SeoEntity();
       seoModule.module = seoData.module;
     }
-    const oldMeta = this.parseEntityMetaToISeoMeta(seoModule).map((item) => ({ name: item.name, props: [] }));
     seoModule.path = seoData.path;
     const meta = this.parseISeoMetaToEntityMeta(seoData);
     seoModule.meta = meta;
     const result = !!(await this.seoRepository.manager.save(seoModule));
-    seoData.meta = oldMeta.concat(seoData.meta);
+    seoData.meta = seoData.meta;
     this.setSeoInFile(seoData);
     return result;
+  }
+
+  async setSeoMeta(seoMeta: IMetaProps) {
+    let seoModule = await this.getSeoEntity();
+    seoModule.meta[seoMeta.name || seoMeta.property].content = seoMeta.content;
+    await this.seoRepository.manager.save(seoModule);
+    this.setSeoInFile(<ISeo>{ meta: [seoMeta], path: seoModule.path });
   }
 
   setSeoInFile(seoData: ISeo) {
@@ -77,25 +88,28 @@ export class SeoModel {
       const headElement = document.querySelector('head');
       const meta = seoData.meta;
       meta.forEach((item) => {
-        const props = item.props;
         let metaElement;
-        if (!!item.name) {
-          metaElement = headElement.querySelector(`meta[name="${item.name}"]`);
-
-          //Remove meta
-          if (metaElement) {
-            metaElement.remove();
-            // headElement.removeChild(metaElement);
+        if (item.name !== 'title') {
+          let prop = '';
+          if (item.name) prop = `[name="${item.name}"]`;
+          if (item.property) prop = `[property="${item.property}"]`;
+          if (!!prop) {
+            metaElement = headElement.querySelector(`meta${prop}`);
+            //Remove meta
+            if (metaElement) {
+              metaElement.remove();
+            }
           }
-        }
 
-        if (props.length > 0) {
-          metaElement = document.createElement('meta');
-          if (item.name) metaElement.setAttribute('name', item.name);
-          props.forEach((prop) => {
-            metaElement.setAttribute(prop.name, prop.value);
-          });
-          headElement.appendChild(metaElement);
+          if (!!item.content) {
+            metaElement = document.createElement('meta');
+            if (item.name) metaElement.setAttribute('name', item.name);
+            if (item.property) metaElement.setAttribute('property', item.property);
+            metaElement.setAttribute('content', item.content);
+            headElement.appendChild(metaElement);
+          }
+        } else if (!!item.content) {
+          document.title = item.content;
         }
       });
 
@@ -106,29 +120,12 @@ export class SeoModel {
   parseISeoMetaToEntityMeta(seoData: ISeo) {
     const meta = {};
     seoData.meta.forEach((item) => {
-      if (!!item.props && item.props.length > 0) {
-        const props = {};
-        item.props.forEach((prop) => {
-          props[prop.name] = prop.value;
-        });
-        meta[item.name] = props;
-      }
+      meta[item.name || item.property] = item;
     });
     return meta;
   }
 
   parseEntityMetaToISeoMeta(seoModule: SeoEntity) {
-    const meta = Object.keys(seoModule.meta).map((itemName) => {
-      const props = seoModule.meta[itemName];
-      const propsList = Object.keys(props).map((nameP) => ({
-        name: nameP,
-        value: props[nameP],
-      }));
-      return {
-        name: itemName,
-        props: [{ name: 'name', value: itemName }].concat(propsList),
-      };
-    });
-    return meta;
+    return Object.values(seoModule.meta).map((meta) => ({ name: '', property: '', content: '', ...meta }));
   }
 }

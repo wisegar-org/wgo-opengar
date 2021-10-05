@@ -2,15 +2,13 @@ import { Field, ObjectType } from 'type-graphql';
 import { IMeta } from './SeoModel';
 
 @ObjectType()
-export class SeoMetaPropResponseGQL {
-  @Field() name: string;
-  @Field() value: string;
-}
-
-@ObjectType()
 export class SeoMetaResponseGQL {
-  @Field() name: string;
-  @Field(() => [SeoMetaPropResponseGQL]) props: SeoMetaPropResponseGQL[];
+  @Field(() => String, { nullable: false })
+  name?: string;
+  @Field(() => String, { nullable: false })
+  property?: string;
+  @Field(() => String, { nullable: false })
+  content?: string;
 }
 
 @ObjectType()
