@@ -1,10 +1,8 @@
-import fs, { readFileSync, WriteStream, unlinkSync, ReadStream, createWriteStream, existsSync } from 'fs-extra';
+import fs, { readFileSync, unlinkSync, ReadStream, createWriteStream, existsSync } from 'fs-extra';
 import { join } from 'path';
 import { Repository, ILike, Connection } from 'typeorm';
-import { GetPrivateFilesPath, GetPublicFilesPath } from '../settings/ConfigService';
 import { LanguageService } from './LanguageService';
 import { LanguageEntity, TranslationEntity } from '@wisegar-org/wgo-opengar-core';
-import { GraphQLUpload } from 'apollo-server-express';
 
 export type TransaltionsType = {
   [key: string]: string;
@@ -155,11 +153,10 @@ export class TranslationService {
     );
   }
 
-  async importTranslations(lang: number, buffer: any) {
+  async importTranslations(lang: number, buffer: any, temPath: string) {
     try {
       const documentName = 'translationsImport.csv';
-      const path = GetPrivateFilesPath();
-      const pathDoc = join(path, documentName);
+      const pathDoc = join(temPath, documentName);
       if (existsSync(pathDoc)) unlinkSync(pathDoc);
 
       const { createReadStream } = buffer;
@@ -170,20 +167,23 @@ export class TranslationService {
       const format = ' __*__,';
       let doc: string = readFileSync(pathDoc, 'utf-8');
       langs.forEach((lang) => {
-        doc = doc.split(`\n${lang.id}`).join(`${format}${lang.id}`);
+        doc = doc.split(`\n${lang.code}`).join(`${format}${lang.code}`);
       });
       const translations = doc.split(format).slice(1);
       const translationsEntity: TranslationEntity[] = [];
       for (const str of translations) {
         const trans = str.split(',');
-        const entity = await this.setTranslationValue(parseInt(trans[0]), trans[2], trans[3]);
-        translationsEntity.push(entity);
+        const lang = langs.find((lang) => lang.code === trans[0]);
+        if (trans[1] !== trans[2] && !!lang) {
+          const entity = await this.setTranslationValue(lang.id, trans[1], trans[2]);
+          translationsEntity.push(entity);
+        }
       }
       await this.translationRepository.manager.save(translationsEntity);
       unlinkSync(pathDoc);
       return {
         isSuccess: true,
-        message: await this.getTranslation(lang, 'WG_Manager_Translator_ImportSuccess'),
+        message: 'Success',
       };
     } catch (error) {
       return {
@@ -193,11 +193,10 @@ export class TranslationService {
     }
   }
 
-  async exportTranslation() {
+  async exportTranslation(temPath: string) {
     const langs: LanguageEntity[] = await this.languageService.all(false);
     const documentName = 'translations.csv';
-    const path = GetPrivateFilesPath();
-    const pathDoc = join(join(path, documentName));
+    const pathDoc = join(temPath, documentName);
     if (existsSync(pathDoc)) unlinkSync(pathDoc);
     const searchTranslationskeys: { [key: string]: boolean } = {};
 
@@ -209,14 +208,14 @@ export class TranslationService {
 
     const writeStream = fs.createWriteStream(pathDoc);
 
-    writeStream.write('"Language Id"," Language "," Key "," Value ",\n');
+    writeStream.write('" Language "," Key "," Value ",\n');
 
     for (const lang of langs) {
       if (lang.enabled) {
         const translations = await this.writeTranslations(lang);
         const rows = Object.keys(searchTranslationskeys).map((key) => {
           const value = key in translations && !!translations[key] ? translations[key] : key;
-          return `${lang.id},${lang.code},${key},${value},\n`;
+          return `${lang.code},${key},${value},\n`;
         });
 
         writeStream.write(rows.join(''));
@@ -295,10 +294,8 @@ export class TranslationService {
       key,
     });
 
-    await Promise.all(
-      translations.map(async (translation) => {
-        return await this.translationRepository.manager.remove(translation);
-      })
-    );
+    for (const translation of translations) {
+      await this.translationRepository.manager.remove(translation);
+    }
   }
 }

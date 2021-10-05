@@ -12,6 +12,7 @@ import {
   TranslationInputGQL,
 } from '../modules';
 import { ContentModel } from '../models/ContentModel';
+import { GetPrivateFilesPath } from '../settings/ConfigService';
 
 @Resolver()
 export class TranslationResolver {
@@ -50,13 +51,17 @@ export class TranslationResolver {
 
   @Query(() => TranslationExportResponseGQL)
   async exportTranslations() {
-    const result = await this.translationService.exportTranslation();
+    const result = await this.translationService.exportTranslation(GetPrivateFilesPath());
     return result;
   }
 
   @Mutation(() => Boolean)
   async importTranslations(@Arg('data') data: ImportTranslationsInputGQL) {
-    const result = await this.translationService.importTranslations(data.languageId, await data.file);
+    const result = await this.translationService.importTranslations(
+      data.languageId,
+      await data.file,
+      GetPrivateFilesPath()
+    );
     return result.isSuccess;
   }
 
