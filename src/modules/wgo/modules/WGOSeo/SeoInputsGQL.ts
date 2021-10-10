@@ -8,6 +8,8 @@ export class SeoMetaInputGQL {
   property?: string;
   @Field(() => String, { nullable: true })
   content?: string;
+  @Field(() => String, { nullable: true })
+  type?: string;
 }
 
 @InputType()

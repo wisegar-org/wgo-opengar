@@ -9,6 +9,7 @@ export interface IMetaProps {
   name: string;
   property: string;
   content: string;
+  type: string;
 }
 
 export interface IMeta {
@@ -126,6 +127,12 @@ export class SeoModel {
   }
 
   parseEntityMetaToISeoMeta(seoModule: SeoEntity) {
-    return Object.values(seoModule.meta).map((meta) => ({ name: '', property: '', content: '', ...meta }));
+    return Object.values(seoModule.meta).map((meta) => ({
+      name: '',
+      property: '',
+      content: '',
+      type: 'text',
+      ...meta,
+    }));
   }
 }

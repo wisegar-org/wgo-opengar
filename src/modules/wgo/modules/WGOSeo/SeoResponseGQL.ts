@@ -9,6 +9,8 @@ export class SeoMetaResponseGQL {
   property?: string;
   @Field(() => String, { nullable: false })
   content?: string;
+  @Field(() => String, { nullable: false })
+  type?: string;
 }
 
 @ObjectType()
