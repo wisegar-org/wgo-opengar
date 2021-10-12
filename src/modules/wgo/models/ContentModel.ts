@@ -1,7 +1,6 @@
+import { LanguageService, TranslationService } from '@wisegar-org/wgo-opengar-core';
 import { Connection } from 'typeorm';
 import { GetListTranslationsInputGQL, GetListTranslationsResponseGQL, ItemTranslationsResponseGQL } from '../modules';
-import { LanguageService } from '../services/LanguageService';
-import { TranslationService } from '../services/TranslationService';
 
 export class ContentModel {
   translationService: TranslationService;
