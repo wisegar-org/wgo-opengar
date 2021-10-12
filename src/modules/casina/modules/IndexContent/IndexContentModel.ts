@@ -1,6 +1,6 @@
+import { TranslationService } from '@wisegar-org/wgo-opengar-core';
 import { Connection, Repository } from 'typeorm';
 import { MediaModel } from '../../../wgo/models/MediaModel';
-import { TranslationService } from '../../../wgo/services/TranslationService';
 import CasinaModuleEntity from '../../database/entities/CasinaModuleEntity';
 import { CasinaIndexContentInputsGQL } from './IndexContentInputsGQL';
 

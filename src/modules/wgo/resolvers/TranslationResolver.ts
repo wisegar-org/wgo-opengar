@@ -1,6 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { GetConnection } from '../database';
-import { TranslationService } from '../services/TranslationService';
 import {
   GetListTranslationsInputGQL,
   GetListTranslationsResponseGQL,
@@ -13,6 +12,7 @@ import {
 } from '../modules';
 import { ContentModel } from '../models/ContentModel';
 import { GetPrivateFilesPath } from '../settings/ConfigService';
+import { TranslationService } from '@wisegar-org/wgo-opengar-core';
 
 @Resolver()
 export class TranslationResolver {

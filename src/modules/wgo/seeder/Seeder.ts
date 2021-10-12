@@ -1,9 +1,8 @@
-import { UserEntity, RolEntity, RolEntityEnum, UserDataService } from '@wisegar-org/wgo-opengar-core';
+import { UserEntity, RolEntity, RolEntityEnum, UserDataService, LanguageService } from '@wisegar-org/wgo-opengar-core';
 import _ from 'lodash';
 import { Connection } from 'typeorm';
 import { AGVRoles } from '../../agv/models';
 import { IMetaProps, SeoModel } from '../modules';
-import { LanguageService } from '../services/LanguageService';
 
 export class DataSeeder {
   connection: Connection;
