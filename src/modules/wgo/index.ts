@@ -13,7 +13,9 @@ import {
   UserEntity,
 } from '@wisegar-org/wgo-opengar-core';
 import SeoEntity from './database/entities/SeoEntity';
+import StorageEntity from './database/entities/StorageEntity';
 import { SeoResolver } from './modules';
+import { StorageResolver } from './modules/WGOStorage/StorageResolver';
 import {
   AppResolver,
   EmailResolver,
@@ -34,6 +36,7 @@ export const getWGOResolvers = () => {
     LanguageResolver,
     TranslationResolver,
     SeoResolver,
+    StorageResolver,
   ];
 };
 
@@ -47,5 +50,6 @@ export const getWGOEntities = () => {
     SessionEntity,
     LanguageEntity,
     SeoEntity,
+    StorageEntity,
   ] as any[];
 };
