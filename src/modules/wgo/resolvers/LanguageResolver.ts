@@ -1,7 +1,7 @@
+import { ILanguage, LanguageService } from '@wisegar-org/wgo-opengar-core';
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { GetConnection } from '../database';
 import { MediaModel } from '../models/MediaModel';
-import { ILanguage, LanguageService } from '../services/LanguageService';
 import { LanguageInputGQL, LanguageResponseGQL } from '../modules';
 
 @Resolver()
