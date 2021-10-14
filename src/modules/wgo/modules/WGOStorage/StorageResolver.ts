@@ -61,4 +61,10 @@ export class StorageResolver {
     });
     return result;
   }
+
+  @Mutation(() => Boolean)
+  async deleteStorageItem(@Arg('id') id: number) {
+    const result = await this.storageModel.delete(id);
+    return result;
+  }
 }

@@ -74,7 +74,7 @@ export class StorageModel {
 
   async delete(id: number) {
     const model = await this.oneByCriteria({ id: id });
-    if (!model) {
+    if (!!model) {
       await this.storageRepository.manager.remove(model);
       return true;
     }
