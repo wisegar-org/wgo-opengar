@@ -21,7 +21,13 @@ export class StorageResolver {
   @Query(() => [StorageResponseGQL])
   async getStorageByType(@Arg('data') data: StorageAllInputGQL) {
     const result = await this.storageModel.allByType(data.type, ['image', 'imageList'], data.search);
-    return result.map((item) => this.storageModel.getStorageResponses(item, data.urlApi));
+    const listResult: StorageResponseGQL[] = await this.storageModel.getResponseList(
+      result,
+      data.lang,
+      data.urlApi,
+      data.loadTranslations
+    );
+    return listResult;
   }
 
   @Query(() => StoragePageResponseGQL)
@@ -33,9 +39,16 @@ export class StorageResolver {
       data.take,
       data.search
     );
+
+    const listResult: StorageResponseGQL[] = await this.storageModel.getResponseList(
+      result.storageItems,
+      data.lang,
+      data.urlApi,
+      data.loadTranslations
+    );
     return <StoragePageResponseGQL>{
       storageItemsCount: result.storageItemsCount,
-      storageItems: result.storageItems.map((item) => this.storageModel.getStorageResponses(item, data.urlApi)),
+      storageItems: listResult,
     };
   }
 
