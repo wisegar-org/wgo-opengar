@@ -14,6 +14,8 @@ export class StorageInputGQL {
 
 @InputType()
 export class StoragePageInputGQL {
+  @Field(() => Number) lang: number;
+  @Field(() => Boolean, { defaultValue: true }) loadTranslations: boolean;
   @Field(() => Number, { defaultValue: 0 }) skip: number;
   @Field(() => Number, { defaultValue: 5 }) take: number;
   @Field(() => String) type: string;
@@ -23,6 +25,8 @@ export class StoragePageInputGQL {
 
 @InputType()
 export class StorageAllInputGQL {
+  @Field(() => Number) lang: number;
+  @Field(() => Boolean, { defaultValue: true }) loadTranslations: boolean;
   @Field(() => String) type: string;
   @Field(() => String) urlApi: string;
   @Field(() => String, { defaultValue: '' }) search: string;
