@@ -32,6 +32,17 @@ export class MediaResolver {
     }
   }
 
+  @Mutation(() => MediaResponseGQL)
+  async saveFaviconFile(@Arg('data') data: MediaInputGQL, @Arg('urlApi') urlApi: string) {
+    try {
+      return await this.mediaModel.uploadFavicon(data, urlApi);
+    } catch (error) {
+      throw new ApolloError({
+        errorMessage: error,
+      });
+    }
+  }
+
   @Query(() => MediaResponseGQL)
   async getFile(@Arg('id') id: number) {
     try {
