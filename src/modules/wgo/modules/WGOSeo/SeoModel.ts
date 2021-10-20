@@ -63,7 +63,7 @@ export class SeoModel {
       module: seoModule.module,
       path: seoModule.path,
       meta: meta,
-      favicon: MediaModel.getMediaResponse(favicon, urlApi),
+      favicon: favicon ? MediaModel.getMediaResponse(favicon, urlApi) : null,
     };
   }
 
