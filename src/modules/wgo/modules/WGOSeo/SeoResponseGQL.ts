@@ -1,4 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
+import { MediaResponseGQL } from '..';
 import { IMeta } from './SeoModel';
 
 @ObjectType()
@@ -21,4 +22,6 @@ export class SeoResponseGQL {
   path?: string;
   @Field(() => [SeoMetaResponseGQL], { nullable: false })
   meta?: SeoMetaResponseGQL[];
+  @Field((type) => MediaResponseGQL, { nullable: true })
+  favicon?: MediaResponseGQL;
 }
