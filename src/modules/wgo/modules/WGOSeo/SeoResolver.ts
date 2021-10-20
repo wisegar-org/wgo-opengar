@@ -16,8 +16,8 @@ export class SeoResolver {
     this.seoModel = new SeoModel(conn);
   }
   @Query(() => SeoResponseGQL)
-  async getSeoData() {
-    const result = await this.seoModel.getSeoData();
+  async getSeoData(@Arg('urlApi') urlApi: String) {
+    const result = await this.seoModel.getSeoData(urlApi as string);
     return result as SeoResponseGQL;
   }
 

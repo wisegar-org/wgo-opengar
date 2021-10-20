@@ -136,6 +136,7 @@ export class DataSeeder {
     await seo.save();
     const iseo = await seoModel.getSeoData();
     await seoModel.setSeoInFile(iseo);
+    await seoModel.setFaviconInFile(iseo.path);
   }
 
   public async createData() {
