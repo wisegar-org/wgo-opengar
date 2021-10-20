@@ -63,7 +63,11 @@ export class MediaModel {
 
   static saveMediaFile(media: MediaEntity) {
     const filePath = normalize(MediaModel.getStorageFilePath(media.isPublic, media.fileName));
-    if (!existsSync(filePath)) {
+    return this.saveMediaInPath(media, filePath);
+  }
+
+  static saveMediaInPath(media: MediaEntity, filePath: string, replace = false) {
+    if (!existsSync(filePath) || replace) {
       writeFileSync(filePath, media.fileContent);
     }
     return filePath;
@@ -95,24 +99,75 @@ export class MediaModel {
 
       const storageFileUuid = uuidv4();
       const storageFileExt = extname(filename);
+
+      const file = this.repository.create();
+      return this.saveFile(file, stream, filename, storageFileUuid, storageFileExt, mimetype, data.isPublic, urlApi);
+    } catch (error) {
+      return this.getErrorMediaResponse(data.isPublic, error);
+    }
+  }
+
+  async uploadFavicon(data: MediaInputGQL, urlApi: string): Promise<MediaResponseGQL> {
+    try {
+      const storageFileUuid = 'favicon';
+      const storageFileExt = '.ico';
       const storageFileName = `${storageFileUuid}${storageFileExt}`;
-      const storageFilePath = MediaModel.getStorageFilePath(data.isPublic, storageFileName);
+      let media = await this.repository.findOne({
+        where: {
+          fileName: storageFileName,
+        },
+      });
+      if (!media) {
+        media = this.repository.create();
+      }
+
+      const fileInput = await data.file;
+      const { createReadStream, mimetype } = fileInput as any;
+      const stream: ReadStream = createReadStream();
+
+      return this.saveFile(
+        media,
+        stream,
+        storageFileName,
+        storageFileUuid,
+        storageFileExt,
+        mimetype,
+        data.isPublic,
+        urlApi
+      );
+    } catch (error) {
+      return this.getErrorMediaResponse(data.isPublic, error);
+    }
+  }
+
+  async saveFile(
+    file: MediaEntity,
+    stream: ReadStream,
+    filename: string,
+    storageFileUuid: string,
+    storageFileExt: string,
+    mimetype: string,
+    isPublic: boolean,
+    urlApi: string
+  ): Promise<MediaResponseGQL> {
+    try {
+      const storageFileName = `${storageFileUuid}${storageFileExt}`;
+      const storageFilePath = MediaModel.getStorageFilePath(isPublic, storageFileName);
       const storedFilePath = await this.saveStreamFile(stream, storageFilePath);
       const storedFileContent = readFileSync(storedFilePath);
 
-      const file = this.repository.create();
       file.displayName = filename;
       file.fileContent = storedFileContent;
       file.fileExt = storageFileExt;
       file.fileName = storageFileName;
-      file.isPublic = data.isPublic;
+      file.isPublic = isPublic;
       file.mimeType = mimetype;
-      file.path = this.getRelativeStorageFilePath(data.isPublic, storageFileName);
+      file.path = this.getRelativeStorageFilePath(isPublic, storageFileName);
       const savedFile = await file.save();
 
       return MediaModel.getMediaResponse(savedFile, urlApi);
     } catch (error) {
-      return this.getErrorMediaResponse(data.isPublic, error);
+      return this.getErrorMediaResponse(isPublic, error);
     }
   }
 
