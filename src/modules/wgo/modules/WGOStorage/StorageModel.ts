@@ -131,8 +131,9 @@ export class StorageModel {
       const item = this.getStorageResponses(model, urlApi);
       const content = item.content;
       for (const key of Object.keys(content)) {
-        if (loadTranslation && content[key].indexOf(StorageKeys) !== -1) {
-          content[key] = await this.translationService.getTranslation(lang, content[key], false);
+        if (content[key].indexOf(StorageKeys) !== -1) {
+          content[key + 'Key'] = content[key];
+          content[key] = await this.translationService.getTranslation(lang, content[key], !loadTranslation);
         }
       }
       item.content = JSON.stringify(content);
