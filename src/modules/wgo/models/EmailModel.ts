@@ -34,9 +34,17 @@ export class EmailModel {
 
   async sendEmailToApp(data: EmailToAppInputGQL): Promise<EmailResponseGQL> {
     try {
+      const emailAppAddressKey = GetEmailAppAddressKey().split(',');
+      const emailAppAddressNameKey = GetEmailAppAddressNameKey().split(',');
+      const toSend: string[] = [];
+      emailAppAddressKey.forEach((email, index) => {
+        if (emailAppAddressNameKey.length > index)
+          toSend.push(`<${email.split(' ').join('')}> ${emailAppAddressNameKey[index]}`);
+        else toSend.push(email.split(' ').join(''));
+      });
       const result = await this.emailServer.send({
         from: data.from,
-        to: `<${GetEmailAppAddressKey()}> ${GetEmailAppAddressNameKey()}`,
+        to: toSend.join(','),
         subject: data.subject,
         html: data.body,
       });
@@ -52,9 +60,17 @@ export class EmailModel {
 
   async sendEmailFromToApp(data: EmailFromToAppInputGQL): Promise<EmailResponseGQL> {
     try {
+      const emailAppAddressKey = GetEmailAppAddressKey().split(',');
+      const emailAppAddressNameKey = GetEmailAppAddressNameKey().split(',');
+      const toSend: string[] = [];
+      emailAppAddressKey.forEach((email, index) => {
+        if (emailAppAddressNameKey.length > index)
+          toSend.push(`<${email.split(' ').join('')}> ${emailAppAddressNameKey[index]}`);
+        else toSend.push(email.split(' ').join(''));
+      });
       const result = await this.emailServer.send({
         from: `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`,
-        to: `<${GetEmailAppAddressKey()}> ${GetEmailAppAddressNameKey()}`,
+        to: toSend.join(', '),
         subject: data.subject,
         html: data.body,
       });
