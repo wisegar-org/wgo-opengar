@@ -1,4 +1,4 @@
-import { join, normalize, basename, dirname } from 'path';
+import { join, normalize, dirname } from 'path';
 import { readFileSync, writeFileSync, existsSync } from 'fs-extra';
 import { JSDOM } from 'jsdom';
 import { Connection, Repository } from 'typeorm';
@@ -6,7 +6,7 @@ import SeoEntity from '../../database/entities/SeoEntity';
 import { GetWebRootKey } from '../../settings/ConfigService';
 import { MediaResponseGQL } from '..';
 import { MediaEntity } from '@wisegar-org/wgo-opengar-core';
-import { MediaModel } from '../../models/MediaModel';
+import { FaviconName, FaviconTempName, MediaModel } from '../../models/MediaModel';
 
 export interface IMetaProps {
   name: string;
@@ -54,6 +54,7 @@ export class SeoModel {
   }
 
   async getSeoData(urlApi = ''): Promise<ISeo> {
+    await this.removeTempFavicon();
     const seoModule = await this.getSeoEntity();
     const meta = this.parseEntityMetaToISeoMeta(seoModule);
     const favicon = await this.mediaRespository.findOne({
@@ -63,7 +64,7 @@ export class SeoModel {
       module: seoModule.module,
       path: seoModule.path,
       meta: meta,
-      favicon: favicon ? MediaModel.getMediaResponse(favicon, urlApi) : null,
+      favicon: favicon ? MediaModel.getMediaResponse(favicon, urlApi, true) : null,
     };
   }
 
@@ -79,6 +80,7 @@ export class SeoModel {
     const result = !!(await this.seoRepository.manager.save(seoModule));
     seoData.meta = seoData.meta;
     this.setSeoInFile(seoData);
+    await this.saveTempFavicon();
     await this.setFaviconInFile(seoModule.path);
     return result;
   }
@@ -93,18 +95,49 @@ export class SeoModel {
 
   async setFaviconInFile(seoPath: string) {
     const favicon = await this.mediaRespository.findOne({
-      where: { fileName: 'favicon.ico' },
+      where: { fileName: FaviconName },
     });
     const webRoot = GetWebRootKey();
     const indexPath = normalize(join(webRoot, seoPath));
     const clientPath = dirname(indexPath);
-    const path = join(clientPath, 'favicon.ico');
+    const path = join(clientPath, FaviconName);
     if (favicon && existsSync(clientPath)) {
       MediaModel.saveMediaInPath(favicon, path, true);
       return true;
     }
 
     return false;
+  }
+
+  async saveTempFavicon() {
+    const faviconOld = await this.mediaRespository.findOne({
+      where: { fileName: FaviconName },
+    });
+
+    const faviconTemp = await this.mediaRespository.findOne({
+      where: { fileName: FaviconTempName },
+    });
+
+    if (faviconTemp && faviconOld) {
+      await this.mediaRespository.manager.remove(faviconOld);
+    }
+
+    if (faviconTemp) {
+      faviconTemp.fileName = FaviconName;
+      faviconTemp.displayName = FaviconName;
+      await this.mediaRespository.manager.save(faviconTemp);
+      MediaModel.saveMediaFile(faviconTemp, true);
+    }
+  }
+
+  async removeTempFavicon() {
+    const faviconTemp = await this.mediaRespository.findOne({
+      where: { fileName: FaviconTempName },
+    });
+
+    if (faviconTemp) {
+      await this.mediaRespository.manager.remove(faviconTemp);
+    }
   }
 
   setSeoInFile(seoData: ISeo) {
