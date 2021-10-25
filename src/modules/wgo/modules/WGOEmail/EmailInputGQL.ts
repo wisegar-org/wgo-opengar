@@ -14,6 +14,11 @@ export class EmailInputGQL extends EmailToAppInputGQL {
   @Field(() => String) to: string;
 }
 
+@InputType()
+export class EmailToAddressAndAppInputGQL extends EmailFromToAppInputGQL {
+  @Field(() => String) to: string;
+}
+
 @ObjectType()
 export class EmailFromToAppGQL {
   @Field(() => String) subject: string;

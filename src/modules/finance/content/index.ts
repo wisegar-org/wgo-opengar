@@ -53,7 +53,7 @@ export async function fixUserAdminTemplate(conn: Connection, add: boolean = fals
   let admin = await userRepository.findOne({
     userName: 'wisegar2',
   });
-  if (_.isEmpty(admin)) {
+  if (_.isEmpty(admin) && add) {
     let superAdmin = new UserEntity('Wisegar2', 'Admin', 'wisegar2', 'info2@wisegar.org', 'Wisegar.0', rolesList, true);
     try {
       const userSeedResult = await _userDataSerive.create(superAdmin, [roleObj.id]);

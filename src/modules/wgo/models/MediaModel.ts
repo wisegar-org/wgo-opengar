@@ -1,6 +1,6 @@
-import { GetNodeEnvKey, MediaEntity, MediaService, MediaEntityTypeEnum } from '@wisegar-org/wgo-opengar-core';
+import { MediaEntity } from '@wisegar-org/wgo-opengar-core';
 
-import { join, extname, normalize } from 'path';
+import { join, extname, normalize, basename, parse } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import {
   ReadStream,
@@ -15,6 +15,9 @@ import { Repository } from 'typeorm';
 import { GetConnection } from '../database/DBGetConnection';
 import { MediaInputGQL, MediaResponseGQL, MediasInputGQL } from '../modules';
 import { FILES_STORAGE_FOLDER_NAME, GetPrivateFilesPath, GetPublicFilesPath } from '../settings/ConfigService';
+
+export const FaviconName = 'favicon.ico';
+export const FaviconTempName = 'faviconTemp.ico';
 
 export class MediaModel {
   private repository: Repository<MediaEntity>;
@@ -43,8 +46,8 @@ export class MediaModel {
     return `${FILES_STORAGE_FOLDER_NAME}/${filename}`;
   }
 
-  static getMediaResponse(media: MediaEntity, urlApi: string) {
-    if (media.isPublic) MediaModel.saveMediaFile(media);
+  static getMediaResponse(media: MediaEntity, urlApi: string, replace = false) {
+    if (media.isPublic) MediaModel.saveMediaFile(media, replace);
     return <MediaResponseGQL>{
       isPublic: media.isPublic,
       id: media.id,
@@ -61,9 +64,9 @@ export class MediaModel {
     };
   }
 
-  static saveMediaFile(media: MediaEntity) {
+  static saveMediaFile(media: MediaEntity, replace = false) {
     const filePath = normalize(MediaModel.getStorageFilePath(media.isPublic, media.fileName));
-    return this.saveMediaInPath(media, filePath);
+    return this.saveMediaInPath(media, filePath, replace);
   }
 
   static saveMediaInPath(media: MediaEntity, filePath: string, replace = false) {
@@ -109,9 +112,9 @@ export class MediaModel {
 
   async uploadFavicon(data: MediaInputGQL, urlApi: string): Promise<MediaResponseGQL> {
     try {
-      const storageFileUuid = 'favicon';
-      const storageFileExt = '.ico';
-      const storageFileName = `${storageFileUuid}${storageFileExt}`;
+      const storageFileUuid = parse(FaviconTempName).name;
+      const storageFileExt = extname(FaviconTempName);
+      const storageFileName = FaviconTempName;
       let media = await this.repository.findOne({
         where: {
           fileName: storageFileName,
@@ -125,7 +128,7 @@ export class MediaModel {
       const { createReadStream, mimetype } = fileInput as any;
       const stream: ReadStream = createReadStream();
 
-      return this.saveFile(
+      const result = await this.saveFile(
         media,
         stream,
         storageFileName,
@@ -135,6 +138,15 @@ export class MediaModel {
         data.isPublic,
         urlApi
       );
+
+      media = await this.repository.findOne({
+        where: {
+          fileName: storageFileName,
+        },
+      });
+      MediaModel.saveMediaInPath(media, normalize(MediaModel.getStorageFilePath(media.isPublic, FaviconName)), true);
+
+      return result;
     } catch (error) {
       return this.getErrorMediaResponse(data.isPublic, error);
     }

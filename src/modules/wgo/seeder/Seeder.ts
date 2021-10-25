@@ -2,6 +2,7 @@ import { UserEntity, RolEntity, RolEntityEnum, UserDataService, LanguageService 
 import _ from 'lodash';
 import { Connection } from 'typeorm';
 import { AGVRoles } from '../../agv/models';
+import { UserModel } from '../models/UserModel';
 import { IMetaProps, SeoModel } from '../modules';
 
 export class DataSeeder {
@@ -85,7 +86,7 @@ export class DataSeeder {
     const languageService = new LanguageService(this.connection);
     await languageService.create({
       code: 'EN',
-      default: false,
+      default: true,
       enabled: true,
       logoId: 0,
       id: 0,
@@ -104,7 +105,10 @@ export class DataSeeder {
       'google-site-verification': { name: 'google-site-verification', content: '' },
       googlebot: { name: 'googlebot', content: '' },
       google: { name: 'google', content: '' },
-      viewport: { name: 'viewport', content: '' },
+      viewport: {
+        name: 'viewport',
+        content: 'user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width',
+      },
       rating: { name: 'rating', content: '' },
       'og:locale': { property: 'og:locale', content: '' },
       'og:type': { property: 'og:type', content: '' },
@@ -132,6 +136,7 @@ export class DataSeeder {
         temp[key] = defaultMetas[key];
       }
     });
+    temp.viewport.content = temp.viewport.content ? temp.viewport.content : defaultMetas.viewport.content;
     seo.meta = temp;
     await seo.save();
     const iseo = await seoModel.getSeoData();
@@ -139,10 +144,16 @@ export class DataSeeder {
     await seoModel.setFaviconInFile(iseo.path);
   }
 
+  public async registerTranslations() {
+    const userModel = new UserModel(this.connection);
+    await userModel.registerKeys();
+  }
+
   public async createData() {
     await this.createRolesSeeder();
     await this.createUserSeeder();
     await this.createLanguageSeeder();
     await this.setSeoDataSeeder();
+    await this.registerTranslations();
   }
 }
