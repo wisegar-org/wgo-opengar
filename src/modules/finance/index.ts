@@ -15,12 +15,18 @@ import ProductEntity from './database/entities/ProductEntity';
 import ProjectEntity from './database/entities/ProjectEntity';
 import RepositoryEntity from './database/entities/RepositoryEntity';
 import TransactionEntity from './database/entities/TransactionEntity';
+import { FinanceModuleEntity } from './database/entities/FinanceModuleEntity';
+import { IndexContentResolver } from './modules/IndexContent/IndexContentResolver';
 dotenv.config({
   path: '.env',
 });
 
 export { InitializeRouter as InitializeGithubRouter } from './router';
 export const FINANCE_MODULE = 'finance';
+
+export const getFinanceResolvers = () => {
+  return [IndexContentResolver];
+};
 
 export const getFinanceEntities = () => {
   return [
@@ -38,5 +44,6 @@ export const getFinanceEntities = () => {
     ProductEntity,
     BillEntity,
     BillProductRelationEntity,
+    FinanceModuleEntity
   ] as any[];
 };
