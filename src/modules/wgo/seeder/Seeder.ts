@@ -2,6 +2,7 @@ import { UserEntity, RolEntity, RolEntityEnum, UserDataService, LanguageService 
 import _ from 'lodash';
 import { Connection } from 'typeorm';
 import { AGVRoles } from '../../agv/models';
+import { UserModel } from '../models/UserModel';
 import { IMetaProps, SeoModel } from '../modules';
 
 export class DataSeeder {
@@ -85,7 +86,7 @@ export class DataSeeder {
     const languageService = new LanguageService(this.connection);
     await languageService.create({
       code: 'EN',
-      default: false,
+      default: true,
       enabled: true,
       logoId: 0,
       id: 0,
@@ -139,10 +140,16 @@ export class DataSeeder {
     await seoModel.setFaviconInFile(iseo.path);
   }
 
+  public async registerTranslations() {
+    const userModel = new UserModel(this.connection);
+    await userModel.registerKeys();
+  }
+
   public async createData() {
     await this.createRolesSeeder();
     await this.createUserSeeder();
     await this.createLanguageSeeder();
     await this.setSeoDataSeeder();
+    await this.registerTranslations();
   }
 }
