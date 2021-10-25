@@ -23,6 +23,7 @@ import { TransactionTypeEnum } from '../database/entities/TransactionEntity';
 import { OrganizationDataService } from './OrganizationDataService';
 import { v4 as uuidv4 } from 'uuid';
 import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
+import { parseInt } from 'lodash';
 
 const BILL_CONSTANT = 'BILL_TEMPLATE';
 const BILL_EMAIL_CONSTANT = 'BILL_EMAIL_TEMPLATE';
@@ -50,7 +51,14 @@ export class BillsService {
     this.organizationService = new OrganizationDataService();
     this.templateService = new TemplateService(this.connection);
     this.parseTemplateService = new ParseTemplateService();
-    this.handlebarsTemplate = new HandlebarsTemplateService();
+    this.handlebarsTemplate = new HandlebarsTemplateService((handlebar: typeof Handlebars) => {
+      handlebar.registerHelper('dateDMYSum', function (str: string, num: string) {
+        const date = new Date(str);
+        const op = parseInt(num);
+        date.setDate(date.getDate() + op);
+        return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+      });
+    });
     this.emailNotify = new EmailNotifyService();
   }
 
@@ -264,10 +272,14 @@ export class BillsService {
     try {
       const templateDoc = await this.loadTemplate(BILL_CONSTANT);
       const templateEmail = await this.loadTemplate(BILL_EMAIL_CONSTANT);
-      const bill = await this.billConnection.findOne({
+      let bill = await this.billConnection.findOne({
         where: { id: id },
         relations: ['client', 'billProducts', 'billProducts.product'],
       });
+      if (!!bill) {
+        bill.sendDate = new Date();
+        bill = await this.billConnection.manager.save(bill);
+      }
       const nameFile = `${uuidv4()}.html`;
       const path_token = getTokenToReport({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id });
       const urlBill = `${urlApi}${REPORT_STORAGE_FOLDER_NAME}/${nameFile}?token=${path_token}`;
@@ -319,6 +331,7 @@ export class BillsService {
       relations: ['client', 'billProducts', 'billProducts.product'],
     });
     if (bill) {
+      bill.sendDate = new Date();
       const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
       const organization = await this.organizationService.getOrganizationData();
 
