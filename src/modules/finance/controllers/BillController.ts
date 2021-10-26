@@ -2,6 +2,7 @@ import { Express } from 'express';
 import { Connection } from 'typeorm';
 import { AuthorizeUserRol, RolEntityEnum, TemplateEntity } from '@wisegar-org/wgo-opengar-core';
 import { BillsService } from '../services/BillsService';
+import { parseInt } from 'lodash';
 
 export const BillController = (app: Express, conn: Connection) => {
   app.get('/api/bills', AuthorizeUserRol(), async (req, res) => {
@@ -54,14 +55,15 @@ export const BillController = (app: Express, conn: Connection) => {
 
   app.get('/api/loadBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const billService = new BillsService(req.context);
-    const { entityTemplate } = req.query;
-    const result = await billService.loadTemplate(entityTemplate as string);
+    const { entityTemplate, langId } = req.query;
+    const result = await billService.loadTemplate(entityTemplate as string, parseInt((langId as string) || '0'));
     res.send(result);
   });
   app.post('/api/getBillDocumentPreview', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const billService = new BillsService(req.context);
-    const { entityTemplate, idBill, templateHTML, templateStyle } = req.body;
+    const { entityTemplate, idBill, templateHTML, templateStyle, langId } = req.body;
     const result = await billService.getDocumentBody(
+      parseInt((langId as string) || '0'),
       entityTemplate as string,
       parseInt(idBill as string),
       templateHTML as string,
@@ -72,9 +74,9 @@ export const BillController = (app: Express, conn: Connection) => {
 
   app.post('/api/saveBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const billService = new BillsService(req.context);
-    const { value } = req.body;
+    const { value, langId } = req.body;
 
-    const updated = await billService.saveTemplate(value as TemplateEntity);
+    const updated = await billService.saveTemplate(value as TemplateEntity, parseInt((langId as string) || '0'));
 
     res.send(updated);
   });
