@@ -28,7 +28,7 @@ export const ServerContext = async (options: IContextOptions) => {
       roles: user.roles.map((role) => role.name),
       sessionId: '',
       userId: user.id.toString(),
-      language: user.language,
+      language: user.languageId,
     };
   } catch (error) {
     throw error;
