@@ -10,6 +10,8 @@ import {
   ITemplateTokens,
   EmailNotifyService,
   HandlebarsTemplateService,
+  TranslationService,
+  LanguageEntity,
 } from '@wisegar-org/wgo-opengar-core';
 import { FinanceMediaService } from './FinanceMediaService';
 import BillEntity, { BillStatus } from '../database/entities/BillEntity';
@@ -27,6 +29,7 @@ import { parseInt } from 'lodash';
 
 const BILL_CONSTANT = 'BILL_TEMPLATE';
 const BILL_EMAIL_CONSTANT = 'BILL_EMAIL_TEMPLATE';
+const BILL_TRANSLATION_KEY = 'WGO_TEMPLATE_BODY';
 export class BillsService {
   private connection: Connection;
   private billConnection: Repository<BillEntity>;
@@ -40,7 +43,11 @@ export class BillsService {
   private templateService: TemplateService;
   private handlebarsTemplate: HandlebarsTemplateService;
   private emailNotify: EmailNotifyService;
+  private translationService: TranslationService;
+  private langId: number;
   constructor(userContext?: Context) {
+    this.langId =
+      userContext.user.language instanceof LanguageEntity ? userContext.user.language.id : userContext.user.language;
     this.connection = GetConnection();
     this.billConnection = this.connection.getRepository(BillEntity);
     this.billProductsConnection = this.connection.getRepository(BillProductRelationEntity);
@@ -51,6 +58,7 @@ export class BillsService {
     this.organizationService = new OrganizationDataService();
     this.templateService = new TemplateService(this.connection);
     this.parseTemplateService = new ParseTemplateService();
+    this.translationService = new TranslationService(this.connection);
     this.handlebarsTemplate = new HandlebarsTemplateService((handlebar: typeof Handlebars) => {
       handlebar.registerHelper('dateDMYSum', function (str: string, num: string) {
         const date = new Date(str);
@@ -243,10 +251,15 @@ export class BillsService {
     return bill;
   }
 
-  async loadTemplate(entityTemplate: string): Promise<TemplateEntity> {
+  async loadTemplate(entityTemplate: string, langId: number): Promise<TemplateEntity> {
     let bill = await this.templateService.getTemplateByEntityTemplate(entityTemplate);
     if (!bill) {
       bill = await this.templateService.saveDocumentTamplate(0, entityTemplate, '', entityTemplate, null);
+    }
+    if (bill && bill.body.startsWith(BILL_TRANSLATION_KEY)) {
+      const key = this.getBodyTranslationKey(bill.id);
+      const content = await this.translationService.getTranslation(langId ? langId : this.langId, key, false);
+      bill.body = content !== key ? content : '';
     }
     if (!bill.styleTemplateId) {
       bill.styleTemplate = await this.templateService.saveStyleTemplate(0, `STYLE_${entityTemplate}`, '', bill.id);
@@ -255,11 +268,13 @@ export class BillsService {
     return bill;
   }
 
-  async saveTemplate(value: TemplateEntity) {
+  async saveTemplate(value: TemplateEntity, langId: number) {
+    const key = this.getBodyTranslationKey(value.id);
+    await this.translationService.setTranslation(langId ? langId : this.langId, key, value.body);
     return await this.templateService.saveDocumentTamplate(
       value.id,
       value.title,
-      value.body,
+      key,
       value.entityTemplate,
       value.styleTemplate.id
     );
@@ -270,8 +285,8 @@ export class BillsService {
 
   async sendBillLink(id: number, urlApi: string) {
     try {
-      const templateDoc = await this.loadTemplate(BILL_CONSTANT);
-      const templateEmail = await this.loadTemplate(BILL_EMAIL_CONSTANT);
+      const templateDoc = await this.loadTemplate(BILL_CONSTANT, this.langId);
+      const templateEmail = await this.loadTemplate(BILL_EMAIL_CONSTANT, this.langId);
       let bill = await this.billConnection.findOne({
         where: { id: id },
         relations: ['client', 'billProducts', 'billProducts.product'],
@@ -324,8 +339,14 @@ export class BillsService {
     }
   }
 
-  async getDocumentBody(entityTemplate: string, idBill: number, templateHTML?: string, templateStyle?: string) {
-    const templateDoc = await this.loadTemplate(entityTemplate);
+  async getDocumentBody(
+    langId: number,
+    entityTemplate: string,
+    idBill: number,
+    templateHTML?: string,
+    templateStyle?: string
+  ) {
+    const templateDoc = await this.loadTemplate(entityTemplate, langId ? langId : this.langId);
     const bill = await this.billConnection.findOne({
       where: { id: idBill },
       relations: ['client', 'billProducts', 'billProducts.product'],
@@ -349,5 +370,9 @@ export class BillsService {
         style: templateStyle || templateDoc.styleTemplate.body,
       });
     }
+  }
+
+  getBodyTranslationKey(idTemplate: number) {
+    return `${BILL_TRANSLATION_KEY}_${idTemplate}`;
   }
 }
