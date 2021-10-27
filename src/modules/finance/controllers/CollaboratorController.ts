@@ -10,7 +10,7 @@ export const CollaboratorController = (app: Express, conn: Connection) => {
   });
   app.post('/api/addClient', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const collaboratorService = new CollaboratorService(req.context);
-    const { name, bio, email, card_number, address } = req.body;
+    const { name, bio, email, card_number, address, cap, place } = req.body;
 
     const coll = await collaboratorService.addCollaborator(
       0,
@@ -25,7 +25,9 @@ export const CollaboratorController = (app: Express, conn: Connection) => {
       bio,
       false,
       card_number,
-      address
+      address,
+      cap,
+      place
     );
     res.send({ created: !!coll, collaborators: [coll] });
   });
@@ -35,9 +37,19 @@ export const CollaboratorController = (app: Express, conn: Connection) => {
     AuthorizeUserRol([RolEntityEnum.superAdmin, RolEntityEnum.customer]),
     async (req, res) => {
       const colService = new CollaboratorService(req.context);
-      const { id, name, card_number, pay_by_hours, email, address, bio } = req.body;
+      const { id, name, card_number, pay_by_hours, email, address, cap, place, bio } = req.body;
 
-      const updated = await colService.updateAccountingInfo(id, name, card_number, pay_by_hours, email, address, bio);
+      const updated = await colService.updateAccountingInfo(
+        id,
+        name,
+        card_number,
+        pay_by_hours,
+        email,
+        address,
+        cap,
+        place,
+        bio
+      );
 
       res.send({ update: !!updated, collaborators: [updated] });
     }

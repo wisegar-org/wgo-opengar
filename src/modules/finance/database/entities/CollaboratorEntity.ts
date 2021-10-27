@@ -22,6 +22,8 @@ export class CollaboratorEntity extends BaseEntity {
   @Column({ nullable: true, default: '' }) card_number?: string;
   @Column({ type: 'float', nullable: true, default: 0 }) pay_by_hours?: number;
   @Column({ nullable: true, default: '' }) address?: string;
+  @Column({ nullable: true, default: '' }) cap?: string;
+  @Column({ nullable: true, default: '' }) place?: string;
 
   @OneToMany(() => IssueEntity, (issue) => issue.assignedToId)
   issues?: IssueEntity[];
@@ -45,7 +47,9 @@ export class CollaboratorEntity extends BaseEntity {
     bio: string,
     card_number?: string,
     pay_by_hours?: number,
-    address?: string
+    address?: string,
+    cap?: string,
+    place?: string
   ) {
     super();
     this.id_github = numberId;
@@ -63,6 +67,8 @@ export class CollaboratorEntity extends BaseEntity {
     this.card_number = card_number;
     this.pay_by_hours = pay_by_hours;
     this.address = address;
+    this.cap = cap;
+    this.place = place;
   }
 }
 
