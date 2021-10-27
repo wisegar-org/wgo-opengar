@@ -14,15 +14,61 @@ export const BillController = (app: Express, conn: Connection) => {
   });
   app.post('/api/addBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const billService = new BillsService(req.context);
-    const { name, description, totalPrice, clientId, products, docs } = req.body;
+    const {
+      name,
+      description,
+      totalPrice,
+      clientId,
+      products,
+      docs,
+      sendDate,
+      validDays,
+      discount,
+      observations,
+    } = req.body;
 
-    const bill = await billService.addBill(name, description, totalPrice, clientId, products, docs);
+    const bill = await billService.addBill(
+      name,
+      description,
+      totalPrice,
+      clientId,
+      sendDate,
+      validDays,
+      discount,
+      observations,
+      products,
+      docs
+    );
     res.send({ created: !!bill, bills: [bill] });
   });
   app.post('/api/updateBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const billService = new BillsService(req.context);
-    const { id, name, description, totalPrice, clientId, products, docs } = req.body;
-    const bill = await billService.updateBillById(id, name, description, totalPrice, clientId, products, docs);
+    const {
+      id,
+      name,
+      description,
+      totalPrice,
+      clientId,
+      products,
+      docs,
+      sendDate,
+      validDays,
+      discount,
+      observations,
+    } = req.body;
+    const bill = await billService.updateBillById(
+      id,
+      name,
+      description,
+      totalPrice,
+      clientId,
+      sendDate,
+      validDays,
+      discount,
+      observations,
+      products,
+      docs
+    );
     res.send({ updated: !!bill });
   });
 
