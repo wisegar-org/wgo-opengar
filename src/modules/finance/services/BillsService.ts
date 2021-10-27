@@ -66,6 +66,19 @@ export class BillsService {
         date.setDate(date.getDate() + op);
         return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
       });
+
+      handlebar.registerHelper('notEmpty', function (str: string) {
+        return !!str ? str : '';
+      });
+      handlebar.registerHelper('displayNone', function (str: string) {
+        return !str ? 'display: none;' : '';
+      });
+      handlebar.registerHelper('percent', function (op1: string, percent: string) {
+        const value = parseFloat(op1);
+        const valuePercent = parseFloat(percent);
+        const result = Math.floor(value * valuePercent) / 100;
+        return `${result}`;
+      });
     });
     this.emailNotify = new EmailNotifyService();
   }
@@ -75,12 +88,22 @@ export class BillsService {
     description: string,
     totalPrice: number,
     clientId: number,
+    sendDate: Date | null,
+    validDays: number,
+    discount: number,
+    observations: string,
     products: ProductsBill[],
     docs: number[] = []
   ): Promise<BillEntity | null> {
     const client = await this.collaboratorService.findCollaboratorById(clientId);
+    const organization = await this.organizationService.getOrganizationData();
     let bill = new BillEntity(name, description, totalPrice, client);
+    if (sendDate) bill.sendDate = sendDate;
+    bill.validDays = validDays ? validDays : organization.bankValidDays;
     bill.docs = await this.financeMediaService.getMediaList(docs);
+    bill.discount = discount;
+    bill.observations = observations;
+    bill.totalWithDiscount = bill.totalPrice - Math.floor(bill.totalPrice * bill.discount) / 100;
 
     bill = await this.billConnection.manager.save(bill);
 
@@ -123,7 +146,12 @@ export class BillsService {
         docs: bill.docs,
         products: bill.billProducts.map((prodBill) => ({ ...prodBill, productId: prodBill.product.id })),
         status: bill.status,
+        discount: bill.discount,
         date: bill.date,
+        validDays: bill.validDays,
+        sendDate: bill.sendDate,
+        observations: bill.observations,
+        totalWithDiscount: bill.totalWithDiscount ? bill.totalWithDiscount : bill.totalPrice,
       };
     });
     return bills;
@@ -135,6 +163,10 @@ export class BillsService {
     description: string,
     totalPrice: number,
     clientId: number,
+    sendDate: Date | null,
+    validDays: number,
+    discount: number,
+    observations: string,
     products: ProductsBill[],
     docs: number[] = []
   ): Promise<BillEntity | undefined> {
@@ -145,6 +177,11 @@ export class BillsService {
       bill.description = description;
       bill.client = client;
       bill.totalPrice = totalPrice;
+      bill.validDays = validDays || bill.validDays;
+      bill.discount = discount;
+      bill.observations = observations;
+      if (sendDate) bill.sendDate = sendDate;
+      bill.totalWithDiscount = bill.totalPrice - Math.floor(bill.totalPrice * bill.discount) / 100;
       bill.docs = await this.financeMediaService.getMediaList(docs);
       bill = await this.billConnection.manager.save(bill);
 
@@ -210,6 +247,11 @@ export class BillsService {
         docs: docs,
         status: bill.status,
         date: bill.date,
+        discount: bill.discount,
+        totalWithDiscount: bill.totalWithDiscount ? bill.totalWithDiscount : bill.totalPrice,
+        observations: bill.observations,
+        sendDate: bill.sendDate,
+        validDays: bill.validDays,
       };
     });
     return bill;
@@ -291,7 +333,7 @@ export class BillsService {
         where: { id: id },
         relations: ['client', 'billProducts', 'billProducts.product'],
       });
-      if (!!bill) {
+      if (!!bill && !bill.sendDate) {
         bill.sendDate = new Date();
         bill = await this.billConnection.manager.save(bill);
       }
