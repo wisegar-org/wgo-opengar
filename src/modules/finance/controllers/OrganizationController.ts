@@ -15,29 +15,8 @@ export const OrganizationController = (app: Express, conn: Connection) => {
 
   app.post('/api/setOrganizationData', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
     const organizationDataService = new OrganizationDataService();
-    const {
-      name,
-      description,
-      address,
-      phone,
-      email,
-      accountingInternetPrice,
-      accountingUnit,
-      accountingCoin,
-      accountingLabel,
-    } = req.body;
 
-    const updated = await organizationDataService.setOrganizationData(
-      name,
-      description,
-      address,
-      phone,
-      email,
-      accountingInternetPrice,
-      accountingUnit,
-      accountingCoin,
-      accountingLabel
-    );
+    const updated = await organizationDataService.setOrganizationData(req.body);
 
     res.send({ update: !!updated, organizationData: updated });
   });
