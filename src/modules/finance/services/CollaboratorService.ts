@@ -38,7 +38,9 @@ export class CollaboratorService {
     bio: string,
     isCollaborator = false,
     card_number: string,
-    address: string
+    address: string,
+    cap: string,
+    place: string
   ): Promise<CollaboratorEntity | undefined> {
     const result = await this.collaboratorConnection.findOne({
       where: [
@@ -72,7 +74,9 @@ export class CollaboratorService {
       bio,
       card_number,
       0,
-      address
+      address,
+      cap,
+      place
     );
     proj.login = isCollaborator ? proj.login : name;
     proj.isCollaborator = isCollaborator;
@@ -197,6 +201,8 @@ export class CollaboratorService {
     pay_by_hours: number,
     email: string,
     address: string,
+    cap: string,
+    place: string,
     bio: string
   ): Promise<CollaboratorEntity | null> {
     const filter = await this.getFilterByCollaborator('id');
@@ -211,6 +217,8 @@ export class CollaboratorService {
       collaborator.pay_by_hours = pay_by_hours;
       collaborator.email = email;
       collaborator.address = address;
+      collaborator.cap = cap;
+      collaborator.place = place;
       collaborator.bio = !collaborator.isCollaborator ? bio : collaborator.bio;
 
       const user = await this.userDataService.one({
