@@ -17,7 +17,7 @@
   "author": "Wisegar.org",
   "license": "ISC",
   "dependencies": {
-    "@wisegar-org/wgo-opengar-core": "0.0.1-build.175",
+    "@wisegar-org/wgo-opengar-core": "0.0.1-build.176",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
