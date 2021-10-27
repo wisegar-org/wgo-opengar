@@ -1,7 +1,29 @@
 import { Connection, Repository } from 'typeorm';
 import { OrganizationDataEntity } from '../database/entities/OrganizationDataEntity';
 import { GetConnection } from '../database';
+import _ from 'lodash';
 
+export interface IOrganization {
+  name: string;
+  description: string;
+  address: string;
+  phone: string;
+  cap: number;
+  place: string;
+  email: string;
+  web: string;
+  accountingInternetPrice: number;
+  accountingUnit: string;
+  accountingCoin: string;
+  accountingLabel: string;
+  bankName: string;
+  bankBIC: string;
+  bankIBAN: string;
+  bankNo: string;
+  bankPlace: string;
+  bankAddress: string;
+  bankValidDays: number;
+}
 export class OrganizationDataService {
   private connection: Connection;
   private organizationDataConnection: Repository<OrganizationDataEntity>;
@@ -10,17 +32,7 @@ export class OrganizationDataService {
     this.organizationDataConnection = this.connection.getRepository(OrganizationDataEntity);
   }
 
-  async setOrganizationData(
-    name: string,
-    description: string,
-    address: string,
-    phone: string,
-    email: string,
-    accountingInternetPrice: number,
-    accountingUnit: string,
-    accountingCoin: string,
-    accountingLabel: string
-  ): Promise<OrganizationDataEntity> {
+  async setOrganizationData(organization: IOrganization): Promise<OrganizationDataEntity> {
     let organizationData = await this.organizationDataConnection.findOne({
       id: 1,
     });
@@ -28,15 +40,9 @@ export class OrganizationDataService {
       organizationData = new OrganizationDataEntity(1);
     }
 
-    organizationData.accountingInternetPrice = accountingInternetPrice || organizationData.accountingInternetPrice;
-    organizationData.address = address || organizationData.address;
-    organizationData.description = description || organizationData.description;
-    organizationData.email = email || organizationData.email;
-    organizationData.name = name || organizationData.name;
-    organizationData.phone = phone || organizationData.phone;
-    organizationData.accountingUnit = accountingUnit || organizationData.accountingUnit;
-    organizationData.accountingCoin = accountingCoin || organizationData.accountingCoin;
-    organizationData.accountingLabel = accountingLabel || organizationData.accountingLabel;
+    Object.keys(organization).forEach((key) => {
+      organizationData[key] = organization[key];
+    });
 
     return await organizationData.save();
   }
