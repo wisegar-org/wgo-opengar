@@ -7,6 +7,7 @@ export class OrganizationDataEntity extends BaseEntity {
   @Column({ nullable: true, default: '' }) description?: string;
   @Column({ nullable: true, default: '' }) address?: string;
   @Column({ nullable: true, default: '' }) place?: string;
+  @Column({ nullable: true, default: '' }) no?: string;
   @Column({ nullable: true, default: 0 }) cap?: number;
   @Column({ nullable: true, default: '' }) phone?: string;
   @Column({ nullable: true, default: '' }) email?: string;
@@ -20,6 +21,7 @@ export class OrganizationDataEntity extends BaseEntity {
   @Column({ nullable: true, default: '' }) bankBIC?: string;
   @Column({ nullable: true, default: '' }) bankIBAN?: string;
   @Column({ nullable: true, default: '' }) bankNo?: string;
+  @Column({ nullable: true, default: '' }) bankCap?: string;
   @Column({ nullable: true, default: '' }) bankPlace?: string;
   @Column({ nullable: true, default: '' }) bankAddress?: string;
   @Column({ nullable: true, default: 30 }) bankValidDays?: number;
