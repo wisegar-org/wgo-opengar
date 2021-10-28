@@ -9,6 +9,7 @@ export interface IOrganization {
   address: string;
   phone: string;
   cap: number;
+  no: string;
   place: string;
   email: string;
   web: string;
@@ -20,6 +21,7 @@ export interface IOrganization {
   bankBIC: string;
   bankIBAN: string;
   bankNo: string;
+  banCap: string;
   bankPlace: string;
   bankAddress: string;
   bankValidDays: number;
