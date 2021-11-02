@@ -1,3 +1,5 @@
+import { WGOContactEntity } from './database/entities/ContactEntity';
+import { ContactResolver } from './modules/WGOContact/ContactResolver';
 export { SeederWGO } from './seeder';
 export { ServerAuthenticator, ServerContext } from './servers';
 export { HostClientMiddleware } from './middlewares/HostClientMiddleware';
@@ -37,6 +39,7 @@ export const getWGOResolvers = () => {
     TranslationResolver,
     SeoResolver,
     StorageResolver,
+    ContactResolver
   ];
 };
 
@@ -51,5 +54,6 @@ export const getWGOEntities = () => {
     LanguageEntity,
     SeoEntity,
     StorageEntity,
+    WGOContactEntity
   ] as any[];
 };
