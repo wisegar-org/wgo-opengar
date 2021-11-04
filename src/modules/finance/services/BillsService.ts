@@ -398,7 +398,9 @@ export class BillsService {
     const document = root.window.document;
     const footer = document.querySelector('footer');
     const style = document.querySelector('style');
-    const footerTemplate = `${footer.innerHTML}`;
+    const footerTemplate = `<style>${style.innerHTML.split('\n').join('')}</style>${footer.innerHTML
+      .split('\n')
+      .join('')}`;
     // const footerTemplate = `${style.innerHTML} ${footer.innerHTML}`;
     footer.remove();
     // const footerTemplate = footer.textContent
@@ -411,7 +413,7 @@ export class BillsService {
       margin: {
         top: '20px',
         right: '20px',
-        bottom: '50px',
+        bottom: '200px',
         left: '20px',
       },
     });
