@@ -2,16 +2,15 @@ import { Connection, Repository } from 'typeorm';
 import { GetConnection } from '../database';
 import {
   Context,
-  GetPublicKey,
-  EmailServer,
   TemplateService,
   TemplateEntity,
   ParseTemplateService,
-  ITemplateTokens,
   EmailNotifyService,
   HandlebarsTemplateService,
   TranslationService,
   LanguageEntity,
+  exportHTMLToPdfReadStream,
+  exportHTMLToPdfBuffer,
 } from '@wisegar-org/wgo-opengar-core';
 import { FinanceMediaService } from './FinanceMediaService';
 import BillEntity, { BillStatus } from '../database/entities/BillEntity';
@@ -26,6 +25,8 @@ import { OrganizationDataService } from './OrganizationDataService';
 import { v4 as uuidv4 } from 'uuid';
 import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
 import { parseInt } from 'lodash';
+import { JSDOM } from 'jsdom';
+import { writeFileSync, writeSync } from 'fs-extra';
 
 const BILL_CONSTANT = 'BILL_TEMPLATE';
 const BILL_EMAIL_CONSTANT = 'BILL_EMAIL_TEMPLATE';
@@ -359,19 +360,30 @@ export class BillsService {
 
       let doc = this.handlebarsTemplate.getTemplateData(templateDoc.body, data);
       await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
+      const contentPdf = await this.getHtmlToPdf(doc, urlBill);
 
-      const result = await this.emailNotify.sendNotification({
-        emailOptions: {
-          to: bill.client.email,
-          subject: 'Bill info',
-        },
-        bodyTemplate: {
-          template: templateEmail.body,
-          data: { ...data, style: templateEmail.styleTemplate.body },
-        },
-      });
-      result.message = urlBill;
-      return result;
+      // const result = await this.emailNotify.sendNotification({
+      //   emailOptions: {
+      //     to: bill.client.email,
+      //     subject: 'Bill info',
+      //     attachments: [
+      //       {
+      //         filename: 'Bill info.pdf',
+      //         content: contentPdf,
+      //       },
+      //     ],
+      //   },
+      //   bodyTemplate: {
+      //     template: templateEmail.body,
+      //     data: { ...data, style: templateEmail.styleTemplate.body },
+      //   },
+      // });
+      // result.message = urlBill;
+      // return result;
+
+      return {
+        isSuccess: true,
+      };
     } catch (error) {
       return {
         isSuccess: false,
@@ -379,6 +391,38 @@ export class BillsService {
         error: error,
       };
     }
+  }
+
+  async getHtmlToPdf(content: string, url: string) {
+    const root = await JSDOM.fromURL(url);
+    const document = root.window.document;
+    const footer = document.querySelector('footer');
+    const style = document.querySelector('style');
+    const footerTemplate = `${footer.innerHTML}`;
+    // const footerTemplate = `${style.innerHTML} ${footer.innerHTML}`;
+    footer.remove();
+    // const footerTemplate = footer.textContent
+    // document
+
+    const resultBuffer = await exportHTMLToPdfBuffer(root.serialize(), {
+      format: 'a4',
+      displayHeaderFooter: true,
+      footerTemplate: footerTemplate,
+      margin: {
+        top: '20px',
+        right: '20px',
+        bottom: '50px',
+        left: '20px',
+      },
+    });
+    writeFileSync('./temp.pdf', resultBuffer);
+
+    const result = await exportHTMLToPdfReadStream(root.serialize(), {
+      format: 'a4',
+      displayHeaderFooter: true,
+      footerTemplate: footerTemplate,
+    });
+    return result;
   }
 
   async getDocumentBody(
