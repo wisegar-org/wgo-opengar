@@ -9,8 +9,7 @@ import {
   HandlebarsTemplateService,
   TranslationService,
   LanguageEntity,
-  exportHTMLToPdfReadStream,
-  exportHTMLToPdfBuffer,
+  exportUrlToPdfBuffer,
 } from '@wisegar-org/wgo-opengar-core';
 import { FinanceMediaService } from './FinanceMediaService';
 import BillEntity, { BillStatus } from '../database/entities/BillEntity';
@@ -360,30 +359,43 @@ export class BillsService {
 
       let doc = this.handlebarsTemplate.getTemplateData(templateDoc.body, data);
       await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
-      const contentPdf = await this.getHtmlToPdf(doc, urlBill);
+      let contentPdf: any = null;
+      try {
+        contentPdf = await exportUrlToPdfBuffer(urlBill, {
+          format: 'a4',
+          displayHeaderFooter: false,
+          margin: {
+            bottom: 50,
+            left: 50,
+            right: 50,
+            top: 50,
+          },
+          printBackground: true,
+        });
+      } catch (err) {
+        console.log('Puppeteer error');
+      }
 
-      // const result = await this.emailNotify.sendNotification({
-      //   emailOptions: {
-      //     to: bill.client.email,
-      //     subject: 'Bill info',
-      //     attachments: [
-      //       {
-      //         filename: 'Bill info.pdf',
-      //         content: contentPdf,
-      //       },
-      //     ],
-      //   },
-      //   bodyTemplate: {
-      //     template: templateEmail.body,
-      //     data: { ...data, style: templateEmail.styleTemplate.body },
-      //   },
-      // });
-      // result.message = urlBill;
-      // return result;
-
-      return {
-        isSuccess: true,
-      };
+      const result = await this.emailNotify.sendNotification({
+        emailOptions: {
+          to: bill.client.email,
+          subject: 'Bill info',
+          attachments: contentPdf
+            ? [
+                {
+                  filename: 'Bill Info.pdf',
+                  content: contentPdf as any,
+                },
+              ]
+            : undefined,
+        },
+        bodyTemplate: {
+          template: templateEmail.body,
+          data: { ...data, style: templateEmail.styleTemplate.body },
+        },
+      });
+      result.message = urlBill;
+      return result;
     } catch (error) {
       return {
         isSuccess: false,
@@ -391,108 +403,6 @@ export class BillsService {
         error: error,
       };
     }
-  }
-
-  async getHtmlToPdf(content: string, url: string) {
-    debugger;
-    const puppeteer = require('puppeteer');
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-
-    // 1. Create PDF from URL
-    await page.goto('https://quickweb-dev.orionedp.ch/#/login');
-    await page.pdf({
-      path: 'quickLogin.pdf',
-      format: 'A4',
-      displayHeaderFooter: true,
-      headerTemplate: `
-    <div style="border-top: solid 1px #bbb; width: 100%; font-size: 9px;
-      padding: 5px 5px 0; color: #bbb; position: relative;">
-      <div style="position: absolute; left: 5px; top: 5px;"><span class="date"></span></div>
-      <div style="position: absolute; right: 5px; top: 5px;"><span class="pageNumber"></span>/<span class="totalPages"></span></div>
-      <div>CIAO HEADER</div>
-    </div>`,
-      footerTemplate: `
-    <div style="border-top: solid 1px #bbb; width: 100%; font-size: 9px;
-        padding: 5px 5px 0; color: #bbb; position: relative;">
-        <div style="position: absolute; left: 5px; top: 5px;"><span class="date"></span></div>
-        <div style="position: absolute; right: 5px; top: 5px;"><span class="pageNumber"></span>/<span class="totalPages"></span></div>
-        <div>CIAO FOOTER</div>
-    </div>
-  `,
-    });
-
-    // 2. Create PDF from static HTML
-    const htmlContent = `
-    <!doctype html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>A Basic HTML5 Template</title>
-        <meta name="description" content="A simple HTML5 Template for new projects.">
-        <meta name="author" content="SitePoint">
-      </head>
-      <body>
-        <h1>Hola questo è un esempio HTML to PDF 1</h1>
-      </body>
-    </html>`;
-    await page.setContent(htmlContent);
-    const result = await page.pdf({
-      path: 'customContent.pdf',
-      format: 'A4',
-      displayHeaderFooter: true,
-      headerTemplate: `
-      <div style="border-top: solid 1px #bbb; width: 100%; font-size: 9px;
-        padding: 5px 5px 0; color: #bbb; position: relative;">
-        <div style="position: absolute; left: 5px; top: 5px;"><span class="date"></span></div>
-        <div style="position: absolute; right: 5px; top: 5px;"><span class="pageNumber"></span>/<span class="totalPages"></span></div>
-        <div>CIAO HEADER</div>
-      </div>`,
-      footerTemplate: `
-      <div style="border-top: solid 1px #bbb; width: 100%; font-size: 9px;
-          padding: 5px 5px 0; color: #bbb; position: relative;">
-          <div style="position: absolute; left: 5px; top: 5px;"><span class="date"></span></div>
-          <div style="position: absolute; right: 5px; top: 5px;"><span class="pageNumber"></span>/<span class="totalPages"></span></div>
-          <div>CIAO FOOTER</div>
-      </div>
-    `,
-    });
-
-    await browser.close();
-
-    // const root = await JSDOM.fromURL(url);
-    // const document = root.window.document;
-    // const footer = document.querySelector('footer');
-    // const style = document.querySelector('style');
-    // const footerTemplate = `<style>${style.innerHTML.split('\n').join('')}</style>${footer.innerHTML
-    //   .split('\n')
-    //   .join('')}`;
-    // // const footerTemplate = `${style.innerHTML} ${footer.innerHTML}`;
-    // footer.remove();
-    // // const footerTemplate = footer.textContent
-    // // document
-
-    // const resultBuffer = await exportHTMLToPdfBuffer(root.serialize(), {
-    //   format: 'a4',
-    //   displayHeaderFooter: true,
-    //   footerTemplate: footerTemplate,
-    //   margin: {
-    //     top: '20px',
-    //     right: '20px',
-    //     bottom: '200px',
-    //     left: '20px',
-    //   },
-    // });
-    // writeFileSync('./temp.pdf', resultBuffer);
-
-    // const result = await exportHTMLToPdfReadStream(root.serialize(), {
-    //   format: 'a4',
-    //   displayHeaderFooter: true,
-    //   footerTemplate: footerTemplate,
-    // });
-
-    return result;
   }
 
   async getDocumentBody(
