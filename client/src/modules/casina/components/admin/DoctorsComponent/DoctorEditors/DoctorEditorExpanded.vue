@@ -1,5 +1,5 @@
 <template>
-  <ExpandedToggleHeader :label="title" :group="groupName" :icon="icon">
+  <Expanded :label="title" :group="groupName" :icon="icon">
     <template slot="content">
       <div class="q-pa-sm">
         <DoctorEditor
@@ -29,35 +29,35 @@
         @click="() => (showDeleteConfirm = true)"
       />
     </template>
-  </ExpandedToggleHeader>
+  </Expanded>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import DoctorEditor from './DoctorEditor.vue';
 import { StorageDoctorItem } from '../../../../models/StorageModels';
-import ExpandedToggleHeader from '../../../../../wgo/components/Expanded/ExpandedToggleHeader.vue';
+import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import {
   casinaModelsActionsKeys,
   casinaModelsNamespace
-} from 'src/modules/casina/store/CasinaModels';
+} from '../../../../store/CasinaModels';
 import { Action, Getter } from 'vuex-class';
 import {
   componentsNamespace,
   componentsActionsKeys
-} from 'src/modules/wgo/store/ComponentsState';
+} from '../../../../../wgo/store/ComponentsState';
 import {
   languageGetters,
   languageNamespace
-} from 'src/modules/wgo/store/Language';
+} from '../../../../../wgo/store/Language';
 import { ITranslationDoctorsAdminKeys } from '../TranslationsKeys';
-import { INotify } from 'src/modules/wgo/models';
+import { INotify } from '../../../../../wgo/models';
 
 @Component({
   components: {
     DoctorEditor,
-    ExpandedToggleHeader,
+    Expanded,
     ConfirmDialog
   }
 })

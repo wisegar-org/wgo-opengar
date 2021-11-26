@@ -1,5 +1,5 @@
 <template>
-  <ExpandedToggleHeader :label="title" :group="groupName" :icon="icon">
+  <Expanded :label="title" :group="groupName" :icon="icon">
     <template slot="content">
       <div class="q-pa-sm">
         <ModuleEditor
@@ -29,13 +29,13 @@
         @click="() => (showDeleteConfirm = true)"
       />
     </template>
-  </ExpandedToggleHeader>
+  </Expanded>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import ModuleEditor from './ModuleEditor.vue';
-import ExpandedToggleHeader from '../../../../../wgo/components/Expanded/ExpandedToggleHeader.vue';
+import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import {
   casinaModelsActionsKeys,
@@ -57,7 +57,7 @@ import { StorageModuleItem } from 'src/modules/finance';
 @Component({
   components: {
     ModuleEditor,
-    ExpandedToggleHeader,
+    Expanded,
     ConfirmDialog
   }
 })

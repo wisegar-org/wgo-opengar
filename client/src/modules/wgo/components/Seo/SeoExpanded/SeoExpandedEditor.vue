@@ -1,5 +1,5 @@
 <template>
-  <Expanded
+  <SimpleExpanded
     :label="`${translationContent.WGO_SEO_META_EDITOR_PROP_LABEL}: ${prop}`"
     :icon="icon"
   >
@@ -18,7 +18,7 @@
         :type="getType()"
       />
     </template>
-  </Expanded>
+  </SimpleExpanded>
   <!-- <q-expansion-item
     popup
     :group="groupName"
@@ -57,11 +57,11 @@ import {
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { ITranslationSeoKeys } from '../TranslationsKeys';
-import Expanded from '../../Expanded/Expanded.vue';
+import SimpleExpanded from '../../Expanded/SimpleExpanded.vue';
 
 @Component({
   components: {
-    Expanded
+    SimpleExpanded
   }
 })
 export default class SeoExpandedEditor extends Vue {

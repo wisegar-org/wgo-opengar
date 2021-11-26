@@ -1,5 +1,5 @@
 <template>
-  <Expanded :label="prop" :icon="getIcon()" group="languagesExpanded">
+  <SimpleExpanded :label="prop" :icon="getIcon()" group="languagesExpanded">
     <template slot="content">
       <div class="q-py-sm">
         <EditLanguage
@@ -10,19 +10,19 @@
         />
       </div>
     </template>
-  </Expanded>
+  </SimpleExpanded>
 </template>
 
 <script lang="ts">
 import { LanguageResponseGql } from 'src/graphql';
 import EditLanguage from './EditLanguage.vue';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import Expanded from '../../Expanded/Expanded.vue';
+import SimpleExpanded from '../../Expanded/SimpleExpanded.vue';
 
 @Component({
   components: {
     EditLanguage,
-    Expanded
+    SimpleExpanded
   }
 })
 export default class EditLanguageExpanded extends Vue {

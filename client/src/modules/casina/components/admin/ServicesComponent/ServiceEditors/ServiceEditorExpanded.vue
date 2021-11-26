@@ -1,5 +1,5 @@
 <template>
-  <ExpandedToggleHeader :label="title" :group="groupName" :icon="icon">
+  <Expanded :label="title" :group="groupName" :icon="icon">
     <template slot="content">
       <div class="q-pa-sm">
         <ServiceEditor
@@ -29,7 +29,7 @@
         @click="() => (showDeleteConfirm = true)"
       />
     </template>
-  </ExpandedToggleHeader>
+  </Expanded>
   <!-- <q-expansion-item popup :group="groupName" :icon="icon" :label="title">
     <q-separator />
     <q-card>
@@ -50,7 +50,7 @@
 import { StorageServiceItem } from '../../../../models/StorageModels';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import ServiceEditor from './ServiceEditor.vue';
-import ExpandedToggleHeader from '../../../../../wgo/components/Expanded/ExpandedToggleHeader.vue';
+import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import {
   casinaModelsActionsKeys,
@@ -71,7 +71,7 @@ import { INotify } from 'src/modules/wgo/models';
 @Component({
   components: {
     ServiceEditor,
-    ExpandedToggleHeader,
+    Expanded,
     ConfirmDialog
   }
 })
