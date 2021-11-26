@@ -1,12 +1,13 @@
 #  root 
 .DS_Store
 node_modules
+quickweb-development
 #  client
 client/node_modules
+client/.quasar
+client/public
+client/dist
 #  server
 server/node_modules
-client/.quasar/*
-client/public/*
-server/public/*
-server/private/*
-quickweb-development
+server/private
+server/public
