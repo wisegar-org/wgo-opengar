@@ -1,0 +1,21 @@
+import { ITranslations } from '../../models';
+
+export interface ITranslationTranslationKeys extends ITranslations {
+  WGO_TRANSLATIONS_TITLE: string;
+  WGO_TRANSLATIONS_ADMIN_TITLE_BC: string;
+  WGO_TRANSLATIONS_SEARCH_BTN: string;
+  WGO_TRANSLATIONS_EXPORT_BTN: string;
+  WGO_TRANSLATIONS_IMPORT_BTN: string;
+  WGO_TRANSLATIONS_VALUE_LABEL: string;
+  WGO_TRANSLATIONS_SUCCESS_EDIT_ACTION: string;
+}
+
+export const TranslationsKeys = {
+  WGO_TRANSLATIONS_TITLE: true,
+  WGO_TRANSLATIONS_ADMIN_TITLE_BC: true,
+  WGO_TRANSLATIONS_SEARCH_BTN: true,
+  WGO_TRANSLATIONS_EXPORT_BTN: true,
+  WGO_TRANSLATIONS_IMPORT_BTN: true,
+  WGO_TRANSLATIONS_VALUE_LABEL: true,
+  WGO_TRANSLATIONS_SUCCESS_EDIT_ACTION: true
+};

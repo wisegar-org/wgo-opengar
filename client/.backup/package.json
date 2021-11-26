@@ -1,0 +1,12 @@
+{
+    "name": "opengar-client",
+    "version": "0.0.1",
+    "description": "opengar-client",
+    "productName": "opengar-client",
+    "author": "Wisegar.org",
+    "private": true,
+    "scripts": {
+      "postinstall": "npm install express"
+    }
+  }
+  

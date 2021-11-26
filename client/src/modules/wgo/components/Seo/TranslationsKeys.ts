@@ -1,0 +1,31 @@
+import { ITranslations } from '../../models';
+
+export interface ITranslationSeoKeys extends ITranslations {
+  WGO_SEO_TITLE: string;
+  WGO_SEO_CONTENT_META_LABEL: string;
+  WGO_SEO_RELOAD_META_BTN: string;
+  WGO_SEO_SEARCH_BTN: string;
+  WGO_SEO_META_CARD_TITLE_LABEL: string;
+  WGO_SEO_META_INDEX_PATH_LABEL: string;
+  WGO_SEO_META_EDITOR_PROP_LABEL: string;
+  WGO_SEO_CREATE_META_LABEL: string;
+  WGO_SEO_MODIFY_META_LABEL: string;
+  WGO_SEO_SUCCESS_EDIT_ACTION: string;
+  WGO_SEO_FAIL_EDIT_ACTION: string;
+  WGO_SEO_FAIL_ADD_META_ACTION: string;
+}
+
+export const TranslationsKeys = {
+  WGO_SEO_TITLE: true,
+  WGO_SEO_CONTENT_META_LABEL: true,
+  WGO_SEO_RELOAD_META_BTN: true,
+  WGO_SEO_SEARCH_BTN: true,
+  WGO_SEO_META_CARD_TITLE_LABEL: true,
+  WGO_SEO_META_INDEX_PATH_LABEL: true,
+  WGO_SEO_META_EDITOR_PROP_LABEL: true,
+  WGO_SEO_CREATE_META_LABEL: true,
+  WGO_SEO_MODIFY_META_LABEL: true,
+  WGO_SEO_SUCCESS_EDIT_ACTION: true,
+  WGO_SEO_FAIL_EDIT_ACTION: true,
+  WGO_SEO_FAIL_ADD_META_ACTION: true
+};
