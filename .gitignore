@@ -5,3 +5,7 @@ node_modules
 client/node_modules
 #  server
 server/node_modules
+client/.quasar/*
+client/public/*
+server/public/*
+server/private/*
