@@ -21,7 +21,6 @@ const build = (options) => {
     "package.json",
     "package-lock.json",
     ".npmrc",
-    "ecosystem.config.js",
     "settings.json",
     "settings.development.json",
     "settings.staging.json",

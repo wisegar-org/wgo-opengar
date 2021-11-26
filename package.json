@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "solution-build": "node ./scripts/solution-build.js development 5005 /users/yarielre/projects/wisegar-org/wgo-opengar-app http://localhost:5005",
+    "solution-build": "node ./scripts/solution-build.js development 5005 /users/yarielre/projects/wisegar-org/wgo-opengar-api http://localhost:5005",
     "solution-version-upgrade": "node ./scripts/solution-version-update.js",
     "server-dependencies-upgrade": "node ./scripts/server-dependencies-upgrade.js"
   },

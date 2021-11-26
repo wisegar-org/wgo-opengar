@@ -9,3 +9,4 @@ client/.quasar/*
 client/public/*
 server/public/*
 server/private/*
+quickweb-development
