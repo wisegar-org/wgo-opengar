@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { ILanguageConfig } from 'src/i18n';
+import { ILanguageConfig } from '../../../../../i18n';
 import { Action, Getter, Mutation } from 'vuex-class';
 import {
   languageActions,
@@ -48,11 +48,11 @@ import {
   languageMutations,
   languageNamespace
 } from '../../../store/Language';
-import { LanguageResponseGql } from 'src/graphql';
+import { LanguageResponseGql } from '../../../../../graphql';
 import { userActions, userGetters, userNamespace } from '../../../store/User';
 import { UserLogged } from '../../../models/models';
-import { coreUIMutationsKeys } from 'src/modules/wgo/store/ComponentsState/mutations';
-import { componentsNamespace } from 'src/modules/wgo/store';
+import { coreUIMutationsKeys } from '../../../store/ComponentsState/mutations';
+import { componentsNamespace } from '../../../store';
 
 @Component({})
 export default class LanguageSelect extends Vue {

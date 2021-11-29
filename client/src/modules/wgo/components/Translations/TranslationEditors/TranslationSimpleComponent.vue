@@ -21,17 +21,17 @@ import {
   LanguageResponseGql,
   TranslationFilterResponseGql,
   TranslationInputGql
-} from 'src/graphql';
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
+} from '../../../../../graphql';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import LanguageSimpleSelect from '../../Languages/LanguageSelect/LanguageSimpleSelect.vue';
 import QEditor from '../../QEditor.vue';
 import { ITranslationTranslationKeys } from '../TranslationsKeys';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../../store/Language';
 
 @Component({
   components: {

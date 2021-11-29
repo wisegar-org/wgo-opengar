@@ -3,7 +3,7 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from 'src/store';
 import { MediaStateInterface } from './state';
 import { MediaService } from '../../services/MediaService';
-import { ServiceProvider } from '@wisegar-org/wgo-opengar-shared';
+import { ServiceProvider } from '@wisegar-org/wgo-opengar-core-ui';
 
 const mediaService: MediaService = ServiceProvider.GetScoped(MediaService);
 

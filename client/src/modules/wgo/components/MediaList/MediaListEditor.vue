@@ -57,8 +57,8 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { ColumnsMediaList } from './ColumnsMediaList';
 import UploadButton from '../../components/UploadButton/UploadButton.vue';
-import { MediaListRow } from 'src/modules/finance';
-import { MediaResponseGql } from 'src/graphql';
+import { MediaResponseGql } from '../../../../graphql';
+import { MediaListRow } from '../../../finance';
 
 export interface MediaListRowCheck extends MediaListRow {
   delete: boolean;

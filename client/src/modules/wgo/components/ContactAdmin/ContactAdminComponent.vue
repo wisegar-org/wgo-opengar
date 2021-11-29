@@ -120,13 +120,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
-
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
-
 import {
   contactActions,
   contactGetters,
@@ -137,15 +130,20 @@ import {
   WgoContactResponseGql,
   LanguageResponseGql,
   TranslationFilterResponseGql,
-  TranslationInputGql,
-} from 'src/graphql';
-import { INotify, NumberDictionary } from 'src/modules/wgo/models';
+  TranslationInputGql
+} from '../../../../graphql';
+import { IContact } from '../../models/IContact';
+import TranslationComponent from '../Translations/TranslationEditors/TranslationComponent.vue';
 import {
   componentsActionsKeys,
   componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import { IContact } from '../../models/IContact';
-import TranslationComponent from 'src/modules/wgo/components/Translations/TranslationEditors/TranslationComponent.vue';
+} from '../../store/ComponentsState';
+import { INotify, NumberDictionary } from '../../models';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../store/Language';
 
 @Component({
   components: {
@@ -183,23 +181,23 @@ export default class ContactAdminComponent extends Vue {
   email = '';
   mapPath = '';
 
-  moduleName = 'finance'
+  moduleName = 'finance';
 
-  @Prop() keyMapTitleField!: string
-  @Prop() keyContactTitleField!: string
-  @Prop() keyContactContentField!: string
-  @Prop() contactPageTitle!: string
-  @Prop() contactNameField!: string
-  @Prop() phoneNumberField!: string
-  @Prop() addressField!: string
-  @Prop() emailField!: string
-  @Prop() mapField!: string
-  @Prop() mapPreviewField!: string
-  @Prop() successSave!: string
-  @Prop() failSave!: string
-  @Prop() keyMapTitle!: string
-  @Prop() keyContactTitle!: string
-  @Prop() keyContactContent!: string
+  @Prop() keyMapTitleField!: string;
+  @Prop() keyContactTitleField!: string;
+  @Prop() keyContactContentField!: string;
+  @Prop() contactPageTitle!: string;
+  @Prop() contactNameField!: string;
+  @Prop() phoneNumberField!: string;
+  @Prop() addressField!: string;
+  @Prop() emailField!: string;
+  @Prop() mapField!: string;
+  @Prop() mapPreviewField!: string;
+  @Prop() successSave!: string;
+  @Prop() failSave!: string;
+  @Prop() keyMapTitle!: string;
+  @Prop() keyContactTitle!: string;
+  @Prop() keyContactContent!: string;
 
   objMapTitle: TranslationFilterResponseGql = <TranslationFilterResponseGql>{
     key: this.keyMapTitle,
@@ -318,7 +316,7 @@ export default class ContactAdminComponent extends Vue {
       [this.failSave]: false,
       [this.keyMapTitle]: false,
       [this.keyContactTitle]: false,
-      [this.keyContactContent]: false,
+      [this.keyContactContent]: false
     });
 
     this.objMapTitle.value = this.getContent(this.keyMapTitle);

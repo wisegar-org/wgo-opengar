@@ -109,10 +109,6 @@
 </template>
 
 <script lang="ts">
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import { ColumnsSeo } from '../ColumnsSeo';
@@ -122,6 +118,7 @@ import {
   componentsNamespace
 } from '../../../store/ComponentsState';
 import { BoolDictionary, INotify } from '../../../models';
+import { languageGetters, languageNamespace } from '../../../store/Language';
 
 @Component({})
 export default class SeoEditor extends Vue {

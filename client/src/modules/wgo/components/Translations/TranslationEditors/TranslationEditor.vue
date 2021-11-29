@@ -41,22 +41,22 @@ import {
   LanguageResponseGql,
   TranslationFilterResponseGql,
   TranslationInputGql
-} from 'src/graphql';
+} from '../../../../../graphql';
 import {
   componentsActionsKeys,
   componentsNamespace
 } from '../../../store/ComponentsState';
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import LanguageSimpleSelect from '../../Languages/LanguageSelect/LanguageSimpleSelect.vue';
 import { INotify } from '../../../models';
 import QEditorToolbar from '../../QEditorToolbar.vue';
 import { ITranslationTranslationKeys } from '../TranslationsKeys';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../../store/Language';
 
 @Component({
   components: {

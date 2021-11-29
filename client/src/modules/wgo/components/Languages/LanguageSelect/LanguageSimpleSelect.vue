@@ -47,14 +47,14 @@
 </template>
 
 <script lang="ts">
-import { LanguageResponseGql } from 'src/graphql';
+import { LanguageResponseGql } from '../../../../../graphql';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Action, Getter } from 'vuex-class';
 import {
   languageActions,
   languageGetters,
   languageNamespace
-} from 'src/modules/wgo/store/Language';
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import { Action, Getter } from 'vuex-class';
+} from '../../../store/Language';
 
 @Component({})
 export default class LanguageSimpleSelect extends Vue {

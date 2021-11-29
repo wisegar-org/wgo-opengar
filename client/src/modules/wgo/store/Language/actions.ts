@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from 'src/store';
 import { LanguageStateInterface } from './state';
 import { LanguageService } from '../../services/LanguageService';
-import { ServiceProvider } from '@wisegar-org/wgo-opengar-shared';
+import { ServiceProvider } from '@wisegar-org/wgo-opengar-core-ui';
 import {
   GetTranslationInputGql,
   ImportTranslationsInputGql,

@@ -71,21 +71,21 @@ import {
   LanguageInputGql,
   LanguageResponseGql,
   MediaResponseGql
-} from 'src/graphql';
+} from '../../../../../graphql';
 import {
   componentsActionsKeys,
   componentsNamespace
 } from '../../../store/ComponentsState';
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import UploadImageDiv from '../../UploadImageDiv/UploadImageDiv.vue';
 import { INotify } from '../../../models';
 import { ITranslationLanguageKeys } from '../TranslationsKeys';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../../store/Language';
 
 @Component({
   components: {

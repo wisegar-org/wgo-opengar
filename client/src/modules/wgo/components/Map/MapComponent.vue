@@ -31,12 +31,7 @@
 </template>
 
 <script lang="ts">
-import { WgoContactResponseGql } from 'src/graphql';
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
+import { WgoContactResponseGql } from '../../../../graphql';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import { IContact } from '../../models/IContact';
@@ -45,6 +40,11 @@ import {
   contactGetters,
   wgoContactNamespace
 } from '../../store/Contact';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../store/Language';
 
 @Component({
   components: {}
@@ -62,12 +62,12 @@ export default class MapComponent extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
   translationContent!: { [key: string]: string };
 
-  @Prop() contentMapPhoneNumberLabel!: string
-  @Prop() contentMapEmailLabel!: string
-  @Prop() mapTitleSection!: string
+  @Prop() contentMapPhoneNumberLabel!: string;
+  @Prop() contentMapEmailLabel!: string;
+  @Prop() mapTitleSection!: string;
 
-  @Prop() WGOModule!: string
-  
+  @Prop() WGOModule!: string;
+
   loading = true;
 
   contactName = '';
@@ -88,7 +88,7 @@ export default class MapComponent extends Vue {
     await this.registerTranslations({
       [this.contentMapPhoneNumberLabel]: true,
       [this.contentMapEmailLabel]: true,
-      [this.mapTitleSection]: false,
+      [this.mapTitleSection]: false
     });
 
     const response = (await this.loadContactData(this.WGOModule)) as IContact;

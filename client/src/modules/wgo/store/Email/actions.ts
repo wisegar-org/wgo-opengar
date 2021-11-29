@@ -8,7 +8,7 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from 'src/store';
 import { EmailStateInterface } from './state';
 import { EmailService } from '../../services/EmailService';
-import { ServiceProvider } from '@wisegar-org/wgo-opengar-shared';
+import { ServiceProvider } from '@wisegar-org/wgo-opengar-core-ui';
 
 const emailService: EmailService = ServiceProvider.GetScoped(EmailService);
 

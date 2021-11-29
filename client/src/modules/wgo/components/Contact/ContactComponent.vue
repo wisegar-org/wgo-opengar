@@ -5,27 +5,21 @@
     <q-input
       :label="getContent(nameFieldLabel)"
       :placeholder="getContent(nameFieldPlaceholder)"
-      :rules="[
-        val => !!val || getContent(nameFieldRequiered)
-      ]"
+      :rules="[val => !!val || getContent(nameFieldRequiered)]"
       v-model="name"
     />
     <q-input
       :label="getContent(emailFieldLabel)"
       :placeholder="getContent(emailFieldPlaceholder)"
       v-model="email"
-      :rules="[
-        val => !!val || getContent(emailFieldRequiered)
-      ]"
+      :rules="[val => !!val || getContent(emailFieldRequiered)]"
       type="email"
     />
     <q-input
       :label="getContent(msgFieldLabel)"
       :placeholder="getContent(msgFieldPlaceholder)"
       v-model="msg"
-      :rules="[
-        val => !!val || getContent(msgFieldRequiered)
-      ]"
+      :rules="[val => !!val || getContent(msgFieldRequiered)]"
       type="textarea"
     />
     <br />
@@ -43,17 +37,18 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
-
+import { EmailToAddressAndAppInputGql } from '../../../../graphql';
+import { INotify } from '../../models';
+import {
+  componentsActionsKeys,
+  componentsNamespace
+} from '../../store/ComponentsState';
+import { emailActions, emailNamespace } from '../../store/Email';
 import {
   languageActions,
   languageGetters,
   languageNamespace
-} from 'src/modules/wgo/store/Language';
-import { emailActions, emailNamespace } from 'src/modules/wgo/store/Email';
-import { EmailToAddressAndAppInputGql } from 'src/graphql';
-import { componentsNamespace } from 'src/modules/wgo/store';
-import { INotify } from 'src/modules/wgo/models';
-import { componentsActionsKeys } from 'src/modules/wgo/store/ComponentsState';
+} from '../../store/Language';
 
 @Component({
   components: {}
@@ -73,22 +68,22 @@ export default class ContactComponent extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
   translationContent!: { [key: string]: string };
 
-  @Prop() TranslationsKeys!: { [key: string]: boolean }
-  @Prop() contactTitle!: string
-  @Prop() contactBody!: string
-  @Prop() nameFieldLabel!: string
-  @Prop() nameFieldPlaceholder!: string
-  @Prop() emailFieldLabel!: string
-  @Prop() emailFieldPlaceholder!: string
-  @Prop() msgFieldLabel!: string
-  @Prop() msgFieldPlaceholder!: string
-  @Prop() btnSendLabel!: string
-  @Prop() subjectEmail!: string
-  @Prop() successEmailSend!: string
-  @Prop() failEmailSend!: string
-  @Prop() nameFieldRequiered!: string
-  @Prop() emailFieldRequiered!: string
-  @Prop() msgFieldRequiered!: string
+  @Prop() TranslationsKeys!: { [key: string]: boolean };
+  @Prop() contactTitle!: string;
+  @Prop() contactBody!: string;
+  @Prop() nameFieldLabel!: string;
+  @Prop() nameFieldPlaceholder!: string;
+  @Prop() emailFieldLabel!: string;
+  @Prop() emailFieldPlaceholder!: string;
+  @Prop() msgFieldLabel!: string;
+  @Prop() msgFieldPlaceholder!: string;
+  @Prop() btnSendLabel!: string;
+  @Prop() subjectEmail!: string;
+  @Prop() successEmailSend!: string;
+  @Prop() failEmailSend!: string;
+  @Prop() nameFieldRequiered!: string;
+  @Prop() emailFieldRequiered!: string;
+  @Prop() msgFieldRequiered!: string;
 
   loading = true;
 
@@ -107,7 +102,7 @@ export default class ContactComponent extends Vue {
   async sendEmail() {
     this.loading = true;
 
-    if(this.name && this.email && this.msg) {
+    if (this.name && this.email && this.msg) {
       let body = `<p>${this.getContent(this.nameFieldLabel)}: ${this.name}</p>`;
       body += `<p>${this.getContent(this.emailFieldLabel)}: ${
         this.email
@@ -133,8 +128,7 @@ export default class ContactComponent extends Vue {
           type: 'negative'
         });
       }
-    }
-    else {
+    } else {
       this.loading = false;
       this.notify({
         message: this.getContent(this.failEmailSend),

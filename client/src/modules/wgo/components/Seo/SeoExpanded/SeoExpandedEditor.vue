@@ -49,15 +49,12 @@
 </template>
 
 <script lang="ts">
-import { SeoMetaResponseGql } from 'src/graphql';
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
+import { SeoMetaResponseGql } from '../../../../../graphql';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { ITranslationSeoKeys } from '../TranslationsKeys';
 import SimpleExpanded from '../../Expanded/SimpleExpanded.vue';
+import { languageGetters, languageNamespace } from '../../../store/Language';
 
 @Component({
   components: {

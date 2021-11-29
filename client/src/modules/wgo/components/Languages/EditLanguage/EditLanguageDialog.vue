@@ -16,16 +16,13 @@
 </template>
 
 <script lang="ts">
-import { LanguageResponseGql } from 'src/graphql';
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
+import { LanguageResponseGql } from '../../../../../graphql';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { ITranslationLanguageKeys } from '../TranslationsKeys';
 import EditLanguage from './EditLanguage.vue';
 import Dialog from '../../Dialog/Dialog.vue';
+import { languageGetters, languageNamespace } from '../../../store/Language';
 
 @Component({
   components: {

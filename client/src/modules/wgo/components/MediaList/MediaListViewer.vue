@@ -43,7 +43,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { ColumnsMediaList } from './ColumnsMediaList';
 import DownloadButton from '../DownloadButton/DownloadButton.vue';
-import { MediaListRow } from 'src/modules/finance';
+import { MediaListRow } from '../../../finance';
 
 @Component({
   components: {

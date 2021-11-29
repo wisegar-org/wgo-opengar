@@ -3,7 +3,7 @@ import { ActionTree } from 'vuex';
 import { StateInterface } from 'src/store';
 import { SeoStateInterface } from './state';
 import { SeoService } from '../../services/SeoService';
-import { ServiceProvider } from '@wisegar-org/wgo-opengar-shared';
+import { ServiceProvider } from '@wisegar-org/wgo-opengar-core-ui';
 import { seoMutations } from '.';
 
 const seoService: SeoService = ServiceProvider.GetScoped(SeoService);

@@ -18,15 +18,12 @@
 </template>
 
 <script lang="ts">
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { ITranslationSeoKeys } from '../TranslationsKeys';
 import SeoEditor from './SeoEditor.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
+import { languageGetters, languageNamespace } from '../../../store/Language';
 
 @Component({
   components: {
