@@ -1,4 +1,4 @@
-import { ServiceProvider } from '@wisegar-org/wgo-opengar-shared';
+import { ServiceProvider } from '@wisegar-org/wgo-opengar-core-ui';
 import {
   CasinaIndexContentInputsGql,
   StorageAllInputGql,

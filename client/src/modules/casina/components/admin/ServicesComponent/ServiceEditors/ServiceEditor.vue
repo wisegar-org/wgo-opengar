@@ -65,21 +65,11 @@
 </template>
 
 <script lang="ts">
-import { StorageInputGql, TranslationFilterResponseGql } from 'src/graphql';
 import {
-  casinaModelsActionsKeys,
-  casinaModelsNamespace
-} from 'src/modules/casina/store/CasinaModels';
-import { INotify, NumberDictionary } from 'src/modules/wgo/models';
+  StorageInputGql,
+  TranslationFilterResponseGql
+} from '../../../../../../graphql';
 import { StorageServiceItem } from '../../../../models/StorageModels';
-import {
-  componentsActionsKeys,
-  componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import {
@@ -88,6 +78,19 @@ import {
 } from '../TranslationsKeys';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import TranslationSimpleComponent from '../../../../../wgo/components/Translations/TranslationEditors/TranslationSimpleComponent.vue';
+import {
+  languageGetters,
+  languageNamespace
+} from '../../../../../wgo/store/Language';
+import {
+  componentsActionsKeys,
+  componentsNamespace
+} from '../../../../../wgo/store/ComponentsState';
+import { INotify, NumberDictionary } from '../../../../../wgo/models';
+import {
+  casinaModelsActionsKeys,
+  casinaModelsNamespace
+} from '../../../../store/CasinaModels';
 
 @Component({
   components: {
@@ -156,7 +159,7 @@ export default class EditLanguage extends Vue {
   }
 
   isValid() {
-    return !!this.form.content.title && !!this.form.content.description;
+    return true;
   }
 
   onChangeTranslation(prop: string, langId: number, value: string) {
@@ -210,7 +213,7 @@ export default class EditLanguage extends Vue {
 
     const result = this.service
       ? await this.modifyServiceItem(arg)
-      : this.createServiceItem(arg);
+      : await this.createServiceItem(arg);
 
     if (result) {
       this.notify({

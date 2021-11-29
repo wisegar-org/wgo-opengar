@@ -15,15 +15,15 @@
 </template>
 
 <script lang="ts">
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { ITranslationDoctorsAdminKeys } from '../TranslationsKeys';
 import DoctorEditor from './DoctorEditor.vue';
 import Dialog from '../../../../../wgo/components/Dialog/Dialog.vue';
+import {
+  languageGetters,
+  languageNamespace
+} from '../../../../../wgo/store/Language';
 
 @Component({
   components: {

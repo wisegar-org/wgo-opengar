@@ -2,10 +2,12 @@ import { ContactData } from './../../models/ContactModels';
 import { ActionTree } from 'vuex';
 import { ContactStateInterface } from './state';
 import { contactMutations } from './mutations';
-import { ServiceProvider } from '@wisegar-org/wgo-opengar-shared';
+import { ServiceProvider } from '@wisegar-org/wgo-opengar-core-ui';
 import { ContactService } from '../../services/ContactService';
 
-const contactService: ContactService = ServiceProvider.GetScoped(ContactService);
+const contactService: ContactService = ServiceProvider.GetScoped(
+  ContactService
+);
 
 export const contactActions = {
   saveContact: 'saveContact',
@@ -15,12 +17,12 @@ export const contactActions = {
 const actions: ActionTree<ContactStateInterface, any> = {
   async saveContact({ commit }, contact: ContactData) {
     const result = await contactService.setContactData(contact);
-    commit(contactMutations.setContactData, result)
+    commit(contactMutations.setContactData, result);
     return result;
   },
   async getContact({ state, commit }) {
     const result = await contactService.getContactData();
-    commit(contactMutations.setContactData, result)
+    commit(contactMutations.setContactData, result);
     return state.contactData;
   }
 };

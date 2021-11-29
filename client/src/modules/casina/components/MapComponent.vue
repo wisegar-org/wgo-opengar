@@ -31,14 +31,14 @@
 </template>
 
 <script lang="ts">
-import { ContactResponseGql } from 'src/graphql';
+import { Vue, Component } from 'vue-property-decorator';
+import { Action, Getter } from 'vuex-class';
+import { ContactResponseGql } from '../../../graphql';
 import {
   languageActions,
   languageGetters,
   languageNamespace
-} from 'src/modules/wgo/store/Language';
-import { Vue, Component } from 'vue-property-decorator';
-import { Action, Getter } from 'vuex-class';
+} from '../../wgo/store/Language';
 import { ContactData } from '../models/ContactModels';
 import {
   contactActions,
@@ -65,8 +65,8 @@ export default class MapComponent extends Vue {
   contentMapPhoneNumberLabel = 'WGO_CASINA_MAP_CONTACT_NUMBER_LABEL';
   contentMapEmailLabel = 'WGO_CASINA_MAP_CONTACT_EMAIL_LABEL';
 
-  mapTitleSection = 'WGO_CASINA_MAP_CONTENT_TITLE'
-  
+  mapTitleSection = 'WGO_CASINA_MAP_CONTENT_TITLE';
+
   loading = true;
 
   contactName = '';
@@ -87,7 +87,7 @@ export default class MapComponent extends Vue {
     await this.registerTranslations({
       [this.contentMapPhoneNumberLabel]: true,
       [this.contentMapEmailLabel]: true,
-      [this.mapTitleSection]: false,
+      [this.mapTitleSection]: false
     });
 
     const response = (await this.loadContactData()) as ContactData;

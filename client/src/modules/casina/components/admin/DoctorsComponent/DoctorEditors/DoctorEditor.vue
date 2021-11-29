@@ -88,20 +88,7 @@ import {
   MediaResponseGql,
   StorageInputGql,
   TranslationFilterResponseGql
-} from 'src/graphql';
-import {
-  casinaModelsActionsKeys,
-  casinaModelsNamespace
-} from 'src/modules/casina/store/CasinaModels';
-import { INotify, NumberDictionary } from 'src/modules/wgo/models';
-import {
-  componentsActionsKeys,
-  componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
+} from '../../../../../../graphql';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import {
@@ -112,6 +99,17 @@ import UploadImageDiv from '../../../../../wgo/components/UploadImageDiv/UploadI
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import { StorageDoctorItem } from '../../../../models/StorageModels';
 import TranslationSimpleComponent from '../../../../../wgo/components/Translations/TranslationEditors/TranslationSimpleComponent.vue';
+import {
+  languageGetters,
+  languageNamespace
+} from '../../../../../wgo/store/Language';
+import { componentsNamespace } from '../../../../../wgo/store';
+import { componentsActionsKeys } from '../../../../../wgo/store/ComponentsState';
+import { INotify, NumberDictionary } from '../../../../../wgo/models';
+import {
+  casinaModelsActionsKeys,
+  casinaModelsNamespace
+} from '../../../../store/CasinaModels';
 
 @Component({
   components: {
@@ -238,7 +236,7 @@ export default class EditLanguage extends Vue {
 
     const result = this.doctor
       ? await this.modifyDoctorItem(arg)
-      : this.createDoctorItem(arg);
+      : await this.createDoctorItem(arg);
 
     if (result) {
       this.notify({

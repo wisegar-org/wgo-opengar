@@ -34,17 +34,18 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
-
+import { EmailToAddressAndAppInputGql } from '../../../graphql';
+import { INotify } from '../../wgo/models';
+import {
+  componentsActionsKeys,
+  componentsNamespace
+} from '../../wgo/store/ComponentsState';
+import { emailActions, emailNamespace } from '../../wgo/store/Email';
 import {
   languageActions,
   languageGetters,
   languageNamespace
-} from 'src/modules/wgo/store/Language';
-import { emailActions, emailNamespace } from 'src/modules/wgo/store/Email';
-import { EmailToAddressAndAppInputGql } from 'src/graphql';
-import { componentsNamespace } from 'src/modules/wgo/store';
-import { INotify } from 'src/modules/wgo/models';
-import { componentsActionsKeys } from 'src/modules/wgo/store/ComponentsState';
+} from '../../wgo/store/Language';
 
 @Component({
   components: {}

@@ -120,13 +120,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
-
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
-
 import {
   contactActions,
   contactGetters,
@@ -138,14 +131,19 @@ import {
   LanguageResponseGql,
   TranslationFilterResponseGql,
   TranslationInputGql
-} from 'src/graphql';
-import { INotify, NumberDictionary } from 'src/modules/wgo/models';
+} from '../../../../graphql';
+import { ContactData } from '../../models/ContactModels';
+import TranslationComponent from '../../../wgo/components/Translations/TranslationEditors/TranslationComponent.vue';
 import {
   componentsActionsKeys,
   componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import { ContactData } from '../../models/ContactModels';
-import TranslationComponent from 'src/modules/wgo/components/Translations/TranslationEditors/TranslationComponent.vue';
+} from '../../../wgo/store/ComponentsState';
+import { INotify, NumberDictionary } from '../../../wgo/models';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../../wgo/store/Language';
 
 @Component({
   components: {

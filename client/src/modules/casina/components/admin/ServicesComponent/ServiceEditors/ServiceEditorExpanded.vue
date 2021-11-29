@@ -52,21 +52,19 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import ServiceEditor from './ServiceEditor.vue';
 import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
+import { Action, Getter } from 'vuex-class';
+import { ITranslationServicesAdminKeys } from '../TranslationsKeys';
 import {
   casinaModelsActionsKeys,
   casinaModelsNamespace
-} from 'src/modules/casina/store/CasinaModels';
-import { Action, Getter } from 'vuex-class';
-import {
-  componentsNamespace,
-  componentsActionsKeys
-} from 'src/modules/wgo/store/ComponentsState';
+} from '../../../../store/CasinaModels';
 import {
   languageGetters,
   languageNamespace
-} from 'src/modules/wgo/store/Language';
-import { ITranslationServicesAdminKeys } from '../TranslationsKeys';
-import { INotify } from 'src/modules/wgo/models';
+} from '../../../../../wgo/store/Language';
+import { componentsNamespace } from '../../../../../wgo/store';
+import { componentsActionsKeys } from '../../../../../wgo/store/ComponentsState';
+import { INotify } from '../../../../../wgo/models';
 
 @Component({
   components: {

@@ -42,16 +42,16 @@
 </template>
 
 <script lang="ts">
-import { BoolDictionary } from 'src/modules/wgo/models';
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Component, Vue } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import { IPath, CasinaPaths } from '../settings/ApiSettings';
 import LanguageSelect from '../../wgo/components/Languages/LanguageSelect/LanguageSelect.vue';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../wgo/store/Language';
+import { BoolDictionary } from '../../wgo/models';
 
 @Component({
   components: {
