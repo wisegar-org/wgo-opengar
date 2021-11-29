@@ -88,20 +88,8 @@ import {
   MediaResponseGql,
   StorageInputGql,
   TranslationFilterResponseGql
-} from 'src/graphql';
-import {
-  casinaModelsActionsKeys,
-  casinaModelsNamespace
-} from 'src/modules/casina/store/CasinaModels';
-import { INotify, NumberDictionary } from 'src/modules/wgo/models';
-import {
-  componentsActionsKeys,
-  componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import {
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
+} from '../../../../../../graphql';
+
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import {
@@ -111,7 +99,20 @@ import {
 import UploadImageDiv from '../../../../../wgo/components/UploadImageDiv/UploadImageDiv.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import TranslationSimpleComponent from '../../../../../wgo/components/Translations/TranslationEditors/TranslationSimpleComponent.vue';
-import { StorageModuleItem } from 'src/modules/finance';
+import { StorageModuleItem } from '../../../../models/models';
+import {
+  languageGetters,
+  languageNamespace
+} from '../../../../../wgo/store/Language';
+import {
+  componentsActionsKeys,
+  componentsNamespace
+} from '../../../../../wgo/store/ComponentsState';
+import { INotify, NumberDictionary } from '../../../../../wgo/models';
+import {
+  casinaModelsActionsKeys,
+  casinaModelsNamespace
+} from '../../../../../casina/store/CasinaModels';
 
 @Component({
   components: {

@@ -135,7 +135,7 @@ import { LocalStorageSettings } from '../../settings/LocalStorageSettings';
 import { TransactionTypeOptions } from '../../models/parsers';
 import SetTransactionIdEditorDialog from './TransactionsEditor/SetTransactionIdEditorDialog.vue';
 import ViewerTransactionDialog from './TransactionViewer/ViewerTransactionDialog.vue';
-import { UserLogged } from 'src/modules/wgo/models/models';
+import { UserLogged } from '../../../wgo/models';
 
 @Component({
   components: {

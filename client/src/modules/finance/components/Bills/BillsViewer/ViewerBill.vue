@@ -145,8 +145,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 import MediaListViewer from '../../../../wgo/components/MediaList/MediaListViewer.vue';
 import { ColumnsProductsBill } from '../ColumnsBills';
-import { getBillStatusString } from 'src/modules/finance/models/parsers';
 import QEditor from '../../../../wgo/components/QEditor.vue';
+import { getBillStatusString } from '../../../models/parsers';
 
 @Component({
   components: {

@@ -111,8 +111,8 @@ import { githubActions, githubNamespace } from '../../../store';
 import {
   componentsActionsKeys,
   componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import { INotify } from 'src/modules/wgo/models';
+} from '../../../../wgo/store/ComponentsState';
+import { INotify } from '../../../../wgo/models';
 
 @Component({
   components: {

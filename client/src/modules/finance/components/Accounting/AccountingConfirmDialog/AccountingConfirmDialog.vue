@@ -40,12 +40,12 @@ import { AccountRecord } from '../../../models/models';
 import { githubActions, githubNamespace } from '../../../store';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AccountingDetails from '../AccountingDetailsDialog/AccountingDetails.vue';
-import { INotify } from 'src/modules/wgo/models';
+import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import {
   componentsActionsKeys,
   componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
+} from '../../../../wgo/store/ComponentsState';
+import { INotify } from '../../../../wgo/models';
 
 @Component({
   components: {

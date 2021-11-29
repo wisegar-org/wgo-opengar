@@ -140,7 +140,7 @@ import {
   IssuesRecord
 } from '../../models/models';
 import { ApiSettings } from '../../settings/ApiSettings';
-import { UserLogged } from 'src/modules/wgo/models/models';
+import { UserLogged } from '../../../wgo/models';
 
 @Component({ components: { StatsComponent, TableReview } })
 export default class FinanceHome extends Vue {

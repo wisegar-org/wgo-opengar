@@ -7,7 +7,7 @@ import AddIncomeEditorDialog from './IncomesEditor/AddIncomeEditorDialog.vue';
 import ViewerIncomeDialog from './IncomeViewer/ViewerIncomeDialog.vue';
 import { ApiSettings } from '../../settings/ApiSettings';
 import { filterIncomes, repeatOption } from './FilterIncomes';
-import { FrequencyRepeatEnum } from '@wisegar-org/wgo-opengar-shared';
+import { FrequencyRepeatEnum } from '@wisegar-org/wgo-opengar-core-ui';
 import FilterSelect from '../FilterSelect.vue';
 import ConfirmDialog from '../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import { LocalStorageSettings } from '../../settings/LocalStorageSettings';

@@ -80,7 +80,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { ColumnTable, IssuesRecord } from '../../models/models';
 import { ApiSettings } from '../../settings/ApiSettings';
 import { Getter } from 'vuex-class';
-import { UserLogged } from 'src/modules/wgo/models/models';
+import { UserLogged } from '../../../wgo/models';
 
 @Component({})
 export default class IssuesToolbar extends Vue {

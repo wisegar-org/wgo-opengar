@@ -120,12 +120,11 @@ import { CollaboratorRecord } from '../../../models/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { githubActions, githubNamespace } from '../../../store';
 import { ApiSettings } from '../../../settings/ApiSettings';
+import { INotify, UserLogged } from '../../../../wgo/models';
 import {
   componentsActionsKeys,
   componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import { INotify } from 'src/modules/wgo/models';
-import { UserLogged } from 'src/modules/wgo/models/models';
+} from '../../../../wgo/store/ComponentsState';
 
 @Component({})
 export default class EditAccountingCollaborator extends Vue {

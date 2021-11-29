@@ -101,7 +101,7 @@ import { ColumnsCollaborators } from './ColumnsCollaborators';
 import EditAccountingCollaboratorDialog from './EditCollaborator/EditAccountingCollaboratorDialog.vue';
 import StatsCollaboratorDialog from './StatsCollaborator/StatsCollaboratorDialog.vue';
 import { ApiSettings } from '../../settings/ApiSettings';
-import { UserLogged } from 'src/modules/wgo/models/models';
+import { UserLogged } from '../../../wgo/models';
 
 @Component({
   components: {

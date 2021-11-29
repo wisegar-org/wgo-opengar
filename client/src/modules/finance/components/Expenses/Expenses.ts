@@ -9,7 +9,7 @@ import ConfirmDialog from '../../../wgo/components/ConfirmDialog/ConfirmDialog.v
 import { ApiSettings } from '../../settings/ApiSettings';
 import FilterSelect from '../FilterSelect.vue';
 import { filterExpenses, repeatOption } from './FilterExpenses';
-import { FrequencyRepeatEnum } from '@wisegar-org/wgo-opengar-shared';
+import { FrequencyRepeatEnum } from '@wisegar-org/wgo-opengar-core-ui';
 import { LocalStorageSettings } from '../../settings/LocalStorageSettings';
 import {
   componentsActionsKeys,

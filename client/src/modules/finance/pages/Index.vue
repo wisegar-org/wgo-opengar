@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import IndexContent from 'src/modules/finance/components/IndexContent/IndexContent.vue';
+import IndexContent from '../components/IndexContent/IndexContent.vue';
 
 @Component({
   components: {

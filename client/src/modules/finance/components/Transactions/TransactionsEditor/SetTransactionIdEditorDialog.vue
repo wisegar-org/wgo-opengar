@@ -32,16 +32,16 @@
 </template>
 
 <script lang="ts">
-import { INotify } from 'src/modules/wgo/models';
-import {
-  componentsActionsKeys,
-  componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
 import { TransactionRecord } from '../../../models/models';
 import { githubActions, githubNamespace } from '../../../store';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
+import {
+  componentsActionsKeys,
+  componentsNamespace
+} from '../../../../wgo/store/ComponentsState';
+import { INotify } from '../../../../wgo/models';
 
 @Component({
   components: {

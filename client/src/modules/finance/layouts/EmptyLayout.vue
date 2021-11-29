@@ -41,12 +41,6 @@
 </template>
 
 <script lang="ts">
-import { BoolDictionary } from 'src/modules/wgo/models';
-import {
-  languageActions,
-  languageGetters,
-  languageNamespace
-} from 'src/modules/wgo/store/Language';
 import { Component, Vue } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import LanguageSelect from '../../wgo/components/Languages/LanguageSelect/LanguageSelect.vue';
@@ -54,7 +48,12 @@ import { GithubPaths, IPath } from '../router';
 import UserMenu from '../../wgo/components/UserMenu/UserMenu.vue';
 import { userGetters, userNamespace } from '../../wgo/store/User';
 import { OpengarPaths } from '../../wgo/settings/ApiSettings';
-
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../wgo/store/Language';
+import { BoolDictionary } from '../../wgo/models';
 
 @Component({
   components: {

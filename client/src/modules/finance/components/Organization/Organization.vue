@@ -71,7 +71,7 @@ import OrganizationAccountingEditor from './OrganizationEditors/OrganizationAcco
 import OrganizationEditor from './OrganizationEditors/OrganizationEditor.vue';
 import OrganizationBankEditor from './OrganizationEditors/OrganizationBankEditor.vue';
 import { ApiSettings } from '../../settings/ApiSettings';
-import { UserLogged } from 'src/modules/wgo/models/models';
+import { UserLogged } from '../../../wgo/models';
 
 @Component({
   components: {

@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ModulesComponent from 'src/modules/finance/components/admin/ModulesComponent/ModulesComponent.vue';
+import ModulesComponent from '../../components/admin/ModulesComponent/ModulesComponent.vue';
 
 @Component({
   components: {

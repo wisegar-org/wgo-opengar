@@ -37,22 +37,22 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import ModuleEditor from './ModuleEditor.vue';
 import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
+import { ITranslationModulesAdminKeys } from '../TranslationsKeys';
+import { StorageModuleItem } from '../../../../models/models';
 import {
   casinaModelsActionsKeys,
   casinaModelsNamespace
-} from 'src/modules/casina/store/CasinaModels';
-import { Action, Getter } from 'vuex-class';
-import {
-  componentsNamespace,
-  componentsActionsKeys
-} from 'src/modules/wgo/store/ComponentsState';
+} from '../../../../../casina/store/CasinaModels';
 import {
   languageGetters,
   languageNamespace
-} from 'src/modules/wgo/store/Language';
-import { ITranslationModulesAdminKeys } from '../TranslationsKeys';
-import { INotify } from 'src/modules/wgo/models';
-import { StorageModuleItem } from 'src/modules/finance';
+} from '../../../../../wgo/store/Language';
+import {
+  componentsActionsKeys,
+  componentsNamespace
+} from '../../../../../wgo/store/ComponentsState';
+import { Action, Getter } from 'vuex-class';
+import { INotify } from '../../../../../wgo/models';
 
 @Component({
   components: {

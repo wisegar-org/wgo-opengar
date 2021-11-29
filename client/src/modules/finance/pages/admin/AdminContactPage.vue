@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col-12 q-pa-md">
-      <ContactAdminComponent 
+      <ContactAdminComponent
         :keyMapTitleField="keyMapTitleField"
         :keyContactTitleField="keyContactTitleField"
         :keyContactContentField="keyContactContentField"
@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ContactAdminComponent from 'src/modules/wgo/components/ContactAdmin/ContactAdminComponent.vue';
+import ContactAdminComponent from '../../../wgo/components/ContactAdmin/ContactAdminComponent.vue';
 
 @Component({
   components: {
@@ -34,7 +34,8 @@ import ContactAdminComponent from 'src/modules/wgo/components/ContactAdmin/Conta
 export default class AdminIndexContentPage extends Vue {
   keyMapTitleField = 'WGO_FINANCE_CONTACT_ADMIN_PAGE_MAP_TITLE_FIELD';
   keyContactTitleField = 'WGO_FINANCE_CONTACT_ADMIN_PAGE_CONTACT_TITLE_FIELD';
-  keyContactContentField = 'WGO_FINANCE_CONTACT_ADMIN_PAGE_CONTACT_CONTENT_FIELD';
+  keyContactContentField =
+    'WGO_FINANCE_CONTACT_ADMIN_PAGE_CONTACT_CONTENT_FIELD';
   contactPageTitle = 'WGO_FINANCE_CONTACT_ADMIN_PAGE_TITLE';
   contactNameField = 'WGO_FINANCE_CONTACT_ADMIN_PAGE_CONTACT_NAME_FIELD';
   phoneNumberField = 'WGO_FINANCE_CONTACT_ADMIN_PAGE_PHONE_NUMBER_FIELD';
