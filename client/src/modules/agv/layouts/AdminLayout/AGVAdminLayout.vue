@@ -40,30 +40,31 @@ import UserMenu from '../../../wgo/components/UserMenu/UserMenu.vue';
 
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action, Getter, Mutation } from 'vuex-class';
+
+import { UserGql } from '../../../../graphql';
+import { BreadCrumbsAGV } from '../../settings/BreadCrumbSettings';
+import { ApiSettings } from '../../../../boot/settings';
 import {
   userActions,
   userGetters,
   userNamespace
-} from 'src/modules/wgo/store/User';
-import { UserGql } from '../../../../graphql';
+} from '../../../wgo/store/User';
 import {
   componentsActionsKeys,
   componentsGettedKeys,
   componentsNamespace,
   componentsSettedKeys
-} from 'src/modules/wgo/store/ComponentsState';
-import { BreadCrumbsAGV } from '../../settings/BreadCrumbSettings';
-import { ApiSettings } from '../../../../boot/settings';
-import { RouteService } from 'src/modules/wgo/services';
-import { getDrawerItems } from 'src/modules/wgo/settings/LeftDrawerSettings';
-import { OpengarPaths } from 'src/modules/wgo/settings/ApiSettings';
+} from '../../../wgo/store/ComponentsState';
 import {
   IListItemNavigationCallBack,
   IListSeparator,
   INavigationTo,
   INotify
-} from 'src/modules/wgo/models';
-import { IBreadCrumbItem } from 'src/modules/wgo/models/IBreadCrumbItem';
+} from '../../../wgo/models';
+import { RouteService } from '../../../wgo/services';
+import { IBreadCrumbItem } from '../../../wgo/models/IBreadCrumbItem';
+import { OpengarPaths } from '../../../wgo/settings/ApiSettings';
+import { getDrawerItems } from '../../../wgo/settings/LeftDrawerSettings';
 
 @Component({
   components: { EditProfile, LeftDrawer, BreadCrumbs, UserMenu }

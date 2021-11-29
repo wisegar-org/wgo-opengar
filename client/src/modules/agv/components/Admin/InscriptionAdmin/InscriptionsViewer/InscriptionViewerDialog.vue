@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts">
-import { AgvInscriptionResponseModel } from 'src/modules/agv/models/GraphqlModels';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import InscriptionViewer from './InscriptionViewer.vue';
 import Dialog from '../../../../../wgo/components/Dialog/Dialog.vue';
+import { AgvInscriptionResponseModel } from '../../../../models/GraphqlModels';
 
 @Component({
   components: {

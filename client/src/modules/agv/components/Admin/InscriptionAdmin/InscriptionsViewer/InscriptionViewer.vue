@@ -93,7 +93,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
-import { AgvInscriptionResponseModel } from 'src/modules/agv/models/GraphqlModels';
+import { AgvInscriptionResponseModel } from '../../../../models/GraphqlModels';
 
 @Component({})
 export default class InscriptionViewer extends Vue {

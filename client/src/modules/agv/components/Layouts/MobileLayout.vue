@@ -24,9 +24,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { AGVPaths } from '../../settings/ApiSettings';
 import { Mutation, Getter } from 'vuex-class';
 import {
-  componentsGettedKeys,
-  componentsSettedKeys,
-  agvComponentsNamespace
+  agvComponentsNamespace,
+  agvComponentsSettedKeys,
+  agvComponentsGettedKeys
 } from '../../store/AGVComponentsState';
 
 @Component({})
@@ -34,11 +34,11 @@ export default class MobileLayout extends Vue {
   @Prop() title!: string;
   paths = Object.values(AGVPaths);
 
-  @Getter(componentsGettedKeys.getMenuOpen, {
+  @Getter(agvComponentsGettedKeys.getMenuOpen, {
     namespace: agvComponentsNamespace
   })
   showMenu!: boolean;
-  @Mutation(componentsSettedKeys.setMenuOpen, {
+  @Mutation(agvComponentsSettedKeys.setMenuOpen, {
     namespace: agvComponentsNamespace
   })
   setShowMenu!: (showMenu: boolean) => void;

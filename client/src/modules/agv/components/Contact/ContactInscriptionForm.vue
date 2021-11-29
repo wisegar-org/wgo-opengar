@@ -81,13 +81,6 @@
 import { Dialog } from 'quasar';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
-import { emailActions, emailNamespace } from 'src/modules/wgo/store/Email';
-import { EmailToAddressAndAppInputGql } from 'src/graphql';
-import {
-  componentsActionsKeys,
-  componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import { INotify } from 'src/modules/wgo/models';
 import {
   AgvEventResponseModel,
   AgvInscriptionInputModel
@@ -98,6 +91,13 @@ import {
 } from '../../store/AGVInscriptions';
 import { PollService } from '../../services';
 import { IPoll } from '../../models/Poll';
+import { emailActions, emailNamespace } from '../../../wgo/store/Email';
+import { EmailToAddressAndAppInputGql } from '../../../../graphql';
+import {
+  componentsActionsKeys,
+  componentsNamespace
+} from '../../../wgo/store/ComponentsState';
+import { INotify } from '../../../wgo/models';
 
 @Component({})
 export default class ContactInscriptionFrom extends Vue {

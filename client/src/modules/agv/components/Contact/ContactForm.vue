@@ -67,13 +67,11 @@
 import { Dialog } from 'quasar';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
-import { emailActions, emailNamespace } from 'src/modules/wgo/store/Email';
-import { EmailToAddressAndAppInputGql } from 'src/graphql';
-import {
-  componentsActionsKeys,
-  componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import { INotify } from 'src/modules/wgo/models';
+import { EmailToAddressAndAppInputGql } from '../../../../graphql';
+import { INotify } from '../../../wgo/models';
+import { componentsNamespace } from '../../../wgo/store';
+import { componentsActionsKeys } from '../../../wgo/store/ComponentsState';
+import { emailActions, emailNamespace } from '../../../wgo/store/Email';
 
 @Component({})
 export default class ContactFrom extends Vue {

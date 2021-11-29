@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { AgvEventResponseModel } from 'src/modules/agv/models/GraphqlModels';
+import { AgvEventResponseModel } from '../../../../models/GraphqlModels';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import EditAgvEvent from './EditAgvEvent.vue';
 import Dialog from '../../../../../wgo/components/Dialog/Dialog.vue';

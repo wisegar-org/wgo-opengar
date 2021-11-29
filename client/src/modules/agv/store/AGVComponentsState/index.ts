@@ -4,10 +4,10 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 
-export { agvGettersKeys as componentsGettedKeys } from './getters';
-export { agvActionsKeys as componentsActionsKeys } from './actions';
+export { agvGettersKeys as agvComponentsGettedKeys } from './getters';
+export { agvActionsKeys as agvComponentsActionsKeys } from './actions';
 export {
-  agvMutationsKeys as componentsSettedKeys,
+  agvMutationsKeys as agvComponentsSettedKeys,
   LocalStoreKeys
 } from './mutations';
 

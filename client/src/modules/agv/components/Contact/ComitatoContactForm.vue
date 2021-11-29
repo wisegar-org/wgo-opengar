@@ -66,13 +66,13 @@
 import { Dialog } from 'quasar';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
-import { EmailToAddressAndAppInputGql } from 'src/graphql';
+import { EmailToAddressAndAppInputGql } from '../../../../graphql';
+import { INotify } from '../../../wgo/models';
 import {
   componentsActionsKeys,
   componentsNamespace
-} from 'src/modules/wgo/store/ComponentsState';
-import { INotify } from 'src/modules/wgo/models';
-import { emailActions, emailNamespace } from 'src/modules/wgo/store/Email';
+} from '../../../wgo/store/ComponentsState';
+import { emailActions, emailNamespace } from '../../../wgo/store/Email';
 
 @Component({})
 export default class ComitatoContactForm extends Vue {
