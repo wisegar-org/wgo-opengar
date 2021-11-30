@@ -33,7 +33,7 @@ const buildApi = (module, environment, port, apiWebRoot) => {
   const API_TOKEN = deploySettings.GITHUB_API_TOKEN || 'API_TOKEN';
   console.log('\x1b[33m', `API_TOKEN: ${deploySettings.GITHUB_API_TOKEN ? API_TOKEN : 'NULL'}`);
 
-  const destination = './build';
+  const destination = '../build';
   const sourceFiles = ['package.json', 'package-lock.json', '.npmrc'];
   const moduleFiles = ['settings.json', 'settings.staging.json', 'settings.development.json'];
 
@@ -65,6 +65,8 @@ const buildApi = (module, environment, port, apiWebRoot) => {
     fs.copySync(`./src/modules/${MODULE_NAME}/${file}`, `${destination}/${file}`);
   });
 
+  fs.copySync('./build', `${destination}`);
+
   execSync('npm ci --quiet --only=production', { cwd: `${destination}`, stdio: 'inherit' });
 
   console.log('\x1b[33m', 'Deployment complete'.toUpperCase());
@@ -77,49 +79,31 @@ const clientBuild = (module, environment) => {
   const MODULE_NAME = deploySettings.NAME;
   console.log('\x1b[33m', `MODULE_NAME: ${MODULE_NAME}`);
 
-  const APP_CLIENT_GIT_PATH = deploySettings.APP_CLIENT_GIT_PATH;
-  console.log('\x1b[33m', `APP_CLIENT_GIT_PATH: ${APP_CLIENT_GIT_PATH}`);
-
-  console.log('\x1b[33m', 'Clone client version'.toUpperCase());
-  const os = require('os');
-  const tempDir = os.tmpdir();
-  const giturl = new URL(APP_CLIENT_GIT_PATH);
-  const reponame = path.basename(giturl.pathname);
-  const repofolder = path.basename(reponame, path.extname(reponame));
-  const localRepoPath = path.join(tempDir, repofolder);
-  // --branch ${MODULE_NAME}
-  cleanFolder(localRepoPath);
-  execSync(`git clone ${APP_CLIENT_GIT_PATH}`, { cwd: tempDir, stdio: 'inherit' });
-  const sourceFiles = ['.npmrc'];
-  sourceFiles.forEach((file) => {
-    fs.copySync(file, `${localRepoPath}/${file}`);
-  });
-
-  execSync('npm install', { cwd: `${localRepoPath}`, stdio: 'inherit' });
-
+  const localRepoPath = path.join(__dirname, '../client/');
+  process.chdir(localRepoPath);
+  execSync('npm install', { stdio: 'inherit' });
   const APP_CLIENT_BASEURL = deploySettings.APP_CLIENT_BASEURL;
+  console.log('dirname', __dirname);
   console.log('\x1b[33m', `APP_CLIENT_BASEURL: ${APP_CLIENT_BASEURL}`);
 
-  const clientTempBuild = path.join(tempDir, `${repofolder}-build`);
+  const clientTempBuild = './dist';
   console.log('\x1b[33m', 'Cleaning client destination folder'.toUpperCase());
   fs.emptyDirSync(clientTempBuild);
-  execSync(`node ${localRepoPath}/build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempBuild} ${MODULE_NAME}`, {
-    cwd: `${localRepoPath}`,
+  execSync(`node ./build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempBuild} ${MODULE_NAME}`, {
     stdio: 'inherit',
   });
 
   console.log('\x1b[33m', 'Building client build folder'.toUpperCase());
-  let clientbuild = './build';
+  let clientbuild = '../build';
   if (!fs.existsSync(clientbuild)) {
     fs.mkdirSync(clientbuild);
   }
   clientbuild = path.join(clientbuild, 'client');
   fs.emptyDirSync(clientbuild);
-  fs.copySync(`${localRepoPath}/dist/spa`, clientbuild);
+  fs.copySync(`./dist/spa`, clientbuild);
 
   console.log('\x1b[33m', 'Cleaning build folders'.toUpperCase());
-  cleanFolder(localRepoPath);
-  cleanFolder(clientTempBuild);
+  cleanFolder('./dist');
   console.log('\x1b[33m', 'Client UI Deploy Complete'.toUpperCase());
 };
 

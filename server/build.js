@@ -21,5 +21,6 @@ const WEB_ROOT_ENV = BUILD_ARGS[3] ? BUILD_ARGS[3] : '/users/yarielre/web';
 console.log('\x1b[34m', `WEB_ROOT_ENV: ${WEB_ROOT_ENV}`);
 
 const mainmodule = require(`./deploy`);
+process.chdir(__dirname);
 mainmodule.buildApi(MODULE_ENV, NODE_ENV, PORT_ENV, WEB_ROOT_ENV);
 mainmodule.buildClient(MODULE_ENV, NODE_ENV);
