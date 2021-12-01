@@ -2,13 +2,6 @@ const fs = require('fs-extra');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const cleanFolder = (folderPath) => {
-  if (folderPath && fs.existsSync(folderPath)) {
-    console.log(`CLEANING FOLDER ${folderPath}`);
-    execSync(`npx rimraf ${folderPath}`, { stdio: 'inherit' });
-  }
-};
-
 const buildApi = (module, environment, port, apiWebRoot) => {
   const settingsFileName = environment === 'production' ? 'settings.json' : `settings.${environment}.json`;
   const deploySettings = fs.readJsonSync(`./src/modules/${module}/${settingsFileName}`, { throws: false });
@@ -102,8 +95,6 @@ const clientBuild = (module, environment) => {
   fs.emptyDirSync(clientbuild);
   fs.copySync(`./dist/spa`, clientbuild);
 
-  console.log('\x1b[33m', 'Cleaning build folders'.toUpperCase());
-  cleanFolder('./dist');
   console.log('\x1b[33m', 'Client UI Deploy Complete'.toUpperCase());
 };
 
