@@ -60,7 +60,7 @@ const build = (options) => {
   fs.emptyDirSync(destination);
 
   console.log("\x1b[33m", "Installing dependencies".toUpperCase());
-  execSync("npm install", { stdio: "inherit" });
+  execSync("npm install --unsafe-perm=true --allow-root", { stdio: "inherit" });
 
   console.log("\x1b[33m", "Transpiling the application code".toUpperCase());
   execSync("npx tsc", { stdio: "inherit" });
@@ -92,7 +92,7 @@ const build = (options) => {
 
   fs.copySync("./build", `${destination}`);
 
-  execSync("npm ci --quiet --only=production", {
+  execSync("npm ci --quiet --only=production --unsafe-perm=true --allow-root", {
     cwd: `${destination}`,
     stdio: "inherit",
   });
