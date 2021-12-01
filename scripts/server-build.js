@@ -21,7 +21,7 @@ const build = (options) => {
     `./src/modules/${options.module}/${settingsFileName}`,
     { throws: false }
   );
-  deploySettings.WEB_ROOT = options.app_root;
+  deploySettings.WEB_ROOT = options.web_root;
   fs.writeJsonSync(
     `./src/modules/${options.module}/${settingsFileName}`,
     deploySettings
