@@ -1,61 +1,55 @@
+const fs = require("fs-extra");
+const path = require("path");
+const { execSync } = require("child_process");
+
 // const buildOptions = {
 //   env: env,
 //   port: port,
 //   web_root: web_root,
-//   base_url: base_url,
-//   graphql_url: graphql_url,
-//   app_name: app_name,
+//   module: module,
 //   app_root: app_root,
-//   client_app_root: client_app_root,
 //   server_root: serverRoot,
 //   client_root: clientRoot,
 // };
-
 const build = (options) => {
-  const fs = require("fs-extra");
-  const path = require("path");
-  const { execSync } = require("child_process");
+  process.chdir(options.server_root);
+  const settingsFileName =
+    options.env === "production"
+      ? "settings.json"
+      : `settings.${options.env}.json`;
+  const deploySettings = fs.readJsonSync(
+    `./src/modules/${options.module}/${settingsFileName}`,
+    { throws: false }
+  );
+  const MODULE_NAME = deploySettings.NAME;
 
-  console.log("Building client application...");
+  console.log("\x1b[33m", `MODULE_NAME: ${MODULE_NAME}`);
+  process.chdir(options.client_root);
+  execSync("npm install", { stdio: "inherit" });
+  const APP_CLIENT_BASEURL = deploySettings.APP_CLIENT_BASEURL;
+  console.log("dirname", __dirname);
+  console.log("\x1b[33m", `APP_CLIENT_BASEURL: ${APP_CLIENT_BASEURL}`);
 
-  const packageJson = fs.readJsonSync("package.json", {
-    cwd: __dirname,
-    throws: true,
-  });
-  if (!packageJson || !packageJson.version) {
-    console.error("Impossible to read package.json file!");
-  }
-  const settingsBuild = path.join(options.client_root, "settings.build.json");
-  fs.writeJsonSync(
-    settingsBuild,
+  const clientTempBuild = "./dist";
+  console.log("\x1b[33m", "Cleaning client destination folder".toUpperCase());
+  fs.emptyDirSync(clientTempBuild);
+  execSync(
+    `node ./build.js ${MODULE_NAME}-ui ${APP_CLIENT_BASEURL} ${clientTempBuild} ${MODULE_NAME}`,
     {
-      API_BASE: options.base_url,
-      API_GRAPHQL: options.graphql_url,
-      VERSION: packageJson.version,
-    },
-    { cwd: options.client_root, throws: true }
+      stdio: "inherit",
+    }
   );
 
-  if (!fs.existsSync("dist")) {
-    fs.mkdirSync("dist");
+  console.log("\x1b[33m", "Building client build folder".toUpperCase());
+  let clientbuild = path.join(options.app_root, "build");
+  if (!fs.existsSync(clientbuild)) {
+    fs.mkdirSync(clientbuild);
   }
-  fs.emptyDirSync("dist");
+  clientbuild = path.join(clientbuild, "client");
+  fs.emptyDirSync(clientbuild);
+  fs.copySync(`./dist/spa`, clientbuild);
 
-  execSync(`npm install`, { cwd: options.client_root, stdio: "inherit" });
-
-  execSync(`npx quasar build`, { cwd: options.client_root, stdio: "inherit" });
-
-  if (!fs.existsSync(options.client_app_root)) {
-    fs.mkdirSync(options.client_app_root);
-  }
-  fs.emptyDirSync(options.client_app_root);
-
-  const buildDistFolder = path.join(options.client_root, "dist", "spa");
-  fs.copySync(buildDistFolder, options.client_app_root, {
-    cwd: options.client_root,
-  });
-
-  console.log("Client build completed");
+  console.log("\x1b[33m", "Client UI Deploy Complete".toUpperCase());
 };
 
 module.exports = {
