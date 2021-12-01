@@ -21,6 +21,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 console.log("Running npm install...");
+execSync("set PUPPETEER_SKIP_DOWNLOAD", { stdio: "inherit" });
 execSync("npm install", { stdio: "inherit" });
 
 const appRoot = path.join(__dirname, "..");
