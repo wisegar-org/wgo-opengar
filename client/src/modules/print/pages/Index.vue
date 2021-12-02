@@ -1,6 +1,6 @@
 <template>
   <q-page class="row justify-evenly">
-    
+    <h1>Print Module</h1>
   </q-page>
 </template>
 

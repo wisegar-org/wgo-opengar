@@ -1,7 +1,7 @@
 export * from './router';
 import { PrintPaths, PrintAdminPaths } from './settings/ApiSettings';
 
-export const CASINA_MODULE_NAME = 'casina';
+export const PRINT_MODULE_NAME = 'print';
 
 
 

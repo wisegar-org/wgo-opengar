@@ -20,6 +20,8 @@ import {
   CASINA_MODULE,
   CASINA_MODULE_NAME
 } from 'src/modules/casina';
+import { PrintPaths } from 'src/modules/print/settings/ApiSettings';
+import { PrintLayout, PRINT_MODULE, PRINT_MODULE_NAME } from 'src/modules/print';
 
 const modules = (process.env.MODULES || 'wgo').split(',')[0];
 
@@ -27,6 +29,7 @@ export const parseRedirectHome = (modules: string) => {
   if (modules.startsWith(FINANCE_MODULE_NAME)) return GithubPaths.homePage.url;
   if (modules.startsWith(AGV_MODULE_NAME)) return AGVPaths.home.url;
   if (modules.startsWith(CASINA_MODULE_NAME)) return CasinaPaths.home.url;
+  if (modules.startsWith(PRINT_MODULE_NAME)) return PrintPaths.home.url;
 
   if (modules.startsWith(WGO_MODULE_NAME)) return WGOPaths.home.url;
 
@@ -42,6 +45,7 @@ export const getModules = (modules: string) => {
   if (moduleInConfig(modules, AGV_MODULE_NAME)) return AGV_MODULE;
   if (moduleInConfig(modules, WGO_MODULE_NAME)) return WGO_MODULE;
   if (moduleInConfig(modules, CASINA_MODULE_NAME)) return CASINA_MODULE;
+  if (moduleInConfig(modules, PRINT_MODULE_NAME)) return PRINT_MODULE;
 };
 
 const homeLayout = {
@@ -79,6 +83,7 @@ export const routesItems: RouteConfig[] = [routesEmptyLayout]
   .concat(moduleInConfig(modules, AGV_MODULE_NAME) ? AGVLayout : [])
   .concat(moduleInConfig(modules, WGO_MODULE_NAME) ? WGOLayout : [])
   .concat(moduleInConfig(modules, CASINA_MODULE_NAME) ? CasinaLayout : [])
+  .concat(moduleInConfig(modules, PRINT_MODULE_NAME) ? PrintLayout : [])
   .concat([
     // Always leave this as last one,
     // but you can also remove it

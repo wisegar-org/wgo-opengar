@@ -1,4 +1,4 @@
-import { RouteConfig } from 'vue-route';
+import { RouteConfig } from 'vue-router';
 import { PrintPaths, PrintAdminPaths } from '../settings/ApiSettings';
 import {
   BreadCrumbsPrint,
@@ -13,7 +13,6 @@ export const IndexRoute = {
 
 export const AdminRedirect: RouteConfig = {
   path: PrintAdminPaths.admin.url,
-  redirect: PrintAdminPaths.adminIndexContent.url
 };
 
 const wgoAdminRoutes = getWGOAdminRoutes();
