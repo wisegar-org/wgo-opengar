@@ -1,8 +1,8 @@
 {
   "NAME": "print",
   "APP_NAME": "wgo-print-staging",
-  "WEB_ROOT": "/users/yarielre/web",
-  "API_BASEURL": "http://192.168.0.133",
+  "WEB_ROOT": "C:/Web/Sites",
+  "API_BASEURL": "https://print.wisegar.org",
   "APP_START_FILE": "index.js",
   "APP_CLIENT_GIT_PATH": "https://yarielre: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@github.com/wisegar-org/wgo-opengar.git",
   "APP_CLIENT_BASEURL": "https://print.wisegar.org",
