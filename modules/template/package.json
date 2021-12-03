@@ -1,0 +1,19 @@
+{
+  "name": "wgo-module-template",
+  "version": "0.0.1",
+  "description": "Template Opengar Module",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wisegar.org",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.5.2",
+    "fs-extra": "^10.0.0",
+    "quasar": "^2.3.3",
+    "type-graphql": "^1.1.1",
+    "vue-property-decorator": "^9.1.2"
+  },
+  "dependencies": {}
+}
