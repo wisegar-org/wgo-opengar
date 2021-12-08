@@ -58,7 +58,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
-import { UserGql } from 'src/graphql';
+import { UserGql } from '../../../../graphql';
 import { userActions, userGetters, userNamespace } from '../../store/User';
 import {
   IListSeparator,
@@ -71,6 +71,7 @@ import {
   languageGetters,
   languageNamespace
 } from '../../store/Language';
+import { IndexAdminRoute } from '../../settings/RouterSettings';
 
 @Component({})
 export default class UserMenu extends Vue {
@@ -119,7 +120,8 @@ export default class UserMenu extends Vue {
   }
 
   getItemsProp() {
-    return this.items ? this.items.concat(this.logoutItems) : this.logoutItems;
+    const items = this.getAdminItem().concat(this.logoutItems);
+    return this.items ? this.items.concat(items) : items;
   }
 
   logout() {
@@ -127,6 +129,10 @@ export default class UserMenu extends Vue {
     this.goToHome
       ? this.routeService.goTo('/')
       : this.routeService.goToLoginPage();
+  }
+
+  goToAdmin() {
+    this.routeService.goToAdminPage();
   }
 
   getLabels(key: string) {
@@ -145,6 +151,37 @@ export default class UserMenu extends Vue {
     });
     await this.registerTranslations(keys);
     this.innerLoading = false;
+  }
+
+  getAdminItem(): (IListItemNavigationCallBack | IListSeparator)[] {
+    if (
+      this.user.roles.filter(
+        rol =>
+          rol.name
+            .toString()
+            .toLowerCase()
+            .indexOf('admin') !== -1
+      ).length > 0
+    ) {
+      return !this.$route.path.startsWith(IndexAdminRoute.path)
+        ? [
+            {
+              type: 'item',
+              label: 'WGO_ADMIN_TITLE',
+              icon: 'settings',
+              onClick: () => this.goToAdmin()
+            }
+          ]
+        : [
+            {
+              type: 'item',
+              label: 'WGO_HOME',
+              icon: 'home',
+              onClick: () => this.routeService.goTo('/')
+            }
+          ];
+    }
+    return [];
   }
 
   async created() {

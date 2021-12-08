@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router';
-import { LoginRoute } from '../settings/RouterSettings'
+import { IndexAdminRoute, LoginRoute } from '../settings/RouterSettings';
 
 export interface IRouteService {
   goTo(path: string): void;
@@ -24,6 +24,10 @@ export class RouteService implements IRouteService {
   }
 
   public goToLoginPage() {
-    void this.frameworkRouter.push(LoginRoute.path)
+    void this.frameworkRouter.push(LoginRoute.path);
+  }
+
+  public goToAdminPage() {
+    void this.frameworkRouter.push(IndexAdminRoute.path);
   }
 }
