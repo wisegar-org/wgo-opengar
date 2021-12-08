@@ -13,6 +13,7 @@ export default class ExpandableListEditorDialog extends Vue {
   @Prop({ default: false }) open!: boolean;
   @Prop() title!: string;
   @Prop() icon!: string;
+  @Prop() styleDialog!: string;
   @Prop({ default: () => {} }) close!: () => unknown;
   @Prop() item!: ListItem;
   @Prop({ default: () => [] }) propsEditor!: PropToEdit[];

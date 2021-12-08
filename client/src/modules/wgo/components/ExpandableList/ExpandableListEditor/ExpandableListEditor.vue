@@ -1,7 +1,10 @@
 <template>
   <q-form @submit="onSave" class="row q-pa-sm" ref="oAdminEditor">
     <template v-for="(prop, index) in propsEditor">
-      <div :key="`${id_item}-index${index}`" class="col-12 col-md-6 q-pa-sm">
+      <div
+        :key="`${id_item}-index${index}`"
+        :class="!!prop.class ? prop.class : 'col-12 col-md-6 q-pa-sm'"
+      >
         <InputNumber
           v-if="prop.type === 'number'"
           :label="prop.label"
@@ -16,6 +19,14 @@
           :options="getDateOptions(prop.options, itemForm, prop.prop)"
           :autofocus="index === 0"
         />
+        <OInputSelect
+          v-else-if="prop.type === 'select'"
+          :label="prop.label"
+          v-model="itemForm[prop.prop]"
+          :optionsSelect="prop.options.options"
+          :options="prop.options"
+          :autofocus="index === 0"
+        />
         <InputText
           v-else
           :label="prop.label"
@@ -26,6 +37,7 @@
       </div>
     </template>
     <div
+      v-if="!reactive"
       :class="
         showClose
           ? 'flex row col-12 q-px-sm q-pt-sm justify-around'

@@ -141,7 +141,7 @@ export default class ExpandableList extends Vue {
       const h =
         placeholder.getBoundingClientRect().bottom || defaultPlaceholderPx;
       this.cardHeight = this.minHeight
-        ? Math.max(this.minHeight, window.innerHeight - h - defaultBottomPx)
+        ? this.minHeight
         : window.innerHeight - h - defaultBottomPx;
     } else {
       this.cardHeight = 500;
@@ -169,13 +169,17 @@ export default class ExpandableList extends Vue {
     const result: (string | { label: string; tooltip: string })[] = [];
     this.propsEditor.forEach(prop => {
       if (prop.required || prop.visible) {
-        if (prop.value)
-          result.push(
-            prop.tooltip
-              ? { label: prop.value(item), tooltip: prop.tooltip }
-              : prop.value(item)
-          );
-        else if (prop.prop)
+        if (prop.value) {
+          if (prop.tooltip) {
+            const tooltip =
+              typeof prop.tooltip === 'string'
+                ? prop.tooltip
+                : prop.tooltip(item);
+            result.push({ label: prop.value(item), tooltip: tooltip });
+          } else {
+            result.push(prop.value(item));
+          }
+        } else if (prop.prop)
           result.push(
             prop.tooltip
               ? { label: (item as any)[prop.prop], tooltip: prop.tooltip }

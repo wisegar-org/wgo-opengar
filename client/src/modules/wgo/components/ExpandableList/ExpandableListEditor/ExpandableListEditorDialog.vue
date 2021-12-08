@@ -4,6 +4,7 @@
     :icon="icon"
     :open="open"
     :close="close"
+    :styleDialog="styleDialog"
     style="z-index: 9999;"
   >
     <template slot="content">

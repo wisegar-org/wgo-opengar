@@ -3,12 +3,14 @@ import { ListItem, PropToEdit } from '../models';
 import InputDate from '../../InputDate/InputDate.vue';
 import InputText from '../../InputText/InputText.vue';
 import InputNumber from '../../InputNumber/InputNumber.vue';
+import InputSelect from '../../InputSelect/InputSelect.vue';
 
 @Component({
   components: {
     InputDate,
     InputText,
-    InputNumber
+    InputNumber,
+    InputSelect
   }
 })
 export default class ExpandableListFilter extends Vue {

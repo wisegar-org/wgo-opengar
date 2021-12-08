@@ -19,3 +19,8 @@ export interface InputDateOptions {
   readonly?: boolean;
   rules?: any[];
 }
+
+export interface IInputSelectableOptions {
+  label: string;
+  value: any;
+}

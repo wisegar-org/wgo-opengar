@@ -5,18 +5,21 @@ export interface ListItem {
 export interface PropToEdit {
   label: string;
   prop: string;
-  tooltip?: string;
-  type?: 'number' | 'text' | 'date';
+  tooltip?: string | ((item: ListItem) => string);
+  type?: 'number' | 'text' | 'date' | 'select';
   value?: (item: ListItem) => string;
   options?: unknown;
   required?: boolean;
   visible?: boolean;
+  class?: string;
 }
 
 export interface ExpandableListOptions {
   showAddBotton: boolean;
   labelShowAddBotton: string;
   textDeleteConfirm: string;
+  editReactive?: boolean;
+  editorStyle?: string;
   disableFullscreen?: boolean;
   disableExportExcel?: boolean;
   disableExportCSV?: boolean;

@@ -15,7 +15,12 @@ export default class ExpandableListFilterLabel extends Vue {
     const filterStr: string[] = [];
     this.propsEditor.forEach(prop => {
       if (prop.prop in this.filter && this.filter[prop.prop]) {
-        filterStr.push(`${prop.label} contain <${this.filter[prop.prop]}>`);
+        if (prop.type !== 'select')
+          filterStr.push(`${prop.label} contiene <${this.filter[prop.prop]}>`);
+        else
+          filterStr.push(
+            `${prop.label} contiene <${(this.filter[prop.prop] as any)?.label}>`
+          );
       }
     });
 

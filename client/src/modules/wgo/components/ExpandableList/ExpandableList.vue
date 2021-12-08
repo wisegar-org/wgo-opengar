@@ -52,6 +52,7 @@
                     <ExpandableListEditor
                       :propsEditor="propsEditor"
                       :item="item"
+                      :reactive="options.editReactive"
                       :onSaveItem="
                         itemForm => options.onEditItem(itemForm, closeDialog)
                       "
@@ -109,7 +110,9 @@
       </q-card-section>
     </q-card>
     <ExpandableListEditorDialog
-      :schema="{ icon: icon, title: options.labelShowAddBotton }"
+      :icon="icon"
+      :title="options.labelShowAddBotton"
+      :styleDialog="options.editorStyle"
       :open="openDialog"
       :close="() => (openDialog = false)"
       :item="selectedItem"

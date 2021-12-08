@@ -1,7 +1,10 @@
 <template>
   <div class="fit row" style="max-width: 900px;">
     <template v-for="(prop, index) in propsEditor">
-      <div :key="`${id_item}-index${index}`" class="col-12 col-md-6 q-pa-sm">
+      <div
+        :key="`${id_item}-index${index}`"
+        :class="!!prop.class ? prop.class : 'col-12 col-md-6 q-pa-sm'"
+      >
         <InputNumber
           v-if="prop.type === 'number'"
           :label="prop.label"
@@ -14,6 +17,14 @@
           :label="prop.label"
           v-model="filterEdit[prop.prop]"
           :options="prop.options"
+          :autofocus="index === 0"
+        />
+        <OInputSelect
+          v-else-if="prop.type === 'select'"
+          :label="prop.label"
+          v-model="filterEdit[prop.prop]"
+          :options="prop.options"
+          :optionsSelect="prop.options.options"
           :autofocus="index === 0"
         />
         <InputText

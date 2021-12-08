@@ -3,6 +3,7 @@ import { ListItem, PropToEdit } from '../models';
 import InputDate from '../../InputDate/InputDate.vue';
 import InputText from '../../InputText/InputText.vue';
 import InputNumber from '../../InputNumber/InputNumber.vue';
+import InputSelect from '../../InputSelect/InputSelect.vue';
 import { QForm, QInput } from 'quasar';
 import {
   GetMaskedDate,
@@ -15,11 +16,13 @@ import { InputDateOptions } from '../../../models/IInputOptions';
   components: {
     InputDate,
     InputText,
-    InputNumber
+    InputNumber,
+    InputSelect
   }
 })
 export default class ExpandableListEditor extends Vue {
   @Prop() item!: ListItem;
+  @Prop({ default: false }) reactive!: boolean;
   @Prop({ default: () => [] }) propsEditor!: PropToEdit[];
   @Prop({ default: () => {} }) onSaveItem!: (item: ListItem) => unknown;
   @Prop({ default: () => {} }) close!: () => unknown;
@@ -29,7 +32,9 @@ export default class ExpandableListEditor extends Vue {
 
   constructor() {
     super();
-    this.itemForm = this.item ? { ...this.item } : {};
+    if (!!this.item)
+      this.itemForm = this.reactive ? this.item : { ...this.item };
+    else this.itemForm = {};
   }
 
   id_item =
