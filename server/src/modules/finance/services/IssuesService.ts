@@ -235,7 +235,7 @@ export class IssueService {
   async getAllIssues(): Promise<IssueEntity[]> {
     const filter = await this.collaboratorController.getFilterByCollaborator('assignedToId');
     return await this.issueConnection.find({
-      where: { ...filter, accountId: null },
+      where: { ...filter },
       relations: ['assignedTo', 'project', 'repository', 'account'],
       order: { id: 'DESC' },
     });
