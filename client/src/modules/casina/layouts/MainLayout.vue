@@ -24,6 +24,13 @@
             class="q-px-md"
             :to="path.url"
           />
+          <q-route-tab
+            v-if="isUserAdmin()"
+            :name="adminRoute.name"
+            :label="getLabels(adminRoute.name)"
+            class="q-px-md"
+            :to="adminRoute.url"
+          />
         </q-tabs>
       </q-toolbar>
     </q-header>
@@ -52,6 +59,9 @@ import {
   languageNamespace
 } from '../../wgo/store/Language';
 import { BoolDictionary } from '../../wgo/models';
+import { userGetters, userNamespace } from '../../wgo/store/User';
+import { UserGql } from '../../../graphql';
+import { IndexAdminRoute } from '../../wgo/settings/RouterSettings';
 
 @Component({
   components: {
@@ -65,9 +75,15 @@ export default class MainLayout extends Vue {
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
   translationContent!: { [key: string]: string };
+  @Getter(userGetters.getLoggedUser, { namespace: userNamespace })
+  user!: UserGql;
   titleKey = 'WGO_CASINA_TITLE';
   footerKey = 'WGO_CASINA_FOOTER_LABEL';
   loading = true;
+  adminRoute: IPath = {
+    name: 'WGO_ADMIN_TITLE',
+    url: IndexAdminRoute.path
+  };
 
   paths: IPath[] = [CasinaPaths.home]; //Object.values(CasinaPaths);
   layoutKeys = {
@@ -83,6 +99,19 @@ export default class MainLayout extends Vue {
 
   getLabels(key: string) {
     return key in this.translationContent ? this.translationContent[key] : key;
+  }
+
+  isUserAdmin() {
+    return (
+      this.user &&
+      this.user.roles.filter(
+        rol =>
+          rol.name
+            .toString()
+            .toLowerCase()
+            .indexOf('admin') !== -1
+      ).length > 0
+    );
   }
 
   async registerItemsLabels() {

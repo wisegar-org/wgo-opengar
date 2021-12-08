@@ -19,6 +19,13 @@
           class="q-px-md text-white"
           :to="path.url"
         />
+        <q-route-tab
+          v-if="isUserAdmin()"
+          :name="adminRoute.name"
+          :label="adminRoute.name"
+          class="q-px-md text-white"
+          :to="adminRoute.url"
+        />
       </q-tabs>
     </q-scroll-area>
   </q-drawer>
@@ -34,10 +41,19 @@ import {
   agvComponentsNamespace,
   agvComponentsSettedKeys
 } from '../../store/AGVComponentsState';
+import { userGetters, userNamespace } from '../../../wgo/store/User';
+import { UserGql } from '../../../../graphql';
+import { IndexAdminRoute } from '../../../wgo/settings/RouterSettings';
 
 @Component({})
 export default class MenuLayout extends Vue {
   @Prop() menuList!: IPath[];
+  @Getter(userGetters.getLoggedUser, { namespace: userNamespace })
+  user!: UserGql;
+  adminRoute: IPath = {
+    name: 'Amministrazione',
+    url: IndexAdminRoute.path
+  };
 
   @Getter(agvComponentsGettedKeys.getMenuOpen, {
     namespace: agvComponentsNamespace
@@ -51,6 +67,19 @@ export default class MenuLayout extends Vue {
   goToPath(path: string) {
     void this.$router.push(path);
     this.setShowMenu(false);
+  }
+
+  isUserAdmin() {
+    return (
+      this.user &&
+      this.user.roles.filter(
+        rol =>
+          rol.name
+            .toString()
+            .toLowerCase()
+            .indexOf('admin') !== -1
+      ).length > 0
+    );
   }
 }
 </script>
