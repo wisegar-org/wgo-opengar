@@ -32,7 +32,11 @@
                     style="text-overflow: ellipsis; overflow: hidden; display: block; white-space: nowrap;"
                   >
                     {{ isStringLabel(item) ? item : item.label }}
-                    <q-tooltip v-if="!isStringLabel(item)">
+                    <q-tooltip
+                      anchor="bottom start"
+                      self="center start"
+                      v-if="!isStringLabel(item)"
+                    >
                       {{ item.tooltip }}
                     </q-tooltip>
                   </div>
