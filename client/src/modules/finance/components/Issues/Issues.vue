@@ -132,6 +132,15 @@
             </q-input>
           </div>
           <div class="col-12 col-md-4">
+            <FilterSelect
+              label="Status"
+              :options="optionsStatus"
+              filterProp="title"
+              :value="filters.status"
+              @onChange="value => setFilter('status', value)"
+            />
+          </div>
+          <div class="col-12 col-md-4">
             <q-input
               outlined
               readonly

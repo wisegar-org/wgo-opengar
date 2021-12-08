@@ -118,8 +118,10 @@ export const IssuesService = {
     };
 
     issues.forEach(issue => {
-      result.issuesCount += 1;
-      result.issuesHours += issue.hours ? issue.hours : 0;
+      if (!issue.accountId) {
+        result.issuesCount += 1;
+        result.issuesHours += issue.hours ? issue.hours : 0;
+      }
     });
 
     return result;

@@ -61,6 +61,7 @@ export interface FilterIssuesModel {
   project: null | OptionFilter;
   assignedTo: null | OptionFilter;
   repository: null | OptionFilter;
+  status: null | OptionFilter;
   minDate: null | string;
   maxDate: null | string;
 }
@@ -82,6 +83,7 @@ export type FiltersIsuesKeys =
   | 'labels'
   | 'project'
   | 'assignedTo'
+  | 'status'
   | 'repository';
 
 export interface FiltersItemList {
@@ -206,6 +208,7 @@ export interface IssuesRecord {
   status: string;
   hours: number | '';
   url: string;
+  accountId: number;
 }
 
 export interface AddAccountParams {

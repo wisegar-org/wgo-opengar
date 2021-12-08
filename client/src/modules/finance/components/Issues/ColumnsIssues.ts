@@ -1,4 +1,4 @@
-import { ColumnTable, IssuesRecord } from '../../models/models'
+import { ColumnTable, IssuesRecord } from '../../models/models';
 
 export const numberIssueField: ColumnTable = {
   name: 'number',
@@ -8,8 +8,8 @@ export const numberIssueField: ColumnTable = {
   field: 'number',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 export const titleIssueField: ColumnTable = {
   name: 'title',
   align: 'left',
@@ -17,8 +17,8 @@ export const titleIssueField: ColumnTable = {
   field: 'title',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 250px',
-}
+  style: 'max-width: 250px'
+};
 export const assignedToIssueField: ColumnTable = {
   name: 'assignedTo',
   label: 'Assigned To',
@@ -27,17 +27,17 @@ export const assignedToIssueField: ColumnTable = {
   align: 'center',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 export const statusIssueField: ColumnTable = {
   name: 'status',
   label: 'Status',
-  field: 'status',
+  field: (row: IssuesRecord) => (row.accountId ? 'Accounted' : 'Pending'),
   align: 'left',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 export const labelsIssueField: ColumnTable = {
   name: 'labels',
   label: 'Labels',
@@ -45,8 +45,8 @@ export const labelsIssueField: ColumnTable = {
   field: (row: IssuesRecord) => row.labels,
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 export const repoIssueField: ColumnTable = {
   name: 'repository',
   label: 'Repository',
@@ -55,8 +55,8 @@ export const repoIssueField: ColumnTable = {
   align: 'left',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 // export const projectIssueField: ColumnTable = {
 //   name: 'project',
 //   label: 'Project',
@@ -74,8 +74,8 @@ export const milestonesIssueField: ColumnTable = {
   align: 'left',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 
 export const hoursIssueField: ColumnTable = {
   name: 'hpurs',
@@ -83,7 +83,7 @@ export const hoursIssueField: ColumnTable = {
   field: 'hours',
   align: 'left',
   sortable: true
-}
+};
 
 export const buttonIssueField: ColumnTable = {
   name: 'buttons',
@@ -91,7 +91,7 @@ export const buttonIssueField: ColumnTable = {
   align: '',
   style: 'max-width: 100px',
   field: 'id'
-}
+};
 
 export const ColumnsIssues = [
   numberIssueField,
@@ -104,11 +104,11 @@ export const ColumnsIssues = [
   // milestonesIssueField,
   hoursIssueField,
   buttonIssueField
-]
+];
 
 export const SimpleColumnsIssues = [
   numberIssueField,
   titleIssueField,
   repoIssueField,
   hoursIssueField
-]
+];

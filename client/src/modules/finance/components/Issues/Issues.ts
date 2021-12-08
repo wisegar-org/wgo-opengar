@@ -57,6 +57,11 @@ export default class Issues extends Vue {
   @Getter(githubGetters.getOrganizationData, { namespace: githubNamespace })
   organizationData!: OrganizationDataRecord;
 
+  optionsStatus: OptionFilter[] = [
+    { id: 1, label: 'Accounted', title: 'Accounted' },
+    { id: 2, label: 'Pending', title: 'Pending' }
+  ];
+
   @Getter(ApiSettings.USER_LOGGED_GETTER, {
     namespace: ApiSettings.USER_NAMESPACE
   })
@@ -114,7 +119,8 @@ export default class Issues extends Vue {
       closed_at: '',
       created_at: '',
       description: '',
-      last_comment: ''
+      last_comment: '',
+      accountId: 0
     } as IssuesRecord;
     return this.filteredIssues.concat([
       issueRecord,
@@ -171,7 +177,8 @@ export default class Issues extends Vue {
       assignedTo: null,
       repository: null,
       minDate: null,
-      maxDate: null
+      maxDate: null,
+      status: null
     };
   }
 
