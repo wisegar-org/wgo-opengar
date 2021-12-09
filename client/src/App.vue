@@ -89,6 +89,8 @@ export default class App extends Vue {
     await this.registerTranslations({
       WGO_CLOSE_BTN: true,
       WGO_SAVE_BTN: true,
+      WGO_CLEAN_BTN: true,
+      WGO_APPLY_BTN: true,
       WGO_EDIT_BTN: true,
       WGO_ADD_BTN: true,
       WGO_YES_BTN: true,
@@ -100,6 +102,10 @@ export default class App extends Vue {
       WGO_ADMIN_TITLE: true,
       WGO_LOGOUT_LABEL: true,
       WGO_LOGIN_LABEL: true,
+      WGO_CONTAIN_LABEL: true,
+      WGO_EQUAL_LABEL: true,
+      WGO_AND_LABEL: true,
+      WGO_OR_LABEL: true,
       WGO_ERROR_NULL_FIELD: true
     });
   }

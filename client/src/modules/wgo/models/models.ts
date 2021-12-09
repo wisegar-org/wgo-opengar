@@ -98,6 +98,8 @@ export interface UserFilterArgs {
 export interface ITranslations {
   WGO_CLOSE_BTN: string;
   WGO_SAVE_BTN: string;
+  WGO_CLEAN_BTN: string;
+  WGO_APPLY_BTN: string;
   WGO_EDIT_BTN: string;
   WGO_ADD_BTN: string;
   WGO_YES_BTN: string;
@@ -109,6 +111,10 @@ export interface ITranslations {
   WGO_ADMIN_TITLE: string;
   WGO_LOGIN_LABEL: string;
   WGO_LOGOUT_LABEL: string;
+  WGO_CONTAIN_LABEL: string;
+  WGO_EQUAL_LABEL: string;
+  WGO_AND_LABEL: string;
+  WGO_OR_LABEL: string;
   WGO_ERROR_NULL_FIELD: string;
 }
 
