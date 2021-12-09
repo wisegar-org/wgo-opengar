@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr fFf">
+  <q-layout view="hHh Lpr lff">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -17,11 +17,10 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list> </q-list>
-    </q-drawer>
-
     <q-page-container>
+      <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+        <q-list> </q-list>
+      </q-drawer>
       <router-view />
     </q-page-container>
   </q-layout>

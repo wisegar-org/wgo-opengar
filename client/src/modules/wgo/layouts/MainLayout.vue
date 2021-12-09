@@ -26,8 +26,8 @@
         />
       </q-toolbar>
     </q-header>
+    <LeftDrawer v-if="!innerLoadding" :items="itemsDrawer" />
     <q-page-container>
-      <LeftDrawer v-if="!innerLoadding" :items="itemsDrawer" />
       <BreadCrumbs v-if="!innerLoadding" :items="breadCrumbsItem" />
       <router-view />
       <edit-profile

@@ -1,86 +1,82 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-dialog
-      v-model="openDialog"
-      persistent
-      full-width
-      @before-show="beforeShow"
-    >
-      <q-card class="cardEditProfile">
-        <q-card-section>
-          <div class="text-h6">
-            {{ translationsContent.WGO_USERS_MENU_EDIT_PROFILE }}
-          </div>
-        </q-card-section>
+  <q-dialog
+    v-model="openDialog"
+    persistent
+    full-width
+    @before-show="beforeShow"
+  >
+    <q-card class="cardEditProfile">
+      <q-card-section>
+        <div class="text-h6">
+          {{ translationsContent.WGO_USERS_MENU_EDIT_PROFILE }}
+        </div>
+      </q-card-section>
 
-        <q-card-section class="q-pt-none ">
-          <div class="text-center flex flex-center">
-            <profile-image-uploader
-              :url="defaultImage"
-              :onSavedImg="savedImage"
-            />
-          </div>
-          <q-input
-            square
-            outlined
-            class="q-ma-lg"
-            v-model="user.name"
-            :autofocus="true"
-            :label="translationsContent.WGO_USERS_COLUMN_NAME_LABEL"
+      <q-card-section class="q-pt-none ">
+        <div class="text-center flex flex-center">
+          <profile-image-uploader
+            :url="defaultImage"
+            :onSavedImg="savedImage"
           />
-          <q-input
-            square
-            outlined
-            class="q-ma-lg"
-            v-model="user.lastName"
-            :label="translationsContent.WGO_USERS_COLUMN_LASTNAME_LABEL"
-          />
-          <q-input
-            square
-            outlined
-            class="q-ma-lg"
-            v-model="user.password"
-            type="password"
-            :label="translationsContent.WGO_USERS_PASSWORD_LABEL"
-          />
-          <q-input
-            square
-            outlined
-            class="q-ma-lg"
-            v-model="passwordConfirm"
-            type="password"
-            :error="user.password != passwordConfirm"
-            :error-message="
-              translationsContent.WGO_USERS_ERROR_CONFIRM_PASSWORD
-            "
-            :label="translationsContent.WGO_USERS_CONFIRMPASSWORD_LABEL"
-            @keydown.enter.prevent="updateUser"
-          />
-        </q-card-section>
+        </div>
+        <q-input
+          square
+          outlined
+          class="q-ma-lg"
+          v-model="user.name"
+          :autofocus="true"
+          :label="translationsContent.WGO_USERS_COLUMN_NAME_LABEL"
+        />
+        <q-input
+          square
+          outlined
+          class="q-ma-lg"
+          v-model="user.lastName"
+          :label="translationsContent.WGO_USERS_COLUMN_LASTNAME_LABEL"
+        />
+        <q-input
+          square
+          outlined
+          class="q-ma-lg"
+          v-model="user.password"
+          type="password"
+          :label="translationsContent.WGO_USERS_PASSWORD_LABEL"
+        />
+        <q-input
+          square
+          outlined
+          class="q-ma-lg"
+          v-model="passwordConfirm"
+          type="password"
+          :error="user.password != passwordConfirm"
+          :error-message="translationsContent.WGO_USERS_ERROR_CONFIRM_PASSWORD"
+          :label="translationsContent.WGO_USERS_CONFIRMPASSWORD_LABEL"
+          @keydown.enter.prevent="updateUser"
+        />
+      </q-card-section>
 
-        <q-card-actions align="right" class="text-primary">
-          <q-btn
-            unelevated
-            @click="closeDialog"
-            color="primary"
-            align="around"
-            class="btn-fixed-width btn_width"
-            :label="translationsContent.WGO_CLOSE_BTN"
-          />
-          <q-btn
-            unelevated
-            color="primary"
-            align="around"
-            class="btn-fixed-width btn_width"
-            :label="translationsContent.WGO_SAVE_BTN"
-            :disable="(!isDataChaged && !isValidPassword) || !areEqualPassword"
-            @click="updateUser"
-          />
-        </q-card-actions>
-        <Loader :loading="showLoader" />
-      </q-card>
-    </q-dialog>
-  </div>
+      <q-card-actions align="right" class="text-primary">
+        <q-btn
+          unelevated
+          @click="closeDialog"
+          color="primary"
+          align="around"
+          class="btn-fixed-width btn_width"
+          :label="translationsContent.WGO_CLOSE_BTN"
+        />
+        <q-btn
+          unelevated
+          color="primary"
+          align="around"
+          class="btn-fixed-width btn_width"
+          :label="translationsContent.WGO_SAVE_BTN"
+          :disable="(!isDataChaged && !isValidPassword) || !areEqualPassword"
+          @click="updateUser"
+        />
+      </q-card-actions>
+      <Loader :loading="showLoader" />
+    </q-card>
+  </q-dialog>
 </template>
 
 <script lang="ts">
