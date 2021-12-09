@@ -3,7 +3,7 @@
     :items="pageIssues"
     icon="bug_report"
     title="Issues"
-    :loading="loading"
+    :loading="loading || innerLoading"
     :propsEditor="columns"
     :maxLabels="6"
     :options="options"
@@ -12,15 +12,15 @@
       <slot name="addButton"> </slot>
     </template>
     <template slot="headerButtons">
-      <q-input
-        outlined
-        readonly
-        dense
-        flat
-        size="sm"
-        :value="getHourIssues()"
-        type="number"
-        prefix="Hours: "
+      <q-badge
+        outline
+        color="primary"
+        class="q-ma-xs"
+        :label="
+          `${
+            translationContent.WGO_FINANCE_ISSUES_COLUMN_HOURS
+          }: ${getHourIssues()}`
+        "
       />
     </template>
     <template slot="filterLabel">

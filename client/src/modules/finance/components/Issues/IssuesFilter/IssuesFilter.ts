@@ -8,10 +8,19 @@ import {
   OrganizationDataRecord
 } from 'src/modules/finance';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
+import { Action, Getter } from 'vuex-class';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import FilterSelect from '../../FilterSelect.vue';
 import { UserLogged } from 'src/modules/wgo/models/models';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from 'src/modules/wgo/store/Language';
+import {
+  ITranslationFinanceIssuesKeys,
+  TranslationsKeys
+} from '../TranslationsKeys';
 
 @Component({
   components: {
@@ -20,6 +29,12 @@ import { UserLogged } from 'src/modules/wgo/models/models';
   }
 })
 export default class IssuesFilter extends Vue {
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceIssuesKeys;
   @Prop({ default: false }) open!: boolean;
   @Prop() title!: string;
   @Prop() icon!: string;
@@ -85,5 +100,9 @@ export default class IssuesFilter extends Vue {
 
   getOptionsCollaborators() {
     return this.optionsCollaborators.filter(coll => coll.isCollaborator);
+  }
+
+  async mounted() {
+    await this.registerTranslations(TranslationsKeys);
   }
 }

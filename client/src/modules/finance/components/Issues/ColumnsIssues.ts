@@ -3,6 +3,7 @@ import {
   PropToEdit
 } from 'src/modules/wgo/components/ExpandableList/models';
 import { ColumnTable, IssuesRecord } from '../../models/models';
+import { ITranslationFinanceIssuesKeys } from './TranslationsKeys';
 
 export const titleIssueField: PropToEdit = {
   required: true,
@@ -70,7 +71,7 @@ export const SimpleColumnsIssues = [
   {
     name: 'title',
     align: 'left',
-    label: 'Title',
+    label: titleIssueField.label,
     field: 'title',
     sortable: true,
     classes: 'ellipsis',
@@ -78,7 +79,7 @@ export const SimpleColumnsIssues = [
   },
   {
     name: 'repository',
-    label: 'Repository',
+    label: repoIssueField.label,
     field: (row: IssuesRecord) =>
       row.repository && row.repository.title ? row.repository.title : '',
     align: 'left',
@@ -88,9 +89,25 @@ export const SimpleColumnsIssues = [
   },
   {
     name: 'hpurs',
-    label: 'Hours',
+    label: hoursIssueField.label,
     field: 'hours',
     align: 'left',
     sortable: true
   }
 ];
+
+export const setColumnsLanguage = (
+  translations: ITranslationFinanceIssuesKeys
+) => {
+  titleIssueField.label = translations.WGO_FINANCE_ISSUES_COLUMN_TITLE;
+  assignedToIssueField.label =
+    translations.WGO_FINANCE_ISSUES_COLUMN_ASSIGNED_TO;
+  statusIssueField.label = translations.WGO_FINANCE_ISSUES_COLUMN_STATUS;
+  statusIssueField.value = (row: ListItem) =>
+    row.accountId
+      ? translations.WGO_FINANCE_ISSUES_COLUMN_STATUS_ACCOUNTED
+      : translations.WGO_FINANCE_ISSUES_COLUMN_STATUS_PENDING;
+  labelsIssueField.label = translations.WGO_FINANCE_ISSUES_COLUMN_LABEL;
+  repoIssueField.label = translations.WGO_FINANCE_ISSUES_COLUMN_REPOSITORY;
+  hoursIssueField.label = translations.WGO_FINANCE_ISSUES_COLUMN_HOURS;
+};

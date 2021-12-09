@@ -6,7 +6,7 @@
         outlined
         class="q-ma-sm"
         :value="`${issue.number} - ${issue.title}`"
-        label="Title"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_TITLE"
         autogrow
         dense
         readonly
@@ -18,7 +18,7 @@
         outlined
         class="q-ma-sm"
         :value="issue.description"
-        label="Description"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_DESCRIPTION"
         autogrow
         dense
         readonly
@@ -30,7 +30,7 @@
         outlined
         class="q-ma-sm"
         :value="getCollaborator()"
-        label="Assigned to"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_ASSIGNED_TO"
         dense
         readonly
       />
@@ -41,7 +41,7 @@
         outlined
         class="q-ma-sm"
         :value="getRepository()"
-        label="Repository"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_REPOSITORY"
         dense
         readonly
       />
@@ -52,7 +52,7 @@
         outlined
         class="q-ma-sm"
         :value="issue.hours"
-        label="Hours"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_HOURS"
         dense
         readonly
       />
@@ -64,7 +64,7 @@
         class="q-ma-sm"
         :value="issue.last_comment"
         autogrow
-        label="Last comment"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_LAST_COMMENT"
         dense
         readonly
       />
@@ -75,7 +75,7 @@
         outlined
         class="q-ma-sm"
         :value="getFormatDate(issue.created_at)"
-        label="Created at"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_CREATED_AT"
         dense
         readonly
       />
@@ -86,26 +86,25 @@
         outlined
         class="q-ma-sm"
         :value="getFormatDate(issue.closed_at)"
-        label="Closed at"
+        :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_CLOSED_AT"
         dense
         readonly
       />
     </div>
-    <q-card-actions align="right" class="text-primary fit">
+    <q-card-actions v-if="!!close" align="right" class="text-primary fit">
       <q-btn
         unelevated
         @click="() => goToGithub()"
         color="primary"
-        label="Go to Github"
+        :label="translationContent.WGO_FINANCE_ISSUES_GO_TO_GITHUB_BTN"
       />
       <q-btn
         unelevated
-        v-if="!!close"
         @click="() => closeDialog()"
         color="primary"
         align="around"
         class="btn-fixed-width btn_width"
-        label="Close"
+        :label="translationContent.WGO_CLOSE_BTN"
       />
     </q-card-actions>
   </div>
@@ -116,9 +115,17 @@ import { IssuesRecord } from '../../../models/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 import { openURL } from 'quasar';
+import {
+  languageGetters,
+  languageNamespace
+} from '../../../../wgo/store/Language';
+import { Getter } from 'vuex-class';
+import { ITranslationFinanceIssuesKeys } from '../TranslationsKeys';
 
 @Component({})
 export default class IssueDetails extends Vue {
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceIssuesKeys;
   @Prop() issue!: IssuesRecord;
   @Prop() close!: () => void;
 

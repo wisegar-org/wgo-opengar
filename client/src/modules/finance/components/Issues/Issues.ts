@@ -7,7 +7,7 @@ import {
   OrganizationDataRecord
 } from '../../models/models';
 import { IssuesService } from '../../services/IssuesService';
-import { ColumnsIssues } from './ColumnsIssues';
+import { ColumnsIssues, setColumnsLanguage } from './ColumnsIssues';
 import { filterIssues } from './FilterIssues';
 import { Action, Getter } from 'vuex-class';
 import { githubActions, githubGetters, githubNamespace } from '../../store';
@@ -19,6 +19,21 @@ import { PropToEdit } from 'src/modules/wgo/components/ExpandableList/models';
 import IssuesList from './IssuesList/IssuesList.vue';
 import IssuesFilter from './IssuesFilter/IssuesFilter.vue';
 import ExpandableListFilterLabel from '../../../wgo/components/ExpandableList/ExpandableListFilter/ExpandableListFilterLabel.vue';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from 'src/modules/wgo/store/Language';
+import {
+  ITranslationFinanceIssuesKeys,
+  TranslationsKeys,
+  WGO_FINANCE_ISSUES_COLUMN_ASSIGNED_TO,
+  WGO_FINANCE_ISSUES_COLUMN_END_DATE,
+  WGO_FINANCE_ISSUES_COLUMN_LABEL,
+  WGO_FINANCE_ISSUES_COLUMN_REPOSITORY,
+  WGO_FINANCE_ISSUES_COLUMN_START_DATE,
+  WGO_FINANCE_ISSUES_COLUMN_STATUS
+} from './TranslationsKeys';
 
 @Component({
   components: {
@@ -30,6 +45,13 @@ import ExpandableListFilterLabel from '../../../wgo/components/ExpandableList/Ex
   }
 })
 export default class Issues extends Vue {
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceIssuesKeys;
+
   @Action(githubActions.loadAllIssuesData, { namespace: githubNamespace })
   getAllData!: (force: boolean) => Promise<void>;
 
@@ -96,17 +118,54 @@ export default class Issues extends Vue {
   }
 
   getFilterStr(filters: FilterIssuesModel) {
+    const equalLabel = this.getLabel('WGO_EQUAL_LABEL');
+    const containLabel = this.getLabel('WGO_CONTAIN_LABEL');
+    const andLabel = this.getLabel('WGO_AND_LABEL');
     if (!filters) return '';
     const result: string[] = [];
     if (filters.repository)
-      result.push(`Repository contain <${filters.repository.label}>`);
-    if (filters.labels) result.push(`Labels contain <${filters.labels.label}>`);
-    if (filters.status) result.push(`Status contain <${filters.status.label}>`);
+      result.push(
+        `${this.getLabel(
+          WGO_FINANCE_ISSUES_COLUMN_REPOSITORY
+        )} ${equalLabel} <${filters.repository.label}>`
+      );
+    if (filters.labels)
+      result.push(
+        `${this.getLabel(WGO_FINANCE_ISSUES_COLUMN_LABEL)} ${containLabel} <${
+          filters.labels.label
+        }>`
+      );
+    if (filters.status)
+      result.push(
+        `${this.getLabel(WGO_FINANCE_ISSUES_COLUMN_STATUS)} ${equalLabel} <${
+          filters.status.label
+        }>`
+      );
     if (filters.assignedTo)
-      result.push(`Assigned to contain <${filters.assignedTo.label}>`);
-    if (filters.minDate) result.push(`Start date contain <${filters.minDate}>`);
-    if (filters.maxDate) result.push(`End date contain <${filters.maxDate}>`);
-    return result.join(' and ');
+      result.push(
+        `${this.getLabel(WGO_FINANCE_ISSUES_COLUMN_ASSIGNED_TO)} <${
+          filters.assignedTo.label
+        }>`
+      );
+    if (filters.minDate)
+      result.push(
+        `${this.getLabel(
+          WGO_FINANCE_ISSUES_COLUMN_START_DATE
+        )} ${equalLabel} <${filters.minDate}>`
+      );
+    if (filters.maxDate)
+      result.push(
+        `${this.getLabel(WGO_FINANCE_ISSUES_COLUMN_END_DATE)} ${equalLabel} <${
+          filters.maxDate
+        }>`
+      );
+    return result.join(` ${andLabel} `);
+  }
+
+  getLabel(label: string) {
+    if (this.translationContent && label in this.translationContent)
+      return (this.translationContent as any)[label];
+    return label;
   }
 
   async syncroGithubData() {
@@ -123,6 +182,12 @@ export default class Issues extends Vue {
   @Watch('issues')
   applyFilterToIssues() {
     this.filteredIssues = filterIssues(this.issues, this.filters);
+  }
+
+  @Watch('translationContent')
+  setColumnsLabels() {
+    this.filterStr = this.getFilterStr(this.filters);
+    setColumnsLanguage(this.translationContent);
   }
 
   async loadData() {
@@ -157,6 +222,8 @@ export default class Issues extends Vue {
 
   async mounted() {
     this.loading = true;
+    await this.registerTranslations(TranslationsKeys);
+    this.setColumnsLabels();
     await this.loadData();
   }
 }

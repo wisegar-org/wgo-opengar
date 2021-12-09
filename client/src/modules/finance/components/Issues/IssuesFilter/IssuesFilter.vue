@@ -10,7 +10,7 @@
       <div class="row col-12">
         <div class="col-12 col-md-6">
           <FilterSelect
-            label="Repository"
+            :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_REPOSITORY"
             :options="optionsRepository"
             filterProp="title"
             :value="filtersEdit.repository"
@@ -19,7 +19,7 @@
         </div>
         <div class="col-12 col-md-6">
           <FilterSelect
-            label="Labels"
+            :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_LABEL"
             :options="optionsLabels"
             filterProp="title"
             :value="filtersEdit.labels"
@@ -28,7 +28,7 @@
         </div>
         <div class="col-12 col-md-6">
           <FilterSelect
-            label="Status"
+            :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_STATUS"
             :options="optionsStatus"
             filterProp="title"
             :value="filtersEdit.status"
@@ -40,7 +40,7 @@
           class="col-12 col-md-6"
         >
           <FilterSelect
-            label="Assigned To"
+            :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_ASSIGNED_TO"
             :options="getOptionsCollaborators()"
             filterProp="login"
             :value="filtersEdit.assignedTo"
@@ -54,7 +54,7 @@
             outlined
             v-model="filtersEdit.minDate"
             mask="date"
-            label="Start date"
+            :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_START_DATE"
           >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -64,7 +64,7 @@
                       <q-btn
                         unelevated
                         v-close-popup
-                        label="Close"
+                        :label="translationContent.WGO_CLOSE_BTN"
                         color="primary"
                         flat
                       />
@@ -82,7 +82,7 @@
             outlined
             v-model="filtersEdit.maxDate"
             mask="date"
-            label="End date"
+            :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_END_DATE"
           >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -92,7 +92,7 @@
                       <q-btn
                         unelevated
                         v-close-popup
-                        label="Close"
+                        :label="translationContent.WGO_CLOSE_BTN"
                         color="primary"
                         flat
                       />
@@ -108,7 +108,7 @@
         <q-btn
           unelevated
           color="primary"
-          label="Annulla"
+          :label="translationContent.WGO_CLOSE_BTN"
           icon="close"
           @click="close"
           class="col-12 col-md-3 q-mt-sm"
@@ -116,7 +116,7 @@
         <q-btn
           unelevated
           color="primary"
-          label="Clean"
+          :label="translationContent.WGO_CLEAN_BTN"
           icon="cached"
           @click="onResetFilter"
           class="col-12 col-md-3 q-mt-sm"
@@ -124,7 +124,7 @@
         <q-btn
           unelevated
           color="primary"
-          label="OK"
+          :label="translationContent.WGO_APPLY_BTN"
           icon="save"
           @click="onApplyFilter"
           class="col-12 col-md-3 q-mt-sm"

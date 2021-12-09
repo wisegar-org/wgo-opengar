@@ -15,7 +15,7 @@
           color="primary"
           icon="add"
           label="Create Accounting"
-          class="q-ml-sm"
+          class="q-ml-xs"
           no-caps
           size="sm"
           :disable="!!filters && (!filters.minDate || !filters.maxDate)"
@@ -34,7 +34,7 @@
       :open="showFilter"
       :close="() => (showFilter = false)"
       :filters="filters"
-      title="Filter"
+      :title="translationContent.WGO_FINANCE_ISSUES_FILTER_TITLE"
       icon="filter_alt"
       :applyFilter="applyFilter"
     />
