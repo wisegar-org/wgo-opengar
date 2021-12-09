@@ -46,6 +46,7 @@
                 :key="`item${item.id || item}-index${index}`"
                 :labels="getLabels(item)"
                 group="items"
+                :maxLabels="maxLabels"
               >
                 <template slot="content">
                   <slot name="details" v-bind:item="item" v-bind:index="index">
@@ -119,7 +120,7 @@
       :propsEditor="propsEditor"
       :onSaveItem="itemForm => options.onAddItem(itemForm, closeDialog)"
     />
-    <Loading :loading="loading" />
+    <Loader :loading="loading" />
   </div>
 </template>
 

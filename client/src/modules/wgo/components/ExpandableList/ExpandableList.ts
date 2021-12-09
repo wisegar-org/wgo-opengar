@@ -39,6 +39,7 @@ export default class ExpandableList extends Vue {
   @Prop({ default: 0 }) minHeight!: number;
   @Prop({ default: false }) bordered!: boolean;
   @Prop({ default: '' }) filterStr!: string;
+  @Prop({ default: 4 }) maxLabels!: number;
 
   @Getter(componentsGettedKeys.getLeftDrawerOpen, {
     namespace: componentsNamespace
@@ -166,25 +167,23 @@ export default class ExpandableList extends Vue {
   }
 
   getLabels(item: ListItem) {
-    const result: (string | { label: string; tooltip: string })[] = [];
+    const result: { label: string; tooltip?: string; columns: number }[] = [];
     this.propsEditor.forEach(prop => {
       if (prop.required || prop.visible) {
-        if (prop.value) {
-          if (prop.tooltip) {
-            const tooltip =
-              typeof prop.tooltip === 'string'
-                ? prop.tooltip
-                : prop.tooltip(item);
-            result.push({ label: prop.value(item), tooltip: tooltip });
-          } else {
-            result.push(prop.value(item));
-          }
-        } else if (prop.prop)
-          result.push(
-            prop.tooltip
-              ? { label: (item as any)[prop.prop], tooltip: prop.tooltip }
-              : (item as any)[prop.prop]
-          );
+        const value = prop.value
+          ? prop.value(item)
+          : `${(item as any)[prop.prop]}`;
+        let tooltip = '';
+        const columns = prop.columns || 1;
+
+        if (prop.tooltip) {
+          tooltip =
+            typeof prop.tooltip === 'string'
+              ? prop.tooltip
+              : prop.tooltip(item);
+        }
+
+        result.push({ label: value, tooltip: tooltip, columns: columns });
       }
     });
     return result;

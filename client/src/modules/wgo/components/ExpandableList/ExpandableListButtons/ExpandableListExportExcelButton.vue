@@ -20,7 +20,7 @@ export default class ExpandableListExportExcelButton extends Vue {
   @Prop({ default: () => [] }) propsEditor!: PropToEdit[];
 
   exportExcel() {
-    ExpandableListExportExcel(this.items, this.propsEditor);
+    void ExpandableListExportExcel(this.items, this.propsEditor);
   }
 }
 </script>

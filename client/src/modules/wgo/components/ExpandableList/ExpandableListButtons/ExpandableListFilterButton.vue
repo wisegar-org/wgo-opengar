@@ -25,7 +25,7 @@ import ExpandableListFilterDialog from '../ExpandableListFilter/ExpandableListFi
 export default class ExpandableListFilterButton extends Vue {
   @Prop({ default: () => ({}) }) filter!: ListItem;
   @Prop({ default: () => [] }) propsEditor!: PropToEdit[];
-  @Prop({ default: () => {} }) applyFilter!: (filter: ListItem) => unknown;
+  @Prop({ default: () => null }) applyFilter!: (filter: ListItem) => unknown;
   showFilterDialog = false;
 
   onShowDialog() {

@@ -12,6 +12,7 @@ export interface PropToEdit {
   required?: boolean;
   visible?: boolean;
   class?: string;
+  columns?: number;
 }
 
 export interface ExpandableListOptions {

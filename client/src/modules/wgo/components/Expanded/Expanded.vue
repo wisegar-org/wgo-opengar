@@ -36,7 +36,7 @@
             <template v-for="(item, index) of labels">
               <q-item-section
                 :key="item + index"
-                :class="getLabelsClass(index)"
+                :class="getLabelsClass(index, item.columns)"
                 :style="getLabelsStyle(index)"
               >
                 <div
@@ -47,7 +47,7 @@
                   <q-tooltip
                     anchor="bottom start"
                     self="center start"
-                    v-if="!isStringLabel(item)"
+                    v-if="!isStringLabel(item) && item.tooltip"
                   >
                     {{ item.tooltip }}
                   </q-tooltip>
@@ -80,11 +80,18 @@ import SimpleExpanded from './SimpleExpanded.vue';
 })
 export default class OExpanded extends Vue {
   @Prop() label!: string;
-  @Prop() labels!: string | { label: string; tooltip: string }[];
+  @Prop() labels!: (
+    | string
+    | { label: string; tooltip: string; columns: number }
+  )[];
   @Prop() icon!: string;
   @Prop() group!: string;
   @Prop() iconUrl!: string;
   @Prop({ default: 4 }) maxLabels!: number;
+
+  labelsLength = this.labels
+    .map(label => (typeof label === 'string' ? 1 : label.columns))
+    .reduce((a, b) => (a || 1) + (b || 1), 0);
 
   getIcon() {
     return this.iconUrl ? `img:${this.iconUrl}` : this.icon;
@@ -97,12 +104,16 @@ export default class OExpanded extends Vue {
     if (!!expanded && !!expanded.invertValue) expanded.invertValue();
   }
 
-  getLabelsClass(index: number) {
+  getLabelsClass(index: number, columns = 1) {
+    if (this.labels.length === 1) {
+      return 'col-12 col-sm-12 q-ml-none q-pl-sm';
+    }
     const maxColumns = this.getDisplayInSM()
-      ? Math.min(this.maxLabels, this.labels.length)
+      ? Math.min(this.maxLabels, this.labelsLength)
       : 2;
     const value = !this.getDisplayInXS() ? 12 / maxColumns : 6;
-    return `col-${index < 2 ? 12 : 0} col-sm-${value} q-ml-none q-pl-sm`;
+    return `col-${index < 3 ? 12 : 0} col-sm-${value *
+      columns} q-ml-none q-pl-sm`;
   }
   isStringLabel(label: { label: string; tooltip: string } | string) {
     return typeof label === 'string';
@@ -110,7 +121,7 @@ export default class OExpanded extends Vue {
 
   getLabelsStyle(index: number) {
     const isOnlySM = !this.getDisplayInSM();
-    return index >= 2 && isOnlySM
+    return index >= 3 && isOnlySM
       ? 'display: none;'
       : 'margin-left: 0 !important;';
   }

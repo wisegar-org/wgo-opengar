@@ -2,7 +2,7 @@
   <Dialog
     :title="title"
     :icon="icon"
-    :open="open"
+    :showModal="open"
     :close="close"
     style="z-index: 9999;"
   >

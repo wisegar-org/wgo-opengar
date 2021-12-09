@@ -15,7 +15,7 @@ export default class ExpandableListExportCSVButton extends Vue {
   @Prop({ default: () => [] }) propsEditor!: PropToEdit[];
 
   exportCSV() {
-    ExpandableListExportCSV(this.items, this.propsEditor);
+    void ExpandableListExportCSV(this.items, this.propsEditor);
   }
 }
 </script>

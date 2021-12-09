@@ -24,7 +24,7 @@
               <template v-for="(item, index) of labels">
                 <q-item-section
                   :key="item + index"
-                  :class="getLabelsClass(index)"
+                  :class="getLabelsClass(index, item.columns)"
                   :style="getLabelsStyle(index)"
                 >
                   <div
@@ -62,14 +62,29 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 @Component({})
 export default class SimpleExpanded extends Vue {
   @Prop() label!: string;
-  @Prop() labels!: string | { label: string; tooltip: string }[];
+  @Prop() labels!: (
+    | string
+    | { label: string; tooltip: string; columns: number }
+  )[];
   @Prop() icon!: string;
   @Prop() group!: string;
   @Prop() iconUrl!: string;
   @Prop({ default: false }) expandIcon!: boolean;
   @Prop({ default: 4 }) maxLabels!: number;
 
-  showPopup = false;
+  showPopup: boolean;
+  labelsLength: number;
+
+  /**
+   *
+   */
+  constructor() {
+    super();
+    this.showPopup = false;
+    this.labelsLength = (this.labels || [])
+      .map(label => (typeof label === 'string' ? 1 : label.columns))
+      .reduce((a, b) => (a || 1) + (b || 1), 0);
+  }
 
   getIcon() {
     return this.iconUrl ? `img:${this.iconUrl}` : this.icon;
@@ -84,17 +99,21 @@ export default class SimpleExpanded extends Vue {
     return this.expandIcon;
   }
 
-  getLabelsClass(index: number) {
+  getLabelsClass(index: number, columns = 1) {
+    if (this.labels.length === 1) {
+      return 'col-12 col-sm-12 q-ml-none q-pl-sm';
+    }
     const maxColumns = this.getDisplayInSM()
-      ? Math.min(this.maxLabels, this.labels.length)
+      ? Math.min(this.maxLabels, this.labelsLength)
       : 2;
     const value = !this.getDisplayInXS() ? 12 / maxColumns : 6;
-    return `col-${index < 2 ? 12 : 0} col-sm-${value} q-ml-none q-pl-sm`;
+    return `col-${index < 3 ? 12 : 0} col-sm-${value *
+      columns} q-ml-none q-pl-sm`;
   }
 
   getLabelsStyle(index: number) {
     const isOnlySM = !this.getDisplayInSM();
-    return index >= 2 && isOnlySM
+    return index >= 3 && isOnlySM
       ? 'display: none;'
       : 'margin-left: 0 !important;';
   }
