@@ -72,6 +72,19 @@ export default class FilterSelect extends Vue {
       });
   }
 
+  @Watch('value')
+  updateValue() {
+    if (
+      !this.value ||
+      !this.model ||
+      this.value[this.filterProp] !== this.model.label
+    ) {
+      this.model = this.value
+        ? { ...this.value, label: this.value[this.filterProp] }
+        : null;
+    }
+  }
+
   @Watch('model')
   @Emit('onChange')
   onChange() {
