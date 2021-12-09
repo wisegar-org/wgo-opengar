@@ -150,7 +150,7 @@ export default class Translations extends Vue {
   async mounted() {
     await this.registerTranslations(TranslationsKeys);
     await this.loadData(false);
-    this.language = this.languages.length > 0 ? this.languages[0] : null;
+    this.language = this.languageSelected ? this.languageSelected : null;
     await this.loadFilter();
     this.innerLoading = false;
   }
