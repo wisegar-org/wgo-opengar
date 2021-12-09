@@ -1,81 +1,97 @@
 <template>
-  <div>
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="`${issue.number} - ${issue.title}`"
-      label="Title"
-      autogrow
-      dense
-      readonly
-    />
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="issue.description"
-      label="Description"
-      autogrow
-      dense
-      readonly
-    />
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="getCollaborator()"
-      label="Assigned to"
-      dense
-      readonly
-    />
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="getRepository()"
-      label="Repository"
-      dense
-      readonly
-    />
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="issue.hours"
-      label="Hours"
-      dense
-      readonly
-    />
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="issue.last_comment"
-      autogrow
-      label="Last comment"
-      dense
-      readonly
-    />
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="getFormatDate(issue.created_at)"
-      label="Created at"
-      dense
-      readonly
-    />
-    <q-input
-      square
-      outlined
-      class="q-ma-lg"
-      :value="getFormatDate(issue.closed_at)"
-      label="Closed at"
-      dense
-      readonly
-    />
-    <q-card-actions align="right" class="text-primary">
+  <div class="row flex q-ma-sm">
+    <div class="col-12 ">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="`${issue.number} - ${issue.title}`"
+        label="Title"
+        autogrow
+        dense
+        readonly
+      />
+    </div>
+    <div class="col-12">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="issue.description"
+        label="Description"
+        autogrow
+        dense
+        readonly
+      />
+    </div>
+    <div class="col-12 col-sm-6">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="getCollaborator()"
+        label="Assigned to"
+        dense
+        readonly
+      />
+    </div>
+    <div class="col-12 col-sm-6">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="getRepository()"
+        label="Repository"
+        dense
+        readonly
+      />
+    </div>
+    <div class="col-12 col-sm-6">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="issue.hours"
+        label="Hours"
+        dense
+        readonly
+      />
+    </div>
+    <div class="col-12 col-sm-6">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="issue.last_comment"
+        autogrow
+        label="Last comment"
+        dense
+        readonly
+      />
+    </div>
+    <div class="col-12 col-sm-6">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="getFormatDate(issue.created_at)"
+        label="Created at"
+        dense
+        readonly
+      />
+    </div>
+    <div class="col-12 col-sm-6">
+      <q-input
+        square
+        outlined
+        class="q-ma-sm"
+        :value="getFormatDate(issue.closed_at)"
+        label="Closed at"
+        dense
+        readonly
+      />
+    </div>
+    <q-card-actions align="right" class="text-primary fit">
       <q-btn
         unelevated
         @click="() => goToGithub()"
@@ -84,6 +100,7 @@
       />
       <q-btn
         unelevated
+        v-if="!!close"
         @click="() => closeDialog()"
         color="primary"
         align="around"

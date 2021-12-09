@@ -16,18 +16,23 @@ import { filterIssues } from './FilterIssues';
 import { Action, Getter } from 'vuex-class';
 import { githubActions, githubGetters, githubNamespace } from '../../store';
 import AccountingStepperDialog from '../Accounting/AccountingStepper/AccountingStepperDialog.vue';
-import IssueDetailsDialog from './IssueDetailsDialog/IssueDetailsDialog.vue';
 import { ApiSettings } from '../../settings/ApiSettings';
 import { LocalStorageSettings } from '../../settings/LocalStorageSettings';
 import IssuesToolbar from './IssuesToolbar.vue';
 import { UserLogged } from 'src/modules/wgo/models/models';
+import { PropToEdit } from 'src/modules/wgo/components/ExpandableList/models';
+import IssuesList from './IssuesList/IssuesList.vue';
+import IssuesFilter from './IssuesFilter/IssuesFilter.vue';
+import ExpandableListFilterLabel from '../../../wgo/components/ExpandableList/ExpandableListFilter/ExpandableListFilterLabel.vue';
 
 @Component({
   components: {
     FilterSelect,
     AccountingStepperDialog,
-    IssueDetailsDialog,
-    IssuesToolbar
+    IssuesToolbar,
+    IssuesList,
+    IssuesFilter,
+    ExpandableListFilterLabel
   }
 })
 export default class Issues extends Vue {
@@ -39,7 +44,8 @@ export default class Issues extends Vue {
   showDetailDialog = false;
   issueSelected: IssuesRecord | null = null;
   filteredIssues: IssuesRecord[] = [];
-  columns: ColumnTable[] = ColumnsIssues;
+  pageIssues: IssuesRecord[] = [];
+  columns: PropToEdit[] = ColumnsIssues;
   exportTableFn = exportTable;
 
   @Getter(githubGetters.getIssues, { namespace: githubNamespace })
@@ -66,70 +72,71 @@ export default class Issues extends Vue {
     namespace: ApiSettings.USER_NAMESPACE
   })
   userLogged!: UserLogged;
-
   loading = true;
+  maxPage = 0;
+  currentPage = 1;
+  itemsByPage = 10;
+  itemsCount = 0;
+
+  itemByPageOptions = [5, 10, 20, 50, 100];
 
   filters: FilterIssuesModel = this.getFilterStore();
+  filterStr = this.getFilterStr(this.filters);
+  showFilter = false;
+  headerButtons: { icon: string; tooltip: string; click: () => unknown }[] = [
+    {
+      click: () => {
+        this.syncroGithubData();
+      },
+      icon: 'sync',
+      tooltip: 'Sync Data'
+    },
+    {
+      click: () => {
+        this.openFilterDialog();
+      },
+      icon: 'filter_alt',
+      tooltip: 'Set Filter'
+    }
+  ];
+  emptyFilter = {
+    milestones: null,
+    labels: null,
+    project: null,
+    assignedTo: null,
+    repository: null,
+    minDate: null,
+    maxDate: null,
+    status: null
+  };
 
   openIssueDetail(selected: IssuesRecord) {
     this.issueSelected = selected;
     this.showDetailDialog = true;
   }
 
-  setFilter(prop: FiltersIsuesKeys, value: OptionFilter | null) {
-    this.filters[prop] = value;
+  applyFilter(filters: FilterIssuesModel) {
+    this.filters = filters;
     localStorage.setItem(
       LocalStorageSettings.KEY_ISSUES_FILTER,
       JSON.stringify(this.filters)
     );
+    this.filterStr = this.getFilterStr(filters);
     this.applyFilterToIssues();
   }
 
-  @Watch('filters.minDate')
-  @Watch('filters.maxDate')
-  setDateFilter() {
-    localStorage.setItem(
-      LocalStorageSettings.KEY_ISSUES_FILTER,
-      JSON.stringify(this.filters)
-    );
-    this.applyFilterToIssues();
-  }
-
-  getHourIssues() {
-    return this.filteredIssues
-      .map(issues => (issues.hours ? issues.hours : 0))
-      .reduce((a, b) => a + b, 0);
-  }
-
-  getExportData() {
-    const issueRecord = {
-      assignedTo: { login: '' },
-      assignedToId: 0,
-      number: 0,
-      milestones: '',
-      labels: '',
-      project: { title: '', id: 0 },
-      repository: { title: '', id: 0 },
-      id: '',
-      title: '',
-      status: '',
-      hours: '',
-      collaborators: '',
-      url: '',
-      closed_at: '',
-      created_at: '',
-      description: '',
-      last_comment: '',
-      accountId: 0
-    } as IssuesRecord;
-    return this.filteredIssues.concat([
-      issueRecord,
-      {
-        ...issueRecord,
-        milestones: 'Total',
-        hours: this.getHourIssues()
-      }
-    ]);
+  getFilterStr(filters: FilterIssuesModel) {
+    if (!filters) return '';
+    const result: string[] = [];
+    if (filters.repository)
+      result.push(`Repository contain <${filters.repository.label}>`);
+    if (filters.labels) result.push(`Labels contain <${filters.labels.label}>`);
+    if (filters.status) result.push(`Status contain <${filters.status.label}>`);
+    if (filters.assignedTo)
+      result.push(`Assigned to contain <${filters.assignedTo.label}>`);
+    if (filters.minDate) result.push(`Start date contain <${filters.minDate}>`);
+    if (filters.maxDate) result.push(`End date contain <${filters.maxDate}>`);
+    return result.join(' and ');
   }
 
   async syncroGithubData() {
@@ -155,6 +162,10 @@ export default class Issues extends Vue {
     this.loading = false;
   }
 
+  openFilterDialog() {
+    this.showFilter = true;
+  }
+
   getFilterStore() {
     const filtersJson = localStorage.getItem(
       LocalStorageSettings.KEY_ISSUES_FILTER
@@ -168,18 +179,10 @@ export default class Issues extends Vue {
         filter.assignedTo =
           colls.length === 1 ? { ...filter.assignedTo, ...colls[0] } : null;
       }
+      this.filterStr = this.getFilterStr(filter);
       return filter;
     }
-    return {
-      milestones: null,
-      labels: null,
-      project: null,
-      assignedTo: null,
-      repository: null,
-      minDate: null,
-      maxDate: null,
-      status: null
-    };
+    return this.emptyFilter;
   }
 
   getOptionsCollaborators() {

@@ -1,114 +1,96 @@
+import {
+  ListItem,
+  PropToEdit
+} from 'src/modules/wgo/components/ExpandableList/models';
 import { ColumnTable, IssuesRecord } from '../../models/models';
 
-export const numberIssueField: ColumnTable = {
-  name: 'number',
+export const titleIssueField: PropToEdit = {
   required: true,
-  label: 'Number',
-  align: 'left',
-  field: 'number',
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px'
-};
-export const titleIssueField: ColumnTable = {
-  name: 'title',
-  align: 'left',
+  visible: true,
   label: 'Title',
-  field: 'title',
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 250px'
+  prop: 'title',
+  value: (row: ListItem) => `${row.number} - ${row.title}`,
+  columns: 3
 };
-export const assignedToIssueField: ColumnTable = {
-  name: 'assignedTo',
+export const assignedToIssueField: PropToEdit = {
+  visible: true,
+  prop: 'assignedTo',
   label: 'Assigned To',
-  field: (row: IssuesRecord) =>
-    row && row.assignedTo && row.assignedTo.login ? row.assignedTo.login : '',
-  align: 'center',
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px'
+  value: (row: ListItem) =>
+    row && row.assignedTo && (row.assignedTo as any).login
+      ? (row.assignedTo as any).login
+      : ''
 };
-export const statusIssueField: ColumnTable = {
-  name: 'status',
+export const statusIssueField: PropToEdit = {
+  visible: true,
   label: 'Status',
-  field: (row: IssuesRecord) => (row.accountId ? 'Accounted' : 'Pending'),
-  align: 'left',
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px'
+  prop: 'accountId',
+  value: (row: ListItem) => (row.accountId ? 'Accounted' : 'Pending')
 };
-export const labelsIssueField: ColumnTable = {
-  name: 'labels',
+export const labelsIssueField: PropToEdit = {
+  visible: false,
   label: 'Labels',
-  align: 'left',
-  field: (row: IssuesRecord) => row.labels,
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px'
+  prop: 'labels',
+  value: (row: ListItem) => `${row.labels}`,
+  columns: 3
 };
-export const repoIssueField: ColumnTable = {
-  name: 'repository',
+export const repoIssueField: PropToEdit = {
+  visible: false,
   label: 'Repository',
-  field: (row: IssuesRecord) =>
-    row.repository && row.repository.title ? row.repository.title : '',
-  align: 'left',
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px'
+  prop: 'repository.title',
+  value: (row: ListItem) =>
+    row.repository && (row.repository as any).title
+      ? (row.repository as any).title
+      : ''
 };
-// export const projectIssueField: ColumnTable = {
-//   name: 'project',
-//   label: 'Project',
-//   field: (row: IssuesRecord) =>
-//     row.project && row.project.title ? row.project.title : '',
-//   align: 'left',
-//   sortable: true,
-//   classes: 'ellipsis',
-//   style: 'max-width: 100px',
-// }
-export const milestonesIssueField: ColumnTable = {
-  name: 'milestones',
+export const milestonesIssueField: PropToEdit = {
+  visible: false,
   label: 'Milestones',
-  field: (row: IssuesRecord) => row.milestones,
-  align: 'left',
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px'
+  prop: 'milestones.label',
+  value: (row: ListItem) => `${row.milestones}`
 };
 
-export const hoursIssueField: ColumnTable = {
-  name: 'hpurs',
+export const hoursIssueField: PropToEdit = {
+  visible: true,
   label: 'Hours',
-  field: 'hours',
-  align: 'left',
-  sortable: true
-};
-
-export const buttonIssueField: ColumnTable = {
-  name: 'buttons',
-  label: '',
-  align: '',
-  style: 'max-width: 100px',
-  field: 'id'
+  prop: 'hours',
+  value: (row: ListItem) => `${parseFloat(row.hours as string).toFixed(1)} h`
 };
 
 export const ColumnsIssues = [
-  numberIssueField,
   titleIssueField,
   assignedToIssueField,
+  hoursIssueField,
   statusIssueField,
   labelsIssueField,
-  repoIssueField,
-  // projectIssueField,
-  // milestonesIssueField,
-  hoursIssueField,
-  buttonIssueField
+  repoIssueField
 ];
 
 export const SimpleColumnsIssues = [
-  numberIssueField,
-  titleIssueField,
-  repoIssueField,
-  hoursIssueField
+  {
+    name: 'title',
+    align: 'left',
+    label: 'Title',
+    field: 'title',
+    sortable: true,
+    classes: 'ellipsis',
+    style: 'max-width: 250px'
+  },
+  {
+    name: 'repository',
+    label: 'Repository',
+    field: (row: IssuesRecord) =>
+      row.repository && row.repository.title ? row.repository.title : '',
+    align: 'left',
+    sortable: true,
+    classes: 'ellipsis',
+    style: 'max-width: 100px'
+  },
+  {
+    name: 'hpurs',
+    label: 'Hours',
+    field: 'hours',
+    align: 'left',
+    sortable: true
+  }
 ];

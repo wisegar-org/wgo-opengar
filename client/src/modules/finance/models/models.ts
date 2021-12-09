@@ -1,5 +1,6 @@
 import { FrequencyRepeatEnum } from '@wisegar-org/wgo-opengar-core-ui';
 import { MediaResponseGql } from 'src/graphql';
+import { PropToEdit } from 'src/modules/wgo/components/ExpandableList/models';
 import { IColumn } from 'src/modules/wgo/models/IColumn';
 
 export interface Todo {
@@ -88,7 +89,7 @@ export type FiltersIsuesKeys =
 
 export interface FiltersItemList {
   prop: FiltersIsuesKeys;
-  column: ColumnTable;
+  column: PropToEdit;
   contain: boolean;
 }
 

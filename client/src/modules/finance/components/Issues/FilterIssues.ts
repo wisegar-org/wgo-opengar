@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { ListItem } from 'src/modules/wgo/components/ExpandableList/models';
 import {
   FilterIssuesModel,
   FiltersItemList,
@@ -21,9 +22,9 @@ function isValidFilter(
 ) {
   const columnTable = itemFilter.column;
   const valueRow =
-    typeof columnTable.field === 'function'
-      ? columnTable.field(data)
-      : data[columnTable.field];
+    columnTable.value && typeof columnTable.value === 'function'
+      ? columnTable.value((data as any) as ListItem)
+      : (data as any)[columnTable.prop];
   if (valueRow && value && typeof valueRow === 'string') {
     if (typeof value === 'string') {
       return itemFilter.contain
@@ -58,11 +59,6 @@ const filtersConfig: FiltersItemList[] = [
     column: labelsIssueField,
     contain: true
   },
-  // {
-  //   prop: 'project',
-  //   column: projectIssueField,
-  //   contain: false
-  // },
   {
     prop: 'repository',
     column: repoIssueField,
