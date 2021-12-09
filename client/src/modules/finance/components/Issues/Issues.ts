@@ -1,15 +1,11 @@
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import FilterSelect from '../FilterSelect.vue';
 import {
-  Dictionary,
-  ColumnTable,
   OptionFilter,
   FilterIssuesModel,
-  FiltersIsuesKeys,
   IssuesRecord,
   OrganizationDataRecord
 } from '../../models/models';
-import { exportTable } from './ExportIssues';
 import { IssuesService } from '../../services/IssuesService';
 import { ColumnsIssues } from './ColumnsIssues';
 import { filterIssues } from './FilterIssues';
@@ -18,7 +14,6 @@ import { githubActions, githubGetters, githubNamespace } from '../../store';
 import AccountingStepperDialog from '../Accounting/AccountingStepper/AccountingStepperDialog.vue';
 import { ApiSettings } from '../../settings/ApiSettings';
 import { LocalStorageSettings } from '../../settings/LocalStorageSettings';
-import IssuesToolbar from './IssuesToolbar.vue';
 import { UserLogged } from 'src/modules/wgo/models/models';
 import { PropToEdit } from 'src/modules/wgo/components/ExpandableList/models';
 import IssuesList from './IssuesList/IssuesList.vue';
@@ -29,7 +24,6 @@ import ExpandableListFilterLabel from '../../../wgo/components/ExpandableList/Ex
   components: {
     FilterSelect,
     AccountingStepperDialog,
-    IssuesToolbar,
     IssuesList,
     IssuesFilter,
     ExpandableListFilterLabel
@@ -38,36 +32,17 @@ import ExpandableListFilterLabel from '../../../wgo/components/ExpandableList/Ex
 export default class Issues extends Vue {
   @Action(githubActions.loadAllIssuesData, { namespace: githubNamespace })
   getAllData!: (force: boolean) => Promise<void>;
-  githubData: Dictionary = { error: '' };
 
   showAccountingStepper = false;
-  showDetailDialog = false;
-  issueSelected: IssuesRecord | null = null;
   filteredIssues: IssuesRecord[] = [];
-  pageIssues: IssuesRecord[] = [];
   columns: PropToEdit[] = ColumnsIssues;
-  exportTableFn = exportTable;
 
   @Getter(githubGetters.getIssues, { namespace: githubNamespace })
   issues!: IssuesRecord[];
-  @Getter(githubGetters.getMilestones, { namespace: githubNamespace })
-  optionsMilestones!: OptionFilter[];
-  @Getter(githubGetters.getLabels, { namespace: githubNamespace })
-  optionsLabels!: OptionFilter[];
-  @Getter(githubGetters.getProjects, { namespace: githubNamespace })
-  optionsProjects!: OptionFilter[];
   @Getter(githubGetters.getCollaborators, { namespace: githubNamespace })
   optionsCollaborators!: OptionFilter[];
-  @Getter(githubGetters.getRepositories, { namespace: githubNamespace })
-  optionsRepository!: OptionFilter[];
   @Getter(githubGetters.getOrganizationData, { namespace: githubNamespace })
   organizationData!: OrganizationDataRecord;
-
-  optionsStatus: OptionFilter[] = [
-    { id: 1, label: 'Accounted', title: 'Accounted' },
-    { id: 2, label: 'Pending', title: 'Pending' }
-  ];
-
   @Getter(ApiSettings.USER_LOGGED_GETTER, {
     namespace: ApiSettings.USER_NAMESPACE
   })
@@ -109,11 +84,6 @@ export default class Issues extends Vue {
     maxDate: null,
     status: null
   };
-
-  openIssueDetail(selected: IssuesRecord) {
-    this.issueSelected = selected;
-    this.showDetailDialog = true;
-  }
 
   applyFilter(filters: FilterIssuesModel) {
     this.filters = filters;
@@ -183,10 +153,6 @@ export default class Issues extends Vue {
       return filter;
     }
     return this.emptyFilter;
-  }
-
-  getOptionsCollaborators() {
-    return this.optionsCollaborators.filter(coll => coll.isCollaborator);
   }
 
   async mounted() {

@@ -32,7 +32,7 @@ export default class IssuesList extends Vue {
 
   itemByPageOptions = [5, 10, 20, 50, 100];
   options = <ExpandableListOptions>{
-    showAddBotton: true,
+    showAddBotton: false,
     expandedButtons: [],
     labelShowAddBotton: '',
     textDeleteConfirm: '',
