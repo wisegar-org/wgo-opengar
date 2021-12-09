@@ -17,15 +17,15 @@ export const GithubPaths = {
     name: 'WGO_FINANCE_HOME_MENU_LABEL'
   },
   adminIndexPage: {
-    url: '/indexPage',
+    url: '/admin/indexPage',
     name: 'WGO_FINANCE_INDEX_PAGE_MENU_LABEL'
   },
   adminContactPage: {
-    url: '/contactPage',
+    url: '/admin/contactPage',
     name: 'WGO_FINANCE_CONTACT_PAGE_MENU_LABEL'
   },
   adminModulePage: {
-    url: '/modulesPage',
+    url: '/admin/modulesPage',
     name: 'WGO_FINANCE_MODULES_PAGE_MENU_LABEL'
   },
   homePageFinance: {
@@ -33,37 +33,37 @@ export const GithubPaths = {
     name: 'WGO_FINANCE_FINANCE_MENU_LABEL'
   },
   issuesTablePage: {
-    url: '/issues'
+    url: '/finance/issues'
   },
   accountingTabelPage: {
-    url: '/accounting'
+    url: '/finance/accounting'
   },
   accountingTemplatePage: {
-    url: '/accounting/template'
+    url: '/finance/accounting/template'
   },
   collaboratorsTablePage: {
-    url: '/collaborators'
+    url: '/finance/collaborators'
   },
   transactionsTablePage: {
-    url: '/transactions'
+    url: '/finance/transactions'
   },
   incomesTablePage: {
-    url: '/incomes'
+    url: '/finance/incomes'
   },
   expensesTablePage: {
-    url: '/expenses'
+    url: '/finance/expenses'
   },
   organizationPage: {
-    url: '/organization'
+    url: '/finance/organization'
   },
   productsPage: {
-    url: '/products'
+    url: '/finance/products'
   },
   billsPage: {
-    url: '/bills'
+    url: '/finance/bills'
   },
   billTemplatePage: {
-    url: '/bills/template'
+    url: '/finance/bills/template'
   }
 };
 
@@ -94,7 +94,7 @@ export const Modules = {
 export const IssuesBC = {
   to: GithubPaths.issuesTablePage.url,
   icon: 'bug_report',
-  label: 'Issues'
+  label: 'WGO_FINANCE_ISSUES_TITLE_BC'
 };
 export const AccountingBC = {
   to: GithubPaths.accountingTabelPage.url,
@@ -252,20 +252,19 @@ export const AdminIndexPageRoute: RouteConfig = {
   path: GithubPaths.adminIndexPage.url,
   component: () => import('../pages/admin/AdminIndexPage.vue'),
   meta: { requiresAuth: true }
-}
+};
 
 export const AdminContactPageRoute: RouteConfig = {
   path: GithubPaths.adminContactPage.url,
   component: () => import('../pages/admin/AdminContactPage.vue'),
   meta: { requiresAuth: true }
-}
+};
 
 export const AdminModulesPageRoute: RouteConfig = {
   path: GithubPaths.adminModulePage.url,
   component: () => import('../pages/admin/AdminModulesPage.vue'),
   meta: { requiresAuth: true }
-}
-
+};
 
 export const FinanceLayout: RouteConfig[] = [
   {
@@ -277,12 +276,12 @@ export const FinanceLayout: RouteConfig[] = [
         itemsPaths: breadCrumbs
       };
     },
-    children: [ 
+    children: [
       {
         path: GithubPaths.homePage.url,
         component: () => import('../pages/Index.vue'),
         meta: { requiresAuth: false }
-      },
+      }
     ],
     meta: { requiresAuth: false }
   },
