@@ -16,7 +16,7 @@
         flat
         class="col-auto"
         unelevated
-        icon="cached"
+        icon="close"
         color="primary"
         @click="() => cleanFilter()"
       />
