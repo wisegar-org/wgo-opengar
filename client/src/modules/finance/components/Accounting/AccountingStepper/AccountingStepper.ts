@@ -46,11 +46,11 @@ export default class AccountingStepper extends Vue {
   step = 1;
   issues: IssuesRecord[] = this.getIssuesByFilter(this.collaborator);
   // hours = 0;
-  total = 0;
   accountingValue: AddAccountParams = this.getAccountingConfig();
   collaboratorValue: CollaboratorRecord | null = this.selectCollaborator(
     this.collaborator
   );
+  total = this.getTotalByHours();
 
   selectCollaborator(collaborator: CollaboratorRecord | null) {
     this.collaboratorValue = collaborator;
