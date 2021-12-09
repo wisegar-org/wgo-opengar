@@ -7,14 +7,14 @@
     <div class="row" style="justify-content: space-around">
       <StatsComponent
         :icon="issuesConfig.icon"
-        :title="issuesConfig.label"
+        title="Issues"
         text="Issues for pay"
         :value="homeProps.issuesCount || 0"
         :path="issuesConfig.to"
       />
       <StatsComponent
         :icon="issuesConfig.icon"
-        :title="issuesConfig.label"
+        title="Issues"
         text="Hours for pay"
         :value="homeProps.issuesHours || 0"
         :path="issuesConfig.to"
