@@ -35,7 +35,7 @@ export interface ExpandableListOptions {
   expandedButtons?: {
     icon: string;
     tooltip: string;
-    click: () => unknown;
+    click: (item?: ListItem) => unknown;
   }[];
   onAddItem: (item: ListItem, callback: () => {}) => unknown;
   onEditItem: (item: ListItem, callback: () => {}) => unknown;

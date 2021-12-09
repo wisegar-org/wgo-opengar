@@ -46,12 +46,13 @@ export default class TranslationComponent extends Vue {
   setTranslation!: (arg: TranslationInputGql) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
   translationContent!: ITranslationTranslationKeys;
+  @Getter(languageGetters.getLanguage, { namespace: languageNamespace })
+  languageSite!: LanguageResponseGql;
   @Prop() translation!: TranslationFilterResponseGql;
   @Prop() language!: LanguageResponseGql;
   @Prop() onChange!: (langId: number, value: string) => unknown;
   @Prop() label!: string;
 
-  selectedLang: LanguageResponseGql = this.language;
   translations: { [key: string]: string } =
     this.language && this.translation
       ? {
@@ -59,26 +60,34 @@ export default class TranslationComponent extends Vue {
         }
       : {};
   value = this.translation.value;
+  selectedLanguage: LanguageResponseGql = this.language
+    ? this.language
+    : this.languageSite;
 
   @Watch('translation')
   @Watch('translation.value')
   @Watch('language')
   setValue() {
-    if (this.translation && this.selectedLang && this.language) {
-      this.translations[this.selectedLang.code] = this.translation.value;
-      this.value = this.translations[this.selectedLang.code];
-      this.selectedLang = this.language;
+    if (this.translation && this.selectedLanguage && this.language) {
+      this.translations[this.selectedLanguage.code] = this.translation.value;
+      this.value = this.translations[this.selectedLanguage.code];
+      this.selectedLanguage = this.language || this.languageSite;
     }
+  }
+
+  @Watch('languageSite')
+  async changeLanguageSite() {
+    await this.changeLanguage(this.languageSite);
   }
 
   @Watch('value')
   onChangeEvent() {
-    this.translations[this.selectedLang.code] = this.value;
-    this.onChange(this.selectedLang.id, this.value);
+    this.translations[this.selectedLanguage.code] = this.value;
+    this.onChange(this.selectedLanguage.id, this.value);
   }
 
   async changeLanguage(lang: LanguageResponseGql) {
-    this.selectedLang = lang;
+    this.selectedLanguage = lang;
     if (!(lang.code in this.translations)) {
       this.translations[lang.code] = await this.getTranslation({
         languageId: lang.id,

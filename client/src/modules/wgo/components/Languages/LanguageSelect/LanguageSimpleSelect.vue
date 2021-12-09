@@ -62,13 +62,16 @@ export default class LanguageSimpleSelect extends Vue {
   loadData!: (force: boolean) => Promise<unknown>;
   @Getter(languageGetters.getEnabledLanguages, { namespace: languageNamespace })
   languages!: LanguageResponseGql[];
+  @Getter(languageGetters.getLanguage, { namespace: languageNamespace })
+  languageSite!: LanguageResponseGql;
 
   @Prop() langSelected!: (lang: LanguageResponseGql) => unknown;
   @Prop() language!: LanguageResponseGql;
   @Prop({ default: false }) fullWidth!: boolean;
 
   style = !!this.fullWidth ? 'width: 100%;' : '';
-  selected: LanguageResponseGql | null = this.language || null;
+  selected: LanguageResponseGql | null =
+    this.language || this.languageSite || null;
 
   selectLanguage(lang: LanguageResponseGql) {
     this.selected = lang;
@@ -80,10 +83,15 @@ export default class LanguageSimpleSelect extends Vue {
     this.selected = this.language;
   }
 
+  @Watch('languageSite')
+  changeGlobalLanguage() {
+    this.selectLanguage(this.languageSite);
+  }
+
   async mounted() {
     await this.loadData(false);
-    if (!this.selected && this.languages.length) {
-      this.selectLanguage(this.languages[0]);
+    if (!this.selected) {
+      this.selectLanguage(this.languageSite);
     }
   }
 }
