@@ -17,9 +17,8 @@
         color="primary"
         class="q-ma-xs"
         :label="
-          `${
-            translationContent.WGO_FINANCE_ISSUES_COLUMN_HOURS
-          }: ${getHourIssues()}`
+          `${translationContent.WGO_FINANCE_ISSUES_COLUMN_HOURS ||
+            'Hours'}: ${getHourIssues()}`
         "
       />
     </template>
