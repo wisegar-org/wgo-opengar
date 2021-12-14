@@ -48,6 +48,16 @@ function dateValidFilter(
   return (!minDate || date >= minDate) && (!maxDate || date <= maxDate);
 }
 
+function stateValidFilter(item: IssuesRecord, state: { id: number } | null) {
+  if (!!state) {
+    return (
+      (state.id === 1 && !!item.accountId) ||
+      (state.id === 2 && !item.accountId)
+    );
+  }
+  return true;
+}
+
 const filtersConfig: FiltersItemList[] = [
   {
     prop: 'assignedTo',
@@ -68,11 +78,6 @@ const filtersConfig: FiltersItemList[] = [
     prop: 'milestones',
     column: milestonesIssueField,
     contain: false
-  },
-  {
-    prop: 'status',
-    column: statusIssueField,
-    contain: false
   }
 ];
 
@@ -92,6 +97,8 @@ export function filterIssues(
         filterItem =>
           filters[filterItem.prop] &&
           !isValidFilter(item, filterItem, filters[filterItem.prop])
-      ).length === 0 && dateValidFilter(item, minDate, maxDate)
+      ).length === 0 &&
+      dateValidFilter(item, minDate, maxDate) &&
+      stateValidFilter(item, filters.status)
   );
 }
