@@ -13,7 +13,10 @@
         class="q-pt-xl q-pb-lg"
         v-html="translationContent.FINANCE_INDEX_MODULE_TEXT"
       />
-      <div v-if="modulesList.length > 1" class="row justify-around q-pt-xl q-pb-lg">
+      <div
+        v-if="modulesList.length > 1"
+        class="row justify-around q-pt-xl q-pb-lg"
+      >
         <template v-for="moduleItem in modulesList">
           <div
             class="col-12 col-sm-5 col-md-4 q-pa-md"
@@ -40,13 +43,13 @@
           :labelBtn="modulesList[0].content.labelBtn"
         />
       </div>
-      <MapComponent 
+      <!-- <MapComponent 
         :contentMapPhoneNumberLabel="this.contentMapPhoneNumberLabel"
         :contentMapEmailLabel="this.contentMapEmailLabel"
         :mapTitleSection="this.mapTitleSection"
         :WGOModule="this.moduleName"
-      />
-      <ContactComponent 
+      /> -->
+      <ContactComponent
         :TranslationsKeys="this.ContactTranslationsKeys"
         :contactTitle="this.contactTitle"
         :contactBody="this.contactBody"
