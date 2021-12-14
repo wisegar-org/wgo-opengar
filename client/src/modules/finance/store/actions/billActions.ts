@@ -17,7 +17,8 @@ export const billsActions = {
   saveBillTemplate: 'saveBillTemplate',
   saveBillStyleTemplate: 'saveBillStyleTemplate',
   getBillDocumentPreview: 'getBillDocumentPreview',
-  sendBillLink: 'sendBillLink'
+  sendBillLink: 'sendBillLink',
+  getBillPreview: 'getBillPreview'
 };
 
 export const getGithubBillsActions = (StateInterface: unknown) => {
@@ -92,6 +93,10 @@ export const getGithubBillsActions = (StateInterface: unknown) => {
         await dispatch(billsActions.loadBills, true);
       }
       return result;
+    },
+    async getBillPreview({}, record: BillRecord) {
+      const result = await BillService.getBillPreview(record);
+      return result.isSuccess ? result.url : '';
     }
   };
 

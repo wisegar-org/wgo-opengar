@@ -143,4 +143,12 @@ export const BillController = (app: Express, conn: Connection) => {
 
     res.send(updated);
   });
+  app.post('/api/getBillPreview', AuthorizeUserRol([]), async (req, res) => {
+    const billService = new BillsService(req.context);
+    const { id, urlApi } = req.body;
+
+    const updated = await billService.getBillPreview(id, urlApi);
+
+    res.send(updated);
+  });
 };

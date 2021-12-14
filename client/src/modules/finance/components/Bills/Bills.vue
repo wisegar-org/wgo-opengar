@@ -130,6 +130,17 @@
                     </q-item-section>
                     <q-item-section>Send Bill</q-item-section>
                   </q-item>
+                  <q-item
+                    v-if="props.row.status !== 4"
+                    clickable
+                    v-close-popup
+                    @click="() => loadBillPreview(props.row)"
+                  >
+                    <q-item-section avatar>
+                      <q-avatar icon="visibility" />
+                    </q-item-section>
+                    <q-item-section>Preview</q-item-section>
+                  </q-item>
                 </q-list>
               </q-menu>
             </q-btn>

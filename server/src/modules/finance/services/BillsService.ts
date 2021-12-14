@@ -325,6 +325,53 @@ export class BillsService {
     return await this.templateService.saveStyleTemplate(value.id, value.title, value.body, documentToSet);
   }
 
+  async getBillPreview(id: number, urlApi: string) {
+    try {
+      const templateDoc = await this.loadTemplate(BILL_CONSTANT, this.langId);
+      const templateEmail = await this.loadTemplate(BILL_EMAIL_CONSTANT, this.langId);
+      let bill = await this.billConnection.findOne({
+        where: { id: id },
+        relations: ['client', 'billProducts', 'billProducts.product'],
+      });
+      if (!!bill && !bill.sendDate) {
+        bill.sendDate = new Date();
+        bill = await this.billConnection.manager.save(bill);
+      }
+      const nameFile = `${uuidv4()}.html`;
+      const path_token = getTokenToReport({ clientId: bill.client.id, nameDoc: nameFile, billId: bill.id });
+      const urlBill = `${urlApi}${REPORT_STORAGE_FOLDER_NAME}/${nameFile}?token=${path_token}`;
+      console.log(urlBill);
+      const transaction = await this.transactionService.getTransactionBySourceID(bill.id, TransactionTypeEnum.Bill);
+      const organization = await this.organizationService.getOrganizationData();
+
+      const exportPath = GetPublicReportPath();
+
+      const data = {
+        style: templateDoc.styleTemplate.body,
+        titlePage: 'Bill',
+        bill: bill,
+        products: bill.billProducts,
+        status: BillStatus.Payed ? 'Payed' : 'Unpaid',
+        transaction: transaction,
+        organization: organization,
+        billLink: urlBill,
+      };
+
+      let doc = this.handlebarsTemplate.getTemplateData(templateDoc.body, data);
+      await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
+
+      return {
+        isSuccess: true,
+        url: urlBill,
+      };
+    } catch (err) {
+      return {
+        isSuccess: false,
+        error: err,
+      };
+    }
+  }
+
   async sendBillLink(id: number, urlApi: string) {
     try {
       const templateDoc = await this.loadTemplate(BILL_CONSTANT, this.langId);

@@ -18,6 +18,7 @@ import {
 } from '../../../wgo/store/ComponentsState';
 import { UserLogged } from 'src/modules/wgo/models/models';
 import { INotify } from 'src/modules/wgo/models';
+import { openURL } from 'quasar';
 
 @Component({
   components: {
@@ -40,6 +41,8 @@ export default class Bills extends Vue {
   changeStatusToCancelled!: (record: BillRecord) => Promise<BillRecord>;
   @Action(githubActions.sendBillLink, { namespace: githubNamespace })
   sendBillEmail!: (record: BillRecord) => Promise<boolean>;
+  @Action(githubActions.getBillPreview, { namespace: githubNamespace })
+  getBillPreview!: (record: BillRecord) => Promise<string>;
 
   @Action(githubActions.loadProducts, { namespace: githubNamespace })
   loadProducts!: (force: boolean) => Promise<void>;
@@ -160,6 +163,27 @@ export default class Bills extends Vue {
     } else {
       this.notify({
         message: 'Client email property is empty',
+        type: 'negative'
+      });
+    }
+  }
+
+  async loadBillPreview(record: BillRecord) {
+    if (record && record.client) {
+      this.loading = true;
+      const previewLink = await this.getBillPreview(record);
+      if (previewLink) {
+        openURL(previewLink);
+      } else {
+        this.notify({
+          message: 'Preview bill link fail',
+          type: 'negative'
+        });
+      }
+      this.loading = false;
+    } else {
+      this.notify({
+        message: 'Client property is empty',
         type: 'negative'
       });
     }
