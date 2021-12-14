@@ -239,6 +239,52 @@ export class AccountService {
     return await this.templateService.saveStyleTemplate(value.id, value.title, value.body, documentToSet);
   }
 
+  async getLinkToAccounting(id: number, urlApi: string) {
+    try {
+      const templateDoc = await this.loadTemplate(ACCOUNTING_CONSTANT);
+      const accounting = await this.accountConnection.findOne({
+        where: { id: id },
+        relations: ['contributor', 'projects', 'repos'],
+      });
+      accounting.issues = await this.issueService.getIssuesFromAccount(id);
+      const nameFile = `${uuidv4()}.html`;
+      const path_token = getTokenToReport({
+        clientId: accounting.contributor.id,
+        nameDoc: nameFile,
+        billId: accounting.id,
+      });
+      const urlAccounting = `${urlApi}${REPORT_STORAGE_FOLDER_NAME}/${nameFile}?token=${path_token}`;
+      const organization = await this.orgDataService.getOrganizationData();
+
+      const exportPath = GetPublicReportPath();
+
+      const data = {
+        style: templateDoc.styleTemplate.body,
+        titlePage: 'Bill',
+        accounting: accounting,
+        issues: accounting.issues,
+        status: `${accounting.status === AccountingStatus.Confirmed ? 'Confirmed' : 'Pending'}`,
+        organization: organization,
+        collaborator: accounting.contributor,
+        pay_internet: accounting.total_hours * accounting.pay_to_internet * accounting.internet_cost,
+        pay_issues: accounting.total_hours * accounting.pay_by_hours,
+        accountingLink: urlAccounting,
+      };
+
+      let doc = this.handlebarsTemplate.getTemplateData(templateDoc.body, data);
+      await this.parseTemplateService.createDocument(exportPath, nameFile, doc);
+      return {
+        isSuccess: true,
+        url: urlAccounting,
+      };
+    } catch (err) {
+      return {
+        isSuccess: false,
+        error: err,
+      };
+    }
+  }
+
   async sendAccountingLink(id: number, urlApi: string) {
     try {
       const templateDoc = await this.loadTemplate(ACCOUNTING_CONSTANT);

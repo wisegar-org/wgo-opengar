@@ -23,7 +23,8 @@ export const accountingActions = {
   saveAccountingTemplate: 'saveAccountingTemplate',
   sendAccountingLink: 'sendAccountingLink',
   getAccountingDocumentPreview: 'getAccountingDocumentPreview',
-  saveAccountingStyleTemplate: 'saveAccountingStyleTemplate'
+  saveAccountingStyleTemplate: 'saveAccountingStyleTemplate',
+  getAccountingPreview: 'getAccountingPreview'
 };
 
 export const getGithubAccountingActions = (StateInterface: unknown) => {
@@ -103,6 +104,10 @@ export const getGithubAccountingActions = (StateInterface: unknown) => {
     async sendAccountingLink({}, record: AccountRecord) {
       const result = await AccountService.sendLink(record);
       return result;
+    },
+    async getAccountingPreview({}, record: AccountRecord) {
+      const result = await AccountService.getAccountingPreview(record);
+      return result.isSuccess ? result.url : '';
     }
   };
 

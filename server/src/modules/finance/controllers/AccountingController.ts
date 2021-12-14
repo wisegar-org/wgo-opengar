@@ -101,4 +101,12 @@ export const AccountingController = (app: Express, conn: Connection) => {
 
     res.send(updated);
   });
+  app.post('/api/getAccountingPreview', AuthorizeUserRol([]), async (req, res) => {
+    const accountService = new AccountService(req.context);
+    const { id, urlApi } = req.body;
+
+    const updated = await accountService.getLinkToAccounting(id, urlApi);
+
+    res.send(updated);
+  });
 };

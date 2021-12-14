@@ -98,6 +98,17 @@
                     <q-item-section>Send Accounting</q-item-section>
                   </q-item>
                   <q-item
+                    v-if="props.row.status === 1 || props.row.status === 2"
+                    clickable
+                    v-close-popup
+                    @click="() => loadAccountiPreview(props.row)"
+                  >
+                    <q-item-section avatar>
+                      <q-avatar icon="visibility" />
+                    </q-item-section>
+                    <q-item-section>Preview</q-item-section>
+                  </q-item>
+                  <q-item
                     clickable
                     v-close-popup
                     @click="() => exportPdf(props.row)"

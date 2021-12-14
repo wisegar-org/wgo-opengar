@@ -38,6 +38,8 @@ export default class Accountings extends Vue {
   exportToPdf!: (idAccounting: number) => Promise<Blob | undefined>;
   @Action(githubActions.sendAccountingLink, { namespace: githubNamespace })
   sendLink!: (record: AccountRecord) => Promise<boolean>;
+  @Action(githubActions.getAccountingPreview, { namespace: githubNamespace })
+  getAccountingPreview!: (record: AccountRecord) => Promise<string>;
   @Action(githubActions.loadAllCollaborators, { namespace: githubNamespace })
   loadCollaborators!: (force: boolean) => Promise<void>;
   @Action(githubActions.loadIssues, { namespace: githubNamespace })
@@ -104,6 +106,27 @@ export default class Accountings extends Vue {
     } else {
       this.notify({
         message: 'Collaborator email property is empty',
+        type: 'negative'
+      });
+    }
+  }
+
+  async loadAccountiPreview(accounting: AccountRecord) {
+    if (accounting && accounting.contributor) {
+      this.loading = true;
+      const previewLink = await this.getAccountingPreview(accounting);
+      if (previewLink) {
+        openURL(previewLink);
+      } else {
+        this.notify({
+          message: 'Preview accounting link fail',
+          type: 'negative'
+        });
+      }
+      this.loading = false;
+    } else {
+      this.notify({
+        message: 'Collaborator property is empty',
         type: 'negative'
       });
     }

@@ -195,5 +195,26 @@ export const AccountService = {
       return false;
       // console.log(error)
     }
+  },
+  async getAccountingPreview(record: AccountRecord) {
+    try {
+      const result = await settings.axios.post(
+        `${ApiSettings.API_URL}getAccountingPreview`,
+        {
+          id: record.id,
+          urlApi: ApiSettings.API_URL
+        }
+      );
+      const { data: dataRes } = result as {
+        data: { url: string; error: string; isSuccess: boolean };
+      };
+      return dataRes;
+    } catch (error) {
+      return {
+        isSuccess: false,
+        url: '',
+        error: error
+      };
+    }
   }
 };
