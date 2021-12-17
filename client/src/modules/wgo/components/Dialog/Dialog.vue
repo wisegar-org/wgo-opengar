@@ -19,33 +19,23 @@
           v-close-popup
         />
       </q-toolbar>
-      <q-card-section>
-        <slot name="content"></slot>
+      <q-card-section class="scroll q-pa-none">
+        <div ref="placeholder" style="height: 1px "></div>
+        <q-scroll-area
+          :style="`max-height: 70vh; height: ${contentHeight}`"
+          ref="placeholder2"
+        >
+          <slot name="content" ref="slot"></slot>
+        </q-scroll-area>
       </q-card-section>
+      <q-card-section class="">
+        <div class="flex justify-around row">
+          <slot name="buttons"></slot>
+        </div>
+      </q-card-section>
+      <Loader :loading="loading" />
     </q-card>
-
-    <Loader :loading="loading" />
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component({})
-export default class AddBillEditorDialog extends Vue {
-  @Prop({ default: false }) showModal!: boolean;
-  @Prop() close!: () => void;
-  @Prop() title!: string;
-  @Prop() icon!: string;
-  @Prop() iconUrl!: string;
-  @Prop({ default: false }) loading!: boolean;
-  @Prop({ default: 'width: 800px; max-width: 90vw' }) styleDialog!: string;
-  @Prop({ default: false }) fullWidth!: boolean;
-  @Prop({ default: false }) fullHeight!: boolean;
-
-  getIcon() {
-    if (!this.icon && !this.iconUrl) return '';
-    return this.iconUrl ? `img:${this.iconUrl}` : this.icon;
-  }
-}
-</script>
+<script lang="ts" src="./Dialog.ts" />
