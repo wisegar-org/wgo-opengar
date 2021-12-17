@@ -15,6 +15,19 @@ export interface PropToEdit {
   columns?: number;
 }
 
+export interface ExpandableHeaderButton {
+  icon: string;
+  tooltip: string;
+  click: () => unknown;
+}
+
+export interface ExpandableButton {
+  icon: string;
+  tooltip: string;
+  click: (item?: ListItem) => unknown;
+  disabled?: (item?: ListItem) => boolean;
+}
+
 export interface ExpandableListOptions {
   showAddBotton: boolean;
   labelShowAddBotton: string;

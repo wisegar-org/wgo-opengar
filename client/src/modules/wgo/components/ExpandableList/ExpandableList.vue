@@ -88,6 +88,7 @@
                       flat
                       dense
                       color="primary"
+                      :disabled="btn.disabled ? btn.disabled(item) : false"
                       @click="() => btn.click(item, index)"
                       :icon="btn.icon"
                     >

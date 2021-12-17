@@ -126,11 +126,11 @@ export default class ExpandableList extends Vue {
 
   @Watch('show', { immediate: false })
   @Watch('minState', { immediate: false })
+  @Watch('filterStr', { immediate: false })
   resizeMenu() {
     setTimeout(this.resizeCard, 130);
   }
 
-  @Watch('filterStr', { immediate: false })
   public resizeCard(
     defaultBottomPx: number = 0,
     defaultPlaceholderPx: number = 157
