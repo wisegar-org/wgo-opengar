@@ -2,11 +2,12 @@
   <ExpandableList
     :items="pageIssues"
     icon="bug_report"
-    title="Issues"
+    :title="translationContent.WGO_FINANCE_ISSUES_TITLE || 'Issues'"
     :loading="loading || innerLoading"
     :propsEditor="columns"
     :maxLabels="6"
     :options="options"
+    :filterStr="filterStr"
   >
     <template slot="addButton">
       <slot name="addButton"> </slot>

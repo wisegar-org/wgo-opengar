@@ -7,8 +7,8 @@
     style="z-index: 9999;"
   >
     <template slot="content">
-      <div class="row col-12">
-        <div class="col-12 col-md-6">
+      <div class="row col-12 q-pa-sm">
+        <div class="col-12 col-md-6 q-pa-sm">
           <FilterSelect
             :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_REPOSITORY"
             :options="optionsRepository"
@@ -17,7 +17,7 @@
             @onChange="value => setFilter('repository', value)"
           />
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 q-pa-sm">
           <FilterSelect
             :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_LABEL"
             :options="optionsLabels"
@@ -26,7 +26,7 @@
             @onChange="value => setFilter('labels', value)"
           />
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 q-pa-sm">
           <FilterSelect
             :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_STATUS"
             :options="optionsStatus"
@@ -37,7 +37,7 @@
         </div>
         <div
           v-if="userLogged && userLogged.isSuperAdmin"
-          class="col-12 col-md-6"
+          class="col-12 col-md-6 q-pa-sm"
         >
           <FilterSelect
             :label="translationContent.WGO_FINANCE_ISSUES_COLUMN_ASSIGNED_TO"
@@ -47,7 +47,7 @@
             @onChange="value => setFilter('assignedTo', value)"
           />
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 q-pa-sm">
           <q-input
             clearable
             dense
@@ -75,7 +75,7 @@
             </template>
           </q-input>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 q-pa-sm">
           <q-input
             clearable
             dense
@@ -104,32 +104,32 @@
           </q-input>
         </div>
       </div>
-      <div class="flex row justify-around col-12 q-px-sm q-pt-sm">
-        <q-btn
-          unelevated
-          color="primary"
-          :label="translationContent.WGO_CLOSE_BTN"
-          icon="close"
-          @click="close"
-          class="col-12 col-md-3 q-mt-sm"
-        />
-        <q-btn
-          unelevated
-          color="primary"
-          :label="translationContent.WGO_CLEAN_BTN"
-          icon="cached"
-          @click="onResetFilter"
-          class="col-12 col-md-3 q-mt-sm"
-        />
-        <q-btn
-          unelevated
-          color="primary"
-          :label="translationContent.WGO_APPLY_BTN"
-          icon="save"
-          @click="onApplyFilter"
-          class="col-12 col-md-3 q-mt-sm"
-        />
-      </div>
+    </template>
+    <template slot="buttons">
+      <q-btn
+        unelevated
+        color="primary"
+        :label="translationContent.WGO_CLOSE_BTN"
+        icon="close"
+        @click="close"
+        class="col-12 col-md-3 q-mt-sm"
+      />
+      <q-btn
+        unelevated
+        color="primary"
+        :label="translationContent.WGO_CLEAN_BTN"
+        icon="cached"
+        @click="onResetFilter"
+        class="col-12 col-md-3 q-mt-sm"
+      />
+      <q-btn
+        unelevated
+        color="primary"
+        :label="translationContent.WGO_APPLY_BTN"
+        icon="save"
+        @click="onApplyFilter"
+        class="col-12 col-md-3 q-mt-sm"
+      />
     </template>
   </Dialog>
 </template>

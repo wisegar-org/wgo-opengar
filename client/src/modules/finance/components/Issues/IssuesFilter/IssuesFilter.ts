@@ -7,7 +7,7 @@ import {
   OptionFilter,
   OrganizationDataRecord
 } from 'src/modules/finance';
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import FilterSelect from '../../FilterSelect.vue';
@@ -21,6 +21,7 @@ import {
   ITranslationFinanceIssuesKeys,
   TranslationsKeys
 } from '../TranslationsKeys';
+import { WGO_FINANCE_COLLABORATOR_ROLE_COLLABORATOR } from '../../Collaborators/TranslationsKeys';
 
 @Component({
   components: {
@@ -72,6 +73,13 @@ export default class IssuesFilter extends Vue {
     this.filtersEdit = { ...this.filters };
   }
 
+  @Watch('filters')
+  onFilterChange() {
+    this.filtersEdit = this.filters
+      ? { ...this.filters }
+      : <FilterIssuesModel>{};
+  }
+
   setFilter(prop: FiltersIsuesKeys, value: OptionFilter | null) {
     this.filtersEdit[prop] = value;
   }
@@ -99,7 +107,10 @@ export default class IssuesFilter extends Vue {
   }
 
   getOptionsCollaborators() {
-    return this.optionsCollaborators.filter(coll => coll.isCollaborator);
+    return this.optionsCollaborators.filter(
+      (coll: any) =>
+        coll.type.indexOf(WGO_FINANCE_COLLABORATOR_ROLE_COLLABORATOR) !== -1
+    );
   }
 
   async mounted() {

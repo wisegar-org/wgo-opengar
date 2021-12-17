@@ -15,7 +15,10 @@ import AccountingStepperDialog from '../Accounting/AccountingStepper/AccountingS
 import { ApiSettings } from '../../settings/ApiSettings';
 import { LocalStorageSettings } from '../../settings/LocalStorageSettings';
 import { UserLogged } from 'src/modules/wgo/models/models';
-import { PropToEdit } from 'src/modules/wgo/components/ExpandableList/models';
+import {
+  ExpandableHeaderButton,
+  PropToEdit
+} from 'src/modules/wgo/components/ExpandableList/models';
 import IssuesList from './IssuesList/IssuesList.vue';
 import IssuesFilter from './IssuesFilter/IssuesFilter.vue';
 import ExpandableListFilterLabel from '../../../wgo/components/ExpandableList/ExpandableListFilter/ExpandableListFilterLabel.vue';
@@ -80,7 +83,7 @@ export default class Issues extends Vue {
   filters: FilterIssuesModel = this.getFilterStore();
   filterStr = this.getFilterStr(this.filters);
   showFilter = false;
-  headerButtons: { icon: string; tooltip: string; click: () => unknown }[] = [
+  headerButtons: ExpandableHeaderButton[] = [
     {
       click: () => {
         this.syncroGithubData();
