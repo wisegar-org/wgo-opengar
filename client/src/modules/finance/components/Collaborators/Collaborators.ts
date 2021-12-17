@@ -67,6 +67,17 @@ export default class Collaborators extends Vue {
   headerButtons = [this.setFilterBtn];
   filterStr = '';
 
+  /**
+   *
+   */
+  constructor() {
+    super();
+    this.collaboratorFiltered = [];
+    this.$nextTick(() => {
+      this.setFilterCollaborators();
+    });
+  }
+
   @Getter(ApiSettings.USER_LOGGED_GETTER, {
     namespace: ApiSettings.USER_NAMESPACE
   })

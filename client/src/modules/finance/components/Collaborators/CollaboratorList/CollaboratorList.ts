@@ -1,12 +1,7 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import ExpandableList from 'src/modules/wgo/components/ExpandableList/ExpandableList.vue';
 import ViewAccountingCollaborator from '../EditCollaborator/ViewAccountingCollaborator.vue';
-import {
-  CollaboratorRecord,
-  githubActions,
-  githubGetters,
-  githubNamespace
-} from 'src/modules/finance';
+import { CollaboratorRecord } from 'src/modules/finance';
 import { Action, Getter } from 'vuex-class';
 import {
   ExpandableButton,
@@ -53,17 +48,6 @@ export default class CollaboratorList extends Vue {
   itemsByPage = 10;
   itemsCount = 0;
 
-  goToGithubBtn: ExpandableButton = {
-    click: (item?: ListItem) => {
-      if (item) this.goToGithub(item);
-    },
-    icon: 'visibility',
-    tooltip: 'Go to Github',
-    disabled: (item?: ListItem) => {
-      return !!item && !item.isCollaborator;
-    }
-  };
-
   editCollaboratorBn: ExpandableButton = {
     click: (item?: ListItem) =>
       this.editCollaborator((item as any) as CollaboratorRecord),
@@ -107,11 +91,10 @@ export default class CollaboratorList extends Vue {
       (this.itemsCount % this.itemsByPage > 0 ? 1 : 0);
   }
 
-  goToGithub(item: ListItem) {
-    if (item.isCollaborator) openURL(`https://github.com/${item.login}`);
+  @Watch('translationContent')
+  updateTranslations() {
+    this.editCollaboratorBn.tooltip = this.translationContent.WGO_FINANCE_COLLABORATOR_EDIT_CONTACT_BTN;
   }
-
-  updateTranslations() {}
 
   async mounted() {
     this.innerLoading = true;
