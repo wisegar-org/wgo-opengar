@@ -2,7 +2,10 @@ import { Action, Getter } from 'vuex-class';
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { githubActions, githubGetters, githubNamespace } from '../../store';
 import { CollaboratorRecord } from '../../models/models';
-import { ColumnsCollaborators } from './ColumnsCollaborators';
+import {
+  ColumnsCollaborators,
+  setColumnsLanguage
+} from './ColumnsCollaborators';
 import EditAccountingCollaboratorDialog from './EditCollaborator/EditAccountingCollaboratorDialog.vue';
 import StatsCollaboratorDialog from './StatsCollaborator/StatsCollaboratorDialog.vue';
 import { ApiSettings } from '../../settings/ApiSettings';
@@ -107,6 +110,7 @@ export default class Collaborators extends Vue {
     this.setFilterBtn.tooltip = this.getLabel(
       WGO_FINANCE_COLLABORATOR_SET_FILTER_BTN
     );
+    setColumnsLanguage(this.translationContent);
   }
 
   updateContent(coll: CollaboratorRecord) {

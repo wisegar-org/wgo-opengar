@@ -158,6 +158,7 @@
       :collaborator="collaborator"
       :showModal="showStats"
       :close="() => (showStats = false)"
+      :title="translationContent.WGO_FINANCE_COLLABORATOR_VIEW_STATS_TITLE"
     />
   </div>
 </template>

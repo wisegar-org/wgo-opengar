@@ -2,7 +2,7 @@
   <Dialog
     :showModal="showModal"
     :loading="showLoading"
-    title="Collaborator stats"
+    :title="title"
     :close="() => onClose()"
     styleDialog="width: 800px; max-width: 80vw"
   >
@@ -32,6 +32,7 @@ export default class StatsCollaboratorDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;
   @Prop() close!: () => void;
   @Prop() collaborator!: CollaboratorRecord;
+  @Prop() title!: string;
   showLoading = false;
 
   onClose() {
