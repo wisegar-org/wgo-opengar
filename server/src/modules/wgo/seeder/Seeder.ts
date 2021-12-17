@@ -84,13 +84,16 @@ export class DataSeeder {
 
   public async createLanguageSeeder() {
     const languageService = new LanguageService(this.connection);
-    await languageService.create({
-      code: 'EN',
-      default: true,
-      enabled: true,
-      logoId: 0,
-      id: 0,
-    });
+    const languages = await languageService.all();
+    if (languages.length === 0) {
+      await languageService.create({
+        code: 'EN',
+        default: true,
+        enabled: true,
+        logoId: 0,
+        id: 0,
+      });
+    }
   }
 
   public async setSeoDataSeeder() {
