@@ -203,7 +203,8 @@ export class CollaboratorService {
     address: string,
     cap: string,
     place: string,
-    bio: string
+    bio: string,
+    type: string
   ): Promise<CollaboratorEntity | null> {
     const filter = await this.getFilterByCollaborator('id');
     let collaborator = await this.collaboratorConnection.findOne({
@@ -220,6 +221,7 @@ export class CollaboratorService {
       collaborator.cap = cap;
       collaborator.place = place;
       collaborator.bio = !collaborator.isCollaborator ? bio : collaborator.bio;
+      collaborator.type = !!type ? type : collaborator.type;
 
       const user = await this.userDataService.one({
         userName: collaborator.login,
