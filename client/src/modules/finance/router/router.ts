@@ -111,7 +111,7 @@ export const AccountingTemplateBC = {
 export const CollaboratorBC = {
   to: GithubPaths.collaboratorsTablePage.url,
   icon: 'contacts',
-  label: 'Collaborators'
+  label: 'WGO_FINANCE_COLLABORATOR_TITLE_BC'
 };
 export const TransactionBC = {
   to: GithubPaths.transactionsTablePage.url,
@@ -179,7 +179,7 @@ export const IssueRoutes: RouteConfig[] = [
   {
     path: GithubPaths.homePage.url,
     component: () => import('../pages/FinanceHomePage.vue'),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, loginReturn: true }
   },
   {
     path: GithubPaths.issuesTablePage.url,

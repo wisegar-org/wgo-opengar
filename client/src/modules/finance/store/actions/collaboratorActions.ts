@@ -35,14 +35,14 @@ export const getGithubCollaboratorActions = (StateInterface: unknown) => {
     ): Promise<boolean> {
       const result = await CollaboratorService.editCollaboratorAccProps(params);
       if (result) {
-        void (await dispatch(collaboratorActions.loadAllCollaborators));
+        void (await dispatch(collaboratorActions.loadAllCollaborators, true));
       }
       return result;
     },
     async addClientProvider({ dispatch }, params: CollaboratorRecord) {
       const result = await CollaboratorService.addClientProvider(params);
       if (result) {
-        void (await dispatch(collaboratorActions.loadAllCollaborators));
+        void (await dispatch(collaboratorActions.loadAllCollaborators, true));
       }
       return result;
     }

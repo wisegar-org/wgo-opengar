@@ -183,6 +183,8 @@ export interface CollaboratorRecord {
   place: string;
   bio: string;
   isCollaborator: boolean;
+  type: string;
+  typeTranslation: string;
 }
 export interface IssuesRecord {
   assignedTo: {
