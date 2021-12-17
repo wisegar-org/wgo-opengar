@@ -129,7 +129,7 @@ export default class LeftDrawer extends Vue {
   }
 
   public set showDrawer(show: boolean) {
-    this.setLeftDrawerOpen(show);
+    if (this.show !== show) this.setLeftDrawerOpen(show);
   }
 
   setMinState(state: boolean) {
