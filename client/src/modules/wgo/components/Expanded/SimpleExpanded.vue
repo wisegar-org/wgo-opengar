@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 
 @Component({})
 export default class SimpleExpanded extends Vue {
@@ -82,8 +82,15 @@ export default class SimpleExpanded extends Vue {
     super();
     this.showPopup = false;
     this.labelsLength = (this.labels || [])
-      .map(label => (typeof label === 'string' ? 1 : label.columns))
-      .reduce((a, b) => (a || 1) + (b || 1), 0);
+      .map(label => (typeof label === 'string' ? 1 : label.columns || 1))
+      .reduce((a, b) => a + b, 0);
+  }
+
+  @Watch('labels')
+  setLabelsLength() {
+    this.labelsLength = this.labels
+      .map(label => (typeof label === 'string' ? 1 : label.columns || 1))
+      .reduce((a, b) => a + b, 0);
   }
 
   getIcon() {
