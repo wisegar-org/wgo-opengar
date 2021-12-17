@@ -1,70 +1,70 @@
-import moment from 'moment'
+import moment from 'moment';
 import {
-  ColumnCollaboratorsTable,
-  CollaboratorRecord,
-  ColumnTable,
-  ColumnStatsCollaboratorTable,
-  WeeklyStats,
-} from '../../models/models'
+  ListItem,
+  PropToEdit
+} from 'src/modules/wgo/components/ExpandableList/models';
+import { ColumnStatsCollaboratorTable, WeeklyStats } from '../../models/models';
+import {
+  ITranslationFinanceCollaboratorKeys,
+  WGO_FINANCE_COLLABORATOR_ROLE_CLIENT,
+  WGO_FINANCE_COLLABORATOR_ROLE_COLLABORATOR,
+  WGO_FINANCE_COLLABORATOR_ROLE_PROVIDER
+} from './TranslationsKeys';
 
-export const numberCollaboratorsField: ColumnCollaboratorsTable = {
-  name: 'nameColl',
+export const clientRoleType = {
+  value: WGO_FINANCE_COLLABORATOR_ROLE_CLIENT,
+  label: 'Client'
+};
+export const providerRoleType = {
+  value: WGO_FINANCE_COLLABORATOR_ROLE_PROVIDER,
+  label: 'Provider'
+};
+export const collaboratorRoleType = {
+  value: WGO_FINANCE_COLLABORATOR_ROLE_COLLABORATOR,
+  label: 'Collaborator'
+};
+
+export const numberCollaboratorsField: PropToEdit = {
   required: true,
   label: 'Name',
-  align: 'left',
-  field: (row: CollaboratorRecord) => (row.name ? row.name : row.login),
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  prop: 'name',
+  value: (row: ListItem) => `${row.name ? row.name : row.login}`
+};
 
-export const loginCollaboratorsField: ColumnCollaboratorsTable = {
-  name: 'loginColl',
-  required: true,
+export const loginCollaboratorsField: PropToEdit = {
+  visible: true,
   label: 'User name',
-  align: 'left',
-  field: (row: CollaboratorRecord) => (row.login ? row.login : '-'),
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  prop: 'left',
+  value: (row: ListItem) => `${row.login ? row.login : '-'}`
+};
 
-export const urlCollaboratorsField: ColumnCollaboratorsTable = {
-  name: 'urlColl',
-  required: true,
+export const urlCollaboratorsField: PropToEdit = {
+  visible: false,
   label: 'Url',
-  align: 'left',
-  field: (row: CollaboratorRecord) => (row.isCollaborator ? row.url : ''),
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  prop: 'url',
+  value: (row: ListItem) => `${row.isCollaborator ? row.url : ''}`
+};
 
-export const isCollaboratosField: ColumnCollaboratorsTable = {
-  name: 'isColl',
-  required: true,
+export const isCollaboratosField: PropToEdit = {
+  visible: true,
   label: 'Role',
-  align: 'left',
-  field: (row: CollaboratorRecord) => (row.isCollaborator ? 'Collaborator' : 'Client/Provider'),
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  prop: 'type',
+  value: (row: ListItem) => `${row.type ? row.typeTranslation : '-'}`
+};
 
-export const buttonCollaboratorField: ColumnCollaboratorsTable = {
-  name: 'buttonsColl',
-  label: '',
-  align: '',
-  style: 'max-width: 100px',
-}
+export const emailCollaboratorsField: PropToEdit = {
+  visible: true,
+  label: 'Email',
+  prop: 'email',
+  value: (row: ListItem) => (row.email ? `${row.email}` : '-')
+};
 
-export const ColumnsCollaborators = [
+export const ColumnsCollaborators: PropToEdit[] = [
   numberCollaboratorsField,
-  loginCollaboratorsField,
   isCollaboratosField,
-  urlCollaboratorsField,
-  buttonCollaboratorField,
-]
+  emailCollaboratorsField,
+  urlCollaboratorsField
+];
 
 export const weekNumberCollStats: ColumnStatsCollaboratorTable = {
   name: 'weekNumberStats',
@@ -74,18 +74,19 @@ export const weekNumberCollStats: ColumnStatsCollaboratorTable = {
   field: 'week_number',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 export const weekCollStats: ColumnStatsCollaboratorTable = {
   name: 'weekStats',
   required: true,
   label: 'Week Date',
   align: 'left',
-  field: (row: WeeklyStats) => moment(row.weekly.toString()).format('YYYY/MM/DD'),
+  field: (row: WeeklyStats) =>
+    moment(row.weekly.toString()).format('YYYY/MM/DD'),
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 export const countTaskCollStats: ColumnStatsCollaboratorTable = {
   name: 'countTaskStats',
   required: true,
@@ -94,8 +95,8 @@ export const countTaskCollStats: ColumnStatsCollaboratorTable = {
   field: 'count_task',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 
 export const hoursTaskCollStats: ColumnStatsCollaboratorTable = {
   name: 'hoursTaskStats',
@@ -105,8 +106,8 @@ export const hoursTaskCollStats: ColumnStatsCollaboratorTable = {
   field: 'hours',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 
 export const averageTaskCollStats: ColumnStatsCollaboratorTable = {
   name: 'averageTaskStats',
@@ -116,13 +117,17 @@ export const averageTaskCollStats: ColumnStatsCollaboratorTable = {
   field: 'average',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px',
-}
+  style: 'max-width: 100px'
+};
 
 export const StatsCollaboratorColumns = [
   weekNumberCollStats,
   weekCollStats,
   countTaskCollStats,
   hoursTaskCollStats,
-  averageTaskCollStats,
-]
+  averageTaskCollStats
+];
+
+export const setColumnsLanguage = (
+  translations: ITranslationFinanceCollaboratorKeys
+) => {};

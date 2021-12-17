@@ -1,6 +1,37 @@
 <template>
-  <div class="q-pa-md" style="width: 100%">
-    <q-table
+  <div class="q-pa-none" style="width: 100%">
+    <CollaboratorList
+      :collaborators="collaboratorFiltered"
+      :columns="columns"
+      :filterStr="filterStr"
+      :loading="loading"
+      :headerButtons="headerButtons"
+      :editCollaborator="openEditor"
+    >
+      <template slot="addButton">
+        <q-btn
+          unelevated
+          v-if="userLogged && userLogged.isSuperAdmin"
+          color="primary"
+          icon="add"
+          class="q-ml-xs"
+          no-caps
+          size="sm"
+          :label="
+            translationContent.WGO_FINANCE_COLLABORATOR_CREATE_CONTACT_BTN
+          "
+          @click="() => openEditor(null)"
+        />
+      </template>
+      <template slot="filterLabel">
+        <ExpandableListFilterLabel
+          :filterStr="filterStr"
+          :cleanFilter="() => applyFilter(emptyFilter)"
+          :openFilter="() => (showFilter = true)"
+        />
+      </template>
+    </CollaboratorList>
+    <!-- <q-table
       bordered
       flat
       title=""
@@ -78,72 +109,26 @@
       <template v-slot:loading>
         <Loader :loading="true" />
       </template>
-    </q-table>
+    </q-table> -->
     <EditAccountingCollaboratorDialog
       :close="() => (showEditor = false)"
       :showModal="showEditor"
       :collaborator="collaboratorSelected"
     />
-    <StatsCollaboratorDialog
-      :collaborator="collaboratorSelected"
-      :showModal="showStats"
-      :close="() => (showStats = false)"
-    />
+    <CollaboratorsFilterDialog
+      :showModal="showFilter"
+      :close="() => (showFilter = false)"
+      :filters="filters"
+      :title="
+        translationContent.WGO_FINANCE_COLLABORATOR_FILTER_TITLE || 'Filter'
+      "
+      icon="filter_alt"
+      :applyFilter="applyFilter"
+    ></CollaboratorsFilterDialog>
   </div>
 </template>
 
-<script lang="ts">
-import { Action, Getter } from 'vuex-class';
-import { Vue, Component } from 'vue-property-decorator';
-import { githubActions, githubGetters, githubNamespace } from '../../store';
-import { CollaboratorRecord } from '../../models/models';
-import { ColumnsCollaborators } from './ColumnsCollaborators';
-import EditAccountingCollaboratorDialog from './EditCollaborator/EditAccountingCollaboratorDialog.vue';
-import StatsCollaboratorDialog from './StatsCollaborator/StatsCollaboratorDialog.vue';
-import { ApiSettings } from '../../settings/ApiSettings';
-import { UserLogged } from '../../../wgo/models';
-
-@Component({
-  components: {
-    EditAccountingCollaboratorDialog,
-    StatsCollaboratorDialog
-  }
-})
-export default class Collaborators extends Vue {
-  @Action(githubActions.loadAllCollaborators, { namespace: githubNamespace })
-  loadData!: () => Promise<void>;
-  @Getter(githubGetters.getCollaborators, { namespace: githubNamespace })
-  collaborators!: CollaboratorRecord[];
-  loading = false;
-  columns = ColumnsCollaborators;
-  collaboratorSelected: CollaboratorRecord | null = null;
-  showEditor = false;
-  showStats = false;
-
-  @Getter(ApiSettings.USER_LOGGED_GETTER, {
-    namespace: ApiSettings.USER_NAMESPACE
-  })
-  userLogged!: UserLogged;
-
-  openEditor(item: CollaboratorRecord | null) {
-    this.collaboratorSelected = item;
-    this.showEditor = true;
-  }
-
-  showStatsDialog(item: CollaboratorRecord) {
-    this.collaboratorSelected = item;
-    this.showStats = true;
-  }
-
-  async mounted() {
-    if (this.collaborators.length === 0) {
-      this.loading = true;
-      await this.loadData();
-      this.loading = false;
-    }
-  }
-}
-</script>
+<script lang="ts" src="./Collaborators.ts" />
 
 <style scoped>
 .q-toolbar {
