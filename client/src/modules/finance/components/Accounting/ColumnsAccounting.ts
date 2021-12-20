@@ -52,8 +52,7 @@ export const payAccountingField: ColumnAccountTable = {
   required: true,
   label: 'Total to pay',
   align: 'left',
-  field: (record: AccountRecord) =>
-    `${record.value} (${(record.value * 1000 + record.taxes * 1000) / 1000})`,
+  field: (record: AccountRecord) => `${record.value}`,
   //field: (record: AccountRecord) => `${(record.value * 1000 + record.taxes * 1000) / 1000}`,
   sortable: true,
   classes: 'ellipsis',
