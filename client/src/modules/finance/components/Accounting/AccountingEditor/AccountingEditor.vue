@@ -1,10 +1,10 @@
 <template>
-  <div class="row q-col-gutter-none justify-end" style="width: 100%">
+  <div class="row q-col-gutter-none justify-end q-pa-sm" style="width: 100%">
     <div class="col-12 q-pa-sm">
       <q-input
         v-model="accountingEdit.taxes"
         outlined
-        label="Taxes"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_TAXES"
         type="number"
         dense
         stacked-label
@@ -15,14 +15,16 @@
       <Editor
         :toEdit="accountingEdit"
         propToEdir="details"
-        label="Observations"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_OBSERVATIONS"
       />
     </div>
     <div class="col-12 q-pa-sm">
       <Editor
         :toEdit="accountingEdit"
         propToEdir="payment_comment"
-        label="Payment comment"
+        :label="
+          translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_PAYMENT_COMMENT
+        "
       />
     </div>
     <q-card-section
@@ -34,7 +36,7 @@
         color="primary"
         align="center"
         class="col-12 col-sm-auto"
-        label="Save"
+        :label="translationContent.WGO_SAVE_BTN"
       />
     </q-card-section>
   </div>
@@ -43,14 +45,23 @@
 <script lang="ts">
 import { AccountRecord } from '../../../models/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { Action } from 'vuex-class';
+import { Action, Getter } from 'vuex-class';
 import { githubActions, githubNamespace } from '../../../store';
-import Editor from '../../Editor.vue';
 import {
   componentsActionsKeys,
   componentsNamespace
 } from '../../../../wgo/store/ComponentsState';
+import Editor from '../../Editor.vue';
 import { INotify } from '../../../../wgo/models';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../../../wgo/store/Language';
+import {
+  ITranslationFinanceAccountingKeys,
+  TranslationsKeys
+} from '../TranslationsKeys';
 
 @Component({
   components: {
@@ -65,6 +76,12 @@ export default class AccountingEditor extends Vue {
   updateAccounting!: (record: AccountRecord) => Promise<boolean>;
   @Action(componentsActionsKeys.notify, { namespace: componentsNamespace })
   notify!: (value: INotify) => void;
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceAccountingKeys;
 
   accountingEdit: AccountRecord;
 
@@ -77,12 +94,21 @@ export default class AccountingEditor extends Vue {
     this.showLoading(true);
     if (await this.updateAccounting(this.accountingEdit)) {
       this.notify({
-        message: 'Accounting modified successfully ',
+        message: this.translationContent.WGO_FINANCE_ACCOUNTING_EDIT_SUCCESS,
         type: 'positive'
       });
       this.close();
+    } else {
+      this.notify({
+        message: this.translationContent.WGO_FINANCE_ACCOUNTING_EDIT_FAIL,
+        type: 'negative'
+      });
     }
     this.showLoading(false);
+  }
+
+  async mounted() {
+    await this.registerTranslations(TranslationsKeys);
   }
 }
 </script>
