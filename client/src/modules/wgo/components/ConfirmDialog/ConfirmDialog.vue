@@ -10,23 +10,22 @@
         <q-avatar v-if="icon" :icon="icon" color="primary" text-color="white" />
         <span class="col q-ml-sm">{{ text }}</span>
       </q-card-section>
-
-      <q-card-section class="row justify-center">
-        <q-btn
-          unelevated
-          :label="cancelButton"
-          color="primary"
-          @click="onClose"
-          class="col-12 col-sm-auto q-mt-sm q-mx-sm"
-        />
-        <q-btn
-          unelevated
-          :label="okButton"
-          color="primary"
-          @click="onConfirm"
-          class="col-12 col-sm-auto q-mt-sm q-mx-sm"
-        />
-      </q-card-section>
+    </template>
+    <template slot="buttons">
+      <q-btn
+        unelevated
+        :label="cancelButton"
+        color="primary"
+        @click="onClose"
+        class="col-12 col-sm-auto q-mt-sm q-mx-sm"
+      />
+      <q-btn
+        unelevated
+        :label="okButton"
+        color="primary"
+        @click="onConfirm"
+        class="col-12 col-sm-auto q-mt-sm q-mx-sm"
+      />
     </template>
   </Dialog>
 </template>
