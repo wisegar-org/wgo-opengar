@@ -1,17 +1,10 @@
 import { ColumnAccountTable, AccountRecord } from '../../models/models';
 import moment from 'moment';
-
-export const collAccountingField: ColumnAccountTable = {
-  name: 'collaborator',
-  required: true,
-  label: 'Collaborator',
-  align: 'left',
-  field: (record: AccountRecord) =>
-    record.contributor ? record.contributor.login : '',
-  sortable: true,
-  classes: 'ellipsis',
-  style: 'max-width: 100px'
-};
+import { ITranslationFinanceAccountingKeys } from './TranslationsKeys';
+import {
+  ListItem,
+  PropToEdit
+} from 'src/modules/wgo/components/ExpandableList/models';
 
 export const dateAccountingField: ColumnAccountTable = {
   name: 'date',
@@ -53,16 +46,8 @@ export const payAccountingField: ColumnAccountTable = {
   label: 'Total to pay',
   align: 'left',
   field: (record: AccountRecord) => `${record.value}`,
-  //field: (record: AccountRecord) => `${(record.value * 1000 + record.taxes * 1000) / 1000}`,
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px'
-};
-
-export const buttonAccountingField: ColumnAccountTable = {
-  name: 'buttons',
-  label: '',
-  align: '',
   style: 'max-width: 100px'
 };
 
@@ -72,20 +57,7 @@ export const statusAccountingField: ColumnAccountTable = {
   label: 'Status',
   align: 'left',
   field: (record: AccountRecord) => {
-    switch (record.status) {
-      case 1:
-        return 'Pending';
-        break;
-      case 2:
-        return 'Confirmed';
-        break;
-      case 3:
-        return 'Cancelled';
-        break;
-      default:
-        return 'Pending';
-        break;
-    }
+    return record.statusTranslation;
   },
   sortable: true,
   classes: 'ellipsis',
@@ -93,11 +65,68 @@ export const statusAccountingField: ColumnAccountTable = {
 };
 
 export const ColumnsAccounting = [
-  collAccountingField,
   dateAccountingField,
-  issuesAccountingField,
   hoursAccountingField,
+  issuesAccountingField,
   payAccountingField,
-  statusAccountingField,
-  buttonAccountingField
+  statusAccountingField
+];
+
+export const setColumnsLanguage = (
+  translations: ITranslationFinanceAccountingKeys
+) => {
+  dateAccountingField.label = translations.WGO_FINANCE_ACCOUNTING_COLUMN_DATE;
+  hoursAccountingField.label =
+    translations.WGO_FINANCE_ACCOUNTING_COLUMN_TOTAL_HOURS;
+  issuesAccountingField.label =
+    translations.WGO_FINANCE_ACCOUNTING_COLUMN_TOTAL_ISSUES;
+  payAccountingField.label =
+    translations.WGO_FINANCE_ACCOUNTING_COLUMN_TOTAL_TO_PAY;
+  statusAccountingField.label =
+    translations.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS;
+};
+
+export const accountedToAccounting: PropToEdit = {
+  required: true,
+  label: 'Accounted to',
+  tooltip: 'Accounted to',
+  prop: 'contributor.login',
+  value: (row: ListItem) =>
+    `${row.contributor ? (row.contributor as any).login : '-'}`
+};
+
+export const nameToAccounting: PropToEdit = {
+  visible: true,
+  label: 'Name',
+  tooltip: 'Name',
+  prop: 'contributor.name',
+  value: (row: ListItem) =>
+    `${row.contributor ? (row.contributor as any).name : '-'}`
+};
+
+export const totalToPayAccounting: PropToEdit = {
+  visible: true,
+  label: 'Total to Pay',
+  tooltip: 'Total to Pay',
+  prop: 'value',
+  value: (row: ListItem) => {
+    const { value } = row as { value: number; taxes: number };
+    return `${value || 0}`;
+  }
+};
+
+export const statusAccounting: PropToEdit = {
+  visible: true,
+  label: 'Status',
+  tooltip: 'Status',
+  prop: 'statusTranslation',
+  value: (row: ListItem) =>
+    `${row.statusTranslation ? row.statusTranslation : '-'}`
+};
+
+export const ListColumnsAccounting = [
+  accountedToAccounting,
+  nameToAccounting,
+  totalToPayAccounting,
+  statusAccounting
 ];

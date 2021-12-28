@@ -1,6 +1,41 @@
 <template>
-  <div class="q-pa-md" style="width: 100%">
-    <q-table
+  <div class="q-pa-none" style="width: 100%">
+    <AccountingList
+      :accountings="accounting"
+      :columns="columns"
+      :filterStr="filterStr"
+      :loading="loading"
+      :headerButtons="headerButtons"
+      :editAccounting="openEditor"
+      :confirmAccounting="goToConfirmAccount"
+      :cancelAccounting="showDeleteConfirmDialog"
+      :sendAccounting="sendEmailAccounting"
+      :previewAccounting="loadAccountiPreview"
+    >
+      <template slot="addButton">
+        <q-btn
+          unelevated
+          v-if="userLogged && userLogged.isSuperAdmin"
+          color="primary"
+          icon="settings"
+          class="q-ml-xs"
+          no-caps
+          size="sm"
+          :label="
+            translationContent.WGO_FINANCE_ACCOUNTING_ACCOUNTING_TEMPLATE_BTN
+          "
+          @click="goToAccountingTemplate"
+        />
+      </template>
+      <template slot="filterLabel">
+        <ExpandableListFilterLabel
+          :filterStr="filterStr"
+          :cleanFilter="() => applyFilter(emptyFilter)"
+          :openFilter="() => (showFilter = true)"
+        />
+      </template>
+    </AccountingList>
+    <!-- <q-table
       bordered
       flat
       title=""
@@ -136,21 +171,19 @@
                 </q-list>
               </q-menu>
             </q-btn>
-            <!-- <q-btn color="primary" icon="assignment" @click="() => openAccountingDetails(props.row)"/>
-            <q-btn color="primary" icon="cloud_download" @click="() => exportPdf(props.row)"/> -->
           </div>
         </q-td>
       </template>
-    </q-table>
+    </q-table> -->
     <!-- <AccountingStepperDialog
       :showModal="showAccountingStepper"
       :close="() => (showAccountingStepper = false)"
     /> -->
-    <AccountingDetailsDialog
+    <!-- <AccountingDetailsDialog
       :showModal="showAccountingDetails"
       :close="() => (showAccountingDetails = false)"
       :accounting="accountingSelected"
-    />
+    /> -->
     <AccountingPrintDialog
       :showModal="showAccountingPrint"
       :close="() => (showAccountingPrint = false)"
@@ -165,6 +198,15 @@
       :showModal="showAccountingConfirm"
       :close="() => (showAccountingConfirm = false)"
       :accounting="accountingSelected"
+    />
+    <ConfirmDialog
+      icon="delete"
+      :showModal="showDeleteConfirm"
+      :cancelButton="translationContent.WGO_CLOSE_BTN"
+      :okButton="translationContent.WGO_DELETE_BTN"
+      :text="translationContent.WGO_FINANCE_ACCOUNTING_CANCEL_ACCOUNTING_TEXT"
+      :onConfirm="deleteAccount"
+      :onClose="() => (showDeleteConfirm = false)"
     />
   </div>
 </template>

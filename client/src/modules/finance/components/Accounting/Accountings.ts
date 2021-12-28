@@ -1,8 +1,12 @@
 import { Action, Getter } from 'vuex-class';
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import { githubActions, githubGetters, githubNamespace } from '../../store';
 import { AccountRecord } from '../../models/models';
-import { ColumnsAccounting } from './ColumnsAccounting';
+import {
+  ColumnsAccounting,
+  ListColumnsAccounting,
+  setColumnsLanguage
+} from './ColumnsAccounting';
 
 import AccountingStepperDialog from './AccountingStepper/AccountingStepperDialog.vue';
 import AccountingDetailsDialog from './AccountingDetailsDialog/AccountingDetailsDialog.vue';
@@ -18,6 +22,16 @@ import {
 } from '../../../wgo/store/ComponentsState';
 import { INotify } from 'src/modules/wgo/models';
 import { UserLogged } from 'src/modules/wgo/models/models';
+import AccountingList from './AccountingList/AccountingList.vue';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from 'src/modules/wgo/store/Language';
+import { TranslationsKeys } from './TranslationsKeys';
+import { FilterAccountings, IFilterAccounting } from './FilterAccountings';
+import ExpandableListFilterLabel from 'src/modules/wgo/components/ExpandableList/ExpandableListFilter/ExpandableListFilterLabel.vue';
+import ConfirmDialog from 'src/modules/wgo/components/ConfirmDialog/ConfirmDialog.vue';
 
 @Component({
   components: {
@@ -25,12 +39,22 @@ import { UserLogged } from 'src/modules/wgo/models/models';
     AccountingDetailsDialog,
     AccountingEditorDialog,
     AccountingConfirmDialog,
-    AccountingPrintDialog
+    AccountingPrintDialog,
+    AccountingList,
+    ExpandableListFilterLabel,
+    ConfirmDialog
   }
 })
 export default class Accountings extends Vue {
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: any;
+
   @Action(githubActions.deleteAccount, { namespace: githubNamespace })
-  deleteAccountAction!: (idAccounting: number) => Promise<void>;
+  deleteAccountAction!: (idAccounting: number) => Promise<boolean>;
 
   @Action(githubActions.loadAllAcounting, { namespace: githubNamespace })
   loadData!: (force: boolean) => Promise<void>;
@@ -57,13 +81,28 @@ export default class Accountings extends Vue {
   userLogged!: UserLogged;
 
   loading = true;
-  columns = ColumnsAccounting;
-  // showAccountingStepper = false;
+  columns = ListColumnsAccounting;
   showAccountingDetails = false;
   showAccountingEditor = false;
   showAccountingConfirm = false;
   showAccountingPrint = false;
   accountingSelected: AccountRecord | null = null;
+  headerButtons = [];
+  filterStr = '';
+  filterAccounting!: AccountRecord[];
+  filters: IFilterAccounting = <IFilterAccounting>{};
+
+  showDeleteConfirm = false;
+  selectedToCancel: AccountRecord | null = null;
+
+  /**
+   *
+   */
+  constructor() {
+    super();
+    this.filterAccounting = [];
+    this.$nextTick(() => {});
+  }
 
   openAccountingDetails(accounting: AccountRecord) {
     this.accountingSelected = accounting;
@@ -76,16 +115,18 @@ export default class Accountings extends Vue {
   }
 
   async exportPdf(accounting: AccountRecord) {
-    this.loading = true;
-    const response = await this.exportToPdf(accounting.id);
-    if (response !== undefined) {
-      const blob = new Blob([response], { type: 'application/pdf' });
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `${accounting.payment_code}.pdf`;
-      link.click();
+    if (accounting) {
+      this.loading = true;
+      const response = await this.exportToPdf(accounting.id);
+      if (response !== undefined) {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `${accounting.payment_code}.pdf`;
+        link.click();
+      }
+      this.loading = false;
     }
-    this.loading = false;
   }
 
   async sendEmailAccounting(accounting: AccountRecord) {
@@ -132,10 +173,23 @@ export default class Accountings extends Vue {
     }
   }
 
-  async deleteAccount(accounting: AccountRecord) {
-    this.loading = true;
-    await this.deleteAccountAction(accounting.id);
-    this.loading = false;
+  async deleteAccount() {
+    if (this.selectedToCancel) {
+      this.loading = true;
+      if (await this.deleteAccountAction(this.selectedToCancel.id)) {
+        this.notify({
+          message: 'Success',
+          type: 'positive'
+        });
+        this.showDeleteConfirm = false;
+      } else {
+        this.notify({
+          message: 'Fail',
+          type: 'negative'
+        });
+      }
+      this.loading = false;
+    }
   }
 
   goToGithub(row: AccountRecord) {
@@ -160,8 +214,43 @@ export default class Accountings extends Vue {
     void this.$router.push(GithubPaths.accountingTemplatePage.url);
   }
 
+  @Watch('accounting')
+  @Watch('translationContent')
+  updateTranslations() {
+    this.filterAccounting = FilterAccountings(
+      this.accounting,
+      this.filters
+    ).map(record => this.updateContent(record));
+    setColumnsLanguage(this.translationContent);
+  }
+
+  showDeleteConfirmDialog(item: AccountRecord) {
+    this.showDeleteConfirm = true;
+    this.selectedToCancel = item;
+  }
+
+  updateContent(record: AccountRecord) {
+    switch (record.status) {
+      case 1:
+        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING;
+        break;
+      case 2:
+        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CONFIRMED;
+        break;
+      case 3:
+        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CANCELLED;
+        break;
+      default:
+        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING;
+        break;
+    }
+    return record;
+  }
+
   async mounted() {
     this.loading = true;
+    await this.registerTranslations(TranslationsKeys);
+    this.updateTranslations();
     await this.loadData(false);
     await this.loadIssues(false);
     await this.loadCollaborators(false);
