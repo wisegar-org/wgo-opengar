@@ -1,9 +1,9 @@
 <template>
-  <q-page class="row justify-evenly">
+  <div class="row justify-evenly">
     <div class="col-12">
       <IndexContent />
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">

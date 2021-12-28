@@ -1,16 +1,13 @@
 <template>
-  <q-page class="row justify-evenly">
-    <Organization />
-  </q-page>
+  <Organization />
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
-import Organization from '../components/Organization/Organization.vue'
+import { Vue, Component } from 'vue-property-decorator';
+import Organization from '../components/Organization/Organization.vue';
 
 @Component({
   components: { Organization }
 })
-export default class OrganizationPage extends Vue {
-}
+export default class OrganizationPage extends Vue {}
 </script>

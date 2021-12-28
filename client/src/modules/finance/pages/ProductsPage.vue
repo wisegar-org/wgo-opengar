@@ -1,7 +1,5 @@
 <template>
-  <q-page class="row justify-evenly">
-    <Products />
-  </q-page>
+  <Products />
 </template>
 
 <script lang="ts">

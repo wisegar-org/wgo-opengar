@@ -1,7 +1,5 @@
 <template>
-  <q-page class="row justify-evenly">
-    <Incomes />
-  </q-page>
+  <Incomes />
 </template>
 
 <script lang="ts">
