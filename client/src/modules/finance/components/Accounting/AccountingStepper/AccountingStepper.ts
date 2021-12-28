@@ -1,4 +1,4 @@
-import { Action } from 'vuex-class';
+import { Action, Getter } from 'vuex-class';
 import { QStepper } from 'quasar';
 import {
   AddAccountParams,
@@ -18,6 +18,15 @@ import {
   componentsNamespace
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from 'src/modules/wgo/store/Language';
+import {
+  ITranslationFinanceAccountingKeys,
+  TranslationsKeys
+} from '../TranslationsKeys';
 
 @Component({
   components: {
@@ -29,6 +38,12 @@ import { INotify } from '../../../../wgo/models';
   }
 })
 export default class AccountingStepper extends Vue {
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceAccountingKeys;
   @Prop() close!: () => unknown;
   @Prop() showLoading!: (value: boolean) => unknown;
   @Prop() collaborator!: CollaboratorRecord;
@@ -88,12 +103,18 @@ export default class AccountingStepper extends Vue {
       this.showLoading(true);
       if (await this.addAccount(this.getAccountingConfig())) {
         this.notify({
-          message: 'Accounting created successfully ',
+          message: this.translationContent
+            .WGO_FINANCE_ACCOUNTING_CREATE_SUCCESS,
           type: 'positive'
         });
         if (!!this.close) {
           this.close();
         }
+      } else {
+        this.notify({
+          message: this.translationContent.WGO_FINANCE_ACCOUNTING_CREATE_FAIL,
+          type: 'negative'
+        });
       }
       this.showLoading(false);
     }
@@ -175,5 +196,9 @@ export default class AccountingStepper extends Vue {
   @Watch('accountingValue.taxes')
   updateTotalToPay() {
     this.total = this.getTotalByHours();
+  }
+
+  async mounted() {
+    await this.registerTranslations(TranslationsKeys);
   }
 }

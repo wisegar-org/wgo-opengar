@@ -2,7 +2,7 @@
   <Dialog
     :showModal="showModal"
     :loading="showLoading"
-    title="Print Accounting"
+    :title="translationContent.WGO_FINANCE_ACCOUNTING_CREATE_TITLE"
     :close="() => onClose()"
     :fullWidth="true"
   >
@@ -29,6 +29,16 @@ import {
 } from '../../../models/models';
 import AccountingStepper from './AccountingStepper.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
+import { Action, Getter } from 'vuex-class';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../../../wgo/store/Language';
+import {
+  ITranslationFinanceAccountingKeys,
+  TranslationsKeys
+} from '../TranslationsKeys';
 
 @Component({
   components: {
@@ -37,6 +47,12 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
   }
 })
 export default class AccountingStepperDialog extends Vue {
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceAccountingKeys;
   @Prop({ default: false }) showModal!: boolean;
   @Prop() close!: () => void;
   @Prop() collaborator!: CollaboratorRecord;
@@ -50,6 +66,10 @@ export default class AccountingStepperDialog extends Vue {
     if (this.close) {
       this.close();
     }
+  }
+
+  async mounted() {
+    await this.registerTranslations(TranslationsKeys);
   }
 }
 </script>

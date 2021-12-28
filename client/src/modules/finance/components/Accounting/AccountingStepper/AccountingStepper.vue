@@ -3,7 +3,9 @@
     <q-stepper v-model="step" ref="stepper" color="primary" animated>
       <q-step
         :name="1"
-        title="Select collaborator"
+        :title="
+          translationContent.WGO_FINANCE_ACCOUNTING_STEP_SELECT_COLLABORATOR
+        "
         caption=""
         icon="people"
         :done="step > 1"
@@ -15,7 +17,9 @@
       </q-step>
       <q-step
         :name="2"
-        title="Collaborator info"
+        :title="
+          translationContent.WGO_FINANCE_ACCOUNTING_STEP_COLLABORATOR_INFO
+        "
         caption=""
         icon="person"
         :error="
@@ -28,7 +32,7 @@
 
       <q-step
         :name="3"
-        title="Issues to Accounting"
+        :title="translationContent.WGO_FINANCE_ACCOUNTING_STEP_ISSUES"
         icon="assignment"
         :done="step > 3"
         :error="
@@ -42,7 +46,7 @@
       </q-step>
       <q-step
         :name="4"
-        title="Accounting Data"
+        :title="translationContent.WGO_FINANCE_ACCOUNTING_STEP_ACCOUNTING_DATA"
         icon="assignment"
         :done="step > 4"
         :error="
@@ -58,7 +62,13 @@
         />
       </q-step>
 
-      <q-step :name="5" title="Create accounting" icon="add_comment">
+      <q-step
+        :name="5"
+        :title="
+          translationContent.WGO_FINANCE_ACCOUNTING_STEP_CREATE_ACCOUNTING
+        "
+        icon="add_comment"
+      >
         <ShowResumeAccount
           :collaborator="collaboratorValue"
           :accounting="accountingValue"
@@ -75,7 +85,11 @@
             @click="nextStep"
             color="primary"
             class="col-12 col-sm-auto"
-            :label="step === 5 ? 'Finish' : 'Continue'"
+            :label="
+              step === 5
+                ? translationContent.WGO_FINISH_BTN
+                : translationContent.WGO_CONTINUE_BTN
+            "
             :disable="!isValidContinue()"
           />
           <q-btn
@@ -84,7 +98,7 @@
             flat
             color="primary"
             @click="previusStep"
-            label="Back"
+            :label="translationContent.WGO_BACK_BTN"
             class="col-12 col-sm-auto"
           />
         </q-stepper-navigation>

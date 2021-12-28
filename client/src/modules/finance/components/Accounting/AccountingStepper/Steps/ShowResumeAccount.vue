@@ -5,7 +5,7 @@
         :value="getCollaboratorInfo()"
         outlined
         readonly
-        label="Collaborator"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_ACCOUNTED_TO"
         dense
         stacked-label
       />
@@ -15,7 +15,7 @@
         :value="countIssues"
         readonly
         outlined
-        label="Number of Issues"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_ISSUES_TOTAL"
         dense
         stacked-label
       />
@@ -25,7 +25,7 @@
         :value="accounting.hours"
         readonly
         outlined
-        label="Hours"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_HOURS_TOTAL"
         dense
         stacked-label
       />
@@ -35,7 +35,7 @@
         :value="accounting.pay_by_hours"
         readonly
         outlined
-        label="Pay by Hours"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_PAY_BY_HOURS"
         dense
         stacked-label
       />
@@ -55,7 +55,7 @@
         :value="total"
         readonly
         outlined
-        label="Total to pay"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_TOTAL_TO_PAY"
         dense
         stacked-label
       />
@@ -65,7 +65,7 @@
         :value="organization.accountingInternetPrice"
         readonly
         outlined
-        label="Internet price"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_INTERNET_PRICE"
         dense
         stacked-label
       />
@@ -75,7 +75,7 @@
         :value="accounting.taxes"
         readonly
         outlined
-        label="Taxes"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_TAXES"
         dense
         stacked-label
       />
@@ -85,7 +85,7 @@
         :value="accounting.initDate"
         readonly
         outlined
-        label="Init date"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_START_DATE"
         mask="date"
         dense
         stacked-label
@@ -96,17 +96,25 @@
         :value="accounting.endDate"
         readonly
         outlined
-        label="End date"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_END_DATE"
         mask="date"
         dense
         stacked-label
       />
     </div>
     <div v-if="accounting.details" class="col-12 q-pa-sm">
-      <VisorEditor :text="accounting.details" label="Observations" />
+      <VisorEditor
+        :text="accounting.details"
+        :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_OBSERVATIONS"
+      />
     </div>
     <div v-if="accounting.payment_comment" class="col-12 q-pa-sm">
-      <VisorEditor :text="accounting.payment_comment" label="Payment comment" />
+      <VisorEditor
+        :text="accounting.payment_comment"
+        :label="
+          translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_PAYMENT_COMMENT
+        "
+      />
     </div>
   </div>
 </template>
@@ -119,6 +127,12 @@ import {
 } from '../../../../models/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VisorEditor from '../../../VisorEditor.vue';
+import { Getter } from 'vuex-class';
+import {
+  languageGetters,
+  languageNamespace
+} from '../../../../../wgo/store/Language';
+import { ITranslationFinanceAccountingKeys } from '../../TranslationsKeys';
 
 @Component({
   components: {
@@ -126,6 +140,8 @@ import VisorEditor from '../../../VisorEditor.vue';
   }
 })
 export default class ShowResumeAccount extends Vue {
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceAccountingKeys;
   @Prop({ default: 0 }) hours!: number;
   @Prop() collaborator!: CollaboratorRecord;
   @Prop() accounting!: AddAccountParams;
@@ -137,7 +153,7 @@ export default class ShowResumeAccount extends Vue {
   // pay_to_internet = this.collaborator?.pay_to_internet;
 
   getCollaboratorInfo() {
-    return this.collaborator ? this.collaborator.login : 'Collaborator';
+    return this.collaborator ? this.collaborator.login : '';
   }
 }
 </script>

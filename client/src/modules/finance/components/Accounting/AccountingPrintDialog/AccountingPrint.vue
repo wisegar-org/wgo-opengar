@@ -1,5 +1,10 @@
 <template>
-  <div class="row" style="width: 100% !important" id="print-pdf-accounting">
+  <div
+    v-if="!!accounting && !!organization"
+    class="row"
+    style="width: 100% !important"
+    id="print-pdf-accounting"
+  >
     <div
       class="col"
       style="
@@ -180,7 +185,7 @@ import VisorEditor from '../../VisorEditor.vue';
   }
 })
 export default class AccountingPrint extends Vue {
-  @Prop() accounting!: AccountRecord;
+  @Prop({ default: () => {} }) accounting!: AccountRecord;
   @Action(githubActions.getIssuessByAccount, { namespace: githubNamespace })
   loadIssues!: (id: number) => Promise<IssuesRecord[]>;
   issues: IssuesRecord[] = [];
@@ -189,10 +194,11 @@ export default class AccountingPrint extends Vue {
 
   total_hours = this.accounting?.total_hours || 0;
   total_issues = this.total_hours * (this.accounting?.pay_by_hours || 0);
-  total_internet =
-    this.total_hours *
-    (this.accounting.pay_to_internet || 0) *
-    (this.accounting.internet_cost || 0);
+  total_internet = this.accounting
+    ? this.total_hours *
+      // (this.accounting.pay_to_internet || 0) *
+      (this.accounting.internet_cost || 0)
+    : 0;
   taxes = this.accounting?.taxes || 0;
   total = this.total_issues + this.total_internet;
 
@@ -209,7 +215,8 @@ export default class AccountingPrint extends Vue {
   }
 
   async mounted() {
-    this.issues = await this.loadIssues(this.accounting.id);
+    if (this.accounting && this.accounting.id)
+      this.issues = await this.loadIssues(this.accounting.id);
   }
 }
 </script>

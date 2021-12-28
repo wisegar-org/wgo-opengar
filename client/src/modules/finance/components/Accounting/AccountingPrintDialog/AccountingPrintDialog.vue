@@ -2,7 +2,7 @@
   <Dialog
     :showModal="showModal"
     :loading="showLoading"
-    title="Print Accounting"
+    :title="title"
     :close="() => onClose()"
     :fullWidth="true"
   >
@@ -48,6 +48,8 @@ export default class AccountingPrintDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;
   @Prop() close!: () => void;
   @Prop() accounting!: AccountRecord;
+  @Prop({ default: 'Print Accounting' }) title!: string;
+  showLoading = false;
 
   print() {
     printJS({
