@@ -2,25 +2,22 @@
   <Dialog
     :showModal="showModal"
     :loading="showLoading"
-    title="Accounting Details"
+    :title="translationContent.WGO_FINANCE_ACCOUNTING_DETAILS_TITLE"
     :close="() => onClose()"
-    styleDialog="width: 500px; max-width: 80vw"
+    styleDialog="width: 700px; max-width: 80vw"
   >
     <template slot="content">
-      <q-card-section class="q-pa-none">
-        <AccountingDetails :accounting="accounting" />
-      </q-card-section>
-
-      <q-card-section class="col-12 row justify-center text-primary">
-        <q-btn
-          unelevated
-          @click="() => onClose()"
-          color="primary"
-          align="around"
-          class="col-12 col-sm-auto"
-          label="Close"
-        />
-      </q-card-section>
+      <AccountingDetails :accounting="accounting" />
+    </template>
+    <template slot="buttons">
+      <q-btn
+        unelevated
+        @click="() => onClose()"
+        color="primary"
+        align="around"
+        class="col-12 col-sm-auto"
+        :label="translationContent.WGO_CLOSE_BTN"
+      />
     </template>
   </Dialog>
 </template>
@@ -30,6 +27,12 @@ import { AccountRecord } from '../../../models/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AccountingDetails from './AccountingDetails.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
+import { Getter } from 'vuex-class';
+import {
+  languageGetters,
+  languageNamespace
+} from '../../../../wgo/store/Language';
+import { ITranslationFinanceAccountingKeys } from '../TranslationsKeys';
 
 @Component({
   components: {
@@ -38,6 +41,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
   }
 })
 export default class AccountingDetailsDialog extends Vue {
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceAccountingKeys;
   @Prop({ default: false }) showModal!: boolean;
   @Prop() close!: () => void;
   @Prop() accounting!: AccountRecord;
