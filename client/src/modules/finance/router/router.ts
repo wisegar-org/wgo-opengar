@@ -99,12 +99,12 @@ export const IssuesBC = {
 export const AccountingBC = {
   to: GithubPaths.accountingTabelPage.url,
   icon: 'account_balance',
-  label: 'Accounting'
+  label: 'WGO_FINANCE_ACCOUNTING_TITLE_BC'
 };
 export const AccountingTemplateBC = {
   to: GithubPaths.accountingTemplatePage.url,
   icon: 'settings',
-  label: 'Accounting Template',
+  label: 'WGO_FINANCE_ACCOUNTING_TEMPLATE_TITLE_BC',
   hideMenu: true,
   roleFilter: 'isSuperAdmin'
 };
