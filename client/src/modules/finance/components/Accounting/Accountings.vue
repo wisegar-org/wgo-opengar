@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-none" style="width: 100%">
     <AccountingList
-      :accountings="accounting"
+      :accountings="filterAccounting"
       :columns="columns"
       :filterStr="filterStr"
       :loading="loading"
@@ -184,11 +184,11 @@
       :close="() => (showAccountingDetails = false)"
       :accounting="accountingSelected"
     /> -->
-    <AccountingPrintDialog
+    <!-- <AccountingPrintDialog
       :showModal="showAccountingPrint"
       :close="() => (showAccountingPrint = false)"
       :accounting="accountingSelected"
-    />
+    /> -->
     <AccountingEditorDialog
       :showModal="showAccountingEditor"
       :close="() => (showAccountingEditor = false)"
@@ -207,6 +207,16 @@
       :text="translationContent.WGO_FINANCE_ACCOUNTING_CANCEL_ACCOUNTING_TEXT"
       :onConfirm="deleteAccount"
       :onClose="() => (showDeleteConfirm = false)"
+    />
+    <AccountingFilterDialog
+      :showModal="showFilter"
+      :close="() => (showFilter = false)"
+      :filters="filters"
+      :title="
+        translationContent.WGO_FINANCE_COLLABORATOR_FILTER_TITLE || 'Filter'
+      "
+      icon="filter_alt"
+      :applyFilter="applyFilter"
     />
   </div>
 </template>

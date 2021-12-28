@@ -28,10 +28,19 @@ import {
   languageGetters,
   languageNamespace
 } from 'src/modules/wgo/store/Language';
-import { TranslationsKeys } from './TranslationsKeys';
+import {
+  TranslationsKeys,
+  WGO_FINANCE_ACCOUNTING_COLUMN_STATUS,
+  WGO_FINANCE_ACCOUNTING_COLUMN_NAME,
+  WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING,
+  WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CONFIRMED,
+  WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CANCELLED
+} from './TranslationsKeys';
 import { FilterAccountings, IFilterAccounting } from './FilterAccountings';
 import ExpandableListFilterLabel from 'src/modules/wgo/components/ExpandableList/ExpandableListFilter/ExpandableListFilterLabel.vue';
 import ConfirmDialog from 'src/modules/wgo/components/ConfirmDialog/ConfirmDialog.vue';
+import { LocalStorageSettings } from '../../settings/LocalStorageSettings';
+import AccountingFilterDialog from './AccountingFilter/AccountingFilterDialog.vue';
 
 @Component({
   components: {
@@ -42,7 +51,8 @@ import ConfirmDialog from 'src/modules/wgo/components/ConfirmDialog/ConfirmDialo
     AccountingPrintDialog,
     AccountingList,
     ExpandableListFilterLabel,
-    ConfirmDialog
+    ConfirmDialog,
+    AccountingFilterDialog
   }
 })
 export default class Accountings extends Vue {
@@ -81,13 +91,21 @@ export default class Accountings extends Vue {
   userLogged!: UserLogged;
 
   loading = true;
+  showFilter = false;
   columns = ListColumnsAccounting;
   showAccountingDetails = false;
   showAccountingEditor = false;
   showAccountingConfirm = false;
   showAccountingPrint = false;
   accountingSelected: AccountRecord | null = null;
-  headerButtons = [];
+  setFilterBtn = {
+    click: () => {
+      this.openFilterDialog();
+    },
+    icon: 'filter_alt',
+    tooltip: 'Set Filter'
+  };
+  headerButtons = [this.setFilterBtn];
   filterStr = '';
   filterAccounting!: AccountRecord[];
   filters: IFilterAccounting = <IFilterAccounting>{};
@@ -222,6 +240,7 @@ export default class Accountings extends Vue {
       this.filters
     ).map(record => this.updateContent(record));
     setColumnsLanguage(this.translationContent);
+    this.setFilterBtn.tooltip = this.translationContent.WGO_FINANCE_ACCOUNTING_FILTER_TITLE;
   }
 
   showDeleteConfirmDialog(item: AccountRecord) {
@@ -230,31 +249,90 @@ export default class Accountings extends Vue {
   }
 
   updateContent(record: AccountRecord) {
-    switch (record.status) {
-      case 1:
-        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING;
-        break;
-      case 2:
-        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CONFIRMED;
-        break;
-      case 3:
-        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CANCELLED;
-        break;
-      default:
-        record.statusTranslation = this.translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING;
-        break;
-    }
+    record.statusTranslation = this.getStatusTranslation(record.status);
     return record;
+  }
+
+  openFilterDialog() {
+    this.showFilter = true;
+  }
+
+  applyFilter(filter: IFilterAccounting) {
+    debugger;
+    this.filters = { ...filter };
+    localStorage.setItem(
+      LocalStorageSettings.KEY_ACCOUNTING_FILTER,
+      JSON.stringify(this.filters)
+    );
+    this.updateTranslations();
+    this.filterStr = this.getFilterStr(this.filters);
+  }
+
+  getFilterStore() {
+    const filtersJson = localStorage.getItem(
+      LocalStorageSettings.KEY_ACCOUNTING_FILTER
+    );
+    if (filtersJson) {
+      const filter = JSON.parse(filtersJson) as IFilterAccounting;
+      if (filter) {
+        this.filters = { ...filter };
+      }
+      this.filterStr = this.getFilterStr(filter);
+      return filter;
+    }
+    return <IFilterAccounting>{};
+  }
+
+  getFilterStr(filters: IFilterAccounting) {
+    const equalLabel = this.getLabel('WGO_EQUAL_LABEL');
+    const containLabel = this.getLabel('WGO_CONTAIN_LABEL');
+    const andLabel = this.getLabel('WGO_AND_LABEL');
+    if (!filters) return '';
+    const result: string[] = [];
+    if (filters.name)
+      result.push(
+        `${this.getLabel(
+          WGO_FINANCE_ACCOUNTING_COLUMN_NAME
+        )} ${containLabel} <${filters.name}>`
+      );
+    if (filters.status)
+      result.push(
+        `${this.getLabel(
+          WGO_FINANCE_ACCOUNTING_COLUMN_STATUS
+        )} ${containLabel} <${this.getLabel(filters.status)}>`
+      );
+
+    return result.join(` ${andLabel} `);
+  }
+
+  getStatusTranslation(status: number) {
+    switch (status) {
+      case 1:
+        return this.getLabel(WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING);
+      case 2:
+        return this.getLabel(WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CONFIRMED);
+      case 3:
+        return this.getLabel(WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CANCELLED);
+      default:
+        return this.getLabel(WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING);
+    }
+  }
+
+  getLabel(label: string) {
+    if (this.translationContent && label in this.translationContent)
+      return (this.translationContent as any)[label];
+    return label;
   }
 
   async mounted() {
     this.loading = true;
+    this.getFilterStore();
     await this.registerTranslations(TranslationsKeys);
-    this.updateTranslations();
     await this.loadData(false);
     await this.loadIssues(false);
     await this.loadCollaborators(false);
     await this.loadOrganizationData(false);
+    this.updateTranslations();
     this.loading = false;
   }
 }

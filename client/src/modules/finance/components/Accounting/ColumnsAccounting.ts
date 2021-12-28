@@ -1,10 +1,28 @@
 import { ColumnAccountTable, AccountRecord } from '../../models/models';
 import moment from 'moment';
-import { ITranslationFinanceAccountingKeys } from './TranslationsKeys';
+import {
+  ITranslationFinanceAccountingKeys,
+  WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CANCELLED,
+  WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CONFIRMED,
+  WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING
+} from './TranslationsKeys';
 import {
   ListItem,
   PropToEdit
 } from 'src/modules/wgo/components/ExpandableList/models';
+
+export const pendingStatusType = {
+  value: WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING,
+  label: 'Pending'
+};
+export const confirmedStatusType = {
+  value: WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CONFIRMED,
+  label: 'Confirmed'
+};
+export const cancelledStatusType = {
+  value: WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CANCELLED,
+  label: 'Cancelled'
+};
 
 export const dateAccountingField: ColumnAccountTable = {
   name: 'date',
@@ -84,6 +102,13 @@ export const setColumnsLanguage = (
     translations.WGO_FINANCE_ACCOUNTING_COLUMN_TOTAL_TO_PAY;
   statusAccountingField.label =
     translations.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS;
+
+  pendingStatusType.label =
+    translations.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_PENDING;
+  confirmedStatusType.label =
+    translations.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CONFIRMED;
+  cancelledStatusType.label =
+    translations.WGO_FINANCE_ACCOUNTING_COLUMN_STATUS_CANCELLED;
 };
 
 export const accountedToAccounting: PropToEdit = {
