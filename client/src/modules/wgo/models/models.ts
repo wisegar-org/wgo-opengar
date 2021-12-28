@@ -104,6 +104,11 @@ export interface ITranslations {
   WGO_ADD_BTN: string;
   WGO_YES_BTN: string;
   WGO_NO_BTN: string;
+  WGO_CONTINUE_BTN: string;
+  WGO_BACK_BTN: string;
+  WGO_FINISH_BTN: string;
+  WGO_CONFIRM_BTN: string;
+  WGO_PREVIEW_BTN: string;
   WGO_DELETE_BTN: string;
   WGO_SEND_BTN: string;
   WGO_RESEND_BTN: string;
