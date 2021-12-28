@@ -21,7 +21,9 @@
               flat
               :value="getHourIssues()"
               type="number"
-              prefix="Hours: "
+              :prefix="
+                `${translationContent.WGO_FINANCE_ISSUES_COLUMN_HOURS}: `
+              "
             />
           </div>
         </div>
@@ -37,9 +39,25 @@
 import { IssuesRecord } from '../../../models/models';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { SimpleColumnsIssues } from '../ColumnsIssues';
+import { Action, Getter } from 'vuex-class';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from '../../../../wgo/store/Language';
+import {
+  ITranslationFinanceIssuesKeys,
+  TranslationsKeys
+} from '../TranslationsKeys';
 
 @Component({})
 export default class SimpleViewIssues extends Vue {
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceIssuesKeys;
   @Prop() issues!: IssuesRecord[];
   @Prop({ default: 'Issues' }) title!: string;
   columns = SimpleColumnsIssues;
@@ -58,6 +76,10 @@ export default class SimpleViewIssues extends Vue {
   @Watch('issues')
   changeIssuesData() {
     this.issuesData = this.issues ? this.issues : [];
+  }
+
+  async mounted() {
+    await this.registerTranslations(TranslationsKeys);
   }
 }
 </script>

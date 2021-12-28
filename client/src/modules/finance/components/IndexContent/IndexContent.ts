@@ -3,7 +3,7 @@ import {
   languageGetters,
   languageNamespace
 } from 'src/modules/wgo/store/Language';
-import { Vue, Component} from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import { githubActions, githubGetters, githubNamespace } from '../../store';
 import MediaDiv from '../../../wgo/components/MediaDiv/MediaDiv.vue';
@@ -29,15 +29,12 @@ import {
   nameFieldRequiered,
   emailFieldRequiered,
   msgFieldRequiered,
-
   contentMapPhoneNumberLabel,
   contentMapEmailLabel,
   mapTitleSection
-} from './ContactTranslations'
+} from './ContactTranslations';
 import { ApiSettings } from 'src/boot/settings';
-import {
-  TranslationIndexModulesKey,
-} from '../admin/ModulesComponent/TranslationsKeys';
+import { TranslationIndexModulesKey } from '../admin/ModulesComponent/TranslationsKeys';
 
 @Component({
   components: {
@@ -56,7 +53,7 @@ export default class IndexContent extends Vue {
     namespace: githubNamespace
   })
   indexContent!: IndexContentModel;
-  
+
   @Action(languageActions.registerTranslations, {
     namespace: languageNamespace
   })
@@ -74,33 +71,33 @@ export default class IndexContent extends Vue {
   innerLoading = true;
   loading = false;
 
-  indexContentText = 'WGO_FINANCE_INDEX_CONTENT_TEXT'
+  indexContentText = 'WGO_FINANCE_INDEX_CONTENT_TEXT';
 
   modulesList: StorageModuleItem[] = [];
 
-  moduleName = 'finance'
+  moduleName = 'finance';
   ModulesType = 'modules_finance';
 
-  ContactTranslationsKeys = ContactTranslationsKeys
-  contactTitle = contactTitle
-  contactBody = contactBody
-  nameFieldLabel = nameFieldLabel
-  nameFieldPlaceholder = nameFieldPlaceholder
-  emailFieldLabel = emailFieldLabel
-  emailFieldPlaceholder = emailFieldPlaceholder
-  msgFieldLabel = msgFieldLabel
-  msgFieldPlaceholder = msgFieldPlaceholder
-  btnSendLabel = btnSendLabel
-  subjectEmail = subjectEmail
-  successEmailSend = successEmailSend
-  failEmailSend = failEmailSend
-  nameFieldRequiered = nameFieldRequiered
-  emailFieldRequiered = emailFieldRequiered
-  msgFieldRequiered = msgFieldRequiered
+  ContactTranslationsKeys = ContactTranslationsKeys;
+  contactTitle = contactTitle;
+  contactBody = contactBody;
+  nameFieldLabel = nameFieldLabel;
+  nameFieldPlaceholder = nameFieldPlaceholder;
+  emailFieldLabel = emailFieldLabel;
+  emailFieldPlaceholder = emailFieldPlaceholder;
+  msgFieldLabel = msgFieldLabel;
+  msgFieldPlaceholder = msgFieldPlaceholder;
+  btnSendLabel = btnSendLabel;
+  subjectEmail = subjectEmail;
+  successEmailSend = successEmailSend;
+  failEmailSend = failEmailSend;
+  nameFieldRequiered = nameFieldRequiered;
+  emailFieldRequiered = emailFieldRequiered;
+  msgFieldRequiered = msgFieldRequiered;
 
-  contentMapPhoneNumberLabel = contentMapPhoneNumberLabel
-  contentMapEmailLabel = contentMapEmailLabel
-  mapTitleSection = mapTitleSection
+  contentMapPhoneNumberLabel = contentMapPhoneNumberLabel;
+  contentMapEmailLabel = contentMapEmailLabel;
+  mapTitleSection = mapTitleSection;
 
   async created() {
     await this.registerTranslations({
