@@ -47,9 +47,12 @@ export const getGithubAccountingActions = (StateInterface: unknown) => {
       return result;
     },
     async deleteAccount({ dispatch }, idAccounting: number) {
-      void (await AccountService.deleteAccount(idAccounting));
-      void (await dispatch(accountingActions.loadAllAcounting));
-      void (await dispatch(issuesActions.loadIssues, true));
+      const result = await AccountService.deleteAccount(idAccounting);
+      if (result) {
+        void (await dispatch(accountingActions.loadAllAcounting));
+        void (await dispatch(issuesActions.loadIssues, true));
+      }
+      return result;
     },
     async updateAccountingData(
       { dispatch },

@@ -140,6 +140,7 @@ export interface AccountRecord {
   payment_code: string;
   internet_cost: number;
   status: number;
+  statusTranslation: string;
   initDate: string;
   endDate: string;
   value: number;

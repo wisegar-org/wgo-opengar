@@ -91,15 +91,18 @@ export const AccountService = {
       // console.log(error)
     }
   },
-  async deleteAccount(idAccounting: number): Promise<void> {
+  async deleteAccount(idAccounting: number): Promise<boolean> {
     try {
-      await settings.axios.get(
+      const response = await settings.axios.get(
         `${ApiSettings.API_URL}removeAccounting/${idAccounting}`,
         {
           method: 'GET'
         }
       );
+
+      return !!response && !!response.data && !!response.data.updated;
     } catch (error) {
+      return false;
       // console.log(error)
     }
   },
