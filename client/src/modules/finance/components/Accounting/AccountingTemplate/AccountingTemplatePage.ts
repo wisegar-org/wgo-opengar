@@ -12,9 +12,24 @@ import {
   TemplateStyle
 } from '../../../models/models';
 import { INotify } from 'src/modules/wgo/models';
+import {
+  languageActions,
+  languageGetters,
+  languageNamespace
+} from 'src/modules/wgo/store/Language';
+import {
+  ITranslationFinanceAccountingKeys,
+  TranslationsKeys
+} from '../TranslationsKeys';
 
 @Component({})
 export default class AccountingTemplatePage extends Vue {
+  @Action(languageActions.registerTranslations, {
+    namespace: languageNamespace
+  })
+  registerTranslations!: (data: unknown) => Promise<boolean>;
+  @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
+  translationContent!: ITranslationFinanceAccountingKeys;
   @Action(accountingActions.loadAllAcounting, { namespace: githubNamespace })
   loadData!: (force: boolean) => Promise<void>;
   @Getter(githubGetters.getAccounting, { namespace: githubNamespace })
@@ -60,8 +75,15 @@ export default class AccountingTemplatePage extends Vue {
     const saveTemplate = await this.saveTemplate(this.template);
     if (saveStyleTemplate && saveTemplate) {
       this.notify({
-        message: 'Accounting template modified successfully ',
+        message: this.translationContent
+          .WGO_FINANCE_ACCOUNTING_TEMPLATE_SAVE_SUCCESS,
         type: 'positive'
+      });
+    } else {
+      this.notify({
+        message: this.translationContent
+          .WGO_FINANCE_ACCOUNTING_TEMPLATE_SAVE_FAIL,
+        type: 'negative'
       });
     }
   }
@@ -106,6 +128,7 @@ export default class AccountingTemplatePage extends Vue {
   }
 
   async mounted() {
+    await this.registerTranslations(TranslationsKeys);
     await this.loadData(false);
     await this.getTemplateBySelection();
   }

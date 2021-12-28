@@ -9,7 +9,9 @@
         <q-card-section>
           <div class="row items-center justify-between q-table">
             <div class="col-12 col-sm-auto no-wrap">
-              <div class="q-table__title ellipsis">Accounting Template</div>
+              <div class="q-table__title ellipsis">
+                {{ translationContent.WGO_FINANCE_ACCOUNTING_TEMPLATE_TITLE }}
+              </div>
             </div>
             <div
               class="flex q-pb-sm justify-end col-12 col-sm-auto row"
@@ -19,7 +21,7 @@
                 unelevated
                 color="primary"
                 icon="preview"
-                label="Preview"
+                :label="translationContent.WGO_PREVIEW_BTN"
                 class="flex col-12 col-sm-auto q-ml-sm q-mb-sm"
                 no-caps
                 @click="getPreview"
@@ -28,7 +30,7 @@
                 unelevated
                 color="primary"
                 icon="save"
-                label="Save Template"
+                :label="translationContent.WGO_SAVE_BTN"
                 class="flex col-12 col-sm-auto q-ml-sm q-mb-sm"
                 no-caps
                 @click="save"
@@ -38,7 +40,9 @@
         </q-card-section>
         <q-card-section>
           <q-select
-            label="Template Type"
+            :label="
+              translationContent.WGO_FINANCE_ACCOUNTING_TEMPLATE_TYPE_LABEL
+            "
             :options="templateOptions"
             v-model="selectedTemplate"
           />
@@ -47,7 +51,7 @@
               v-model="template.body"
               filled
               type="textarea"
-              label="Template"
+              :label="translationContent.WGO_FINANCE_ACCOUNTING_TEMPLATE_LABEL"
               :rows="20"
             />
           </div>
@@ -56,7 +60,9 @@
               v-model="template.styleTemplate.body"
               filled
               type="textarea"
-              label="Template style"
+              :label="
+                translationContent.WGO_FINANCE_ACCOUNTING_TEMPLATE_STYLE_LABEL
+              "
               :rows="20"
             />
           </div>
@@ -68,7 +74,12 @@
       <q-dialog v-model="showPreview" full-height full-width auto-close>
         <q-card class="column flex full-height full-width">
           <iframe class="col" :srcdoc="content" height="100%" width="100%" />
-          <q-btn unelevated flat label="Cancel" v-close-popup />
+          <q-btn
+            unelevated
+            flat
+            :label="translationContent.WGO_CLOSE_BTN"
+            v-close-popup
+          />
         </q-card>
       </q-dialog>
     </div>
