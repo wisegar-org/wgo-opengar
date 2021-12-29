@@ -253,7 +253,6 @@ export default class Accountings extends Vue {
   }
 
   applyFilter(filter: IFilterAccounting) {
-    debugger;
     this.filters = { ...filter };
     localStorage.setItem(
       LocalStorageSettings.KEY_ACCOUNTING_FILTER,

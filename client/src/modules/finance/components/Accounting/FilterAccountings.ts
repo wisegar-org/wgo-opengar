@@ -29,7 +29,6 @@ export function statusValidFilter(record: AccountRecord, status: string) {
 }
 
 export function nameValidFilter(record: AccountRecord, name: string) {
-  debugger;
   if (!name || !record.contributor) return true;
   return (
     record.contributor.name.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
@@ -41,7 +40,6 @@ export function FilterAccountings(
   records: AccountRecord[],
   filters: IFilterAccounting
 ) {
-  debugger;
   const result = records.filter(
     item =>
       !filters ||

@@ -87,7 +87,6 @@ export default class AccountingFilterDialog extends Vue {
 
   @Watch('selectedStatus')
   changeSelectedRole() {
-    debugger;
     this.filtersEdit.status = this.selectedStatus
       ? (this.selectedStatus as any).value
       : '';
