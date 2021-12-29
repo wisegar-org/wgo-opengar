@@ -185,7 +185,7 @@ import VisorEditor from '../../VisorEditor.vue';
   }
 })
 export default class AccountingPrint extends Vue {
-  @Prop({ default: () => {} }) accounting!: AccountRecord;
+  @Prop() accounting!: AccountRecord;
   @Action(githubActions.getIssuessByAccount, { namespace: githubNamespace })
   loadIssues!: (id: number) => Promise<IssuesRecord[]>;
   issues: IssuesRecord[] = [];
