@@ -41,6 +41,7 @@ import ExpandableListFilterLabel from 'src/modules/wgo/components/ExpandableList
 import ConfirmDialog from 'src/modules/wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import { LocalStorageSettings } from '../../settings/LocalStorageSettings';
 import AccountingFilterDialog from './AccountingFilter/AccountingFilterDialog.vue';
+import { sendNotifyMesagge, senFailNotifyMessage } from './AccountingMessage';
 
 @Component({
   components: {
@@ -150,23 +151,18 @@ export default class Accountings extends Vue {
   async sendEmailAccounting(accounting: AccountRecord) {
     if (accounting && accounting.contributor && accounting.contributor.email) {
       this.loading = true;
-      if (await this.sendLink(accounting)) {
-        this.notify({
-          message: 'Accounting sended successfully ',
-          type: 'positive'
-        });
-      } else {
-        this.notify({
-          message: 'Send accounting fail',
-          type: 'negative'
-        });
-      }
+      sendNotifyMesagge(
+        await this.sendLink(accounting),
+        this.notify,
+        this.translationContent.WGO_FINANCE_ACCOUNTING_SEND_SUCCESS,
+        this.translationContent.WGO_FINANCE_ACCOUNTING_SEND_FAIL
+      );
       this.loading = false;
     } else {
-      this.notify({
-        message: 'Collaborator email property is empty',
-        type: 'negative'
-      });
+      senFailNotifyMessage(
+        this.notify,
+        this.translationContent.WGO_FINANCE_ACCOUNTING_SEND_FAIL_EMAIL_EMPTY
+      );
     }
   }
 
@@ -177,35 +173,34 @@ export default class Accountings extends Vue {
       if (previewLink) {
         openURL(previewLink);
       } else {
-        this.notify({
-          message: 'Preview accounting link fail',
-          type: 'negative'
-        });
+        senFailNotifyMessage(
+          this.notify,
+          this.translationContent.WGO_FINANCE_ACCOUNTING_PREVIEW_FAIL
+        );
       }
       this.loading = false;
     } else {
-      this.notify({
-        message: 'Collaborator property is empty',
-        type: 'negative'
-      });
+      senFailNotifyMessage(
+        this.notify,
+        this.translationContent
+          .WGO_FINANCE_ACCOUNTING_PREVIEW_FAIL_COLLABORATOR_EMPTY
+      );
     }
   }
 
   async deleteAccount() {
     if (this.selectedToCancel) {
       this.loading = true;
-      if (await this.deleteAccountAction(this.selectedToCancel.id)) {
-        this.notify({
-          message: 'Success',
-          type: 'positive'
-        });
+      const result = await this.deleteAccountAction(this.selectedToCancel.id);
+      if (result) {
         this.showDeleteConfirm = false;
-      } else {
-        this.notify({
-          message: 'Fail',
-          type: 'negative'
-        });
       }
+      sendNotifyMesagge(
+        result,
+        this.notify,
+        this.translationContent.WGO_FINANCE_ACCOUNTING_CANCEL_SUCCESS,
+        this.translationContent.WGO_FINANCE_ACCOUNTING_CANCEL_FAIL
+      );
       this.loading = false;
     }
   }
