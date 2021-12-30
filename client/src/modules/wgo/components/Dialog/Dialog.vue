@@ -28,7 +28,7 @@
           <slot name="content" ref="slot"></slot>
         </q-scroll-area>
       </q-card-section>
-      <q-card-section class="">
+      <q-card-section class="q-pa-sm">
         <div class="flex justify-around row">
           <slot name="buttons"></slot>
         </div>

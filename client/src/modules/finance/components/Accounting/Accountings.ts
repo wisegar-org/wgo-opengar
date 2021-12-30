@@ -145,6 +145,11 @@ export default class Accountings extends Vue {
         link.click();
       }
       this.loading = false;
+    } else {
+      senFailNotifyMessage(
+        this.notify,
+        this.translationContent.WGO_FINANCE_ACCOUNTING_EXPORT_FAIL
+      );
     }
   }
 

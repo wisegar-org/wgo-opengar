@@ -12,6 +12,7 @@
         :showLoading="value => (showLoading = value)"
       />
     </template>
+    <template slot="buttons"> </template>
   </Dialog>
 </template>
 

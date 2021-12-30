@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row q-pa-sm">
       <div class="col-12 col-sm-6">
         <q-input
           v-model="editProps.userName"
@@ -129,7 +129,7 @@
         />
       </div>
     </div>
-    <q-card-section class="justify-center text-primary row">
+    <q-card-section class="justify-around text-primary row q-py-none">
       <q-btn
         unelevated
         @click="() => close()"

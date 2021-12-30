@@ -49,6 +49,7 @@ export default class AccountingList extends Vue {
   @Prop() cancelAccounting!: (acc: AccountRecord) => unknown;
   @Prop() sendAccounting!: (acc: AccountRecord) => unknown;
   @Prop() previewAccounting!: (acc: AccountRecord) => unknown;
+  @Prop() exportAccounting!: (acc: AccountRecord) => unknown;
 
   pageAccounting: AccountRecord[] = [];
   innerLoading = false;
@@ -116,6 +117,13 @@ export default class AccountingList extends Vue {
     icon: 'visibility',
     tooltip: 'Preview'
   };
+  exportAccountingBtn: ExpandableButton = {
+    click: (item?: ListItem) => {
+      this.onExportAccounting((item as any) as AccountRecord);
+    },
+    icon: 'print',
+    tooltip: 'Export'
+  };
 
   itemByPageOptions = [5, 10, 20, 50, 100];
   options = <ExpandableListOptions>{
@@ -125,7 +133,8 @@ export default class AccountingList extends Vue {
       this.confirmAccoutingBtn,
       this.cancelAccountingBtn,
       this.sendAccountingBtn,
-      this.previewAccountingBtn
+      this.previewAccountingBtn,
+      this.exportAccountingBtn
     ],
     labelShowAddBotton: '',
     textDeleteConfirm: '',
@@ -161,7 +170,12 @@ export default class AccountingList extends Vue {
 
   @Watch('translationContent')
   updateTranslations() {
-    this.editAccountingBtn.tooltip = this.translationContent.WGO_FINANCE_COLLABORATOR_EDIT_CONTACT_BTN;
+    this.editAccountingBtn.tooltip = this.translationContent.WGO_FINANCE_ACCOUNTING_EDIT_BTN;
+    this.confirmAccoutingBtn.tooltip = this.translationContent.WGO_FINANCE_ACCOUNTING_CONFIRM_BTN;
+    this.cancelAccountingBtn.tooltip = this.translationContent.WGO_FINANCE_ACCOUNTING_CANCEL_BTN;
+    this.sendAccountingBtn.tooltip = this.translationContent.WGO_FINANCE_ACCOUNTING_SEND_BTN;
+    this.previewAccountingBtn.tooltip = this.translationContent.WGO_FINANCE_ACCOUNTING_PREVIEW_BTN;
+    this.exportAccountingBtn.tooltip = this.translationContent.WGO_FINANCE_ACCOUNTING_EXPORT_BTN;
   }
 
   onEditAccounting(record: AccountRecord) {
@@ -187,6 +201,11 @@ export default class AccountingList extends Vue {
   onPreviewAccounting(record: AccountRecord) {
     if (this.previewAccounting) {
       this.previewAccounting(record);
+    }
+  }
+  onExportAccounting(record: AccountRecord) {
+    if (this.exportAccounting) {
+      this.exportAccounting(record);
     }
   }
 

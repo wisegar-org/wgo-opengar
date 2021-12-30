@@ -11,6 +11,7 @@
       :cancelAccounting="showDeleteConfirmDialog"
       :sendAccounting="sendEmailAccounting"
       :previewAccounting="loadAccountiPreview"
+      :exportAccounting="exportPdf"
     >
       <template slot="addButton">
         <q-btn
