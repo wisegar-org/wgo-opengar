@@ -15,7 +15,7 @@
       <template slot="addButton">
         <q-btn
           unelevated
-          v-if="userLogged && userLogged.isSuperAdmin"
+          v-if="userLogged && userLogged.isAdmin"
           color="primary"
           icon="settings"
           class="q-ml-xs"
@@ -54,7 +54,7 @@
           <div class="flex q-pb-sm justify-end col-12 col-sm-auto row">
             <q-btn
               unelevated
-              v-if="userLogged && userLogged.isSuperAdmin"
+              v-if="userLogged && userLogged.isAdmin"
               color="primary"
               icon="settings"
               label="Accounting Template"
@@ -77,7 +77,7 @@
                   <q-item
                     v-if="
                       userLogged &&
-                        userLogged.isSuperAdmin &&
+                        userLogged.isAdmin &&
                         showConfirmMenuItem(props.row)
                     "
                     clickable
@@ -101,7 +101,7 @@
                     <q-item-section>Collaborator</q-item-section>
                   </q-item>
                   <q-item
-                    v-if="userLogged && userLogged.isSuperAdmin"
+                    v-if="userLogged && userLogged.isAdmin"
                     clickable
                     v-close-popup
                     @click="() => openEditor(props.row)"
@@ -156,7 +156,7 @@
                   <q-item
                     v-if="
                       userLogged &&
-                        userLogged.isSuperAdmin &&
+                        userLogged.isAdmin &&
                         showConfirmMenuItem(props.row)
                     "
                     clickable

@@ -79,8 +79,18 @@ export default class Issues extends Vue {
   itemsCount = 0;
 
   itemByPageOptions = [5, 10, 20, 50, 100];
+  emptyFilter = {
+    milestones: null,
+    labels: null,
+    project: null,
+    assignedTo: null,
+    repository: null,
+    minDate: null,
+    maxDate: null,
+    status: null
+  };
 
-  filters: FilterIssuesModel = this.getFilterStore();
+  filters: FilterIssuesModel = this.getFilterStore() || this.emptyFilter;
   filterStr = this.getFilterStr(this.filters);
   showFilter = false;
   headerButtons: ExpandableHeaderButton[] = [
@@ -99,16 +109,6 @@ export default class Issues extends Vue {
       tooltip: 'Set Filter'
     }
   ];
-  emptyFilter = {
-    milestones: null,
-    labels: null,
-    project: null,
-    assignedTo: null,
-    repository: null,
-    minDate: null,
-    maxDate: null,
-    status: null
-  };
 
   applyFilter(filters: FilterIssuesModel) {
     this.filters = filters;

@@ -36,7 +36,7 @@
           />
         </div>
         <div
-          v-if="userLogged && userLogged.isSuperAdmin"
+          v-if="userLogged && userLogged.isAdmin"
           class="col-12 col-md-6 q-pa-sm"
         >
           <FilterSelect

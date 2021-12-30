@@ -106,7 +106,7 @@ export const AccountingTemplateBC = {
   icon: 'settings',
   label: 'WGO_FINANCE_ACCOUNTING_TEMPLATE_TITLE_BC',
   hideMenu: true,
-  roleFilter: 'isSuperAdmin'
+  roleFilter: 'isAdmin'
 };
 export const CollaboratorBC = {
   to: GithubPaths.collaboratorsTablePage.url,
@@ -122,38 +122,38 @@ export const IncomesBC = {
   to: GithubPaths.incomesTablePage.url,
   icon: 'credit_card',
   label: 'Incomes',
-  roleFilter: 'isSuperAdmin'
+  roleFilter: 'isAdmin'
 };
 export const ExpensesBC = {
   to: GithubPaths.expensesTablePage.url,
   icon: 'local_atm',
   label: 'Expenses',
-  roleFilter: 'isSuperAdmin'
+  roleFilter: 'isAdmin'
 };
 export const ProductsBC = {
   to: GithubPaths.productsPage.url,
   icon: 'shop',
   label: 'Products',
-  roleFilter: 'isSuperAdmin'
+  roleFilter: 'isAdmin'
 };
 export const BillsBC = {
   to: GithubPaths.billsPage.url,
   icon: 'import_contacts',
   label: 'Bills',
-  roleFilter: 'isSuperAdmin'
+  roleFilter: 'isAdmin'
 };
 export const BillTemplateBC = {
   to: GithubPaths.billTemplatePage.url,
   icon: 'settings',
   label: 'Bill Template',
   hideMenu: true,
-  roleFilter: 'isSuperAdmin'
+  roleFilter: 'isAdmin'
 };
 export const BreadCrumbsGithub: {
   to: string;
   icon: string;
   label: string;
-  roleFilter?: 'isSuperAdmin' | 'isCustomer';
+  roleFilter?: 'isAdmin' | 'isUser';
   hideMenu?: boolean;
 }[] = [
   HomeBC,
@@ -171,7 +171,7 @@ export const BreadCrumbsGithub: {
     to: GithubPaths.organizationPage.url,
     icon: 'location_city',
     label: 'Organization',
-    roleFilter: 'isSuperAdmin'
+    roleFilter: 'isAdmin'
   }
 ];
 

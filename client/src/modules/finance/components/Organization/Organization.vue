@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="width: 100%">
     <q-card
-      v-if="userLogged && userLogged.isSuperAdmin"
+      v-if="userLogged && userLogged.isAdmin"
       flat
       bordered
       class="my-card bg-grey-1"

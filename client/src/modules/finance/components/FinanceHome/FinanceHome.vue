@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="userLogged && (userLogged.isSuperAdmin || userLogged.isCustomer)"
+    v-if="userLogged && (userLogged.isAdmin || userLogged.isUser)"
     class="q-px-xl"
     style="width: 100%"
   >
@@ -28,7 +28,7 @@
       />
     </div>
     <div
-      v-if="userLogged && userLogged.isSuperAdmin"
+      v-if="userLogged && userLogged.isAdmin"
       class="row"
       style="justify-content: space-around"
     >
@@ -55,7 +55,7 @@
       />
     </div>
     <div
-      v-if="userLogged && userLogged.isSuperAdmin"
+      v-if="userLogged && userLogged.isAdmin"
       class="row"
       style="justify-content: space-around"
     >
@@ -81,7 +81,7 @@
         :path="expensesConfig.to"
       />
     </div>
-    <div v-if="userLogged && userLogged.isSuperAdmin" class="row">
+    <div v-if="userLogged && userLogged.isAdmin" class="row">
       <div class="col-12 col-md-6">
         <TableReview
           :title="titleIncomeTable"
@@ -98,7 +98,7 @@
       </div>
     </div>
     <div
-      v-if="userLogged && !userLogged.isSuperAdmin"
+      v-if="userLogged && !userLogged.isAdmin"
       class="row content-center justify-center"
     >
       <div class="col-12 col-md-10">
@@ -184,12 +184,12 @@ export default class FinanceHome extends Vue {
   @Watch('expenses')
   @Watch('incomes')
   getStats() {
-    this.homeStats(this.userLogged?.isSuperAdmin);
+    this.homeStats(this.userLogged?.isAdmin);
   }
 
   @Watch('userLogged')
   async loadData() {
-    await this.homeData(this.userLogged?.isSuperAdmin);
+    await this.homeData(this.userLogged?.isAdmin);
     this.getStats();
   }
 

@@ -93,7 +93,7 @@
         mask="#### - #### - #### - ####"
         dense
         :label="translationContent.WGO_FINANCE_COLLABORATOR_COLUMN_CARD_NUMBER"
-        :readonly="!loggedUser || !loggedUser.isSuperAdmin"
+        :readonly="!loggedUser || !loggedUser.isAdmin"
       />
       <q-input
         v-if="isCollaborator()"
@@ -104,7 +104,7 @@
         v-model="editProps.pay_by_hours"
         dense
         :label="translationContent.WGO_FINANCE_COLLABORATOR_COLUMN_PAY_BY_HOURS"
-        :readonly="!loggedUser || !loggedUser.isSuperAdmin"
+        :readonly="!loggedUser || !loggedUser.isAdmin"
       />
     </template>
     <template slot="buttons">

@@ -143,7 +143,7 @@ export default class LeftDrawer extends Vue {
   isValidRole(menuItem: IListItem) {
     return menuItem.roleFilter
       ? this.userLogged &&
-          (this.userLogged.isSuperAdmin ||
+          (this.userLogged.isAdmin ||
             this.userLogged[menuItem.roleFilter] ||
             !!this.userLogged.roles.find(
               role => menuItem.roleFilter?.indexOf(role.name) !== -1

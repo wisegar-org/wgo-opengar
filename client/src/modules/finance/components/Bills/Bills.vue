@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="width: 100%">
     <q-table
-      v-if="userLogged && userLogged.isSuperAdmin"
+      v-if="userLogged && userLogged.isAdmin"
       bordered
       flat
       title=""
@@ -29,7 +29,7 @@
             />
             <q-btn
               unelevated
-              v-if="userLogged && userLogged.isSuperAdmin"
+              v-if="userLogged && userLogged.isAdmin"
               color="primary"
               icon="settings"
               label="Bill Template"

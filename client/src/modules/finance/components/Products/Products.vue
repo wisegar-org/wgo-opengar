@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="width: 100%">
     <q-table
-      v-if="userLogged && userLogged.isSuperAdmin"
+      v-if="userLogged && userLogged.isAdmin"
       bordered
       flat
       title=""
@@ -20,7 +20,7 @@
           <div class="flex q-pb-sm justify-end col-12 col-sm-auto row">
             <q-btn
               unelevated
-              v-if="userLogged && userLogged.isSuperAdmin"
+              v-if="userLogged && userLogged.isAdmin"
               color="primary"
               class="col-12 col-sm-auto q-ml-sm q-mb-sm"
               no-caps

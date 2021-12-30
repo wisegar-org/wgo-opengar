@@ -11,7 +11,7 @@
       <template slot="addButton">
         <q-btn
           unelevated
-          v-if="userLogged && userLogged.isSuperAdmin"
+          v-if="userLogged && userLogged.isAdmin"
           color="primary"
           icon="add"
           label="Create Accounting"
@@ -42,10 +42,10 @@
       :showModal="showAccountingStepper"
       :close="() => (showAccountingStepper = false)"
       :filterIssues="filteredIssues"
-      :collaborator="filters.assignedTo"
+      :collaborator="!!filters ? filters.assignedTo : null"
       :organizationData="organizationData"
-      :initDate="filters.minDate"
-      :endDate="filters.maxDate"
+      :initDate="!!filters ? filters.minDate : null"
+      :endDate="!!filters ? filters.maxDate : null"
     />
   </div>
 </template>

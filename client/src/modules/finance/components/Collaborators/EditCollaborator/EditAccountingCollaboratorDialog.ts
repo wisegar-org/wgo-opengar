@@ -155,7 +155,7 @@ export default class EditAccountingCollaboratorDialog extends Vue {
     return (
       !!this.editProps.name &&
       !!this.editProps.type &&
-      ((!!this.loggedUser && this.loggedUser.isSuperAdmin) ||
+      ((!!this.loggedUser && this.loggedUser.isAdmin) ||
         (!!this.editProps.card_number &&
           !!this.editProps.pay_by_hours &&
           !!this.editProps.email &&

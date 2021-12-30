@@ -85,6 +85,7 @@ export function filterIssues(
   data: IssuesRecord[],
   filters: FilterIssuesModel
 ): IssuesRecord[] {
+  if (!filters) return data;
   const minDate = filters.minDate
     ? moment(filters.minDate.toString()).format('YYYY/MM/DD')
     : undefined;

@@ -15,14 +15,12 @@ export const mutations: MutationTree<UserStateInterface> = {
     if (loggedUser) {
       const user = loggedUser as UserLogged;
 
-      user.isSuperAdmin =
-        (loggedUser.roles || []).filter(
-          rol => rol.name === RolEntityEnum.superAdmin
-        ).length > 0;
-      user.isCustomer =
-        (loggedUser.roles || []).filter(
-          rol => rol.name === RolEntityEnum.customer
-        ).length > 0;
+      user.isAdmin =
+        (loggedUser.roles || []).filter(rol => rol.name === RolEntityEnum.admin)
+          .length > 0;
+      user.isUser =
+        (loggedUser.roles || []).filter(rol => rol.name === RolEntityEnum.user)
+          .length > 0;
       state.loggedUser = user;
     } else {
       state.loggedUser = <UserLogged>{};

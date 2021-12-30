@@ -19,7 +19,7 @@
           <div class="flex q-pb-sm justify-end col-12 col-sm-auto row">
             <q-btn
               unelevated
-              v-if="userLogged && userLogged.isSuperAdmin"
+              v-if="userLogged && userLogged.isAdmin"
               color="primary"
               class="col-12 col-sm-auto q-ml-sm q-mb-sm"
               no-caps
@@ -39,10 +39,7 @@
               @onChange="value => setFilter(value)"
             />
           </div>
-          <div
-            v-if="userLogged && userLogged.isSuperAdmin"
-            class="col-12 col-md-4"
-          >
+          <div v-if="userLogged && userLogged.isAdmin" class="col-12 col-md-4">
             <FilterSelect
               label="Client/Provedor"
               :options="collaborators"

@@ -6,7 +6,7 @@ export interface IListSeparator {
 
 export interface IListItem {
   type: 'item';
-  roleFilter?: 'isSuperAdmin' | 'isCustomer';
+  roleFilter?: 'isAdmin' | 'isUser';
   hideMenu?: boolean;
 }
 

@@ -15,8 +15,8 @@ export interface UserLogged {
   userName: string;
   isEmailConfirmed: boolean;
   roles: UserRol[];
-  isSuperAdmin: boolean;
-  isCustomer: boolean;
+  isAdmin: boolean;
+  isUser: boolean;
   languageId: number;
 }
 

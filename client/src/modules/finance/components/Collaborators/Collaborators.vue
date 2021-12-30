@@ -11,7 +11,7 @@
       <template slot="addButton">
         <q-btn
           unelevated
-          v-if="userLogged && userLogged.isSuperAdmin"
+          v-if="userLogged && userLogged.isAdmin"
           color="primary"
           icon="add"
           class="q-ml-xs"
@@ -50,7 +50,7 @@
           <div class="flex q-pb-sm justify-end col-12 col-sm-auto row">
             <q-btn
               unelevated
-              v-if="userLogged && userLogged.isSuperAdmin"
+              v-if="userLogged && userLogged.isAdmin"
               color="primary"
               icon="add"
               label="Create Client/Provider"

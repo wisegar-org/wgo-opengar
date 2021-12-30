@@ -191,7 +191,7 @@ export default class AccountingList extends Vue {
   }
 
   isAdminUser() {
-    return this.userLogged && this.userLogged.isSuperAdmin;
+    return this.userLogged && this.userLogged.isAdmin;
   }
 
   async mounted() {
