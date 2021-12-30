@@ -12,7 +12,7 @@ export const BillController = (app: Express, conn: Connection) => {
     };
     res.send(result);
   });
-  app.post('/api/addBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/addBill', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const {
       name,
@@ -41,7 +41,7 @@ export const BillController = (app: Express, conn: Connection) => {
     );
     res.send({ created: !!bill, bills: [bill] });
   });
-  app.post('/api/updateBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/updateBill', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const {
       id,
@@ -72,7 +72,7 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send({ updated: !!bill });
   });
 
-  app.get('/api/billDetail', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.get('/api/billDetail', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { id } = req.query;
     const result = {
@@ -81,7 +81,7 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.post('/api/payBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/payBill', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { id } = req.body;
     const result = {
@@ -90,7 +90,7 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.post('/api/cancelBill', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/cancelBill', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { id } = req.body;
     const result = {
@@ -99,13 +99,13 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.get('/api/loadBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.get('/api/loadBillTemplate', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { entityTemplate, langId } = req.query;
     const result = await billService.loadTemplate(entityTemplate as string, parseInt((langId as string) || '0'));
     res.send(result);
   });
-  app.post('/api/getBillDocumentPreview', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/getBillDocumentPreview', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { entityTemplate, idBill, templateHTML, templateStyle, langId } = req.body;
     const result = await billService.getDocumentBody(
@@ -118,7 +118,7 @@ export const BillController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.post('/api/saveBillTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/saveBillTemplate', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { value, langId } = req.body;
 
@@ -126,7 +126,7 @@ export const BillController = (app: Express, conn: Connection) => {
 
     res.send(updated);
   });
-  app.post('/api/saveBillStyleTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/saveBillStyleTemplate', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const billService = new BillsService(req.context);
     const { value, documentToSet } = req.body;
 

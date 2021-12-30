@@ -11,7 +11,7 @@ export const TransactionController = (app: Express, conn: Connection) => {
     };
     res.send(result);
   });
-  app.post('/api/addTransaction', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/addTransaction', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const transactionService = new TransactionService(req.context);
     const { status, date, cost, card_balance, collaboratorId } = req.body;
 
@@ -19,7 +19,7 @@ export const TransactionController = (app: Express, conn: Connection) => {
 
     res.send({ created: !!transaction, transactions: [transaction] });
   });
-  app.post('/api/setIdTransaction', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/setIdTransaction', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const transactionService = new TransactionService(req.context);
     const { id, idTransaction } = req.body;
 

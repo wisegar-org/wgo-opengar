@@ -11,14 +11,14 @@ export const ProductController = (app: Express, conn: Connection) => {
     };
     res.send(result);
   });
-  app.post('/api/addProduct', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/addProduct', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const expenseService = new ProductsService(req.context);
     const { name, description, buyPrice, sellPrice, unitCount, type, docs } = req.body;
 
     const product = await expenseService.addProduct(name, description, buyPrice, sellPrice, unitCount, type, docs);
     res.send({ created: !!product, products: [product] });
   });
-  app.post('/api/updateProduct', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/updateProduct', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const expenseService = new ProductsService(req.context);
     const { id, name, description, buyPrice, sellPrice, unitCount, type, docs } = req.body;
     const product = await expenseService.updateProductById(
@@ -34,7 +34,7 @@ export const ProductController = (app: Express, conn: Connection) => {
     res.send({ updated: !!product });
   });
 
-  app.get('/api/productDetail', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.get('/api/productDetail', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const expenseService = new ProductsService(req.context);
     const { id } = req.query;
     const result = {

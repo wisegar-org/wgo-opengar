@@ -12,7 +12,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
     const result = { accounts: await accountService.getAllAccounts() };
     res.send(result);
   });
-  app.post('/api/addAccounting', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/addAccounting', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const params = req.body as AddAccountParams;
 
@@ -34,7 +34,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
 
     res.send({ message: 'Created!', created: true });
   });
-  app.post('/api/editAccounting', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/editAccounting', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { id, taxes, details, payment_comment } = req.body;
 
@@ -43,7 +43,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
     res.send({ updated: !!updated });
   });
 
-  app.get('/api/removeAccounting/:id', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.get('/api/removeAccounting/:id', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const result = {
       updated: await accountService.removeAccount(parseInt(req.params.id), token),
@@ -51,20 +51,20 @@ export const AccountingController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.post('/api/confirmAccount', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/confirmAccount', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { accountingId } = req.body;
     const confirm = await accountService.confirmAccountById(accountingId);
     res.send({ updated: confirm });
   });
 
-  app.get('/api/loadAccountingTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.get('/api/loadAccountingTemplate', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { entityTemplate } = req.query;
     const result = await accountService.loadTemplate(entityTemplate as string);
     res.send(result);
   });
-  app.post('/api/getAccountingDocumentPreview', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/getAccountingDocumentPreview', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountingService = new AccountService(req.context);
     const { entityTemplate, idAccounting, templateHTML, templateStyle } = req.body;
     const result = await accountingService.getDocumentBody(
@@ -76,7 +76,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
     res.send(result);
   });
 
-  app.post('/api/saveAccountingTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/saveAccountingTemplate', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { value } = req.body;
 
@@ -84,7 +84,7 @@ export const AccountingController = (app: Express, conn: Connection) => {
 
     res.send(updated);
   });
-  app.post('/api/saveAccountingStyleTemplate', AuthorizeUserRol([RolEntityEnum.superAdmin]), async (req, res) => {
+  app.post('/api/saveAccountingStyleTemplate', AuthorizeUserRol([RolEntityEnum.admin]), async (req, res) => {
     const accountService = new AccountService(req.context);
     const { value, documentToSet } = req.body;
 

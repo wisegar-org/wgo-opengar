@@ -1,13 +1,12 @@
 import { Connection, Repository } from 'typeorm';
 import { CollaboratorEntity } from '../database/entities/CollaboratorEntity';
 import { GetConnection } from '../database';
-import {
+import ObjExtUtils, {
   UserEntity,
   RolEntityEnum,
   UserDataService,
   RolEntity,
   Context,
-  ObjExt as ObjExtUtils,
 } from '@wisegar-org/wgo-opengar-core';
 
 export class CollaboratorService {
@@ -254,7 +253,7 @@ export class CollaboratorService {
         [],
         true
       );
-      const rolEntity = await this.rolesRepository.findOne({ name: RolEntityEnum.customer });
+      const rolEntity = await this.rolesRepository.findOne({ name: RolEntityEnum.user });
       const result = await this.userDataService.create(userResult, rolEntity ? [rolEntity.id] : []);
 
       if (result.isSuccess) {
@@ -293,7 +292,7 @@ export class CollaboratorService {
       filter = { [property]: null };
     } else if (
       this.userContext.user &&
-      this.userContext.user.roles.filter((rol) => rol === RolEntityEnum.superAdmin).length === 0
+      this.userContext.user.roles.filter((rol) => rol === RolEntityEnum.admin).length === 0
     ) {
       const user = await this.userDataService.oneById(parseInt(this.userContext.user.userId));
       const coll =

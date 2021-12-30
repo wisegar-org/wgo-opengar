@@ -7,7 +7,7 @@ import { RepositoryService } from '../services/RepositoryService';
 const token: string = process.env.API_TOKEN;
 
 export const GithubController = (app: Express, conn: Connection) => {
-  app.get('/api/issues', AuthorizeUserRol([RolEntityEnum.superAdmin, RolEntityEnum.customer]), async (req, res) => {
+  app.get('/api/issues', AuthorizeUserRol([RolEntityEnum.admin, RolEntityEnum.user]), async (req, res) => {
     const issuesService = new IssueService(req.context);
     const result = { issues: await issuesService.getAllIssues() };
     res.send(result);

@@ -47,7 +47,7 @@ export async function fixUserAdminTemplate(conn: Connection, add: boolean = fals
   const userRepository = conn.getRepository(UserEntity);
   const _userDataSerive = new UserDataService(conn);
   const roleObj = await roleRepository.findOne({
-    name: RolEntityEnum.superAdmin,
+    name: RolEntityEnum.admin,
   });
   const rolesList = [roleObj];
   let admin = await userRepository.findOne({
