@@ -4,6 +4,9 @@ import { Connection } from 'typeorm';
 import { AGVRoles } from '../../agv/models';
 import { UserModel } from '../models/UserModel';
 import { IMetaProps, SeoModel } from '../modules';
+import fs from 'fs-extra';
+import { GetWebRootKey } from '../settings/ConfigService';
+import { join, normalize } from 'path';
 
 export class DataSeeder {
   connection: Connection;
@@ -13,19 +16,29 @@ export class DataSeeder {
 
   /** TODO: PLEASE Store superuser schema on a json config file */
   public async createUserSeeder() {
+    const userJSON = fs.readJsonSync(normalize(join(GetWebRootKey(), 'adminUserConfig.json')), { throws: false });
+
     const roleRepository = this.connection.getRepository(RolEntity);
     const userRepository = this.connection.getRepository(UserEntity);
     const _userDataSerive = new UserDataService(this.connection);
 
     const roleObj = await roleRepository.findOne({
-      name: RolEntityEnum.superAdmin,
+      name: RolEntityEnum.admin,
     });
     const rolesList = [roleObj];
     let admin = await userRepository.findOne({
       userName: 'wisegar',
     });
     if (_.isEmpty(admin)) {
-      let superAdmin = new UserEntity('Wisegar', 'Admin', 'wisegar', 'info@wisegar.org', 'Wisegar.0', rolesList, true);
+      let superAdmin = new UserEntity(
+        userJSON?.name || 'Wisegar',
+        userJSON?.lastName || 'Admin',
+        userJSON?.userName || 'wisegar',
+        userJSON?.email || 'info@wisegar.org',
+        userJSON?.password || 'Wisegar.0',
+        rolesList,
+        true
+      );
       try {
         const userSeedResult = await _userDataSerive.create(superAdmin, [roleObj.id]);
       } catch (error) {}
@@ -36,23 +49,59 @@ export class DataSeeder {
   public async createRolesSeeder() {
     const roleRepository = this.connection.getRepository(RolEntity);
     const userRepository = this.connection.getRepository(UserEntity);
+    //update superAdmin role if exist
     let roleObj = await roleRepository.findOne({
-      name: RolEntityEnum.superAdmin,
+      name: 'superAdmin',
     });
 
+    if (!_.isEmpty(roleObj)) {
+      const adminRole = await roleRepository.findOne({
+        name: RolEntityEnum.admin,
+      });
+      if (_.isEmpty(adminRole)) {
+        roleObj.name = RolEntityEnum.admin;
+        await roleRepository.save(roleObj);
+      } else {
+        const users = await userRepository.find({ relations: ['roles'] });
+        for (const user of users) {
+          const roles: RolEntity[] = [];
+          for (const role of user.roles) {
+            if (role.name === 'superAdmin') {
+              roles.push(adminRole);
+            } else {
+              roles.push(role);
+            }
+          }
+          user.roles = roles;
+          await userRepository.save(user);
+        }
+        await roleRepository.remove(roleObj);
+      }
+    }
+    roleObj = await roleRepository.findOne({
+      name: RolEntityEnum.admin,
+    });
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
-      userRole.name = RolEntityEnum.superAdmin;
+      userRole.name = RolEntityEnum.admin;
       await roleRepository.save(userRole);
     }
 
+    //update customer role if exist
     roleObj = await roleRepository.findOne({
-      name: RolEntityEnum.customer,
+      name: 'customer',
+    });
+    if (!_.isEmpty(roleObj)) {
+      roleObj.name = RolEntityEnum.user;
+      await roleRepository.save(roleObj);
+    }
+    roleObj = await roleRepository.findOne({
+      name: RolEntityEnum.user,
     });
 
     if (_.isEmpty(roleObj)) {
       let userRole = new RolEntity();
-      userRole.name = RolEntityEnum.customer;
+      userRole.name = RolEntityEnum.user;
       await roleRepository.save(userRole);
     }
 

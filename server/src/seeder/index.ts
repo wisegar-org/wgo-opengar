@@ -5,8 +5,8 @@ import { SeederWGO } from '../modules/wgo';
 import { BuildSettings } from '../settings/BuildSettings';
 
 export const callSeeders = async (buildConfig: BuildSettings) => {
-  await SeederWGO();
   if (buildConfig.isModuleInConfig(AGV_MODULE)) await SeederAGV();
   if (buildConfig.isModuleInConfig(CASINA_MODULE)) await SeederCasina();
   if (buildConfig.isModuleInConfig(PRINT_MODULE)) await SeederPrint();
+  await SeederWGO();
 };
