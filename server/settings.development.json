@@ -5,7 +5,7 @@
   "TOKEN_EXPIRES_IN": "7d",
   "TOKEN_TIME_TO_EXPIRE": "324000",
   "DB_HOST": "localhost",
-  "DB_PORT": "5432",
+  "DB_PORT": "5433",
   "DB_USERNAME": "opengar",
   "DB_NAME": "opengar-dev",
   "DB_PASSWORD": "opengar",
