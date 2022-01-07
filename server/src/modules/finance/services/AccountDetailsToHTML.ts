@@ -62,6 +62,7 @@ export async function GenerateAccountHTML(id: number, callback: (doc: ReadStream
     })
     .catch((error) => {
       console.log(error);
+      callback(undefined);
     });
   // await exportHTMLToPdf(
   //   content,
