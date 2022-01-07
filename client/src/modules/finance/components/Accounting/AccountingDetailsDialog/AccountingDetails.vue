@@ -1,8 +1,8 @@
 <template>
-  <div class="row col-12 q-pa-sm" style="width: 100%">
-    <div class="col-12 col-md-4">
+  <div v-if="!!accounting" class="row col-12 q-pa-sm" style="width: 100%">
+    <div v-if="!!contributor" class="col-12 col-md-4">
       <q-input
-        :value="accounting.contributor.login"
+        :value="contributor ? contributor.login : '-'"
         outlined
         readonly
         class="q-ma-sm"
@@ -13,42 +13,42 @@
       >
         <template v-slot:prepend>
           <q-avatar>
-            <img :src="accounting.contributor.avatar_url" />
+            <img :src="contributor.avatar_url" />
           </q-avatar>
         </template>
       </q-input>
     </div>
-    <div class="col-12 col-md-4">
+    <div v-if="!!contributor" class="col-12 col-md-4">
       <q-input
         square
         outlined
         dense
         class="q-ma-sm"
-        :value="accounting.contributor.name"
+        :value="contributor.name"
         :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_NAME"
         autogrow
         readonly
       />
     </div>
-    <div class="col-12 col-md-4">
+    <div v-if="!!contributor" class="col-12 col-md-4">
       <q-input
         square
         outlined
         dense
         class="q-ma-sm"
-        :value="accounting.contributor.address"
+        :value="contributor.address"
         :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_ADDRESS"
         autogrow
         readonly
       />
     </div>
-    <div class="col-12 col-md-4">
+    <div v-if="!!contributor" class="col-12 col-md-4">
       <q-input
         square
         outlined
         dense
         class="q-ma-sm"
-        :value="accounting.contributor.card_number"
+        :value="contributor.card_number"
         :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_CARD_NUMBER"
         autogrow
         readonly
@@ -60,7 +60,7 @@
         outlined
         dense
         class="q-ma-sm"
-        :value="accounting.pay_by_hours"
+        :value="accounting.pay_by_hours || 0"
         :label="translationContent.WGO_FINANCE_ACCOUNTING_COLUMN_PAY_BY_HOURS"
         autogrow
         readonly
@@ -210,6 +210,7 @@ export default class AccountingDetails extends Vue {
   @Action(githubActions.getIssuessByAccount, { namespace: githubNamespace })
   loadIssues!: (id: number) => Promise<IssuesRecord[]>;
   issues: IssuesRecord[] = [];
+  contributor = this.accounting?.contributor || null;
 
   getReposAccounting() {
     return this.accounting.repos
@@ -225,7 +226,9 @@ export default class AccountingDetails extends Vue {
 
   async mounted() {
     await this.registerTranslations(TranslationsKeys);
-    this.issues = await this.loadIssues(this.accounting.id);
+    this.issues = this.accounting?.id
+      ? await this.loadIssues(this.accounting.id)
+      : [];
   }
 }
 </script>

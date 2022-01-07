@@ -13,7 +13,9 @@ export const ExportController = (app: Express, conn: Connection) => {
   app.get('/api/exportPdf/:id', AuthorizeUserRol(), async (req, res) => {
     const idAccounting = parseInt(req.params.id);
     GenerateAccountHTML(idAccounting, (doc: ReadStream) => {
-      res.setHeader('Content-type', 'application/pdf');
+      if (res) {
+        res.setHeader('Content-type', 'application/pdf');
+      }
       doc.pipe(res);
     });
   });
