@@ -25,3 +25,9 @@ quasar build
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 
 ## test
+
+
+#### PARA CONVERTIR AAB to APK
+java -jar bundletool-all-1.8.2.jar build-apks --bundle=app.aab --output=app.apks --mode=universal
+Cambiar extencion a .rar el archivo resultante
+Extraer el universal.apk
