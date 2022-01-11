@@ -1,25 +1,26 @@
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import ExpandableList from 'src/modules/wgo/components/ExpandableList/ExpandableList.vue';
 import ViewAccountingCollaborator from '../EditCollaborator/ViewAccountingCollaborator.vue';
 import { CollaboratorRecord } from 'src/modules/finance';
 import { Action, Getter } from 'vuex-class';
-import {
-  ExpandableButton,
-  ExpandableListOptions,
-  ListItem,
-  PropToEdit
-} from 'src/modules/wgo/components/ExpandableList/models';
 import {
   languageActions,
   languageGetters,
   languageNamespace
 } from 'src/modules/wgo/store/Language';
 import { TranslationsKeys } from '../TranslationsKeys';
-import { openURL } from 'quasar';
+import {
+  WGOExpandableButton,
+  WGOExpandableListOptions,
+  WGOListItem,
+  WGOPropToEdit
+} from '@wisegar-org/quasar-app-extension-wgo-vue-components/src/lib';
+import {
+  componentsGettedKeys,
+  componentsNamespace
+} from 'src/modules/wgo/store/ComponentsState';
 
 @Component({
   components: {
-    ExpandableList,
     ViewAccountingCollaborator
   }
 })
@@ -33,13 +34,26 @@ export default class CollaboratorList extends Vue {
   @Prop() loading!: boolean;
   @Prop({ default: '' }) filterStr!: boolean;
   @Prop() collaborators!: CollaboratorRecord[];
-  @Prop() columns!: PropToEdit[];
+  @Prop() columns!: WGOPropToEdit[];
   @Prop() headerButtons!: {
     icon: string;
     tooltip: string;
     click: () => unknown;
   }[];
   @Prop() editCollaborator!: (coll: CollaboratorRecord) => unknown;
+  @Getter(componentsGettedKeys.getLeftDrawerOpen, {
+    namespace: componentsNamespace
+  })
+  show!: boolean;
+  @Getter(componentsGettedKeys.getLeftDrawerMinState, {
+    namespace: componentsNamespace
+  })
+  minState!: boolean;
+
+  watchProps = {
+    show: false,
+    minState: false
+  };
 
   pageCollaborators: CollaboratorRecord[] = [];
   innerLoading = false;
@@ -48,18 +62,18 @@ export default class CollaboratorList extends Vue {
   itemsByPage = 10;
   itemsCount = 0;
 
-  editCollaboratorBn: ExpandableButton = {
-    click: (item?: ListItem) =>
+  editCollaboratorBn: WGOExpandableButton = {
+    click: (item?: WGOListItem) =>
       this.editCollaborator((item as any) as CollaboratorRecord),
     icon: 'edit',
     tooltip: 'Edit'
   };
 
   itemByPageOptions = [5, 10, 20, 50, 100];
-  options = <ExpandableListOptions>{
-    showAddBotton: false,
+  options = <WGOExpandableListOptions>{
+    showAddButton: false,
     expandedButtons: [this.editCollaboratorBn],
-    labelShowAddBotton: '',
+    labelShowAddButton: '',
     textDeleteConfirm: '',
     disableFilters: true,
     onAddItem: () => null,
@@ -94,6 +108,15 @@ export default class CollaboratorList extends Vue {
   @Watch('translationContent')
   updateTranslations() {
     this.editCollaboratorBn.tooltip = this.translationContent.WGO_FINANCE_COLLABORATOR_EDIT_CONTACT_BTN;
+  }
+
+  @Watch('show')
+  @Watch('minState')
+  changeWatchProps() {
+    this.watchProps = {
+      show: this.show,
+      minState: this.minState
+    };
   }
 
   async mounted() {

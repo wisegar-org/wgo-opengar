@@ -1,10 +1,5 @@
 import { AccountRecord } from 'src/modules/finance';
-import {
-  ExpandableButton,
-  ExpandableListOptions,
-  ListItem,
-  PropToEdit
-} from 'src/modules/wgo/components/ExpandableList/models';
+import {} from 'src/modules/wgo/components/ExpandableList/models';
 import {
   languageActions,
   languageGetters,
@@ -13,14 +8,22 @@ import {
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import { TranslationsKeys } from '../TranslationsKeys';
-import ExpandableList from 'src/modules/wgo/components/ExpandableList/ExpandableList.vue';
 import AccountingDetails from '../AccountingDetailsDialog/AccountingDetails.vue';
 import { ApiSettings } from '../../../settings/ApiSettings';
 import { UserLogged } from 'src/modules/wgo/models';
+import {
+  WGOExpandableListOptions,
+  WGOExpandableButton,
+  WGOListItem,
+  WGOPropToEdit
+} from '@wisegar-org/quasar-app-extension-wgo-vue-components/src/lib';
+import {
+  componentsGettedKeys,
+  componentsNamespace
+} from 'src/modules/wgo/store/ComponentsState';
 
 @Component({
   components: {
-    ExpandableList,
     AccountingDetails
   }
 })
@@ -38,7 +41,7 @@ export default class AccountingList extends Vue {
   @Prop() loading!: boolean;
   @Prop({ default: '' }) filterStr!: boolean;
   @Prop() accountings!: AccountRecord[];
-  @Prop() columns!: PropToEdit[];
+  @Prop() columns!: WGOPropToEdit[];
   @Prop() headerButtons!: {
     icon: string;
     tooltip: string;
@@ -51,6 +54,20 @@ export default class AccountingList extends Vue {
   @Prop() previewAccounting!: (acc: AccountRecord) => unknown;
   @Prop() exportAccounting!: (acc: AccountRecord) => unknown;
 
+  @Getter(componentsGettedKeys.getLeftDrawerOpen, {
+    namespace: componentsNamespace
+  })
+  show!: boolean;
+  @Getter(componentsGettedKeys.getLeftDrawerMinState, {
+    namespace: componentsNamespace
+  })
+  minState!: boolean;
+
+  watchProps = {
+    show: false,
+    minState: false
+  };
+
   pageAccounting: AccountRecord[] = [];
   innerLoading = false;
   maxPage = 0;
@@ -58,67 +75,67 @@ export default class AccountingList extends Vue {
   itemsByPage = 10;
   itemsCount = 0;
 
-  editAccountingBtn: ExpandableButton = {
-    click: (item?: ListItem) => {
+  editAccountingBtn: WGOExpandableButton = {
+    click: (item?: WGOListItem) => {
       this.onEditAccounting((item as any) as AccountRecord);
     },
     icon: 'edit',
     tooltip: 'Edit',
-    disabled: (item?: ListItem) => {
+    disabled: (item?: WGOListItem) => {
       if (!item) return true;
       const itemAcc = (item as any) as AccountRecord;
       return !this.isAdminUser();
     }
   };
 
-  confirmAccoutingBtn: ExpandableButton = {
-    click: (item?: ListItem) => {
+  confirmAccoutingBtn: WGOExpandableButton = {
+    click: (item?: WGOListItem) => {
       this.onConfirmAccounting((item as any) as AccountRecord);
     },
     icon: 'check_circle',
     tooltip: 'Confirm',
-    disabled: (item?: ListItem) => {
+    disabled: (item?: WGOListItem) => {
       if (!item) return true;
       const itemAcc = (item as any) as AccountRecord;
       return !this.isAdminUser() || itemAcc.status !== 1;
     }
   };
 
-  cancelAccountingBtn: ExpandableButton = {
-    click: (item?: ListItem) => {
+  cancelAccountingBtn: WGOExpandableButton = {
+    click: (item?: WGOListItem) => {
       this.onCancelAccounting((item as any) as AccountRecord);
     },
     icon: 'cancel',
     tooltip: 'Cancel',
-    disabled: (item?: ListItem) => {
+    disabled: (item?: WGOListItem) => {
       if (!item) return true;
       const itemAcc = (item as any) as AccountRecord;
       return !this.isAdminUser() || itemAcc.status !== 1;
     }
   };
 
-  sendAccountingBtn: ExpandableButton = {
-    click: (item?: ListItem) => {
+  sendAccountingBtn: WGOExpandableButton = {
+    click: (item?: WGOListItem) => {
       this.onSendAccounting((item as any) as AccountRecord);
     },
     icon: 'send',
     tooltip: 'Send accounting',
-    disabled: (item?: ListItem) => {
+    disabled: (item?: WGOListItem) => {
       if (!item) return true;
       const itemAcc = (item as any) as AccountRecord;
       return itemAcc.status !== 2;
     }
   };
 
-  previewAccountingBtn: ExpandableButton = {
-    click: (item?: ListItem) => {
+  previewAccountingBtn: WGOExpandableButton = {
+    click: (item?: WGOListItem) => {
       this.onPreviewAccounting((item as any) as AccountRecord);
     },
     icon: 'visibility',
     tooltip: 'Preview'
   };
-  exportAccountingBtn: ExpandableButton = {
-    click: (item?: ListItem) => {
+  exportAccountingBtn: WGOExpandableButton = {
+    click: (item?: WGOListItem) => {
       this.onExportAccounting((item as any) as AccountRecord);
     },
     icon: 'print',
@@ -126,8 +143,8 @@ export default class AccountingList extends Vue {
   };
 
   itemByPageOptions = [5, 10, 20, 50, 100];
-  options = <ExpandableListOptions>{
-    showAddBotton: false,
+  options = <WGOExpandableListOptions>{
+    showAddButton: false,
     expandedButtons: [
       this.editAccountingBtn,
       this.confirmAccoutingBtn,
@@ -136,7 +153,7 @@ export default class AccountingList extends Vue {
       this.previewAccountingBtn,
       this.exportAccountingBtn
     ],
-    labelShowAddBotton: '',
+    labelShowAddButton: '',
     textDeleteConfirm: '',
     disableFilters: true,
     onAddItem: () => null,
@@ -151,6 +168,15 @@ export default class AccountingList extends Vue {
   constructor() {
     super();
     this.$nextTick(() => this.updatePageCollaborators());
+  }
+
+  @Watch('show')
+  @Watch('minState')
+  changeWatchProps() {
+    this.watchProps = {
+      show: this.show,
+      minState: this.minState
+    };
   }
 
   @Watch('accountings')

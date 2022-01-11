@@ -1,5 +1,5 @@
 <template>
-  <ExpandableList
+  <wgo-exp-list
     :items="pageAccounting"
     icon="monetization_on"
     :title="translationContent.WGO_FINANCE_ACCOUNTING_TITLE || 'Accoutning'"
@@ -8,6 +8,7 @@
     :maxLabels="4"
     :options="options"
     :filterStr="filterStr"
+    :watchProps="watchProps"
   >
     <template slot="addButton">
       <slot name="addButton"> </slot>
@@ -47,7 +48,7 @@
         </div>
       </div>
     </template>
-  </ExpandableList>
+  </wgo-exp-list>
 </template>
 
 <script lang="ts" src="./AccountingList.ts" />

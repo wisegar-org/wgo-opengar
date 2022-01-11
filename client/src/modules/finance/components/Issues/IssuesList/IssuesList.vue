@@ -1,5 +1,5 @@
 <template>
-  <ExpandableList
+  <wgo-exp-list
     :items="pageIssues"
     icon="bug_report"
     :title="translationContent.WGO_FINANCE_ISSUES_TITLE || 'Issues'"
@@ -8,6 +8,7 @@
     :maxLabels="6"
     :options="options"
     :filterStr="filterStr"
+    :watchProps="watchProps"
   >
     <template slot="addButton">
       <slot name="addButton"> </slot>
@@ -58,7 +59,7 @@
         </div>
       </div>
     </template>
-  </ExpandableList>
+  </wgo-exp-list>
 </template>
 
 <script lang="ts" src="./IssuesList.ts" />

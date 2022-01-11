@@ -23,7 +23,7 @@
         />
       </template>
       <template slot="filterLabel">
-        <ExpandableListFilterLabel
+        <wgo-exp-list-filter-lab
           :filterStr="filterStr"
           :cleanFilter="() => applyFilter(emptyFilter)"
           :openFilter="() => (showFilter = true)"

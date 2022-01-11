@@ -1,5 +1,5 @@
 <template>
-  <ExpandableList
+  <wgo-exp-list
     :items="pageCollaborators"
     icon="contacts"
     :title="translationContent.WGO_FINANCE_COLLABORATOR_TITLE || 'Contacts'"
@@ -8,6 +8,7 @@
     :maxLabels="3"
     :options="options"
     :filterStr="filterStr"
+    :watchProps="watchProps"
   >
     <template slot="addButton">
       <slot name="addButton"> </slot>
@@ -47,7 +48,7 @@
         </div>
       </div>
     </template>
-  </ExpandableList>
+  </wgo-exp-list>
 </template>
 
 <script lang="ts" src="./CollaboratorList.ts" />

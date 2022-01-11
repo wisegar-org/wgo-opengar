@@ -1,10 +1,14 @@
+import {
+  WGOExpandableListOptions,
+  WGOListItem,
+  WGOPropToEdit
+} from '@wisegar-org/quasar-app-extension-wgo-vue-components/src/lib';
 import { openURL } from 'quasar';
 import { IssuesRecord } from 'src/modules/finance';
 import {
-  ExpandableListOptions,
-  ListItem,
-  PropToEdit
-} from 'src/modules/wgo/components/ExpandableList/models';
+  componentsGettedKeys,
+  componentsNamespace
+} from 'src/modules/wgo/store/ComponentsState';
 import {
   languageActions,
   languageGetters,
@@ -12,7 +16,6 @@ import {
 } from 'src/modules/wgo/store/Language';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
-import ExpandableList from '../../../../wgo/components/ExpandableList/ExpandableList.vue';
 import IssueDetails from '../IssueDetailsDialog/IssueDetails.vue';
 import {
   ITranslationFinanceIssuesKeys,
@@ -21,7 +24,6 @@ import {
 
 @Component({
   components: {
-    ExpandableList,
     IssueDetails
   }
 })
@@ -35,12 +37,25 @@ export default class IssuesList extends Vue {
   @Prop() loading!: boolean;
   @Prop({ default: '' }) filterStr!: boolean;
   @Prop() issues!: IssuesRecord[];
-  @Prop() columns!: PropToEdit[];
+  @Prop() columns!: WGOPropToEdit[];
   @Prop() headerButtons!: {
     icon: string;
     tooltip: string;
     click: () => unknown;
   }[];
+  @Getter(componentsGettedKeys.getLeftDrawerOpen, {
+    namespace: componentsNamespace
+  })
+  show!: boolean;
+  @Getter(componentsGettedKeys.getLeftDrawerMinState, {
+    namespace: componentsNamespace
+  })
+  minState!: boolean;
+
+  watchProps = {
+    show: false,
+    minState: false
+  };
 
   innerLoading = false;
   pageIssues: IssuesRecord[] = [];
@@ -50,7 +65,7 @@ export default class IssuesList extends Vue {
   itemsCount = 0;
 
   goToGithubBtn = {
-    click: (item: ListItem) => {
+    click: (item: WGOListItem) => {
       this.goToGithub(item);
     },
     icon: 'visibility',
@@ -58,10 +73,10 @@ export default class IssuesList extends Vue {
   };
 
   itemByPageOptions = [5, 10, 20, 50, 100];
-  options = <ExpandableListOptions>{
-    showAddBotton: false,
+  options = <WGOExpandableListOptions>{
+    showAddButton: false,
     expandedButtons: [this.goToGithubBtn],
-    labelShowAddBotton: '',
+    labelShowAddButton: '',
     textDeleteConfirm: '',
     disableFilters: true,
     onAddItem: () => null,
@@ -76,6 +91,15 @@ export default class IssuesList extends Vue {
   constructor() {
     super();
     this.$nextTick(() => this.updatePageIssues());
+  }
+
+  @Watch('show')
+  @Watch('minState')
+  changeWatchProps() {
+    this.watchProps = {
+      show: this.show,
+      minState: this.minState
+    };
   }
 
   @Watch('issues')
@@ -99,7 +123,7 @@ export default class IssuesList extends Vue {
       .reduce((a, b) => a + b, 0);
   }
 
-  goToGithub(issue: ListItem) {
+  goToGithub(issue: WGOListItem) {
     openURL((issue as any).url.replace('api.github.com/repos', 'github.com'));
   }
 
