@@ -1,5 +1,5 @@
 <template>
-  <Expanded :label="title" :group="groupName" :icon="icon">
+  <wgo-expanded :label="title" :group="groupName" :icon="icon">
     <template slot="content">
       <div class="q-pa-sm">
         <ModuleEditor
@@ -29,13 +29,12 @@
         @click="() => (showDeleteConfirm = true)"
       />
     </template>
-  </Expanded>
+  </wgo-expanded>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import ModuleEditor from './ModuleEditor.vue';
-import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import { ITranslationModulesAdminKeys } from '../TranslationsKeys';
 import { StorageModuleItem } from '../../../../models/models';
@@ -57,7 +56,6 @@ import { INotify } from '../../../../../wgo/models';
 @Component({
   components: {
     ModuleEditor,
-    Expanded,
     ConfirmDialog
   }
 })

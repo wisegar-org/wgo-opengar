@@ -1,5 +1,5 @@
 <template>
-  <Expanded :label="title" :group="groupName" :icon="icon">
+  <wgo-expanded :label="title" :group="groupName" :icon="icon">
     <template slot="content">
       <div class="q-pa-sm">
         <ServiceEditor
@@ -29,7 +29,7 @@
         @click="() => (showDeleteConfirm = true)"
       />
     </template>
-  </Expanded>
+  </wgo-expanded>
   <!-- <q-expansion-item popup :group="groupName" :icon="icon" :label="title">
     <q-separator />
     <q-card>
@@ -50,7 +50,6 @@
 import { StorageServiceItem } from '../../../../models/StorageModels';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import ServiceEditor from './ServiceEditor.vue';
-import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import { Action, Getter } from 'vuex-class';
 import { ITranslationServicesAdminKeys } from '../TranslationsKeys';
@@ -69,7 +68,6 @@ import { INotify } from '../../../../../wgo/models';
 @Component({
   components: {
     ServiceEditor,
-    Expanded,
     ConfirmDialog
   }
 })

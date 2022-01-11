@@ -1,5 +1,5 @@
 <template>
-  <Expanded :label="title" :group="groupName" :icon="icon">
+  <wgo-expanded :label="title" :group="groupName" :icon="icon">
     <template slot="content">
       <div class="q-pa-sm">
         <DoctorEditor
@@ -29,14 +29,13 @@
         @click="() => (showDeleteConfirm = true)"
       />
     </template>
-  </Expanded>
+  </wgo-expanded>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import DoctorEditor from './DoctorEditor.vue';
 import { StorageDoctorItem } from '../../../../models/StorageModels';
-import Expanded from '../../../../../wgo/components/Expanded/Expanded.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import {
   casinaModelsActionsKeys,
@@ -57,7 +56,6 @@ import { INotify } from '../../../../../wgo/models';
 @Component({
   components: {
     DoctorEditor,
-    Expanded,
     ConfirmDialog
   }
 })

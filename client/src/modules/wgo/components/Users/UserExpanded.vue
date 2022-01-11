@@ -1,5 +1,5 @@
 <template>
-  <Expanded :labels="labels" icon="person" group="userExpanded">
+  <wgo-expanded :labels="labels" icon="person" group="userExpanded">
     <template slot="content">
       <div class="row q-py-sm">
         <div class="col-12 col-sm-6">
@@ -70,7 +70,7 @@
     <template slot="buttons">
       <slot></slot>
     </template>
-  </Expanded>
+  </wgo-expanded>
 </template>
 
 <script lang="ts">
@@ -78,9 +78,8 @@ import { languageGetters, languageNamespace } from '../../store/Language';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { UsersModel } from '../../models';
-import Expanded from '../Expanded/Expanded.vue';
 
-@Component({ components: { Expanded } })
+@Component({})
 export default class UserExpanded extends Vue {
   @Prop() userModel!: UsersModel;
 
