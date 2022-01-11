@@ -81,7 +81,7 @@
         <div class="q-pa-md" style="width: 100%">
           <q-list v-if="!!translations">
             <template v-for="(item, key) in translations">
-              <SimpleExpanded
+              <wgo-simple-expanded
                 :key="item.key + key"
                 icon="language"
                 :label="item.key"
@@ -90,7 +90,7 @@
                 <template slot="content">
                   <TranslationEditor :translation="item" :language="language" />
                 </template>
-              </SimpleExpanded>
+              </wgo-simple-expanded>
             </template>
           </q-list>
           <div class="q-pa-lg flex flex-center">

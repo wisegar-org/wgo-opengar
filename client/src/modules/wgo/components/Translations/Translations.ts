@@ -23,13 +23,11 @@ import {
   ITranslationTranslationKeys,
   TranslationsKeys
 } from './TranslationsKeys';
-import SimpleExpanded from '../Expanded/SimpleExpanded.vue';
 
 @Component({
   components: {
     TranslationEditor,
-    LanguageSimpleSelect,
-    SimpleExpanded
+    LanguageSimpleSelect
   }
 })
 export default class Translations extends Vue {
