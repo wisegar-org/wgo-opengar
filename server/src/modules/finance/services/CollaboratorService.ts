@@ -8,6 +8,7 @@ import ObjExtUtils, {
   RolEntity,
   Context,
 } from '@wisegar-org/wgo-opengar-core';
+import _ from 'lodash';
 
 export class CollaboratorService {
   private connection: Connection;
@@ -245,8 +246,8 @@ export class CollaboratorService {
       const user_lastName = splitName.length > 0 ? splitName.join(' ') : '';
       const user_email = email !== '' && email.indexOf('@') !== -1 ? email : '';
       const userResult = new UserEntity(
-        ObjExtUtils.IsStringEmpty(user_name) ? userName : user_name,
-        ObjExtUtils.IsStringEmpty(user_lastName) ? '' : user_lastName,
+        _.isEmpty(user_name) ? userName : user_name,
+        _.isEmpty(user_lastName) ? '' : user_lastName,
         userName,
         user_email,
         userName,
@@ -259,22 +260,22 @@ export class CollaboratorService {
       if (result.isSuccess) {
         console.log('Create user by collaborator: ', userResult.userName);
       }
-    } else if (!ObjExtUtils.IsStringEmpty(email) && userResponse.result) {
+    } else if (!_.isEmpty(email) && userResponse.result) {
       const splitName = name.split(' ');
       const user_name = splitName.splice(0, 1)[0];
       const user_lastName = splitName.join(' ');
 
       const user = userResponse.result;
 
-      if (ObjExtUtils.IsStringEmpty(user.email)) {
+      if (_.isEmpty(user.email)) {
         user.email = email;
       }
 
-      if (ObjExtUtils.IsStringEmpty(user.name)) {
+      if (_.isEmpty(user.name)) {
         user.name = user_name;
       }
 
-      if (ObjExtUtils.IsStringEmpty(user.lastName)) {
+      if (_.isEmpty(user.lastName)) {
         user.lastName = user_lastName;
       }
 

@@ -15,6 +15,7 @@ import { CollaboratorEntity } from './CollaboratorEntity';
 import { IssueEntity } from './IssueEntity';
 import ObjExtUtils from '@wisegar-org/wgo-opengar-core';
 import moment from 'moment';
+import _ from 'lodash';
 
 export enum AccountingStatus {
   Pending = 1,
@@ -119,7 +120,7 @@ export class AccountEntity extends BaseEntity {
     if (contributor) {
       this.contributorId = contributor.id;
       this.contributor = contributor;
-      const nameContributor = !ObjExtUtils.IsStringEmpty(contributor.name)
+      const nameContributor = !_.isEmpty(contributor.name)
         ? contributor.name
             .split(' ')
             .map((strg) => strg[0])
