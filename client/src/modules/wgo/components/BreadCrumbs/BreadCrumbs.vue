@@ -2,13 +2,22 @@
   <div class="fit">
     <div v-if="items && $q.screen.width >= 600" class=" q-pa-md fit">
       <q-breadcrumbs class="desktop-only">
-        <q-breadcrumbs-el
-          v-for="(v, k) in history || ['/']"
-          :key="k"
-          :label="getLabels(v.label)"
-          :icon="v.icon"
-          :to="v.to"
-        />
+        <template v-for="(v, k) in history || ['/']">
+          <q-breadcrumbs-el
+            v-if="!v.disable"
+            :key="k"
+            :label="getLabels(v.label)"
+            :icon="v.icon"
+            :to="v.to"
+          />
+          <q-breadcrumbs-el
+            v-else
+            :key="k"
+            :label="getLabels(v.label)"
+            :icon="v.icon"
+            style="cursor: context-menu; color: black;"
+          />
+        </template>
       </q-breadcrumbs>
     </div>
     <div v-if="$q.screen.width < 600" class="q-my-xs row items-center">
