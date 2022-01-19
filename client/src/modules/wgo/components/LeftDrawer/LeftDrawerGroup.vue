@@ -70,7 +70,7 @@ export default class OLeftDrawerGroup extends Vue {
 
   getBorderStyle() {
     return this.isActiveRoute()
-      ? `border-right: 5px solid ${this.primary};`
+      ? `border-right: 5px solid ${this.primary || 'black'};`
       : '';
   }
 
