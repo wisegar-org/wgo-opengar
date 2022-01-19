@@ -27,26 +27,7 @@
           </div>
         </q-item>
         <q-separator v-if="userLogged" />
-        <template v-for="(menuItem, index) in items">
-          <q-item
-            v-if="menuItem.type === 'item' && isValidRole(menuItem)"
-            :key="index"
-            clickable
-            v-ripple
-            @click="() => menuItem.onClick()"
-          >
-            <q-item-section avatar>
-              <q-icon :name="menuItem.icon" />
-            </q-item-section>
-            <q-item-section>
-              {{ getLabels(menuItem.label) }}
-            </q-item-section>
-          </q-item>
-          <q-separator
-            v-else-if="menuItem.type === 'separator'"
-            :key="'sep' + index"
-          />
-        </template>
+        <LeftDrawerList :items="items" />
       </q-list>
     </q-scroll-area>
     <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
@@ -87,8 +68,13 @@ import {
   languageNamespace
 } from '../../store/Language';
 import { userGetters, userNamespace } from '../../store/User';
+import LeftDrawerList from './LeftDrawerList.vue';
 
-@Component({})
+@Component({
+  components: {
+    LeftDrawerList
+  }
+})
 export default class LeftDrawer extends Vue {
   @Prop() readonly items!: (IListItemNavigationCallBack | IListSeparator)[];
   @Getter(componentsGettedKeys.getLeftDrawerOpen, {

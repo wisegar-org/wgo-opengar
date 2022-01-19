@@ -1,4 +1,4 @@
-import VueRouter from 'vue-router';
+import VueRouter, { RouteConfig } from 'vue-router';
 import { IndexAdminRoute, LoginRoute } from '../settings/RouterSettings';
 
 export interface IRouteService {
@@ -29,5 +29,15 @@ export class RouteService implements IRouteService {
 
   public goToAdminPage() {
     void this.frameworkRouter.push(IndexAdminRoute.path);
+  }
+
+  public getRouteName(route: RouteConfig) {
+    if (!route.name)
+      throw 'RouteService - Not find name property in RouterConfig';
+    return route.name;
+  }
+
+  public isActiveRoute(activeRoute: string, path: string) {
+    return activeRoute === path;
   }
 }

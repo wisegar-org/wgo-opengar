@@ -16,7 +16,9 @@ export function getDrawerItems(
           routeService.goTo(pathGithub.to);
         },
         icon: pathGithub.icon,
-        roleFilter: pathGithub.roleFilter
+        roleFilter: pathGithub.roleFilter,
+        activeRoute: (activeRoute: string) =>
+          routeService.isActiveRoute(activeRoute, pathGithub.to)
       };
     });
   const drawerItem: (

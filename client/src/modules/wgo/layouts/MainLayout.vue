@@ -59,6 +59,7 @@ import {
 import { getDrawerItems } from '../settings/LeftDrawerSettings';
 import {
   BoolDictionary,
+  IList,
   IListItemNavigationCallBack,
   IListSeparator,
   INavigationTo,
@@ -107,7 +108,7 @@ export default class MainLayout extends Vue {
   @Action(componentsActionsKeys.notify, { namespace: componentsNamespace })
   setNotify!: (value: INotify) => void;
   routerService: RouteService;
-  itemsDrawer: (IListItemNavigationCallBack | IListSeparator)[] = [];
+  itemsDrawer: IList[] = [];
   breadCrumbsItem: INavigationTo[];
   userMenuItems: IListItemNavigationCallBack[];
 
@@ -115,6 +116,7 @@ export default class MainLayout extends Vue {
   innerLoadding = true;
 
   @Prop() itemsPaths!: IBreadCrumbItem[];
+  @Prop() geDrawerItems!: (router: RouteService) => IList[];
   @Prop({ default: true }) showEditProfile!: false;
 
   constructor() {
@@ -177,9 +179,13 @@ export default class MainLayout extends Vue {
   }
 
   getItemsDrawer() {
-    this.itemsDrawer = this.itemsPaths
-      ? getDrawerItems(this.routerService, this.itemsPaths)
-      : [];
+    if (this.geDrawerItems)
+      this.itemsDrawer = this.geDrawerItems(this.routerService);
+    else {
+      this.itemsDrawer = this.itemsPaths
+        ? getDrawerItems(this.routerService, this.itemsPaths)
+        : [];
+    }
     this.breadCrumbsItem = this.itemsPaths;
   }
 
