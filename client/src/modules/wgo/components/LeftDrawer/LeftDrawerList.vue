@@ -15,7 +15,6 @@
         v-else-if="menuItem.type === 'separator'"
         :key="`${id_group}-sep-${index}`"
       />
-      <div v-else :key="`${id_group}-notmatch-${index}`">asdasd</div>
     </template>
   </q-list>
 </template>

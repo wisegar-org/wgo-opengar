@@ -11,7 +11,7 @@
         <q-icon :name="item.icon" :color="getColorStyle()" />
       </q-item-section>
       <q-item-section :class="getLabelStyle()">
-        {{ item.label }}
+        {{ getLabels(item.label) }}
       </q-item-section>
       <q-item-section avatar>
         <q-icon
@@ -37,6 +37,7 @@ import {
   componentsGettedKeys,
   componentsNamespace
 } from '../../store/ComponentsState';
+import { languageGetters, languageNamespace } from '../../store/Language';
 
 @Component({
   components: {
@@ -44,6 +45,10 @@ import {
   }
 })
 export default class OLeftDrawerGroup extends Vue {
+  @Getter(languageGetters.getTranslations, {
+    namespace: languageNamespace
+  })
+  translationsContent!: { [key: string]: string };
   @Prop() readonly item!: IListGroup;
   @Getter(componentsGettedKeys.getLeftDrawerMinState, {
     namespace: componentsNamespace
@@ -80,6 +85,12 @@ export default class OLeftDrawerGroup extends Vue {
 
   getLabelStyle() {
     return this.isActiveRoute() ? 'text-primary' : '';
+  }
+
+  getLabels(key: string) {
+    return key in this.translationsContent
+      ? this.translationsContent[key]
+      : key;
   }
 }
 </script>

@@ -9,7 +9,7 @@
       <q-icon :name="menuItem.icon" :color="getColorStyle()" />
     </q-item-section>
     <q-item-section :class="getLabelStyle()">
-      {{ menuItem.label }}
+      {{ getLabels(menuItem.label) }}
     </q-item-section>
   </q-item>
 </template>
@@ -18,9 +18,15 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { IListItemNavigationCallBack } from '../../models';
 import { colors } from 'quasar';
+import { Getter } from 'vuex-class';
+import { languageGetters, languageNamespace } from '../../store/Language';
 
 @Component({})
 export default class OLeftDrawerItem extends Vue {
+  @Getter(languageGetters.getTranslations, {
+    namespace: languageNamespace
+  })
+  translationsContent!: { [key: string]: string };
   @Prop() menuItem!: IListItemNavigationCallBack;
   primary = colors.getBrand('primary');
 
@@ -42,6 +48,12 @@ export default class OLeftDrawerItem extends Vue {
 
   getLabelStyle() {
     return this.isActiveRoute() ? 'text-primary' : '';
+  }
+
+  getLabels(key: string) {
+    return key in this.translationsContent
+      ? this.translationsContent[key]
+      : key;
   }
 }
 </script>
