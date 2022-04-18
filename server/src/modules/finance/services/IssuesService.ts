@@ -5,8 +5,8 @@ import { ProjectService } from './ProjectService';
 import { GetConnection } from '../database';
 import { RepositoryService } from './RepositoryService';
 import { AccountEntity } from '../database/entities/AccountEntity';
-import Requestable from 'github-api/dist/components/Requestable';
 import { Context } from '@wisegar-org/wgo-opengar-core';
+import { setLabel as SetLabelGithub, removeLabel as RemoveLabelGithub } from '@wisegar-org/wgo-github'
 
 export class IssueService {
   private connection: Connection;
@@ -183,28 +183,30 @@ export class IssueService {
   }
 
   async setLabel(owner: string, repo: string, issueNumber: number, label: string, token: string) {
-    const r = new Requestable({
-      token: token,
-    });
-    const response = await r._request('POST', '/repos/' + owner + '/' + repo + '/issues/' + issueNumber + '/labels', {
-      labels: [label],
-    });
+    await SetLabelGithub(owner, repo, issueNumber, label, token)
+    // const r = new Requestable({
+    //   token: token,
+    // });
+    // const response = await r._request('POST', '/repos/' + owner + '/' + repo + '/issues/' + issueNumber + '/labels', {
+    //   labels: [label],
+    // });
   }
 
   async removeLabel(owner: string, repo: string, issueNumber: number, label: string, token: string) {
-    const r = new Requestable({
-      token: token,
-    });
-    try {
-      const response = await r._request(
-        'DELETE',
-        '/repos/' + owner + '/' + repo + '/issues/' + issueNumber + '/labels/' + label
-      );
-    } catch {
-      console.log(
-        'Error on remove label in ' + '/repos/' + owner + '/' + repo + '/issues/' + issueNumber + '/labels/' + label
-      );
-    }
+    await RemoveLabelGithub(owner, repo, issueNumber, label, token)
+    // const r = new Requestable({
+    //   token: token,
+    // });
+    // try {
+    //   const response = await r._request(
+    //     'DELETE',
+    //     '/repos/' + owner + '/' + repo + '/issues/' + issueNumber + '/labels/' + label
+    //   );
+    // } catch {
+    //   console.log(
+    //     'Error on remove label in ' + '/repos/' + owner + '/' + repo + '/issues/' + issueNumber + '/labels/' + label
+    //   );
+    // }
   }
 
   async removeAccount(accountId: number, accountLabel: string, token: string) {
