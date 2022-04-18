@@ -30,98 +30,99 @@ export class UpdateIssuesService {
 
     if(notAccountedIssues.length > 0) {
       for (const issue of notAccountedIssues) { 
-        const repoId = await repoController.updateOrInsertRepository(issue.repo.id, issue.repo.name);
+        if(issue.repo != undefined) {
+          const repoId = await repoController.updateOrInsertRepository(issue.repo.id, issue.repo.name);
 
-        // Get Projects
-        // const repoA = gh.getRepo(repo.owner.login, repo.name);
-        // const projects = await repoA.listProjects();
+          // Get Projects
+          // const repoA = gh.getRepo(repo.owner.login, repo.name);
+          // const projects = await repoA.listProjects();
 
-        // for (const project of projects.data) {
-        //   const proj = await projController.updateOrInsertProject(project.id, project.name);
-        // }
-        
-        let labels_ids: string[] = [];
+          // for (const project of projects.data) {
+          //   const proj = await projController.updateOrInsertProject(project.id, project.name);
+          // }
+          
+          let labels_ids: string[] = [];
 
-        for(const label of issue.labels) {
-          try {
-            await labelController.updateOrInsertLabel(label.id, label.name);
-            labels_ids.push(label.name);
-          } catch (error) {
-            console.log('label error');
-            console.log(label.id);
-            console.log(label.name);
+          for(const label of issue.labels) {
+            try {
+              await labelController.updateOrInsertLabel(label.id, label.name);
+              labels_ids.push(label.name);
+            } catch (error) {
+              console.log('label error');
+              console.log(label.id);
+              console.log(label.name);
+            }
           }
-        }
 
-        let milestoneId: string | undefined = undefined;
-        if (issue.milestones) {
+          let milestoneId: string | undefined = undefined;
+          if (issue.milestones) {
+            try {
+              const mil = await milestoneController.updateOrInsertMilestone(
+                issue.milestones.id,
+                issue.milestones.title
+              );
+              milestoneId = issue.milestones.title;
+            } catch (error) {
+              console.log('milestone error');
+              console.log(issue.milestones.id);
+              console.log(issue.milestones.title);
+            }
+          }
+          let collaboratorId = undefined;
+          if(issue.assignedTo) {
+            try {
+              const user = await getUserProfile(token, issue.assignedTo.login)
+
+              const col = await colController.updateOrInsertCollaborator(
+                issue.assignedTo.id,
+                issue.assignedTo.login,
+                issue.assignedTo.node_id,
+                'WGO_FINANCE_COLLABORATOR_ROLE_COLLABORATOR',
+                issue.assignedTo.avatar_url,
+                issue.assignedTo.url,
+                user.name || '',
+                user.location || '',
+                user.email || '',
+                user.bio || '',
+                true
+              );
+              collaboratorId = col.id;
+            } catch (error) {
+              console.log('collaborator error');
+              console.log(issue.assignedTo.id);
+              console.log(issue.assignedTo.login);
+            }
+          }
+
           try {
-            const mil = await milestoneController.updateOrInsertMilestone(
-              issue.milestones.id,
-              issue.milestones.title
+            const col = await issueController.updateOrInsertIssue(
+              issue.id,
+              issue.repo.owner.login,
+              issue.repo.name,
+              issue.title,
+              issue.status,
+              issue.hours,
+              issue.last_comment,
+              new Date(issue.created_at),
+              new Date(issue.closed_at),
+              new Date(issue.updated_at),
+              issue.number,
+              issue.description,
+              issue.url,
+              collaboratorId,
+              undefined,
+              repoId.id,
+              labels_ids,
+              milestoneId
             );
-            milestoneId = issue.milestones.title;
           } catch (error) {
-            console.log('milestone error');
-            console.log(issue.milestones.id);
-            console.log(issue.milestones.title);
+            console.log('==========error==========');
+            console.log(issue);
+            console.log(error);
+            console.log('---------------------------');
           }
+
         }
-        let collaboratorId = undefined;
-        if(issue.assignedTo) {
-          try {
-            const user = await getUserProfile(token, issue.assignedTo.login)
-
-            const col = await colController.updateOrInsertCollaborator(
-              issue.assignedTo.id,
-              issue.assignedTo.login,
-              issue.assignedTo.node_id,
-              'WGO_FINANCE_COLLABORATOR_ROLE_COLLABORATOR',
-              issue.assignedTo.avatar_url,
-              issue.assignedTo.url,
-              user.name || '',
-              user.location || '',
-              user.email || '',
-              user.bio || '',
-              true
-            );
-            collaboratorId = col.id;
-          } catch (error) {
-            console.log('collaborator error');
-            console.log(issue.assignedTo.id);
-            console.log(issue.assignedTo.login);
-          }
-        }
-
-        try {
-          const col = await issueController.updateOrInsertIssue(
-            issue.id,
-            issue.repo.owner.login,
-            issue.repo.name,
-            issue.title,
-            issue.status,
-            issue.hours,
-            issue.last_comment,
-            new Date(issue.created_at),
-            new Date(issue.closed_at),
-            new Date(issue.updated_at),
-            issue.number,
-            issue.description,
-            issue.url,
-            collaboratorId,
-            undefined,
-            repoId.id,
-            labels_ids,
-            milestoneId
-          );
-        } catch (error) {
-          console.log('==========error==========');
-          console.log(issue);
-          console.log(error);
-          console.log('---------------------------');
-        }
-
-
       } 
     }
   }
