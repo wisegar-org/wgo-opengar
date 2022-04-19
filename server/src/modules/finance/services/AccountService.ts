@@ -7,15 +7,14 @@ import { CollaboratorService, ProjectService } from '.';
 import { TransactionService } from './TransactionService';
 import { OrganizationDataService } from './OrganizationDataService';
 import { ExpensesService } from './ExpensesService';
+import { Context, EmailNotifyService } from '@wisegar-org/wgo-opengar-core';
 import {
-  Context,
   ITemplateTokens,
   ParseTemplateService,
   TemplateEntity,
-  TemplateService,
-  EmailNotifyService,
   HandlebarsTemplateService,
-} from '@wisegar-org/wgo-opengar-core';
+  TemplateService,
+} from '@wisegar-org/wgo-templating';
 import OrganizationDataEntity from '../database/entities/OrganizationDataEntity';
 import { v4 as uuidv4 } from 'uuid';
 import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
