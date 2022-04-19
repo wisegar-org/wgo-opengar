@@ -1,12 +1,7 @@
 import { Express } from 'express';
 import { Connection } from 'typeorm';
-import {
-  AuthorizeUserRol,
-  EmailServer,
-  EmailOptions,
-  GetEmailAppAddressKey,
-  GetEmailAppAddressNameKey,
-} from '@wisegar-org/wgo-opengar-core';
+import { AuthorizeUserRol, EmailServer, EmailOptions } from '@wisegar-org/wgo-opengar-core';
+import { GetEmailAppAddressKey, GetEmailAppAddressNameKey } from '@wisegar-org/wgo-settings';
 import { GenerateAccountHTML } from '../services/AccountDetailsToHTML';
 import { ReadStream } from 'fs-extra';
 export const ExportController = (app: Express, conn: Connection) => {

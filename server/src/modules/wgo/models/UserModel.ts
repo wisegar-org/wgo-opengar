@@ -3,15 +3,14 @@ import { ErrorResponse, Response } from '../models/responseModels/Response';
 import {
   AccessTokenData,
   generateAccessToken,
-  GetEmailSenderKey,
-  GetEmailSenderNameKey,
-  HandlebarsTemplateService,
   LanguageService,
   TranslationService,
   UserDataService,
   UserEntity,
   validateAccessToken,
+  HandlebarsTemplateService,
 } from '@wisegar-org/wgo-opengar-core';
+import { GetEmailSenderKey, GetEmailSenderNameKey } from '@wisegar-org/wgo-settings';
 import { Connection } from 'typeorm';
 import _ from 'lodash';
 import { EmailModel } from './EmailModel';

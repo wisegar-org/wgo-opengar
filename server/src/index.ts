@@ -1,5 +1,6 @@
 import 'reflect-metadata';
-import { boot, GetNodeEnvKey, GetPortKey } from '@wisegar-org/wgo-opengar-core';
+import { boot } from '@wisegar-org/wgo-opengar-core';
+import { GetPortKey, GetNodeEnvKey } from '@wisegar-org/wgo-settings';
 import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/IServerOptions';
 import { callSeeders } from './seeder';
 import { initializeMiddlewares } from './middlewares';
@@ -10,10 +11,8 @@ import { DBConector, OGConnection } from './database';
 import { ServerAuthenticator, ServerContext } from './modules/wgo/servers';
 import { TestEnvSettings, TestSettings } from '@wisegar-org/wgo-github';
 
-
 //console.log("New github env: ", TestEnvSettings().API_TOKEN);
 //console.log("New github settings: ", TestSettings().API_TOKEN);
-
 
 const buildConfig = new BuildSettings();
 const port = GetPortKey();

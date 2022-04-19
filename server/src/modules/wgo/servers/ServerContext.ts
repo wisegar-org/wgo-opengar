@@ -1,4 +1,5 @@
-import { Context, GetNodeEnvKey, IContextOptions, UserEntity } from '@wisegar-org/wgo-opengar-core';
+import { Context, IContextOptions, UserEntity } from '@wisegar-org/wgo-opengar-core';
+import { GetNodeEnvKey } from '@wisegar-org/wgo-settings';
 import { GetConnection } from '../database';
 
 const environment = GetNodeEnvKey();

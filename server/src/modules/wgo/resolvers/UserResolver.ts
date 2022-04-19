@@ -1,13 +1,5 @@
 import { Resolver, Query, Mutation, Arg, Args } from 'type-graphql';
-import {
-  UserEntity,
-  UserDataService,
-  GetEmailSenderKey,
-  GetEmailSenderNameKey,
-  validateAccessToken,
-  generateAccessToken,
-  AccessTokenData,
-} from '@wisegar-org/wgo-opengar-core';
+import { UserEntity, UserDataService } from '@wisegar-org/wgo-opengar-core';
 import { ErrorResponse, Response } from '../models/responseModels/Response';
 import * as _ from 'lodash';
 import {

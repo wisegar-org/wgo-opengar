@@ -1,7 +1,7 @@
 import { createConnection, Connection, ConnectionOptions, getConnection, getConnectionManager } from 'typeorm';
 export { Connection, Repository } from 'typeorm';
 import _ from 'lodash';
-import { GetNodeEnvKey } from '@wisegar-org/wgo-opengar-core';
+import { GetNodeEnvKey } from '@wisegar-org/wgo-settings';
 import { BuildSettings } from '../settings/BuildSettings';
 import { getConnectionOptions, OGConnection } from './DBConnections';
 

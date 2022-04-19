@@ -1,11 +1,10 @@
+import { EmailServer, EmailOptions } from '@wisegar-org/wgo-opengar-core';
 import {
-  EmailServer,
-  EmailOptions,
   GetEmailAppAddressKey,
   GetEmailAppAddressNameKey,
   GetEmailSenderKey,
   GetEmailSenderNameKey,
-} from '@wisegar-org/wgo-opengar-core';
+} from '@wisegar-org/wgo-settings';
 import { EmailResponseGQL } from '../modules';
 import {
   EmailFromToAppInputGQL,

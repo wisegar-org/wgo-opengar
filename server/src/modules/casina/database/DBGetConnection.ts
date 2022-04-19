@@ -1,7 +1,7 @@
 import { getConnection, getConnectionManager } from 'typeorm';
 export { Connection, Repository } from 'typeorm';
 import _ from 'lodash';
-import { GetNodeEnvKey } from '@wisegar-org/wgo-opengar-core';
+import { GetNodeEnvKey } from '@wisegar-org/wgo-settings';
 
 export function GetConnection() {
   const connectionManager = getConnectionManager();
