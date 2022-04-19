@@ -1,4 +1,5 @@
-import { cypherData, decypherData } from '@wisegar-org/wgo-opengar-core';
+import { cypherData, decypherData } from '@wisegar-org/wgo-crypto';
+import { GetCypherKey } from '@wisegar-org/wgo-settings';
 import { join } from 'path';
 
 export const PUBLIC_FOLDER_NAME = 'public';
@@ -7,6 +8,7 @@ export const APP_SERVER_NAME = 'api';
 export const PUBLIC_REPORT_RELATIVE_URL = `/${REPORT_STORAGE_FOLDER_NAME}`;
 export const PUBLIC_REPORT_RELATIVE_PATH = `${PUBLIC_FOLDER_NAME}/${REPORT_STORAGE_FOLDER_NAME}`;
 export const PUBLIC_REPORT_APP_PATH = `/${APP_SERVER_NAME}/${REPORT_STORAGE_FOLDER_NAME}`;
+const cypherKey = GetCypherKey();
 
 export const GetWebRootKey = () => {
   if (process.env.APP_WEB_ROOT) return process.env.APP_WEB_ROOT;
@@ -28,9 +30,9 @@ export const GetPublicReportPath = () => {
 };
 
 export const getTokenToReport = (data: any) => {
-  return cypherData(JSON.stringify(data));
+  return cypherData(JSON.stringify(data), cypherKey);
 };
 
 export const getDataOfToken = (token: string) => {
-  return JSON.parse(decypherData(token));
+  return JSON.parse(decypherData(token, cypherKey));
 };
