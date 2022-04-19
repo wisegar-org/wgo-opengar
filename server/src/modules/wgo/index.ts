@@ -10,10 +10,10 @@ import {
   MediaEntity,
   RolEntity,
   SessionEntity,
-  TemplateEntity,
   TranslationEntity,
   UserEntity,
 } from '@wisegar-org/wgo-opengar-core';
+import { TemplateEntity } from '@wisegar-org/wgo-templating';
 import SeoEntity from './database/entities/SeoEntity';
 import StorageEntity from './database/entities/StorageEntity';
 import { SeoResolver } from './modules';
@@ -39,7 +39,7 @@ export const getWGOResolvers = () => {
     TranslationResolver,
     SeoResolver,
     StorageResolver,
-    ContactResolver
+    ContactResolver,
   ];
 };
 
@@ -54,6 +54,6 @@ export const getWGOEntities = () => {
     LanguageEntity,
     SeoEntity,
     StorageEntity,
-    WGOContactEntity
+    WGOContactEntity,
   ] as any[];
 };

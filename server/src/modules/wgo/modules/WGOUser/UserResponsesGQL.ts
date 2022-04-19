@@ -1,6 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
-import { RolEntity } from '@wisegar-org/wgo-opengar-core';
-import { UserEntity } from '@wisegar-org/wgo-opengar-core';
+import { RolEntity, UserEntity } from '@wisegar-org/wgo-opengar-core';
 import { LanguageResponseGQL, RoleGQL } from '..';
 import { GenericArrayResponseGQL, GenericResponseGQL } from '../ResponseGQL';
 import { Role } from '../../models/RolesClass';

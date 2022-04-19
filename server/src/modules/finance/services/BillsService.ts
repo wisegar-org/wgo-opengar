@@ -2,15 +2,17 @@ import { Connection, Repository } from 'typeorm';
 import { GetConnection } from '../database';
 import {
   Context,
-  TemplateService,
-  TemplateEntity,
-  ParseTemplateService,
   EmailNotifyService,
-  HandlebarsTemplateService,
   TranslationService,
   LanguageEntity,
   exportUrlToPdfBuffer,
 } from '@wisegar-org/wgo-opengar-core';
+import {
+  TemplateEntity,
+  TemplateService,
+  ParseTemplateService,
+  HandlebarsTemplateService,
+} from '@wisegar-org/wgo-templating';
 import { FinanceMediaService } from './FinanceMediaService';
 import BillEntity, { BillStatus } from '../database/entities/BillEntity';
 import { CollaboratorService } from './CollaboratorService';
@@ -24,8 +26,6 @@ import { OrganizationDataService } from './OrganizationDataService';
 import { v4 as uuidv4 } from 'uuid';
 import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
 import { parseInt } from 'lodash';
-import { JSDOM } from 'jsdom';
-import { writeFileSync, writeSync } from 'fs-extra';
 
 const BILL_CONSTANT = 'BILL_TEMPLATE';
 const BILL_EMAIL_CONSTANT = 'BILL_EMAIL_TEMPLATE';

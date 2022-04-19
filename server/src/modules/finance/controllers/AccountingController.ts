@@ -1,6 +1,7 @@
 import { Express } from 'express';
 import { Connection } from 'typeorm';
-import { AuthorizeUserRol, RolEntityEnum, TemplateEntity } from '@wisegar-org/wgo-opengar-core';
+import { AuthorizeUserRol, RolEntityEnum } from '@wisegar-org/wgo-opengar-core';
+import { TemplateEntity } from '@wisegar-org/wgo-templating';
 import { AccountService } from '../services';
 import { AddAccountParams } from '../utils/models';
 

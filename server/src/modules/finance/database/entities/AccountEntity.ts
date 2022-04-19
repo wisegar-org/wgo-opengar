@@ -13,7 +13,6 @@ import { RepositoryEntity } from './RepositoryEntity';
 import { ProjectEntity } from './ProjectEntity';
 import { CollaboratorEntity } from './CollaboratorEntity';
 import { IssueEntity } from './IssueEntity';
-import ObjExtUtils from '@wisegar-org/wgo-opengar-core';
 import moment from 'moment';
 import _ from 'lodash';
 

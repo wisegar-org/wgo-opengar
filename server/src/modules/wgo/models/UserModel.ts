@@ -8,9 +8,9 @@ import {
   UserDataService,
   UserEntity,
   validateAccessToken,
-  HandlebarsTemplateService,
 } from '@wisegar-org/wgo-opengar-core';
 import { GetEmailSenderKey, GetEmailSenderNameKey } from '@wisegar-org/wgo-settings';
+import { HandlebarsTemplateService } from '@wisegar-org/wgo-templating';
 import { Connection } from 'typeorm';
 import _ from 'lodash';
 import { EmailModel } from './EmailModel';

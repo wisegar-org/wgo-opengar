@@ -1,13 +1,7 @@
 import { Connection, Repository } from 'typeorm';
 import { CollaboratorEntity } from '../database/entities/CollaboratorEntity';
 import { GetConnection } from '../database';
-import ObjExtUtils, {
-  UserEntity,
-  RolEntityEnum,
-  UserDataService,
-  RolEntity,
-  Context,
-} from '@wisegar-org/wgo-opengar-core';
+import { UserEntity, RolEntityEnum, UserDataService, RolEntity, Context } from '@wisegar-org/wgo-opengar-core';
 import _ from 'lodash';
 
 export class CollaboratorService {
