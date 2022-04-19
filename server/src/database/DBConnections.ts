@@ -5,7 +5,7 @@ import {
   GetDBPasswordKey,
   GetDBPortKey,
   GetDBUserNameKey,
-} from '@wisegar-org/wgo-opengar-core';
+} from '@wisegar-org/wgo-settings';
 import { BuildSettings } from '../settings/BuildSettings';
 import { getEntities } from './entities';
 

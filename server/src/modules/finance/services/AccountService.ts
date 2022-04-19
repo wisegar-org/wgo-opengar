@@ -9,8 +9,6 @@ import { OrganizationDataService } from './OrganizationDataService';
 import { ExpensesService } from './ExpensesService';
 import {
   Context,
-  EmailServer,
-  GetPublicKey,
   ITemplateTokens,
   ParseTemplateService,
   TemplateEntity,
@@ -19,7 +17,6 @@ import {
   HandlebarsTemplateService,
 } from '@wisegar-org/wgo-opengar-core';
 import OrganizationDataEntity from '../database/entities/OrganizationDataEntity';
-import jsonwebtoken from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import { GetPublicReportPath, getTokenToReport, REPORT_STORAGE_FOLDER_NAME } from './SettingsService';
 

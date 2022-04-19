@@ -4,7 +4,7 @@ import { AccountEntity } from '../database/entities/AccountEntity';
 import { IssueEntity } from '../database/entities/IssueEntity';
 import { OrganizationDataEntity } from '../database/entities/OrganizationDataEntity';
 import { ReadStream } from 'fs-extra';
-import { exportHTMLToPdfReadStream } from '@wisegar-org/wgo-opengar-core';
+import { exportHTMLToPdfReadStream } from '@wisegar-org/wgo-printing';
 import { Readable } from 'stream';
 
 class GenerateAccountingPDF {

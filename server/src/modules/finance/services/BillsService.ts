@@ -1,12 +1,7 @@
 import { Connection, Repository } from 'typeorm';
 import { GetConnection } from '../database';
-import {
-  Context,
-  EmailNotifyService,
-  TranslationService,
-  LanguageEntity,
-  exportUrlToPdfBuffer,
-} from '@wisegar-org/wgo-opengar-core';
+import { Context, EmailNotifyService, TranslationService, LanguageEntity } from '@wisegar-org/wgo-opengar-core';
+import { exportUrlToPdfBuffer } from '@wisegar-org/wgo-printing';
 import {
   TemplateEntity,
   TemplateService,
