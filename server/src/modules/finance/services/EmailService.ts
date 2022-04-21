@@ -1,4 +1,4 @@
-import { EmailOptions, EmailServer } from '@wisegar-org/wgo-opengar-core';
+import { EmailOptions, EmailServer } from '@wisegar-org/wgo-mailer';
 
 export class EmailService {
   async sendEmail(from: string, to: string, subject: string, html: string) {

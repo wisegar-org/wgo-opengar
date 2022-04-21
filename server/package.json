@@ -23,6 +23,7 @@
     "@wisegar-org/wgo-printing": "0.0.1-build.3",
     "@wisegar-org/wgo-settings": "0.0.1-build.8",
     "@wisegar-org/wgo-templating": "0.0.1-build.3",
+    "@wisegar-org/wgo-mailer": "0.0.1-build.13",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",

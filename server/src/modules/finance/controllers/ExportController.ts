@@ -1,6 +1,7 @@
 import { Express } from 'express';
 import { Connection } from 'typeorm';
-import { AuthorizeUserRol, EmailServer, EmailOptions } from '@wisegar-org/wgo-opengar-core';
+import { AuthorizeUserRol } from '@wisegar-org/wgo-opengar-core';
+import { EmailServer, EmailOptions } from '@wisegar-org/wgo-mailer';
 import { GetEmailAppAddressKey, GetEmailAppAddressNameKey } from '@wisegar-org/wgo-settings';
 import { GenerateAccountHTML } from '../services/AccountDetailsToHTML';
 import { ReadStream } from 'fs-extra';

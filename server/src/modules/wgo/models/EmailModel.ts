@@ -1,4 +1,4 @@
-import { EmailServer, EmailOptions } from '@wisegar-org/wgo-opengar-core';
+import { EmailServer, EmailOptions } from '@wisegar-org/wgo-mailer';
 import {
   GetEmailAppAddressKey,
   GetEmailAppAddressNameKey,
