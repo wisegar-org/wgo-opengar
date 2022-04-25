@@ -1,7 +1,6 @@
 import 'reflect-metadata';
-import { boot } from '@wisegar-org/wgo-opengar-core';
-import { GetPortKey, GetNodeEnvKey } from '@wisegar-org/wgo-settings';
-import { IServerOptions } from '@wisegar-org/wgo-opengar-core/build/src/server/models/IServerOptions';
+import { start, IServerOptions } from '@wisegar-org/wgo-server';
+import { GetPortKey, GetNodeEnvKey, GetPrivateKey, GetPublicKey, GetExpiresInKey } from '@wisegar-org/wgo-settings';
 import { callSeeders } from './seeder';
 import { initializeMiddlewares } from './middlewares';
 import { getResolvers } from './resolvers';
@@ -9,10 +8,6 @@ import { BuildSettings } from './settings/BuildSettings';
 import { formatError } from './settings/ErrorSettings';
 import { DBConector, OGConnection } from './database';
 import { ServerAuthenticator, ServerContext } from './modules/wgo/servers';
-import { TestEnvSettings, TestSettings } from '@wisegar-org/wgo-github';
-
-//console.log("New github env: ", TestEnvSettings().API_TOKEN);
-//console.log("New github settings: ", TestSettings().API_TOKEN);
 
 const buildConfig = new BuildSettings();
 const port = GetPortKey();
@@ -31,8 +26,11 @@ DBConector.Connect(buildConfig, ogConn)
       maxFiles: 10,
       middlewares: (app) => initializeMiddlewares(buildConfig, app, connection),
       resolvers: getResolvers(buildConfig),
+      privateKey: GetPrivateKey(),
+      publicKey: GetPublicKey(),
+      expiresIn: GetExpiresInKey(),
     };
-    boot(serverOptions, () => callSeeders(buildConfig));
+    start(serverOptions, () => callSeeders(buildConfig));
   })
   .catch((error) => {
     console.error('\n\u001b[31m\u001b[1mPostgress connection:\n\u001b[0m', error);

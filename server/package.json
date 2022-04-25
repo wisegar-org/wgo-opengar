@@ -22,6 +22,7 @@
     "@wisegar-org/wgo-mailer": "0.0.1-build.19",
     "@wisegar-org/wgo-opengar-core": "0.0.1-build.209",
     "@wisegar-org/wgo-printing": "0.0.1-build.3",
+    "@wisegar-org/wgo-server": "0.0.1-build.9",
     "@wisegar-org/wgo-settings": "0.0.1-build.8",
     "@wisegar-org/wgo-templating": "0.0.1-build.3",
     "apollo-cache-inmemory": "^1.6.6",
