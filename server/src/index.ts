@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { start, IServerOptions } from '@wisegar-org/wgo-server';
+import { boot, IServerOptions } from '@wisegar-org/wgo-server';
 import { GetPortKey, GetNodeEnvKey, GetPrivateKey, GetPublicKey, GetExpiresInKey } from '@wisegar-org/wgo-settings';
 import { callSeeders } from './seeder';
 import { initializeMiddlewares } from './middlewares';
@@ -24,13 +24,14 @@ DBConector.Connect(buildConfig, ogConn)
       port: parseInt(port),
       maxFileSize: 5000000000,
       maxFiles: 10,
+      useCors: true,
       middlewares: (app) => initializeMiddlewares(buildConfig, app, connection),
       resolvers: getResolvers(buildConfig),
       privateKey: GetPrivateKey(),
       publicKey: GetPublicKey(),
       expiresIn: GetExpiresInKey(),
     };
-    start(serverOptions, () => callSeeders(buildConfig));
+    boot(serverOptions, () => callSeeders(buildConfig));
   })
   .catch((error) => {
     console.error('\n\u001b[31m\u001b[1mPostgress connection:\n\u001b[0m', error);
