@@ -13,3 +13,5 @@ client/dist
 server/node_modules
 server/private
 server/public
+modules/template/settings
+modules/template/.env

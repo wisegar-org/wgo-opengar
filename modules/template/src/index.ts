@@ -1,38 +1,43 @@
+import "reflect-metadata";
 import {
+  boot,
   IServerOptions,
-  UseCorsMiddleware,
-  UseGqlServer,
-  UseGQLUploadExpress,
-  UseJwtMiddleware,
+  NonEmptyArray,
   UseRestMiddleware,
 } from "@wisegar-org/wgo-server";
-import { NonEmptyArray } from "type-graphql";
-import { AppController } from "./controllers/AppController";
-import { AppContextHandler } from "./handlers/AppContextHandler";
+import {
+  GetPortKey,
+  GetNodeEnvKey,
+  GetPrivateKey,
+  GetPublicKey,
+  GetExpiresInKey,
+} from "@wisegar-org/wgo-settings";
 import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
+import { AppContextHandler } from "./handlers/AppContextHandler";
 import { errorHandler } from "./handlers/ErrorHandler";
+import { AppController } from "./controllers/AppController";
+import { AppResolver } from "./resolvers/AppResolver";
 
-const options: IServerOptions = {
+const port = GetPortKey();
+const environment = GetNodeEnvKey();
+
+const serverOptions: IServerOptions = {
   authenticator: AuthenticationHandler,
   context: AppContextHandler,
-  controllers: [AppController],
-  expiresIn: "",
-  privateKey: "",
-  publicKey: "",
   formatError: errorHandler,
-  resolvers: [] as unknown as NonEmptyArray<Function>,
+  controllers: [AppController],
+  port: parseInt(port),
+  maxFileSize: 5000000000,
+  maxFiles: 10,
+  useCors: true,
+  middlewares: (app) => {
+    UseRestMiddleware(serverOptions);
+  },
+  resolvers: [AppResolver] as unknown as NonEmptyArray<Function>,
+  privateKey: GetPrivateKey(),
+  publicKey: GetPublicKey(),
+  expiresIn: GetExpiresInKey(),
 };
-
-// UseCorsMiddleware(options);
-// UseJwtMiddleware(options);
-// UseRestMiddleware(options);
-// const onCreatedGraphQLServer = () => {
-//   UseGQLUploadExpress(options);
-// };
-// const onStartedGraphQLServer = (server: any, app: any) => {
-//   server.applyMiddleware({ app: app });
-// };
-// await UseGqlServer(options, onCreatedGraphQLServer, onStartedGraphQLServer);
-// if (options.middlewares) {
-//   options.middlewares(options.app);
-// }
+boot(serverOptions, () => {
+  console.log("Start other services here. ex. database connections");
+});
