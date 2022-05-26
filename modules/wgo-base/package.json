@@ -1,0 +1,14 @@
+{
+  "name": "wgo-base",
+  "version": "0.0.1",
+  "description": "WGO Base Components & services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vue/composition-api": "1.6.2"
+  }
+}
