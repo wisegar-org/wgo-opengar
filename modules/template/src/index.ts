@@ -17,6 +17,7 @@ import { AppContextHandler } from "./handlers/AppContextHandler";
 import { errorHandler } from "./handlers/ErrorHandler";
 import { AppController } from "./controllers/AppController";
 import { AppResolver } from "./resolvers/AppResolver";
+import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();
@@ -31,6 +32,7 @@ const serverOptions: IServerOptions = {
   maxFiles: 10,
   useCors: true,
   middlewares: (app) => {
+    UseClientSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
   resolvers: [AppResolver] as unknown as NonEmptyArray<Function>,
