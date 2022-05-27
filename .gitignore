@@ -3,7 +3,6 @@
 node_modules
 quickweb-development
 build
-package-lock.json
 #  client
 client/node_modules
 client/.quasar
