@@ -1,12 +1,12 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 
 /** Entities */
-import { UserEntity } from "./src/database/entities/UserEntity";
+import { UserEntity } from "../wgo-base/authenticacion/database/entities/UserEntity";
 import { EmailMediaEntity } from "./src/database/entities/EmailMediaEntity";
 import { EmailHistoryEntity } from "./src/database/entities/EmailHistoryEntity";
 
 /** Migrations */
-import { migrations1651766519693 } from "./src/database/migrations/1651766519693-migrations";
+import { migrations1651766519693 } from "../wgo-base/authenticacion/database/migrations/1651766519693-migrations";
 import { createEmailMedia1651972762300 } from "./src/database/migrations/1651972762300-createEmailMedia";
 import { createEmailHistory1651974663732 } from "./src/database/migrations/1651974663732-createEmailHistory";
 import { createEmailMediaRelation1651975332815 } from "./src/database/migrations/1651975332815-createEmailMediaRelation";

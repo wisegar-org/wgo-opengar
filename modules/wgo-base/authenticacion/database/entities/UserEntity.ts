@@ -1,4 +1,5 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from "typeorm";
+import "reflect-metadata";
 
 @Entity({ name: "users" })
 export class UserEntity extends BaseEntity {
@@ -12,21 +13,17 @@ export class UserEntity extends BaseEntity {
   lastName?: string;
 
   @Column({ nullable: false, default: "" })
-  userName?: string;
+  userName!: string;
 
   @Column({ nullable: false, default: "" })
   email?: string;
 
   @Column({ nullable: false, default: "" })
-  password?: string;
+  password!: string;
 
   @Column({ default: false })
   isEmailConfirmed?: boolean;
 
   @Column({ nullable: true })
   confirmationToken?: string;
-
-  constructor() {
-    super();
-  }
 }
