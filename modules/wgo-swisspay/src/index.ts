@@ -20,9 +20,10 @@ import { AppResolver } from "./resolvers/AppResolver";
 import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
 import { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "../dataSources";
-import { UserEntity } from "./database/entities/UserEntity";
+import { UserEntity } from "../../wgo-base/authenticacion/database/entities/UserEntity";
 import { IsNullOrUndefined } from "@wisegar-org/wgo-object-extensions";
 import { createDatabase } from "typeorm-extension";
+import { getResolverList } from "./resolvers";
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();
@@ -40,7 +41,7 @@ const serverOptions: IServerOptions = {
     UseClientSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
-  resolvers: [AppResolver] as unknown as NonEmptyArray<Function>,
+  resolvers: getResolverList(),
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
