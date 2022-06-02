@@ -1,5 +1,8 @@
-import { store } from 'quasar/wrappers'
-import { createPinia } from 'pinia'
+import { store } from "quasar/wrappers";
+import { createPinia } from "pinia";
+import { getApiServiceOptions } from "src/api/ApiOptions";
+import { ApiService } from "../../../../wgo-base/core/services/ApiService";
+import { useNotifyStore } from "./notifyStore";
 
 /*
  * If not building with SSR mode, you can
@@ -10,11 +13,12 @@ import { createPinia } from 'pinia'
  * with the Store instance.
  */
 
-export default store((/* { ssrContext } */) => {
-  const pinia = createPinia()
+export default store((arg /* { ssrContext } */) => {
+  const pinia = createPinia();
 
   // You can add Pinia plugins here
   // pinia.use(SomePiniaPlugin)
-
-  return pinia
-})
+  const apiServiceOptions = getApiServiceOptions(pinia);
+  ApiService.GetInstance(apiServiceOptions);
+  return pinia;
+});
