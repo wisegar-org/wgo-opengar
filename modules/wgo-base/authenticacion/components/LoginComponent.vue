@@ -1,11 +1,131 @@
 <template>
-  <div class="text-h3">LoginComponent</div>
+  <div class="fullscreen bg-white text-black text-center flex flex-center row">
+    <div
+      v-if="!innerLoading"
+      class="col-12 col-md-6 col-lg-5 col-xl-4 col-sm-10"
+    >
+      <q-card flat square bordered class="q-ma-lg">
+        <q-card-section class="q-ma-sm">
+          <q-icon
+            name="img:favicon.ico"
+            class="login_icon cursor-pointer"
+            size="4.4em"
+            @click="goToHome"
+          />
+
+          <q-input
+            square
+            outlined
+            class="q-my-lg q-mx-sm"
+            v-model="user"
+            :autofocus="true"
+            :label="
+              translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'User'
+            "
+          />
+
+          <q-input
+            square
+            outlined
+            class="q-my-lg q-mx-sm"
+            v-model="password"
+            type="password"
+            :label="translationsContent.WGO_USERS_PASSWORD_LABEL || 'Login'"
+            @keydown.enter.prevent="loginUser"
+          />
+        </q-card-section>
+        <q-card-actions align="center" vertical class="row q-pa-lg">
+          <q-btn
+            unelevated
+            v-if="!hideReister"
+            flat
+            dense
+            color="primary"
+            align="around"
+            class="btn_width_fix q-mb-md col-12 col-sm-4"
+            :label="translationsContent.WGO_LOGIN_REGISTER_LABEL || 'Register'"
+            @click="goToRegisterUser"
+          />
+          <q-btn
+            unelevated
+            dense
+            color="primary"
+            align="around"
+            class="btn_width_fix col-12 col-sm-4"
+            :label="translationsContent.WGO_LOGIN_LABEL || 'Login'"
+            :disable="!user || !password"
+            @click="loginUser"
+          />
+        </q-card-actions>
+        <div class="full-width row justify-center text-grey text-caption">
+          Version: {{ version }} - API Version: {{ apiVersion }}
+        </div>
+      </q-card>
+    </div>
+    <Loader :loading="innerLoading || showLoading" />
+  </div>
 </template>
 
 <script lang="ts">
+import { AuthService } from "../services/AuthService";
+import Loader from "../../core/components/Loader/Loader.vue";
+import { ISuccesLogin } from "../models";
 import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
-  setup() {},
+  name: "LoginComponent",
+  components: {
+    Loader,
+  },
+  props: {
+    hideReister: {
+      type: Boolean,
+    },
+  },
+  data() {
+    return {
+      user: "",
+      password: "",
+      innerLoading: false,
+      showLoading: false,
+      version: "0",
+      apiVersion: "0",
+      translationsContent: {},
+    };
+  },
+  methods: {
+    async loginUser() {
+      this.showLoading = true;
+      const service = new AuthService();
+      const result = await service.loginUser({
+        user: this.user,
+        password: this.password,
+      });
+      this.showLoading = false;
+      if (result) {
+        this.$emit("onLogin", result);
+      } else {
+        this.showRegister = true;
+      }
+    },
+    goToRegisterUser() {
+      this.$emit("onRegister");
+    },
+    goToHome: () => {},
+  },
+  emits: {
+    onLogin: (payload: ISuccesLogin) => {
+      return payload;
+    },
+    onRegister: () => {
+      return;
+    },
+  },
 });
 </script>
+
+<style scoped>
+.btn_width_fix {
+  min-width: 100px;
+}
+</style>
