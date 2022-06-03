@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const M_LOGIN = gql`
+export const M_AUTH_LOGIN = gql`
   mutation login($data: LoginInput!) {
     login(data: $data) {
       user {
@@ -14,9 +14,21 @@ export const M_LOGIN = gql`
     }
   }
 `;
-export const Q_ME = gql`
+export const Q_AUTH_ME = gql`
   query me($data: MeInput!) {
     me(data: $data) {
+      id
+      name
+      lastName
+      userName
+      email
+    }
+  }
+`;
+
+export const M_AUTH_REGISTER = gql`
+  mutation register($data: RegisterInput!) {
+    register(data: $data) {
       id
       name
       lastName

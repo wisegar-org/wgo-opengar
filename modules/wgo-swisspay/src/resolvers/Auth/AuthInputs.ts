@@ -10,3 +10,13 @@ export class LoginInput {
 export class MeInput {
   @Field() token!: string;
 }
+
+@InputType()
+export class RegisterInput {
+  @Field() name!: string;
+  @Field() lastName!: string;
+  @Field() userName!: string;
+  @Field() email!: string;
+  @Field() password!: string;
+  @Field() isEmailConfirmed!: boolean;
+}

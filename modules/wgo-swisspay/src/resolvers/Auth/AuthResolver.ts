@@ -1,5 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import { LoginInput, MeInput } from "./AuthInputs";
+import { LoginInput, MeInput, RegisterInput } from "./AuthInputs";
 import { LoginResponse, UserResponse } from "./AuthResponses";
 import { AuthModel } from "../../../../wgo-base/authenticacion/models/AuthModel";
 import { PostgresDataSource } from "../../../dataSources";
@@ -38,5 +38,16 @@ export class AuthResolver {
     );
     const user = await authModel.me(data);
     return user as UserResponse;
+  }
+
+  @Mutation(() => UserResponse)
+  async register(@Arg("data") data: RegisterInput) {
+    const authModel = new AuthModel(
+      PostgresDataSource,
+      this.privateKey,
+      this.publicKey
+    );
+    const login = await authModel.register(data as any);
+    return login;
   }
 }

@@ -1,7 +1,12 @@
 import { ApiService } from "../../core/services/ApiService";
-import { M_LOGIN, Q_ME } from "./AuthServiceQueries";
+import { M_AUTH_LOGIN, M_AUTH_REGISTER, Q_AUTH_ME } from "./AuthServiceQueries";
 import "../models";
-import { IAuthLoginParams, IAuthMeParams, ISuccesLogin } from "../models";
+import {
+  IAuthLoginParams,
+  IAuthMeParams,
+  IAuthRegisterParams,
+  ISuccesLogin,
+} from "../models";
 import { IUser } from "../../core/models/user";
 
 export class AuthService {
@@ -13,7 +18,7 @@ export class AuthService {
   async loginUser(input: IAuthLoginParams): Promise<ISuccesLogin | undefined> {
     try {
       const response = (await this.apiInstance.mutate({
-        mutation: M_LOGIN,
+        mutation: M_AUTH_LOGIN,
         variables: {
           data: input,
         },
@@ -37,7 +42,7 @@ export class AuthService {
   async me(input: IAuthMeParams): Promise<IUser | undefined> {
     try {
       const response = (await this.apiInstance.query({
-        query: Q_ME,
+        query: Q_AUTH_ME,
         variables: {
           data: input,
         },
@@ -54,6 +59,30 @@ export class AuthService {
       return undefined;
     } catch (error) {
       console.log("AuthService me error: ", error);
+      return undefined;
+    }
+  }
+
+  async registerUser(input: IAuthRegisterParams): Promise<IUser | undefined> {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_AUTH_REGISTER,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { register: IUser };
+      };
+      if (response && response.data) {
+        const {
+          data: { register },
+        } = response;
+        return register;
+      }
+
+      return undefined;
+    } catch (error) {
+      console.log("AuthService register error: ", error);
       return undefined;
     }
   }
