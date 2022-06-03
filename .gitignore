@@ -14,3 +14,4 @@ server/private
 server/public
 modules/template/settings
 .env
+modules/wgo-swisspay/settings
