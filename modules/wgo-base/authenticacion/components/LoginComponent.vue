@@ -24,15 +24,22 @@
             "
           />
 
-          <q-input
+          <InputSecret
+            class="q-my-lg q-mx-sm"
+            v-model="password"
+            :label="translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'"
+            @onEnter="loginUser"
+          />
+
+          <!-- <q-input
             square
             outlined
             class="q-my-lg q-mx-sm"
             v-model="password"
             type="password"
-            :label="translationsContent.WGO_USERS_PASSWORD_LABEL || 'Login'"
+            :label="translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'"
             @keydown.enter.prevent="loginUser"
-          />
+          /> -->
         </q-card-section>
         <q-card-actions align="center" vertical class="row q-pa-lg">
           <q-btn
@@ -71,11 +78,13 @@ import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
 import { ISuccesLogin } from "../models";
 import { defineComponent } from "@vue/composition-api";
+import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 
 export default defineComponent({
   name: "LoginComponent",
   components: {
     Loader,
+    InputSecret,
   },
   props: {
     hideReister: {
@@ -111,13 +120,18 @@ export default defineComponent({
     goToRegisterUser() {
       this.$emit("onRegister");
     },
-    goToHome: () => {},
+    goToHome() {
+      this.$emit("onHome");
+    },
   },
   emits: {
-    onLogin: (payload: ISuccesLogin) => {
+    onLogin(payload: ISuccesLogin) {
       return payload;
     },
-    onRegister: () => {
+    onRegister() {
+      return;
+    },
+    onHome() {
       return;
     },
   },
