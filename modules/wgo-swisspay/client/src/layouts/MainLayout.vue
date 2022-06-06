@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> Swisspay </q-toolbar-title>
 
         <div>
           <LoginBtn
@@ -25,7 +25,7 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+        <q-item-label header> Menu </q-item-label>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -48,50 +48,15 @@ import LoginBtn from "../../../../wgo-base/core/components/LoginBtn/LoginBtn.vue
 import { useAuthStore } from "../stores/authStore";
 import { RouteService } from "../../../../wgo-base/core/services/RouteService";
 import { useRouter } from "vue-router";
+import { AuthPaths } from "../../../../wgo-base/authenticacion/router";
 import { Paths } from "../router/routes";
 
 const linksList = [
   {
-    title: "Docs",
-    caption: "quasar.dev",
-    icon: "school",
-    link: "https://quasar.dev",
-  },
-  {
-    title: "Github",
-    caption: "github.com/quasarframework",
-    icon: "code",
-    link: "https://github.com/quasarframework",
-  },
-  {
-    title: "Discord Chat Channel",
-    caption: "chat.quasar.dev",
-    icon: "chat",
-    link: "https://chat.quasar.dev",
-  },
-  {
-    title: "Forum",
-    caption: "forum.quasar.dev",
-    icon: "record_voice_over",
-    link: "https://forum.quasar.dev",
-  },
-  {
-    title: "Twitter",
-    caption: "@quasarframework",
-    icon: "rss_feed",
-    link: "https://twitter.quasar.dev",
-  },
-  {
-    title: "Facebook",
-    caption: "@QuasarFramework",
-    icon: "public",
-    link: "https://facebook.quasar.dev",
-  },
-  {
-    title: "Quasar Awesome",
-    caption: "Community Quasar projects",
-    icon: "favorite",
-    link: "https://awesome.quasar.dev",
+    title: Paths.home.name,
+    caption: "Home paga",
+    icon: "home",
+    link: Paths.home.path,
   },
 ];
 
@@ -125,7 +90,7 @@ export default defineComponent({
   },
   methods: {
     goToLogin() {
-      this.goToPath(Paths.authLogin.path);
+      this.goToPath(AuthPaths.authLogin.path);
     },
     logout() {
       this.authStore.resetState();
