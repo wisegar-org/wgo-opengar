@@ -1,10 +1,17 @@
 import { ApiService } from "../../core/services/ApiService";
-import { M_AUTH_LOGIN, M_AUTH_REGISTER, Q_AUTH_ME } from "./AuthServiceQueries";
+import {
+  M_AUTH_CONFIRM_REGISTER,
+  M_AUTH_LOGIN,
+  M_AUTH_REGISTER,
+  M_AUTH_RESEND_CONFIRM,
+  Q_AUTH_ME,
+} from "./AuthServiceQueries";
 import "../models";
 import {
   IAuthLoginParams,
   IAuthMeParams,
   IAuthRegisterParams,
+  IAuthResendParam,
   ISuccesLogin,
 } from "../models";
 import { IUser } from "../../core/models/user";
@@ -84,6 +91,53 @@ export class AuthService {
     } catch (error) {
       console.log("AuthService register error: ", error);
       return undefined;
+    }
+  }
+
+  async resendConfirmation(input: IAuthResendParam): Promise<boolean> {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_AUTH_RESEND_CONFIRM,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { resendConfirmation: boolean };
+      };
+      if (response && response.data) {
+        const {
+          data: { resendConfirmation },
+        } = response;
+        return resendConfirmation;
+      }
+
+      return false;
+    } catch (error) {
+      console.log("AuthService resendConfirmation error: ", error);
+      return false;
+    }
+  }
+  async confirmEmail(input: IAuthMeParams): Promise<boolean> {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_AUTH_CONFIRM_REGISTER,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { confirmRegist: boolean };
+      };
+      if (response && response.data) {
+        const {
+          data: { confirmRegist },
+        } = response;
+        return confirmRegist;
+      }
+
+      return false;
+    } catch (error) {
+      console.log("AuthService confirmRegist error: ", error);
+      return false;
     }
   }
 }

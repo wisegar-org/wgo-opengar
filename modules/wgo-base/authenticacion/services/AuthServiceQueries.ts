@@ -37,3 +37,15 @@ export const M_AUTH_REGISTER = gql`
     }
   }
 `;
+
+export const M_AUTH_RESEND_CONFIRM = gql`
+  mutation resendConfirmation($data: ResendConfirmationInput!) {
+    resendConfirmation(data: $data)
+  }
+`;
+
+export const M_AUTH_CONFIRM_REGISTER = gql`
+  mutation confirmRegist($data: MeInput!) {
+    confirmRegist(data: $data)
+  }
+`;
