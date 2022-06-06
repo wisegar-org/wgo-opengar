@@ -1,20 +1,12 @@
+import { IRouteObject } from "../../../../wgo-base/core/models";
 import { RouteRecordRaw } from "vue-router";
+import { AuthPaths } from "../../../../wgo-base/authenticacion/router";
 
-export const Paths = {
+export const Paths: IRouteObject = {
   home: {
     path: "/",
-    name: "home",
     label: "Home",
-  },
-  authLogin: {
-    path: "/login",
-    name: "auth_login",
-    label: "Login",
-  },
-  authRegister: {
-    path: "/register",
-    name: "auth_reister",
-    label: "Register",
+    name: "home",
   },
 };
 
@@ -30,14 +22,39 @@ const routes: RouteRecordRaw[] = [
     component: () => import("layouts/EmptyLayout.vue"),
     children: [
       {
-        path: Paths.authLogin.path,
-        name: Paths.authLogin.name,
+        path: AuthPaths.authLogin.path,
+        name: AuthPaths.authLogin.name,
         component: () => import("src/pages/Auth/LoginPage.vue"),
       },
       {
-        path: Paths.authRegister.path,
-        name: Paths.authRegister.name,
+        path: AuthPaths.authRegister.path,
+        name: AuthPaths.authRegister.name,
         component: () => import("src/pages/Auth/RegisterPage.vue"),
+      },
+      {
+        path: AuthPaths.authEmailSended.path,
+        name: AuthPaths.authEmailSended.name,
+        component: () => import("src/pages/Auth/RegisterEmailSendedPage.vue"),
+        props: (route) => {
+          return {
+            email: route.params.email,
+          };
+        },
+      },
+      {
+        path: AuthPaths.authConfirmEmail.path,
+        name: AuthPaths.authConfirmEmail.name,
+        component: () => import("src/pages/Auth/RegisterConfirmEmailPage.vue"),
+        props: (route) => {
+          return {
+            token: route.params.token,
+          };
+        },
+      },
+      {
+        path: AuthPaths.authResendConfirmation.path,
+        name: AuthPaths.authResendConfirmation.name,
+        component: () => import("src/pages/Auth/RegisterResendConfirmPage.vue"),
       },
     ],
   },
