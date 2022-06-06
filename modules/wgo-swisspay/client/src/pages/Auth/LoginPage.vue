@@ -1,5 +1,9 @@
 <template>
-  <LoginComponent @on-login="onLogin" @on-register="goToRegister" />
+  <LoginComponent
+    @onLogin="onLogin"
+    @onRegister="goToRegister"
+    @onHome="goToHome"
+  />
 </template>
 
 <script lang="ts">
@@ -8,8 +12,9 @@ import LoginComponent from "../../../../../wgo-base/authenticacion/components/Lo
 import { ISuccesLogin } from "../../../../../wgo-base/authenticacion/models";
 import { RouteService } from "../../../../../wgo-base/core/services/RouteService";
 import { useRouter } from "vue-router";
-import { Paths } from "../../router/routes";
+import { AuthPaths } from "../../../../../wgo-base/authenticacion/router";
 import { useAuthStore } from "../../stores/authStore";
+import { Paths } from "../../router/routes";
 
 export default defineComponent({
   name: "LoginPage",
@@ -36,7 +41,10 @@ export default defineComponent({
       this.routeService.goTo(Paths.home.path);
     },
     goToRegister() {
-      this.routeService.goTo(Paths.authRegister.path);
+      this.routeService.goTo(AuthPaths.authRegister.path);
+    },
+    goToHome() {
+      this.routeService.goTo(Paths.home.path);
     },
   },
 });
