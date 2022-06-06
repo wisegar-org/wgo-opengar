@@ -20,3 +20,8 @@ export class RegisterInput {
   @Field() password!: string;
   @Field() isEmailConfirmed!: boolean;
 }
+
+@InputType()
+export class ResendConfirmationInput {
+  @Field() email!: string;
+}
