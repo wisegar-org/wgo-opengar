@@ -66,6 +66,13 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
+  async resetPassword(@Arg("data") data: LoginInput) {
+    const authModel = new AuthModel(this.options);
+    const resetResult = await authModel.resetPassword(data);
+    return !!resetResult;
+  }
+
+  @Mutation(() => Boolean)
   async confirmRegist(@Arg("data") data: MeInput) {
     const authModel = new AuthModel(this.options);
     const user = await authModel.confirmRegist(data);

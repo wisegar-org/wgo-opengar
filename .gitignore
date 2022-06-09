@@ -12,6 +12,9 @@ client/dist
 server/node_modules
 server/private
 server/public
-modules/template/settings
 .env
+#  modules
 modules/wgo-swisspay/settings
+modules/template/settings
+modules/.vscode
+modules/.vs
