@@ -44,6 +44,20 @@
         <q-card-actions align="center" vertical class="row q-pa-lg">
           <q-btn
             unelevated
+            v-if="!hideReset && !!showReset"
+            flat
+            dense
+            color="primary"
+            align="around"
+            class="btn_width_fix q-mb-md col-12 col-sm-4"
+            :label="
+              translationsContent.WGO_LOGIN_RESET_PASSWORD_LABEL ||
+              'Reset password'
+            "
+            @click="goToResetPassword"
+          />
+          <q-btn
+            unelevated
             v-if="!hideReister"
             flat
             dense
@@ -90,6 +104,9 @@ export default defineComponent({
     hideReister: {
       type: Boolean,
     },
+    hideReset: {
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -97,6 +114,7 @@ export default defineComponent({
       password: "",
       innerLoading: false,
       showLoading: false,
+      showReset: false,
       version: "0",
       apiVersion: "0",
       translationsContent: {},
@@ -114,7 +132,7 @@ export default defineComponent({
       if (result) {
         this.$emit("onLogin", result);
       } else {
-        this.showRegister = true;
+        this.showReset = true;
       }
     },
     goToRegisterUser() {
@@ -122,6 +140,9 @@ export default defineComponent({
     },
     goToHome() {
       this.$emit("onHome");
+    },
+    goToResetPassword() {
+      this.$emit("onResetPassword");
     },
   },
   emits: {
@@ -132,6 +153,9 @@ export default defineComponent({
       return;
     },
     onHome() {
+      return;
+    },
+    onResetPassword() {
       return;
     },
   },

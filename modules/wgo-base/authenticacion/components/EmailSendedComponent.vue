@@ -48,7 +48,6 @@ export default defineComponent({
   data() {
     return {
       translationsContent: {},
-      showLoading: false,
     };
   },
   methods: {

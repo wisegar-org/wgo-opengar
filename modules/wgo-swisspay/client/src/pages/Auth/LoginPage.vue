@@ -3,6 +3,7 @@
     @onLogin="onLogin"
     @onRegister="goToRegister"
     @onHome="goToHome"
+    @onResetPassword="goToResetPassword"
   />
 </template>
 
@@ -45,6 +46,9 @@ export default defineComponent({
     },
     goToHome() {
       this.routeService.goTo(Paths.home.path);
+    },
+    goToResetPassword() {
+      this.routeService.goTo(AuthPaths.authResetPassword.path);
     },
   },
 });

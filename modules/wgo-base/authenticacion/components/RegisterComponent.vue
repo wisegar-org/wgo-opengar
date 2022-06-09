@@ -144,6 +144,7 @@ export default defineComponent({
   },
   methods: {
     async registerUser() {
+      if (this.user.password !== this.confirmPassword) return;
       this.showLoading = true;
       const service = new AuthService();
       this.user.userName = this.user.email;

@@ -48,14 +48,20 @@
         </q-form>
       </q-card>
     </div>
+    <Loader :loading="showLoading" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@vue/composition-api";
 import { AuthService } from "../services/AuthService";
+import Loader from "../../core/components/Loader/Loader.vue";
 
 export default defineComponent({
+  name: "ResendConfirmComponent",
+  components: {
+    Loader,
+  },
   data() {
     return {
       email: "",
