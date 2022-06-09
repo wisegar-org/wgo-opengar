@@ -131,12 +131,12 @@ export default defineComponent({
     return {
       user: {
         userName: "",
-        name: "Liana",
-        lastName: "Beatriz",
-        email: "lianabeatriz93@gmail.com",
-        password: "Wisegar.-0",
+        name: "",
+        lastName: "",
+        email: "",
+        password: "",
       } as IAuthRegisterParams,
-      confirmPassword: "Wisegar.-0",
+      confirmPassword: "",
       innerLoading: false,
       showLoading: false,
       translationsContent: {},
