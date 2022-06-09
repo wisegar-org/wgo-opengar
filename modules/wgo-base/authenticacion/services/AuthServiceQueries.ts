@@ -49,3 +49,9 @@ export const M_AUTH_CONFIRM_REGISTER = gql`
     confirmRegist(data: $data)
   }
 `;
+
+export const M_AUTH_RESET_PASSWORD = gql`
+  mutation resetPassword($data: LoginInput!) {
+    resetPassword(data: $data)
+  }
+`;

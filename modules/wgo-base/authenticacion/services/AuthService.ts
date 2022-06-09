@@ -4,6 +4,7 @@ import {
   M_AUTH_LOGIN,
   M_AUTH_REGISTER,
   M_AUTH_RESEND_CONFIRM,
+  M_AUTH_RESET_PASSWORD,
   Q_AUTH_ME,
 } from "./AuthServiceQueries";
 import "../models";
@@ -94,6 +95,29 @@ export class AuthService {
     }
   }
 
+  async resetPassword(input: IAuthLoginParams): Promise<boolean> {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_AUTH_RESET_PASSWORD,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { resetPassword: boolean };
+      };
+      if (response && response.data) {
+        const {
+          data: { resetPassword },
+        } = response;
+        return resetPassword;
+      }
+
+      return false;
+    } catch (error) {
+      console.log("AuthService resetPassword error: ", error);
+      return false;
+    }
+  }
   async resendConfirmation(input: IAuthResendParam): Promise<boolean> {
     try {
       const response = (await this.apiInstance.mutate({

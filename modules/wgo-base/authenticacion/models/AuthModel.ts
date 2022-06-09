@@ -8,6 +8,7 @@ import {
   ISuccesLogin,
   TOKEN_EXP,
   TOKEN_REGISTER_EXP,
+  WRONG_COONFIRM_EMAIL,
   WRONG_EMAIL,
   WRONG_REGISTER,
   WRONG_TOKEN,
@@ -50,6 +51,9 @@ export class AuthModel {
     });
 
     if (!IsNullOrUndefined(user)) {
+      if (user && !user.isEmailConfirmed) {
+        throw new Error(WRONG_COONFIRM_EMAIL);
+      }
       if (user && (await this.comparePassword(data.password, user.password))) {
         const token = generateAccessToken({
           privateKey: this.options.privateKey,
@@ -145,6 +149,7 @@ export class AuthModel {
           sessionId: -1,
         },
       });
+      user.isEmailConfirmed = false;
       await repo.save(user);
       await this.emailService.send({
         ...this.options.emailOptions,
@@ -155,6 +160,22 @@ export class AuthModel {
           </div>`,
       });
       return this.mapUserEntity(user);
+    }
+
+    throw new Error(WRONG_USER_DONT_EXIST);
+  }
+
+  public async resetPassword(data: IAuthLoginParams): Promise<boolean> {
+    const repo = await this.dataSource.getRepository(UserEntity);
+    const user = await repo.findOne({
+      where: [{ userName: data.user }, { email: data.user }],
+    });
+
+    if (!IsNullOrUndefined(user) && user) {
+      user.password = bcrypt.hashSync(data.password, 10);
+      await repo.save(user);
+      await this.resendConfirmation({ email: data.user });
+      return true;
     }
 
     throw new Error(WRONG_USER_DONT_EXIST);
@@ -175,6 +196,7 @@ export class AuthModel {
       });
       if (!!user && user.confirmationToken === data.token) {
         user.confirmationToken = "";
+        user.isEmailConfirmed = true;
         await repo.save(user);
         return {
           id: user.id,

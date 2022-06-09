@@ -25,7 +25,12 @@ export const AuthPaths: IRouteObject = {
   },
   authResendConfirmation: {
     path: `${AuthPathsBase}/resendConfirm`,
-    name: "auth__resend_confimation",
+    name: "auth_resend_confimation",
     label: "Resend Confirm Email",
+  },
+  authResetPassword: {
+    path: `${AuthPathsBase}/resetPassword`,
+    name: "auth_reset_password",
+    label: "Reset Password",
   },
 };

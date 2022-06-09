@@ -3,6 +3,7 @@ import { IUser } from "../../core/models/user";
 import { EmailOptions } from "@wisegar-org/wgo-mailer";
 
 export const WRONG_USER_PASSWORD = "User or password invalid";
+export const WRONG_COONFIRM_EMAIL = "Unconfirmed credentials";
 export const WRONG_TOKEN = "Invalid credentials";
 export const WRONG_EMAIL = "Email already exists";
 export const WRONG_REGISTER = "Fail user register";
