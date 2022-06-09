@@ -7,9 +7,9 @@
     :label="label"
     @keydown.enter.prevent="onEnterClick"
     hide-bottom-space
-    :error="!!isError"
-    :error-message="error"
     :required="required"
+    ref="input"
+    :rules="[() => !isError || error]"
   >
     <template v-slot:append>
       <q-icon
@@ -47,6 +47,10 @@ export default defineComponent({
   methods: {
     onEnterClick(evnt: KeyboardEvent) {
       this.$emit("onEnter", evnt);
+    },
+    validate() {
+      alert("validate");
+      return (this.$refs.input as any).validate();
     },
   },
   emits: {
