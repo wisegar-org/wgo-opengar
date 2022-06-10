@@ -1,9 +1,11 @@
 {
-  "name": "wgo-base-lib",
+  "name": "@wisegar-org/wgo-base-lib",
   "version": "0.1.0",
   "private": true,
   "main": "./dist/wgo-base-lib.common.js",
-  "files": [ "dist/*"],
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
