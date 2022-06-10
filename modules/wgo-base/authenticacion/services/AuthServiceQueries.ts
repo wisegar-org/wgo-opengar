@@ -37,7 +37,17 @@ export const M_AUTH_REGISTER = gql`
     }
   }
 `;
-
+export const M_AUTH_EDIT_USER = gql`
+  mutation editUser($data: EditUserInput!) {
+    editUser(data: $data) {
+      id
+      name
+      lastName
+      userName
+      email
+    }
+  }
+`;
 export const M_AUTH_RESEND_CONFIRM = gql`
   mutation resendConfirmation($data: ResendConfirmationInput!) {
     resendConfirmation(data: $data)

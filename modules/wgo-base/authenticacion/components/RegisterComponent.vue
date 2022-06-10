@@ -62,7 +62,6 @@
                 :label="
                   translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'
                 "
-                @onEnter="loginUser"
               />
             </div>
 
@@ -75,7 +74,7 @@
                   translationsContent.WGO_USERS_CONFIRM_PASSWORD_LABEL ||
                   'Confirm Password'
                 "
-                @onEnter="loginUser"
+                @onEnter="registerUser"
                 :isError="user.password !== confirmPassword"
                 error="Passwords need to be equals"
               />

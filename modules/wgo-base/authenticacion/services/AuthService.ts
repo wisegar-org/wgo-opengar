@@ -1,6 +1,7 @@
 import { ApiService } from "../../core/services/ApiService";
 import {
   M_AUTH_CONFIRM_REGISTER,
+  M_AUTH_EDIT_USER,
   M_AUTH_LOGIN,
   M_AUTH_REGISTER,
   M_AUTH_RESEND_CONFIRM,
@@ -9,6 +10,7 @@ import {
 } from "./AuthServiceQueries";
 import "../models";
 import {
+  IAuthEditParams,
   IAuthLoginParams,
   IAuthMeParams,
   IAuthRegisterParams,
@@ -91,6 +93,30 @@ export class AuthService {
       return undefined;
     } catch (error) {
       console.log("AuthService register error: ", error);
+      return undefined;
+    }
+  }
+
+  async editUser(input: IAuthEditParams): Promise<IUser | undefined> {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_AUTH_EDIT_USER,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { editUser: IUser };
+      };
+      if (response && response.data) {
+        const {
+          data: { editUser },
+        } = response;
+        return editUser;
+      }
+
+      return undefined;
+    } catch (error) {
+      console.log("AuthService editUser error: ", error);
       return undefined;
     }
   }

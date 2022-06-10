@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import {
+  IAuthEditParams,
   IAuthLoginParams,
   IAuthMeParams,
   IAuthModelArg,
@@ -66,13 +67,7 @@ export class AuthModel {
         });
         return {
           token,
-          user: {
-            id: user.id,
-            name: user.name || "",
-            lastName: user.lastName || "",
-            userName: user.userName,
-            email: user.email || "",
-          },
+          user: this.mapUserEntity(user),
         };
       }
     }
@@ -94,13 +89,7 @@ export class AuthModel {
         where: [{ userName: result.userName }, { id: parseInt(result.userId) }],
       });
       if (!!user) {
-        return {
-          id: user.id,
-          name: user.name || "",
-          lastName: user.lastName || "",
-          userName: user.userName,
-          email: user.email || "",
-        };
+        return this.mapUserEntity(user);
       }
     }
 
@@ -132,6 +121,21 @@ export class AuthModel {
       return this.mapUserEntity(user);
     }
     throw new Error(WRONG_REGISTER);
+  }
+
+  public async editUser(data: IAuthEditParams): Promise<IUser> {
+    const repo = await this.dataSource.getRepository(UserEntity);
+    const user = await repo.findOne({
+      where: [{ id: data.id }],
+    });
+    if (user) {
+      user.name = data.name;
+      user.lastName = data.lastName;
+      if (data.password) user.password = bcrypt.hashSync(data.password, 10);
+      const result = await repo.save(user);
+      return this.mapUserEntity(result);
+    }
+    throw new Error(WRONG_USER_DONT_EXIST);
   }
 
   public async resendConfirmation(data: IAuthResendParam): Promise<IUser> {
@@ -204,6 +208,7 @@ export class AuthModel {
           lastName: user.lastName || "",
           userName: user.userName,
           email: user.email || "",
+          isEmailConfirmed: !!user.isEmailConfirmed,
         };
       }
     }

@@ -36,8 +36,11 @@ export interface IAuthResendParam {
   email: string;
 }
 
-export interface IAuthRegisterParams extends IUser {
+export interface IAuthEditParams extends IUser {
   password: string;
+}
+
+export interface IAuthRegisterParams extends IAuthEditParams {
   isEmailConfirmed: boolean;
 }
 
