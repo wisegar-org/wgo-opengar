@@ -6,10 +6,11 @@
     :type="isSecret ? 'password' : 'text'"
     :label="label"
     @keydown.enter.prevent="onEnterClick"
-    hide-bottom-space
+    :hide-bottom-space="hideBtnSpace"
     :required="required"
     ref="input"
     :rules="[() => !isError || error]"
+    autocomplete="new-password"
   >
     <template v-slot:append>
       <q-icon
@@ -33,6 +34,7 @@ export default defineComponent({
     isError: { type: Boolean, default: false },
     error: { type: String, default: "" },
     required: { type: Boolean, default: false },
+    hideBtnSpace: { type: Boolean, default: false },
   },
   model: {
     prop: "secret",
