@@ -1,2 +1,6 @@
 import HelloWorld from "@/components/HelloWorld.vue";
-export { HelloWorld };
+
+const Components = {
+  HelloWorld,
+};
+export default Components;

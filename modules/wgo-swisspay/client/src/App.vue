@@ -9,8 +9,10 @@ import { QNotifyCreateOptions, useQuasar } from "quasar";
 import { AuthService } from "../../../wgo-base/authenticacion/services/AuthService";
 import { useAuthStore } from "./stores/authStore";
 import { USER_AUTH_TOKEN } from "../../../wgo-base/authenticacion/models";
+import HelloWorld from "../../../wgo-base-lib/src/components/HelloWorld.vue";
 
 export default defineComponent({
+  components: { HelloWorld },
   name: "App",
   setup() {
     const notifyStore = useNotifyStore();
