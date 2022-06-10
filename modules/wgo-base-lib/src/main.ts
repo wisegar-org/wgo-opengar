@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import { Quasar } from "quasar";
+import quasarUserOptions from "./quasar-user-options";
 
-const myV3App = createApp(App);
-// myV3App.component("SomeComponent", SomeComponent);
-// // myV3App.use(SomePlugin).use(router);
-myV3App.mount("#app");
+const app = createApp(App).use(Quasar, quasarUserOptions);
+app.mount("#app");
