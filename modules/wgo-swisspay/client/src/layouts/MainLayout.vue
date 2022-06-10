@@ -16,8 +16,9 @@
         <div>
           <LoginBtn
             :user="authStore.user"
-            @on-login-click="goToLogin"
-            @on-logout-click="logout"
+            @onLoginClick="goToLogin"
+            @onLogoutClick="logout"
+            @onSaveUser="onSave"
           />
         </div>
       </q-toolbar>
@@ -50,6 +51,7 @@ import { RouteService } from "../../../../wgo-base/core/services/RouteService";
 import { useRouter } from "vue-router";
 import { AuthPaths } from "../../../../wgo-base/authenticacion/router";
 import { Paths } from "../router/routes";
+import { IUser } from "../../../../wgo-base/core/models";
 
 const linksList = [
   {
@@ -98,6 +100,9 @@ export default defineComponent({
     },
     goToPath(pathName: string) {
       this.routeService.goTo(pathName);
+    },
+    onSave(user: IUser) {
+      this.authStore.setUser(user);
     },
   },
 });

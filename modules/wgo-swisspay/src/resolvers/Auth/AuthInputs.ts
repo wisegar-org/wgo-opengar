@@ -22,6 +22,11 @@ export class RegisterInput {
 }
 
 @InputType()
+export class EditUserInput extends RegisterInput {
+  @Field() id!: number;
+}
+
+@InputType()
 export class ResendConfirmationInput {
   @Field() email!: string;
 }

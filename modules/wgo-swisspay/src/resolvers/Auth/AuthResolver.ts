@@ -1,5 +1,6 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import {
+  EditUserInput,
   LoginInput,
   MeInput,
   RegisterInput,
@@ -54,8 +55,15 @@ export class AuthResolver {
   @Mutation(() => UserResponse)
   async register(@Arg("data") data: RegisterInput) {
     const authModel = new AuthModel(this.options);
-    const login = await authModel.register(data as any);
-    return login;
+    const user = await authModel.register(data as any);
+    return user;
+  }
+
+  @Mutation(() => UserResponse)
+  async editUser(@Arg("data") data: EditUserInput) {
+    const authModel = new AuthModel(this.options);
+    const user = await authModel.editUser(data as any);
+    return user;
   }
 
   @Mutation(() => Boolean)
