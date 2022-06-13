@@ -24,6 +24,7 @@ import { UserEntity } from "../../wgo-base/authenticacion/database/entities/User
 import { IsNullOrUndefined } from "@wisegar-org/wgo-object-extensions";
 import { createDatabase } from "typeorm-extension";
 import { getResolverList } from "./resolvers";
+import { EmailController } from "./controllers/EmailController";
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();
@@ -32,7 +33,7 @@ const serverOptions: IServerOptions = {
   authenticator: AuthenticationHandler,
   context: AppContextHandler,
   formatError: errorHandler,
-  controllers: [AppController],
+  controllers: [AppController, EmailController],
   port: parseInt(port),
   maxFileSize: 5000000000,
   maxFiles: 10,
