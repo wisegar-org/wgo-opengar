@@ -25,6 +25,7 @@ import { IsNullOrUndefined } from "@wisegar-org/wgo-object-extensions";
 import { createDatabase } from "typeorm-extension";
 import { getResolverList } from "./resolvers";
 import { EmailController } from "./controllers/EmailController";
+import { loopReadEmails } from "./services/Pop3Service";
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();
@@ -82,4 +83,9 @@ boot(serverOptions, async () => {
     if (!IsNullOrUndefined(adminUserRegistered))
       console.debug(`Admin User registered: ${adminUserRegistered.email}`);
   }
+
+  // Loop through all emails in the inbox and save them to the database
+  setTimeout(async () => {
+    loopReadEmails();
+  }, 0);
 });

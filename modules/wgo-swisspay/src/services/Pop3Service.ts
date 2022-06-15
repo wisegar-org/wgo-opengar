@@ -10,6 +10,14 @@ import { IPop3ConnectionOptions, Pop3Command } from '@wisegar-org/wgo-pop3'
 import { Buffer } from "buffer";
 import { AddressObject, ParsedMail, simpleParser } from 'mailparser';
 
+import {
+  GetEmailHostKey,
+  GetEmailPortKey,
+  GetEmailSenderKey,
+  GetEmailSenderPassKey
+
+} from "@wisegar-org/wgo-settings";
+
 export class Pop3Service {
   /**
    * Service to consume emails from a POP3
@@ -212,3 +220,30 @@ export class Pop3Service {
     return numMessages;
   }
 }
+
+export const READ_EMAILS_INTERVAL = 1800000 // 30 minutes
+
+export const loopReadEmails = async () => {
+  // Get host, port, username, password from request
+  const host = GetEmailHostKey(); // EMAIL_HOST
+  const port = GetEmailPortKey(); // EMAIL_PORT
+  const username = GetEmailSenderKey(); // EMAIL_SENDER_ADDRESS
+  const password = GetEmailSenderPassKey(); // EMAIL_SENDER_PASSWORD
+
+  const pop3 = new Pop3Service({
+    host: host,
+    port: port,
+    user: username,
+    password: password,
+    tls: true,
+  });
+  
+  const numb = await pop3.readAllEmails()
+
+  console.log(numb, " emails readed!");
+
+  setTimeout(async () => {
+    loopReadEmails();
+  }, READ_EMAILS_INTERVAL);
+}
+
