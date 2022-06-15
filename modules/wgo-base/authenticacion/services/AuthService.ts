@@ -1,5 +1,6 @@
 import { ApiService } from "../../core/services/ApiService";
 import {
+  M_AUTH_CHANGE_PASSWORD,
   M_AUTH_CONFIRM_REGISTER,
   M_AUTH_EDIT_USER,
   M_AUTH_LOGIN,
@@ -15,6 +16,7 @@ import {
   IAuthMeParams,
   IAuthRegisterParams,
   IAuthResendParam,
+  IChangePasswordParam,
   ISuccesLogin,
 } from "../models";
 import { IUser } from "../../core/models/user";
@@ -121,7 +123,7 @@ export class AuthService {
     }
   }
 
-  async resetPassword(input: IAuthLoginParams): Promise<boolean> {
+  async resetPassword(input: IAuthResendParam): Promise<boolean> {
     try {
       const response = (await this.apiInstance.mutate({
         mutation: M_AUTH_RESET_PASSWORD,
@@ -144,6 +146,31 @@ export class AuthService {
       return false;
     }
   }
+
+  async changeResetPassword(input: IChangePasswordParam): Promise<boolean> {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_AUTH_CHANGE_PASSWORD,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { changeResetPassword: boolean };
+      };
+      if (response && response.data) {
+        const {
+          data: { changeResetPassword },
+        } = response;
+        return changeResetPassword;
+      }
+
+      return false;
+    } catch (error) {
+      console.log("AuthService changeResetPassword error: ", error);
+      return false;
+    }
+  }
+
   async resendConfirmation(input: IAuthResendParam): Promise<boolean> {
     try {
       const response = (await this.apiInstance.mutate({

@@ -48,3 +48,8 @@ export interface ISuccesLogin {
   token: string;
   user: IUser;
 }
+
+export interface IChangePasswordParam {
+  token: string;
+  password: string;
+}

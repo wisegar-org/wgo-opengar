@@ -33,4 +33,9 @@ export const AuthPaths: IRouteObject = {
     name: "auth_reset_password",
     label: "Reset Password",
   },
+  authChangePassword: {
+    path: `${AuthPathsBase}/changePassword`,
+    name: "auth_change_password",
+    label: "Reset Password",
+  },
 };

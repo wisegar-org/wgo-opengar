@@ -6,6 +6,7 @@ import {
   IAuthModelArg,
   IAuthRegisterParams,
   IAuthResendParam,
+  IChangePasswordParam,
   ISuccesLogin,
   TOKEN_EXP,
   TOKEN_REGISTER_EXP,
@@ -169,20 +170,59 @@ export class AuthModel {
     throw new Error(WRONG_USER_DONT_EXIST);
   }
 
-  public async resetPassword(data: IAuthLoginParams): Promise<boolean> {
+  public async resetPassword(data: IAuthResendParam): Promise<boolean> {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
-      where: [{ userName: data.user }, { email: data.user }],
+      where: [{ userName: data.email }, { email: data.email }],
     });
 
     if (!IsNullOrUndefined(user) && user) {
-      user.password = bcrypt.hashSync(data.password, 10);
-      await repo.save(user);
-      await this.resendConfirmation({ email: data.user });
+      const token = generateAccessToken({
+        privateKey: this.options.privateKey,
+        expiresIn: TOKEN_REGISTER_EXP,
+        payload: {
+          userId: user.id.toString(),
+          userName: user.userName,
+          sessionId: -1,
+        },
+      });
+      await this.emailService.send({
+        ...this.options.emailOptions,
+        subject: "Wisegar Email Reset Password",
+        to: `${data.email}`,
+        html: `<div>
+          To reset the password click <a href="${this.options.hostBase}/#${AuthPaths.authChangePassword.path}?token=${token}"> here </a>
+          </div>`,
+      });
       return true;
     }
 
     throw new Error(WRONG_USER_DONT_EXIST);
+  }
+
+  public async changePassword(data: IChangePasswordParam) {
+    const tokenValidation = validateAccessToken({
+      publicKey: this.options.publicKey,
+      token: data.token,
+      expiresIn: TOKEN_EXP,
+      privateKey: this.options.privateKey,
+    });
+
+    if (tokenValidation) {
+      const repo = await this.dataSource.getRepository(UserEntity);
+      const user = await repo.findOne({
+        where: [{ id: parseInt(tokenValidation.userId) }],
+      });
+      if (user) {
+        user.password = bcrypt.hashSync(data.password, 10);
+        const result = await repo.save(user);
+        return !!result;
+      } else {
+        throw new Error(WRONG_USER_DONT_EXIST);
+      }
+    }
+
+    throw new Error(WRONG_TOKEN);
   }
 
   public async confirmRegist(data: IAuthMeParams): Promise<IUser> {

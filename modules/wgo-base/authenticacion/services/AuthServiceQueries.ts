@@ -61,7 +61,13 @@ export const M_AUTH_CONFIRM_REGISTER = gql`
 `;
 
 export const M_AUTH_RESET_PASSWORD = gql`
-  mutation resetPassword($data: LoginInput!) {
+  mutation resetPassword($data: ResendConfirmationInput!) {
     resetPassword(data: $data)
+  }
+`;
+
+export const M_AUTH_CHANGE_PASSWORD = gql`
+  mutation changeResetPassword($data: ResetPasswordInput!) {
+    changeResetPassword(data: $data)
   }
 `;

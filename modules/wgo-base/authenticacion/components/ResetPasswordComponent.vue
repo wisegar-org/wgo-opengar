@@ -3,57 +3,43 @@
     <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-sm-10">
       <q-card flat square bordered class="q-ma-lg">
         <q-form @submit="onReset" ref="form">
+          <q-item class="bg-primary text-white">
+            <q-item-section avatar top>
+              <q-icon
+                name="img:favicon.ico"
+                class="login_icon cursor-pointer"
+                size="3.4em"
+                @click="goToHome"
+              />
+            </q-item-section>
+            <q-item-section top class="self-center">
+              <div class="text-h6 text-left">Reset Password</div>
+            </q-item-section>
+            <q-item-section top side class="self-center">
+              <q-btn
+                class="gt-xs text-white"
+                flat
+                dense
+                :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+                @click="goToHome"
+              />
+            </q-item-section>
+          </q-item>
           <q-card-section class="q-ma-sm">
-            <q-icon
-              name="img:favicon.ico"
-              class="login_icon cursor-pointer q-mb-xl"
-              size="4.4em"
-              @click="goToHome"
-            />
             <q-input
               square
               outlined
-              class="q-mb-sm q-mx-sm"
+              class="q-mb-sm q-mx-sm q-mt-md"
               v-model="email"
               required
               :autofocus="true"
               :label="
                 translationsContent.WGO_USERS_COLUMN_EMAIL_LABEL || 'Email'
               "
-            />
-            <InputSecret
-              class="q-my-sm q-mx-sm"
-              v-model="password"
-              :required="true"
-              :label="
-                translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'
-              "
-              error="Passwords need to be equals"
-            />
-            <InputSecret
-              class="q-my-sm q-mx-sm"
-              v-model="confirmPassword"
-              :required="true"
-              :label="
-                translationsContent.WGO_USERS_CONFIRM_PASSWORD_LABEL ||
-                'Confirm Password'
-              "
-              @onEnter="onReset"
-              :isError="password !== confirmPassword"
-              error="Passwords need to be equals"
+              @keydown.enter.prevent="onReset"
             />
           </q-card-section>
           <q-card-actions align="center" vertical class="row q-pa-sm">
-            <q-btn
-              unelevated
-              flat
-              dense
-              color="primary"
-              align="around"
-              class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
-              @click="goToHome"
-            />
             <q-btn
               unelevated
               dense
@@ -100,8 +86,7 @@ export default defineComponent({
       this.showLoading = true;
       const service = new AuthService();
       const result = await service.resetPassword({
-        user: this.email,
-        password: this.password,
+        email: this.email,
       });
       if (result) {
         this.$emit("onReset", this.email);

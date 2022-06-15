@@ -8,7 +8,7 @@
             class="login_icon cursor-pointer"
             size="4.4em"
           />
-          <div class="q-mt-xl q-mb-sm q-mx-sm">Verifying account</div>
+          <div class="q-mt-xl q-mb-sm q-mx-sm">Verifying account ...</div>
         </q-card-section>
       </q-card>
     </div>

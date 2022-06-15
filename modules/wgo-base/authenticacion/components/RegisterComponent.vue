@@ -4,16 +4,34 @@
     style="overflow-y: auto"
   >
     <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-sm-10">
-      <q-card flat square bordered class="q-pa-lg">
-        <q-form @submit="registerUser">
-          <q-card-section class="row q-ma-sm flex flex-center">
+      <q-card flat square bordered>
+        <q-item class="bg-primary text-white">
+          <q-item-section avatar top>
             <q-icon
               name="img:favicon.ico"
-              class="login_icon cursor-pointer q-mb-md col-12"
-              size="4.4em"
+              class="login_icon cursor-pointer"
+              size="3.4em"
               @click="goToHome"
             />
-            <div class="text-h5 col-12">Register</div>
+          </q-item-section>
+          <q-item-section top class="self-center">
+            <div class="text-h6 text-left">Register</div>
+          </q-item-section>
+          <q-item-section top side class="self-center">
+            <q-btn
+              class="gt-xs text-white"
+              flat
+              dense
+              :label="
+                translationsContent.WGO_LOGIN_REGISTER_GO_BACK_LABEL ||
+                'Go Back'
+              "
+              @click="goBackClick"
+            />
+          </q-item-section>
+        </q-item>
+        <q-form @submit="registerUser" class="q-pa-lg">
+          <q-card-section class="row q-ma-sm flex flex-center">
             <div class="col-12 col-sm-8">
               <q-input
                 square
@@ -81,19 +99,6 @@
             </div>
           </q-card-section>
           <q-card-actions align="center" vertical class="row q-pa-sm q-pb-md">
-            <q-btn
-              unelevated
-              flat
-              dense
-              color="primary"
-              align="around"
-              class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="
-                translationsContent.WGO_LOGIN_REGISTER_GO_BACK_LABEL ||
-                'Go Back'
-              "
-              @click="goBackClick"
-            />
             <q-btn
               unelevated
               dense

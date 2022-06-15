@@ -5,79 +5,91 @@
       class="col-12 col-md-6 col-lg-5 col-xl-4 col-sm-10"
     >
       <q-card flat square bordered class="q-ma-lg">
-        <q-card-section class="q-ma-sm">
-          <q-icon
-            name="img:favicon.ico"
-            class="login_icon cursor-pointer"
-            size="4.4em"
-            @click="goToHome"
-          />
+        <q-item class="bg-primary text-white">
+          <q-item-section avatar top>
+            <q-icon
+              name="img:favicon.ico"
+              class="login_icon cursor-pointer"
+              size="3.4em"
+              @click="goToHome"
+            />
+          </q-item-section>
+          <q-item-section top class="self-center">
+            <div class="text-h6 text-left">Login</div>
+          </q-item-section>
+          <q-item-section top side class="self-center">
+            <q-btn
+              class="gt-xs text-white"
+              flat
+              dense
+              :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+              @click="goToHome"
+            />
+          </q-item-section>
+        </q-item>
+        <q-form @submit="loginUser" class="q-pa-sm">
+          <q-card-section class="q-ma-sm">
+            <q-input
+              square
+              outlined
+              required
+              class="q-my-sm"
+              v-model="user"
+              :autofocus="true"
+              :label="
+                translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'User'
+              "
+            />
 
-          <q-input
-            square
-            outlined
-            class="q-my-lg q-mx-sm"
-            v-model="user"
-            :autofocus="true"
-            :label="
-              translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'User'
-            "
-          />
-
-          <InputSecret
-            class="q-my-lg q-mx-sm"
-            v-model="password"
-            :label="translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'"
-            @onEnter="loginUser"
-          />
-
-          <!-- <q-input
-            square
-            outlined
-            class="q-my-lg q-mx-sm"
-            v-model="password"
-            type="password"
-            :label="translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'"
-            @keydown.enter.prevent="loginUser"
-          /> -->
-        </q-card-section>
-        <q-card-actions align="center" vertical class="row q-pa-lg">
-          <q-btn
-            unelevated
-            v-if="!hideReset && !!showReset"
-            flat
-            dense
-            color="primary"
-            align="around"
-            class="btn_width_fix q-mb-md col-12 col-sm-4"
-            :label="
-              translationsContent.WGO_LOGIN_RESET_PASSWORD_LABEL ||
-              'Reset password'
-            "
-            @click="goToResetPassword"
-          />
-          <q-btn
-            unelevated
-            v-if="!hideReister"
-            flat
-            dense
-            color="primary"
-            align="around"
-            class="btn_width_fix q-mb-md col-12 col-sm-4"
-            :label="translationsContent.WGO_LOGIN_REGISTER_LABEL || 'Register'"
-            @click="goToRegisterUser"
-          />
-          <q-btn
-            unelevated
-            dense
-            color="primary"
-            align="around"
-            class="btn_width_fix col-12 col-sm-4"
-            :label="translationsContent.WGO_LOGIN_LABEL || 'Login'"
-            :disable="!user || !password"
-            @click="loginUser"
-          />
-        </q-card-actions>
+            <InputSecret
+              class="q-my-lg"
+              v-model="password"
+              :label="
+                translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'
+              "
+              @onEnter="loginUser"
+              :hideBtnSpace="true"
+              :required="true"
+            />
+          </q-card-section>
+          <q-card-actions align="center" vertical class="row q-pa-sm">
+            <q-btn
+              unelevated
+              v-if="!hideReset && !!showReset"
+              flat
+              dense
+              color="primary"
+              align="around"
+              class="btn_width_fix q-mb-md col-12 col-sm-4"
+              :label="
+                translationsContent.WGO_LOGIN_RESET_PASSWORD_LABEL ||
+                'Reset password'
+              "
+              @click="goToResetPassword"
+            />
+            <q-btn
+              unelevated
+              v-if="!hideReister"
+              flat
+              dense
+              color="primary"
+              align="around"
+              class="btn_width_fix q-mb-md col-12 col-sm-4"
+              :label="
+                translationsContent.WGO_LOGIN_REGISTER_LABEL || 'Register'
+              "
+              @click="goToRegisterUser"
+            />
+            <q-btn
+              unelevated
+              dense
+              color="primary"
+              align="around"
+              class="btn_width_fix col-12 col-sm-4"
+              :label="translationsContent.WGO_LOGIN_LABEL || 'Login'"
+              type="submit"
+            /> </q-card-actions
+        ></q-form>
         <div class="full-width row justify-center text-grey text-caption">
           Version: {{ version }} - API Version: {{ apiVersion }}
         </div>

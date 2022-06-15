@@ -2,16 +2,30 @@
   <div class="fullscreen bg-white text-black text-center flex flex-center row">
     <div class="col-12 col-md-6 col-lg-5 col-xl-4 col-sm-10">
       <q-card flat square bordered class="q-ma-lg">
-        <q-card-section class="q-ma-sm">
-          <q-icon
-            name="img:favicon.ico"
-            class="login_icon cursor-pointer"
-            size="4.4em"
-            @click="goToHome"
-          />
-          <div class="q-mt-xl q-mb-sm q-mx-sm">
-            Email sended to: {{ email }}
-          </div>
+        <q-item class="bg-primary text-white">
+          <q-item-section avatar top>
+            <q-icon
+              name="img:favicon.ico"
+              class="login_icon cursor-pointer"
+              size="3.4em"
+              @click="goToHome"
+            />
+          </q-item-section>
+          <q-item-section top class="self-center">
+            <div class="text-h6 text-left">Email sended</div>
+          </q-item-section>
+          <q-item-section top side class="self-center">
+            <q-btn
+              class="gt-xs text-white"
+              flat
+              dense
+              :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+              @click="goToHome"
+            />
+          </q-item-section>
+        </q-item>
+        <q-card-section class="q-ma-sm q-pt-md">
+          <div class="q-ma-md">Email sended to: {{ email }}</div>
           <div class="q-my-sm q-mx-sm">
             Plase, check you email to verify the account
           </div>
