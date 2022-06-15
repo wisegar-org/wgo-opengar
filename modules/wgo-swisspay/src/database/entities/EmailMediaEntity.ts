@@ -31,7 +31,7 @@ export class EmailMediaEntity extends BaseEntity {
   @Column({ default: false })
   isPublic!: boolean;
 
-  @Column({ default: "", unique: true })
+  @Column({ default: "" })
   contentId!: string;
 
   @Column({ default: "" })
