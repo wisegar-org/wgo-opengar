@@ -1,9 +1,10 @@
-import { Pinia } from "pinia";
+import { Pinia, Store } from "pinia";
 import { IApiServiceOptions } from "@wisegar-org/wgo-opengar-core-ui";
 import { Environment, getSettings } from "./ApiSettings";
 import { USER_AUTH_TOKEN } from "../../../../wgo-base/authenticacion/models";
 
 import { useNotifyStore } from "src/stores/notifyStore";
+import { useAuthStore } from "src/stores/authStore";
 const defaultEnv: Environment =
   process.env.NODE_ENV === Environment.Production
     ? Environment.Production
@@ -11,17 +12,19 @@ const defaultEnv: Environment =
 
 const apiSettings = getSettings(defaultEnv);
 
-const notAuthorizedErrorHandler = (message: string) => {
-  if (message != "NotAuthorized") return;
-  localStorage.setItem(USER_AUTH_TOKEN, "");
+const isNotAuthorizedErrorHandler = (message: string) => {
+  return message === "NotAuthorized";
 };
 
 export const getApiServiceOptions = (pinia: Pinia) => {
   const notifyStore = useNotifyStore(pinia);
+  const authStore = useAuthStore(pinia);
   const apiServiceOptions: IApiServiceOptions = {
     onGenericErrorHandler: (message: string) => {
       console.debug(`GQL Error: ${message}`);
-      notAuthorizedErrorHandler(message);
+      if (isNotAuthorizedErrorHandler(message)) {
+        authStore.setToken("");
+      }
       notifyStore.setNotify({
         position: "top",
         type: "negative",

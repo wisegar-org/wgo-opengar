@@ -52,6 +52,17 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: AuthPaths.authChangePassword.path,
+        name: AuthPaths.authChangePassword.name,
+        component: () =>
+          import("src/pages/Auth/RegisterChangePasswordPage.vue"),
+        props: (route) => {
+          return {
+            token: route.params.token,
+          };
+        },
+      },
+      {
         path: AuthPaths.authResendConfirmation.path,
         name: AuthPaths.authResendConfirmation.name,
         component: () => import("src/pages/Auth/RegisterResendConfirmPage.vue"),

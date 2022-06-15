@@ -30,3 +30,9 @@ export class EditUserInput extends RegisterInput {
 export class ResendConfirmationInput {
   @Field() email!: string;
 }
+
+@InputType()
+export class ResetPasswordInput {
+  @Field() token!: string;
+  @Field() password!: string;
+}

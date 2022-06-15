@@ -5,6 +5,7 @@ import {
   MeInput,
   RegisterInput,
   ResendConfirmationInput,
+  ResetPasswordInput,
 } from "./AuthInputs";
 import { LoginResponse, UserResponse } from "./AuthResponses";
 import { AuthModel } from "../../../../wgo-base/authenticacion/models/AuthModel";
@@ -74,10 +75,17 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
-  async resetPassword(@Arg("data") data: LoginInput) {
+  async resetPassword(@Arg("data") data: ResendConfirmationInput) {
     const authModel = new AuthModel(this.options);
     const resetResult = await authModel.resetPassword(data);
     return !!resetResult;
+  }
+
+  @Mutation(() => Boolean)
+  async changeResetPassword(@Arg("data") data: ResetPasswordInput) {
+    const authModel = new AuthModel(this.options);
+    const resetResult = await authModel.changePassword(data);
+    return resetResult;
   }
 
   @Mutation(() => Boolean)
