@@ -146,6 +146,7 @@ export class Pop3Service {
         attachmentEntity.fileName = attachment.filename || '';
         attachmentEntity.fileExt = attachment.filename?.split('.').pop() || '';
         attachmentEntity.fileContent = Buffer.from(attachment.content);
+        attachmentEntity.senderTo = emailEntity.to;
         // attachmentEntity.isPublic = attachment.isPublic
         if (attachment.contentId) {
           attachmentEntity.contentId = attachment.contentId;
