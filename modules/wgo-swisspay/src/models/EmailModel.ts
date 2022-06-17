@@ -1,3 +1,4 @@
+import { IBaseSettings } from '@wisegar-org/wgo-settings';
 
 export class EmailModel {
   id!: number;
@@ -28,4 +29,13 @@ export class AttachmentModel {
   contentTransferEncoding!: string;
   contentDisposition!: string;
   contentDescription!: string;
+}
+
+export interface Pop3Settings extends IBaseSettings {
+  POP3_EMAIL_HOST: string;
+  POP3_EMAIL_PORT: number;
+  POP3_EMAIL_USER: string;
+  POP3_EMAIL_PASSWORD: string;
+  POP3_EMAIL_EMAIL: string;
+  POP3_EMAIL_TLS: boolean;
 }

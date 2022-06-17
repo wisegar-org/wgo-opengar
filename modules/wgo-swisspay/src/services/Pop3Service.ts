@@ -1,13 +1,14 @@
-import { EmailModel, AttachmentModel } from './../models/EmailModel';
+import { Pop3Settings } from './../models/EmailModel';
 import { EmailHistoryEntity } from './../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from './../database/entities/EmailMediaEntity';
 import { PostgresDataSource } from './../../dataSources';
 
 import { IPop3ConnectionOptions, Pop3Command } from '@wisegar-org/wgo-pop3';
 import { Buffer } from 'buffer';
-import { AddressObject, ParsedMail, simpleParser } from 'mailparser';
+import { ParsedMail, simpleParser } from 'mailparser';
 
-import { GetEmailHostKey, GetEmailPortKey, GetEmailSenderKey, GetEmailSenderPassKey } from '@wisegar-org/wgo-settings';
+import { GetConfig } from '@wisegar-org/wgo-settings';
+import { READ_EMAILS_INTERVAL } from '../models/constants';
 
 export class Pop3Service {
   /**
@@ -142,12 +143,12 @@ export class Pop3Service {
         const attachmentEntity = new EmailMediaEntity();
 
         attachmentEntity.name = attachment.filename || '';
-        // attachmentEntity.senderTo = attachment.senderTo
+
         attachmentEntity.fileName = attachment.filename || '';
         attachmentEntity.fileExt = attachment.filename?.split('.').pop() || '';
         attachmentEntity.fileContent = Buffer.from(attachment.content);
         attachmentEntity.senderTo = emailEntity.to;
-        // attachmentEntity.isPublic = attachment.isPublic
+
         if (attachment.contentId) {
           attachmentEntity.contentId = attachment.contentId;
         }
@@ -158,10 +159,6 @@ export class Pop3Service {
         await PostgresDataSource.manager.save(attachmentEntity);
         attachments.push(attachmentEntity);
       }
-
-      // emailEntity.attachments = attachments;
-      // console.log(emailEntity.attachments);
-      // await PostgresDataSource.manager.save(emailEntity);
     }
   }
 
@@ -190,8 +187,6 @@ export class Pop3Service {
 
   // Read all emails from server
   async readAllEmails() {
-    // var pop3 = new Pop3Command(this.clientOptions);
-
     // Get number of messages in the mailbox
     const numMessages = await this.getNumMessages();
     console.log('reading emails', numMessages);
@@ -201,31 +196,33 @@ export class Pop3Service {
       await this.readEmail(i, false);
     }
 
-    // await pop3.QUIT();
-
     return numMessages;
   }
 }
 
-export const READ_EMAILS_INTERVAL = 300000; // 1800000 // 30 minutes
-
-export const loopReadEmails = async () => {
+export const readEmails = async (): Promise<number> => {
   // Get host, port, username, password from request
-  const host = GetEmailHostKey(); // EMAIL_HOST
-  const port = GetEmailPortKey(); // EMAIL_PORT
-  const username = GetEmailSenderKey(); // EMAIL_SENDER_ADDRESS
-  const password = GetEmailSenderPassKey(); // EMAIL_SENDER_PASSWORD
+  const config = GetConfig<Pop3Settings>();
+  const host = config.POP3_EMAIL_HOST;
+  const port = config.POP3_EMAIL_PORT;
+  const username = config.POP3_EMAIL_USER;
+  const password = config.POP3_EMAIL_PASSWORD;
+  const tls = config.POP3_EMAIL_TLS;
 
   const pop3 = new Pop3Service({
     host: host,
     port: port,
     user: username,
     password: password,
-    tls: true,
+    tls: tls,
   });
 
   const numb = await pop3.readAllEmails();
+  return numb;
+};
 
+export const loopReadEmails = async () => {
+  const numb = await readEmails();
   console.log(numb, 'emails readed!');
 
   setTimeout(async () => {
