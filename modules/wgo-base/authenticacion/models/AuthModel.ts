@@ -256,6 +256,17 @@ export class AuthModel {
     throw new Error(WRONG_TOKEN);
   }
 
+  public async getUser(id: number): Promise<IUser | null> {
+    const repo = await this.dataSource.getRepository(UserEntity);
+    const user = await repo.findOne({
+      where: { id: id },
+    });
+
+    if (user) return this.mapUserEntity(user);
+
+    return null;
+  }
+
   private async comparePassword(
     attempt: string,
     password: string
