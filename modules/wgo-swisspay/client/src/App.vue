@@ -8,11 +8,12 @@ import { useNotifyStore, INotify } from './stores/notifyStore';
 import { QNotifyCreateOptions, useQuasar } from 'quasar';
 import { AuthService } from '../../../wgo-base/authenticacion/services/AuthService';
 import { useAuthStore } from './stores/authStore';
-import { USER_AUTH_TOKEN } from '../../../wgo-base/authenticacion/models';
+import { ISuccesLogin, USER_AUTH_TOKEN } from '../../../wgo-base/authenticacion/models';
 import HelloWorld from '../../../wgo-base-lib/src/components/HelloWorld.vue';
+import LoginDialog from './components/LoginDialog/LoginDialog.vue';
 
 export default defineComponent({
-  components: { HelloWorld },
+  components: { LoginDialog, HelloWorld },
   name: 'App',
   setup() {
     const notifyStore = useNotifyStore();
@@ -20,7 +21,16 @@ export default defineComponent({
     notifyStore.$subscribe((mutation, state) => {
       quasar.notify(state.notify as QNotifyCreateOptions);
     });
+    const $q = useQuasar();
     const authStore = useAuthStore();
+    authStore.$subscribe((mutation, state) => {
+      if (!state.token && state.user) {
+        $q.dialog({
+          component: LoginDialog,
+          persistent: true,
+        });
+      }
+    });
     const authService = new AuthService();
     const token = localStorage.getItem(USER_AUTH_TOKEN);
 
