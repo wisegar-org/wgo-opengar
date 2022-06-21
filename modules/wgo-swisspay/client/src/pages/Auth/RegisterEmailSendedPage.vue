@@ -9,7 +9,7 @@ import { defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import EmailSendedComponent from "../../../../../wgo-base/authenticacion/components/EmailSendedComponent.vue";
 import { RouteService } from "../../../../../wgo-base/core/services/RouteService";
-import { Paths } from "../../router/routes";
+import { Paths } from "../../router/paths";
 
 export default defineComponent({
   name: "RegisterEmailSendedPage",

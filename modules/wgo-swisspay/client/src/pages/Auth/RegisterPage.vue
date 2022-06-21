@@ -13,7 +13,7 @@ import RegisterComponent from "../../../../../wgo-base/authenticacion/components
 import { RouteService } from "../../../../../wgo-base/core/services/RouteService";
 import { IUser } from "../../../../../wgo-base/core/models/user";
 import { AuthPaths } from "../../../../../wgo-base/authenticacion/router";
-import { Paths } from "../../router/routes";
+import { Paths } from "../../router/paths";
 
 export default defineComponent({
   name: "RegisterPage",

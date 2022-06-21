@@ -7,7 +7,7 @@ import { RouteService } from "../../../../../wgo-base/core/services/RouteService
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import ResendConfirmComponent from "../../../../../wgo-base/authenticacion/components/ResendConfirmComponent.vue";
-import { Paths } from "../../router/routes";
+import { Paths } from "../../router/paths";
 import { AuthPaths } from "../../../../../wgo-base/authenticacion/router";
 export default defineComponent({
   name: "RegisterResendConfirmPage",

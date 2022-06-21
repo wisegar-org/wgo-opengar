@@ -7,7 +7,7 @@ import { RouteService } from "../../../../../wgo-base/core/services/RouteService
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import ResetPasswordComponent from "../../../../../wgo-base/authenticacion/components/ResetPasswordComponent.vue";
-import { Paths } from "../../router/routes";
+import { Paths } from "../../router/paths";
 import { AuthPaths } from "../../../../../wgo-base/authenticacion/router";
 export default defineComponent({
   name: "RegisterResetPasswordPage",

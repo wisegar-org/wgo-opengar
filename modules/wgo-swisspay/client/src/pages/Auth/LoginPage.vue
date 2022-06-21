@@ -15,7 +15,7 @@ import { RouteService } from "../../../../../wgo-base/core/services/RouteService
 import { useRouter } from "vue-router";
 import { AuthPaths } from "../../../../../wgo-base/authenticacion/router";
 import { useAuthStore } from "../../stores/authStore";
-import { Paths } from "../../router/routes";
+import { Paths } from "../../router/paths";
 
 export default defineComponent({
   name: "LoginPage",
