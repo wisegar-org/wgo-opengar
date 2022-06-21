@@ -71,7 +71,7 @@ export default defineComponent({
   },
   emits: {
     onHome() {
-      return;
+      return true;
     },
   },
 });

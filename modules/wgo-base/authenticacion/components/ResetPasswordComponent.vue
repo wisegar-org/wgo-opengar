@@ -99,7 +99,7 @@ export default defineComponent({
   },
   emits: {
     onHome() {
-      return;
+      return true;
     },
     onReset(email: string) {
       return email;

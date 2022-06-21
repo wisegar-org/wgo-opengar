@@ -55,10 +55,6 @@ export default defineComponent({
       this.$emit("close");
     },
   },
-  emits: {
-    close() {
-      return;
-    },
-  },
+  emits: ["close"],
 });
 </script>

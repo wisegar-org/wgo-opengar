@@ -41,7 +41,7 @@ export default defineComponent({
   },
   emits: {
     close() {
-      return;
+      return true;
     },
     onEdited(user: IUser) {
       return user;

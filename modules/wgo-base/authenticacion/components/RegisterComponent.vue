@@ -177,10 +177,10 @@ export default defineComponent({
   },
   emits: {
     onHome() {
-      return;
+      return true;
     },
     goBack() {
-      return;
+      return true;
     },
     onRegister(user: IUser) {
       return user;

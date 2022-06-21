@@ -67,10 +67,10 @@ export default defineComponent({
   },
   emits: {
     onLoginClick: () => {
-      return;
+      return true;
     },
     onLogoutClick: () => {
-      return;
+      return true;
     },
     onSaveUser(user: IUser) {
       return user;

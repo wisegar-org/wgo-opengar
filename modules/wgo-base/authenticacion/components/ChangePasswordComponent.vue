@@ -116,10 +116,10 @@ export default defineComponent({
   },
   emits: {
     onHome() {
-      return;
+      return true;
     },
     onChangePassword() {
-      return;
+      return true;
     },
   },
 });

@@ -162,13 +162,13 @@ export default defineComponent({
       return payload;
     },
     onRegister() {
-      return;
+      return true;
     },
     onHome() {
-      return;
+      return true;
     },
     onResetPassword() {
-      return;
+      return true;
     },
   },
 });
