@@ -7,6 +7,9 @@ import { ITableData, ITableRowButton } from '../../../../../wgo-base/core/models
 import { getEmailMediaListSchema } from './EmailMediaSchema';
 import EmailDetailsDialog from './EmailDetails/EmailDetailsDialog.vue';
 import { BaseResizeComponent } from '../../../../../wgo-base/core/components/BaseComponents';
+import { useRouter } from 'vue-router';
+import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
+import { EmailMediaPaths } from 'src/router/paths/emailMediaPaths';
 
 export default defineComponent({
   name: 'EmailMediaList',
@@ -18,6 +21,8 @@ export default defineComponent({
     const emailMediaService = new EmailMediaService();
     const data = [] as ITableData[];
     const emailDetails: IEmailModel = {} as IEmailModel;
+    const router = useRouter();
+    const routeService = new RouteService(router);
 
     const fnAction = (row: any) => {
       this.showDetails(row);
@@ -28,6 +33,13 @@ export default defineComponent({
       {
         icon: 'email',
         fnAction,
+      },
+      {
+        icon: 'edit',
+        fnAction: (row: any) => {
+          const path = EmailMediaPaths.emailMediaDetails.path.replace(':mediaId', row.id);
+          routeService.goTo(path);
+        },
       },
     ];
 
