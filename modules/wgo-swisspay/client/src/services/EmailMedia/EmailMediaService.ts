@@ -1,6 +1,11 @@
 import { ApiService } from '../../../../../wgo-base/core/services/ApiService';
-import { IEmailMediaModel, IEmailMediaFilter, IEmailModel } from '../../../../src/models/EmailModel';
-import { Q_EMAILMEDIA_GETALL, Q_EMAILMEDIA_GETEMAIL } from './EmailMediaServiceQueries';
+import {
+  IEmailMediaModel,
+  IEmailMediaFilter,
+  IEmailModel,
+  IEmailDetailsModel,
+} from '../../../../src/models/EmailModel';
+import { Q_EMAILMEDIA_GETALL, Q_EMAILMEDIA_GETEMAIL, Q_EMAILMEDIA_GETEMAILMEDIA } from './EmailMediaServiceQueries';
 import { IIdInput } from '../../../../src/models';
 
 export class EmailMediaService {
@@ -30,6 +35,30 @@ export class EmailMediaService {
     } catch (error) {
       console.log('EmailMediaService getAllEmailMedia error: ', error);
       return [];
+    }
+  }
+
+  async getEmailMediaById(input: IIdInput) {
+    try {
+      const response = (await this.apiInstance.query({
+        query: Q_EMAILMEDIA_GETEMAILMEDIA,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { getEmailMedia: IEmailDetailsModel };
+      };
+      if (response && response.data) {
+        const {
+          data: { getEmailMedia },
+        } = response;
+        return getEmailMedia;
+      }
+
+      return null;
+    } catch (error) {
+      console.log('EmailMediaService getEmailMediaById error: ', error);
+      return null;
     }
   }
 

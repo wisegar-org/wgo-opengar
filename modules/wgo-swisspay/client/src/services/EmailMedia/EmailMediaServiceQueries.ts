@@ -18,6 +18,57 @@ export const Q_EMAILMEDIA_GETALL = gql`
   }
 `;
 
+export const Q_EMAILMEDIA_GETEMAILMEDIA = gql`
+  query getEmailMedia($data: IdInput!) {
+    getEmailMedia(data: $data) {
+      emailMedia {
+        id
+        name
+        senderTo
+        fileName
+        fileExt
+        fileExt
+        isPublic
+        contentId
+        contentType
+        size
+        emailId
+      }
+      email {
+        id
+        from
+        to
+        cc
+        bcc
+        subject
+        subject
+        headers
+        date
+        messageId
+        inReplyTo
+        replyTo
+        references
+        html
+        text
+        textAsHtml
+        attachments {
+          id
+          name
+          senderTo
+          fileName
+          fileExt
+          fileExt
+          isPublic
+          contentId
+          contentType
+          size
+          emailId
+        }
+      }
+    }
+  }
+`;
+
 export const Q_EMAILMEDIA_GETEMAIL = gql`
   query getEmail($data: IdInput!) {
     getEmail(data: $data) {
