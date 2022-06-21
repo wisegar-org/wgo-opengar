@@ -1,60 +1,54 @@
-import {
-  Column,
-  Entity,
-  BaseEntity,
-  PrimaryGeneratedColumn,
-  OneToMany,
-} from "typeorm";
-import { EmailMediaEntity } from "./EmailMediaEntity";
+import { Column, Entity, BaseEntity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { EmailMediaEntity } from './EmailMediaEntity';
 
-@Entity({ name: "email_history" })
+@Entity({ name: 'email_history' })
 export class EmailHistoryEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   from!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   to!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   cc!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   bcc!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   subject!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   headers!: string;
 
   @Column({ default: new Date() })
   date!: Date;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   messageId!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   inReplyTo!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   replyTo!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   references!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   html!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   text!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   textAsHtml!: string;
 
-  @OneToMany(() => EmailMediaEntity, (media) => media.contentId, {
+  @OneToMany(() => EmailMediaEntity, (media) => media.email, {
     cascade: true,
   })
   attachments?: EmailMediaEntity[];

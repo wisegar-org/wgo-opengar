@@ -1,40 +1,33 @@
-import {
-  Column,
-  Entity,
-  BaseEntity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
-import { EmailHistoryEntity } from "./EmailHistoryEntity";
+import { Column, Entity, BaseEntity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { EmailHistoryEntity } from './EmailHistoryEntity';
 
-@Entity({ name: "email_media" })
+@Entity({ name: 'email_media' })
 export class EmailMediaEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   name!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   senderTo!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   fileName!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   fileExt!: string;
 
-  @Column({ type: "bytea" })
+  @Column({ type: 'bytea' })
   fileContent!: Buffer;
 
   @Column({ default: false })
   isPublic!: boolean;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   contentId!: string;
 
-  @Column({ default: "" })
+  @Column({ default: '' })
   contentType!: string;
 
   @Column({ default: 0 })
