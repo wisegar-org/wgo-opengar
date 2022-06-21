@@ -2,37 +2,21 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title> Swisspay </q-toolbar-title>
 
         <div>
-          <LoginBtn
-            :user="authStore.user"
-            @onLoginClick="goToLogin"
-            @onLogoutClick="logout"
-            @onSaveUser="onSave"
-          />
+          <LoginBtn :user="authStore.user" @onLoginClick="goToLogin" @onLogoutClick="logout" @onSaveUser="onSave" />
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
         <q-item-label header> Menu </q-item-label>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -43,27 +27,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import EssentialLink from "./../components/EssentialLink.vue";
-import LoginBtn from "../../../../wgo-base/core/components/LoginBtn/LoginBtn.vue";
-import { useAuthStore } from "../stores/authStore";
-import { RouteService } from "../../../../wgo-base/core/services/RouteService";
-import { useRouter } from "vue-router";
-import { AuthPaths } from "../../../../wgo-base/authenticacion/router";
-import { Paths } from "../router/routes";
-import { IUser } from "../../../../wgo-base/core/models";
-
-const linksList = [
-  {
-    title: Paths.home.name,
-    caption: "Home paga",
-    icon: "home",
-    link: Paths.home.path,
-  },
-];
+import { defineComponent, ref } from 'vue';
+import EssentialLink from './../components/EssentialLink.vue';
+import LoginBtn from '../../../../wgo-base/core/components/LoginBtn/LoginBtn.vue';
+import { useAuthStore } from '../stores/authStore';
+import { RouteService } from '../../../../wgo-base/core/services/RouteService';
+import { useRouter } from 'vue-router';
+import { AuthPaths } from '../../../../wgo-base/authenticacion/router';
+import { Paths } from '../router/paths';
+import { IUser } from '../../../../wgo-base/core/models';
+import { LinksList } from './MenuSettings';
 
 export default defineComponent({
-  name: "MainLayout",
+  name: 'MainLayout',
 
   components: {
     EssentialLink,
@@ -81,7 +57,7 @@ export default defineComponent({
     const router = useRouter();
 
     return {
-      essentialLinks: linksList,
+      essentialLinks: LinksList,
       leftDrawerOpen,
       authStore,
       router,
