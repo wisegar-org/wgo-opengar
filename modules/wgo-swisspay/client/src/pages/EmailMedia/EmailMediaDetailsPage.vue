@@ -10,6 +10,10 @@ import { defineComponent } from 'vue';
 import EmailDetails from '../../components/EmailMedia/EmailDetails/EmailDetails.vue';
 import { EmailMediaService } from '../../services/EmailMedia/EmailMediaService';
 import Loader from '../../../../../wgo-base/core/components/Loader/Loader.vue';
+import { useAuthStore } from '../../stores/authStore';
+import { useRoute, useRouter } from 'vue-router';
+import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
+import { AuthPaths } from '../../../../../wgo-base/authenticacion/router';
 
 export default defineComponent({
   name: 'EmailMediaDetailsPage',
@@ -22,23 +26,34 @@ export default defineComponent({
   },
   data() {
     const emailMediaService = new EmailMediaService();
+    const router = useRouter();
+    const routeService = new RouteService(router);
     return {
       emailMedia: {},
       email: {},
       loading: false,
       emailMediaService,
+      routeService,
     };
+  },
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
   },
   async mounted() {
     this.loading = true;
-    const result = await this.emailMediaService.getEmailMediaById({
-      id: this.mediaId || 0,
-    });
-    if (result) {
-      this.email = result.email;
-      this.emailMedia = result.emailMedia;
+    if (!!this.authStore.getUser) {
+      const result = await this.emailMediaService.getEmailMediaById({
+        id: this.mediaId || 0,
+      });
+      if (result) {
+        this.email = result.email;
+        this.emailMedia = result.emailMedia;
+      }
+      this.loading = false;
+    } else {
+      this.routeService.goTo(AuthPaths.authLogin.path, { path: this.$route.path });
     }
-    this.loading = false;
   },
 });
 </script>

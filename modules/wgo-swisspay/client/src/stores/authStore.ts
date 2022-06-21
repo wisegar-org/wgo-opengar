@@ -1,17 +1,14 @@
-import { defineStore } from "pinia";
-import {
-  ISuccesLogin,
-  USER_AUTH_TOKEN,
-} from "../../../../wgo-base/authenticacion/models";
-import { IUser } from "../../../../wgo-base/core/models/user";
+import { defineStore } from 'pinia';
+import { ISuccesLogin, USER_AUTH_TOKEN } from '../../../../wgo-base/authenticacion/models';
+import { IUser } from '../../../../wgo-base/core/models/user';
 
-export const userAuthId = "authStore";
+export const userAuthId = 'authStore';
 
 export const useAuthStore = defineStore({
   id: userAuthId,
   state: () => ({
     user: <IUser>{},
-    token: "",
+    token: '',
   }),
   getters: {
     getUser: (state) => {
@@ -28,7 +25,7 @@ export const useAuthStore = defineStore({
     },
     setToken(token: string) {
       localStorage.setItem(USER_AUTH_TOKEN, token);
-      this.token = token;
+      this.$state = { ...this.$state, token: token };
     },
     setUser(user: IUser) {
       this.user = user;

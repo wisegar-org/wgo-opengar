@@ -23,9 +23,9 @@
           <q-input
             square
             outlined
-            readonly
+            :readonly="!!user.email"
             class="q-my-sm"
-            v-model="user.userName"
+            v-model="userName"
             :autofocus="true"
             :label="translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'User'"
           />
@@ -40,7 +40,7 @@
           />
         </q-card-section>
         <q-card-actions align="around">
-          <q-btn color="primary" label="Cancel" @click="onDialogCancel" class="btn_width_fix q-mb-md col-12 col-sm-4" />
+          <q-btn color="primary" label="Cancel" @click="goToLogin" class="btn_width_fix q-mb-md col-12 col-sm-4" />
           <q-btn color="primary" label="Login" type="submit" class="btn_width_fix q-mb-md col-12 col-sm-4" />
         </q-card-actions>
       </q-form>
@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { useDialogPluginComponent } from 'quasar';
-import { PropType, defineComponent } from 'vue';
+import { PropType, defineComponent, ref } from 'vue';
 import { IUser } from '../../../../../wgo-base/core/models';
 import Loader from '../../../../../wgo-base/core/components/Loader/Loader.vue';
 import { AuthService } from '../../../../../wgo-base/authenticacion/services/AuthService';
@@ -76,9 +76,12 @@ export default defineComponent({
     const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
     const router = useRouter();
     const authStore = useAuthStore();
+    const userName = ref('');
+    userName.value = authStore.user.userName;
 
     return {
       user: authStore.user,
+      userName,
       authStore,
       dialogRef,
       onDialogHide,
@@ -92,7 +95,7 @@ export default defineComponent({
       this.showLoading = true;
       const service = new AuthService();
       const result = await service.loginUser({
-        user: this.user.userName,
+        user: this.userName,
         password: this.password,
       });
       this.showLoading = false;
@@ -103,6 +106,7 @@ export default defineComponent({
     },
     goToLogin() {
       this.routeService.goTo(AuthPaths.authLogin.path);
+      this.onDialogCancel();
     },
   },
   emits: [...useDialogPluginComponent.emits],

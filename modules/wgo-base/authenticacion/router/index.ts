@@ -8,6 +8,11 @@ export const AuthPaths: IRouteObject = {
     name: "auth_login",
     label: "Login",
   },
+  authLoginParam: {
+    path: `${AuthPathsBase}/login/:path`,
+    name: "auth_login_path",
+    label: "Login",
+  },
   authRegister: {
     path: `${AuthPathsBase}/register`,
     name: "auth_register",
