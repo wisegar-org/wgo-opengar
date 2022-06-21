@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import {
   EditUserInput,
   LoginInput,
@@ -6,18 +6,18 @@ import {
   RegisterInput,
   ResendConfirmationInput,
   ResetPasswordInput,
-} from "./AuthInputs";
-import { LoginResponse, UserResponse } from "./AuthResponses";
-import { AuthModel } from "../../../../wgo-base/authenticacion/models/AuthModel";
-import { IAuthModelArg } from "../../../../wgo-base/authenticacion/models";
-import { PostgresDataSource } from "../../../dataSources";
+} from './AuthInputs';
+import { LoginResponse, UserResponse } from './AuthResponses';
+import { AuthModel } from '../../../../wgo-base/authenticacion/models/AuthModel';
+import { IAuthModelArg } from '../../../../wgo-base/authenticacion/models';
+import { PostgresDataSource } from '../../../dataSources';
 import {
   GetEmailAppAddressKey,
   GetExpiresInKey,
   GetHostBaseKey,
   GetPrivateKey,
   GetPublicKey,
-} from "@wisegar-org/wgo-settings";
+} from '@wisegar-org/wgo-settings';
 
 @Resolver()
 export class AuthResolver {
@@ -33,63 +33,62 @@ export class AuthResolver {
       hostBase: GetHostBaseKey(),
       dataSource: PostgresDataSource,
       tokenExpiresIn: GetExpiresInKey(),
-      tokenRegisterExpiresIn: "24h",
+      tokenRegisterExpiresIn: '24h',
       emailOptions: { from: GetEmailAppAddressKey() } as any,
     };
-    debugger;
   }
 
   @Mutation(() => LoginResponse)
-  async login(@Arg("data") data: LoginInput) {
+  async login(@Arg('data') data: LoginInput) {
     const authModel = new AuthModel(this.options);
     const login = await authModel.login(data);
     return login as LoginResponse;
   }
 
   @Query(() => UserResponse)
-  async me(@Arg("data") data: MeInput) {
+  async me(@Arg('data') data: MeInput) {
     const authModel = new AuthModel(this.options);
     const user = await authModel.me(data);
     return user as UserResponse;
   }
 
   @Mutation(() => UserResponse)
-  async register(@Arg("data") data: RegisterInput) {
+  async register(@Arg('data') data: RegisterInput) {
     const authModel = new AuthModel(this.options);
     const user = await authModel.register(data as any);
     return user;
   }
 
   @Mutation(() => UserResponse)
-  async editUser(@Arg("data") data: EditUserInput) {
+  async editUser(@Arg('data') data: EditUserInput) {
     const authModel = new AuthModel(this.options);
     const user = await authModel.editUser(data as any);
     return user;
   }
 
   @Mutation(() => Boolean)
-  async resendConfirmation(@Arg("data") data: ResendConfirmationInput) {
+  async resendConfirmation(@Arg('data') data: ResendConfirmationInput) {
     const authModel = new AuthModel(this.options);
     const user = await authModel.resendConfirmation(data);
     return !!user;
   }
 
   @Mutation(() => Boolean)
-  async resetPassword(@Arg("data") data: ResendConfirmationInput) {
+  async resetPassword(@Arg('data') data: ResendConfirmationInput) {
     const authModel = new AuthModel(this.options);
     const resetResult = await authModel.resetPassword(data);
     return !!resetResult;
   }
 
   @Mutation(() => Boolean)
-  async changeResetPassword(@Arg("data") data: ResetPasswordInput) {
+  async changeResetPassword(@Arg('data') data: ResetPasswordInput) {
     const authModel = new AuthModel(this.options);
     const resetResult = await authModel.changePassword(data);
     return resetResult;
   }
 
   @Mutation(() => Boolean)
-  async confirmRegist(@Arg("data") data: MeInput) {
+  async confirmRegist(@Arg('data') data: MeInput) {
     const authModel = new AuthModel(this.options);
     const user = await authModel.confirmRegist(data);
     return !!user;

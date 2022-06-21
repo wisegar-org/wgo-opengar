@@ -39,3 +39,38 @@ export interface Pop3Settings extends IBaseSettings {
   POP3_EMAIL_EMAIL: string;
   POP3_EMAIL_TLS: boolean;
 }
+
+export interface IEmailMediaModel {
+  id: number;
+  name: string;
+  senderTo: string;
+  fileName: string;
+  fileExt: string;
+  isPublic: boolean;
+  contentId: string;
+  contentType: string;
+  size: number;
+  emailId: number;
+}
+
+export interface IEmailMediaFilter {
+  email: string;
+}
+export interface IEmailModel {
+  id: number;
+  from: string;
+  to: string;
+  cc: string;
+  bcc: string;
+  subject: string;
+  headers: string;
+  date: Date;
+  messageId: string;
+  inReplyTo: string;
+  replyTo: string;
+  references: string;
+  html: string;
+  text: string;
+  textAsHtml: string;
+  attachments?: IEmailMediaModel[];
+}
