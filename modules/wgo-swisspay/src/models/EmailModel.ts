@@ -51,6 +51,7 @@ export interface IEmailMediaModel {
   contentType: string;
   size: number;
   emailId: number;
+  email?: IEmailModel;
 }
 
 export interface IEmailMediaFilter {
@@ -73,4 +74,9 @@ export interface IEmailModel {
   text: string;
   textAsHtml: string;
   attachments?: IEmailMediaModel[];
+}
+
+export interface IEmailDetailsModel {
+  email: IEmailModel;
+  emailMedia: IEmailMediaModel;
 }

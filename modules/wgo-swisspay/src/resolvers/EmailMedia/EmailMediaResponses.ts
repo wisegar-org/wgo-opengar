@@ -33,3 +33,8 @@ export class EmailResponse {
   @Field() textAsHtml!: string;
   @Field(() => [EmailMediaResponse]) attachments?: EmailMediaResponse[];
 }
+@ObjectType()
+export class EmailDetailsResponse {
+  @Field(() => EmailMediaResponse) emailMedia!: EmailMediaResponse;
+  @Field(() => EmailResponse) email!: EmailResponse;
+}

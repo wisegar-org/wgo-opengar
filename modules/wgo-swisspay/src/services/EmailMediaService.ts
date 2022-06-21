@@ -2,7 +2,7 @@ import { DataSource, Like } from 'typeorm';
 import { EmailHistoryEntity } from '../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from '../database/entities/EmailMediaEntity';
 import { IIdInput } from '../models';
-import { IEmailMediaFilter, IEmailMediaModel, IEmailModel } from '../models/EmailModel';
+import { IEmailDetailsModel, IEmailMediaFilter, IEmailMediaModel, IEmailModel } from '../models/EmailModel';
 
 export class EmailMediaService {
   dataSource: DataSource;
@@ -36,6 +36,43 @@ export class EmailMediaService {
     });
 
     return emailList.map((email) => this.mapEmailMediaEntity(email));
+  }
+
+  async getEmailMediaById(data: IIdInput, ctx: any) {
+    const repo = await this.dataSource.getRepository(EmailMediaEntity);
+    const idQuery = { id: data.id };
+    const emailResponse = await repo.findOne({
+      relations: ['email', 'email.attachments'],
+      where: [
+        {
+          ...idQuery,
+          senderTo: Like(`%${ctx.user.email}%`),
+        },
+        {
+          ...idQuery,
+          email: {
+            from: Like(`%${ctx.user.email}%`),
+          },
+        },
+        {
+          ...idQuery,
+          email: {
+            to: Like(`%${ctx.user.email}%`),
+          },
+        },
+      ],
+    });
+
+    if (!!emailResponse) {
+      const emailMedia = this.mapEmailMediaEntity(emailResponse);
+      const email = this.mapEmailHistoryEntity(emailResponse.email);
+      return {
+        email,
+        emailMedia,
+      } as IEmailDetailsModel;
+    }
+
+    throw new Error("Email don't exist");
   }
 
   async getEmailById(data: IIdInput) {
