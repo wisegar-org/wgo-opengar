@@ -13,7 +13,14 @@
       class="my-sticky-header-table"
     >
       <template v-slot:top>
-        <TableTitleHeader :title="title" :searchText="searchText" />
+        <TableTitleHeader
+          :title="title"
+          :searchText="searchText"
+          :schema="mySchema"
+          :columns="columns"
+          :data="data"
+          @changeColumnSelected="changeColumnSelected"
+        />
       </template>
 
       <template v-slot:header-cell="props">
@@ -146,11 +153,8 @@ export default defineComponent({
         row: row,
       });
     },
-    changeSelectColumn() {
-      this.visibleColumns = [];
-      for (let item of this.columns) {
-        if (item.visible) this.visibleColumns.push(item.name);
-      }
+    changeColumnSelected(visibleColumns: string[]) {
+      this.visibleColumns = visibleColumns;
     },
     onRowSelect(row: any) {
       this.$emit("rowSelect", row);

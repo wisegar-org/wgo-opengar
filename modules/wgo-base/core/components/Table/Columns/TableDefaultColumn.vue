@@ -3,7 +3,7 @@
     class="ellipsis"
     :style="{
       'min-width': props.col.width + 'px',
-      width: props.col.width + 'px',
+      width: '100%',
     }"
     v-html="props.value"
   ></div>

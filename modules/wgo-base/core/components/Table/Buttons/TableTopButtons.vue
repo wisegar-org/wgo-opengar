@@ -1,0 +1,33 @@
+<template>
+  <div v-if="schema.leftButtons">
+    <q-btn
+      v-for="(v, k) in schema.leftButtons"
+      :key="k"
+      :color="v.color"
+      :icon="v.icon"
+      size="sm"
+      class="q-mr-md"
+      unelevated
+      @click="v.fnAction"
+    >
+      {{ v.label }}
+      <q-tooltip v-if="v.tooltip">{{ v.tooltip }}</q-tooltip>
+    </q-btn>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from "@vue/composition-api";
+import { ITableSchema } from "../../../models/Table";
+
+export default defineComponent({
+  name: "TableTopButtons",
+  props: {
+    schema: {
+      type: Object as PropType<ITableSchema>,
+      default: { schema: {}, title: "", code: "id" },
+    },
+  },
+  setup() {},
+});
+</script>

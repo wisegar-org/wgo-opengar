@@ -8,6 +8,15 @@
       </q-item-section>
       <q-item-section top side class="self-center">
         <div class="row items-center">
+          <TableTopButtons :schema="schema" />
+          <TableExportClipboardButton :columns="columns" :data="data" />
+          <TableExportCsvButton :columns="columns" :data="data" />
+          <TableExportExcelButton :columns="columns" :data="data" />
+          <TableSelectColumnsButton
+            :columns="columns"
+            :schema="schema"
+            @changeColumnSelected="changeColumnSelected"
+          />
           <!-- Buttons -->
         </div>
       </q-item-section>
@@ -17,13 +26,44 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
+import { ITableColumn, ITableData, ITableSchema } from "../../models/Table";
+import TableTopButtons from "./Buttons/TableTopButtons.vue";
+import TableSelectColumnsButton from "./Buttons/TableSelectColumnsButton.vue";
+import TableExportClipboardButton from "./Buttons/TableExportClipboardButton.vue";
+import TableExportExcelButton from "./Buttons/TableExportExcelButton.vue";
+import TableExportCsvButton from "./Buttons/TableExportCsvButton.vue";
 
 export default defineComponent({
   name: "TableTitleHeader",
   props: {
     title: String,
     searchText: String,
+    schema: {
+      type: Object as PropType<ITableSchema>,
+      default: { schema: {}, title: "", code: "id" },
+    },
+    columns: {
+      type: Array as PropType<ITableColumn[]>,
+      default: [],
+    },
+    data: {
+      type: Array as PropType<ITableData[]>,
+      default: [],
+    },
   },
+  components: {
+    TableTopButtons,
+    TableSelectColumnsButton,
+    TableExportClipboardButton,
+    TableExportExcelButton,
+    TableExportCsvButton,
+  },
+  methods: {
+    changeColumnSelected(visibleColumns: string[]) {
+      this.$emit("changeColumnSelected", visibleColumns);
+    },
+  },
+  emits: ["changeColumnSelected"],
 });
 </script>
