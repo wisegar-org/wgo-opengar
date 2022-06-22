@@ -1,5 +1,5 @@
 <template>
-  <router-view v-if="!loading" />
+  <router-view />
 </template>
 
 <script lang="ts">
@@ -15,9 +15,6 @@ import LoginDialog from './components/LoginDialog/LoginDialog.vue';
 export default defineComponent({
   components: { LoginDialog, HelloWorld },
   name: 'App',
-  data() {
-    return { loading: true };
-  },
   setup() {
     const notifyStore = useNotifyStore();
     const quasar = useQuasar();
@@ -49,7 +46,6 @@ export default defineComponent({
     if (!!user) {
       this.authStore.setLogin({ token: this.token, user } as any);
     }
-    this.loading = false;
   },
 });
 </script>

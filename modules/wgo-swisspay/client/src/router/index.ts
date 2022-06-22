@@ -15,8 +15,6 @@ import routes from './routes';
 
 const getBeforEachFnc = (authStore: any) => {
   return (to: any, from: any, next: any) => {
-    debugger;
-    console.log('token:', authStore.getAppToken);
     if (to.meta.auth && !authStore.getAppToken) {
       next({
         path: AuthPaths.authLogin.path,
