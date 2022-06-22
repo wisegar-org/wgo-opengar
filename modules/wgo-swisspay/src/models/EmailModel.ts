@@ -43,6 +43,7 @@ export interface Pop3Settings extends IBaseSettings {
 export interface IEmailMediaModel {
   id: number;
   name: string;
+  senderFrom: string;
   senderTo: string;
   fileName: string;
   fileExt: string;

@@ -95,7 +95,8 @@ export class EmailMediaService {
     return {
       id: emailMedia.id,
       name: emailMedia.name,
-      senderTo: emailMedia.senderTo,
+      senderTo: emailMedia.senderTo || emailMedia.email?.to || '',
+      senderFrom: emailMedia.email?.from || '',
       fileName: emailMedia.fileName,
       fileExt: emailMedia.fileExt,
       isPublic: emailMedia.isPublic,
@@ -107,7 +108,9 @@ export class EmailMediaService {
   }
 
   private mapEmailHistoryEntity(email: EmailHistoryEntity): IEmailModel {
-    const attachments = (email.attachments || []).map((attch) => this.mapEmailMediaEntity(attch, email.id));
+    const attachments = (email.attachments || []).map((attch) =>
+      this.mapEmailMediaEntity({ ...attch, email: email } as any, email.id)
+    );
     return {
       id: email.id,
       from: email.from,

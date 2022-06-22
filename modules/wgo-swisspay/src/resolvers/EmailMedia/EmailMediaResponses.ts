@@ -5,6 +5,7 @@ export class EmailMediaResponse {
   @Field() id!: number;
   @Field() name!: string;
   @Field() senderTo!: string;
+  @Field() senderFrom!: string;
   @Field() fileName!: string;
   @Field() fileExt!: string;
   @Field() isPublic!: boolean;
