@@ -1,10 +1,7 @@
+import { AuthPaths } from '../../../../wgo-base/authenticacion/router';
 import { route } from 'quasar/wrappers';
-import {
-  createMemoryHistory,
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router';
+import { useAuthStore } from 'src/stores/authStore';
+import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 import routes from './routes';
 
 /*
@@ -16,10 +13,28 @@ import routes from './routes';
  * with the Router instance.
  */
 
-export default route(function (/* { store, ssrContext } */) {
+const getBeforEachFnc = (authStore: any) => {
+  return (to: any, from: any, next: any) => {
+    debugger;
+    console.log('token:', authStore.getAppToken);
+    if (to.meta.auth && !authStore.getAppToken) {
+      next({
+        path: AuthPaths.authLogin.path,
+        // path: AuthPaths.authLoginParam.path,
+        query: { path: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  };
+};
+
+export default route(function ({ store }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
+    : process.env.VUE_ROUTER_MODE === 'history'
+    ? createWebHistory
+    : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -28,10 +43,11 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(
-      process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
-    ),
+    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
+  const authStore = useAuthStore(store);
+  const beforeEach = getBeforEachFnc(authStore);
+  Router.beforeEach(beforeEach);
 
   return Router;
 });

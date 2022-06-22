@@ -15,6 +15,9 @@ export const AuthPathRouter: RouteRecordRaw = {
           path: route.query.path,
         };
       },
+      meta: {
+        auth: false,
+      },
     },
     {
       path: AuthPaths.authLogin.path,
@@ -25,11 +28,17 @@ export const AuthPathRouter: RouteRecordRaw = {
           path: route.query.path,
         };
       },
+      meta: {
+        auth: false,
+      },
     },
     {
       path: AuthPaths.authRegister.path,
       name: AuthPaths.authRegister.name,
       component: () => import('src/pages/Auth/RegisterPage.vue'),
+      meta: {
+        auth: false,
+      },
     },
     {
       path: AuthPaths.authEmailSended.path,
@@ -39,6 +48,9 @@ export const AuthPathRouter: RouteRecordRaw = {
         return {
           email: route.params.email,
         };
+      },
+      meta: {
+        auth: false,
       },
     },
     {
@@ -50,6 +62,9 @@ export const AuthPathRouter: RouteRecordRaw = {
           token: route.params.token,
         };
       },
+      meta: {
+        auth: false,
+      },
     },
     {
       path: AuthPaths.authChangePassword.path,
@@ -60,16 +75,25 @@ export const AuthPathRouter: RouteRecordRaw = {
           token: route.params.token,
         };
       },
+      meta: {
+        auth: false,
+      },
     },
     {
       path: AuthPaths.authResendConfirmation.path,
       name: AuthPaths.authResendConfirmation.name,
       component: () => import('src/pages/Auth/RegisterResendConfirmPage.vue'),
+      meta: {
+        auth: false,
+      },
     },
     {
       path: AuthPaths.authResetPassword.path,
       name: AuthPaths.authResetPassword.name,
       component: () => import('src/pages/Auth/RegisterResetPasswordPage.vue'),
+      meta: {
+        auth: false,
+      },
     },
   ],
 };

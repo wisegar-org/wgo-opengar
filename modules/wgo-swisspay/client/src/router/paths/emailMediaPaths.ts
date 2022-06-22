@@ -23,6 +23,9 @@ export const EmailMediaPathRouter: RouteRecordRaw = {
     {
       path: EmailMediaPaths.emailMedia.path,
       component: () => import('pages/EmailMedia/EmailMediaPage.vue'),
+      meta: {
+        auth: true,
+      },
     },
     {
       path: EmailMediaPaths.emailMediaDetails.path,
@@ -31,6 +34,9 @@ export const EmailMediaPathRouter: RouteRecordRaw = {
         return {
           mediaId: parseInt((params as any).mediaId),
         };
+      },
+      meta: {
+        auth: true,
       },
     },
   ],
