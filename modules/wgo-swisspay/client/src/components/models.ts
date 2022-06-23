@@ -1,8 +1,14 @@
-export interface Todo {
-  id: number;
-  content: string;
+export interface IMenuItem {
+  label: string;
+  id: string;
+  icon: string;
+  link: string;
+  color: string;
+  type: 'item';
 }
 
-export interface Meta {
-  totalCount: number;
+export interface IMenuSeparator {
+  type: 'separator';
 }
+
+export type MenuListItem = IMenuItem | IMenuSeparator;

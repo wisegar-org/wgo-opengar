@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="showMenu" />
 
         <q-toolbar-title> Swisspay </q-toolbar-title>
 
@@ -12,14 +12,6 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" bordered>
-      <q-list>
-        <q-item-label header> Menu </q-item-label>
-
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
-      </q-list>
-    </q-drawer>
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -28,7 +20,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import EssentialLink from './../components/EssentialLink.vue';
 import LoginBtn from '../../../../wgo-base/core/components/LoginBtn/LoginBtn.vue';
 import { useAuthStore } from '../stores/authStore';
 import { RouteService } from '../../../../wgo-base/core/services/RouteService';
@@ -37,33 +28,38 @@ import { AuthPaths } from '../../../../wgo-base/authenticacion/router';
 import { Paths } from '../router/paths';
 import { IUser } from '../../../../wgo-base/core/models';
 import { LinksList } from './MenuSettings';
+import { useQuasar } from 'quasar';
+import Menu from '../components/Menu/Menu.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink,
     LoginBtn,
-  },
-  data() {
-    const router = useRouter();
-    return {
-      routeService: new RouteService(router),
-    };
+    Menu,
   },
   setup() {
-    const leftDrawerOpen = ref(false);
     const authStore = useAuthStore();
     const router = useRouter();
+    const routeService = new RouteService(router);
+    const $q = useQuasar();
 
+    function goToPath(pathName: string) {
+      routeService.goTo(pathName);
+    }
+    function showMenu() {
+      $q.dialog({
+        component: Menu,
+        componentProps: {
+          links: LinksList,
+        },
+      });
+    }
     return {
-      essentialLinks: LinksList,
-      leftDrawerOpen,
+      showMenu,
+      goToPath,
       authStore,
       router,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
     };
   },
   methods: {
@@ -74,12 +70,20 @@ export default defineComponent({
       this.authStore.resetState();
       this.goToPath(Paths.home.path);
     },
-    goToPath(pathName: string) {
-      this.routeService.goTo(pathName);
-    },
     onSave(user: IUser) {
       this.authStore.setUser(user);
     },
   },
 });
 </script>
+
+<style scoped>
+.myClassBottomSheet {
+  top: 0;
+}
+
+.fixed-bottom {
+  left: 0 !important;
+  top: 0 !important;
+}
+</style>
