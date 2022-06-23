@@ -13,8 +13,8 @@ import { getResolverList } from './resolvers';
 import { EmailController } from './controllers/EmailController';
 import { loopReadEmails } from './services/Pop3Service';
 
-import { roleSuperAdminSeeder } from '../../wgo-base/authenticacion/database/seeder/roles';
-import { userAdminSeeder } from '../../wgo-base/authenticacion/database/seeder/user';
+import { roleSuperAdminSeeder } from '../../wgo-base/authentication/database/seeder/roles';
+import { userAdminSeeder } from '../../wgo-base/authentication/database/seeder/user';
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();

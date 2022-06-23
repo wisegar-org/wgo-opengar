@@ -3,14 +3,14 @@
 </template>
 
 <script lang="ts">
-import { RouteService } from "../../../../../wgo-base/core/services/RouteService";
-import { defineComponent } from "vue";
-import { useRouter } from "vue-router";
-import ResetPasswordComponent from "../../../../../wgo-base/authenticacion/components/ResetPasswordComponent.vue";
-import { Paths } from "../../router/paths";
-import { AuthPaths } from "../../../../../wgo-base/authenticacion/router";
+import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+import ResetPasswordComponent from '../../../../../wgo-base/authentication/components/ResetPasswordComponent.vue';
+import { Paths } from '../../router/paths';
+import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 export default defineComponent({
-  name: "RegisterResetPasswordPage",
+  name: 'RegisterResetPasswordPage',
   components: {
     ResetPasswordComponent,
   },

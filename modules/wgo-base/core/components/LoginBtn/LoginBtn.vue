@@ -25,7 +25,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
 import { IUser } from "../../models/user";
-import EditUserDialog from "../../../authenticacion/components/EditUser/EditUserDialog.vue";
+import EditUserDialog from "../../../authentication/components/EditUser/EditUserDialog.vue";
 
 export default defineComponent({
   props: {

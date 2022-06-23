@@ -8,8 +8,8 @@ import {
   ResetPasswordInput,
 } from './AuthInputs';
 import { LoginResponse, UserResponse } from './AuthResponses';
-import { AuthModel } from '../../../../wgo-base/authenticacion/models/AuthModel';
-import { IAuthModelArg } from '../../../../wgo-base/authenticacion/models';
+import { AuthModel } from '../../../../wgo-base/authentication/models/AuthModel';
+import { IAuthModelArg } from '../../../../wgo-base/authentication/models';
 import { PostgresDataSource } from '../../../dataSources';
 import {
   GetEmailAppAddressKey,

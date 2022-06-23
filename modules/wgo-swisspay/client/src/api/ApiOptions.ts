@@ -1,7 +1,7 @@
 import { Pinia, Store } from 'pinia';
 import { IApiServiceOptions } from '@wisegar-org/wgo-opengar-core-ui';
 import { Environment, getSettings } from './ApiSettings';
-import { USER_AUTH_TOKEN } from '../../../../wgo-base/authenticacion/models';
+import { USER_AUTH_TOKEN } from '../../../../wgo-base/authentication/models';
 
 import { useNotifyStore } from 'src/stores/notifyStore';
 import { useAuthStore } from 'src/stores/authStore';

@@ -6,9 +6,9 @@
 import { defineComponent } from 'vue';
 import { useNotifyStore } from './stores/notifyStore';
 import { QNotifyCreateOptions, useQuasar } from 'quasar';
-import { AuthService } from '../../../wgo-base/authenticacion/services/AuthService';
+import { AuthService } from '../../../wgo-base/authentication/services/AuthService';
 import { useAuthStore } from './stores/authStore';
-import { USER_AUTH_TOKEN } from '../../../wgo-base/authenticacion/models';
+import { USER_AUTH_TOKEN } from '../../../wgo-base/authentication/models';
 import HelloWorld from '../../../wgo-base-lib/src/components/HelloWorld.vue';
 import LoginDialog from './components/LoginDialog/LoginDialog.vue';
 

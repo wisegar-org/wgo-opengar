@@ -24,7 +24,7 @@ import LoginBtn from '../../../../wgo-base/core/components/LoginBtn/LoginBtn.vue
 import { useAuthStore } from '../stores/authStore';
 import { RouteService } from '../../../../wgo-base/core/services/RouteService';
 import { useRouter } from 'vue-router';
-import { AuthPaths } from '../../../../wgo-base/authenticacion/router';
+import { AuthPaths } from '../../../../wgo-base/authentication/router';
 import { Paths } from '../router/paths';
 import { IUser } from '../../../../wgo-base/core/models';
 import { LinksList } from './MenuSettings';

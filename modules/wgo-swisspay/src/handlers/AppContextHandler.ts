@@ -6,7 +6,7 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
-import { AuthModel } from '../../../wgo-base/authenticacion/models/AuthModel';
+import { AuthModel } from '../../../wgo-base/authentication/models/AuthModel';
 import { PostgresDataSource } from '../../dataSources';
 import { IContext } from '../models';
 
