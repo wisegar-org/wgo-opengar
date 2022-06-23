@@ -1,31 +1,20 @@
-import "reflect-metadata";
-import {
-  boot,
-  IServerOptions,
-  NonEmptyArray,
-  UseRestMiddleware,
-} from "@wisegar-org/wgo-server";
-import {
-  GetPortKey,
-  GetNodeEnvKey,
-  GetPrivateKey,
-  GetPublicKey,
-  GetExpiresInKey,
-} from "@wisegar-org/wgo-settings";
-import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
-import { AppContextHandler } from "./handlers/AppContextHandler";
-import { errorHandler } from "./handlers/ErrorHandler";
-import { AppController } from "./controllers/AppController";
-import { AppResolver } from "./resolvers/AppResolver";
-import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
-import { Express } from "express";
-import { dataSourceOptions, PostgresDataSource } from "../dataSources";
-import { UserEntity } from "../../wgo-base/authenticacion/database/entities/UserEntity";
-import { IsNullOrUndefined } from "@wisegar-org/wgo-object-extensions";
-import { createDatabase } from "typeorm-extension";
-import { getResolverList } from "./resolvers";
-import { EmailController } from "./controllers/EmailController";
-import { loopReadEmails } from "./services/Pop3Service";
+import 'reflect-metadata';
+import { boot, IServerOptions, NonEmptyArray, UseRestMiddleware } from '@wisegar-org/wgo-server';
+import { GetPortKey, GetNodeEnvKey, GetPrivateKey, GetPublicKey, GetExpiresInKey } from '@wisegar-org/wgo-settings';
+import { AuthenticationHandler } from './handlers/AuthenticationHandler';
+import { AppContextHandler } from './handlers/AppContextHandler';
+import { errorHandler } from './handlers/ErrorHandler';
+import { AppController } from './controllers/AppController';
+import { UseClientSPAHostMiddleware } from './middlewares/HostClientMiddleware';
+import { Express } from 'express';
+import { dataSourceOptions, PostgresDataSource } from '../dataSources';
+import { createDatabase } from 'typeorm-extension';
+import { getResolverList } from './resolvers';
+import { EmailController } from './controllers/EmailController';
+import { loopReadEmails } from './services/Pop3Service';
+
+import { roleSuperAdminSeeder } from '../../wgo-base/authenticacion/database/seeder/roles';
+import { userAdminSeeder } from '../../wgo-base/authenticacion/database/seeder/user';
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();
@@ -49,7 +38,7 @@ const serverOptions: IServerOptions = {
   expiresIn: GetExpiresInKey(),
 };
 boot(serverOptions, async () => {
-  console.log("Start other services here. ex. database connections");
+  console.log('Start other services here. ex. database connections');
 
   await createDatabase({
     ifNotExist: true,
@@ -65,24 +54,9 @@ boot(serverOptions, async () => {
     dataSource.runMigrations();
   }
 
-  const adminUserEmail = "admin@wisegar.org";
-
-  const userRepository = PostgresDataSource.getRepository(UserEntity);
-  const adminUserResult = await userRepository.findOne({
-    where: { email: adminUserEmail },
-  });
-  if (IsNullOrUndefined(adminUserResult)) {
-    const adminUser = new UserEntity();
-    adminUser.email = adminUserEmail;
-    adminUser.userName = adminUserEmail;
-    adminUser.isEmailConfirmed = true;
-    adminUser.name = "Admin";
-    adminUser.lastName = "User";
-    adminUser.password = "Wisegar.-0";
-    const adminUserRegistered = await userRepository.save(adminUser);
-    if (!IsNullOrUndefined(adminUserRegistered))
-      console.debug(`Admin User registered: ${adminUserRegistered.email}`);
-  }
+  //Seeders
+  roleSuperAdminSeeder(dataSource); //create superadmin rol
+  userAdminSeeder(dataSource); //create admin user with superadmin rol
 
   // Loop through all emails in the inbox and save them to the database
   setTimeout(async () => {
