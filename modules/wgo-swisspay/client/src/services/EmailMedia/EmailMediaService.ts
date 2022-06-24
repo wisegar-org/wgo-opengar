@@ -1,3 +1,4 @@
+import { IIdInput } from '../../../../../wgo-base/core/models';
 import { ApiService } from '../../../../../wgo-base/core/services/ApiService';
 import {
   IEmailMediaModel,
@@ -6,7 +7,6 @@ import {
   IEmailDetailsModel,
 } from '../../../../src/models/EmailModel';
 import { Q_EMAILMEDIA_GETALL, Q_EMAILMEDIA_GETEMAIL, Q_EMAILMEDIA_GETEMAILMEDIA } from './EmailMediaServiceQueries';
-import { IIdInput } from '../../../../src/models';
 
 export class EmailMediaService {
   private apiInstance: ApiService;

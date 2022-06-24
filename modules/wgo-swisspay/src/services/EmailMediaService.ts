@@ -1,7 +1,7 @@
 import { DataSource, Like } from 'typeorm';
+import { IIdInput } from '../../../wgo-base/core/models';
 import { EmailHistoryEntity } from '../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from '../database/entities/EmailMediaEntity';
-import { IIdInput } from '../models';
 import { IEmailDetailsModel, IEmailMediaFilter, IEmailMediaModel, IEmailModel } from '../models/EmailModel';
 
 export class EmailMediaService {
