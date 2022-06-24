@@ -3,7 +3,7 @@ import fs from 'fs';
 
 // Service to parse pdf
 export class PDFService {
-  public static async parsePDF(pdf: Buffer): Promise<string> {
+  public static async parsePDF(pdf: Buffer): Promise<PdfParse.Result> {
     const resultPDF = await PdfParse(pdf);
 
     // number of pages
@@ -17,14 +17,15 @@ export class PDFService {
     // PDF.js version
     console.log(resultPDF.version);
     // PDF text
-    console.log(resultPDF.text);
+    // console.log(resultPDF.text);
 
-    return resultPDF.text;
+    return resultPDF;
   }
 
   public static async parsePDFFromFile(filePath: string): Promise<string> {
     const pdf = await PDFService.readFile(filePath);
-    return PDFService.parsePDF(pdf);
+    const result = await PDFService.parsePDF(pdf);
+    return result.text;
   }
 
   public static async readFile(filePath: string): Promise<Buffer> {

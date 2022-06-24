@@ -9,6 +9,9 @@ import { ParsedMail, simpleParser } from 'mailparser';
 
 import { GetConfig } from '@wisegar-org/wgo-settings';
 import { READ_EMAILS_INTERVAL } from '../models/constants';
+import PDFService from './PDFService';
+
+import { EmailServer } from '@wisegar-org/wgo-mailer';
 
 export class Pop3Service {
   /**
@@ -158,6 +161,30 @@ export class Pop3Service {
 
         await PostgresDataSource.manager.save(attachmentEntity);
         attachments.push(attachmentEntity);
+
+        if (attachmentEntity.fileExt == 'pdf' && email.from != undefined) {
+          console.log('parsing pdf');
+          const result = await PDFService.parsePDF(attachmentEntity.fileContent);
+          const config = GetConfig<Pop3Settings>();
+          // Send email to sender with data
+          const emailService = new EmailServer();
+          console.log('sending email with pdf data');
+          await emailService.send({
+            from: config.POP3_EMAIL_EMAIL,
+            subject: 'PDF Received!',
+            to: `${email.from}`,
+            html: `<div>
+              PDF Received! 
+
+              <div>Info: ${result.info}</div>
+              <div>Metadata: ${result.metadata}</div>
+              <div>NumPages: ${result.numpages}</div>
+              <div>NumRender: ${result.numrender}</div>
+              <div>Version: ${result.version}</div>
+              <div>Info: ${result.text}</div>
+              </div>`,
+          });
+        }
       }
     }
   }
