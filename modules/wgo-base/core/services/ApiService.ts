@@ -52,8 +52,6 @@ export class ApiService {
       return forward(operation);
     });
 
-    console.log(Agent);
-
     const httpLink = createUploadLink({
       uri: options.onGetBaseUrl(),
       fetchOptions: {

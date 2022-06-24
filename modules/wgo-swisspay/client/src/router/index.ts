@@ -15,11 +15,9 @@ import routes from './routes';
 
 const getBeforEachFnc = (authStore: any) => {
   return (to: any, from: any, next: any) => {
-    console.log(authStore.getAppToken());
     if (to.meta.auth && !authStore.getAppToken()) {
       next({
         path: AuthPaths.authLogin.path,
-        // path: AuthPaths.authLoginParam.path,
         query: { path: to.fullPath },
       });
     } else {
