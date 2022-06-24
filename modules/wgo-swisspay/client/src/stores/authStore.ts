@@ -18,26 +18,25 @@ export const useAuthStore = defineStore({
     getToken: (state) => {
       return state.token;
     },
-    getAppToken: (state) => {
-      return localStorage.getItem(USER_AUTH_TOKEN) || state.token || '';
-    },
     getOpenLogin: (state) => {
       return !state.token && state.user && !state.reset;
     },
   },
   actions: {
     setLogin(login: ISuccesLogin) {
-      this.setReset(false);
-      this.setToken(login.token);
-      this.setUser(login.user);
+      localStorage.setItem(USER_AUTH_TOKEN, login.token);
+      this.$state = {
+        reset: false,
+        token: login.token,
+        user: login.user,
+      };
     },
     setToken(token: string) {
       localStorage.setItem(USER_AUTH_TOKEN, token);
-      this.$state = { ...this.$state, token: token, reset: false };
+      this.token = token;
     },
     setUser(user: IUser) {
-      this.reset = false;
-      this.user = user;
+      this.$state = { token: this.token, reset: false, user: user };
     },
     resetState() {
       localStorage.clear();
@@ -45,6 +44,9 @@ export const useAuthStore = defineStore({
     },
     setReset(reset: boolean) {
       this.reset = reset;
+    },
+    getAppToken: () => {
+      return localStorage.getItem(USER_AUTH_TOKEN) || '';
     },
   },
 });

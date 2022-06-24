@@ -69,7 +69,7 @@ export default defineComponent({
     return {
       password: '',
       showLoading: false,
-      translationsContent: {},
+      translationsContent: {} as any,
     };
   },
   setup() {

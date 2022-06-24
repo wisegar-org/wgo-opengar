@@ -1,5 +1,5 @@
 import { Pinia, Store } from 'pinia';
-import { IApiServiceOptions } from '@wisegar-org/wgo-opengar-core-ui';
+import { IApiServiceOptions } from '../../../../wgo-base/core/services/ApiService';
 import { Environment, getSettings } from './ApiSettings';
 import { USER_AUTH_TOKEN } from '../../../../wgo-base/authentication/models';
 
@@ -22,15 +22,16 @@ export const getApiServiceOptions = (pinia: Pinia) => {
   const notifyStore = useNotifyStore(pinia);
   const authStore = useAuthStore(pinia);
   const apiServiceOptions: IApiServiceOptions = {
-    onGenericErrorHandler: (message: string) => {
+    onMeErrorHandler: (message: any) => {},
+    onGenericErrorHandler: (message: string, index: number) => {
       console.debug(`GQL Error: ${message}`);
-      if (isNotAuthorizedErrorHandler(message) || isValidateAccessTokenErrorHandelr(message)) {
-        authStore.setToken('');
+      if (isValidateAccessTokenErrorHandelr(message) || isNotAuthorizedErrorHandler(message)) {
+        if (index === 0) authStore.setToken('');
       } else {
         notifyStore.setNotify({
           position: 'top',
           type: 'negative',
-          message,
+          message: message || 'Server Error',
         });
       }
     },
@@ -53,7 +54,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       if (headers) {
         const refreshedToken = headers.get('authorization-refresh');
         if (!refreshedToken || refreshedToken === null) return;
-        localStorage.setItem('AUTH_TOKEN', refreshedToken);
+        authStore.setToken(refreshedToken);
       }
     },
     onHeadersSetup: (headers: any) => {},

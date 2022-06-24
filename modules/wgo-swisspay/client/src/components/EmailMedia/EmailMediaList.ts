@@ -89,8 +89,6 @@ export default defineComponent({
         email: user.email,
       });
       this.data = data as any as ITableData[];
-    } else {
-      this.routeService.goTo(AuthPaths.authLogin.path, { path: this.$route.path });
     }
   },
   created() {
