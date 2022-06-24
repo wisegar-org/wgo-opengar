@@ -48,5 +48,12 @@ export const useAuthStore = defineStore({
     getAppToken: () => {
       return localStorage.getItem(USER_AUTH_TOKEN) || '';
     },
+    isUserInRole(roles: string[]) {
+      if (this.user && this.user.roles) {
+        const result = roles.map((role) => this.user.roles.indexOf(role) !== -1).reduce((a, b) => a || b, false);
+        return result;
+      }
+      return false;
+    },
   },
 });

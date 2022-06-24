@@ -13,9 +13,9 @@ import routes from './routes';
  * with the Router instance.
  */
 
-const getBeforEachFnc = (authStore: any) => {
+const getBeforeEachFnc = (authStore: any) => {
   return (to: any, from: any, next: any) => {
-    if (to.meta.auth && !authStore.getAppToken()) {
+    if ((to.meta.auth && !authStore.getAppToken()) || (to.meta.role && !authStore.isUserInRole(to.meta.role))) {
       next({
         path: AuthPaths.authLogin.path,
         query: { path: to.fullPath },
@@ -43,7 +43,7 @@ export default route(function ({ store }) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
   const authStore = useAuthStore(store);
-  const beforeEach = getBeforEachFnc(authStore);
+  const beforeEach = getBeforeEachFnc(authStore);
   Router.beforeEach(beforeEach);
 
   return Router;
