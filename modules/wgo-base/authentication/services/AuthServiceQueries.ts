@@ -9,6 +9,7 @@ export const M_AUTH_LOGIN = gql`
         lastName
         userName
         email
+        roles
       }
       token
     }
@@ -22,6 +23,7 @@ export const Q_AUTH_ME = gql`
       lastName
       userName
       email
+      roles
     }
   }
 `;
@@ -34,6 +36,7 @@ export const M_AUTH_REGISTER = gql`
       lastName
       userName
       email
+      roles
     }
   }
 `;
@@ -45,6 +48,7 @@ export const M_AUTH_EDIT_USER = gql`
       lastName
       userName
       email
+      roles
     }
   }
 `;

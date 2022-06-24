@@ -5,4 +5,5 @@ export interface IUser {
   userName: string;
   email: string;
   isEmailConfirmed: boolean;
+  roles: string[];
 }
