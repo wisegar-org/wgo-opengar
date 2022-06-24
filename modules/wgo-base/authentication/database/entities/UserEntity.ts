@@ -1,4 +1,12 @@
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from "typeorm";
+import { RoleEntity } from "./RoleEntity";
 import "reflect-metadata";
 
 @Entity({ name: "users" })
@@ -26,4 +34,8 @@ export class UserEntity extends BaseEntity {
 
   @Column({ nullable: true })
   confirmationToken?: string;
+
+  @ManyToMany(() => RoleEntity)
+  @JoinTable()
+  roles?: RoleEntity[];
 }

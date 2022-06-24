@@ -13,7 +13,7 @@ import Loader from '../../../../../wgo-base/core/components/Loader/Loader.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoute, useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
-import { AuthPaths } from '../../../../../wgo-base/authenticacion/router';
+import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 
 export default defineComponent({
   name: 'EmailMediaDetailsPage',

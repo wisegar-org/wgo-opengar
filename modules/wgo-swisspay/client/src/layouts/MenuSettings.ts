@@ -1,17 +1,25 @@
+import { MenuListItem } from 'src/components/models';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
+import { TestMenu } from './test';
 
-export const LinksList = [
+const listItems: MenuListItem[] = [
   {
-    title: Paths.home.label,
-    caption: 'Home paga',
+    label: Paths.home.label,
+    id: Paths.home.name,
     icon: 'home',
     link: Paths.home.path,
+    color: 'blue',
+    type: 'item',
   },
   {
-    title: EmailMediaPaths.emailMedia.label,
-    caption: 'Email media info',
+    label: EmailMediaPaths.emailMedia.label,
+    id: EmailMediaPaths.emailMedia.name,
     icon: 'email',
     link: EmailMediaPaths.emailMedia.path,
+    color: 'green',
+    type: 'item',
   },
 ];
+
+export const LinksList: MenuListItem[] = listItems; //.concat(TestMenu);

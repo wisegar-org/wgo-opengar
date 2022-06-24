@@ -6,6 +6,7 @@ export const Q_EMAILMEDIA_GETALL = gql`
       id
       name
       senderTo
+      senderFrom
       fileName
       fileExt
       fileExt
@@ -25,6 +26,7 @@ export const Q_EMAILMEDIA_GETEMAILMEDIA = gql`
         id
         name
         senderTo
+        senderFrom
         fileName
         fileExt
         fileExt

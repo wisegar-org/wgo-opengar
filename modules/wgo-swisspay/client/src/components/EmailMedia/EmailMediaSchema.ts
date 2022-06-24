@@ -6,6 +6,7 @@ export const getEmailMediaListSchema = (
   //     id: number;
   //   name: string;
   //   senderTo: string;
+  //   senderFrom: string;
   //   fileName: string;
   //   fileExt: string;
   //   isPublic: boolean;
@@ -29,6 +30,16 @@ export const getEmailMediaListSchema = (
         name: 'name',
         label: 'Name',
         field: 'name',
+        sortable: true,
+        visible: true,
+        filterable: true,
+        align: 'left',
+        width: 200,
+      },
+      senderFrom: {
+        name: 'senderFrom',
+        label: 'Sender From',
+        field: 'senderFrom',
         sortable: true,
         visible: true,
         filterable: true,

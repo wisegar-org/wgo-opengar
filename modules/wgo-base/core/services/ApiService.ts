@@ -7,8 +7,9 @@ import { Agent } from "https";
 
 export interface IApiServiceOptions {
   onTokenRefresh: (headers: any) => void;
-  onGenericErrorHandler: (message: any) => void;
+  onGenericErrorHandler: (message: any, index: number) => void;
   onNetworkErrorHandler: (message: any) => void;
+  onMeErrorHandler: (message: any) => void;
   onGetAuthToken: () => string;
   onHeadersSetup: (headers: any) => void;
   onGetBaseUrl: () => string;
@@ -72,16 +73,20 @@ export class ApiService {
         return response;
       });
     });
-    const errorLink = onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        graphQLErrors.map(({ message, locations, path }) => {
-          options.onGenericErrorHandler(message);
-        });
-      }
+    const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+      if (operation.operationName === "me") {
+        options.onMeErrorHandler("Me error authentication");
+      } else {
+        if (graphQLErrors) {
+          graphQLErrors.map(({ message, locations, path }, index) => {
+            options.onGenericErrorHandler(message, index);
+          });
+        }
 
-      if (networkError) {
-        console.log(`[Network error]: ${networkError}`);
-        options.onNetworkErrorHandler(networkError);
+        if (networkError) {
+          console.log(`[Network error]: ${networkError}`);
+          options.onNetworkErrorHandler(networkError);
+        }
       }
     });
 

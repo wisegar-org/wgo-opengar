@@ -1,22 +1,18 @@
 <template>
-  <RegisterComponent
-    @goBack="onGoBack"
-    @onRegister="onRegister"
-    @onHome="onGoHome"
-  />
+  <RegisterComponent @goBack="onGoBack" @onRegister="onRegister" @onHome="onGoHome" />
 </template>
 
 <script lang="ts">
-import { useRouter } from "vue-router";
-import { defineComponent } from "vue";
-import RegisterComponent from "../../../../../wgo-base/authenticacion/components/RegisterComponent.vue";
-import { RouteService } from "../../../../../wgo-base/core/services/RouteService";
-import { IUser } from "../../../../../wgo-base/core/models/user";
-import { AuthPaths } from "../../../../../wgo-base/authenticacion/router";
-import { Paths } from "../../router/paths";
+import { useRouter } from 'vue-router';
+import { defineComponent } from 'vue';
+import RegisterComponent from '../../../../../wgo-base/authentication/components/RegisterComponent.vue';
+import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
+import { IUser } from '../../../../../wgo-base/core/models/user';
+import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { Paths } from '../../router/paths';
 
 export default defineComponent({
-  name: "RegisterPage",
+  name: 'RegisterPage',
   components: {
     RegisterComponent,
   },

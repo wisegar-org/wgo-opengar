@@ -10,7 +10,7 @@ import { BaseResizeComponent } from '../../../../../wgo-base/core/components/Bas
 import { useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
 import { EmailMediaPaths } from 'src/router/paths/emailMediaPaths';
-import { AuthPaths } from '../../../../../wgo-base/authenticacion/router';
+import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 
 export default defineComponent({
   name: 'EmailMediaList',
@@ -89,8 +89,6 @@ export default defineComponent({
         email: user.email,
       });
       this.data = data as any as ITableData[];
-    } else {
-      this.routeService.goTo(AuthPaths.authLogin.path, { path: this.$route.path });
     }
   },
   created() {

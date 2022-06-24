@@ -55,10 +55,10 @@ import { useDialogPluginComponent } from 'quasar';
 import { PropType, defineComponent, ref } from 'vue';
 import { IUser } from '../../../../../wgo-base/core/models';
 import Loader from '../../../../../wgo-base/core/components/Loader/Loader.vue';
-import { AuthService } from '../../../../../wgo-base/authenticacion/services/AuthService';
+import { AuthService } from '../../../../../wgo-base/authentication/services/AuthService';
 import { useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
-import { AuthPaths } from '../../../../../wgo-base/authenticacion/router';
+import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 import InputSecret from '../../../../../wgo-base/core/components/InputSecret/InputSecret.vue';
 import { useAuthStore } from '../../stores/authStore';
 
@@ -69,7 +69,7 @@ export default defineComponent({
     return {
       password: '',
       showLoading: false,
-      translationsContent: {},
+      translationsContent: {} as any,
     };
   },
   setup() {
