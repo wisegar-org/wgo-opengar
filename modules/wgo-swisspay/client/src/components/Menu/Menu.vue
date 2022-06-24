@@ -9,7 +9,7 @@
           <q-btn flat dense icon="close" @click="onDialogCancel" />
         </q-item-section>
       </q-item>
-      <q-card-section class="q-pa-sm row q-bottom-sheet--grid fit scroll" style="max-height: 80vh">
+      <q-card-section class="q-pa-sm row q-bottom-sheet--grid fit scroll" style="max-height: 50vh">
         <div class="row items-stretch justify-start fit">
           <div
             v-for="(item, index) of links"
@@ -37,7 +37,7 @@ import { useDialogPluginComponent } from 'quasar';
 import { PropType, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
-import { IMenuItem, IMenuSeparator, MenuListItem } from '../models';
+import { MenuListItem } from '../models';
 
 export default defineComponent({
   name: 'Menu',
