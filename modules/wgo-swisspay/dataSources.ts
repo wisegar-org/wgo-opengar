@@ -3,6 +3,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 /** Entities */
 import { UserEntity } from '../wgo-base/authentication/database/entities/UserEntity';
 import { RoleEntity } from '../wgo-base/authentication/database/entities/RoleEntity';
+import { LanguageEntity } from '../wgo-base/language/database/entities/LanguageEntity';
 import { EmailMediaEntity } from './src/database/entities/EmailMediaEntity';
 import { EmailHistoryEntity } from './src/database/entities/EmailHistoryEntity';
 
@@ -13,6 +14,7 @@ import { createEmailHistory1651974663732 } from './src/database/migrations/16519
 import { createEmailMediaRelation1651975332815 } from './src/database/migrations/1651975332815-createEmailMediaRelation';
 import { removeUniqueContentID1655304993610 } from './src/database/migrations/1655304993610-removeUniqueContentID';
 import { addRoleEntity1656005738186 } from '../wgo-base/authentication/database/migrations/1656005738186-addRoleEntity';
+import { addLanguageEntity1656012423678 } from '../wgo-base/language/database/migrations/1656012423678-addLanguageEntity';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -23,7 +25,7 @@ export const dataSourceOptions: DataSourceOptions = {
   database: 'wgo-swisspay',
   useUTC: true,
   migrationsRun: true,
-  entities: [UserEntity, RoleEntity, EmailMediaEntity, EmailHistoryEntity],
+  entities: [UserEntity, RoleEntity, LanguageEntity, EmailMediaEntity, EmailHistoryEntity],
   migrations: [
     migrations1651766519693,
     createEmailMedia1651972762300,
@@ -31,6 +33,7 @@ export const dataSourceOptions: DataSourceOptions = {
     createEmailMediaRelation1651975332815,
     removeUniqueContentID1655304993610,
     addRoleEntity1656005738186,
+    addLanguageEntity1656012423678,
   ],
   subscribers: [],
 };
