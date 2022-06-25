@@ -230,10 +230,25 @@ export class Pop3Service {
 export const readEmails = async (): Promise<number> => {
   // Get host, port, username, password from request
   const config = GetConfig<Pop3Settings>();
+  if (config.POP3_EMAIL_HOST == null) {
+    throw new Error('POP3_EMAIL_HOST not set');
+  }
   const host = config.POP3_EMAIL_HOST;
+  if (config.POP3_EMAIL_PORT == null) {
+    throw new Error('POP3_EMAIL_PORT not set');
+  }
   const port = config.POP3_EMAIL_PORT;
+  if (config.POP3_EMAIL_USER == null) {
+    throw new Error('POP3_EMAIL_USER not set');
+  }
   const username = config.POP3_EMAIL_USER;
+  if (config.POP3_EMAIL_PASSWORD == null) {
+    throw new Error('POP3_EMAIL_PASSWORD not set');
+  }
   const password = config.POP3_EMAIL_PASSWORD;
+  if (config.POP3_EMAIL_TLS == null) {
+    throw new Error('POP3_EMAIL_TLS not set');
+  }
   const tls = config.POP3_EMAIL_TLS;
 
   const pop3 = new Pop3Service({
