@@ -6,7 +6,8 @@
 
         <q-toolbar-title> Swisspay </q-toolbar-title>
 
-        <div>
+        <div class="row">
+          <LanguageSelector :langStore="langStore" class="q-mx-sm" />
           <LoginBtn :user="authStore.user" @onLoginClick="goToLogin" @onLogoutClick="logout" @onSaveUser="onSave" />
         </div>
       </q-toolbar>
@@ -30,6 +31,8 @@ import { IUser } from '../../../../wgo-base/core/models';
 import { LinksList } from './MenuSettings';
 import { useQuasar } from 'quasar';
 import Menu from '../components/Menu/Menu.vue';
+import LanguageSelector from '../../../../wgo-base/language/components/LanguageSelector/LanguageSelector.vue';
+import { useLanguageStore } from '../stores/languageStore';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -37,12 +40,14 @@ export default defineComponent({
   components: {
     LoginBtn,
     Menu,
+    LanguageSelector,
   },
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
     const routeService = new RouteService(router);
     const $q = useQuasar();
+    const langStore = useLanguageStore();
 
     function goToPath(pathName: string) {
       routeService.goTo(pathName);
@@ -58,8 +63,9 @@ export default defineComponent({
     return {
       showMenu,
       goToPath,
-      authStore,
+      authStore: authStore.authStore,
       router,
+      langStore: langStore.languageStore,
     };
   },
   methods: {

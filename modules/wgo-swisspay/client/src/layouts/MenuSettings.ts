@@ -27,9 +27,9 @@ const listItems: MenuListItem[] = [
   {
     label: AdminLanguagePaths.adminLanguage.label,
     id: AdminLanguagePaths.adminLanguage.name,
-    icon: 'settings',
+    icon: 'language',
     link: AdminLanguagePaths.adminLanguage.path,
-    color: 'black',
+    color: 'purple',
     type: 'item',
   },
 ];
