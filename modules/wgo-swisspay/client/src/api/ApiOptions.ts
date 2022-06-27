@@ -26,7 +26,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
     onGenericErrorHandler: (message: string, index: number) => {
       console.debug(`GQL Error: ${message}`);
       if (isValidateAccessTokenErrorHandelr(message) || isNotAuthorizedErrorHandler(message)) {
-        if (index === 0) authStore.setToken('');
+        if (index === 0) authStore.authStore.setToken('');
       } else {
         notifyStore.setNotify({
           position: 'top',
@@ -54,7 +54,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       if (headers) {
         const refreshedToken = headers.get('authorization-refresh');
         if (!refreshedToken || refreshedToken === null) return;
-        authStore.setToken(refreshedToken);
+        authStore.authStore.setToken(refreshedToken);
       }
     },
     onHeadersSetup: (headers: any) => {},

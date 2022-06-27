@@ -11,6 +11,7 @@ import { useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
 import { EmailMediaPaths } from 'src/router/paths/emailMediaPaths';
 import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { useAppStatusStore } from 'src/stores/appStatusStore';
 
 export default defineComponent({
   name: 'EmailMediaList',
@@ -61,7 +62,9 @@ export default defineComponent({
   },
   methods: {
     async showDetails(row: IEmailMediaModel) {
+      this.appStatusStore.loading = true;
       const email = await this.emailMediaService.getEmailById({ id: row.emailId });
+      this.appStatusStore.loading = false;
       if (!!email) {
         this.emailDetails = email;
         this.open = true;
@@ -78,18 +81,22 @@ export default defineComponent({
   },
   setup() {
     const authStore = useAuthStore();
+    const appStatusStore = useAppStatusStore();
     return {
-      authStore,
+      authStore: authStore.authStore,
+      appStatusStore,
     };
   },
   async mounted() {
     const user = this.authStore.user;
+    this.appStatusStore.loading = true;
     if (user.email) {
       const data = await this.emailMediaService.getAllEmailMedia({
         email: user.email,
       });
       this.data = data as any as ITableData[];
     }
+    this.appStatusStore.loading = false;
   },
   created() {
     this.$nextTick(() => {

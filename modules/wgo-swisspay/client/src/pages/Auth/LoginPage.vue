@@ -34,7 +34,7 @@ export default defineComponent({
   setup() {
     const authStore = useAuthStore();
     return {
-      authStore,
+      authStore: authStore.authStore,
     };
   },
   methods: {

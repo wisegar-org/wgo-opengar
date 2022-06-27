@@ -43,7 +43,7 @@ export default route(function ({ store }) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
   const authStore = useAuthStore(store);
-  const beforeEach = getBeforeEachFnc(authStore);
+  const beforeEach = getBeforeEachFnc(authStore.authStore);
   Router.beforeEach(beforeEach);
 
   return Router;
