@@ -1,8 +1,18 @@
 import gql from "graphql-tag";
+import {
+  AUTH_PATH_CHANGE_RESET_PASSWORD,
+  AUTH_PATH_CONFIRM_REGIST,
+  AUTH_PATH_EDIT_USER,
+  AUTH_PATH_LOGIN,
+  AUTH_PATH_ME,
+  AUTH_PATH_REGISTER,
+  AUTH_PATH_RESEND_CONFIRMATION,
+  AUTH_PATH_RESET_PASSWORD,
+} from "../router/server";
 
 export const M_AUTH_LOGIN = gql`
-  mutation login($data: LoginInput!) {
-    login(data: $data) {
+  mutation ${AUTH_PATH_LOGIN}($data: LoginInput!) {
+    ${AUTH_PATH_LOGIN}(data: $data) {
       user {
         id
         name
@@ -16,8 +26,8 @@ export const M_AUTH_LOGIN = gql`
   }
 `;
 export const Q_AUTH_ME = gql`
-  query me($data: MeInput!) {
-    me(data: $data) {
+  query ${AUTH_PATH_ME}($data: MeInput!) {
+    ${AUTH_PATH_ME}(data: $data) {
       id
       name
       lastName
@@ -29,8 +39,8 @@ export const Q_AUTH_ME = gql`
 `;
 
 export const M_AUTH_REGISTER = gql`
-  mutation register($data: RegisterInput!) {
-    register(data: $data) {
+  mutation ${AUTH_PATH_REGISTER}($data: RegisterInput!) {
+    ${AUTH_PATH_REGISTER}(data: $data) {
       id
       name
       lastName
@@ -41,8 +51,8 @@ export const M_AUTH_REGISTER = gql`
   }
 `;
 export const M_AUTH_EDIT_USER = gql`
-  mutation editUser($data: EditUserInput!) {
-    editUser(data: $data) {
+  mutation ${AUTH_PATH_EDIT_USER}($data: EditUserInput!) {
+    ${AUTH_PATH_EDIT_USER}(data: $data) {
       id
       name
       lastName
@@ -53,25 +63,25 @@ export const M_AUTH_EDIT_USER = gql`
   }
 `;
 export const M_AUTH_RESEND_CONFIRM = gql`
-  mutation resendConfirmation($data: ResendConfirmationInput!) {
-    resendConfirmation(data: $data)
+  mutation ${AUTH_PATH_RESEND_CONFIRMATION}($data: ResendConfirmationInput!) {
+    ${AUTH_PATH_RESEND_CONFIRMATION}(data: $data)
   }
 `;
 
 export const M_AUTH_CONFIRM_REGISTER = gql`
-  mutation confirmRegist($data: MeInput!) {
-    confirmRegist(data: $data)
+  mutation ${AUTH_PATH_CONFIRM_REGIST}($data: MeInput!) {
+    ${AUTH_PATH_CONFIRM_REGIST}(data: $data)
   }
 `;
 
 export const M_AUTH_RESET_PASSWORD = gql`
-  mutation resetPassword($data: ResendConfirmationInput!) {
-    resetPassword(data: $data)
+  mutation ${AUTH_PATH_RESET_PASSWORD}($data: ResendConfirmationInput!) {
+    ${AUTH_PATH_RESET_PASSWORD}(data: $data)
   }
 `;
 
 export const M_AUTH_CHANGE_PASSWORD = gql`
-  mutation changeResetPassword($data: ResetPasswordInput!) {
-    changeResetPassword(data: $data)
+  mutation ${AUTH_PATH_CHANGE_RESET_PASSWORD}($data: ResetPasswordInput!) {
+    ${AUTH_PATH_CHANGE_RESET_PASSWORD}(data: $data)
   }
 `;

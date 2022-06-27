@@ -20,6 +20,16 @@ import {
   ISuccesLogin,
 } from "../models";
 import { IUser } from "../../core/models/user";
+import {
+  AUTH_PATH_CHANGE_RESET_PASSWORD,
+  AUTH_PATH_CONFIRM_REGIST,
+  AUTH_PATH_EDIT_USER,
+  AUTH_PATH_LOGIN,
+  AUTH_PATH_ME,
+  AUTH_PATH_REGISTER,
+  AUTH_PATH_RESEND_CONFIRMATION,
+  AUTH_PATH_RESET_PASSWORD,
+} from "../router/server";
 
 export class AuthService {
   private apiInstance: ApiService;
@@ -35,13 +45,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { login: ISuccesLogin };
+        data: { [AUTH_PATH_LOGIN]: ISuccesLogin };
       };
       if (response && response.data) {
-        const {
-          data: { login },
-        } = response;
-        return login;
+        const { data } = response;
+        return data[AUTH_PATH_LOGIN];
       }
 
       return undefined;
@@ -59,13 +67,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { me: IUser };
+        data: { [AUTH_PATH_ME]: IUser };
       };
       if (response && response.data) {
-        const {
-          data: { me },
-        } = response;
-        return me;
+        const { data } = response;
+        return data[AUTH_PATH_ME];
       }
 
       return undefined;
@@ -83,13 +89,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { register: IUser };
+        data: { [AUTH_PATH_REGISTER]: IUser };
       };
       if (response && response.data) {
-        const {
-          data: { register },
-        } = response;
-        return register;
+        const { data } = response;
+        return data[AUTH_PATH_REGISTER];
       }
 
       return undefined;
@@ -107,13 +111,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { editUser: IUser };
+        data: { [AUTH_PATH_EDIT_USER]: IUser };
       };
       if (response && response.data) {
-        const {
-          data: { editUser },
-        } = response;
-        return editUser;
+        const { data } = response;
+        return data[AUTH_PATH_EDIT_USER];
       }
 
       return undefined;
@@ -131,13 +133,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { resetPassword: boolean };
+        data: { [AUTH_PATH_RESET_PASSWORD]: boolean };
       };
       if (response && response.data) {
-        const {
-          data: { resetPassword },
-        } = response;
-        return resetPassword;
+        const { data } = response;
+        return data[AUTH_PATH_RESET_PASSWORD];
       }
 
       return false;
@@ -155,13 +155,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { changeResetPassword: boolean };
+        data: { [AUTH_PATH_CHANGE_RESET_PASSWORD]: boolean };
       };
       if (response && response.data) {
-        const {
-          data: { changeResetPassword },
-        } = response;
-        return changeResetPassword;
+        const { data } = response;
+        return data[AUTH_PATH_CHANGE_RESET_PASSWORD];
       }
 
       return false;
@@ -179,13 +177,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { resendConfirmation: boolean };
+        data: { [AUTH_PATH_RESEND_CONFIRMATION]: boolean };
       };
       if (response && response.data) {
-        const {
-          data: { resendConfirmation },
-        } = response;
-        return resendConfirmation;
+        const { data } = response;
+        return data[AUTH_PATH_RESEND_CONFIRMATION];
       }
 
       return false;
@@ -202,13 +198,11 @@ export class AuthService {
           data: input,
         },
       })) as {
-        data: { confirmRegist: boolean };
+        data: { [AUTH_PATH_CONFIRM_REGIST]: boolean };
       };
       if (response && response.data) {
-        const {
-          data: { confirmRegist },
-        } = response;
-        return confirmRegist;
+        const { data } = response;
+        return data[AUTH_PATH_CONFIRM_REGIST];
       }
 
       return false;
