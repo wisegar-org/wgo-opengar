@@ -1,7 +1,6 @@
 <template>
   <div>
     <EmailDetails :emailMedia="emailMedia" :email="email" />
-    <Loader :loading="loading" />
   </div>
 </template>
 
@@ -14,6 +13,8 @@ import { useAuthStore } from '../../stores/authStore';
 import { useRoute, useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
 import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { useAppStatusStore } from '../../stores/appStatusStore';
+import { IEmailMediaModel, IEmailModel } from '../../../../src/models/EmailModel';
 
 export default defineComponent({
   name: 'EmailMediaDetailsPage',
@@ -29,30 +30,31 @@ export default defineComponent({
     const router = useRouter();
     const routeService = new RouteService(router);
     return {
-      emailMedia: {},
-      email: {},
-      loading: false,
+      emailMedia: {} as IEmailMediaModel,
+      email: {} as IEmailModel,
       emailMediaService,
       routeService,
+      route: useRoute(),
     };
   },
   setup() {
     const authStore = useAuthStore();
-    return { authStore };
+    const appStatusStore = useAppStatusStore();
+    return { authStore, appStatusStore };
   },
   async mounted() {
-    this.loading = true;
     if (!!this.authStore.getUser) {
+      this.appStatusStore.loading = true;
       const result = await this.emailMediaService.getEmailMediaById({
         id: this.mediaId || 0,
       });
+      this.appStatusStore.loading = false;
       if (result) {
         this.email = result.email;
         this.emailMedia = result.emailMedia;
       }
-      this.loading = false;
     } else {
-      this.routeService.goTo(AuthPaths.authLogin.path, { path: this.$route.path });
+      this.routeService.goTo(AuthPaths.authLogin.path, { path: this.route.path });
     }
   },
 });
