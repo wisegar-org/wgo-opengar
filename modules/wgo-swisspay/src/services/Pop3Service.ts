@@ -176,8 +176,8 @@ export class Pop3Service {
             html: `<div>
               PDF Received! 
 
-              <div>Info: ${result.info}</div>
-              <div>Metadata: ${result.metadata}</div>
+              <div>Info: ${JSON.stringify(result.info)}</div>
+              <div>Metadata: ${JSON.stringify(result.metadata)}</div>
               <div>NumPages: ${result.numpages}</div>
               <div>NumRender: ${result.numrender}</div>
               <div>Version: ${result.version}</div>
