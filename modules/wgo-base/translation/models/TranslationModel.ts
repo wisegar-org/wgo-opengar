@@ -1,15 +1,13 @@
 import { DataSource, ILike } from "typeorm";
-import { IIdInput } from "../../core/models";
-import { LanguageEntity } from "../../language/database/entities/LanguageEntity";
 import { ILanguageModel } from "../../language/models";
 import { LanguageModel } from "../../language/models/LanguageModel";
 import { TranslationEntity } from "../database/entities/TranslationEntity";
 import {
-  IGetAllTranslationsByKey,
+  IGetAllTranslationsByKeyArg,
   IGetAllTranslationArg,
   ITransaltionsType,
   ITranslationModel,
-} from "./indext";
+} from ".";
 
 export class TranslationModel {
   private dataSoure: DataSource;
@@ -29,7 +27,7 @@ export class TranslationModel {
     return translations;
   }
 
-  async getAllTranslationByKeys(data: IGetAllTranslationsByKey) {
+  async getAllTranslationByKeys(data: IGetAllTranslationsByKeyArg) {
     const translations: ITranslationModel[] = [];
     for (const key of data.keys) {
       translations.push(await this.getTranslation(data.languageId, key));

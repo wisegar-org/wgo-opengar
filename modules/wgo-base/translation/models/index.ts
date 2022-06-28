@@ -5,14 +5,24 @@ export interface ITranslationModel {
   languageId: number;
 }
 
+export interface ITranslationListModel<T> {
+  [key: string]: T;
+}
+
 export interface IGetAllTranslationArg {
   languageId: number;
   search?: string;
 }
 
-export interface IGetAllTranslationsByKey {
+export interface IGetAllTranslationsByKeyArg {
   languageId: number;
   keys: string[];
+}
+
+export interface ISetTranslationArg {
+  languageId: number;
+  key: string;
+  value: string;
 }
 
 export interface ITransaltionsType {
