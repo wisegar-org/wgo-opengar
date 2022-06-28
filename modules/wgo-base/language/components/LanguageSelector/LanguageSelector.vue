@@ -9,7 +9,7 @@
   >
     <q-list>
       <q-item
-        v-for="(item, index) in langStore.allLangs"
+        v-for="(item, index) in langStore.allLanguage()"
         :key="`languageSelector-${index}-${item.id}`"
         @click="() => selectLanguage(item)"
         clickable

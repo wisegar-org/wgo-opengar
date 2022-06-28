@@ -33,7 +33,13 @@ export class ApiService {
     );
   }
   GetInstance(options?: IApiServiceOptions): ApiService {
-    throw new Error("Method not implemented.");
+    if (!ApiService.instance && options) {
+      ApiService.instance = new ApiService(options);
+    }
+    if (!ApiService.instance && !options) {
+      throw Error("Options param not found!");
+    }
+    return ApiService.instance;
   }
 
   private getApolloClientOptions(options: IApiServiceOptions) {
@@ -102,5 +108,9 @@ export class ApiService {
       throw Error("Options param not found!");
     }
     return ApiService.instance;
+  }
+
+  public static isDefineInstance() {
+    return !!ApiService.instance;
   }
 }

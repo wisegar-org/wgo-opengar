@@ -39,10 +39,25 @@ export class LanguageStore {
   async addLanguage(lang: ILanguagePostArg) {
     const languageService = new LanguageService();
     const langResult = await languageService.postLanguage(lang);
-    if (langResult) {
+    debugger;
+    if (!!langResult) {
       await this.loadAllLanguage();
     }
 
     return !!langResult;
+  }
+
+  async editLanguage(lang: ILanguageModel) {
+    const languageService = new LanguageService();
+    const langResult = await languageService.putLanguage(lang);
+    if (!!langResult) {
+      await this.loadAllLanguage();
+    }
+
+    return !!langResult;
+  }
+
+  allLanguage() {
+    return this.allLangs.filter((lang) => lang.enabled);
   }
 }
