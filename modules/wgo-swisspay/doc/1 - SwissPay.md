@@ -10,7 +10,8 @@ Certificado de salario anual: es un documento oficial del salario bruto anual co
 
 Actores:  
 
-- Cliente: Entiendase como la empresa que se registra en la plataforma para distribuir la documentacion al los usuarios/empleados
+- Cliente: Entiendase como la empresa que se registra en la plataforma para distribuir la documentacion al/los usuarios/empleados. El cliente tendra' un codido de certificacion que potencialmente vendra incluido en cada uno de sus documentos, cuerpo del mensaje o adjunto.
+
 - Usuario: Empleado de uno o mas clientes tanto historicamente como en paralello, el cual debe disponer de la documentacion distribuida por los clientes.
 
 Caracteristicas del proyecto:
