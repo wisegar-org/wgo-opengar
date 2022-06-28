@@ -1,8 +1,8 @@
-import { IRouteObject } from '../../../../wgo-base/core/models';
 import { RouteRecordRaw } from 'vue-router';
 import { Paths } from './paths';
 import { AuthPathRouter } from './paths/authPaths';
 import { EmailMediaPathRouter } from './paths/emailMediaPaths';
+import { LanguagePathRouter } from './paths/admin/languagePaths';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -16,6 +16,7 @@ const routes: RouteRecordRaw[] = [
   },
   AuthPathRouter,
   EmailMediaPathRouter,
+  LanguagePathRouter,
   // Always leave this as last one,
   // but you can also remove it
   {

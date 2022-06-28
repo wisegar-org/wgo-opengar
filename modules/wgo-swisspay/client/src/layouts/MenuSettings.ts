@@ -1,6 +1,7 @@
 import { MenuListItem } from 'src/components/models';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
+import { AdminLanguagePaths } from '../../../../wgo-base/language/router';
 import { TestMenu } from './test';
 
 const listItems: MenuListItem[] = [
@@ -18,6 +19,17 @@ const listItems: MenuListItem[] = [
     icon: 'email',
     link: EmailMediaPaths.emailMedia.path,
     color: 'green',
+    type: 'item',
+  },
+  {
+    type: 'separator',
+  },
+  {
+    label: AdminLanguagePaths.adminLanguage.label,
+    id: AdminLanguagePaths.adminLanguage.name,
+    icon: 'language',
+    link: AdminLanguagePaths.adminLanguage.path,
+    color: 'purple',
     type: 'item',
   },
 ];

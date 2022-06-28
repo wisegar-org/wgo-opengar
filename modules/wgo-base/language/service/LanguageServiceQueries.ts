@@ -1,0 +1,27 @@
+import gql from "graphql-tag";
+import {
+  LANGUAGE_PATH_GET_ALL_LANGUAGE,
+  LANGUAGE_PATH_POST_LANGUAGE,
+} from "../router/server";
+
+export const Q_LANGUAGE_GETALL = gql`
+query ${LANGUAGE_PATH_GET_ALL_LANGUAGE} {
+    ${LANGUAGE_PATH_GET_ALL_LANGUAGE} {
+        id
+		code
+		enabled
+		default
+  }
+}
+`;
+
+export const M_LANGUAGE_POST = gql`
+mutation ${LANGUAGE_PATH_POST_LANGUAGE}($data: LanguagePostInput!) {
+    ${LANGUAGE_PATH_POST_LANGUAGE}(data: $data) {
+        id
+		code
+		enabled
+		default
+    }
+}
+`;

@@ -1,52 +1,28 @@
 import { defineStore } from 'pinia';
-import { ISuccesLogin, USER_AUTH_TOKEN } from '../../../../wgo-base/authentication/models';
-import { IUser } from '../../../../wgo-base/core/models/user';
+import { AuthStore } from '../../../../wgo-base/authentication/models/AuthStore';
 
 export const userAuthId = 'authStore';
 
 export const useAuthStore = defineStore({
   id: userAuthId,
   state: () => ({
-    user: <IUser>{},
-    token: '',
+    authStore: new AuthStore(),
     reset: true,
   }),
   getters: {
     getUser: (state) => {
-      return state.user.id ? state.user : null;
+      return state.authStore.user.id ? state.authStore.user : null;
     },
     getToken: (state) => {
-      return state.token;
+      return state.authStore.token;
     },
     getOpenLogin: (state) => {
-      return !state.token && state.user && !state.reset;
+      return !state.authStore.token && state.authStore.user && !state.reset;
     },
   },
   actions: {
-    setLogin(login: ISuccesLogin) {
-      localStorage.setItem(USER_AUTH_TOKEN, login.token);
-      this.$state = {
-        reset: false,
-        token: login.token,
-        user: login.user,
-      };
-    },
-    setToken(token: string) {
-      localStorage.setItem(USER_AUTH_TOKEN, token);
-      this.token = token;
-    },
-    setUser(user: IUser) {
-      this.$state = { token: this.token, reset: false, user: user };
-    },
-    resetState() {
-      localStorage.clear();
-      this.$reset();
-    },
-    setReset(reset: boolean) {
-      this.reset = reset;
-    },
-    getAppToken: () => {
-      return localStorage.getItem(USER_AUTH_TOKEN) || '';
+    openAuthDialog() {
+      return !this.authStore.token && !!this.authStore.user.id;
     },
   },
 });

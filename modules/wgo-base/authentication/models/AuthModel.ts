@@ -50,6 +50,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ userName: data.user }, { email: data.user }],
+      relations: ["roles"],
     });
 
     if (!IsNullOrUndefined(user)) {
@@ -88,6 +89,7 @@ export class AuthModel {
       const repo = await this.dataSource.getRepository(UserEntity);
       const user = await repo.findOne({
         where: [{ userName: result.userName }, { id: parseInt(result.userId) }],
+        relations: ["roles"],
       });
       if (!!user) {
         return this.mapUserEntity(user);
@@ -101,6 +103,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const listUsers = await repo.find({
       where: [{ userName: data.userName }, { email: data.email }],
+      relations: ["roles"],
     });
     if (listUsers.length > 0) {
       throw new Error(WRONG_EMAIL);
@@ -128,6 +131,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ id: data.id }],
+      relations: ["roles"],
     });
     if (user) {
       user.name = data.name;
@@ -143,6 +147,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ email: data.email }],
+      relations: ["roles"],
     });
     if (user) {
       user.confirmationToken = generateAccessToken({
@@ -174,6 +179,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ userName: data.email }, { email: data.email }],
+      relations: ["roles"],
     });
 
     if (!IsNullOrUndefined(user) && user) {
@@ -212,6 +218,7 @@ export class AuthModel {
       const repo = await this.dataSource.getRepository(UserEntity);
       const user = await repo.findOne({
         where: [{ id: parseInt(tokenValidation.userId) }],
+        relations: ["roles"],
       });
       if (user) {
         user.password = bcrypt.hashSync(data.password, 10);
@@ -237,19 +244,13 @@ export class AuthModel {
       const repo = await this.dataSource.getRepository(UserEntity);
       const user = await repo.findOne({
         where: [{ userName: result.userName }, { id: parseInt(result.userId) }],
+        relations: ["roles"],
       });
       if (!!user && user.confirmationToken === data.token) {
         user.confirmationToken = "";
         user.isEmailConfirmed = true;
         await repo.save(user);
-        return {
-          id: user.id,
-          name: user.name || "",
-          lastName: user.lastName || "",
-          userName: user.userName,
-          email: user.email || "",
-          isEmailConfirmed: !!user.isEmailConfirmed,
-        };
+        return this.mapUserEntity(user);
       }
     }
 
@@ -260,6 +261,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: { id: id },
+      relations: ["roles"],
     });
 
     if (user) return this.mapUserEntity(user);
@@ -284,6 +286,8 @@ export class AuthModel {
       lastName: user.lastName || "",
       userName: user.userName,
       email: user.email || "",
+      isEmailConfirmed: !!user.isEmailConfirmed,
+      roles: (user.roles || []).map((role) => role.name),
     } as IUser;
   }
 }

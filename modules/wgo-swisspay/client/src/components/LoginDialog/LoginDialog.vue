@@ -45,8 +45,6 @@
         </q-card-actions>
       </q-form>
     </q-card>
-
-    <Loader :loading="showLoading" />
   </q-dialog>
 </template>
 
@@ -61,6 +59,7 @@ import { RouteService } from '../../../../../wgo-base/core/services/RouteService
 import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 import InputSecret from '../../../../../wgo-base/core/components/InputSecret/InputSecret.vue';
 import { useAuthStore } from '../../stores/authStore';
+import { useAppStatusStore } from '../../stores/appStatusStore';
 
 export default defineComponent({
   name: 'LoginDialog',
@@ -76,13 +75,15 @@ export default defineComponent({
     const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
     const router = useRouter();
     const authStore = useAuthStore();
+    const appStatusStore = useAppStatusStore();
     const userName = ref('');
-    userName.value = authStore.user.userName;
+    userName.value = authStore.authStore.user.userName;
 
     return {
-      user: authStore.user,
+      user: authStore.authStore.user,
       userName,
-      authStore,
+      authStore: authStore.authStore,
+      appStatusStore,
       dialogRef,
       onDialogHide,
       onDialogOK,
@@ -92,16 +93,16 @@ export default defineComponent({
   },
   methods: {
     async onLoginClick() {
-      this.showLoading = true;
+      this.appStatusStore.loading = true;
       const service = new AuthService();
       const result = await service.loginUser({
         user: this.userName,
         password: this.password,
       });
-      this.showLoading = false;
+      this.appStatusStore.loading = false;
       if (result) {
         this.authStore.setToken(result.token);
-        this.onDialogOK();
+        this.onDialogCancel();
       }
     },
     goToLogin() {
