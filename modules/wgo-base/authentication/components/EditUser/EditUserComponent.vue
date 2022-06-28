@@ -33,6 +33,23 @@
           :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Last Name'"
         />
       </div>
+      <div class="col-12 col-md-6">
+        <q-input
+          square
+          outlined
+          required
+          class="q-my-sm q-mx-sm"
+          v-model="userInput.code"
+          :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Code'"
+        />
+      </div>
+      <div class="col-12 col-md-6">
+        <InputCopy
+          class="q-my-sm q-mx-sm"
+          :textCopy="user.certificate"
+          :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Certificate'"
+        />
+      </div>
 
       <div class="col-12 col-md-6">
         <InputSecret
@@ -100,12 +117,14 @@ import { IAuthRegisterParams, ISuccesLogin } from "../../models";
 import { defineComponent, PropType } from "@vue/composition-api";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import { IUser } from "../../../core/models/user";
+import InputCopy from "../../../core/components/InputCopy/InputCopy.vue";
 
 export default defineComponent({
   name: "EditUserComponent",
   components: {
     Loader,
     InputSecret,
+    InputCopy,
   },
   props: {
     user: {
@@ -124,6 +143,7 @@ export default defineComponent({
         userName: this.user.userName,
         password: "",
         isEmailConfirmed: this.user.isEmailConfirmed,
+        code: this.user.code,
       } as IAuthRegisterParams,
       confirmPassword: "",
       innerLoading: false,

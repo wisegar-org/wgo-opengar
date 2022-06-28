@@ -6,4 +6,6 @@ export interface IUser {
   email: string;
   isEmailConfirmed: boolean;
   roles: string[];
+  code: string;
+  certificate: string;
 }

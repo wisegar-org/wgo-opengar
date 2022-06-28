@@ -8,6 +8,8 @@ export class UserResponse {
   @Field() userName!: string;
   @Field() email!: string;
   @Field() isEmailConfirmed!: boolean;
+  @Field() code!: string;
+  @Field() certificate!: string;
   @Field(() => [String]) roles!: string[];
 }
 

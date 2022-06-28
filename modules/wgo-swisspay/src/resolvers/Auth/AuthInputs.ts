@@ -1,4 +1,4 @@
-import { Field, InputType } from "type-graphql";
+import { Field, InputType } from 'type-graphql';
 
 @InputType()
 export class LoginInput {
@@ -24,6 +24,7 @@ export class RegisterInput {
 @InputType()
 export class EditUserInput extends RegisterInput {
   @Field() id!: number;
+  @Field() code!: string;
 }
 
 @InputType()

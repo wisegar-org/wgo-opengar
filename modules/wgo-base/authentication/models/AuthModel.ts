@@ -136,6 +136,7 @@ export class AuthModel {
     if (user) {
       user.name = data.name;
       user.lastName = data.lastName;
+      user.code = data.code;
       if (data.password) user.password = bcrypt.hashSync(data.password, 10);
       const result = await repo.save(user);
       return this.mapUserEntity(result);
@@ -287,6 +288,8 @@ export class AuthModel {
       userName: user.userName,
       email: user.email || "",
       isEmailConfirmed: !!user.isEmailConfirmed,
+      code: user.code,
+      certificate: user.certificate,
       roles: (user.roles || []).map((role) => role.name),
     } as IUser;
   }

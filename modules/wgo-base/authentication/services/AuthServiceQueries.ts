@@ -20,6 +20,8 @@ export const M_AUTH_LOGIN = gql`
         userName
         email
         roles
+        code
+        certificate
       }
       token
     }
@@ -34,6 +36,8 @@ export const Q_AUTH_ME = gql`
       userName
       email
       roles
+      code
+      certificate
     }
   }
 `;
@@ -47,6 +51,8 @@ export const M_AUTH_REGISTER = gql`
       userName
       email
       roles
+      code
+      certificate
     }
   }
 `;
@@ -59,6 +65,8 @@ export const M_AUTH_EDIT_USER = gql`
       userName
       email
       roles
+      code
+      certificate
     }
   }
 `;
