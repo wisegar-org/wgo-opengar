@@ -23,7 +23,9 @@ export class LanguageStore {
       const langDefault =
         languageDefaults.length > 0 ? languageDefaults[0] : languages[0];
       const selected =
-        this.selectedLang && languages.indexOf(this.selectedLang) !== -1
+        this.selectedLang &&
+        languages.findIndex((item) => item.code === this.selectedLang.code) !==
+          -1
           ? this.selectedLang
           : langDefault;
       this.selectedLang = selected;
@@ -39,7 +41,6 @@ export class LanguageStore {
   async addLanguage(lang: ILanguagePostArg) {
     const languageService = new LanguageService();
     const langResult = await languageService.postLanguage(lang);
-    debugger;
     if (!!langResult) {
       await this.loadAllLanguage();
     }

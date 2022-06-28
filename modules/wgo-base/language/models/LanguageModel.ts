@@ -69,8 +69,8 @@ export class LanguageModel {
       await this.unsetDefaultLanguage();
 
     languageEntity.code = data.code;
-    languageEntity.enabled = data.enabled || data.default;
-    languageEntity.default = data.default;
+    languageEntity.default = languageEntity.default || data.default;
+    languageEntity.enabled = data.enabled || languageEntity.default;
     const languageEntityUpdated = await repository.save(languageEntity);
 
     if (!!languageEntityUpdated)
