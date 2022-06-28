@@ -29,6 +29,12 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false, default: "" })
   password!: string;
 
+  @Column({ nullable: false, default: "" })
+  certificate!: string;
+
+  @Column({ nullable: false, default: "" })
+  code!: string;
+
   @Column({ default: false })
   isEmailConfirmed?: boolean;
 

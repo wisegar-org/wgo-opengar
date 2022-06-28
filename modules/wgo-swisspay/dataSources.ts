@@ -15,6 +15,7 @@ import { createEmailMediaRelation1651975332815 } from './src/database/migrations
 import { removeUniqueContentID1655304993610 } from './src/database/migrations/1655304993610-removeUniqueContentID';
 import { addRoleEntity1656005738186 } from '../wgo-base/authentication/database/migrations/1656005738186-addRoleEntity';
 import { addLanguageEntity1656012423678 } from '../wgo-base/language/database/migrations/1656012423678-addLanguageEntity';
+import { addCertificateFields1656434163078 } from '../wgo-base/authentication/database/migrations/1656434163078-addCertificateFields';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -34,6 +35,7 @@ export const dataSourceOptions: DataSourceOptions = {
     removeUniqueContentID1655304993610,
     addRoleEntity1656005738186,
     addLanguageEntity1656012423678,
+    addCertificateFields1656434163078,
   ],
   subscribers: [],
 };
