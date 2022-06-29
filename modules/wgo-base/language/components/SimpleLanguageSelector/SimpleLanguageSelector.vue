@@ -1,0 +1,44 @@
+<template>
+  <q-btn-dropdown
+    no-caps
+    flat
+    outline
+    unelevated
+    icon="language"
+    :label="selected.code"
+  >
+    <q-list>
+      <q-item
+        v-for="(item, index) in languages"
+        :key="`simpleLanguageSelector-${index}-${item.id}`"
+        @click="() => selectLanguage(item)"
+        clickable
+        v-close-popup
+      >
+        <q-item-section>
+          <q-item-label>{{ item.code }}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+  </q-btn-dropdown>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from "@vue/composition-api";
+import { ILanguageModel } from "../../models";
+
+export default defineComponent({
+  name: "SimpleLanguageSelector",
+  props: {
+    languages: { type: Array as PropType<ILanguageModel[]>, default: [] },
+    selected: { type: Object as PropType<ILanguageModel> },
+  },
+  setup() {},
+  methods: {
+    async selectLanguage(lang: ILanguageModel) {
+      this.$emit("select", lang);
+    },
+  },
+  emits: ["select"],
+});
+</script>
