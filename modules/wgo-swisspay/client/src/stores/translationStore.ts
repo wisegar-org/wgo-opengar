@@ -11,7 +11,7 @@ export const useTranslationStore = defineStore({
   getters: {},
   actions: {
     async loadAllTranslations(langId: number) {
-      await this.translationStore.loadAllTranslation(langId);
+      await this.translationStore.setLanguageId(langId);
     },
     getTranslationStore() {
       return this.translationStore;

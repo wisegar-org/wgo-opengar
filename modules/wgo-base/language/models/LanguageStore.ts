@@ -45,7 +45,7 @@ export class LanguageStore {
 
   async setSelectedLang(langSelected: ILanguageModel) {
     if (this.selectedLang.id !== langSelected.id) {
-      await this.translationStore.loadAllTranslation(langSelected.id);
+      await this.translationStore.setLanguageId(langSelected.id);
     }
     this.selectedLang = langSelected;
   }

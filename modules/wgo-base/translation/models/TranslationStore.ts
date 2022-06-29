@@ -1,19 +1,25 @@
-import { ITranslationListModel, ITranslationModel } from ".";
+import {
+  ISetTranslationArg,
+  ITranslationListModel,
+  ITranslationModel,
+} from ".";
 import { TranslationService } from "../service/TranslationService";
 
 export class TranslationStore {
   translations: ITranslationListModel<ITranslationModel>;
   translationsValue: ITranslationListModel<string>;
+  languageId: number;
 
   constructor() {
     this.translations = {} as ITranslationListModel<ITranslationModel>;
     this.translationsValue = {} as ITranslationListModel<string>;
+    this.languageId = 0;
   }
 
-  async loadAllTranslation(langId: number) {
+  async loadAllTranslation() {
     const translationService = new TranslationService();
     const translations = await translationService.getAllTranslation({
-      languageId: langId,
+      languageId: this.languageId,
     });
     this.updateObject(translations);
   }
@@ -26,10 +32,10 @@ export class TranslationStore {
     return translations;
   }
 
-  async loadAllTranslationByKeys(langId: number, keys: string[]) {
+  async loadAllTranslationByKeys(keys: string[]) {
     const translationService = new TranslationService();
     const translations = await translationService.getAllTranslationByKey({
-      languageId: langId,
+      languageId: this.languageId,
       keys,
     });
     this.updateObject(translations);
@@ -43,13 +49,14 @@ export class TranslationStore {
     return translations;
   }
 
-  getTranslation(langId: number, key: string) {
+  getTranslation(key: string) {
     if (key in this.translations) {
       return this.translationsValue[key] || key;
-    } else {
-      this.loadAllTranslationByKeys(langId, [key]);
-      return key;
+    } else if (key.toUpperCase().startsWith("WGO")) {
+      this.loadAllTranslationByKeys([key]);
     }
+
+    return key;
   }
 
   async getTranslationByLanguage(langId: number, key: string) {
@@ -60,6 +67,17 @@ export class TranslationStore {
       return translations[0].value;
     }
     return key;
+  }
+
+  async setTranslation(input: ISetTranslationArg) {
+    const translationService = new TranslationService();
+    const translation = await translationService.setTranslation(input);
+    return translation;
+  }
+
+  async setLanguageId(langId: number) {
+    this.languageId = langId;
+    await this.loadAllTranslation();
   }
 
   private updateObject(translations: ITranslationModel[]) {
