@@ -13,8 +13,13 @@ export class GetTranslationByKeysInput {
 }
 
 @InputType()
-export class SetTranslationInput {
+export class TranslationInput {
   @Field() key!: string;
   @Field() value!: string;
   @Field() languageId!: number;
+}
+@InputType()
+export class SetTranslationInput {
+  @Field(() => TranslationInput, { nullable: true }) translation?: TranslationInput;
+  @Field(() => [TranslationInput], { nullable: true }) translations?: TranslationInput[];
 }

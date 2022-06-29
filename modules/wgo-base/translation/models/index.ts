@@ -19,10 +19,15 @@ export interface IGetAllTranslationsByKeyArg {
   keys: string[];
 }
 
-export interface ISetTranslationArg {
+export interface ITranslationArg {
   languageId: number;
   key: string;
   value: string;
+}
+
+export interface ISetTranslationArg {
+  translation?: ITranslationArg;
+  translations?: ITranslationArg[];
 }
 
 export interface ITransaltionsType {

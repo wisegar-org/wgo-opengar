@@ -34,10 +34,29 @@ export class TranslationResolver {
     return translations;
   }
 
-  @Mutation(() => TranslationResponse, { name: TRANSLATION_PATH_SET_TRANSLATION })
+  @Mutation(() => [TranslationResponse], { name: TRANSLATION_PATH_SET_TRANSLATION })
   async setTranslation(@Arg('data') data: SetTranslationInput) {
     const translationModel = new TranslationModel(this.dataSource);
-    const translation = await translationModel.setTranslation(data.languageId, data.key, data.value);
-    return translation;
+    if (data.translation) {
+      const translation = await translationModel.setTranslation(
+        data.translation.languageId,
+        data.translation.key,
+        data.translation.value
+      );
+      return [translation];
+    } else if (data.translations) {
+      const result: TranslationResponse[] = [];
+      for (const translation of data.translations) {
+        const translationResult = await translationModel.setTranslation(
+          translation.languageId,
+          translation.key,
+          translation.value
+        );
+        result.push(translationResult);
+      }
+      return result;
+    }
+
+    return [];
   }
 }

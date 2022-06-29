@@ -82,17 +82,17 @@ export class TranslationService {
           data: lang,
         },
       })) as {
-        data: { [TRANSLATION_PATH_SET_TRANSLATION]: ITranslationModel };
+        data: { [TRANSLATION_PATH_SET_TRANSLATION]: ITranslationModel[] };
       };
       if (response && response.data) {
         const { data } = response;
         return data[TRANSLATION_PATH_SET_TRANSLATION];
       }
 
-      return undefined;
+      return [];
     } catch (error) {
       console.log("TranslationService setTranslation error: ", error);
-      return undefined;
+      return [];
     }
   }
 }
