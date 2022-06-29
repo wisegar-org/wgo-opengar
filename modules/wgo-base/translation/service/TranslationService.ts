@@ -27,6 +27,7 @@ export class TranslationService {
     data: IGetAllTranslationArg
   ): Promise<ITranslationModel[]> {
     try {
+      debugger;
       const response = (await this.apiInstance.query({
         query: Q_TRANSLATION_GETALL,
         fetchPolicy: "no-cache",

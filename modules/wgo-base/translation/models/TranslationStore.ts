@@ -1,22 +1,19 @@
 import { ITranslationListModel, ITranslationModel } from ".";
-import { LanguageStore } from "../../language/models/LanguageStore";
 import { TranslationService } from "../service/TranslationService";
 
 export class TranslationStore {
   translations: ITranslationListModel<ITranslationModel>;
   translationsValue: ITranslationListModel<string>;
-  languageStore: LanguageStore;
 
-  constructor(languageStore: LanguageStore) {
+  constructor() {
     this.translations = {} as ITranslationListModel<ITranslationModel>;
     this.translationsValue = {} as ITranslationListModel<string>;
-    this.languageStore = languageStore;
   }
 
-  async loadAllTranslation() {
+  async loadAllTranslation(langId: number) {
     const translationService = new TranslationService();
     const translations = await translationService.getAllTranslation({
-      languageId: this.languageStore.selectedLang.id,
+      languageId: langId,
     });
     this.updateObject(translations);
   }
@@ -29,10 +26,10 @@ export class TranslationStore {
     return translations;
   }
 
-  async loadAllTranslationByKeys(keys: string[]) {
+  async loadAllTranslationByKeys(langId: number, keys: string[]) {
     const translationService = new TranslationService();
     const translations = await translationService.getAllTranslationByKey({
-      languageId: this.languageStore.selectedLang.id,
+      languageId: langId,
       keys,
     });
     this.updateObject(translations);
@@ -46,11 +43,11 @@ export class TranslationStore {
     return translations;
   }
 
-  getTranslation(key: string) {
+  getTranslation(langId: number, key: string) {
     if (key in this.translations) {
       return this.translationsValue[key] || key;
     } else {
-      this.loadAllTranslationByKeys([key]);
+      this.loadAllTranslationByKeys(langId, [key]);
       return key;
     }
   }

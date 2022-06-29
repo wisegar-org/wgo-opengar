@@ -35,8 +35,8 @@ export default defineComponent({
   },
   setup() {},
   methods: {
-    selectLanguage(lang: ILanguageModel) {
-      this.langStore.selectedLang = lang;
+    async selectLanguage(lang: ILanguageModel) {
+      await this.langStore.setSelectedLang(lang);
     },
   },
 });

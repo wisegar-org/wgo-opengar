@@ -1,18 +1,23 @@
 import { ILanguageModel, ILanguagePostArg } from ".";
+import { TranslationStore } from "../../translation/models/TranslationStore";
 import { LanguageService } from "../service/LanguageService";
 
 export class LanguageStore {
   allLangs: ILanguageModel[];
   selectedLang: ILanguageModel;
   defaultLang: ILanguageModel;
+  translationStore: TranslationStore;
 
   /**
    *
    */
-  constructor() {
+  constructor(translationStore?: TranslationStore) {
     this.allLangs = [];
     this.selectedLang = {} as ILanguageModel;
     this.defaultLang = {} as ILanguageModel;
+    this.translationStore = translationStore
+      ? translationStore
+      : new TranslationStore();
   }
 
   async loadAllLanguage() {
@@ -28,7 +33,7 @@ export class LanguageStore {
           -1
           ? this.selectedLang
           : langDefault;
-      this.selectedLang = selected;
+      await this.setSelectedLang(selected);
       this.defaultLang = langDefault;
       this.allLangs = languages;
     } else {
@@ -36,6 +41,13 @@ export class LanguageStore {
       this.selectedLang = {} as ILanguageModel;
       this.defaultLang = {} as ILanguageModel;
     }
+  }
+
+  async setSelectedLang(langSelected: ILanguageModel) {
+    if (this.selectedLang.id !== langSelected.id) {
+      await this.translationStore.loadAllTranslation(langSelected.id);
+    }
+    this.selectedLang = langSelected;
   }
 
   async addLanguage(lang: ILanguagePostArg) {
@@ -60,5 +72,9 @@ export class LanguageStore {
 
   allLanguage() {
     return this.allLangs.filter((lang) => lang.enabled);
+  }
+
+  setTranslationStore(translationStore: TranslationStore) {
+    this.translationStore = translationStore;
   }
 }

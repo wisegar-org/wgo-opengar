@@ -1,5 +1,5 @@
+import { TranslationStore } from '../../../../wgo-base/translation/models/TranslationStore';
 import { defineStore } from 'pinia';
-import { ILanguageModel } from '../../../../wgo-base/language/models';
 import { LanguageStore } from '../../../../wgo-base/language/models/LanguageStore';
 
 export const languageStoreId = 'languageStore';
@@ -11,6 +11,9 @@ export const useLanguageStore = defineStore({
   }),
   getters: {},
   actions: {
+    setTranslationStore(translationStore: TranslationStore) {
+      this.languageStore.setTranslationStore(translationStore);
+    },
     async loadAllLanguages() {
       await this.languageStore.loadAllLanguage();
     },
