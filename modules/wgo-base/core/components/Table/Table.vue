@@ -208,7 +208,7 @@ export default defineComponent({
   },
   watch: {
     data() {
-      this.filtredData = this.data;
+      this.onSearchInput();
     },
     schema() {
       this.setFromSchema();
