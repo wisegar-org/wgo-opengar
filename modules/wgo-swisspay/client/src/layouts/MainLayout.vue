@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="showMenu" />
 
-        <q-toolbar-title> Swisspay </q-toolbar-title>
+        <q-toolbar-title> {{ transStore.getTranslation(translations.APP_TITLE) }} </q-toolbar-title>
 
         <div class="row">
           <LanguageSelector :langStore="langStore" class="q-mx-sm" />
@@ -33,6 +33,8 @@ import { useQuasar } from 'quasar';
 import Menu from '../components/Menu/Menu.vue';
 import LanguageSelector from '../../../../wgo-base/language/components/LanguageSelector/LanguageSelector.vue';
 import { useLanguageStore } from '../stores/languageStore';
+import { useTranslationStore } from '../stores/translationStore';
+import { translations } from './translationsKey';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -48,6 +50,7 @@ export default defineComponent({
     const routeService = new RouteService(router);
     const $q = useQuasar();
     const langStore = useLanguageStore();
+    const transStore = useTranslationStore();
 
     function goToPath(pathName: string) {
       routeService.goTo(pathName);
@@ -66,6 +69,8 @@ export default defineComponent({
       authStore: authStore.authStore,
       router,
       langStore: langStore.languageStore,
+      transStore: transStore.translationStore,
+      translations,
     };
   },
   methods: {

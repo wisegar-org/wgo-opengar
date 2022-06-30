@@ -3,6 +3,7 @@ import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 import { AdminLanguagePaths } from '../../../../wgo-base/language/router';
 import { TestMenu } from './test';
+import { AdminTranslationPaths } from 'app/../../wgo-base/translation/router';
 
 const listItems: MenuListItem[] = [
   {
@@ -30,6 +31,14 @@ const listItems: MenuListItem[] = [
     icon: 'language',
     link: AdminLanguagePaths.adminLanguage.path,
     color: 'purple',
+    type: 'item',
+  },
+  {
+    label: AdminTranslationPaths.adminTranslation.label,
+    id: AdminTranslationPaths.adminTranslation.name,
+    icon: 'translate',
+    link: AdminTranslationPaths.adminTranslation.path,
+    color: 'brown',
     type: 'item',
   },
 ];
