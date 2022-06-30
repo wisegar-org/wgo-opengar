@@ -172,10 +172,9 @@ export class Pop3Service {
           await emailService.send({
             from: config.POP3_EMAIL_EMAIL,
             subject: 'PDF Received!',
-            to: `${email.from}`,
+            to: `${email.from?.value[0].address}`, //TODO: Verificar si el email from address es valido antes de esto!
             html: `<div>
               PDF Received! 
-
               <div>Info: ${JSON.stringify(result.info)}</div>
               <div>Metadata: ${JSON.stringify(result.metadata)}</div>
               <div>NumPages: ${result.numpages}</div>
