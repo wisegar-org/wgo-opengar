@@ -251,6 +251,10 @@ export const readEmails = async (): Promise<number> => {
   }
   const tls = config.POP3_EMAIL_TLS;
 
+  if (config.POP3_EMAIL_EMAIL == null) {
+    throw new Error('POP3_EMAIL_EMAIL not set');
+  }
+
   const pop3 = new Pop3Service({
     host: host,
     port: port,
