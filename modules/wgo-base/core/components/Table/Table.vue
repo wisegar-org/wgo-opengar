@@ -197,7 +197,7 @@ export default defineComponent({
         const colName = this.inputSequence[i];
         const inputValue = this.filters[colName];
         const column = this.mySchema.schema[colName];
-        this.searchText += `${column.label} contiene <${inputValue}> e `;
+        this.searchText += `${column.label} contain <${inputValue}> and `;
         tmpData = tmpData.filter((v) => {
           let c;
           if (typeof column.field == "string") {
