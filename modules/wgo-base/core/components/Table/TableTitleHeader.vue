@@ -18,6 +18,15 @@
             @changeColumnSelected="changeColumnSelected"
           />
           <!-- Buttons -->
+          <q-btn
+            flat
+            round
+            color="primary"
+            @click="changeEnableFilter"
+            icon="filter_alt"
+          >
+            <q-tooltip>Show Filters</q-tooltip>
+          </q-btn>
         </div>
       </q-item-section>
     </q-item>
@@ -39,6 +48,7 @@ export default defineComponent({
   props: {
     title: String,
     searchText: String,
+    enableFilter: Boolean,
     schema: {
       type: Object as PropType<ITableSchema>,
       default: { schema: {}, title: "", code: "id" },
@@ -63,7 +73,10 @@ export default defineComponent({
     changeColumnSelected(visibleColumns: string[]) {
       this.$emit("changeColumnSelected", visibleColumns);
     },
+    changeEnableFilter() {
+      this.$emit("enableFilterChange", !this.enableFilter);
+    },
   },
-  emits: ["changeColumnSelected"],
+  emits: ["changeColumnSelected", "enableFilterChange"],
 });
 </script>

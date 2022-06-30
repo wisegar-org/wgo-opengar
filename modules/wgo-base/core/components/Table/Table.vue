@@ -19,7 +19,9 @@
           :schema="mySchema"
           :columns="columns"
           :data="data"
+          :enableFilter="enableFilter"
           @changeColumnSelected="changeColumnSelected"
+          @enableFilterChange="changeEnableFilter"
         />
       </template>
 
@@ -43,15 +45,24 @@
               v-if="props.col.filterable && enableFilter"
               class="row justify-between items-center"
             >
-              <input
+              <q-input
                 v-if="props.col.filterable"
-                :ref="props.col.name"
+                v-model="filters[props.col.name]"
+                dense
+                outlined
                 autocomplete="new-password"
-                class="orion-header-input"
-                type="text"
-                @input="onSearchInput(props.col.name)"
+                @keyup="onSearchInput(props.col.name)"
                 @click.stop=""
-              />
+              >
+                <template v-slot:append>
+                  <q-icon
+                    v-if="!!filters[props.col.name]"
+                    name="close"
+                    @click="() => onClenaFilter(props.col.name)"
+                    class="cursor-pointer"
+                  />
+                </template>
+              </q-input>
             </div>
             <div
               v-if="!props.col.filterable && enableFilter"
@@ -115,11 +126,15 @@ export default defineComponent({
     const columns: ITableColumn[] = [];
     const visibleColumns: string[] = [];
     const filtredData: ITableData[] = [];
+    const inputSequence: string[] = [];
+    const filters: { [key: string]: string } = {};
 
     return {
       mySchema,
       columns,
+      inputSequence,
       visibleColumns,
+      filters,
       filtredData,
       apiURL: "",
       searchText: "",
@@ -127,6 +142,9 @@ export default defineComponent({
     };
   },
   methods: {
+    changeEnableFilter(enableFilter: boolean) {
+      this.enableFilter = enableFilter;
+    },
     setFromSchema() {
       this.mySchema = this.schema;
       this.apiURL = this.mySchema.apiURL as string;
@@ -159,14 +177,16 @@ export default defineComponent({
     onRowSelect(row: any) {
       this.$emit("rowSelect", row);
     },
+    onClenaFilter(colName: string) {
+      this.filters[colName] = "";
+      this.onSearchInput(colName);
+    },
     onSearchInput(colName?: string) {
       if (colName) {
         if (this.inputSequence.indexOf(colName) == -1) {
           this.inputSequence.push(colName);
         }
-        const input = this.$refs[colName] as HTMLInputElement;
-        if (input.value) {
-        } else {
+        if (!this.filters[colName]) {
           this.inputSequence.splice(this.inputSequence.indexOf(colName), 1);
         }
       }
@@ -175,8 +195,7 @@ export default defineComponent({
       this.searchText = "";
       for (let i = 0; i < this.inputSequence.length; i++) {
         const colName = this.inputSequence[i];
-        const input = this.$refs[colName] as HTMLInputElement;
-        const inputValue = input.value;
+        const inputValue = this.filters[colName];
         const column = this.mySchema.schema[colName];
         this.searchText += `${column.label} contiene <${inputValue}> e `;
         tmpData = tmpData.filter((v) => {
