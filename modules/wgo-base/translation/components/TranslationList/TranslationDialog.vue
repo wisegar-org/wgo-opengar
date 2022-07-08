@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="translate"
-    title="Translation"
+    :title="getLabel(translations.TITLE_DIALOG)"
     :persistent="true"
     :showClose="true"
     maxWidth="900px"
@@ -27,9 +27,7 @@
               v-model="translationList[lang.id].key"
               required
               :readonly="!!translation.key"
-              :label="
-                translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'Code'
-              "
+              :label="getLabel(translations.COLUMN_KEY)"
             />
           </div>
           <div class="col-12">
@@ -39,9 +37,7 @@
               class="q-my-sm q-mx-sm"
               v-model="translationList[lang.id].value"
               required
-              :label="
-                translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'Value'
-              "
+              :label="getLabel(translations.COLUMN_VALUE)"
             />
           </div>
         </q-card-section>
@@ -52,7 +48,7 @@
             color="primary"
             align="around"
             class="btn_width_fix col-12 col-sm-4"
-            :label="translationsContent.WGO_REGISTER_LABEL || 'Save'"
+            :label="getLabel(transBase.SAVE)"
             type="submit"
           />
         </q-card-actions>
@@ -69,6 +65,9 @@ import { TranslationStore } from "../../models/TranslationStore";
 import { LanguageStore } from "../../../language/models/LanguageStore";
 import SimpleLanguageSelector from "../../../language/components/SimpleLanguageSelector/SimpleLanguageSelector.vue";
 import { ILanguageModel } from "../../../language/models";
+import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
+import { translations as transBase } from "../../../core/models";
+import { translations } from "../../models/translations";
 
 export default defineComponent({
   name: "TranslationDialog",
@@ -86,10 +85,14 @@ export default defineComponent({
     SimpleLanguageSelector,
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       translationList: {} as { [key: string]: ITranslationModel },
       translationsContent: {},
       lang: this.langStore.selectedLang,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
+      transBase,
+      translations,
     };
   },
   methods: {

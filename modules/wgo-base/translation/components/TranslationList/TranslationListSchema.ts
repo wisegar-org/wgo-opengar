@@ -3,7 +3,10 @@ import {
   ITableLeftButton,
   ITableRowButton,
 } from "../../../core/models/Table";
+import { TranslationStore } from "../../models/TranslationStore";
+import { translations } from "../../models/translations";
 export const getTranslationListSchema = (
+  transStore: TranslationStore,
   leftButtons?: ITableLeftButton[],
   rowButtons?: ITableRowButton[]
 ): ITableSchema => {
@@ -15,7 +18,7 @@ export const getTranslationListSchema = (
     schema: {
       id: {
         name: "id",
-        label: "ID",
+        label: translations.COLUMN_ID,
         field: "id",
         sortable: true,
         visible: false,
@@ -25,17 +28,18 @@ export const getTranslationListSchema = (
       },
       key: {
         name: "key",
-        label: "Key",
+        label: translations.COLUMN_KEY,
         field: "key",
         sortable: true,
         visible: true,
         filterable: true,
         align: "left",
-        width: 200,
+        width: 300,
+        nonTranslate: true,
       },
       value: {
         name: "value",
-        label: "Value",
+        label: translations.COLUMN_VALUE,
         field: "value",
         sortable: true,
         visible: true,
@@ -61,6 +65,7 @@ export const getTranslationListSchema = (
     description: [],
     title: "Email media",
     leftButtons: leftButtons,
+    translationStore: transStore,
     searchStrategy: {
       type: "header",
     },

@@ -132,6 +132,7 @@ export class TranslationModel {
             { ...filterLanguage, value: ILike(`%${search}%`) },
           ]
         : filterLanguage,
+      order: { key: "DESC" },
     });
     translations.forEach((translation) => {
       searchTranslationskeys[translation.key] = true;

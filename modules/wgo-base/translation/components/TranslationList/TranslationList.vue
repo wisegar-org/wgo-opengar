@@ -2,7 +2,7 @@
   <div>
     <div ref="placeholder" style="height: 1px"></div>
     <Table
-      title="Translations"
+      :title="translations.TITLE"
       :data="Object.values(tranStore.translations)"
       :schema="schema"
       :height="componentHeight"
@@ -28,6 +28,8 @@ import { ITableLeftButton, ITableRowButton } from "../../../core/models/Table";
 import { ITranslationModel } from "../../models";
 import TranslationDialog from "./TranslationDialog.vue";
 import { LanguageStore } from "../../../language/models/LanguageStore";
+import { translations } from "../../models/translations";
+import { translations as transBase } from "../../../core/models";
 
 export default defineComponent({
   name: "TranslationList",
@@ -51,6 +53,7 @@ export default defineComponent({
     const rowBtns: ITableRowButton[] = [
       {
         icon: "edit",
+        tooltip: transBase.EDIT,
         fnAction,
       },
     ];
@@ -59,6 +62,7 @@ export default defineComponent({
         label: "",
         icon: "add",
         color: "primary",
+        tooltip: transBase.ADD,
         fnAction: () =>
           fnAction({
             key: "",
@@ -74,7 +78,8 @@ export default defineComponent({
       addResize,
       removeResize,
       resizeTable,
-      schema: getTranslationListSchema(leftBtns, rowBtns),
+      schema: getTranslationListSchema(this.tranStore, leftBtns, rowBtns),
+      translations: translations,
     };
   },
   methods: {
@@ -92,7 +97,7 @@ export default defineComponent({
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
     onSet() {
-      this.$emit("create");
+      this.$emit("onSet");
     },
   },
   async created() {
