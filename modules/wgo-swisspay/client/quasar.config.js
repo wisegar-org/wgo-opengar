@@ -82,6 +82,12 @@ module.exports = configure(function (ctx) {
             https: false,
           };
         }
+
+        // Fix library components render
+        if (!cfg.resolve.alias) {
+          cfg.resolve.alias = {};
+        }
+        cfg.resolve.alias.vue = path.resolve('./node_modules/vue');
       },
     },
 
