@@ -1,3 +1,5 @@
+import { TranslationStore } from "../../../translation/models/TranslationStore";
+
 export interface ITableExport {
   align?: { vertical: string; horizontal: string };
   format?: { type: string; mask: string };
@@ -15,6 +17,7 @@ export interface ITableColumn {
   headerStyle?: string | null;
   required?: boolean;
   style?: string;
+  nonTranslate?: boolean;
   cellClass?: (row: any) => string | undefined;
   width?: number;
   type?:
@@ -59,6 +62,7 @@ export interface ITableSearchStrategy {
 
 export interface ITableSchema {
   schema: { [key: string]: ITableColumn };
+  translationStore?: TranslationStore;
   apiURL?: string;
   code?: string;
   displayedCode?: string;

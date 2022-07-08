@@ -9,9 +9,21 @@
       <q-item-section top side class="self-center">
         <div class="row items-center">
           <TableTopButtons :schema="schema" />
-          <TableExportClipboardButton :columns="columns" :data="data" />
-          <TableExportCsvButton :columns="columns" :data="data" />
-          <TableExportExcelButton :columns="columns" :data="data" />
+          <TableExportClipboardButton
+            :columns="columns"
+            :data="data"
+            :schema="schema"
+          />
+          <TableExportCsvButton
+            :columns="columns"
+            :data="data"
+            :schema="schema"
+          />
+          <TableExportExcelButton
+            :columns="columns"
+            :data="data"
+            :schema="schema"
+          />
           <TableSelectColumnsButton
             :columns="columns"
             :schema="schema"
@@ -25,7 +37,7 @@
             @click="changeEnableFilter"
             icon="filter_alt"
           >
-            <q-tooltip>Show Filters</q-tooltip>
+            <q-tooltip>{{ getLabel("WGO_SHOW_FILTERS_TL") }}</q-tooltip>
           </q-btn>
         </div>
       </q-item-section>
@@ -75,6 +87,13 @@ export default defineComponent({
     },
     changeEnableFilter() {
       this.$emit("enableFilterChange", !this.enableFilter);
+    },
+    getLabel(name: string) {
+      if (name && this.schema?.translationStore) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+
+      return name;
     },
   },
   emits: ["changeColumnSelected", "enableFilterChange"],

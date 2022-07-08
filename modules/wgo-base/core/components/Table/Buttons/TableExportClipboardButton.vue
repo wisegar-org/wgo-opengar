@@ -6,15 +6,16 @@
     @click="exportClipboard"
     icon="content_copy"
   >
-    <q-tooltip> Copy to clipboard </q-tooltip>
+    <q-tooltip> {{ getLabel(translations.COPY_CLIPBOARD_TL) }} </q-tooltip>
   </q-btn>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
 
-import { ITableColumn, ITableData } from "../../../models/Table";
+import { ITableColumn, ITableData, ITableSchema } from "../../../models/Table";
 import { UtilService } from "../../../services/UtilService";
+import { translations } from "../../../models";
 
 export default defineComponent({
   name: "TableExportClipboardButton",
@@ -27,6 +28,15 @@ export default defineComponent({
       type: Array as PropType<ITableColumn[]>,
       default: [],
     },
+    schema: {
+      type: Object as PropType<ITableSchema>,
+      require: true,
+    },
+  },
+  setup() {
+    return {
+      translations: translations,
+    };
   },
   methods: {
     async exportClipboard() {
@@ -58,6 +68,13 @@ export default defineComponent({
 
       if (navigator && navigator.clipboard && navigator.clipboard.writeText)
         await navigator.clipboard.writeText(text);
+    },
+    getLabel(name: string) {
+      if (name && this.schema?.translationStore) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+
+      return name;
     },
   },
 });

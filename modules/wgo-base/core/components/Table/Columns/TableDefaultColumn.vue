@@ -5,7 +5,7 @@
       'min-width': props.col.width + 'px',
       width: '100%',
     }"
-    v-html="props.value"
+    v-html="getLabel(props.value)"
   ></div>
 </template>
 
@@ -14,6 +14,18 @@ import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
   name: "TableDefaultColumn",
-  props: ["props"],
+  props: ["props", "schema"],
+  methods: {
+    getLabel(name: string) {
+      if (
+        this.schema?.translationStore &&
+        name &&
+        !this.props.col.nonTranslate
+      ) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+      return name;
+    },
+  },
 });
 </script>

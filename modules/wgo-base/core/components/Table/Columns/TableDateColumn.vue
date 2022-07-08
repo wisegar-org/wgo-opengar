@@ -16,7 +16,7 @@ import { UtilService } from "../../../services/UtilService";
 
 export default defineComponent({
   name: "TableDateColumn",
-  props: ["props"],
+  props: ["props", "schema"],
   methods: {
     getDate(value: string, extra: unknown) {
       if (!value) return "";

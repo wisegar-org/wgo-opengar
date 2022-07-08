@@ -10,7 +10,7 @@ import currency from "currency.js";
 
 export default defineComponent({
   name: "TableDecimalColumn",
-  props: ["props"],
+  props: ["props", "schema"],
   computed: {
     value(): string {
       const value = this.props.value;

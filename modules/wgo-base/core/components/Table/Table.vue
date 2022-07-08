@@ -4,7 +4,7 @@
       dense
       virtual-scroll
       :row-key="mySchema.code"
-      :title="title"
+      :title="getLabel(title)"
       :rows="filtredData"
       :columns="columns"
       @row-click="selectCode"
@@ -14,7 +14,7 @@
     >
       <template v-slot:top>
         <TableTitleHeader
-          :title="title"
+          :title="getLabel(title)"
           :searchText="searchText"
           :schema="mySchema"
           :columns="columns"
@@ -40,7 +40,7 @@
             "
             class="column"
           >
-            <div>{{ props.col.label }}</div>
+            <div>{{ getLabel(props.col.label) }}</div>
             <div
               v-if="props.col.filterable && enableFilter"
               class="row justify-between items-center"
@@ -76,7 +76,7 @@
             "
             class="column"
           >
-            <div>{{ props.col.label }}</div>
+            <div>{{ getLabel(props.col.label) }}</div>
           </div>
         </q-th>
       </template>
@@ -216,6 +216,12 @@ export default defineComponent({
       }
       this.searchText = this.searchText.slice(0, -2);
       this.filtredData = tmpData;
+    },
+    getLabel(name: string) {
+      if (this.mySchema.translationStore) {
+        return this.mySchema.translationStore.getTranslation(name);
+      }
+      return name;
     },
   },
   emits: ["selectCode", "buttonClick", "rowSelect"],

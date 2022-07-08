@@ -23,7 +23,7 @@
                 <q-item-section avatar>
                   <q-icon :color="v.color" :name="v.icon" />
                 </q-item-section>
-                <q-item-section>{{ v.label }}</q-item-section>
+                <q-item-section>{{ getLabel(v.label) }}</q-item-section>
               </q-item>
             </div>
           </q-list>
@@ -38,10 +38,20 @@ import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
   name: "TableIconStateColumn",
-  props: ["props"],
+  props: ["props", "schema"],
   methods: {
     doAction(action: string | unknown, props: unknown, extra: unknown = null) {
       this.$emit("action", action, props, extra);
+    },
+    getLabel(name: string) {
+      if (
+        this.schema?.translationStore &&
+        name &&
+        !this.props.col.nonTranslate
+      ) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+      return name;
     },
   },
   emits: ["action"],

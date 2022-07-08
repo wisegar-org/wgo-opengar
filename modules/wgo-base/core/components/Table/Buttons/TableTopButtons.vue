@@ -11,7 +11,7 @@
       @click="v.fnAction"
     >
       {{ v.label }}
-      <q-tooltip v-if="v.tooltip">{{ v.tooltip }}</q-tooltip>
+      <q-tooltip v-if="v.tooltip">{{ getLabel(v.tooltip) }}</q-tooltip>
     </q-btn>
   </div>
 </template>
@@ -26,6 +26,15 @@ export default defineComponent({
     schema: {
       type: Object as PropType<ITableSchema>,
       default: { schema: {}, title: "", code: "id" },
+    },
+  },
+  methods: {
+    getLabel(name: string) {
+      if (name && this.schema?.translationStore) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+
+      return name;
     },
   },
   setup() {},

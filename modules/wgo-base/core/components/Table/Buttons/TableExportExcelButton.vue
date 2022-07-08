@@ -6,16 +6,17 @@
     @click="exportExcel"
     icon="las la-file-excel"
   >
-    <q-tooltip> Export Excel </q-tooltip>
+    <q-tooltip> {{ getLabel(translations.EXPORT_EXCEL_TL) }} </q-tooltip>
   </q-btn>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
-import { ITableColumn, ITableData } from "../../../models/Table";
+import { ITableColumn, ITableData, ITableSchema } from "../../../models/Table";
 import { UtilService } from "../../../services/UtilService";
 import { saveAs } from "file-saver";
 import ExcelJS from "exceljs";
+import { translations } from "../../../models";
 
 export default defineComponent({
   name: "TableExportExcelButton",
@@ -28,6 +29,15 @@ export default defineComponent({
       type: Array as PropType<ITableColumn[]>,
       default: [],
     },
+    schema: {
+      type: Object as PropType<ITableSchema>,
+      require: true,
+    },
+  },
+  setup() {
+    return {
+      translations: translations,
+    };
   },
   methods: {
     async exportExcel() {
@@ -61,6 +71,13 @@ export default defineComponent({
 
       const buf = await workbook.xlsx.writeBuffer();
       saveAs(new Blob([buf]), fileName);
+    },
+    getLabel(name: string) {
+      if (name && this.schema?.translationStore) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+
+      return name;
     },
   },
 });

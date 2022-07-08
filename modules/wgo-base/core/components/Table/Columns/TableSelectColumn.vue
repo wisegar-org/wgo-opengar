@@ -1,6 +1,6 @@
 <template>
   <q-checkbox v-model="value" size="sm" @input="onRowSelect">
-    <q-tooltip v-if="tooltip">{{ tooltip }} </q-tooltip>
+    <q-tooltip v-if="tooltip">{{ getLabel(tooltip) }} </q-tooltip>
   </q-checkbox>
 </template>
 
@@ -9,7 +9,7 @@ import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
   name: "TableSelectColumn",
-  props: ["props"],
+  props: ["props", "schema"],
   computed: {
     tooltip(): string | false {
       if (this.props.col.extra && this.props.col.extra.tooltip) {
@@ -25,6 +25,16 @@ export default defineComponent({
   methods: {
     onRowSelect() {
       return this.$emit("rowSelect", this.value);
+    },
+    getLabel(name: string) {
+      if (
+        this.schema?.translationStore &&
+        name &&
+        !this.props.col.nonTranslate
+      ) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+      return name;
     },
   },
   emits: ["rowSelect"],

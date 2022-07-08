@@ -5,7 +5,7 @@
       :key="k"
       :color="props.col.extra[v] ? props.col.extra[v] : 'primary'"
     >
-      {{ v }}</q-badge
+      {{ getLabel(v) }}</q-badge
     >
   </div>
 </template>
@@ -15,7 +15,7 @@ import { defineComponent } from "@vue/composition-api";
 
 export default defineComponent({
   name: "TableBadgeColumn",
-  props: ["props"],
+  props: ["props", "schema"],
   methods: {
     getValue() {
       const result =
@@ -24,6 +24,16 @@ export default defineComponent({
           : this.props.value;
 
       return result;
+    },
+    getLabel(name: string) {
+      if (
+        this.schema?.translationStore &&
+        name &&
+        !this.props.col.nonTranslate
+      ) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+      return name;
     },
   },
 });

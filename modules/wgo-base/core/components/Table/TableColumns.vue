@@ -1,27 +1,57 @@
 <template>
   <q-td :props="props" :class="cellClass">
-    <TableAvatarColumn v-if="props.col.type === 'avatar'" :props="props" />
-    <TableBadgeColumn v-if="props.col.type === 'badges'" :props="props" />
+    <TableAvatarColumn
+      v-if="props.col.type === 'avatar'"
+      :props="props"
+      :schema="schema"
+    />
+    <TableBadgeColumn
+      v-if="props.col.type === 'badges'"
+      :props="props"
+      :schema="schema"
+    />
     <TableCommandColumn
       v-if="props.col.type === 'iconCommands'"
       :props="props"
     />
-    <TableDateColumn v-if="props.col.type === 'date'" :props="props" />
-    <TableDecimalColumn v-if="props.col.type === 'decimal'" :props="props" />
-    <TableIconColumn v-if="props.col.type === 'icon'" :props="props" />
+    <TableDateColumn
+      v-if="props.col.type === 'date'"
+      :props="props"
+      :schema="schema"
+    />
+    <TableDecimalColumn
+      v-if="props.col.type === 'decimal'"
+      :props="props"
+      :schema="schema"
+    />
+    <TableIconColumn
+      v-if="props.col.type === 'icon'"
+      :props="props"
+      :schema="schema"
+    />
     <TableIconStateColumn
       v-if="props.col.type === 'iconsState'"
       :props="props"
+      :schema="schema"
     />
-    <TableMenuColumn v-if="props.col.type === 'menu'" :props="props" />
+    <TableMenuColumn
+      v-if="props.col.type === 'menu'"
+      :props="props"
+      :schema="schema"
+    />
 
     <TableSelectColumn
       v-if="props.col.type === 'select'"
       :props="props"
+      :schema="schema"
       @rowSelect="onRowSelect"
     />
     <!-- Default render -->
-    <TableDefaultColumn v-if="!props.col.type" :props="props" />
+    <TableDefaultColumn
+      v-if="!props.col.type"
+      :props="props"
+      :schema="schema"
+    />
   </q-td>
 </template>
 

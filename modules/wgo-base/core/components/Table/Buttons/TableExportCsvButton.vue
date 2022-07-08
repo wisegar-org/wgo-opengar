@@ -1,14 +1,15 @@
 <template>
   <q-btn flat round color="primary" @click="exportCSV" icon="las la-file-csv">
-    <q-tooltip>Esport CSV</q-tooltip>
+    <q-tooltip>{{ getLabel(translations.EXPORT_CSV_TL) }}</q-tooltip>
   </q-btn>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
-import { ITableColumn, ITableData } from "../../../models/Table";
+import { ITableColumn, ITableData, ITableSchema } from "../../../models/Table";
 import { UtilService } from "../../../services/UtilService";
 import { saveAs } from "file-saver";
+import { translations } from "../../../models";
 
 export default defineComponent({
   name: "TableExportCsvButton",
@@ -21,6 +22,15 @@ export default defineComponent({
       type: Array as PropType<ITableColumn[]>,
       default: [],
     },
+    schema: {
+      type: Object as PropType<ITableSchema>,
+      require: true,
+    },
+  },
+  setup() {
+    return {
+      translations: translations,
+    };
   },
   methods: {
     async exportCSV() {
@@ -55,6 +65,13 @@ export default defineComponent({
       text += rows.join(",\n");
 
       saveAs(new Blob([text]), fileName);
+    },
+    getLabel(name: string) {
+      if (name && this.schema?.translationStore) {
+        return this.schema.translationStore.getTranslation(name);
+      }
+
+      return name;
     },
   },
 });
