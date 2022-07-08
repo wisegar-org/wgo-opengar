@@ -1,3 +1,5 @@
+import { TranslationStore } from "../../translation/models/TranslationStore";
+
 export class BaseResizeComponent {
   public componentHeight = 300;
 
@@ -22,5 +24,12 @@ export class BaseResizeComponent {
     } else {
       this.componentHeight = 500;
     }
+  }
+}
+
+export class BaseTranslateComponent {
+  public getLabel(tranStore: TranslationStore, name: string) {
+    if (tranStore && name) return tranStore.getTranslation(name);
+    return name;
   }
 }
