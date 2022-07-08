@@ -49,6 +49,44 @@ export class Pop3Service {
     return parsed;
   }
 
+  isValidEmail(email: string) {
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  // Parse PDF and send content by email
+  async parsePDFAttachment(attachmentEntity: EmailMediaEntity, email: ParsedMail) {
+    console.log('parsing pdf');
+    const result = await PDFService.parsePDF(attachmentEntity.fileContent);
+    const config = GetConfig<Pop3Settings>();
+    // Send email to sender with data
+    const emailService = new EmailServer();
+    console.log('sending email with pdf data');
+
+    if (email.from != undefined) {
+      const from_email = email.from.value[0].address;
+
+      // Check if email is valid
+      if (from_email != undefined && this.isValidEmail(from_email)) {
+        await emailService.send({
+          from: config.POP3_EMAIL_EMAIL,
+          subject: 'PDF Received!',
+          to: `${from_email}`,
+          html: `<div>
+            PDF Received! 
+            <div>Info: ${JSON.stringify(result.info)}</div>
+            <div>Metadata: ${JSON.stringify(result.metadata)}</div>
+            <div>NumPages: ${result.numpages}</div>
+            <div>NumRender: ${result.numrender}</div>
+            <div>Version: ${result.version}</div>
+            <div>Info: ${result.text}</div>
+            </div>`,
+        });
+      }
+    }
+  }
+
   // Save email to database
   async saveEmail(email: ParsedMail) {
     // Check if email exist on database
@@ -163,26 +201,7 @@ export class Pop3Service {
         attachments.push(attachmentEntity);
 
         if (attachmentEntity.fileExt == 'pdf' && email.from != undefined) {
-          console.log('parsing pdf');
-          const result = await PDFService.parsePDF(attachmentEntity.fileContent);
-          const config = GetConfig<Pop3Settings>();
-          // Send email to sender with data
-          const emailService = new EmailServer();
-          console.log('sending email with pdf data');
-          await emailService.send({
-            from: config.POP3_EMAIL_EMAIL,
-            subject: 'PDF Received!',
-            to: `${email.from?.value[0].address}`, //TODO: Verificar si el email from address es valido antes de esto!
-            html: `<div>
-              PDF Received! 
-              <div>Info: ${JSON.stringify(result.info)}</div>
-              <div>Metadata: ${JSON.stringify(result.metadata)}</div>
-              <div>NumPages: ${result.numpages}</div>
-              <div>NumRender: ${result.numrender}</div>
-              <div>Version: ${result.version}</div>
-              <div>Info: ${result.text}</div>
-              </div>`,
-          });
+          await this.parsePDFAttachment(attachmentEntity, email);
         }
       }
     }
