@@ -5,6 +5,7 @@ import { useAuthStore } from 'src/stores/authStore';
 import { useLanguageStore } from 'src/stores/languageStore';
 import { useTranslationStore } from 'src/stores/translationStore';
 import { TranslationStore } from '../../../../wgo-base/translation/models/TranslationStore';
+import { Translations } from '../settings/translations';
 
 export default boot(({ app, store, router }) => {
   if (!ApiService.isDefineInstance()) {
@@ -22,7 +23,7 @@ export default boot(({ app, store, router }) => {
   const langStore = useLanguageStore(store);
   langStore.setTranslationStore(translationStore.translationStore as TranslationStore);
   app.config.globalProperties.$langStore = langStore;
-  promises.push(langStore.loadAllLanguages());
+  promises.push(langStore.loadAllLanguages().then(() => translationStore.getAndRegisterTranslations(Translations)));
 
   //Authentication store
   const authStore = useAuthStore(store);
