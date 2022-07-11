@@ -4,10 +4,12 @@
       <q-btn-dropdown flat :label="user.email" no-caps>
         <q-list style="min-width: 150px">
           <q-item clickable v-close-popup @click="() => showUserProfile(true)">
-            <q-item-section>Edit profile</q-item-section>
+            <q-item-section>{{
+              getLabel(translations.EDIT_PROFILE)
+            }}</q-item-section>
           </q-item>
           <q-item clickable v-close-popup @click="onLogout">
-            <q-item-section>Logout</q-item-section>
+            <q-item-section>{{ getLabel(translations.LOGOUT) }}</q-item-section>
           </q-item>
         </q-list>
       </q-btn-dropdown>
@@ -18,7 +20,13 @@
         @onEdited="onEdited"
       />
     </div>
-    <q-btn outline v-else icon="login" @click="onLogin" label="Login" />
+    <q-btn
+      outline
+      v-else
+      icon="login"
+      @click="onLogin"
+      :label="getLabel(translations.LOGIN)"
+    />
   </div>
 </template>
 
@@ -26,6 +34,9 @@
 import { defineComponent, PropType } from "@vue/composition-api";
 import { IUser } from "../../models/user";
 import EditUserDialog from "../../../authentication/components/EditUser/EditUserDialog.vue";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
+import { BaseTranslateComponent } from "../BaseComponents";
+import { translations } from "../../models";
 
 export default defineComponent({
   props: {
@@ -33,13 +44,17 @@ export default defineComponent({
       type: Object as PropType<IUser>,
       required: false,
     },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   components: {
     EditUserDialog,
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       open: false,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
+      translations,
     };
   },
   methods: {

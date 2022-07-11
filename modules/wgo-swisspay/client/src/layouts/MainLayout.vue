@@ -8,7 +8,13 @@
 
         <div class="row">
           <LanguageSelector :langStore="langStore" class="q-mx-sm" />
-          <LoginBtn :user="authStore.user" @onLoginClick="goToLogin" @onLogoutClick="logout" @onSaveUser="onSave" />
+          <LoginBtn
+            :user="authStore.user"
+            :tranStore="transStore"
+            @onLoginClick="goToLogin"
+            @onLogoutClick="logout"
+            @onSaveUser="onSave"
+          />
         </div>
       </q-toolbar>
     </q-header>
@@ -35,6 +41,8 @@ import LanguageSelector from '../../../../wgo-base/language/components/LanguageS
 import { useLanguageStore } from '../stores/languageStore';
 import { useTranslationStore } from '../stores/translationStore';
 import { translations } from './translationsKey';
+import { LanguageStore } from '../../../../wgo-base/language/models/LanguageStore';
+import { TranslationStore } from '../../../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -68,8 +76,8 @@ export default defineComponent({
       goToPath,
       authStore: authStore.authStore,
       router,
-      langStore: langStore.languageStore,
-      transStore: transStore.translationStore,
+      langStore: langStore.languageStore as LanguageStore,
+      transStore: transStore.translationStore as TranslationStore,
       translations,
     };
   },
