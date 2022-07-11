@@ -52,7 +52,7 @@ export class TranslationStore {
   getTranslation(key: string) {
     if (key in this.translations) {
       return this.translationsValue[key] || key;
-    } else if (key.toUpperCase().startsWith("WGO")) {
+    } else if (`${key}`.toUpperCase().startsWith("WGO")) {
       this.loadAllTranslationByKeys([key]);
     }
 

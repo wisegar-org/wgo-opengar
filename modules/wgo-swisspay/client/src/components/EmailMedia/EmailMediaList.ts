@@ -1,7 +1,7 @@
 import { IEmailModel, IEmailMediaModel } from '../../../../src/models/EmailModel';
 import { EmailMediaService } from 'src/services/EmailMedia/EmailMediaService';
 import { useAuthStore } from 'src/stores/authStore';
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, PropType } from 'vue';
 import Table from '../../../../../wgo-base/core/components/Table/Table.vue';
 import { ITableData, ITableRowButton } from '../../../../../wgo-base/core/models/Table';
 import { getEmailMediaListSchema } from './EmailMediaSchema';
@@ -14,9 +14,13 @@ import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { translations as tranBase } from '../../../../../wgo-base/core/models';
 import { translations } from './translations';
+import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'EmailMediaList',
+  props: {
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
+  },
   components: {
     Table,
     EmailDetailsDialog,
@@ -56,7 +60,7 @@ export default defineComponent({
       emailMediaService,
       emailDetails,
       open: false,
-      schema: getEmailMediaListSchema([], rowBtns),
+      schema: getEmailMediaListSchema(this.tranStore, [], rowBtns),
       componentHeight,
       addResize,
       removeResize,

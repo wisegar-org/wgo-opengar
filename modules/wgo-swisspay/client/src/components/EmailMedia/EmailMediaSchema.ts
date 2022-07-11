@@ -1,7 +1,9 @@
+import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
 import { ITableSchema, ITableLeftButton, ITableRowButton } from '../../../../../wgo-base/core/models/Table';
 import { translations } from './translations';
 
 export const getEmailMediaListSchema = (
+  tranStore: TranslationStore,
   leftButtons?: ITableLeftButton[],
   rowButtons?: ITableRowButton[]
 ): ITableSchema => {
@@ -96,6 +98,7 @@ export const getEmailMediaListSchema = (
     description: [],
     title: translations.TITLE,
     leftButtons: leftButtons,
+    translationStore: tranStore,
     searchStrategy: {
       type: 'header',
     },
