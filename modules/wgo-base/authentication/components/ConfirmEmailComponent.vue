@@ -8,7 +8,9 @@
             class="login_icon cursor-pointer"
             size="4.4em"
           />
-          <div class="q-mt-xl q-mb-sm q-mx-sm">Verifying account ...</div>
+          <div class="q-mt-xl q-mb-sm q-mx-sm">
+            {{ getLabel(translations.VERIFYING_ACCOUNT_LB) }}
+          </div>
         </q-card-section>
       </q-card>
     </div>
@@ -17,9 +19,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
 import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
+import { TranslationStore } from "../../translation/models/TranslationStore";
+import { translations } from "../models/translations";
+import { BaseTranslateComponent } from "../../core/components/BaseComponents";
+
 export default defineComponent({
   name: "ConfirmEmailComponent",
   props: {
@@ -27,12 +33,18 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   components: {
     Loader,
   },
   data() {
-    return { showLoading: true };
+    const { getLabel } = new BaseTranslateComponent();
+    return {
+      showLoading: true,
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
+    };
   },
   async mounted() {
     this.showLoading = true;

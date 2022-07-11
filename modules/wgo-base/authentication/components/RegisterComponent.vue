@@ -15,17 +15,16 @@
             />
           </q-item-section>
           <q-item-section top class="self-center">
-            <div class="text-h6 text-left">Register</div>
+            <div class="text-h6 text-left">
+              {{ getLabel(translations.REGISTER_TITLE) }}
+            </div>
           </q-item-section>
           <q-item-section top side class="self-center">
             <q-btn
               class="gt-xs text-white"
               flat
               dense
-              :label="
-                translationsContent.WGO_LOGIN_REGISTER_GO_BACK_LABEL ||
-                'Go Back'
-              "
+              :label="getLabel(tranBase.GO_BACK)"
               @click="goBackClick"
             />
           </q-item-section>
@@ -39,9 +38,7 @@
                 class="q-my-sm q-mx-sm"
                 v-model="user.name"
                 required
-                :label="
-                  translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'Name'
-                "
+                :label="getLabel(translations.COLUMN_NAME)"
               />
             </div>
 
@@ -52,9 +49,7 @@
                 required
                 class="q-my-sm q-mx-sm"
                 v-model="user.lastName"
-                :label="
-                  translationsContent.WGO_USERS_LASTNAME_LABEL || 'Last Name'
-                "
+                :label="getLabel(translations.COLUMN_LAST_NAME)"
               />
             </div>
 
@@ -66,9 +61,7 @@
                 class="q-my-sm q-mx-sm"
                 v-model="user.email"
                 :autofocus="true"
-                :label="
-                  translationsContent.WGO_USERS_COLUMN_EMAIL_LABEL || 'Email'
-                "
+                :label="getLabel(translations.COLUMN_EMAIL)"
               />
             </div>
 
@@ -77,9 +70,7 @@
                 class="q-my-sm q-mx-sm"
                 v-model="user.password"
                 :required="true"
-                :label="
-                  translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'
-                "
+                :label="getLabel(translations.COLUMN_PASSWORD)"
               />
             </div>
 
@@ -88,13 +79,10 @@
                 class="q-my-sm q-mx-sm"
                 v-model="confirmPassword"
                 :required="true"
-                :label="
-                  translationsContent.WGO_USERS_CONFIRM_PASSWORD_LABEL ||
-                  'Confirm Password'
-                "
+                :label="getLabel(translations.COLUMN_CONFIRM_PASSWORD)"
                 @onEnter="registerUser"
                 :isError="user.password !== confirmPassword"
-                error="Passwords need to be equals"
+                :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
               />
             </div>
           </q-card-section>
@@ -105,7 +93,7 @@
               color="primary"
               align="around"
               class="btn_width_fix col-12 col-sm-4"
-              :label="translationsContent.WGO_REGISTER_LABEL || 'Register'"
+              :label="getLabel(translations.REGISTER_LB)"
               type="submit"
             />
           </q-card-actions>
@@ -120,9 +108,13 @@
 import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
 import { IAuthRegisterParams, ISuccesLogin } from "../models";
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import { IUser } from "../../core/models/user";
+import { TranslationStore } from "../../translation/models/TranslationStore";
+import { translations } from "../models/translations";
+import { BaseTranslateComponent } from "../../core/components/BaseComponents";
+import { translations as tranBase } from "../../core/models";
 
 export default defineComponent({
   name: "RegisterComponent",
@@ -130,8 +122,11 @@ export default defineComponent({
     Loader,
     InputSecret,
   },
-  props: {},
+  props: {
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
+  },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       user: {
         userName: "",
@@ -143,7 +138,9 @@ export default defineComponent({
       confirmPassword: "",
       innerLoading: false,
       showLoading: false,
-      translationsContent: {},
+      tranBase,
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {

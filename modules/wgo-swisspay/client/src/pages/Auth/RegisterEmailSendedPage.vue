@@ -1,6 +1,6 @@
 <template>
   <div>
-    <EmailSendedComponent v-if="!!email" :email="email" @onHome="goToHome" />
+    <EmailSendedComponent v-if="!!email" :tranStore="tranStore" :email="email" @onHome="goToHome" />
   </div>
 </template>
 
@@ -10,6 +10,8 @@ import { useRoute, useRouter } from 'vue-router';
 import EmailSendedComponent from '../../../../../wgo-base/authentication/components/EmailSendedComponent.vue';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
 import { Paths } from '../../router/paths';
+import { useTranslationStore } from '../../stores/translationStore';
+import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'RegisterEmailSendedPage',
@@ -22,6 +24,13 @@ export default defineComponent({
     return {
       email: (route.query.email as string) || '',
       routeService: new RouteService(router),
+    };
+  },
+  setup() {
+    const translationStore = useTranslationStore();
+
+    return {
+      tranStore: translationStore.translationStore as TranslationStore,
     };
   },
   methods: {

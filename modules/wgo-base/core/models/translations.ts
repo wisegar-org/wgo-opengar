@@ -1,5 +1,6 @@
 export const translations = {
   EDIT: "WGO_EDIT",
+  CHANGE: "WGO_CHANGE",
   DELETE: "WGO_DELETE",
   ADD: "WGO_ADD",
   CREATE: "WGO_CREATE",
@@ -11,6 +12,8 @@ export const translations = {
   CONTAIN: "WGO_CONTAIN",
   LOGIN: "WGO_LOGIN",
   LOGOUT: "WGO_LOGOUT",
+  HOME: "WGO_HOME",
+  SEND: "WGO_SEND",
   EDIT_PROFILE: "WGO_EDIT_PROFILE",
   COPY_CLIPBOARD_TL: "WGO_COPY_CLIPBOARD_TL",
   EXPORT_CSV_TL: "WGO_EXPORT_CSV_TL",

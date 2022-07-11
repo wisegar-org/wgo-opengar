@@ -15,14 +15,16 @@
             />
           </q-item-section>
           <q-item-section top class="self-center">
-            <div class="text-h6 text-left">Login</div>
+            <div class="text-h6 text-left">
+              {{ getLabel(translations.LOGIN_TITLE) }}
+            </div>
           </q-item-section>
           <q-item-section top side class="self-center">
             <q-btn
               class="gt-xs text-white"
               flat
               dense
-              :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+              :label="getLabel(tranBase.HOME)"
               @click="goToHome"
             />
           </q-item-section>
@@ -36,17 +38,13 @@
               class="q-my-sm"
               v-model="user"
               :autofocus="true"
-              :label="
-                translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'User'
-              "
+              :label="getLabel(translations.USER_LB)"
             />
 
             <InputSecret
               class="q-my-lg"
               v-model="password"
-              :label="
-                translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'
-              "
+              :label="getLabel(translations.PASSWORD_LB)"
               @onEnter="loginUser"
               :hideBtnSpace="true"
               :required="true"
@@ -61,10 +59,7 @@
               color="primary"
               align="around"
               class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="
-                translationsContent.WGO_LOGIN_RESET_PASSWORD_LABEL ||
-                'Reset password'
-              "
+              :label="getLabel(translations.GO_TO_RESET)"
               @click="goToResetPassword"
             />
             <q-btn
@@ -75,9 +70,7 @@
               color="primary"
               align="around"
               class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="
-                translationsContent.WGO_LOGIN_REGISTER_LABEL || 'Register'
-              "
+              :label="getLabel(translations.GO_TO_REGISTER)"
               @click="goToRegisterUser"
             />
             <q-btn
@@ -86,13 +79,13 @@
               color="primary"
               align="around"
               class="btn_width_fix col-12 col-sm-4"
-              :label="translationsContent.WGO_LOGIN_LABEL || 'Login'"
+              :label="getLabel(tranBase.LOGIN)"
               type="submit"
             /> </q-card-actions
         ></q-form>
-        <div class="full-width row justify-center text-grey text-caption">
+        <!-- <div class="full-width row justify-center text-grey text-caption">
           Version: {{ version }} - API Version: {{ apiVersion }}
-        </div>
+        </div> -->
       </q-card>
     </div>
     <Loader :loading="innerLoading || showLoading" />
@@ -103,8 +96,12 @@
 import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
 import { ISuccesLogin } from "../models";
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
+import { TranslationStore } from "../../translation/models/TranslationStore";
+import { translations } from "../models/translations";
+import { BaseTranslateComponent } from "../../core/components/BaseComponents";
+import { translations as tranBase } from "../../core/models";
 
 export default defineComponent({
   name: "LoginComponent",
@@ -119,8 +116,10 @@ export default defineComponent({
     hideReset: {
       type: Boolean,
     },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       user: "",
       password: "",
@@ -129,7 +128,9 @@ export default defineComponent({
       showReset: false,
       version: "0",
       apiVersion: "0",
-      translationsContent: {},
+      tranBase,
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {

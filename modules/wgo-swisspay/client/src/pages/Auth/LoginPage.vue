@@ -1,5 +1,6 @@
 <template>
   <LoginComponent
+    :tranStore="tranStore"
     @onLogin="onLogin"
     @onRegister="goToRegister"
     @onHome="goToHome"
@@ -16,6 +17,8 @@ import { useRouter } from 'vue-router';
 import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 import { useAuthStore } from '../../stores/authStore';
 import { Paths } from '../../router/paths';
+import { useTranslationStore } from '../../stores/translationStore';
+import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'LoginPage',
@@ -33,8 +36,10 @@ export default defineComponent({
   },
   setup() {
     const authStore = useAuthStore();
+    const translationStore = useTranslationStore();
     return {
       authStore: authStore.authStore,
+      tranStore: translationStore.translationStore as TranslationStore,
     };
   },
   methods: {
