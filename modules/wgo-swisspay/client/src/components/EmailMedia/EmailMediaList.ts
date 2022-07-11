@@ -12,6 +12,8 @@ import { RouteService } from '../../../../../wgo-base/core/services/RouteService
 import { EmailMediaPaths } from 'src/router/paths/emailMediaPaths';
 import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
+import { translations as tranBase } from '../../../../../wgo-base/core/models';
+import { translations } from './translations';
 
 export default defineComponent({
   name: 'EmailMediaList',
@@ -35,6 +37,7 @@ export default defineComponent({
       {
         icon: 'email',
         fnAction,
+        tooltip: tranBase.DETAILS,
       },
       {
         icon: 'edit',
@@ -42,6 +45,7 @@ export default defineComponent({
           const path = EmailMediaPaths.emailMediaDetails.path.replace(':mediaId', row.id);
           routeService.goTo(path);
         },
+        tooltip: tranBase.EDIT,
       },
     ];
 
@@ -58,6 +62,7 @@ export default defineComponent({
       removeResize,
       resizeTable,
       routeService,
+      translations,
     };
   },
   methods: {

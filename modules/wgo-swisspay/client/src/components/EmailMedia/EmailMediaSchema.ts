@@ -1,4 +1,6 @@
 import { ITableSchema, ITableLeftButton, ITableRowButton } from '../../../../../wgo-base/core/models/Table';
+import { translations } from './translations';
+
 export const getEmailMediaListSchema = (
   leftButtons?: ITableLeftButton[],
   rowButtons?: ITableRowButton[]
@@ -18,7 +20,7 @@ export const getEmailMediaListSchema = (
     schema: {
       id: {
         name: 'id',
-        label: 'ID',
+        label: translations.COLUMN_ID,
         field: 'id',
         sortable: true,
         visible: false,
@@ -28,7 +30,7 @@ export const getEmailMediaListSchema = (
       },
       name: {
         name: 'name',
-        label: 'Name',
+        label: translations.COLUMN_NAME,
         field: 'name',
         sortable: true,
         visible: true,
@@ -38,7 +40,7 @@ export const getEmailMediaListSchema = (
       },
       senderFrom: {
         name: 'senderFrom',
-        label: 'Sender From',
+        label: translations.COLUMN_SENDER_FORM,
         field: 'senderFrom',
         sortable: true,
         visible: true,
@@ -48,7 +50,7 @@ export const getEmailMediaListSchema = (
       },
       senderTo: {
         name: 'senderTo',
-        label: 'Sender To',
+        label: translations.COLUMN_SENDER_TO,
         field: 'senderTo',
         sortable: true,
         visible: true,
@@ -58,7 +60,7 @@ export const getEmailMediaListSchema = (
       },
       contentType: {
         name: 'contentType',
-        label: 'Content Type',
+        label: translations.COLUMN_CONTENT_TYPE,
         field: 'contentType',
         sortable: true,
         visible: true,
@@ -68,7 +70,7 @@ export const getEmailMediaListSchema = (
       },
       size: {
         name: 'size',
-        label: 'Size',
+        label: translations.COLUMN_SIZE,
         field: 'size',
         sortable: true,
         visible: true,
@@ -92,7 +94,7 @@ export const getEmailMediaListSchema = (
     code: 'id',
     text: ['nome'],
     description: [],
-    title: 'Email media',
+    title: translations.TITLE,
     leftButtons: leftButtons,
     searchStrategy: {
       type: 'header',

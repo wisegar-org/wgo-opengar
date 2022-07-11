@@ -11,10 +11,26 @@
     <div class="fit">
       <q-card-section class="row q-ma-xs q-pa-xs flex">
         <div class="col-12 col-md-6">
-          <q-input square outlined readonly dense class="q-my-sm q-mx-sm" :model-value="email.from" :label="'From'" />
+          <q-input
+            square
+            outlined
+            readonly
+            dense
+            class="q-my-sm q-mx-sm"
+            :model-value="email.from"
+            :label="getLabel(translations.COLUMN_SENDER_FORM)"
+          />
         </div>
         <div class="col-12 col-md-6">
-          <q-input square outlined readonly dense class="q-my-sm q-mx-sm" :model-value="email.to" :label="'To'" />
+          <q-input
+            square
+            outlined
+            readonly
+            dense
+            class="q-my-sm q-mx-sm"
+            :model-value="email.to"
+            :label="getLabel(translations.COLUMN_SENDER_TO)"
+          />
         </div>
         <div class="col-12 col-md-6">
           <q-input
@@ -25,11 +41,19 @@
             class="q-my-sm q-mx-sm"
             :model-value="email.subject"
             :autofocus="true"
-            :label="'Subject'"
+            :label="getLabel(translations.COLUMN_SUBJECT)"
           />
         </div>
         <div class="col-12 col-md-6">
-          <q-input square outlined readonly dense class="q-my-sm q-mx-sm" :model-value="date" :label="'Date'" />
+          <q-input
+            square
+            outlined
+            readonly
+            dense
+            class="q-my-sm q-mx-sm"
+            :model-value="date"
+            :label="getLabel(translations.COLUMN_DATE)"
+          />
         </div>
         <div class="col-12">
           <q-input
@@ -41,12 +65,12 @@
             class="q-my-sm q-mx-sm"
             :model-value="email.text"
             :autofocus="true"
-            :label="'Body'"
+            :label="getLabel(translations.COLUMN_BODY)"
           />
         </div>
         <div class="col-12">
           <q-list bordered class="q-ma-sm text-left">
-            <q-item-label header>Attachments</q-item-label>
+            <q-item-label header>{{ getLabel(translations.COLUMN_ATTACHMENTS) }}</q-item-label>
             <q-item v-for="(attch, index) in email.attachments || []" :key="`email_details_${index}_${attch.id}`">
               <q-item-section avatar>
                 <q-icon color="primary" name="attach_email" />
@@ -59,7 +83,15 @@
       <q-card-actions align="center" vertical class="row q-ma-xs q-pa-xs">
         <div class="row col-12 justify-around fit">
           <div class="col-12 col-sm-4 q-pt-xs">
-            <q-btn unelevated dense color="primary" align="around" class="btn_width_fix" @click="close" label="Close" />
+            <q-btn
+              unelevated
+              dense
+              color="primary"
+              align="around"
+              class="btn_width_fix"
+              @click="close"
+              :label="getLabel(tranBase.CLOSE)"
+            />
           </div>
         </div>
       </q-card-actions>

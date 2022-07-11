@@ -2,6 +2,11 @@ import { IEmailModel } from '../../../../../src/models/EmailModel';
 import { defineComponent, PropType } from 'vue';
 import Dialog from '../../../../../../wgo-base/core/components/Dialog/Dialog.vue';
 import { UtilService } from '../../../../../../wgo-base/core/services/UtilService';
+import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
+import { useTranslationStore } from 'src/stores/translationStore';
+import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
+import { translations } from '../translations';
+import { translations as tranBase } from '../../../../../../wgo-base/core/models';
 
 export default defineComponent({
   name: 'EmailDetailsDialog',
@@ -15,8 +20,14 @@ export default defineComponent({
       required: true,
     },
   },
-  data() {
-    return {};
+  setup() {
+    const tranStore = useTranslationStore();
+    const { getLabel } = new BaseTranslateComponent();
+    return {
+      translations,
+      tranBase,
+      getLabel: (name: string) => getLabel(tranStore.translationStore as TranslationStore, name),
+    };
   },
   methods: {
     close() {

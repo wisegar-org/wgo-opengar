@@ -5,6 +5,11 @@ import EmailDetailsEmailTab from './EmailDetailsEmailTab.vue';
 import { useRouter } from 'vue-router';
 import { RouteService } from '../../../../../../wgo-base/core/services/RouteService';
 import { EmailMediaPaths } from '../../../router/paths/emailMediaPaths';
+import { translations } from '../translations';
+import { translations as tranBase } from '../../../../../../wgo-base/core/models';
+import { useTranslationStore } from 'src/stores/translationStore';
+import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
+import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'EmailDetails',
@@ -25,11 +30,11 @@ export default defineComponent({
   data() {
     const emailMediaTab = {
       name: 'email_media',
-      label: 'Email Media',
+      label: translations.TAB_EMAIL_MEDIA_TITLE,
     };
     const emailTab = {
       name: 'email',
-      label: 'Email',
+      label: translations.TAB_EMAIL_TITLE,
     };
     const selectedTab = emailMediaTab.name;
     const router = useRouter();
@@ -42,6 +47,17 @@ export default defineComponent({
       emailTab,
       selectedTab,
       goBack,
+      translations,
+      tranBase,
+    };
+  },
+  setup() {
+    const tranStore = useTranslationStore();
+    const { getLabel } = new BaseTranslateComponent();
+
+    return {
+      tranStore,
+      getLabel: (name: string) => getLabel(tranStore.translationStore as TranslationStore, name),
     };
   },
 });
