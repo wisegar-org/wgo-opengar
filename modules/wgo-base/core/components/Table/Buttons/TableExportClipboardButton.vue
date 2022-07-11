@@ -74,7 +74,7 @@ export default defineComponent({
         return this.schema.translationStore.getTranslation(name);
       }
 
-      return name;
+      return "Copy content to clipboard";
     },
   },
 });

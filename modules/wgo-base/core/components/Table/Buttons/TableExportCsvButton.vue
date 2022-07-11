@@ -71,7 +71,7 @@ export default defineComponent({
         return this.schema.translationStore.getTranslation(name);
       }
 
-      return name;
+      return "Export to CSV";
     },
   },
 });
