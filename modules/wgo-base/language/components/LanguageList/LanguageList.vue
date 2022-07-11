@@ -2,7 +2,7 @@
   <div>
     <div ref="placeholder" style="height: 1px"></div>
     <Table
-      title="Languages"
+      :title="translations.TITLE"
       :data="langStore.allLangs"
       :schema="schema"
       :height="componentHeight"
@@ -11,9 +11,9 @@
       :language="selectedLang"
       :open="open"
       :langStore="langStore"
+      :tranStore="tranStore"
       @close="closeDetails"
-      @create="onCreate"
-      @edit="onEdit"
+      @success="onSuccess"
     />
   </div>
 </template>
@@ -27,6 +27,9 @@ import { BaseResizeComponent } from "../../../core/components/BaseComponents";
 import { ITableLeftButton, ITableRowButton } from "../../../core/models/Table";
 import { ILanguageModel } from "../../models";
 import LanguageDialog from "./LanguageDialog.vue";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
+import { translations } from "../../models/translations";
+import { translations as tranBase } from "../../../core/models";
 
 export default defineComponent({
   name: "LanguageList",
@@ -36,6 +39,7 @@ export default defineComponent({
   },
   props: {
     langStore: { type: Object as PropType<LanguageStore>, required: true },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   data() {
     const resizeComponent = new BaseResizeComponent();
@@ -50,6 +54,7 @@ export default defineComponent({
       {
         icon: "edit",
         fnAction,
+        tooltip: tranBase.EDIT,
       },
     ];
     const leftBtns: ITableLeftButton[] = [
@@ -57,6 +62,7 @@ export default defineComponent({
         label: "",
         icon: "add",
         color: "primary",
+        tooltip: tranBase.ADD,
         fnAction: () => fnAction({ code: "", enabled: false, default: false }),
       },
     ];
@@ -67,7 +73,8 @@ export default defineComponent({
       addResize,
       removeResize,
       resizeTable,
-      schema: getLanguageListSchema(leftBtns, rowBtns),
+      schema: getLanguageListSchema(this.tranStore, leftBtns, rowBtns),
+      translations,
     };
   },
   methods: {
@@ -84,11 +91,8 @@ export default defineComponent({
     onResize() {
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
-    onCreate() {
-      this.$emit("create");
-    },
-    onEdit() {
-      this.$emit("edit");
+    onSuccess(msg: string) {
+      this.$emit("success", msg);
     },
   },
   async created() {
@@ -100,6 +104,6 @@ export default defineComponent({
   async unmounted() {
     this.removeResize(this.onResize);
   },
-  emits: ["create", "edit"],
+  emits: ["success"],
 });
 </script>

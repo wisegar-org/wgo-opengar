@@ -1,12 +1,15 @@
 <template>
-  <LanguageList :langStore="langStore" @create="onCreate" @edit="onEdit" />
+  <LanguageList :langStore="langStore" :tranStore="tranStore" @success="onSuccess" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import LanguageList from '../../../../../../wgo-base/language/components/LanguageList/LanguageList.vue';
+import { LanguageStore } from '../../../../../../wgo-base/language/models/LanguageStore';
+import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
 import { useLanguageStore } from '../../../stores/languageStore';
 import { useNotifyStore } from '../../../stores/notifyStore';
+import { useTranslationStore } from '../../../stores/translationStore';
 
 export default defineComponent({
   name: 'LanguagePage',
@@ -15,25 +18,20 @@ export default defineComponent({
   },
   setup() {
     const languageStore = useLanguageStore();
+    const translationStore = useTranslationStore();
     const notifyStore = useNotifyStore();
     return {
-      langStore: languageStore.languageStore,
+      langStore: languageStore.languageStore as LanguageStore,
+      tranStore: translationStore.translationStore as TranslationStore,
       notifyStore,
     };
   },
   methods: {
-    onCreate() {
+    onSuccess(msg: string) {
       this.notifyStore.setNotify({
         position: 'top',
         type: 'positive',
-        message: 'Language created successfuly',
-      });
-    },
-    onEdit() {
-      this.notifyStore.setNotify({
-        position: 'top',
-        type: 'positive',
-        message: 'Language edited successfuly',
+        message: msg || '',
       });
     },
   },
