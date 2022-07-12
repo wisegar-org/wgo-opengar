@@ -85,4 +85,5 @@ export interface ITableSchema {
   exportTitle?: string;
   rowsPerPage?: number;
   rowClass?: (row: any) => string | undefined;
+  rowDblClick?: (row: any) => unknown;
 }

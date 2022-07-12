@@ -116,6 +116,8 @@ export default defineComponent({
       },
     ];
     const { getLabel } = new BaseTranslateComponent();
+    const schema = getTranslationListSchema(this.tranStore, leftBtns, rowBtns);
+    schema.rowDblClick = fnAction;
     return {
       loading: false,
       selectedTranslation: {} as ITranslationModel,
@@ -124,7 +126,7 @@ export default defineComponent({
       addResize,
       removeResize,
       resizeTable,
-      schema: getTranslationListSchema(this.tranStore, leftBtns, rowBtns),
+      schema: schema,
       translations: translations,
       id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
       getLabel: (name: string) => getLabel(this.tranStore, name),

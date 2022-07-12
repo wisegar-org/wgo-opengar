@@ -86,6 +86,7 @@
           :schema="mySchema"
           :props="props"
           @rowSelect="onRowSelect"
+          @dbclick="onDblClick"
         />
       </template>
     </q-table>
@@ -179,6 +180,9 @@ export default defineComponent({
     },
     onRowSelect(row: any) {
       this.$emit("rowSelect", row);
+    },
+    onDblClick(row: any) {
+      if (this.mySchema.rowDblClick) this.mySchema.rowDblClick(row);
     },
     onClenaFilter(colName: string) {
       this.filters[colName] = "";

@@ -1,5 +1,5 @@
 <template>
-  <q-td :props="props" :class="cellClass">
+  <q-td :props="props" :class="cellClass" @dblclick="onDblClick">
     <TableAvatarColumn
       v-if="props.col.type === 'avatar'"
       :props="props"
@@ -101,7 +101,10 @@ export default defineComponent({
       row.select = value;
       this.$emit("rowSelect", row);
     },
+    onDblClick() {
+      this.$emit("dbclick", this.props.row);
+    },
   },
-  emits: ["rowSelect"],
+  emits: ["rowSelect", "dbclick"],
 });
 </script>
