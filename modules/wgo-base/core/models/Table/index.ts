@@ -75,6 +75,9 @@ export interface ITableSchema {
   title: string;
   disableFullscreen?: boolean;
   disableSelectColumns?: boolean;
+  disableExportCsv?: boolean;
+  disableExportExcel?: boolean;
+  disableCopyClipboard?: boolean;
   leftButtons?: ITableLeftButton[];
   searchStrategy?: ITableSearchStrategy;
   leadingZeros?: number;

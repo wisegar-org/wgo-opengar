@@ -1,5 +1,6 @@
 <template>
   <q-btn
+    v-if="!schema.disableExportExcel"
     flat
     round
     color="primary"

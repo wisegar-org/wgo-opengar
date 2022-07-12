@@ -1,5 +1,6 @@
 <template>
   <q-btn
+    v-if="!schema.disableCopyClipboard"
     flat
     round
     color="primary"
