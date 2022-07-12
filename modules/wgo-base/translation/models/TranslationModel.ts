@@ -8,6 +8,7 @@ import {
   ITransaltionsType,
   ITranslationModel,
 } from ".";
+import { UtilService } from "../../core/services/UtilService";
 
 export class TranslationModel {
   private dataSoure: DataSource;
@@ -113,6 +114,70 @@ export class TranslationModel {
     });
 
     return translations;
+  }
+
+  async inportTranslations(buffer: any) {
+    const languageService = new LanguageModel(this.dataSoure);
+    const { createReadStream } = buffer;
+    const stream: any = createReadStream();
+    const fileContent = await UtilService.readStreamData(stream);
+
+    let doc = Buffer.from(fileContent as any, "base64").toString();
+    const format = " __*__,";
+
+    const langs: ILanguageModel[] = await languageService.getAllLanguage();
+    const langByCodes: { [key: string]: ILanguageModel } = {};
+    langs.forEach((lang) => {
+      langByCodes[lang.code] = lang;
+    });
+
+    Object.keys(langByCodes).forEach((lang) => {
+      doc = doc.split(`\n${lang}`).join(`${format}${lang}`);
+    });
+
+    const translations = doc.split(format).slice(1);
+    for (const str of translations) {
+      const trans = str.split(",");
+      const lang = langByCodes[trans[0]];
+      if (trans[1] !== trans[2] && !!lang) {
+        await this.setTranslation(lang.id, trans[1], trans[2]);
+      }
+    }
+
+    return true;
+  }
+
+  async exportTranslations(langIds: number[]) {
+    const searchTranslationskeys: { [key: string]: boolean } = {};
+    const translationsFile: { [key: number]: ITransaltionsType } = {};
+    const languageService = new LanguageModel(this.dataSoure);
+    const langs: ILanguageModel[] = await languageService.getAllLanguage();
+    const validLanguages = langs.filter(
+      (lang) => langIds.length === 0 || langIds.indexOf(lang.id) !== -1
+    );
+    for (const language of validLanguages) {
+      translationsFile[language.id] = {};
+      await this.getKeysByFilterInDB(
+        language.id,
+        "",
+        searchTranslationskeys,
+        translationsFile[language.id]
+      );
+    }
+
+    const translationsKeys = Object.keys(searchTranslationskeys);
+    const keys = translationsKeys.sort();
+
+    let result: string = '" Language "," Key "," Value ",\n';
+    Object.values(validLanguages).forEach((lang) => {
+      keys.forEach((key) => {
+        result += `${lang.code},${key},${
+          translationsFile[lang.id][key] || key
+        },\n`;
+      });
+    });
+
+    return Buffer.from(result).toString("base64");
   }
 
   private async getKeysByFilterInDB(

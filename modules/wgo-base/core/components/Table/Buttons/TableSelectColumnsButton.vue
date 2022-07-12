@@ -58,7 +58,7 @@ export default defineComponent({
         return this.schema.translationStore.getTranslation(name);
       }
 
-      return name;
+      return "Select columns";
     },
   },
   emits: ["changeColumnSelected"],

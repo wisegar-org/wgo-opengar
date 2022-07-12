@@ -12,22 +12,26 @@
             />
           </q-item-section>
           <q-item-section top class="self-center">
-            <div class="text-h6 text-left">Email sended</div>
+            <div class="text-h6 text-left">
+              {{ getLabel(translations.EMAIL_SENDED_TITLE) }}
+            </div>
           </q-item-section>
           <q-item-section top side class="self-center">
             <q-btn
               class="gt-xs text-white"
               flat
               dense
-              :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+              :label="getLabel(tranBase.HOME)"
               @click="goToHome"
             />
           </q-item-section>
         </q-item>
         <q-card-section class="q-ma-sm q-pt-md">
-          <div class="q-ma-md">Email sended to: {{ email }}</div>
+          <div class="q-ma-md">
+            {{ getLabel(translations.SENDED_TO_LB) }} {{ email }}
+          </div>
           <div class="q-my-sm q-mx-sm">
-            Plase, check you email to verify the account
+            {{ getLabel(translations.CHECK_EMAIL_MSG) }}
           </div>
         </q-card-section>
         <q-card-actions align="center" vertical class="row q-pa-sm">
@@ -39,7 +43,7 @@
             color="primary"
             align="around"
             class="btn_width_fix q-mb-md col-12 col-sm-4"
-            :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+            :label="getLabel(tranBase.HOME)"
             @click="goToHome"
           />
         </q-card-actions>
@@ -49,7 +53,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
+import { TranslationStore } from "../../translation/models/TranslationStore";
+import { translations } from "../models/translations";
+import { BaseTranslateComponent } from "../../core/components/BaseComponents";
+import { translations as tranBase } from "../../core/models";
 
 export default defineComponent({
   name: "EmailSendedComponent",
@@ -58,10 +66,14 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
-      translationsContent: {},
+      tranBase,
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {

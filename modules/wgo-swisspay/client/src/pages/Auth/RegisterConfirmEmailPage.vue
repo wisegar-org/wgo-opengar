@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ConfirmEmailComponent v-if="!!token" :token="token" @onConfirm="onEmailConfirm" />
+    <ConfirmEmailComponent v-if="!!token" :tranStore="tranStore" :token="token" @onConfirm="onEmailConfirm" />
   </div>
 </template>
 
@@ -11,6 +11,9 @@ import { IUser } from '../../../../../wgo-base/core/models';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
 import ConfirmEmailComponent from '../../../../../wgo-base/authentication/components/ConfirmEmailComponent.vue';
 import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { useTranslationStore } from '../../stores/translationStore';
+import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
+
 export default defineComponent({
   name: 'RegisterConfirmEmailPage',
   components: { ConfirmEmailComponent },
@@ -20,6 +23,13 @@ export default defineComponent({
     return {
       routeService: new RouteService(router),
       token: (route.query.token as string) || '',
+    };
+  },
+  setup() {
+    const translationStore = useTranslationStore();
+
+    return {
+      tranStore: translationStore.translationStore as TranslationStore,
     };
   },
   methods: {

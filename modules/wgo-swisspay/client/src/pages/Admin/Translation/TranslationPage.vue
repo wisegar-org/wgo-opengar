@@ -1,5 +1,5 @@
 <template>
-  <TranslationList :tranStore="translationStore" :langStore="languageStore" @onSet="onSet" />
+  <TranslationList :tranStore="translationStore" :langStore="languageStore" @success="success" />
 </template>
 
 <script lang="ts">
@@ -11,8 +11,6 @@ import TranslationList from '../../../../../../wgo-base/translation/components/T
 import { useLanguageStore } from '../../../stores/languageStore';
 import { LanguageStore } from '../../../../../../wgo-base/language/models/LanguageStore';
 import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
-import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
-import { translations } from '../../../../../../wgo-base/translation/models/translations';
 
 export default defineComponent({
   name: 'TranslationPage',
@@ -24,20 +22,18 @@ export default defineComponent({
     const translationStore = useTranslationStore();
     const languageStore = useLanguageStore();
     const notifyStore = useNotifyStore();
-    const { getLabel } = new BaseTranslateComponent();
     return {
       translationStore: translationStore.translationStore as TranslationStore,
       languageStore: languageStore.languageStore as LanguageStore,
       notifyStore,
-      getLabel: (name: string) => getLabel(translationStore.translationStore as TranslationStore, name),
     };
   },
   methods: {
-    onSet() {
+    success(msg: string) {
       this.notifyStore.setNotify({
         position: 'top',
         type: 'positive',
-        message: this.getLabel(translations.SET_SUCCESS),
+        message: msg,
       });
     },
   },

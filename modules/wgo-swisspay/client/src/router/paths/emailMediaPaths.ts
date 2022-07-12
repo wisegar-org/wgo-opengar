@@ -1,16 +1,17 @@
 import { RouteLocationRaw, RouteParamsRaw, RouteRecordRaw } from 'vue-router';
 import { Paths } from '../paths';
 import { IRouteObject } from '../../../../../wgo-base/core/models';
+import { translations } from '../../components/EmailMedia/translations';
 
 export const EmailMediaPaths: IRouteObject = {
   emailMedia: {
     path: '/emailMedia',
-    label: 'Email Media',
+    label: translations.TITLE,
     name: 'email_media',
   },
   emailMediaDetails: {
     path: '/emailMedia/:mediaId',
-    label: 'Email Media Details',
+    label: translations.DETAILS_TITLE,
     name: 'email_media_details',
   },
 };

@@ -13,14 +13,16 @@
               />
             </q-item-section>
             <q-item-section top class="self-center">
-              <div class="text-h6 text-left">Reset Password</div>
+              <div class="text-h6 text-left">
+                {{ getLabel(translations.RESET_PASSWORD_TITLE) }}
+              </div>
             </q-item-section>
             <q-item-section top side class="self-center">
               <q-btn
                 class="gt-xs text-white"
                 flat
                 dense
-                :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+                :label="getLabel(tranBase.HOME)"
                 @click="goToHome"
               />
             </q-item-section>
@@ -33,9 +35,7 @@
               v-model="email"
               required
               :autofocus="true"
-              :label="
-                translationsContent.WGO_USERS_COLUMN_EMAIL_LABEL || 'Email'
-              "
+              :label="getLabel(translations.COLUMN_EMAIL)"
               @keydown.enter.prevent="onReset"
             />
           </q-card-section>
@@ -46,9 +46,7 @@
               color="primary"
               align="around"
               class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="
-                translationsContent.WGO_LOGIN_RESET_PASSWORD_LABEL || 'Reset'
-              "
+              :label="getLabel(translations.RESET_LB)"
               type="submit"
             />
           </q-card-actions>
@@ -60,24 +58,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
 import { AuthService } from "../services/AuthService";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import Loader from "../../core/components/Loader/Loader.vue";
+import { TranslationStore } from "../../translation/models/TranslationStore";
+import { translations } from "../models/translations";
+import { BaseTranslateComponent } from "../../core/components/BaseComponents";
+import { translations as tranBase } from "../../core/models";
 
 export default defineComponent({
   name: "ResetPasswordComponent",
+  props: {
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
+  },
   components: {
     Loader,
     InputSecret,
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       email: "",
       password: "",
       confirmPassword: "",
-      translationsContent: {},
       showLoading: false,
+      tranBase,
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {

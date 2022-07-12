@@ -4,11 +4,19 @@ import { PostgresDataSource } from '../../../dataSources';
 import { TranslationResponse } from './TranslationResponses';
 import { TranslationModel } from '../../../../wgo-base/translation/models/TranslationModel';
 import {
+  TRANSLATION_PATH_EXPORT_TRANSLATION,
   TRANSLATION_PATH_GET_ALL_BY_KEYS,
   TRANSLATION_PATH_GET_ALL_TRANSLATION,
+  TRANSLATION_PATH_IMPORT_TRANSLATION,
   TRANSLATION_PATH_SET_TRANSLATION,
 } from '../../../../wgo-base/translation/router/server';
-import { GetAllTranslationInput, GetTranslationByKeysInput, SetTranslationInput } from './TranslationInputs';
+import {
+  ExportTranslationInput,
+  GetAllTranslationInput,
+  GetTranslationByKeysInput,
+  ImportTranslationsInput,
+  SetTranslationInput,
+} from './TranslationInputs';
 
 @Resolver()
 export class TranslationResolver {
@@ -58,5 +66,20 @@ export class TranslationResolver {
     }
 
     return [];
+  }
+
+  @Query(() => String, { name: TRANSLATION_PATH_EXPORT_TRANSLATION })
+  async exportTranslations(@Arg('data') data: ExportTranslationInput) {
+    const translationModel = new TranslationModel(this.dataSource);
+    const result = await translationModel.exportTranslations(data.languagesId || []);
+    return result;
+  }
+
+  @Mutation(() => Boolean, { name: TRANSLATION_PATH_IMPORT_TRANSLATION })
+  async importTranslations(@Arg('data') data: ImportTranslationsInput) {
+    const translationModel = new TranslationModel(this.dataSource);
+    const file = await data.file;
+    const result = await translationModel.inportTranslations(file);
+    return result;
   }
 }

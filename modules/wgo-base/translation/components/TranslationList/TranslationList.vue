@@ -7,6 +7,17 @@
       :schema="schema"
       :height="componentHeight"
     />
+    <q-file
+      @input="
+        (val) => {
+          importTranslations(val);
+        }
+      "
+      accept=".csv"
+      :multiple="false"
+      :ref="id_input"
+      style="display: none"
+    />
     <TranslationDialog
       :translation="selectedTranslation"
       :open="open"
@@ -15,6 +26,7 @@
       @close="closeDetails"
       @onSet="onSet"
     />
+    <Loader :loading="loading" />
   </div>
 </template>
 
@@ -23,19 +35,25 @@ import { defineComponent, PropType } from "@vue/composition-api";
 import { TranslationStore } from "../../models/TranslationStore";
 import Table from "../../../core/components/Table/Table.vue";
 import { getTranslationListSchema } from "./TranslationListSchema";
-import { BaseResizeComponent } from "../../../core/components/BaseComponents";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "../../../core/components/BaseComponents";
 import { ITableLeftButton, ITableRowButton } from "../../../core/models/Table";
 import { ITranslationModel } from "../../models";
 import TranslationDialog from "./TranslationDialog.vue";
 import { LanguageStore } from "../../../language/models/LanguageStore";
 import { translations } from "../../models/translations";
 import { translations as transBase } from "../../../core/models";
+import { saveAs } from "file-saver";
+import Loader from "../../../core/components/Loader/Loader.vue";
 
 export default defineComponent({
   name: "TranslationList",
   components: {
     Table,
     TranslationDialog,
+    Loader,
   },
   props: {
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
@@ -57,6 +75,18 @@ export default defineComponent({
         fnAction,
       },
     ];
+    const exportTranslations = async () => {
+      const result = await this.tranStore.exportTranslations({
+        languagesId: [this.langStore.selectedLang.id],
+      });
+      if (result) {
+        const fileUrl = `data:${"text/plain"};base64,${result || ""}`;
+        saveAs(fileUrl, "translations.csv");
+      }
+    };
+    const importTranslations = () => {
+      (this.$refs[this.id_input] as any).pickFiles();
+    };
     const leftBtns: ITableLeftButton[] = [
       {
         label: "",
@@ -70,16 +100,36 @@ export default defineComponent({
             languageId: this.langStore.selectedLang.id,
           }),
       },
+      {
+        label: "",
+        icon: "cloud_upload",
+        color: "primary",
+        tooltip: transBase.IMPORT,
+        fnAction: importTranslations,
+      },
+      {
+        label: "",
+        icon: "cloud_download",
+        color: "primary",
+        tooltip: transBase.EXPORT,
+        fnAction: exportTranslations,
+      },
     ];
+    const { getLabel } = new BaseTranslateComponent();
+    const schema = getTranslationListSchema(this.tranStore, leftBtns, rowBtns);
+    schema.rowDblClick = fnAction;
     return {
+      loading: false,
       selectedTranslation: {} as ITranslationModel,
       open: false,
       componentHeight,
       addResize,
       removeResize,
       resizeTable,
-      schema: getTranslationListSchema(this.tranStore, leftBtns, rowBtns),
+      schema: schema,
       translations: translations,
+      id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {
@@ -97,7 +147,17 @@ export default defineComponent({
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
     onSet() {
-      this.$emit("onSet");
+      this.$emit("success", this.getLabel(this.translations.SET_SUCCESS));
+    },
+    async importTranslations(file: any) {
+      const formData = {
+        file: file.target.files[0],
+      };
+      this.loading = true;
+      const result = await this.tranStore.importTranslations(formData);
+      this.loading = false;
+      if (result)
+        this.$emit("success", this.getLabel(this.translations.IMPORT_SUCCESS));
     },
   },
   async created() {
@@ -109,6 +169,6 @@ export default defineComponent({
   async unmounted() {
     this.removeResize(this.onResize);
   },
-  emits: ["onSet"],
+  emits: ["success"],
 });
 </script>

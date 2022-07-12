@@ -13,14 +13,16 @@
               />
             </q-item-section>
             <q-item-section top class="self-center">
-              <div class="text-h6 text-left">Change password</div>
+              <div class="text-h6 text-left">
+                {{ getLabel(translations.CHANGE_PASSWORD_TITLE) }}
+              </div>
             </q-item-section>
             <q-item-section top side class="self-center">
               <q-btn
                 class="gt-xs text-white"
                 flat
                 dense
-                :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+                :label="getLabel(tranBase.HOME)"
                 @click="goToHome"
               />
             </q-item-section>
@@ -30,24 +32,19 @@
               class="q-my-md q-mx-sm"
               v-model="password"
               :required="true"
-              :label="
-                translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'
-              "
-              error="Passwords need to be equals"
+              :label="getLabel(translations.PASSWORD_LB)"
+              :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
               :hideBtnSpace="true"
             />
             <InputSecret
               class="q-my-lg q-mx-sm"
               v-model="confirmPassword"
               :required="true"
-              :label="
-                translationsContent.WGO_USERS_CONFIRM_PASSWORD_LABEL ||
-                'Confirm Password'
-              "
+              :label="getLabel(translations.CONFIRM_PASSWORD_LB)"
               @onEnter="onReset"
               :isError="password !== confirmPassword"
               :hideBtnSpace="true"
-              error="Passwords need to be equals"
+              :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
             />
           </q-card-section>
           <q-card-actions align="center" vertical class="row q-pa-sm">
@@ -57,9 +54,7 @@
               color="primary"
               align="around"
               class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="
-                translationsContent.WGO_LOGIN_CHANGE_PASSWORD_LABEL || 'Change'
-              "
+              :label="getLabel(tranBase.CHANGE)"
               type="submit"
             />
           </q-card-actions>
@@ -71,10 +66,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
 import { AuthService } from "../services/AuthService";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import Loader from "../../core/components/Loader/Loader.vue";
+import { TranslationStore } from "../../translation/models/TranslationStore";
+import { translations } from "../models/translations";
+import { BaseTranslateComponent } from "../../core/components/BaseComponents";
+import { translations as tranBase } from "../../core/models";
 
 export default defineComponent({
   name: "ResetPasswordComponent",
@@ -83,17 +82,22 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   components: {
     Loader,
     InputSecret,
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       password: "",
       confirmPassword: "",
       translationsContent: {},
       showLoading: false,
+      tranBase,
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {

@@ -1,5 +1,6 @@
 <template>
   <q-btn
+    v-if="!schema.disableCopyClipboard"
     flat
     round
     color="primary"
@@ -74,7 +75,7 @@ export default defineComponent({
         return this.schema.translationStore.getTranslation(name);
       }
 
-      return name;
+      return "Copy content to clipboard";
     },
   },
 });

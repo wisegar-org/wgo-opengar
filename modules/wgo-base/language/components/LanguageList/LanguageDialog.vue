@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="language"
-    title="Language"
+    :title="getLabel(translations.TITLE_DIALOG)"
     :persistent="true"
     :showClose="true"
     maxWidth="900px"
@@ -18,23 +18,21 @@
               class="q-my-sm q-mx-sm"
               v-model="lang.code"
               required
-              :label="
-                translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'Code'
-              "
+              :label="getLabel(translations.COLUMN_CODE)"
             />
           </div>
           <div class="col-12 col-md-6">
             <q-checkbox
               class="fit"
               v-model="lang.enabled"
-              :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Enabled'"
+              :label="getLabel(translations.COLUMN_ENABLED)"
             />
           </div>
           <div class="col-12 col-md-6">
             <q-checkbox
               class="fit"
               v-model="lang.default"
-              :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Default'"
+              :label="getLabel(translations.COLUMN_DEFAULT)"
             />
           </div>
         </q-card-section>
@@ -45,7 +43,7 @@
             color="primary"
             align="around"
             class="btn_width_fix col-12 col-sm-4"
-            :label="translationsContent.WGO_REGISTER_LABEL || 'Save'"
+            :label="getLabel(tranBase.SAVE)"
             type="submit"
           />
         </q-card-actions>
@@ -59,6 +57,10 @@ import { defineComponent, PropType } from "@vue/composition-api";
 import { ILanguageModel } from "../../models";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { LanguageStore } from "../../models/LanguageStore";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
+import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
+import { translations } from "../../models/translations";
+import { translations as tranBase } from "../../../core/models";
 
 export default defineComponent({
   name: "LanguageDialog",
@@ -69,14 +71,18 @@ export default defineComponent({
       default: {} as ILanguageModel,
     },
     langStore: { type: Object as PropType<LanguageStore>, required: true },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   components: {
     Dialog,
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       lang: {} as ILanguageModel,
-      translationsContent: {},
+      getLabel: (name: string) => getLabel(this.tranStore, name),
+      translations,
+      tranBase,
     };
   },
   methods: {
@@ -91,7 +97,12 @@ export default defineComponent({
         ? await this.langStore.editLanguage({ ...input, id: this.lang.id })
         : await this.langStore.addLanguage(input);
       if (result) {
-        this.$emit(edit ? "edit" : "create");
+        this.$emit(
+          "success",
+          edit
+            ? this.getLabel(this.translations.EDIT_SUCCESS)
+            : this.getLabel(this.translations.ADD_SUCCESS)
+        );
         this.close();
       }
     },
@@ -99,7 +110,7 @@ export default defineComponent({
       this.$emit("close");
     },
   },
-  emits: ["close", "create", "edit"],
+  emits: ["close", "success"],
   watch: {
     language() {
       this.lang = { ...this.language };

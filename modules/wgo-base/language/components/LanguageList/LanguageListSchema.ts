@@ -3,8 +3,12 @@ import {
   ITableLeftButton,
   ITableRowButton,
 } from "../../../core/models/Table";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { ILanguageModel } from "../../models";
+import { translations } from "../../models/translations";
+
 export const getLanguageListSchema = (
+  tranStore: TranslationStore,
   leftButtons?: ITableLeftButton[],
   rowButtons?: ITableRowButton[]
 ): ITableSchema => {
@@ -16,7 +20,7 @@ export const getLanguageListSchema = (
     schema: {
       id: {
         name: "id",
-        label: "ID",
+        label: translations.COLUMN_ID,
         field: "id",
         sortable: true,
         visible: false,
@@ -26,7 +30,7 @@ export const getLanguageListSchema = (
       },
       code: {
         name: "code",
-        label: "Code",
+        label: translations.COLUMN_CODE,
         field: "code",
         sortable: true,
         visible: true,
@@ -36,7 +40,7 @@ export const getLanguageListSchema = (
       },
       enabled: {
         name: "enabled",
-        label: "Enabled",
+        label: translations.COLUMN_ENABLED,
         field: (row: ILanguageModel) =>
           row.enabled ? "check_box" : "check_box_outline_blank",
         sortable: true,
@@ -52,7 +56,7 @@ export const getLanguageListSchema = (
       },
       default: {
         name: "default",
-        label: "Default",
+        label: translations.COLUMN_DEFAULT,
         field: (row: ILanguageModel) =>
           row.default ? "check_box" : "check_box_outline_blank",
         sortable: true,
@@ -82,8 +86,9 @@ export const getLanguageListSchema = (
     code: "id",
     text: ["nome"],
     description: [],
-    title: "Email media",
+    title: translations.TITLE,
     leftButtons: leftButtons,
+    translationStore: tranStore,
     searchStrategy: {
       type: "header",
     },

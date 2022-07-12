@@ -75,6 +75,9 @@ export interface ITableSchema {
   title: string;
   disableFullscreen?: boolean;
   disableSelectColumns?: boolean;
+  disableExportCsv?: boolean;
+  disableExportExcel?: boolean;
+  disableCopyClipboard?: boolean;
   leftButtons?: ITableLeftButton[];
   searchStrategy?: ITableSearchStrategy;
   leadingZeros?: number;
@@ -82,4 +85,5 @@ export interface ITableSchema {
   exportTitle?: string;
   rowsPerPage?: number;
   rowClass?: (row: any) => string | undefined;
+  rowDblClick?: (row: any) => unknown;
 }

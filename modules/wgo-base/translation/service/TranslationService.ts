@@ -3,14 +3,19 @@ import {
   Q_TRANSLATION_GETALL,
   Q_TRANSLATION_GETALLBYKEYS,
   M_TRANSLATION_SETTRANSLATION,
+  Q_TRANSLATION_EXPORT_TRANSLATIONS,
+  M_TRANSLATION_INPORT_TRANSLATIONS,
 } from "./TranslationServiceQueries";
 import "../models";
 import {
   TRANSLATION_PATH_GET_ALL_TRANSLATION,
   TRANSLATION_PATH_GET_ALL_BY_KEYS,
   TRANSLATION_PATH_SET_TRANSLATION,
+  TRANSLATION_PATH_EXPORT_TRANSLATION,
+  TRANSLATION_PATH_IMPORT_TRANSLATION,
 } from "../router/server";
 import {
+  IExportTranslationsArg,
   IGetAllTranslationArg,
   IGetAllTranslationsByKeyArg,
   ISetTranslationArg,
@@ -92,6 +97,55 @@ export class TranslationService {
     } catch (error) {
       console.log("TranslationService setTranslation error: ", error);
       return [];
+    }
+  }
+
+  async importTranslations(data: any) {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_TRANSLATION_INPORT_TRANSLATIONS,
+        variables: {
+          data: data,
+        },
+        fetchPolicy: "no-cache",
+        context: {
+          hasUpload: true,
+        },
+      })) as {
+        data: { [TRANSLATION_PATH_IMPORT_TRANSLATION]: boolean };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data[TRANSLATION_PATH_IMPORT_TRANSLATION];
+      }
+
+      return false;
+    } catch (error) {
+      console.log("TranslationService setTranslation error: ", error);
+      return false;
+    }
+  }
+
+  async exportTranslations(data: IExportTranslationsArg) {
+    try {
+      const response = (await this.apiInstance.query({
+        query: Q_TRANSLATION_EXPORT_TRANSLATIONS,
+        fetchPolicy: "no-cache",
+        variables: {
+          data: data,
+        },
+      })) as {
+        data: { [TRANSLATION_PATH_EXPORT_TRANSLATION]: string };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data[TRANSLATION_PATH_EXPORT_TRANSLATION];
+      }
+
+      return "";
+    } catch (error) {
+      console.log("TranslationService exportTranslations error: ", error);
+      return "";
     }
   }
 }

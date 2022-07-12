@@ -1,5 +1,12 @@
 <template>
-  <q-btn flat round color="primary" @click="exportCSV" icon="las la-file-csv">
+  <q-btn
+    v-if="!schema.disableExportCsv"
+    flat
+    round
+    color="primary"
+    @click="exportCSV"
+    icon="las la-file-csv"
+  >
     <q-tooltip>{{ getLabel(translations.EXPORT_CSV_TL) }}</q-tooltip>
   </q-btn>
 </template>
@@ -71,7 +78,7 @@ export default defineComponent({
         return this.schema.translationStore.getTranslation(name);
       }
 
-      return name;
+      return "Export to CSV";
     },
   },
 });

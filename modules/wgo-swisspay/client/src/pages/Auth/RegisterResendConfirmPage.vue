@@ -1,5 +1,5 @@
 <template>
-  <ResendConfirmComponent @onHome="goToHome" @onResend="goToEmailSended" />
+  <ResendConfirmComponent @onHome="goToHome" :tranStore="tranStore" @onResend="goToEmailSended" />
 </template>
 
 <script lang="ts">
@@ -9,6 +9,9 @@ import { useRouter } from 'vue-router';
 import ResendConfirmComponent from '../../../../../wgo-base/authentication/components/ResendConfirmComponent.vue';
 import { Paths } from '../../router/paths';
 import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { useTranslationStore } from '../../stores/translationStore';
+import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
+
 export default defineComponent({
   name: 'RegisterResendConfirmPage',
   components: {
@@ -18,6 +21,13 @@ export default defineComponent({
     const router = useRouter();
     return {
       routeService: new RouteService(router),
+    };
+  },
+  setup() {
+    const translationStore = useTranslationStore();
+
+    return {
+      tranStore: translationStore.translationStore as TranslationStore,
     };
   },
   methods: {

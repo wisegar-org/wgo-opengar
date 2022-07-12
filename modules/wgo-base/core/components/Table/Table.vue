@@ -11,6 +11,7 @@
       :style="{ height: `${height}px` }"
       :visible-columns="visibleColumns"
       class="my-sticky-header-table"
+      :rows-per-page-options="[rowsPerPage]"
     >
       <template v-slot:top>
         <TableTitleHeader
@@ -85,6 +86,7 @@
           :schema="mySchema"
           :props="props"
           @rowSelect="onRowSelect"
+          @dbclick="onDblClick"
         />
       </template>
     </q-table>
@@ -96,6 +98,7 @@ import { defineComponent, PropType } from "@vue/composition-api";
 import { ITableColumn, ITableData, ITableSchema } from "../../models/Table";
 import TableColumns from "./TableColumns.vue";
 import TableTitleHeader from "./TableTitleHeader.vue";
+import { translations as tranBase } from "../../../core/models";
 
 export default defineComponent({
   name: "Table",
@@ -139,6 +142,7 @@ export default defineComponent({
       apiURL: "",
       searchText: "",
       enableFilter: false,
+      tranBase,
     };
   },
   methods: {
@@ -177,6 +181,9 @@ export default defineComponent({
     onRowSelect(row: any) {
       this.$emit("rowSelect", row);
     },
+    onDblClick(row: any) {
+      if (this.mySchema.rowDblClick) this.mySchema.rowDblClick(row);
+    },
     onClenaFilter(colName: string) {
       this.filters[colName] = "";
       this.onSearchInput(colName);
@@ -193,11 +200,17 @@ export default defineComponent({
 
       let tmpData: ITableData[] = this.data.map((item) => ({ ...item }));
       this.searchText = "";
+      const queryStr: string[] = [];
       for (let i = 0; i < this.inputSequence.length; i++) {
         const colName = this.inputSequence[i];
         const inputValue = this.filters[colName];
         const column = this.mySchema.schema[colName];
-        this.searchText += `${column.label} contain <${inputValue}> and `;
+        queryStr.push(
+          `${this.getLabel(column.label)} ${this.getLabel(
+            this.tranBase.CONTAIN,
+            "contain"
+          )} <${inputValue}>`
+        );
         tmpData = tmpData.filter((v) => {
           let c;
           if (typeof column.field == "string") {
@@ -214,14 +227,23 @@ export default defineComponent({
           return false;
         });
       }
-      this.searchText = this.searchText.slice(0, -2);
+      this.searchText = queryStr.join(
+        ` ${this.getLabel(this.tranBase.AND, "and")} `
+      );
       this.filtredData = tmpData;
     },
-    getLabel(name: string) {
+    getLabel(name: string, defaultValue?: string) {
       if (this.mySchema.translationStore) {
         return this.mySchema.translationStore.getTranslation(name);
       }
-      return name;
+      return defaultValue || name;
+    },
+  },
+  computed: {
+    rowsPerPage(): number {
+      return this.schema && this.schema.rowsPerPage
+        ? this.schema.rowsPerPage
+        : 0;
     },
   },
   emits: ["selectCode", "buttonClick", "rowSelect"],

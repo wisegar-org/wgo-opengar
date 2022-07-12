@@ -1,4 +1,5 @@
 import {
+  IExportTranslationsArg,
   ISetTranslationArg,
   ITranslationListModel,
   ITranslationModel,
@@ -78,6 +79,21 @@ export class TranslationStore {
   async setLanguageId(langId: number) {
     this.languageId = langId;
     await this.loadAllTranslation();
+  }
+
+  async importTranslations(input: any) {
+    const translationService = new TranslationService();
+    const result = await translationService.importTranslations(input);
+    if (result) {
+      await this.loadAllTranslation();
+    }
+    return result;
+  }
+
+  async exportTranslations(input: IExportTranslationsArg) {
+    const translationService = new TranslationService();
+    const result = await translationService.exportTranslations(input);
+    return result;
   }
 
   private updateObject(translations: ITranslationModel[]) {

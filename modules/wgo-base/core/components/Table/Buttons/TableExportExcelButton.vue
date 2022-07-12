@@ -1,5 +1,6 @@
 <template>
   <q-btn
+    v-if="!schema.disableExportExcel"
     flat
     round
     color="primary"
@@ -77,7 +78,7 @@ export default defineComponent({
         return this.schema.translationStore.getTranslation(name);
       }
 
-      return name;
+      return "Export to Excel";
     },
   },
 });

@@ -14,7 +14,7 @@
             </q-item-section>
             <q-item-section top class="self-center">
               <div class="text-h6 text-left">
-                Resend email to confirm account
+                {{ getLabel(translations.RESEND_EMAIL_TITLE) }}
               </div>
             </q-item-section>
             <q-item-section top side class="self-center">
@@ -22,7 +22,7 @@
                 class="gt-xs text-white"
                 flat
                 dense
-                :label="translationsContent.WGO_LOGIN_GOHOME_LABEL || 'Home'"
+                :label="getLabel(tranBase.HOME)"
                 @click="goToHome"
               />
             </q-item-section>
@@ -35,9 +35,7 @@
               v-model="email"
               required
               :autofocus="true"
-              :label="
-                translationsContent.WGO_USERS_COLUMN_EMAIL_LABEL || 'Email'
-              "
+              :label="getLabel(translations.COLUMN_EMAIL)"
             />
           </q-card-section>
           <q-card-actions align="center" vertical class="row q-pa-sm">
@@ -48,7 +46,7 @@
               color="primary"
               align="around"
               class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="translationsContent.WGO_LOGIN_RESEND_LABEL || 'Send'"
+              :label="getLabel(tranBase.SEND)"
               type="submit"
             />
           </q-card-actions>
@@ -60,20 +58,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
 import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
+import { TranslationStore } from "../../translation/models/TranslationStore";
+import { translations } from "../models/translations";
+import { BaseTranslateComponent } from "../../core/components/BaseComponents";
+import { translations as tranBase } from "../../core/models";
 
 export default defineComponent({
   name: "ResendConfirmComponent",
+  props: {
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
+  },
   components: {
     Loader,
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       email: "",
-      translationsContent: {},
       showLoading: false,
+      tranBase,
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {
