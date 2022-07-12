@@ -78,7 +78,8 @@ export class TranslationResolver {
   @Mutation(() => Boolean, { name: TRANSLATION_PATH_IMPORT_TRANSLATION })
   async importTranslations(@Arg('data') data: ImportTranslationsInput) {
     const translationModel = new TranslationModel(this.dataSource);
-    const result = await translationModel.inportTranslations(await data.file);
+    const file = await data.file;
+    const result = await translationModel.inportTranslations(file);
     return result;
   }
 }

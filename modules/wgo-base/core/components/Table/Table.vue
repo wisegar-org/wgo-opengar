@@ -11,6 +11,7 @@
       :style="{ height: `${height}px` }"
       :visible-columns="visibleColumns"
       class="my-sticky-header-table"
+      :rows-per-page-options="[rowsPerPage]"
     >
       <template v-slot:top>
         <TableTitleHeader
@@ -232,6 +233,13 @@ export default defineComponent({
         return this.mySchema.translationStore.getTranslation(name);
       }
       return defaultValue || name;
+    },
+  },
+  computed: {
+    rowsPerPage(): number {
+      return this.schema && this.schema.rowsPerPage
+        ? this.schema.rowsPerPage
+        : 0;
     },
   },
   emits: ["selectCode", "buttonClick", "rowSelect"],

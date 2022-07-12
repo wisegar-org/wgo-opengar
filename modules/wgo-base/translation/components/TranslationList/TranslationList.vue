@@ -26,6 +26,7 @@
       @close="closeDetails"
       @onSet="onSet"
     />
+    <Loader :loading="loading" />
   </div>
 </template>
 
@@ -34,7 +35,10 @@ import { defineComponent, PropType } from "@vue/composition-api";
 import { TranslationStore } from "../../models/TranslationStore";
 import Table from "../../../core/components/Table/Table.vue";
 import { getTranslationListSchema } from "./TranslationListSchema";
-import { BaseResizeComponent } from "../../../core/components/BaseComponents";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "../../../core/components/BaseComponents";
 import { ITableLeftButton, ITableRowButton } from "../../../core/models/Table";
 import { ITranslationModel } from "../../models";
 import TranslationDialog from "./TranslationDialog.vue";
@@ -42,12 +46,14 @@ import { LanguageStore } from "../../../language/models/LanguageStore";
 import { translations } from "../../models/translations";
 import { translations as transBase } from "../../../core/models";
 import { saveAs } from "file-saver";
+import Loader from "../../../core/components/Loader/Loader.vue";
 
 export default defineComponent({
   name: "TranslationList",
   components: {
     Table,
     TranslationDialog,
+    Loader,
   },
   props: {
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
@@ -74,7 +80,6 @@ export default defineComponent({
         languagesId: [this.langStore.selectedLang.id],
       });
       if (result) {
-        debugger;
         const fileUrl = `data:${"text/plain"};base64,${result || ""}`;
         saveAs(fileUrl, "translations.csv");
       }
@@ -110,7 +115,9 @@ export default defineComponent({
         fnAction: exportTranslations,
       },
     ];
+    const { getLabel } = new BaseTranslateComponent();
     return {
+      loading: false,
       selectedTranslation: {} as ITranslationModel,
       open: false,
       componentHeight,
@@ -120,6 +127,7 @@ export default defineComponent({
       schema: getTranslationListSchema(this.tranStore, leftBtns, rowBtns),
       translations: translations,
       id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {
@@ -137,16 +145,17 @@ export default defineComponent({
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
     onSet() {
-      this.$emit("onSet");
+      this.$emit("success", this.getLabel(this.translations.SET_SUCCESS));
     },
     async importTranslations(file: any) {
       const formData = {
         file: file.target.files[0],
       };
+      this.loading = true;
       const result = await this.tranStore.importTranslations(formData);
-      if (result) {
-        await this.tranStore.loadAllTranslation();
-      }
+      this.loading = false;
+      if (result)
+        this.$emit("success", this.getLabel(this.translations.IMPORT_SUCCESS));
     },
   },
   async created() {
@@ -158,6 +167,6 @@ export default defineComponent({
   async unmounted() {
     this.removeResize(this.onResize);
   },
-  emits: ["onSet"],
+  emits: ["success"],
 });
 </script>

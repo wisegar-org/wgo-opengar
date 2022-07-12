@@ -12,6 +12,7 @@ import {
   TRANSLATION_PATH_GET_ALL_BY_KEYS,
   TRANSLATION_PATH_SET_TRANSLATION,
   TRANSLATION_PATH_EXPORT_TRANSLATION,
+  TRANSLATION_PATH_IMPORT_TRANSLATION,
 } from "../router/server";
 import {
   IExportTranslationsArg,
@@ -111,11 +112,11 @@ export class TranslationService {
           hasUpload: true,
         },
       })) as {
-        data: { [TRANSLATION_PATH_SET_TRANSLATION]: boolean };
+        data: { [TRANSLATION_PATH_IMPORT_TRANSLATION]: boolean };
       };
       if (response && response.data) {
         const { data } = response;
-        return data[TRANSLATION_PATH_SET_TRANSLATION];
+        return data[TRANSLATION_PATH_IMPORT_TRANSLATION];
       }
 
       return false;

@@ -82,9 +82,11 @@ export class TranslationStore {
   }
 
   async importTranslations(input: any) {
-    debugger;
     const translationService = new TranslationService();
     const result = await translationService.importTranslations(input);
+    if (result) {
+      await this.loadAllTranslation();
+    }
     return result;
   }
 
