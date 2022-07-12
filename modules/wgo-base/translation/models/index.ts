@@ -41,3 +41,7 @@ export interface ICultureTranslation {
 export interface ITranslationsByCulture {
   [key: string]: ICultureTranslation;
 }
+
+export interface IExportTranslationsArg {
+  languagesId: number[];
+}

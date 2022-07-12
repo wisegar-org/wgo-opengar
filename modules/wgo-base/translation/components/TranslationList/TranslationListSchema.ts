@@ -66,6 +66,10 @@ export const getTranslationListSchema = (
     title: "Email media",
     leftButtons: leftButtons,
     translationStore: transStore,
+    disableExportExcel: true,
+    disableExportCsv: true,
+    disableCopyClipboard: true,
+    disableSelectColumns: true,
     searchStrategy: {
       type: "header",
     },

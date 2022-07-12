@@ -1,8 +1,15 @@
 import gql from "graphql-tag";
+import {
+  TRANSLATION_PATH_GET_ALL_TRANSLATION,
+  TRANSLATION_PATH_GET_ALL_BY_KEYS,
+  TRANSLATION_PATH_SET_TRANSLATION,
+  TRANSLATION_PATH_EXPORT_TRANSLATION,
+  TRANSLATION_PATH_IMPORT_TRANSLATION,
+} from "../router/server";
 
 export const Q_TRANSLATION_GETALL = gql`
   query ($data: GetAllTranslationInput!) {
-    getAllTranslations(data: $data) {
+    ${TRANSLATION_PATH_GET_ALL_TRANSLATION}(data: $data) {
       id
       key
       value
@@ -13,7 +20,7 @@ export const Q_TRANSLATION_GETALL = gql`
 
 export const Q_TRANSLATION_GETALLBYKEYS = gql`
   query ($data: GetTranslationByKeysInput!) {
-    getAllTranslationsByKeys(data: $data) {
+    ${TRANSLATION_PATH_GET_ALL_BY_KEYS}(data: $data) {
       id
       key
       value
@@ -24,11 +31,23 @@ export const Q_TRANSLATION_GETALLBYKEYS = gql`
 
 export const M_TRANSLATION_SETTRANSLATION = gql`
   mutation ($data: SetTranslationInput!) {
-    setTranslation(data: $data) {
+    ${TRANSLATION_PATH_SET_TRANSLATION}(data: $data) {
       id
       key
       value
       languageId
     }
+  }
+`;
+
+export const M_TRANSLATION_INPORT_TRANSLATIONS = gql`
+  mutation ($data: ImportTranslationsInput!) {
+    ${TRANSLATION_PATH_IMPORT_TRANSLATION}(data: $data)
+  }
+`;
+
+export const Q_TRANSLATION_EXPORT_TRANSLATIONS = gql`
+  query ($data: ExportTranslationInput!) {
+    ${TRANSLATION_PATH_EXPORT_TRANSLATION}(data: $data)
   }
 `;
