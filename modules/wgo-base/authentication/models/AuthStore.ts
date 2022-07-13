@@ -22,7 +22,7 @@ export class AuthStore {
         this.user = user;
         return true;
       } else {
-        this.token = "";
+        this.resetState();
       }
     }
     return false;

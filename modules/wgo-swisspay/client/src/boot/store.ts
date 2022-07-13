@@ -15,6 +15,10 @@ export default boot(({ app, store, router }) => {
   //init store values
   const promises: Promise<any>[] = [];
 
+  //Authentication store
+  const authStore = useAuthStore(store);
+  app.config.globalProperties.$authStore = authStore;
+
   //Translation store
   const translationStore = useTranslationStore();
   app.config.globalProperties.$translationStore = translationStore;
@@ -23,12 +27,19 @@ export default boot(({ app, store, router }) => {
   const langStore = useLanguageStore(store);
   langStore.setTranslationStore(translationStore.translationStore as TranslationStore);
   app.config.globalProperties.$langStore = langStore;
-  promises.push(langStore.loadAllLanguages().then(() => translationStore.getAndRegisterTranslations(Translations)));
 
-  //Authentication store
-  const authStore = useAuthStore(store);
-  app.config.globalProperties.$authStore = authStore;
-  promises.push(authStore.authStore.me());
+  promises.push(
+    //First do me request to validate token
+    authStore.authStore.me().then(() => {
+      const promisesStore: Promise<any>[] = [];
+      //register others request on stores workflow
+      promisesStore.push(
+        langStore.loadAllLanguages().then(() => translationStore.getAndRegisterTranslations(Translations))
+      );
+
+      return Promise.all(promisesStore);
+    })
+  );
 
   return Promise.all(promises).then(() => {});
 });
