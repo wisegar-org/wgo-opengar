@@ -5,6 +5,7 @@ import {
   TRANSLATION_PATH_SET_TRANSLATION,
   TRANSLATION_PATH_EXPORT_TRANSLATION,
   TRANSLATION_PATH_IMPORT_TRANSLATION,
+  TRANSLATION_PATH_DELETE_TRANSLATION,
 } from "../router/server";
 
 export const Q_TRANSLATION_GETALL = gql`
@@ -37,6 +38,12 @@ export const M_TRANSLATION_SETTRANSLATION = gql`
       value
       languageId
     }
+  }
+`;
+
+export const M_TRANSLATION_DELETE_TRANSLATIONS = gql`
+  mutation ($data: DeleteTranslationInput!) {
+    ${TRANSLATION_PATH_DELETE_TRANSLATION}(data: $data)
   }
 `;
 
