@@ -9,7 +9,7 @@
           class="q-my-sm q-mx-sm"
           v-model="userInput.email"
           :autofocus="true"
-          :label="translationsContent.WGO_USERS_COLUMN_EMAIL_LABEL || 'Email'"
+          :label="getLabel(translations.COLUMN_EMAIL)"
         />
       </div>
       <div class="col-12 col-md-6">
@@ -19,7 +19,7 @@
           class="q-my-sm q-mx-sm"
           v-model="userInput.name"
           required
-          :label="translationsContent.WGO_USERS_COLUMN_USERNAME_LABEL || 'Name'"
+          :label="getLabel(translations.COLUMN_NAME)"
         />
       </div>
 
@@ -30,24 +30,23 @@
           required
           class="q-my-sm q-mx-sm"
           v-model="userInput.lastName"
-          :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Last Name'"
+          :label="getLabel(translations.COLUMN_LAST_NAME)"
         />
       </div>
-      <div class="col-12 col-md-6">
+      <div v-if="isEdition" class="col-12 col-md-6">
         <q-input
           square
           outlined
-          required
           class="q-my-sm q-mx-sm"
           v-model="userInput.code"
-          :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Code'"
+          :label="getLabel(translations.COLUMN_CODE)"
         />
       </div>
-      <div class="col-12 col-md-6">
+      <div v-if="isEdition" class="col-12 col-md-6">
         <InputCopy
           class="q-my-sm q-mx-sm"
           :textCopy="user.certificate"
-          :label="translationsContent.WGO_USERS_LASTNAME_LABEL || 'Certificate'"
+          :label="getLabel(translations.COLUMN_CERTIFICATE)"
         />
       </div>
 
@@ -56,7 +55,7 @@
           class="q-my-sm q-mx-sm"
           v-model="userInput.password"
           :required="false"
-          :label="translationsContent.WGO_USERS_PASSWORD_LABEL || 'Password'"
+          :label="getLabel(translations.COLUMN_PASSWORD)"
         />
       </div>
 
@@ -65,14 +64,36 @@
           class="q-my-sm q-mx-sm"
           v-model="confirmPassword"
           :required="false"
-          :label="
-            translationsContent.WGO_USERS_CONFIRM_PASSWORD_LABEL ||
-            'Confirm Password'
-          "
+          :label="getLabel(translations.COLUMN_CONFIRM_PASSWORD)"
           @onEnter="editUser"
           :isError="userInput.password !== confirmPassword"
-          error="Passwords need to be equals"
+          :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
         />
+      </div>
+      <div v-if="isAdminRol" class="col-12 col-md-6">
+        <q-select
+          square
+          outlined
+          v-model="userInput.roles"
+          multiple
+          :options="roles"
+          :label="getLabel(translations.COLUMN_ROLES)"
+          class="q-my-sm q-mx-sm"
+        />
+      </div>
+      <div v-if="isAdminRol" class="col-12 col-md-6">
+        <q-list class="q-my-sm q-mx-sm">
+          <q-item tag="label" v-ripple>
+            <q-item-section>
+              <q-item-label class="text-left">{{
+                getLabel(translations.COLUMN_IS_CONFIRMED_EMAIL)
+              }}</q-item-label>
+            </q-item-section>
+            <q-item-section avatar>
+              <q-checkbox v-model="userInput.isEmailConfirmed" />
+            </q-item-section>
+          </q-item>
+        </q-list>
       </div>
     </q-card-section>
     <q-card-actions
@@ -90,7 +111,7 @@
             align="around"
             class="btn_width_fix"
             @click="close"
-            :label="translationsContent.WGO_USER_CLOSE_LABEL || 'Close'"
+            :label="getLabel(tranBase.CLOSE)"
           />
         </div>
         <div class="col-12 col-sm-4 q-pt-xs">
@@ -100,7 +121,7 @@
             color="primary"
             align="around"
             class="btn_width_fix"
-            :label="translationsContent.WGO_USER_EDIT_LABEL || 'Edit'"
+            :label="getLabel(tranBase.EDIT)"
             type="submit"
           />
         </div>
@@ -113,11 +134,16 @@
 <script lang="ts">
 import { AuthService } from "../../services/AuthService";
 import Loader from "../../../core/components/Loader/Loader.vue";
-import { IAuthRegisterParams, ISuccesLogin } from "../../models";
+import { IAuthRegisterParams, ISuccesLogin, SUPERADMIN } from "../../models";
 import { defineComponent, PropType } from "@vue/composition-api";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import { IUser } from "../../../core/models/user";
 import InputCopy from "../../../core/components/InputCopy/InputCopy.vue";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
+import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
+import { translations } from "../../models/translations";
+import { translations as tranBase } from "../../../core/models";
+import { AuthStore } from "../../models/AuthStore";
 
 export default defineComponent({
   name: "EditUserComponent",
@@ -132,9 +158,14 @@ export default defineComponent({
       required: true,
     },
     showBtns: { type: Boolean, default: true },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    authStore: { type: Object as PropType<AuthStore>, required: true },
   },
   data() {
+    const { getLabel } = new BaseTranslateComponent();
+    const roles: string[] = [];
     return {
+      roles,
       userInput: {
         id: this.user.id,
         name: this.user.name,
@@ -144,11 +175,14 @@ export default defineComponent({
         password: "",
         isEmailConfirmed: this.user.isEmailConfirmed,
         code: this.user.code,
+        roles: this.user.roles,
       } as IAuthRegisterParams,
       confirmPassword: "",
       innerLoading: false,
       showLoading: false,
-      translationsContent: {},
+      translations,
+      tranBase,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {
@@ -156,7 +190,7 @@ export default defineComponent({
       if (this.userInput.password !== this.confirmPassword) return;
       this.showLoading = true;
       const service = new AuthService();
-      this.userInput.isEmailConfirmed = false;
+      debugger;
       const user = await service.editUser(this.userInput);
       if (user) {
         this.$emit("onEdit", user);
@@ -175,6 +209,15 @@ export default defineComponent({
         this.userInput.password === this.confirmPassword
       );
     },
+    isAdminRol(): boolean {
+      return this.authStore.user.roles.indexOf(SUPERADMIN) !== -1;
+    },
+    isEdition(): boolean {
+      return this.userInput.id !== 0;
+    },
+  },
+  async created() {
+    this.roles = await this.authStore.loadAllRoles();
   },
   emits: {
     onClose() {
