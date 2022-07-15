@@ -9,11 +9,16 @@ import {
 } from './AuthInputs';
 import { LoginResponse, UserResponse } from './AuthResponses';
 import { AuthModel } from '../../../../wgo-base/authentication/models/AuthModel';
+import { UserRolesModel } from '../../../../wgo-base/authentication/models/UserRolesModel';
 import { IAuthModelArg } from '../../../../wgo-base/authentication/models';
 import {
   AUTH_PATH_CHANGE_RESET_PASSWORD,
   AUTH_PATH_CONFIRM_REGIST,
+  AUTH_PATH_DELETE_USER,
   AUTH_PATH_EDIT_USER,
+  AUTH_PATH_GET_ALL_ROLES,
+  AUTH_PATH_GET_ALL_USERS,
+  AUTH_PATH_GET_USER,
   AUTH_PATH_LOGIN,
   AUTH_PATH_ME,
   AUTH_PATH_REGISTER,
@@ -28,6 +33,7 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
+import { IdInput } from '../Core/CoreInputs';
 
 @Resolver()
 export class AuthResolver {
@@ -101,6 +107,34 @@ export class AuthResolver {
   async confirmRegist(@Arg('data') data: MeInput) {
     const authModel = new AuthModel(this.options);
     const user = await authModel.confirmRegist(data);
+    return !!user;
+  }
+
+  @Query(() => UserResponse, { name: AUTH_PATH_GET_USER })
+  async getUser(@Arg('data') data: IdInput) {
+    const userRolesModel = new UserRolesModel(this.options);
+    const user = await userRolesModel.getUser(data.id);
+    return user;
+  }
+
+  @Query(() => [UserResponse], { name: AUTH_PATH_GET_ALL_USERS })
+  async getAllUsers() {
+    const userRolesModel = new UserRolesModel(this.options);
+    const users = await userRolesModel.getAllUsers();
+    return users;
+  }
+
+  @Query(() => [String], { name: AUTH_PATH_GET_ALL_ROLES })
+  async getAllRoles() {
+    const userRolesModel = new UserRolesModel(this.options);
+    const roles = await userRolesModel.getAllRoles();
+    return roles;
+  }
+
+  @Mutation(() => Boolean, { name: AUTH_PATH_DELETE_USER })
+  async deleteUser(@Arg('data') data: IdInput) {
+    const userRolesModel = new UserRolesModel(this.options);
+    const user = await userRolesModel.deleteUser(data);
     return !!user;
   }
 }
