@@ -1,5 +1,11 @@
 <template>
-  <RegisterComponent @goBack="onGoBack" :tranStore="tranStore" @onRegister="onRegister" @onHome="onGoHome" />
+  <RegisterComponent
+    @goBack="onGoBack"
+    :tranStore="tranStore"
+    :roles="roles"
+    @onRegister="onRegister"
+    @onHome="onGoHome"
+  />
 </template>
 
 <script lang="ts">
@@ -12,6 +18,7 @@ import { AuthPaths } from '../../../../../wgo-base/authentication/router';
 import { Paths } from '../../router/paths';
 import { useTranslationStore } from '../../stores/translationStore';
 import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
+import { CLIENT_ROLE } from '../../../../src/models/constants';
 
 export default defineComponent({
   name: 'RegisterPage',
@@ -20,7 +27,9 @@ export default defineComponent({
   },
   data() {
     const router = useRouter();
+    const roles = [CLIENT_ROLE];
     return {
+      roles,
       routeService: new RouteService(router),
     };
   },

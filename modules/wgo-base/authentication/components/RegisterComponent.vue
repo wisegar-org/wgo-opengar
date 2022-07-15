@@ -124,6 +124,7 @@ export default defineComponent({
   },
   props: {
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    roles: { type: Array as PropType<string[]>, default: [] },
   },
   data() {
     const { getLabel } = new BaseTranslateComponent();
@@ -134,6 +135,7 @@ export default defineComponent({
         lastName: "",
         email: "",
         password: "",
+        roles: this.roles,
       } as IAuthRegisterParams,
       confirmPassword: "",
       innerLoading: false,
