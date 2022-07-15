@@ -2,9 +2,11 @@ import { Pinia, Store } from 'pinia';
 import { IApiServiceOptions } from '../../../../wgo-base/core/services/ApiService';
 import { Environment, getSettings } from './ApiSettings';
 import { USER_AUTH_TOKEN } from '../../../../wgo-base/authentication/models';
+import { translations } from '../../../../wgo-base/core/models';
 
 import { useNotifyStore } from 'src/stores/notifyStore';
 import { useAuthStore } from 'src/stores/authStore';
+import { useTranslationStore } from 'src/stores/translationStore';
 const defaultEnv: Environment =
   process.env.NODE_ENV === Environment.Production ? Environment.Production : Environment.Development;
 
@@ -21,6 +23,7 @@ const isValidateAccessTokenErrorHandelr = (message: string) => {
 export const getApiServiceOptions = (pinia: Pinia) => {
   const notifyStore = useNotifyStore(pinia);
   const authStore = useAuthStore(pinia);
+  const tranStore = useTranslationStore(pinia);
   const apiServiceOptions: IApiServiceOptions = {
     onMeErrorHandler: (message: any) => {},
     onGenericErrorHandler: (message: string, index: number) => {
@@ -31,7 +34,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
         notifyStore.setNotify({
           position: 'top',
           type: 'negative',
-          message: message || 'Server Error',
+          message: tranStore.translationStore.getTranslation(message || translations.SERVER_ERROR),
         });
       }
     },
@@ -47,7 +50,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       notifyStore.setNotify({
         position: 'top',
         type: 'negative',
-        message,
+        message: tranStore.translationStore.getTranslation(message || translations.NETWORK_ERROR),
       });
     },
     onTokenRefresh: (headers: any) => {

@@ -4,6 +4,8 @@ export const translations = {
   DELETE: "WGO_DELETE",
   ADD: "WGO_ADD",
   CREATE: "WGO_CREATE",
+  CONFIRM: "WGO_CONFIRM",
+  CANCEL: "WGO_CANCEL",
   SAVE: "WGO_SAVE",
   DETAILS: "WGO_DETAILS",
   CLOSE: "WGO_CLOSE",
@@ -22,4 +24,10 @@ export const translations = {
   EXPORT_CSV_TL: "WGO_EXPORT_CSV_TL",
   EXPORT_EXCEL_TL: "WGO_EXPORT_EXCEL_TL",
   SELECT_COLUMNS_TL: "WGO_SELECT_COLUMNS_TL",
+  SERVER_ERROR: "WGO_SERVER_ERROR",
+  NETWORK_ERROR: "WGO_NETWORK_ERROR",
+};
+
+export const getCoreTranslationsKeys = () => {
+  return Object.values(translations);
 };
