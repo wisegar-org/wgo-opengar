@@ -11,6 +11,7 @@
           <LoginBtn
             :user="authStore.user"
             :tranStore="transStore"
+            :authStore="authStore"
             @onLoginClick="goToLogin"
             @onLogoutClick="logout"
             @onSaveUser="onSave"
