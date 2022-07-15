@@ -6,11 +6,11 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
-import { AuthModel } from '../../../wgo-base/authentication/models/AuthModel';
+import { UserRolesModel } from '../../../wgo-base/authentication/models/UserRolesModel';
 import { PostgresDataSource } from '../../dataSources';
 import { IContext } from '../models';
 
-const authModel = new AuthModel({
+const authModel = new UserRolesModel({
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   hostBase: GetHostBaseKey(),
@@ -20,9 +20,11 @@ const authModel = new AuthModel({
   emailOptions: { from: GetEmailAppAddressKey() } as any,
 });
 
+const INVALID_PARAMS = 'WGO_CONTEXT_INVALID_PARAMS';
+
 export const AppContextHandler = async (options: IContextOptions) => {
   if (!options) {
-    throw new Error('Invalid params');
+    throw new Error(INVALID_PARAMS);
   }
   const { tokenPayload, requestHeaders } = options;
   const ctx = {} as IContext;
