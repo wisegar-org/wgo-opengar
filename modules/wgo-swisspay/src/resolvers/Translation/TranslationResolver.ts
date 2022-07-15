@@ -4,6 +4,7 @@ import { PostgresDataSource } from '../../../dataSources';
 import { TranslationResponse } from './TranslationResponses';
 import { TranslationModel } from '../../../../wgo-base/translation/models/TranslationModel';
 import {
+  TRANSLATION_PATH_DELETE_TRANSLATION,
   TRANSLATION_PATH_EXPORT_TRANSLATION,
   TRANSLATION_PATH_GET_ALL_BY_KEYS,
   TRANSLATION_PATH_GET_ALL_TRANSLATION,
@@ -11,6 +12,7 @@ import {
   TRANSLATION_PATH_SET_TRANSLATION,
 } from '../../../../wgo-base/translation/router/server';
 import {
+  DeleteTranslationInput,
   ExportTranslationInput,
   GetAllTranslationInput,
   GetTranslationByKeysInput,
@@ -66,6 +68,12 @@ export class TranslationResolver {
     }
 
     return [];
+  }
+
+  @Mutation(() => Boolean, { name: TRANSLATION_PATH_DELETE_TRANSLATION })
+  async deleteTranslation(@Arg('data') data: DeleteTranslationInput) {
+    const translationModel = new TranslationModel(this.dataSource);
+    return await translationModel.deleteTranslation(data.key);
   }
 
   @Query(() => String, { name: TRANSLATION_PATH_EXPORT_TRANSLATION })
