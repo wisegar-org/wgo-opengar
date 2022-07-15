@@ -1,6 +1,14 @@
 export const LANGUAGE_EN = "EN";
 
-export const WRONG_LANGUAGE_DONT_EXIST = "Language don't exist";
-export const WRONG_LANGUAGE_CODE = "Code already exist";
-export const WRONG_LANGUAGE_POST = "Language creation fail";
-export const WRONG_LANGUAGE_PUT = "Language edition fail";
+export const WRONG_LANGUAGE_DONT_EXIST =
+  "WGO_LANGUAGE_WRONG_LANGUAGE_DONT_EXIST";
+export const WRONG_LANGUAGE_CODE = "WGO_LANGUAGE_WRONG_LANGUAGE_CODE";
+export const WRONG_LANGUAGE_POST = "WGO_LANGUAGE_WRONG_LANGUAGE_POST";
+export const WRONG_LANGUAGE_PUT = "WGO_LANGUAGE_WRONG_LANGUAGE_PUT";
+
+export const serverTranslations = [
+  WRONG_LANGUAGE_DONT_EXIST,
+  WRONG_LANGUAGE_CODE,
+  WRONG_LANGUAGE_POST,
+  WRONG_LANGUAGE_PUT,
+];

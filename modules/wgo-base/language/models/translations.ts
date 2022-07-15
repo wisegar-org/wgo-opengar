@@ -1,3 +1,5 @@
+import { serverTranslations } from "./constants";
+
 export const translations = {
   TITLE: "WGO_LANGUAGE_TITLE",
   TITLE_DIALOG: "WGO_LANGUAGE_TITLE_DIALOG",
@@ -7,4 +9,8 @@ export const translations = {
   COLUMN_DEFAULT: "WGO_LANGUAGE_COLUMN_DEFAULT",
   ADD_SUCCESS: "WGO_LANGUAGE_ADD_SUCCESS_MSG",
   EDIT_SUCCESS: "WGO_LANGUAGE_EDIT_SUCCESS_MSG",
+};
+
+export const getLanguageTranslationsKeys = () => {
+  return Object.values(translations).concat(serverTranslations);
 };
