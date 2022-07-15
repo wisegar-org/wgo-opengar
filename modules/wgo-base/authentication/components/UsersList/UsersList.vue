@@ -1,0 +1,177 @@
+<template>
+  <div>
+    <div ref="placeholder" style="height: 1px"></div>
+    <Table
+      :title="translations.USER_TITLE"
+      :data="users"
+      :schema="schema"
+      :height="componentHeight"
+    />
+    <EditUserDialog
+      :authStore="authStore"
+      :open="open"
+      :tranStore="tranStore"
+      :user="selectedUser"
+      @close="onClose"
+      @onEdited="onEdit"
+    />
+    <Loader :loading="loading" />
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from "@vue/composition-api";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "../../../core/components/BaseComponents";
+import { ITableLeftButton, ITableRowButton } from "../../../core/models/Table";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
+import { IUser, translations as transBase } from "../../../core/models";
+import { translations } from "../../models/translations";
+import { translations as tranBase } from "../../../core/models";
+import { getAuthUserListSchema } from "./UsersListSchema";
+import Table from "../../../core/components/Table/Table.vue";
+import { AuthStore } from "../../models/AuthStore";
+import EditUserDialog from "../EditUser/EditUserDialog.vue";
+import Loader from "../../../core/components/Loader/Loader.vue";
+
+export default defineComponent({
+  name: "UsersList",
+  props: {
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    authStore: { type: Object as PropType<AuthStore>, required: true },
+  },
+  components: {
+    Table,
+    EditUserDialog,
+    Loader,
+  },
+  data() {
+    const resizeComponent = new BaseResizeComponent();
+    const { componentHeight, addResize, removeResize, resizeTable } =
+      resizeComponent;
+
+    const fnAction = (row: any) => {
+      this.showDetails(row);
+      console.log("click on", row);
+    };
+
+    const deleteUser = async (row: any) => {
+      await this.deleteUser(row);
+    };
+    const rowBtns: ITableRowButton[] = [
+      {
+        icon: "edit",
+        tooltip: transBase.EDIT,
+        fnAction,
+      },
+      {
+        icon: "delete",
+        tooltip: transBase.DELETE,
+        fnAction: deleteUser,
+      },
+    ];
+
+    const leftBtns: ITableLeftButton[] = [
+      {
+        label: "",
+        icon: "add",
+        color: "primary",
+        tooltip: transBase.ADD,
+        fnAction: () =>
+          fnAction(<IUser>{
+            id: 0,
+            name: "",
+            lastName: "",
+            code: "",
+            email: "",
+            userName: "",
+            certificate: "",
+            isEmailConfirmed: false,
+            roles: [],
+          }),
+      },
+    ];
+    const { getLabel } = new BaseTranslateComponent();
+    const schema = getAuthUserListSchema(this.tranStore, leftBtns, rowBtns);
+    schema.rowDblClick = fnAction;
+    const users: IUser[] = [];
+    return {
+      users,
+      loading: false,
+      selectedUser: {} as IUser,
+      open: false,
+      componentHeight,
+      addResize,
+      removeResize,
+      resizeTable,
+      schema: schema,
+      translations: translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
+    };
+  },
+  methods: {
+    showDetails(user: IUser) {
+      this.selectedUser = user;
+      this.open = true;
+    },
+    async onEdit(user: IUser) {
+      this.onSuccess(
+        this.selectedUser.id
+          ? translations.EDIT_USER_SUCCESS
+          : translations.ADD_USER_SUCCESS
+      );
+      this.onClose();
+    },
+    async onSuccess(token: string) {
+      this.$emit("success", this.getLabel(token));
+      this.loadUsers();
+    },
+    onResize() {
+      this.resizeTable(this.$refs.placeholder as HTMLElement);
+    },
+    onClose() {
+      this.open = false;
+    },
+    async loadUsers() {
+      this.loading = true;
+      this.users = await this.authStore.loadAllUsers();
+      this.loading = false;
+    },
+    async deleteUser(user: IUser) {
+      this.$q
+        .dialog({
+          title: this.getLabel(tranBase.CONFIRM),
+          message: this.getLabel(translations.DELETE_USER_MSG),
+          persistent: true,
+          focus: "cancel",
+          ok: {
+            color: "primary",
+            label: this.getLabel(tranBase.CONFIRM),
+            tabindex: 0,
+          },
+          cancel: {
+            flat: true,
+            label: this.getLabel(tranBase.CANCEL),
+            tabindex: 1,
+          },
+        })
+        .onOk(async () => {
+          const result = await this.authStore.deleteUser({ id: user.id });
+          if (result) this.onSuccess(translations.DELETE_USER_SUCCESS);
+        });
+    },
+  },
+  async created() {
+    this.$nextTick(() => {
+      this.addResize(this.onResize);
+    });
+    await this.loadUsers();
+  },
+  unmounted() {
+    this.removeResize(this.onResize);
+  },
+  emits: ["success"],
+});
+</script>

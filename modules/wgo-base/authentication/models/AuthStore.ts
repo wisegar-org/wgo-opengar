@@ -1,6 +1,7 @@
 import { ISuccesLogin } from ".";
-import { IUser } from "../../core/models";
+import { IIdInput, IUser } from "../../core/models";
 import { AuthService } from "../services/AuthService";
+import { UserRolesService } from "../services/UserRolesService";
 import { USER_AUTH_TOKEN } from "./constants";
 
 export class AuthStore {
@@ -65,5 +66,23 @@ export class AuthStore {
 
   setReset(reset: boolean) {
     this.resetState();
+  }
+
+  async deleteUser(data: IIdInput) {
+    const userRolesService = new UserRolesService();
+    const result = await userRolesService.deleteUser(data);
+    return result;
+  }
+
+  async loadAllUsers() {
+    const userRolesService = new UserRolesService();
+    const users = await userRolesService.getAllUsers();
+    return users;
+  }
+
+  async loadAllRoles() {
+    const userRolesService = new UserRolesService();
+    const roles = await userRolesService.getAllRoles();
+    return roles;
   }
 }
