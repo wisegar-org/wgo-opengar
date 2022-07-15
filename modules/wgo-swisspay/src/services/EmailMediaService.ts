@@ -2,6 +2,7 @@ import { DataSource, Like } from 'typeorm';
 import { IIdInput } from '../../../wgo-base/core/models';
 import { EmailHistoryEntity } from '../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from '../database/entities/EmailMediaEntity';
+import { WRONG_EMAIL_DONT_EXIST } from '../models/EmailMedia/constants';
 import { IEmailDetailsModel, IEmailMediaFilter, IEmailMediaModel, IEmailModel } from '../models/EmailModel';
 
 export class EmailMediaService {
@@ -72,7 +73,7 @@ export class EmailMediaService {
       } as IEmailDetailsModel;
     }
 
-    throw new Error("Email don't exist");
+    throw new Error(WRONG_EMAIL_DONT_EXIST);
   }
 
   async getEmailById(data: IIdInput) {
@@ -88,7 +89,7 @@ export class EmailMediaService {
       return this.mapEmailHistoryEntity(email);
     }
 
-    throw new Error("Email don't exist");
+    throw new Error(WRONG_EMAIL_DONT_EXIST);
   }
 
   private mapEmailMediaEntity(emailMedia: EmailMediaEntity, emailId: number = 0): IEmailMediaModel {
