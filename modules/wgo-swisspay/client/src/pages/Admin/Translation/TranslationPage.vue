@@ -5,7 +5,6 @@
 <script lang="ts">
 import { useTranslationStore } from '../../../stores/translationStore';
 import { defineComponent } from 'vue';
-import LanguageList from '../../../../../../wgo-base/language/components/LanguageList/LanguageList.vue';
 import { useNotifyStore } from '../../../stores/notifyStore';
 import TranslationList from '../../../../../../wgo-base/translation/components/TranslationList/TranslationList.vue';
 import { useLanguageStore } from '../../../stores/languageStore';
@@ -15,7 +14,6 @@ import { TranslationStore } from '../../../../../../wgo-base/translation/models/
 export default defineComponent({
   name: 'TranslationPage',
   components: {
-    LanguageList,
     TranslationList,
   },
   setup() {
