@@ -66,6 +66,8 @@ export default defineComponent({
         fnAction: () => fnAction({ code: "", enabled: false, default: false }),
       },
     ];
+    const schema = getLanguageListSchema(this.tranStore, leftBtns, rowBtns);
+    schema.rowDblClick = fnAction;
     return {
       selectedLang: {} as ILanguageModel,
       open: false,
@@ -73,7 +75,7 @@ export default defineComponent({
       addResize,
       removeResize,
       resizeTable,
-      schema: getLanguageListSchema(this.tranStore, leftBtns, rowBtns),
+      schema: schema,
       translations,
     };
   },
