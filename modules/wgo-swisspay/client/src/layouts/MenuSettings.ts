@@ -4,6 +4,7 @@ import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 import { AdminLanguagePaths } from '../../../../wgo-base/language/router';
 import { TestMenu } from './test';
 import { AdminTranslationPaths } from 'app/../../wgo-base/translation/router';
+import { AuthPaths } from 'app/../../wgo-base/authentication/router';
 
 const listItems: MenuListItem[] = [
   {
@@ -24,6 +25,14 @@ const listItems: MenuListItem[] = [
   },
   {
     type: 'separator',
+  },
+  {
+    label: AuthPaths.authUsers.label,
+    id: AuthPaths.authUsers.name,
+    icon: 'people',
+    link: AuthPaths.authUsers.path,
+    color: 'orange',
+    type: 'item',
   },
   {
     label: AdminLanguagePaths.adminLanguage.label,
