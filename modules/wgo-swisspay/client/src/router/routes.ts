@@ -6,6 +6,7 @@ import { EmailMediaPathRouter } from './paths/emailMediaPaths';
 import { EmployeesPathRouter } from './paths/employeesPaths';
 import { LanguagePathRouter } from './paths/admin/languagePaths';
 import { TranslationPathRouter } from './paths/admin/translationPaths';
+import { SettingsPathRouter } from './paths/admin/settingsPaths';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -23,6 +24,7 @@ const routes: RouteRecordRaw[] = [
   AuthAdminPathRouter,
   LanguagePathRouter,
   TranslationPathRouter,
+  SettingsPathRouter,
   // Always leave this as last one,
   // but you can also remove it
   {

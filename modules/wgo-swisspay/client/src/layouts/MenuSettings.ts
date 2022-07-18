@@ -4,6 +4,7 @@ import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 import { AdminLanguagePaths } from '../../../../wgo-base/language/router';
 import { TestMenu } from './test';
 import { AdminTranslationPaths } from 'app/../../wgo-base/translation/router';
+import { AdminSettingsPaths } from 'app/../../wgo-base/settings/router';
 import { EmployeesPaths } from 'src/router/paths/employeesPaths';
 import { AuthPaths } from 'app/../../wgo-base/authentication/router';
 
@@ -57,6 +58,14 @@ const listItems: MenuListItem[] = [
     icon: 'translate',
     link: AdminTranslationPaths.adminTranslation.path,
     color: 'brown',
+    type: 'item',
+  },
+  {
+    label: AdminSettingsPaths.adminSettings.label,
+    id: AdminSettingsPaths.adminSettings.name,
+    icon: 'settings',
+    link: AdminSettingsPaths.adminSettings.path,
+    color: 'deep-orange-7',
     type: 'item',
   },
 ];
