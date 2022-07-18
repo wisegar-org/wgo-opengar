@@ -10,7 +10,7 @@
       unelevated
       @click="v.fnAction"
     >
-      {{ v.label }}
+      {{ getLabel(v.label) }}
       <q-tooltip v-if="v.tooltip">{{ getLabel(v.tooltip) }}</q-tooltip>
     </q-btn>
   </div>

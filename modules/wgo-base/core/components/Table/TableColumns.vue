@@ -13,6 +13,7 @@
     <TableCommandColumn
       v-if="props.col.type === 'iconCommands'"
       :props="props"
+      :schema="schema"
     />
     <TableDateColumn
       v-if="props.col.type === 'date'"
