@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Paths } from './paths';
 import { AuthPathRouter } from './paths/authPaths';
+import { AuthAdminPathRouter } from './paths/admin/authPaths';
 import { EmailMediaPathRouter } from './paths/emailMediaPaths';
 import { EmployeesPathRouter } from './paths/employeesPaths';
 import { LanguagePathRouter } from './paths/admin/languagePaths';
@@ -19,6 +20,7 @@ const routes: RouteRecordRaw[] = [
   AuthPathRouter,
   EmailMediaPathRouter,
   EmployeesPathRouter,
+  AuthAdminPathRouter,
   LanguagePathRouter,
   TranslationPathRouter,
   // Always leave this as last one,

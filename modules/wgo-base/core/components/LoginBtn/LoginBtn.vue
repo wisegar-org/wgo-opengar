@@ -15,6 +15,8 @@
       </q-btn-dropdown>
       <EditUserDialog
         :open="open"
+        :tranStore="tranStore"
+        :authStore="authStore"
         @close="() => showUserProfile(false)"
         :user="user"
         @onEdited="onEdited"
@@ -37,6 +39,7 @@ import EditUserDialog from "../../../authentication/components/EditUser/EditUser
 import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { BaseTranslateComponent } from "../BaseComponents";
 import { translations } from "../../models";
+import { AuthStore } from "../../../authentication/models/AuthStore";
 
 export default defineComponent({
   props: {
@@ -45,6 +48,7 @@ export default defineComponent({
       required: false,
     },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    authStore: { type: Object as PropType<AuthStore>, required: true },
   },
   components: {
     EditUserDialog,

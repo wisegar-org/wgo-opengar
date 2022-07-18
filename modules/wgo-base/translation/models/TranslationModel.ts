@@ -77,6 +77,15 @@ export class TranslationModel {
     return this.mapTranslationEntity(translation);
   }
 
+  async deleteTranslation(key: string) {
+    const translationRepository =
+      this.dataSoure.getRepository(TranslationEntity);
+    await translationRepository.delete({
+      key: key,
+    });
+    return true;
+  }
+
   mapTranslationEntity(translation: TranslationEntity) {
     return {
       id: translation.key,

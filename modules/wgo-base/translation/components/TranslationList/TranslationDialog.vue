@@ -16,7 +16,7 @@
               :languages="langStore.allLangs"
               :selected="lang"
               @select="selectLang"
-              class="fit text-start"
+              class="fit text-start q-my-sm q-mx-sm"
             />
           </div>
           <div class="col-12">

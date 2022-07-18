@@ -25,6 +25,10 @@ export interface ITranslationArg {
   value: string;
 }
 
+export interface ITranslationDeleteArg {
+  key: string;
+}
+
 export interface ISetTranslationArg {
   translation?: ITranslationArg;
   translations?: ITranslationArg[];

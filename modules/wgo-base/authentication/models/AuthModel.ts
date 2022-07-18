@@ -10,7 +10,7 @@ import {
   ISuccesLogin,
   TOKEN_EXP,
   TOKEN_REGISTER_EXP,
-  WRONG_COONFIRM_EMAIL,
+  WRONG_CONFIRM_EMAIL,
   WRONG_EMAIL,
   WRONG_REGISTER,
   WRONG_TOKEN,
@@ -27,11 +27,14 @@ import {
 import { IUser } from "../../../wgo-base/core/models/user";
 import { EmailServer } from "@wisegar-org/wgo-mailer";
 import { AuthPaths } from "../router";
+import { UserUtils } from "./UserUtils";
+import { UserRolesModel } from "./UserRolesModel";
 
 export class AuthModel {
   private dataSource: DataSource;
   private emailService: EmailServer;
   private options: IAuthModelArg;
+  private userRolesModel: UserRolesModel;
   /**
    *
    */
@@ -44,6 +47,7 @@ export class AuthModel {
         options.tokenRegisterExpiresIn || TOKEN_REGISTER_EXP,
     };
     this.emailService = new EmailServer();
+    this.userRolesModel = new UserRolesModel(options);
   }
 
   public async login(data: IAuthLoginParams): Promise<ISuccesLogin> {
@@ -55,7 +59,7 @@ export class AuthModel {
 
     if (!IsNullOrUndefined(user)) {
       if (user && !user.isEmailConfirmed) {
-        throw new Error(WRONG_COONFIRM_EMAIL);
+        throw new Error(WRONG_CONFIRM_EMAIL);
       }
       if (user && (await this.comparePassword(data.password, user.password))) {
         const token = generateAccessToken({
@@ -69,7 +73,7 @@ export class AuthModel {
         });
         return {
           token,
-          user: this.mapUserEntity(user),
+          user: UserUtils.mapUserEntity(user),
         };
       }
     }
@@ -92,7 +96,7 @@ export class AuthModel {
         relations: ["roles"],
       });
       if (!!user) {
-        return this.mapUserEntity(user);
+        return UserUtils.mapUserEntity(user);
       }
     }
 
@@ -116,13 +120,14 @@ export class AuthModel {
     user.email = data.email;
     user.password = bcrypt.hashSync(data.password, 10);
     user.isEmailConfirmed = data.isEmailConfirmed;
+    user.roles = await this.userRolesModel.getRolesByString(data.roles || []);
 
     user = await repo.save(user);
     if (user) {
       if (!user.isEmailConfirmed) {
         await this.resendConfirmation(data);
       }
-      return this.mapUserEntity(user);
+      return UserUtils.mapUserEntity(user);
     }
     throw new Error(WRONG_REGISTER);
   }
@@ -137,9 +142,23 @@ export class AuthModel {
       user.name = data.name;
       user.lastName = data.lastName;
       user.code = data.code;
+      user.roles = await this.userRolesModel.getRolesByString(data.roles || []);
+      let result = user;
       if (data.password) user.password = bcrypt.hashSync(data.password, 10);
-      const result = await repo.save(user);
-      return this.mapUserEntity(result);
+      if (user.isEmailConfirmed !== data.isEmailConfirmed) {
+        if (data.isEmailConfirmed === true) {
+          user.isEmailConfirmed = true;
+          user.confirmationToken = "";
+          result = await repo.save(user);
+        } else if (user.email) {
+          await repo.save(user);
+          return await this.resendConfirmation({
+            email: user.email,
+          });
+        }
+      }
+
+      return UserUtils.mapUserEntity(result);
     }
     throw new Error(WRONG_USER_DONT_EXIST);
   }
@@ -170,7 +189,7 @@ export class AuthModel {
           Confirm email <a href="${this.options.hostBase}/#${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}"> here </a>
           </div>`,
       });
-      return this.mapUserEntity(user);
+      return UserUtils.mapUserEntity(user);
     }
 
     throw new Error(WRONG_USER_DONT_EXIST);
@@ -251,23 +270,11 @@ export class AuthModel {
         user.confirmationToken = "";
         user.isEmailConfirmed = true;
         await repo.save(user);
-        return this.mapUserEntity(user);
+        return UserUtils.mapUserEntity(user);
       }
     }
 
     throw new Error(WRONG_TOKEN);
-  }
-
-  public async getUser(id: number): Promise<IUser | null> {
-    const repo = await this.dataSource.getRepository(UserEntity);
-    const user = await repo.findOne({
-      where: { id: id },
-      relations: ["roles"],
-    });
-
-    if (user) return this.mapUserEntity(user);
-
-    return null;
   }
 
   private async comparePassword(
@@ -278,19 +285,5 @@ export class AuthModel {
     if (attempt === password) return true;
 
     return await bcrypt.compare(attempt, password);
-  }
-
-  private mapUserEntity(user: UserEntity): IUser {
-    return {
-      id: user.id,
-      name: user.name || "",
-      lastName: user.lastName || "",
-      userName: user.userName,
-      email: user.email || "",
-      isEmailConfirmed: !!user.isEmailConfirmed,
-      code: user.code,
-      certificate: user.certificate,
-      roles: (user.roles || []).map((role) => role.name),
-    } as IUser;
   }
 }

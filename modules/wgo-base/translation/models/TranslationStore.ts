@@ -1,6 +1,7 @@
 import {
   IExportTranslationsArg,
   ISetTranslationArg,
+  ITranslationDeleteArg,
   ITranslationListModel,
   ITranslationModel,
 } from ".";
@@ -79,6 +80,15 @@ export class TranslationStore {
   async setLanguageId(langId: number) {
     this.languageId = langId;
     await this.loadAllTranslation();
+  }
+
+  async deleteTranslation(input: ITranslationDeleteArg) {
+    const translationService = new TranslationService();
+    const result = await translationService.deleteTranslation(input);
+    if (result) {
+      delete this.translations[input.key];
+    }
+    return result;
   }
 
   async importTranslations(input: any) {

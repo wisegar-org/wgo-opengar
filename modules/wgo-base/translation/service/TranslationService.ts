@@ -5,6 +5,7 @@ import {
   M_TRANSLATION_SETTRANSLATION,
   Q_TRANSLATION_EXPORT_TRANSLATIONS,
   M_TRANSLATION_INPORT_TRANSLATIONS,
+  M_TRANSLATION_DELETE_TRANSLATIONS,
 } from "./TranslationServiceQueries";
 import "../models";
 import {
@@ -13,12 +14,14 @@ import {
   TRANSLATION_PATH_SET_TRANSLATION,
   TRANSLATION_PATH_EXPORT_TRANSLATION,
   TRANSLATION_PATH_IMPORT_TRANSLATION,
+  TRANSLATION_PATH_DELETE_TRANSLATION,
 } from "../router/server";
 import {
   IExportTranslationsArg,
   IGetAllTranslationArg,
   IGetAllTranslationsByKeyArg,
   ISetTranslationArg,
+  ITranslationDeleteArg,
   ITranslationModel,
 } from "../models";
 
@@ -96,6 +99,28 @@ export class TranslationService {
       return [];
     } catch (error) {
       console.log("TranslationService setTranslation error: ", error);
+      return [];
+    }
+  }
+
+  async deleteTranslation(translation: ITranslationDeleteArg) {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_TRANSLATION_DELETE_TRANSLATIONS,
+        variables: {
+          data: translation,
+        },
+      })) as {
+        data: { [TRANSLATION_PATH_DELETE_TRANSLATION]: ITranslationModel[] };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data[TRANSLATION_PATH_DELETE_TRANSLATION];
+      }
+
+      return [];
+    } catch (error) {
+      console.log("TranslationService deleteTranslation error: ", error);
       return [];
     }
   }

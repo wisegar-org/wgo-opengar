@@ -1,11 +1,21 @@
 export const SUPERADMIN = "SUPERADMIN";
 
-export const WRONG_USER_PASSWORD = "User or password invalid";
-export const WRONG_COONFIRM_EMAIL = "Unconfirmed credentials";
-export const WRONG_TOKEN = "Invalid credentials";
-export const WRONG_EMAIL = "Email already exists";
-export const WRONG_REGISTER = "Fail user register";
-export const WRONG_USER_DONT_EXIST = "User don't exist";
+export const WRONG_USER_PASSWORD = "WGO_AUTH_WRONG_USER_PASSWORD";
+export const WRONG_CONFIRM_EMAIL = "WGO_AUTH_WRONG_CONFIRM_EMAIL";
+export const WRONG_TOKEN = "WGO_AUTH_WRONG_TOKEN";
+export const WRONG_EMAIL = "WGO_AUTH_WRONG_EMAIL";
+export const WRONG_REGISTER = "WGO_AUTH_WRONG_REGISTER";
+export const WRONG_USER_DONT_EXIST = "WGO_AUTH_WRONG_USER_DONT_EXIST";
+
+export const serverTranslations = [
+  WRONG_USER_PASSWORD,
+  WRONG_CONFIRM_EMAIL,
+  WRONG_TOKEN,
+  WRONG_EMAIL,
+  WRONG_REGISTER,
+  WRONG_USER_DONT_EXIST,
+];
+
 export const USER_AUTH_TOKEN = "AUTH_TOKEN";
 export const TOKEN_EXP = "4h";
 export const TOKEN_REGISTER_EXP = "24h";

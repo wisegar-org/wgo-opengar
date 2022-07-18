@@ -1,3 +1,5 @@
+import { WRONG_EMAIL_DONT_EXIST } from '../../../../src/models/EmailMedia/constants';
+
 export const translations = {
   TITLE: 'WGO_EMAIL_MEDIA_TITLE',
   TITLE_DIALOG: 'WGO_EMAIL_MEDIA_TITLE_DIALOG',
@@ -16,4 +18,8 @@ export const translations = {
   DETAILS_TITLE: 'WGO_EMAIL_MEDIA_DETAILS_TITLE',
   TAB_EMAIL_MEDIA_TITLE: 'WGO_EMAIL_MEDIA_TAB_EMAIL_MEDIA_TITLE',
   TAB_EMAIL_TITLE: 'WGO_EMAIL_MEDIA_TAB_EMAIL_TITLE',
+};
+
+export const getEmailMediaTranslationsKeys = () => {
+  return Object.values(translations).concat([WRONG_EMAIL_DONT_EXIST]);
 };

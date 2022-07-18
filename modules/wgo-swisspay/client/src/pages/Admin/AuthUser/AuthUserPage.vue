@@ -1,28 +1,27 @@
 <template>
-  <TranslationList :tranStore="translationStore" :langStore="languageStore" @success="success" />
+  <UsersList :tranStore="translationStore" :authStore="authStore" @success="success" />
 </template>
 
 <script lang="ts">
 import { useTranslationStore } from '../../../stores/translationStore';
 import { defineComponent } from 'vue';
 import { useNotifyStore } from '../../../stores/notifyStore';
-import TranslationList from '../../../../../../wgo-base/translation/components/TranslationList/TranslationList.vue';
-import { useLanguageStore } from '../../../stores/languageStore';
-import { LanguageStore } from '../../../../../../wgo-base/language/models/LanguageStore';
 import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
+import UsersList from '../../../../../../wgo-base/authentication/components/UsersList/UsersList.vue';
+import { useAuthStore } from '../../../stores/authStore';
 
 export default defineComponent({
-  name: 'TranslationPage',
+  name: 'AuthUserPage',
   components: {
-    TranslationList,
+    UsersList,
   },
   setup() {
     const translationStore = useTranslationStore();
-    const languageStore = useLanguageStore();
     const notifyStore = useNotifyStore();
+    const authStore = useAuthStore();
     return {
       translationStore: translationStore.translationStore as TranslationStore,
-      languageStore: languageStore.languageStore as LanguageStore,
+      authStore: authStore.authStore,
       notifyStore,
     };
   },

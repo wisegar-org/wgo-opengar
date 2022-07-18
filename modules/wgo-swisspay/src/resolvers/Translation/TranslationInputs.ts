@@ -35,3 +35,8 @@ export class ImportTranslationsInput {
   @Field(() => GraphQLUpload, { description: 'File uploaded' })
   file!: Promise<typeof GraphQLUpload>;
 }
+
+@InputType()
+export class DeleteTranslationInput {
+  @Field() key!: string;
+}

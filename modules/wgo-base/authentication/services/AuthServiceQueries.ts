@@ -22,6 +22,7 @@ export const M_AUTH_LOGIN = gql`
         roles
         code
         certificate
+        isEmailConfirmed
       }
       token
     }
@@ -38,6 +39,7 @@ export const Q_AUTH_ME = gql`
       roles
       code
       certificate
+      isEmailConfirmed
     }
   }
 `;
@@ -53,6 +55,7 @@ export const M_AUTH_REGISTER = gql`
       roles
       code
       certificate
+      isEmailConfirmed
     }
   }
 `;
@@ -67,6 +70,7 @@ export const M_AUTH_EDIT_USER = gql`
       roles
       code
       certificate
+      isEmailConfirmed
     }
   }
 `;

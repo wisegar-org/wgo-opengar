@@ -17,6 +17,7 @@ import { loopReadEmails } from './services/Pop3Service';
 import { roleSuperAdminSeeder } from '../../wgo-base/authentication/database/seeder/roles';
 import { userAdminSeeder } from '../../wgo-base/authentication/database/seeder/user';
 import { languageDefaultSeeder } from '../../wgo-base/language/database/seeder/language';
+import { roleClientSeeder } from './database/seeders/ClinetSeeder';
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();
@@ -56,10 +57,13 @@ boot(serverOptions, async () => {
     dataSource.runMigrations();
   }
 
-  //Seeders
+  //Core Seeders
   roleSuperAdminSeeder(dataSource); //create superadmin rol
   userAdminSeeder(dataSource); //create admin user with superadmin rol
   languageDefaultSeeder(dataSource); //create default language
+
+  //App seeders
+  roleClientSeeder(dataSource);
 
   // Loop through all emails in the inbox and save them to the database
   setTimeout(async () => {

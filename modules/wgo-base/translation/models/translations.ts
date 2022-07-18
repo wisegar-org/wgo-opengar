@@ -6,4 +6,10 @@ export const translations = {
   COLUMN_VALUE: "WGO_TRANSLATION_COLUMN_VALUE",
   SET_SUCCESS: "WGO_TRANSLATION_SET_SUCCESS_MSG",
   IMPORT_SUCCESS: "WGO_TRANSLATION_IMPORT_SUCCESS_MSG",
+  DELETE_SUCCESS: "WGO_TRANSLATION_DELETE_SUCCESS_MSG",
+  DELETE_MSG: "WGO_TRANSLATION_DELETE_MSG",
+};
+
+export const getTranslationTranslationsKeys = () => {
+  return Object.values(translations);
 };

@@ -1,17 +1,17 @@
 //Translations base components
-import { translations as transCore } from '../../../../wgo-base/core/models';
-import { translations as transTranslations } from '../../../../wgo-base/translation/models/translations';
-import { translations as languageTranslations } from '../../../../wgo-base/language/models/translations';
-import { translations as authTranslations } from '../../../../wgo-base/authentication/models/translations';
+import { getCoreTranslationsKeys } from '../../../../wgo-base/core/models';
+import { getTranslationTranslationsKeys } from '../../../../wgo-base/translation/models/translations';
+import { getLanguageTranslationsKeys } from '../../../../wgo-base/language/models/translations';
+import { getAuthTranslationsKeys } from '../../../../wgo-base/authentication/models/translations';
 
 //Project translation components
-import { translations as emailMediaTranslations } from '../components/EmailMedia/translations';
-import { translations as employeesTranslations } from '../components/Employees/translations';
+import { getEmailMediaTranslationsKeys } from '../components/EmailMedia/translations';
+import { getEmployeesTranslationsKeys } from '../components/Employees/translations';
 
-const tanslations: string[] = Object.values(transCore)
-  .concat(Object.values(transTranslations))
-  .concat(Object.values(languageTranslations))
-  .concat(Object.values(authTranslations))
-  .concat(Object.values(emailMediaTranslations))
-  .concat(Object.values(employeesTranslations));
+const tanslations: string[] = getCoreTranslationsKeys()
+  .concat(getTranslationTranslationsKeys())
+  .concat(getLanguageTranslationsKeys())
+  .concat(getAuthTranslationsKeys())
+  .concat(getEmailMediaTranslationsKeys())
+  .concat(getEmployeesTranslationsKeys());
 export const Translations = tanslations;

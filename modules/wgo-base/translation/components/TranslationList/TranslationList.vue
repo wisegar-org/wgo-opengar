@@ -68,11 +68,19 @@ export default defineComponent({
       this.showDetails(row);
       console.log("click on", row);
     };
+    const deleteTranslation = (row: any) => {
+      this.deleteTranslation(row);
+    };
     const rowBtns: ITableRowButton[] = [
       {
         icon: "edit",
         tooltip: transBase.EDIT,
         fnAction,
+      },
+      {
+        icon: "delete",
+        tooltip: transBase.DELETE,
+        fnAction: deleteTranslation,
       },
     ];
     const exportTranslations = async () => {
@@ -139,6 +147,31 @@ export default defineComponent({
     showDetails(row: ITranslationModel) {
       this.selectedTranslation = row;
       this.open = true;
+    },
+    deleteTranslation(row: ITranslationModel) {
+      this.$q
+        .dialog({
+          title: this.getLabel(transBase.CONFIRM),
+          message: this.getLabel(translations.DELETE_MSG),
+          persistent: true,
+          focus: "cancel",
+          ok: {
+            color: "primary",
+            label: this.getLabel(transBase.CONFIRM),
+            tabindex: 0,
+          },
+          cancel: {
+            flat: true,
+            label: this.getLabel(transBase.CANCEL),
+            tabindex: 1,
+          },
+        })
+        .onOk(async () => {
+          const result = await this.tranStore.deleteTranslation({
+            key: row.key,
+          });
+          if (result) this.onSuccess(translations.DELETE_SUCCESS);
+        });
     },
     closeDetails() {
       this.open = false;

@@ -19,6 +19,7 @@ export class RegisterInput {
   @Field() email!: string;
   @Field() password!: string;
   @Field() isEmailConfirmed!: boolean;
+  @Field(() => [String], { nullable: true }) roles?: string[];
 }
 
 @InputType()

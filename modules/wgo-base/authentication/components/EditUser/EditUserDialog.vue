@@ -8,7 +8,13 @@
     maxWidth="700px"
     @close="close"
   >
-    <EditUserComponentVue :user="user" @onEdit="onSave" @onClose="close" />
+    <EditUserComponentVue
+      :user="user"
+      @onEdit="onSave"
+      @onClose="close"
+      :tranStore="tranStore"
+      :authStore="authStore"
+    />
   </Dialog>
 </template>
 
@@ -16,6 +22,8 @@
 import { defineComponent, PropType, ref, watch } from "@vue/composition-api";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { IUser } from "../../../core/models";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
+import { AuthStore } from "../../models/AuthStore";
 import EditUserComponentVue from "./EditUserComponent.vue";
 
 export default defineComponent({
@@ -30,6 +38,8 @@ export default defineComponent({
       type: Object as PropType<IUser>,
       required: true,
     },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    authStore: { type: Object as PropType<AuthStore>, required: true },
   },
   methods: {
     close() {

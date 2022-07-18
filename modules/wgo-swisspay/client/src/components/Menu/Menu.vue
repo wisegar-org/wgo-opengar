@@ -104,7 +104,7 @@ export default defineComponent({
   .my-menu-class {
     position: absolute;
     left: 0;
-    border-radius: 0 0 0.3rem 0.3rem !important;
+    border-radius: 0 0 7px 7px !important;
   }
 }
 
@@ -113,7 +113,7 @@ export default defineComponent({
     position: absolute;
     left: 40px;
     top: 40px;
-    border-radius: 0.3rem !important;
+    border-radius: 7px !important;
   }
 }
 </style>
