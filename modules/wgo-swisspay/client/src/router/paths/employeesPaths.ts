@@ -1,11 +1,12 @@
 import { RouteLocationRaw, RouteParamsRaw, RouteRecordRaw } from 'vue-router';
 import { Paths } from '../paths';
 import { IRouteObject } from '../../../../../wgo-base/core/models';
+import { translations } from '../../components/Employees/translations';
 
 export const EmployeesPaths: IRouteObject = {
   employees: {
     path: '/employees',
-    label: 'Employees',
+    label: translations.TITLE,
     name: 'employees',
   },
 };

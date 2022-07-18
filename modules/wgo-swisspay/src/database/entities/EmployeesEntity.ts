@@ -1,4 +1,4 @@
-import { Column, Entity, BaseEntity, PrimaryGeneratedColumn, ManyToMany, JoinColumn } from 'typeorm';
+import { Column, Entity, BaseEntity, PrimaryGeneratedColumn, ManyToMany, JoinColumn, ManyToOne } from 'typeorm';
 import { UserEntity } from '../../../../wgo-base/authentication/database/entities/UserEntity';
 
 @Entity({ name: 'employees' })
@@ -12,11 +12,11 @@ export class EmployeesEntity extends BaseEntity {
   @Column({ default: '' })
   email!: string;
 
-  @ManyToMany(() => UserEntity)
-  @JoinColumn()
+  @ManyToOne((type) => UserEntity)
+  @JoinColumn({ name: 'enterprise_id' })
   enterprise_id!: UserEntity;
 
-  @ManyToMany(() => UserEntity)
-  @JoinColumn()
+  @ManyToOne((type) => UserEntity)
+  @JoinColumn({ name: 'client_id' })
   client_id!: UserEntity;
 }

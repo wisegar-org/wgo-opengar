@@ -16,11 +16,12 @@ export class EmployeesResolver {
     this.dataSource = PostgresDataSource;
   }
 
-  @Authorized()
+  // @Authorized()
   @Query(() => [EmployeesResponse])
   async getAllEmployees(@Arg('data') data: EmployeesFilterInput) {
     const employeesModel = new EmployeesService(this.dataSource);
     const employees = await employeesModel.getAllEmployees(data);
+
     return employees as EmployeesResponse[];
   }
 }

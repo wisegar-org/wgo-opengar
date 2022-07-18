@@ -10,6 +10,7 @@ export class EmployeesService {
 
   async getAllEmployees(input: IEmployeeFilter): Promise<IEmployeeModel[]> {
     try {
+      console.log('EmployeesService getAllEmployees input: ', input);
       const response = (await this.apiInstance.query({
         query: Q_EMPLOYEES_GETALL,
         variables: {
@@ -18,6 +19,7 @@ export class EmployeesService {
       })) as {
         data: { getAllEmployees: IEmployeeModel[] };
       };
+      console.log('EmployeesService getAllEmployees response: ', response);
       if (response && response.data) {
         const {
           data: { getAllEmployees },

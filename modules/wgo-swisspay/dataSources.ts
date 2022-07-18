@@ -20,6 +20,7 @@ import { addLanguageEntity1656012423678 } from '../wgo-base/language/database/mi
 import { addCertificateFields1656434163078 } from '../wgo-base/authentication/database/migrations/1656434163078-addCertificateFields';
 import { createTranslationEntity1656439638048 } from '../wgo-base/translation/database/migrations/1656439638048-createTranslationEntity';
 import { createEmployees1657550848007 } from './src/database/migrations/1657550848007-createEmployees';
+import { updateEmployees1657747113758 } from './src/database/migrations/1657747113758-updateEmployees';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -50,6 +51,7 @@ export const dataSourceOptions: DataSourceOptions = {
     addCertificateFields1656434163078,
     createTranslationEntity1656439638048,
     createEmployees1657550848007,
+    updateEmployees1657747113758,
   ],
   subscribers: [],
 };

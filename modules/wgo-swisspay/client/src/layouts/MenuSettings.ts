@@ -4,6 +4,7 @@ import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 import { AdminLanguagePaths } from '../../../../wgo-base/language/router';
 import { TestMenu } from './test';
 import { AdminTranslationPaths } from 'app/../../wgo-base/translation/router';
+import { EmployeesPaths } from 'src/router/paths/employeesPaths';
 
 const listItems: MenuListItem[] = [
   {
@@ -20,6 +21,14 @@ const listItems: MenuListItem[] = [
     icon: 'email',
     link: EmailMediaPaths.emailMedia.path,
     color: 'green',
+    type: 'item',
+  },
+  {
+    label: EmployeesPaths.employees.label,
+    id: EmployeesPaths.employees.name,
+    icon: 'person',
+    link: EmployeesPaths.employees.path,
+    color: 'red',
     type: 'item',
   },
   {

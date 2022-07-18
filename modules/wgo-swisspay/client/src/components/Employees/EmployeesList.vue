@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="placeholder" style="height: 1px"></div>
-    <Table title="Employees" :data="data" :schema="schema" :height="componentHeight" />
+    <Table :title="translations.TITLE" :data="data" :schema="schema" :height="componentHeight" />
   </div>
 </template>
 
