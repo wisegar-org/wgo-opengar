@@ -2,6 +2,7 @@ import { Pop3Settings } from './../models/EmailModel';
 import { EmailHistoryEntity } from './../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from './../database/entities/EmailMediaEntity';
 import { PostgresDataSource } from './../../dataSources';
+import { SettingsModel } from '../../../wgo-base/settings/models/SettingsModels';
 
 import { IPop3ConnectionOptions, Pop3Command } from '@wisegar-org/wgo-pop3';
 import { Buffer } from 'buffer';
@@ -247,31 +248,13 @@ export class Pop3Service {
 
 export const readEmails = async (): Promise<number> => {
   // Get host, port, username, password from request
-  const config = GetConfig<Pop3Settings>();
-  if (config.POP3_EMAIL_HOST == null) {
-    throw new Error('POP3_EMAIL_HOST not set');
-  }
+  const settingsModel = new SettingsModel(PostgresDataSource);
+  const config = (await settingsModel.getSettings()) as any as Pop3Settings;
   const host = config.POP3_EMAIL_HOST;
-  if (config.POP3_EMAIL_PORT == null) {
-    throw new Error('POP3_EMAIL_PORT not set');
-  }
   const port = config.POP3_EMAIL_PORT;
-  if (config.POP3_EMAIL_USER == null) {
-    throw new Error('POP3_EMAIL_USER not set');
-  }
   const username = config.POP3_EMAIL_USER;
-  if (config.POP3_EMAIL_PASSWORD == null) {
-    throw new Error('POP3_EMAIL_PASSWORD not set');
-  }
   const password = config.POP3_EMAIL_PASSWORD;
-  if (config.POP3_EMAIL_TLS == null) {
-    throw new Error('POP3_EMAIL_TLS not set');
-  }
   const tls = config.POP3_EMAIL_TLS;
-
-  if (config.POP3_EMAIL_EMAIL == null) {
-    throw new Error('POP3_EMAIL_EMAIL not set');
-  }
 
   const pop3 = new Pop3Service({
     host: host,
