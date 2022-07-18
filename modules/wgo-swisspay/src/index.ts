@@ -18,6 +18,7 @@ import { roleSuperAdminSeeder } from '../../wgo-base/authentication/database/see
 import { userAdminSeeder } from '../../wgo-base/authentication/database/seeder/user';
 import { languageDefaultSeeder } from '../../wgo-base/language/database/seeder/language';
 import { roleClientSeeder } from './database/seeders/ClinetSeeder';
+import { settingsSeeder } from './database/seeders/SettingsSeeder';
 
 const port = GetPortKey();
 const environment = GetNodeEnvKey();
@@ -63,6 +64,7 @@ boot(serverOptions, async () => {
   languageDefaultSeeder(dataSource); //create default language
 
   //App seeders
+  settingsSeeder(dataSource);
   roleClientSeeder(dataSource);
 
   // Loop through all emails in the inbox and save them to the database
