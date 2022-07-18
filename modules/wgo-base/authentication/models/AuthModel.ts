@@ -156,6 +156,8 @@ export class AuthModel {
             email: user.email,
           });
         }
+      } else {
+        result = await repo.save(user);
       }
 
       return UserUtils.mapUserEntity(result);
