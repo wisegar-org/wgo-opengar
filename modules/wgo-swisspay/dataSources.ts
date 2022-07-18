@@ -5,6 +5,7 @@ import { UserEntity } from '../wgo-base/authentication/database/entities/UserEnt
 import { RoleEntity } from '../wgo-base/authentication/database/entities/RoleEntity';
 import { LanguageEntity } from '../wgo-base/language/database/entities/LanguageEntity';
 import { TranslationEntity } from '../wgo-base/translation/database/entities/TranslationEntity';
+import { SettingsEntity } from '../wgo-base/settings/database/entities/SettingsEntity';
 import { EmailMediaEntity } from './src/database/entities/EmailMediaEntity';
 import { EmailHistoryEntity } from './src/database/entities/EmailHistoryEntity';
 import { EmployeesEntity } from './src/database/entities/EmployeesEntity';
@@ -21,6 +22,7 @@ import { addCertificateFields1656434163078 } from '../wgo-base/authentication/da
 import { createTranslationEntity1656439638048 } from '../wgo-base/translation/database/migrations/1656439638048-createTranslationEntity';
 import { createEmployees1657550848007 } from './src/database/migrations/1657550848007-createEmployees';
 import { updateEmployees1657747113758 } from './src/database/migrations/1657747113758-updateEmployees';
+import { addSettingsEntity1658164004212 } from '../wgo-base/settings/database/migrations/1658164004212-addSettingsEntity';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -36,6 +38,7 @@ export const dataSourceOptions: DataSourceOptions = {
     RoleEntity,
     LanguageEntity,
     TranslationEntity,
+    SettingsEntity,
     EmailMediaEntity,
     EmailHistoryEntity,
     EmployeesEntity,
@@ -52,6 +55,7 @@ export const dataSourceOptions: DataSourceOptions = {
     createTranslationEntity1656439638048,
     createEmployees1657550848007,
     updateEmployees1657747113758,
+    addSettingsEntity1658164004212,
   ],
   subscribers: [],
 };
