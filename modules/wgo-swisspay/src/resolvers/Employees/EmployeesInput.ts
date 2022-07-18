@@ -7,5 +7,5 @@ export class UserFilterInput {
 
 @InputType()
 export class EmployeesFilterInput {
-  @Field() enterprise_id!: UserFilterInput;
+  @Field(() => UserFilterInput) enterprise_id!: UserFilterInput;
 }

@@ -15,7 +15,13 @@ export class EmployeesService {
   async getAllEmployees(filter: IEmployeeFilter) {
     const repo = await this.dataSource.getRepository(EmployeesEntity);
     const employeesList = await repo.find({
-      where: [{ enterprise_id: Equal(filter.enterprise_id) }],
+      where: [
+        {
+          enterprise_id: {
+            id: filter.enterprise_id.id,
+          },
+        },
+      ],
       relations: ['enterprise_id', 'client_id'],
     });
 
