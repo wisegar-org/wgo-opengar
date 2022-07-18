@@ -33,34 +33,36 @@ export default defineComponent({
     const routeService = new RouteService(router);
 
     const fnAction = (row: any) => {
-      this.showDetails(row);
-      console.log('click on', row);
+      const path = EmailMediaPaths.emailMediaDetails.path.replace(':mediaId', row.id);
+      routeService.goTo(path);
     };
 
     const rowBtns: ITableRowButton[] = [
       {
         icon: 'email',
-        fnAction,
-        tooltip: tranBase.DETAILS,
+        fnAction: (row: any) => {
+          this.showDetails(row);
+          console.log('click on', row);
+        },
+        tooltip: translations.TAB_EMAIL_TITLE,
       },
       {
-        icon: 'edit',
-        fnAction: (row: any) => {
-          const path = EmailMediaPaths.emailMediaDetails.path.replace(':mediaId', row.id);
-          routeService.goTo(path);
-        },
-        tooltip: tranBase.EDIT,
+        icon: 'preview',
+        fnAction,
+        tooltip: tranBase.DETAILS,
       },
     ];
 
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } = resizeComponent;
+    const schema = getEmailMediaListSchema(this.tranStore, [], rowBtns);
+    schema.rowDblClick = fnAction;
     return {
       data,
       emailMediaService,
       emailDetails,
       open: false,
-      schema: getEmailMediaListSchema(this.tranStore, [], rowBtns),
+      schema: schema,
       componentHeight,
       addResize,
       removeResize,
