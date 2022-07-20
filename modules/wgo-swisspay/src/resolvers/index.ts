@@ -4,6 +4,7 @@ import { AuthResolver } from './Auth/AuthResolver';
 import { EmailMediaResolver } from './EmailMedia/EmailMediaResolver';
 import { EmployeesResolver } from './Employees/EmployeesResolver';
 import { LanguageResolver } from './Language/LanguageResolver';
+import { SettingsResolver } from './Settings/SettingsResolver';
 import { TranslationResolver } from './Translation/TranslationResolver';
 
 export const getResolverList = () => {
@@ -14,5 +15,6 @@ export const getResolverList = () => {
     EmployeesResolver,
     LanguageResolver,
     TranslationResolver,
+    SettingsResolver,
   ] as NonEmptyArray<Function>;
 };
