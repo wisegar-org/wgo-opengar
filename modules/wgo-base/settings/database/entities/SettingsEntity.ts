@@ -6,7 +6,7 @@ export class SettingsEntity extends BaseEntity {
   id!: number;
 
   @Column({ default: "", unique: true })
-  type!: string;
+  type_settings!: string;
 
   @Column({ type: "json", default: {} })
   settings!: any;

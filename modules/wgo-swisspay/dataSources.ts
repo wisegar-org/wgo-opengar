@@ -23,6 +23,8 @@ import { createTranslationEntity1656439638048 } from '../wgo-base/translation/da
 import { createEmployees1657550848007 } from './src/database/migrations/1657550848007-createEmployees';
 import { updateEmployees1657747113758 } from './src/database/migrations/1657747113758-updateEmployees';
 import { addSettingsEntity1658164004212 } from '../wgo-base/settings/database/migrations/1658164004212-addSettingsEntity';
+import { renameTypeSettings1658240270133 } from '../wgo-base/settings/database/migrations/1658240270133-renameTypeSettings';
+import { removeAppSettings1658240565587 } from '../wgo-base/settings/database/migrations/1658240565587-removeAppSettings';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -56,6 +58,8 @@ export const dataSourceOptions: DataSourceOptions = {
     createEmployees1657550848007,
     updateEmployees1657747113758,
     addSettingsEntity1658164004212,
+    renameTypeSettings1658240270133,
+    removeAppSettings1658240565587,
   ],
   subscribers: [],
 };
