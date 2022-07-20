@@ -20,9 +20,9 @@ export class EmailMediaResolver {
 
   @Authorized()
   @Query(() => [EmailMediaResponse])
-  async getAllEmailMedia(@Arg('data') data: EmailMediaFilterInput) {
+  async getAllEmailMedia(@Arg('data') data: EmailMediaFilterInput, @Ctx() ctx: any) {
     const emailMediaModel = new EmailMediaService(this.dataSource);
-    const emails = await emailMediaModel.getAllEmails(data);
+    const emails = await emailMediaModel.getAllEmails(data, ctx);
     return emails as EmailMediaResponse[];
   }
 

@@ -15,24 +15,30 @@ export class EmailMediaService {
     this.dataSource = dataSource;
   }
 
-  async getAllEmails(filter: IEmailMediaFilter) {
+  async getAllEmails(filter: IEmailMediaFilter, ctx: any) {
     const repo = await this.dataSource.getRepository(EmailMediaEntity);
-    const emailList = await repo.find({
-      where: [
-        {
-          senderTo: Like(`%${filter.email}%`),
-        },
-        {
-          email: [
+    const whereParam = ctx.user.isSuperAdmin
+      ? {}
+      : {
+          where: [
             {
-              from: Like(`%${filter.email}%`),
+              senderTo: Like(`%${filter.email}%`),
             },
             {
-              to: Like(`%${filter.email}%`),
+              email: [
+                {
+                  from: Like(`%${filter.email}%`),
+                },
+                {
+                  to: Like(`%${filter.email}%`),
+                },
+              ],
             },
           ],
-        },
-      ],
+        };
+
+    const emailList = await repo.find({
+      ...whereParam,
       relations: ['email'],
     });
 
