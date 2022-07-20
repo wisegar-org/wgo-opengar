@@ -32,6 +32,15 @@ export class EmployeesService {
     };
   }
 
+  async deleteEmployee(id: number) {
+    const repo = await this.dataSource.getRepository(EmployeesEntity);
+    const deletedEmployee = await repo.delete({
+      id: id,
+    });
+
+    return deletedEmployee.affected && deletedEmployee.affected > 0;
+  }
+
   async validateRegisterEmployee(token: string) {
     const validatedToken = validateAccessToken({
       publicKey: this.options.publicKey,
@@ -56,7 +65,7 @@ export class EmployeesService {
       relations: ['enterprise_id', 'client_id'],
     });
 
-    if (exist_employee) {
+    if (exist_employee.length > 0) {
       console.log('Invalid Data: Employee exist!');
       return false;
     }

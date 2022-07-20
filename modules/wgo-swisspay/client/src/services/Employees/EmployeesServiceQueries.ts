@@ -37,3 +37,9 @@ export const M_EMPLOYEES_CHECK_TOKEN = gql`
     checkEmployeeToken(data: $data)
   }
 `;
+
+export const M_EMPLOYEES_DELETE = gql`
+  mutation deleteEmployee($data: UserFilterInput!) {
+    deleteEmployee(data: $data)
+  }
+`;

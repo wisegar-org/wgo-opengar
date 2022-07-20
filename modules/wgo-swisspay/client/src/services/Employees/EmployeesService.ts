@@ -3,6 +3,7 @@ import { IEmployeeFilter, IEmployeeModel } from '../../../../src/models/Employee
 import {
   M_EMPLOYEES_ADD,
   M_EMPLOYEES_CHECK_TOKEN,
+  M_EMPLOYEES_DELETE,
   M_EMPLOYEES_REGISTER,
   Q_EMPLOYEES_GETALL,
 } from './EmployeesServiceQueries';
@@ -12,6 +13,30 @@ export class EmployeesService {
 
   constructor() {
     this.apiInstance = ApiService.GetInstance();
+  }
+
+  async deleteEmployee(id: number) {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_EMPLOYEES_DELETE,
+        variables: {
+          data: {
+            id: id,
+          },
+        },
+      })) as {
+        data: { ['deleteEmployee']: boolean };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data['deleteEmployee'];
+      }
+
+      return false;
+    } catch (error) {
+      console.log('EmployeesService deleteEmployee error: ', error);
+      return false;
+    }
   }
 
   async checkEmployeeToken(token: string) {
@@ -33,7 +58,7 @@ export class EmployeesService {
 
       return 0;
     } catch (error) {
-      console.log('EmployeesService addEmployee error: ', error);
+      console.log('EmployeesService checkEmployeeToken error: ', error);
       return 0;
     }
   }

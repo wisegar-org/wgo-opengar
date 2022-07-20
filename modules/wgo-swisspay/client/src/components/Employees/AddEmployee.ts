@@ -31,6 +31,7 @@ export default defineComponent({
           type: 'positive',
           message: this.getLabelFromName(translations.ADDED_EMPLOYEE_MESSAGE),
         });
+        this.cancelEmployee();
       } else {
         this.$q.notify({
           type: 'negative',
