@@ -70,7 +70,6 @@ export default defineComponent({
       employeesService,
       tableData,
       addEmployee() {
-        // todo
         $q.dialog({
           title: getLabelFromName(translations.REGISTER_EMAIL_TITLE),
           message: getLabelFromName(translations.EMAIL_ADDRESS_FIELD_NAME),

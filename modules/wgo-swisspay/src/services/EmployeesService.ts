@@ -87,7 +87,7 @@ export class EmployeesService {
   }
 
   async registerEmployee(employee: IRegisterEmployeeFilter) {
-    console.log('TODO: EmployeesService registerEmployee employee: ', employee);
+    console.log('EmployeesService registerEmployee employee: ', employee);
     const token = generateAccessToken({
       privateKey: this.options.privateKey,
       expiresIn: this.options.tokenRegisterExpiresIn,
@@ -131,7 +131,7 @@ export class EmployeesService {
   }
 
   private mapEmployeeEntity(employee: EmployeesEntity): IEmployeeModel {
-    console.log('TODO: EmployeesService mapEmployeeEntity employee: ', employee);
+    console.log('EmployeesService mapEmployeeEntity employee: ', employee);
     return employee as unknown as IEmployeeModel;
   }
 }
