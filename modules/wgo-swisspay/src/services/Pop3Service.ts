@@ -2,7 +2,7 @@ import { Pop3Settings } from './../models/EmailModel';
 import { EmailHistoryEntity } from './../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from './../database/entities/EmailMediaEntity';
 import { PostgresDataSource } from './../../dataSources';
-import { SettingsModel } from '../../../wgo-base/settings/models/SettingsModels';
+import { SettingsModel } from '../../../wgo-base/settings/models/SettingsModel';
 
 import { IPop3ConnectionOptions, Pop3Command } from '@wisegar-org/wgo-pop3';
 import { Buffer } from 'buffer';
@@ -10,6 +10,7 @@ import { ParsedMail, simpleParser } from 'mailparser';
 
 import { GetConfig } from '@wisegar-org/wgo-settings';
 import { READ_EMAILS_INTERVAL } from '../models/constants';
+import { SETTINGS_POP3 } from '../models/Settings/constants';
 import PDFService from './PDFService';
 
 import { EmailServer } from '@wisegar-org/wgo-mailer';
@@ -249,7 +250,7 @@ export class Pop3Service {
 export const readEmails = async (): Promise<number> => {
   // Get host, port, username, password from request
   const settingsModel = new SettingsModel(PostgresDataSource);
-  const config = (await settingsModel.getSettings()) as any as Pop3Settings;
+  const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_POP3 })) as any as Pop3Settings;
   const host = config.POP3_EMAIL_HOST;
   const port = config.POP3_EMAIL_PORT;
   const username = config.POP3_EMAIL_USER;
