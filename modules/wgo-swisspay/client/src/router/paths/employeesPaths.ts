@@ -9,6 +9,11 @@ export const EmployeesPaths: IRouteObject = {
     label: translations.TITLE,
     name: 'employees',
   },
+  addEmployees: {
+    path: '/employees/addEmployee',
+    label: translations.ADD_EMPLOYEE_LABEL,
+    name: 'add_employee',
+  },
 };
 
 export const EmployeesPathRouter: RouteRecordRaw = {
@@ -19,6 +24,13 @@ export const EmployeesPathRouter: RouteRecordRaw = {
     {
       path: EmployeesPaths.employees.path,
       component: () => import('pages/Employees/EmployeesListPage.vue'),
+      meta: {
+        auth: true,
+      },
+    },
+    {
+      path: EmployeesPaths.addEmployees.path,
+      component: () => import('pages/Employees/AddEmployeePage.vue'),
       meta: {
         auth: true,
       },

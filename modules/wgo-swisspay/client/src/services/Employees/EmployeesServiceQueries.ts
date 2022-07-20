@@ -25,3 +25,15 @@ export const M_EMPLOYEES_REGISTER = gql`
     registerEmployee(data: $data)
   }
 `;
+
+export const M_EMPLOYEES_ADD = gql`
+  mutation addEmployee($data: EmployeesInput!) {
+    addEmployee(data: $data)
+  }
+`;
+
+export const M_EMPLOYEES_CHECK_TOKEN = gql`
+  mutation checkEmployeeToken($data: EmployeesTokenInput!) {
+    checkEmployeeToken(data: $data)
+  }
+`;

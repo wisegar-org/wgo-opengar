@@ -1,7 +1,7 @@
 import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql';
 import { PostgresDataSource } from '../../../dataSources';
 import { DataSource } from 'typeorm';
-import { EmployeesFilterInput, EmployeesRegisterInput } from './EmployeesInput';
+import { EmployeesFilterInput, EmployeesInput, EmployeesRegisterInput, EmployeesTokenInput } from './EmployeesInput';
 import { EmployeesResponse } from './EmployeesResponse';
 import { EmployeesService } from '../../services/EmployeesService';
 
@@ -16,7 +16,7 @@ export class EmployeesResolver {
     this.dataSource = PostgresDataSource;
   }
 
-  // @Authorized()
+  @Authorized()
   @Query(() => [EmployeesResponse])
   async getAllEmployees(@Arg('data') data: EmployeesFilterInput) {
     const employeesModel = new EmployeesService(this.dataSource);
@@ -25,10 +25,35 @@ export class EmployeesResolver {
     return employees as EmployeesResponse[];
   }
 
+  @Authorized()
   @Mutation(() => Boolean, { name: 'registerEmployee' })
   async registerEmployee(@Arg('data') data: EmployeesRegisterInput) {
     const employessService = new EmployeesService(this.dataSource);
     const registerEmployee = await employessService.registerEmployee(data);
     return registerEmployee;
+  }
+
+  @Authorized()
+  @Mutation(() => Boolean, { name: 'addEmployee' })
+  async addEmployee(@Arg('data') data: EmployeesInput) {
+    const employessService = new EmployeesService(this.dataSource);
+    const registerEmployee = await employessService.addEmployee(
+      data.email,
+      data.name,
+      data.enterprise_id.id,
+      data.client_id.id
+    );
+    return registerEmployee;
+  }
+
+  @Authorized()
+  @Mutation(() => Number, { name: 'checkEmployeeToken' })
+  async checkEmployeeToken(@Arg('data') data: EmployeesTokenInput) {
+    const employessService = new EmployeesService(this.dataSource);
+    const registerEmployee = await employessService.validateRegisterEmployee(data.token);
+    if (registerEmployee) {
+      return parseInt(registerEmployee.userId);
+    }
+    return 0;
   }
 }

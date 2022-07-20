@@ -1,5 +1,5 @@
 import { EmailServer } from '@wisegar-org/wgo-mailer';
-import { generateAccessToken } from '@wisegar-org/wgo-server';
+import { generateAccessToken, validateAccessToken } from '@wisegar-org/wgo-server';
 import {
   GetEmailAppAddressKey,
   GetExpiresInKey,
@@ -32,6 +32,51 @@ export class EmployeesService {
     };
   }
 
+  async validateRegisterEmployee(token: string) {
+    const validatedToken = validateAccessToken({
+      publicKey: this.options.publicKey,
+      token: token,
+    });
+
+    return validatedToken;
+  }
+
+  async addEmployee(email: string, name: string, enterprise_id: number, client_id: number) {
+    const repo = await this.dataSource.getRepository(EmployeesEntity);
+
+    const exist_employee = await repo.find({
+      where: [
+        {
+          enterprise_id: {
+            id: enterprise_id,
+          },
+          email: email,
+        },
+      ],
+      relations: ['enterprise_id', 'client_id'],
+    });
+
+    if (exist_employee) {
+      console.log('Invalid Data: Employee exist!');
+      return false;
+    }
+
+    const employee = await repo.insert({
+      name: name,
+      email: email,
+      enterprise_id: {
+        id: enterprise_id,
+      },
+      client_id: {
+        id: client_id,
+      },
+    });
+
+    console.log(employee);
+
+    return true;
+  }
+
   async registerEmployee(employee: IRegisterEmployeeFilter) {
     console.log('TODO: EmployeesService registerEmployee employee: ', employee);
     const token = generateAccessToken({
@@ -51,8 +96,8 @@ export class EmployeesService {
         <p>
           To register as an employee, please click on the link below:
         </p>
-        <a href="${this.options.hostBase}addEmployee?token=${token}">
-          ${this.options.hostBase}addEmployee?token=${token}
+        <a href="${this.options.hostBase}employees/addEmployee?token=${token}">
+          ${this.options.hostBase}employees/addEmployee?token=${token}
         </a>
         </div>`,
     });
