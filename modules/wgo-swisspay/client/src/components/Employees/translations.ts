@@ -8,6 +8,7 @@ export const translations = {
   EMAIL_NOT_SENDED_MESSAGE: 'WGO_EMPLOYEES_EMAIL_NOT_SENDED_MESSAGE', // Error sending email
   OK_BUTTON: 'WGO_EMPLOYEES_OK_BUTTON',
   CANCEL_BUTTON: 'WGO_EMPLOYEES_CANCEL_BUTTON',
+  ADD_EMPLOYEE_BTN: 'WGO_EMPLOYEES_ADD_EMPLOYEE_BTN',
 };
 
 export const getEmployeesTranslationsKeys = () => {
