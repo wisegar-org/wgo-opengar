@@ -190,7 +190,6 @@ export default defineComponent({
       if (this.userInput.password !== this.confirmPassword) return;
       this.showLoading = true;
       const service = new AuthService();
-      debugger;
       const user = await service.editUser(this.userInput);
       if (user) {
         this.$emit("onEdit", user);
