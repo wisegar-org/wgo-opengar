@@ -26,6 +26,7 @@ export const translations = {
   SELECT_COLUMNS_TL: "WGO_SELECT_COLUMNS_TL",
   SERVER_ERROR: "WGO_SERVER_ERROR",
   NETWORK_ERROR: "WGO_NETWORK_ERROR",
+  INVALID_PARAMS: "WGO_CONTEXT_INVALID_PARAMS",
 };
 
 export const getCoreTranslationsKeys = () => {
