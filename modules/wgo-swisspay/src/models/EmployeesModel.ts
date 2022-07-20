@@ -15,3 +15,17 @@ export interface IUserFilter {
 export interface IEmployeeFilter {
   enterprise_id: IUserFilter;
 }
+
+export interface IRegisterEmployeeFilter {
+  email: string;
+  enterprise_id: IUserFilter;
+}
+
+export interface IEmployeeOptions {
+  privateKey: string;
+  publicKey: string;
+  hostBase: string;
+  tokenExpiresIn: string;
+  tokenRegisterExpiresIn: string;
+  emailOptions: any;
+}

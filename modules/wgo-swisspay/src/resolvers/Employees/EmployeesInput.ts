@@ -9,3 +9,9 @@ export class UserFilterInput {
 export class EmployeesFilterInput {
   @Field(() => UserFilterInput) enterprise_id!: UserFilterInput;
 }
+
+@InputType()
+export class EmployeesRegisterInput {
+  @Field(() => String) email!: string;
+  @Field(() => UserFilterInput) enterprise_id!: UserFilterInput;
+}

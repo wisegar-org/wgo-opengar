@@ -1,7 +1,7 @@
-import { Arg, Authorized, Query, Resolver } from 'type-graphql';
+import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql';
 import { PostgresDataSource } from '../../../dataSources';
 import { DataSource } from 'typeorm';
-import { EmployeesFilterInput } from './EmployeesInput';
+import { EmployeesFilterInput, EmployeesRegisterInput } from './EmployeesInput';
 import { EmployeesResponse } from './EmployeesResponse';
 import { EmployeesService } from '../../services/EmployeesService';
 
@@ -23,5 +23,12 @@ export class EmployeesResolver {
     const employees = await employeesModel.getAllEmployees(data);
 
     return employees as EmployeesResponse[];
+  }
+
+  @Mutation(() => Boolean, { name: 'registerEmployee' })
+  async registerEmployee(@Arg('data') data: EmployeesRegisterInput) {
+    const employessService = new EmployeesService(this.dataSource);
+    const registerEmployee = await employessService.registerEmployee(data);
+    return registerEmployee;
   }
 }

@@ -1,7 +1,11 @@
 <template>
   <div>
     <div ref="placeholder" style="height: 1px"></div>
-    <Table :title="translations.TITLE" :data="data" :schema="schema" :height="componentHeight" />
+    <q-btn color="primary" @click="addEmployee">
+      <q-icon name="add" />
+      <span>Add Employee</span>
+    </q-btn>
+    <Table :title="translations.TITLE" :data="data" :schema="schema" :height="componentHeight"> </Table>
   </div>
 </template>
 
