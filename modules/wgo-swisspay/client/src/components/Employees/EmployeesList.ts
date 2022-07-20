@@ -78,7 +78,7 @@ export default defineComponent({
         })
           .onOk(async (data) => {
             Loading.show();
-            const enterprise_id = 1;
+            const enterprise_id = authStore.authStore.user.id;
             if (await employeesService.registerEmployee(data, enterprise_id)) {
               $q.notify({
                 type: 'positive',
