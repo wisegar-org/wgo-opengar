@@ -7,12 +7,21 @@
       :schema="schema"
       :height="componentHeight"
     />
+    <SettingsDialog
+      :open="open"
+      :stting="selectedSettings"
+      :tranStore="tranStore"
+      @close="closeDetails"
+      @success="onSuccess"
+    />
+    <Loader :loading="loading" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
 import Table from "../../../core/components/Table/Table.vue";
+import Loader from "../../../core/components/Loader/Loader.vue";
 import { getSettingsListSchema } from "./SettingsListSchema";
 import { BaseResizeComponent } from "../../../core/components/BaseComponents";
 import { ITableLeftButton, ITableRowButton } from "../../../core/models/Table";
@@ -20,11 +29,15 @@ import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { translations } from "../../models/translations";
 import { translations as tranBase } from "../../../core/models";
 import { ISettingsModel } from "../../models";
+import { SettingsService } from "../../services/SettingsService";
+import SettingsDialog from "./SettingsDialog.vue";
 
 export default defineComponent({
   name: "SettingsList",
   components: {
     Table,
+    Loader,
+    SettingsDialog,
   },
   props: {
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
@@ -60,12 +73,13 @@ export default defineComponent({
       schema: schema,
       translations,
       loading: false,
+      settingsService: new SettingsService(),
     };
   },
   methods: {
     async loadSettings() {
       this.loading = true;
-      this.dataSettings = [];
+      this.dataSettings = await this.settingsService.getAllSettings();
       this.loading = false;
     },
     showDetails(row: ISettingsModel) {
@@ -78,7 +92,13 @@ export default defineComponent({
     onResize() {
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
-    onSuccess(msg: string) {
+    onSuccess(newVal: string, msg: string) {
+      this.dataSettings = this.dataSettings.map((setting) =>
+        setting.key === this.selectedSettings.key &&
+        setting.type_settings === this.selectedSettings.type_settings
+          ? { ...setting, value: newVal }
+          : setting
+      );
       this.$emit("success", msg);
     },
   },
