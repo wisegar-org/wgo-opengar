@@ -23,6 +23,7 @@
             <q-input
               square
               outlined
+              :autofocus="!translation.key"
               class="q-my-sm q-mx-sm"
               v-model="translationList[lang.id].key"
               required
@@ -34,6 +35,7 @@
             <q-input
               square
               outlined
+              autofocus
               class="q-my-sm q-mx-sm"
               v-model="translationList[lang.id].value"
               required
