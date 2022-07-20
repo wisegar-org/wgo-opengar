@@ -40,6 +40,15 @@ export interface Pop3Settings extends IBaseSettings {
   POP3_EMAIL_TLS: boolean;
 }
 
+export interface SmtpSettings extends IBaseSettings {
+  SMTP_EMAIL_HOST: string;
+  SMTP_EMAIL_PORT: number;
+  SMTP_EMAIL_USER: string;
+  SMTP_EMAIL_PASSWORD: string;
+  SMTP_EMAIL_EMAIL: string;
+  SMTP_EMAIL_TLS: boolean;
+}
+
 export interface IEmailMediaModel {
   id: number;
   name: string;
