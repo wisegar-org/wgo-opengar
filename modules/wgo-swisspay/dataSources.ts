@@ -1,4 +1,11 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
+import {
+  GetDBHostKey,
+  GetDBNameKey,
+  GetDBPasswordKey,
+  GetDBPortKey,
+  GetDBUserNameKey,
+} from '@wisegar-org/wgo-settings';
 
 /** Entities */
 import { UserEntity } from '../wgo-base/authentication/database/entities/UserEntity';
@@ -28,11 +35,11 @@ import { removeAppSettings1658240565587 } from '../wgo-base/settings/database/mi
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'postgres',
-  database: 'wgo-swisspay',
+  host: GetDBHostKey() || 'localhost',
+  port: parseInt(`${GetDBPortKey() || 5432}`),
+  username: GetDBUserNameKey() || 'postgres',
+  password: GetDBPasswordKey() || 'postgres',
+  database: GetDBNameKey() || 'wgo-swisspay',
   useUTC: true,
   migrationsRun: true,
   entities: [
