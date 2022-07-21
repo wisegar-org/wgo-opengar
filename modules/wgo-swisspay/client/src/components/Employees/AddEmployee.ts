@@ -1,15 +1,15 @@
 import { useAuthStore } from 'src/stores/authStore';
-import { defineComponent, PropType, ref } from 'vue';
-import { ITableData } from '../../../../../wgo-base/core/models/Table';
-import { BaseResizeComponent, BaseTranslateComponent } from '../../../../../wgo-base/core/components/BaseComponents';
+import { defineComponent, PropType } from 'vue';
+import { BaseTranslateComponent } from '../../../../../wgo-base/core/components/BaseComponents';
 import { useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';
-import { getEmployeesListSchema } from './EmployeesSchema';
 import { translations } from './translations';
+import { translations as tranBase } from '../../../../../wgo-base/core/models';
 import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
-import { Loading, useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
+import { Paths } from '../../router/paths';
 
 export default defineComponent({
   name: 'AddEmployee',
@@ -31,7 +31,7 @@ export default defineComponent({
           type: 'positive',
           message: this.getLabelFromName(translations.ADDED_EMPLOYEE_MESSAGE),
         });
-        this.cancelEmployee();
+        this.goToHome();
       } else {
         this.$q.notify({
           type: 'negative',
@@ -39,10 +39,8 @@ export default defineComponent({
         });
       }
     },
-    cancelEmployee() {
-      // redirect to home
-      const path = '/';
-      this.routeService.goTo(path);
+    goToHome() {
+      this.routeService.goTo(Paths.home.path);
     },
   },
   data() {
@@ -57,10 +55,12 @@ export default defineComponent({
     };
 
     return {
-      open: false,
+      open: true,
       routeService,
       translations,
       userData,
+      tranBase,
+      innerLoading: true,
     };
   },
   setup(props) {
@@ -97,20 +97,20 @@ export default defineComponent({
       if (resp) {
         this.userData.enterprise_id = resp;
       } else {
-        this.cancelEmployee();
+        this.goToHome();
         this.$q.notify({
           type: 'negative',
           message: this.getLabelFromName(translations.INVALID_TOKEN_EMPLOYEE),
         });
       }
     } else {
-      this.cancelEmployee();
+      this.goToHome();
       this.$q.notify({
         type: 'negative',
         message: this.getLabelFromName(translations.MISSING_TOKEN_EMPLOYEE),
       });
     }
-
+    this.innerLoading = false;
     this.appStatusStore.loading = false;
   },
 });

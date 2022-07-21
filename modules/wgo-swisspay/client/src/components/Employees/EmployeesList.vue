@@ -1,11 +1,8 @@
 <template>
   <div>
     <div ref="placeholder" style="height: 1px"></div>
-    <q-btn color="primary" @click="addEmployee">
-      <q-icon name="add" />
-      <span>{{ getLabelFromName(translations.ADD_EMPLOYEE_BTN) }}</span>
-    </q-btn>
     <Table :title="translations.TITLE" :data="tableData" :schema="schema" :height="componentHeight"> </Table>
+    <SendEmployMailDialog :tranStore="tranStore" :open="open" @close="closeEmployMailDialog" />
   </div>
 </template>
 

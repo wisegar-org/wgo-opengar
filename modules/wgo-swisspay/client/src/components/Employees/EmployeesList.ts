@@ -1,7 +1,7 @@
 import { useAuthStore } from 'src/stores/authStore';
-import { defineComponent, computed, PropType, ref, Ref } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import Table from '../../../../../wgo-base/core/components/Table/Table.vue';
-import { ITableData, ITableRowButton } from '../../../../../wgo-base/core/models/Table';
+import { ITableLeftButton, ITableRowButton } from '../../../../../wgo-base/core/models/Table';
 import { BaseResizeComponent, BaseTranslateComponent } from '../../../../../wgo-base/core/components/BaseComponents';
 import { useRouter } from 'vue-router';
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
@@ -11,6 +11,9 @@ import { getEmployeesListSchema } from './EmployeesSchema';
 import { translations } from './translations';
 import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
 import { Loading, useQuasar } from 'quasar';
+import { translations as transBase } from '../../../../../wgo-base/core/models';
+import SendEmployMailDialog from './SendEmployMailDialog.vue';
+import { IEmployeeModel } from 'app/../src/models/EmployeesModel';
 
 export default defineComponent({
   name: 'EmployeesList',
@@ -19,10 +22,12 @@ export default defineComponent({
   },
   components: {
     Table,
+    SendEmployMailDialog,
   },
   data(props) {
     const router = useRouter();
     const routeService = new RouteService(router);
+    const tableData: IEmployeeModel[] = [];
 
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } = resizeComponent;
@@ -35,18 +40,65 @@ export default defineComponent({
       },
     ];
 
+    const leftBtns: ITableLeftButton[] = [
+      {
+        label: '',
+        icon: 'add',
+        color: 'primary',
+        tooltip: translations.ADD_EMPLOYEE_BTN,
+        fnAction: this.sendLinkEmployee,
+      },
+    ];
+
     return {
       open: false,
-      schema: getEmployeesListSchema(props.tranStore, [], rowBtns),
+      schema: getEmployeesListSchema(props.tranStore, leftBtns, rowBtns),
       componentHeight,
       addResize,
       removeResize,
       resizeTable,
       routeService,
       translations,
+      tableData,
     };
   },
   methods: {
+    sendLinkEmployee() {
+      this.open = true;
+    },
+    closeEmployMailDialog() {
+      this.open = false;
+    },
+    deleteEmployee(row: any) {
+      this.$q
+        .dialog({
+          title: this.getLabelFromName(translations.DELETE_EMPLOYEE_TITLE),
+          message: this.getLabelFromName(translations.DELETE_EMPLOYEE_MESSAGE),
+          persistent: true,
+          focus: 'cancel',
+          ok: {
+            color: 'primary',
+            label: this.getLabelFromName(transBase.CONFIRM),
+            tabindex: 0,
+          },
+          cancel: {
+            flat: true,
+            label: this.getLabelFromName(transBase.CANCEL),
+            tabindex: 1,
+          },
+        })
+        .onOk(async () => {
+          Loading.show();
+          const deletedEmployee = await this.employeesService.deleteEmployee(row.id);
+          if (deletedEmployee) {
+            this.tableData = await this.employeesService.getAllEmployees({
+              enterprise_id: { id: this.authStore.user.id },
+            });
+          }
+
+          Loading.hide();
+        });
+    },
     onResize() {
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
@@ -55,7 +107,6 @@ export default defineComponent({
     const $q = useQuasar();
     const authStore = useAuthStore();
     const appStatusStore = useAppStatusStore();
-    const tableData: Ref<ITableData[]> = ref([]);
 
     const employeesService = new EmployeesService();
     const { getLabel } = new BaseTranslateComponent();
@@ -68,79 +119,15 @@ export default defineComponent({
       authStore: authStore.authStore,
       appStatusStore,
       employeesService,
-      tableData,
-      addEmployee() {
-        $q.dialog({
-          title: getLabelFromName(translations.REGISTER_EMAIL_TITLE),
-          message: getLabelFromName(translations.EMAIL_ADDRESS_FIELD_NAME),
-          prompt: {
-            model: '',
-            type: 'text',
-            isValid: isValidEmail,
-          },
-          ok: getLabelFromName(translations.OK_BUTTON),
-          cancel: getLabelFromName(translations.CANCEL_BUTTON),
-          persistent: true,
-        })
-          .onOk(async (data) => {
-            Loading.show();
-            const enterprise_id = authStore.authStore.user.id;
-            if (await employeesService.registerEmployee(data, enterprise_id)) {
-              $q.notify({
-                type: 'positive',
-                message: getLabelFromName(translations.EMAIL_SENDED_MESSAGE),
-              });
-            } else {
-              $q.notify({
-                type: 'negative',
-                message: getLabelFromName(translations.EMAIL_NOT_SENDED_MESSAGE),
-              });
-            }
-            Loading.hide();
-          })
-          .onCancel(() => {
-            // Nothing to do
-          });
-      },
-      deleteEmployee(row: any) {
-        $q.dialog({
-          title: getLabelFromName(translations.DELETE_EMPLOYEE_TITLE),
-          message: getLabelFromName(translations.DELETE_EMPLOYEE_MESSAGE),
-          ok: getLabelFromName(translations.OK_BUTTON),
-          cancel: getLabelFromName(translations.CANCEL_BUTTON),
-          persistent: true,
-        })
-          .onOk(async () => {
-            Loading.show();
-            const deletedEmployee = await employeesService.deleteEmployee(row.id);
-            console.log(deletedEmployee);
-            if (deletedEmployee) {
-              const result = await employeesService.getAllEmployees({
-                enterprise_id: { id: authStore.authStore.user.id },
-              });
-
-              console.log(result);
-
-              tableData.value = result as any as ITableData[];
-            }
-
-            Loading.hide();
-          })
-          .onCancel(() => {
-            // Nothing to do
-          });
-      },
     };
   },
   async mounted() {
     const user = this.authStore.user;
     this.appStatusStore.loading = true;
     if (user.id) {
-      const data = await this.employeesService.getAllEmployees({
+      this.tableData = await this.employeesService.getAllEmployees({
         enterprise_id: { id: user.id },
       });
-      console.log('data', data);
-      this.tableData = data as any as ITableData[];
     }
     this.appStatusStore.loading = false;
   },
@@ -153,9 +140,3 @@ export default defineComponent({
     this.removeResize(this.onResize);
   },
 });
-
-function isValidEmail(email: string): boolean {
-  const re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-}
