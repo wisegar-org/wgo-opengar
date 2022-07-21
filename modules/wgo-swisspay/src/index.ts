@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import { boot, IServerOptions, NonEmptyArray, UseRestMiddleware } from '@wisegar-org/wgo-server';
-import { GetPortKey, GetNodeEnvKey, GetPrivateKey, GetPublicKey, GetExpiresInKey } from '@wisegar-org/wgo-settings';
+import { boot, IServerOptions, UseRestMiddleware } from '@wisegar-org/wgo-server';
+import { GetPortKey, GetPrivateKey, GetPublicKey, GetExpiresInKey } from '@wisegar-org/wgo-settings';
 import { AuthenticationHandler } from './handlers/AuthenticationHandler';
 import { AppContextHandler } from './handlers/AppContextHandler';
 import { errorHandler } from './handlers/ErrorHandler';
@@ -21,7 +21,6 @@ import { roleClientSeeder } from './database/seeders/ClinetSeeder';
 import { settingsSeeder } from './database/seeders/SettingsSeeder';
 
 const port = GetPortKey();
-const environment = GetNodeEnvKey();
 
 const serverOptions: IServerOptions = {
   authenticator: AuthenticationHandler,

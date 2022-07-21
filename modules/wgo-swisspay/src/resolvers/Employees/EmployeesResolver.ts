@@ -32,33 +32,33 @@ export class EmployeesResolver {
   }
 
   @Authorized()
-  @Mutation(() => Boolean, { name: 'registerEmployee' })
-  async registerEmployee(@Arg('data') data: EmployeesRegisterInput) {
+  @Mutation(() => Boolean, { name: 'sendEmployeeAddLink' })
+  async sendEmployeeAddLink(@Arg('data') data: EmployeesRegisterInput) {
     const employessService = new EmployeesService(this.dataSource);
-    const registerEmployee = await employessService.registerEmployee(data);
-    return registerEmployee;
+    const sendEmployeeAddLink = await employessService.sendEmployeeAddLink(data);
+    return sendEmployeeAddLink;
   }
 
   @Authorized()
   @Mutation(() => Boolean, { name: 'addEmployee' })
   async addEmployee(@Arg('data') data: EmployeesInput) {
     const employessService = new EmployeesService(this.dataSource);
-    const registerEmployee = await employessService.addEmployee(
+    const sendEmployeeAddLink = await employessService.addEmployee(
       data.email,
       data.name,
       data.enterprise_id.id,
       data.client_id.id
     );
-    return registerEmployee;
+    return sendEmployeeAddLink;
   }
 
   @Authorized()
   @Mutation(() => Number, { name: 'checkEmployeeToken' })
   async checkEmployeeToken(@Arg('data') data: EmployeesTokenInput) {
     const employessService = new EmployeesService(this.dataSource);
-    const registerEmployee = await employessService.validateRegisterEmployee(data.token);
-    if (registerEmployee) {
-      return parseInt(registerEmployee.userId);
+    const sendEmployeeAddLink = await employessService.validateRegisterEmployee(data.token);
+    if (sendEmployeeAddLink) {
+      return parseInt(sendEmployeeAddLink.userId);
     }
     return 0;
   }

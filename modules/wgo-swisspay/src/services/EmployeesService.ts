@@ -7,7 +7,8 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
-import { DataSource, Equal } from 'typeorm';
+import { DataSource } from 'typeorm';
+import { UserRolesModel } from '../../../wgo-base/authentication/models/UserRolesModel';
 import { EmployeesEntity } from '../database/entities/EmployeesEntity';
 import { IEmployeeFilter, IEmployeeModel, IEmployeeOptions, IRegisterEmployeeFilter } from '../models/EmployeesModel';
 
@@ -86,8 +87,8 @@ export class EmployeesService {
     return true;
   }
 
-  async registerEmployee(employee: IRegisterEmployeeFilter) {
-    console.log('EmployeesService registerEmployee employee: ', employee);
+  async sendEmployeeAddLink(employee: IRegisterEmployeeFilter) {
+    console.log('EmployeesService sendEmployeeAddLink employee: ', employee);
     const token = generateAccessToken({
       privateKey: this.options.privateKey,
       expiresIn: this.options.tokenRegisterExpiresIn,
@@ -97,6 +98,11 @@ export class EmployeesService {
         sessionId: -1,
       },
     });
+    const userExists = await this.vaidateUserExist(employee.email);
+    const link = `${this.options.hostBase}#/employees/${
+      userExists ? 'confirmEmployee' : 'registerEmployee'
+    }?token=${token}`;
+    console.debug(link);
     await this.emailService.send({
       ...this.options.emailOptions,
       subject: 'Wisegar - Register Employee',
@@ -105,7 +111,7 @@ export class EmployeesService {
         <p>
           To register as an employee, please click on the link below:
         </p>
-        <a href="${this.options.hostBase}#/employees/addEmployee?token=${token}">
+        <a href="${link}">
           Click here
         </a>
         </div>`,
@@ -128,6 +134,12 @@ export class EmployeesService {
     });
 
     return employeesList.map((employee) => this.mapEmployeeEntity(employee));
+  }
+
+  private async vaidateUserExist(email: string) {
+    const userRepo = new UserRolesModel({ ...this.options, dataSource: this.dataSource });
+    const user = await userRepo.getUserByEmail(email);
+    return !!user;
   }
 
   private mapEmployeeEntity(employee: EmployeesEntity): IEmployeeModel {
