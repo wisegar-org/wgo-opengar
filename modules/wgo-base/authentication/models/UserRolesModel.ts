@@ -43,6 +43,18 @@ export class UserRolesModel {
     return null;
   }
 
+  public async getUserByEmail(email: string): Promise<IUser | null> {
+    const repo = await this.dataSource.getRepository(UserEntity);
+    const user = await repo.findOne({
+      where: { email },
+      relations: ["roles"],
+    });
+
+    if (user) return UserUtils.mapUserEntity(user);
+
+    return null;
+  }
+
   public async getAllUsers(): Promise<IUser[]> {
     const repo = await this.dataSource.getRepository(UserEntity);
     const users = await repo.find({
