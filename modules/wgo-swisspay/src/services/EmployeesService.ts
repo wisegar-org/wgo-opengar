@@ -105,8 +105,8 @@ export class EmployeesService {
         <p>
           To register as an employee, please click on the link below:
         </p>
-        <a href="${this.options.hostBase}employees/addEmployee?token=${token}">
-          ${this.options.hostBase}employees/addEmployee?token=${token}
+        <a href="${this.options.hostBase}#/employees/addEmployee?token=${token}">
+          Click here
         </a>
         </div>`,
     });
