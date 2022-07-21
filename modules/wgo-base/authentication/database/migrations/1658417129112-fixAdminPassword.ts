@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class removeAppSettings1658240565587 implements MigrationInterface {
-  name = "removeAppSettings1658240565587";
+export class fixAdminPassword1658417129112 implements MigrationInterface {
+  name = "fixAdminPassword1658417129112";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `DELETE FROM settings WHERE "type_settings" = 'WGO_APP_SETTINGS'`
+      `DELETE FROM users WHERE "email" = 'admin@wisegar.org'`
     );
   }
 

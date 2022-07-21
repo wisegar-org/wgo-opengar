@@ -3,6 +3,7 @@ import { DataSource } from "typeorm";
 import { SUPERADMIN } from "../../models";
 import { RoleEntity } from "../entities/RoleEntity";
 import { UserEntity } from "../entities/UserEntity";
+import * as bcrypt from "bcrypt";
 
 export const userAdminSeeder = async (dataSource: DataSource) => {
   const adminUserEmail = "admin@wisegar.org";
@@ -22,7 +23,7 @@ export const userAdminSeeder = async (dataSource: DataSource) => {
     adminUser.isEmailConfirmed = true;
     adminUser.name = "Admin";
     adminUser.lastName = "User";
-    adminUser.password = "Wisegar.-0";
+    adminUser.password = bcrypt.hashSync("Wisegar.-0", 10);
     adminUser.roles = roleEntity ? [roleEntity] : [];
     const adminUserRegistered = await userRepository.save(adminUser);
     if (!IsNullOrUndefined(adminUserRegistered))

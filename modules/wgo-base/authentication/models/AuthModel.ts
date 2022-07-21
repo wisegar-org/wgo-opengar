@@ -283,9 +283,6 @@ export class AuthModel {
     attempt: string,
     password: string
   ): Promise<boolean> {
-    //TODO clean this
-    if (attempt === password) return true;
-
     return await bcrypt.compare(attempt, password);
   }
 }
