@@ -125,6 +125,7 @@ export default defineComponent({
   props: {
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
     roles: { type: Array as PropType<string[]>, default: [] },
+    isEmailConfirmed: { type: Boolean, default: false },
   },
   data() {
     const { getLabel } = new BaseTranslateComponent();
@@ -151,7 +152,7 @@ export default defineComponent({
       this.showLoading = true;
       const service = new AuthService();
       this.user.userName = this.user.email;
-      this.user.isEmailConfirmed = false;
+      this.user.isEmailConfirmed = this.isEmailConfirmed;
       const user = await service.registerUser(this.user);
       if (user) {
         this.$emit("onRegister", user);
