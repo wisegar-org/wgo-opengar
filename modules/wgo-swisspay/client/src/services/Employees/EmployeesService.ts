@@ -19,17 +19,18 @@ export class EmployeesService {
     try {
       const response = (await this.apiInstance.mutate({
         mutation: M_EMPLOYEES_DELETE,
+        fetchPolicy: 'no-cache',
         variables: {
           data: {
             id: id,
           },
         },
       })) as {
-        data: { ['deleteEmployee']: boolean };
+        data: { deleteEmployee: boolean };
       };
       if (response && response.data) {
         const { data } = response;
-        return data['deleteEmployee'];
+        return data.deleteEmployee;
       }
 
       return false;
@@ -43,17 +44,18 @@ export class EmployeesService {
     try {
       const response = (await this.apiInstance.mutate({
         mutation: M_EMPLOYEES_CHECK_TOKEN,
+        fetchPolicy: 'no-cache',
         variables: {
           data: {
             token: token,
           },
         },
       })) as {
-        data: { ['checkEmployeeToken']: number };
+        data: { checkEmployeeToken: number };
       };
       if (response && response.data) {
         const { data } = response;
-        return data['checkEmployeeToken'];
+        return data.checkEmployeeToken;
       }
 
       return 0;
@@ -67,6 +69,7 @@ export class EmployeesService {
     try {
       const response = (await this.apiInstance.mutate({
         mutation: M_EMPLOYEES_ADD,
+        fetchPolicy: 'no-cache',
         variables: {
           data: {
             email: email,
@@ -80,11 +83,11 @@ export class EmployeesService {
           },
         },
       })) as {
-        data: { ['addEmployee']: boolean };
+        data: { addEmployee: boolean };
       };
       if (response && response.data) {
         const { data } = response;
-        return data['addEmployee'];
+        return data.addEmployee;
       }
 
       return false;
@@ -94,10 +97,11 @@ export class EmployeesService {
     }
   }
 
-  async registerEmployee(email: string, enterprise_id: number) {
+  async sendEmployeeAddLink(email: string, enterprise_id: number) {
     try {
       const response = (await this.apiInstance.mutate({
         mutation: M_EMPLOYEES_REGISTER,
+        fetchPolicy: 'no-cache',
         variables: {
           data: {
             email: email,
@@ -107,16 +111,16 @@ export class EmployeesService {
           },
         },
       })) as {
-        data: { ['registerEmployee']: boolean };
+        data: { sendEmployeeAddLink: boolean };
       };
       if (response && response.data) {
         const { data } = response;
-        return data['registerEmployee'];
+        return data.sendEmployeeAddLink;
       }
 
       return false;
     } catch (error) {
-      console.log('EmployeesService registerEmployee error: ', error);
+      console.log('EmployeesService sendEmployeeAddLink error: ', error);
       return false;
     }
   }
@@ -125,6 +129,7 @@ export class EmployeesService {
     try {
       const response = (await this.apiInstance.query({
         query: Q_EMPLOYEES_GETALL,
+        fetchPolicy: 'no-cache',
         variables: {
           data: input,
         },

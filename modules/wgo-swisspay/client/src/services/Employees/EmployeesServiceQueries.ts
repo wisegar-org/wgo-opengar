@@ -21,8 +21,8 @@ export const Q_EMPLOYEES_GETALL = gql`
 `;
 
 export const M_EMPLOYEES_REGISTER = gql`
-  mutation registerEmployee($data: EmployeesRegisterInput!) {
-    registerEmployee(data: $data)
+  mutation sendEmployeeAddLink($data: EmployeesRegisterInput!) {
+    sendEmployeeAddLink(data: $data)
   }
 `;
 
