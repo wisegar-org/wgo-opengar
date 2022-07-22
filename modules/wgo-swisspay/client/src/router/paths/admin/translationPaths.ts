@@ -11,8 +11,8 @@ export const TranslationPathRouter: RouteRecordRaw = {
       path: AdminTranslationPaths.adminTranslation.path,
       component: () => import('pages/Admin/Translation/TranslationPage.vue'),
       meta: {
-        auth: true,
-        role: [SUPERADMIN],
+        auth: AdminTranslationPaths.adminTranslation.auth,
+        role: AdminTranslationPaths.adminTranslation.role,
       },
     },
   ],

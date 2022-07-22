@@ -1,5 +1,4 @@
-import { RouteLocationRaw, RouteParamsRaw, RouteRecordRaw } from 'vue-router';
-import { Paths } from '../paths';
+import { RouteRecordRaw } from 'vue-router';
 import { IRouteObject } from '../../../../../wgo-base/core/models';
 import { translations } from '../../components/EmailMedia/translations';
 
@@ -8,11 +7,13 @@ export const EmailMediaPaths: IRouteObject = {
     path: '/emailMedia',
     label: translations.TITLE,
     name: 'email_media',
+    auth: true,
   },
   emailMediaDetails: {
     path: '/emailMedia/:mediaId',
     label: translations.DETAILS_TITLE,
     name: 'email_media_details',
+    auth: true,
   },
 };
 
@@ -25,7 +26,7 @@ export const EmailMediaPathRouter: RouteRecordRaw = {
       path: EmailMediaPaths.emailMedia.path,
       component: () => import('pages/EmailMedia/EmailMediaPage.vue'),
       meta: {
-        auth: true,
+        auth: EmailMediaPaths.emailMedia.auth,
       },
     },
     {
@@ -37,7 +38,7 @@ export const EmailMediaPathRouter: RouteRecordRaw = {
         };
       },
       meta: {
-        auth: true,
+        auth: EmailMediaPaths.emailMediaDetails.auth,
       },
     },
   ],

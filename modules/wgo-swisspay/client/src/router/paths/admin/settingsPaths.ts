@@ -11,8 +11,8 @@ export const SettingsPathRouter: RouteRecordRaw = {
       path: AdminSettingsPaths.adminSettings.path,
       component: () => import('pages/Admin/Settings/SettingsPage.vue'),
       meta: {
-        auth: true,
-        role: [SUPERADMIN],
+        auth: AdminSettingsPaths.adminSettings.auth,
+        role: AdminSettingsPaths.adminSettings.role,
       },
     },
   ],

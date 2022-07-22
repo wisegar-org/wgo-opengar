@@ -2,7 +2,7 @@ import { ISuccesLogin } from ".";
 import { IIdInput, IUser } from "../../core/models";
 import { AuthService } from "../services/AuthService";
 import { UserRolesService } from "../services/UserRolesService";
-import { USER_AUTH_TOKEN } from "./constants";
+import { SUPERADMIN, USER_AUTH_TOKEN } from "./constants";
 
 export class AuthStore {
   token: string;
@@ -48,8 +48,13 @@ export class AuthStore {
     return localStorage.getItem(USER_AUTH_TOKEN) || "";
   }
 
+  isUserLogged() {
+    return this.user && this.user.id;
+  }
+
   isUserInRole(roles: string[]) {
     if (this.user && this.user.roles) {
+      if (this.user.roles.indexOf(SUPERADMIN) !== -1) return true;
       const result = roles
         .map((role) => this.user.roles.indexOf(role) !== -1)
         .reduce((a, b) => a || b, false);

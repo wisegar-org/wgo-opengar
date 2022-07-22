@@ -1,4 +1,4 @@
-import { MenuListItem } from 'src/components/models';
+import { MenuListItem } from 'src/components/Menu/models';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 

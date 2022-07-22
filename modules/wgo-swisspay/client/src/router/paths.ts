@@ -5,5 +5,6 @@ export const Paths: IRouteObject = {
     path: '/',
     label: translations.HOME,
     name: 'home',
+    auth: false,
   },
 };

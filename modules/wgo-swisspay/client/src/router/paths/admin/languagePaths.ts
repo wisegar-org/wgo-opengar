@@ -11,8 +11,8 @@ export const LanguagePathRouter: RouteRecordRaw = {
       path: AdminLanguagePaths.adminLanguage.path,
       component: () => import('pages/Admin/Language/LanguagePage.vue'),
       meta: {
-        auth: true,
-        role: [SUPERADMIN],
+        auth: AdminLanguagePaths.adminLanguage.auth,
+        role: AdminLanguagePaths.adminLanguage.role,
       },
     },
   ],

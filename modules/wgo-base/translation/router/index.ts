@@ -1,3 +1,4 @@
+import { SUPERADMIN } from "../../authentication/models";
 import { IRouteObject } from "../../core/models";
 import { AdminBasePath } from "../../core/router";
 import { translations } from "../models/translations";
@@ -9,5 +10,7 @@ export const AdminTranslationPaths: IRouteObject = {
     path: `${TranslationPathsBase}`,
     name: "admin_translation",
     label: translations.TITLE,
+    auth: true,
+    role: [SUPERADMIN],
   },
 };

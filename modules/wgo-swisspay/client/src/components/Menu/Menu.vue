@@ -13,7 +13,7 @@
       <q-card-section class="q-pa-sm row q-bottom-sheet--grid fit scroll" style="max-height: 50vh">
         <div class="row items-stretch justify-start fit">
           <div
-            v-for="(item, index) of links"
+            v-for="(item, index) of getValidLinks()"
             :key="`menuItems-${getId(item)}-${index}`"
             :class="getClass(item)"
             @click="() => goToPath(item)"
@@ -43,8 +43,9 @@ import { BaseTranslateComponent } from '../../../../../wgo-base/core/components/
 import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
 import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
 import { useTranslationStore } from '../../stores/translationStore';
-import { MenuListItem } from '../models';
+import { MenuListItem } from './models';
 import { translations as tranBase } from '../../../../../wgo-base/core/models';
+import { useAuthStore } from '../../stores/authStore';
 
 export default defineComponent({
   name: 'Menu',
@@ -64,6 +65,7 @@ export default defineComponent({
     const router = useRouter();
     const routeService = new RouteService(router);
     const tranStore = useTranslationStore();
+    const authStore = useAuthStore();
     const { getLabel } = new BaseTranslateComponent();
 
     return {
@@ -74,6 +76,7 @@ export default defineComponent({
       onDialogCancel,
       getLabel: (name: string) => getLabel(tranStore.translationStore as TranslationStore, name),
       tranBase,
+      authStore: authStore.authStore,
     };
   },
   methods: {
@@ -93,6 +96,15 @@ export default defineComponent({
       return item.type === 'item'
         ? 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position q-bottom-sheet--grid q-ma-none'
         : 'col-12';
+    },
+    getValidLinks() {
+      return this.links.filter((linkItem) => this.isInRole(linkItem));
+    },
+    isInRole(item: MenuListItem) {
+      if (!item.auth && !item.role) return true;
+      if (item.auth && !item.role && this.authStore.isUserLogged()) return true;
+
+      return this.authStore.isUserInRole(item.role || []);
     },
   },
   emits: [...useDialogPluginComponent.emits],
