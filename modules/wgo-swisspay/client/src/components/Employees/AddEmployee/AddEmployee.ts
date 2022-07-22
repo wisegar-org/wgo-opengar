@@ -1,15 +1,15 @@
 import { useAuthStore } from 'src/stores/authStore';
 import { defineComponent, PropType } from 'vue';
-import { BaseTranslateComponent } from '../../../../../wgo-base/core/components/BaseComponents';
+import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
 import { useRouter } from 'vue-router';
-import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
+import { RouteService } from '../../../../../../wgo-base/core/services/RouteService';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';
-import { translations } from './translations';
-import { translations as tranBase } from '../../../../../wgo-base/core/models';
-import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
+import { translations } from '../translations';
+import { translations as tranBase } from '../../../../../../wgo-base/core/models';
+import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
 import { useQuasar } from 'quasar';
-import { Paths } from '../../router/paths';
+import { Paths } from '../../../router/paths';
 
 export default defineComponent({
   name: 'AddEmployee',
