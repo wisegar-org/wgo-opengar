@@ -96,6 +96,10 @@ export default defineComponent({
     const { getLabel } = new BaseTranslateComponent();
     const schema = getAuthUserListSchema(this.tranStore, leftBtns, rowBtns);
     schema.rowDblClick = fnAction;
+    schema.rowsPerPage = this.$q.platform.is.mobile
+      ? [5, 10, 20, 0]
+      : [15, 20, 30, 50, 100, 0];
+    schema.rowsPerPageDefault = schema.rowsPerPage[1];
     const users: IUser[] = [];
     return {
       users,

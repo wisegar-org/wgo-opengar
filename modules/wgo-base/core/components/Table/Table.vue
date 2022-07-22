@@ -11,7 +11,8 @@
       :style="{ height: `${height}px` }"
       :visible-columns="visibleColumns"
       class="my-sticky-header-table"
-      :rows-per-page-options="[rowsPerPage]"
+      :rows-per-page-options="rowsPerPage"
+      :pagination="initialPagination"
     >
       <template v-slot:top>
         <TableTitleHeader
@@ -131,6 +132,9 @@ export default defineComponent({
     const filtredData: ITableData[] = [];
     const inputSequence: string[] = [];
     const filters: { [key: string]: string } = {};
+    const initialPagination = {
+      rowsPerPage: this.schema.rowsPerPageDefault || 0,
+    };
 
     return {
       mySchema,
@@ -143,6 +147,7 @@ export default defineComponent({
       searchText: "",
       enableFilter: false,
       tranBase,
+      initialPagination,
     };
   },
   methods: {
@@ -240,10 +245,10 @@ export default defineComponent({
     },
   },
   computed: {
-    rowsPerPage(): number {
+    rowsPerPage(): number[] {
       return this.schema && this.schema.rowsPerPage
         ? this.schema.rowsPerPage
-        : 0;
+        : [0];
     },
   },
   emits: ["selectCode", "buttonClick", "rowSelect"],

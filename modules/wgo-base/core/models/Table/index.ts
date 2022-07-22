@@ -83,7 +83,8 @@ export interface ITableSchema {
   leadingZeros?: number;
   codeWidth?: number;
   exportTitle?: string;
-  rowsPerPage?: number;
+  rowsPerPage?: number[];
+  rowsPerPageDefault?: number;
   rowClass?: (row: any) => string | undefined;
   rowDblClick?: (row: any) => unknown;
 }

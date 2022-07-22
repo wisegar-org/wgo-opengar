@@ -5,11 +5,11 @@
     :title="getLabel(translations.ADD_EMPLOYEE_MESSAGE_TITLE)"
     :persistent="true"
     :showClose="true"
-    maxWidth="900px"
+    maxWidth="800px"
     @close="close"
   >
-    <q-card flat square class="q-pa-none fit">
-      <q-form @submit="sendEmployEmail" class="q-pa-none">
+    <q-card flat square class="q-pa-none fit flex" style="width: 100%">
+      <q-form @submit="sendEmployEmail" class="q-pa-none fit">
         <q-card-section class="row q-pa-none justify-around">
           <div class="col-12">
             <q-input

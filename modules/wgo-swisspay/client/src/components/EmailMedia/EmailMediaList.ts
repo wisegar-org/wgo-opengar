@@ -57,6 +57,8 @@ export default defineComponent({
     const { componentHeight, addResize, removeResize, resizeTable } = resizeComponent;
     const schema = getEmailMediaListSchema(this.tranStore, [], rowBtns);
     schema.rowDblClick = fnAction;
+    schema.rowsPerPage = this.$q.platform.is.mobile ? [5, 10, 20, 0] : [15, 20, 30, 50, 100, 0];
+    schema.rowsPerPageDefault = 0;
     return {
       data,
       emailMediaService,

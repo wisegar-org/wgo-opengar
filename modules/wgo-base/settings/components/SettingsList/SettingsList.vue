@@ -61,6 +61,10 @@ export default defineComponent({
     const leftBtns: ITableLeftButton[] = [];
     const schema = getSettingsListSchema(this.tranStore, leftBtns, rowBtns);
     schema.rowDblClick = fnAction;
+    schema.rowsPerPage = this.$q.platform.is.mobile
+      ? [5, 10, 20, 0]
+      : [15, 20, 30, 50, 100, 0];
+    schema.rowsPerPageDefault = schema.rowsPerPage[1];
     const dataSettings: ISettingsModel[] = [];
     return {
       selectedSettings: {} as ISettingsModel,

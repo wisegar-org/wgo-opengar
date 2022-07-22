@@ -9,7 +9,7 @@
   >
     <q-card
       :style="`max-width: ${!!maxWidth ? maxWidth : '100%'}; width: ${
-        !!width ? width : 'auto'
+        !!width ? width : '100%'
       }`"
     >
       <q-toolbar class="bg-primary text-white">

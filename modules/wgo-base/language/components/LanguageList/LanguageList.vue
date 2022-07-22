@@ -68,6 +68,10 @@ export default defineComponent({
     ];
     const schema = getLanguageListSchema(this.tranStore, leftBtns, rowBtns);
     schema.rowDblClick = fnAction;
+    schema.rowsPerPage = this.$q.platform.is.mobile
+      ? [5, 10, 20, 0]
+      : [15, 20, 30, 50, 100, 0];
+    schema.rowsPerPageDefault = 0;
     return {
       selectedLang: {} as ILanguageModel,
       open: false,
