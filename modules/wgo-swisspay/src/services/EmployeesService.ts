@@ -99,7 +99,7 @@ export class EmployeesService {
       },
     });
     const userExists = await this.vaidateUserExist(employee.email);
-    const link = `${this.options.hostBase}#/employees/${
+    const link = `${this.options.hostBase}/#/employees/${
       userExists ? 'confirmEmployee' : 'registerEmployee'
     }?token=${token}`;
     console.debug(link);
