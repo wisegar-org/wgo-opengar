@@ -1,8 +1,8 @@
 import { Pop3Settings } from './../models/EmailModel';
 import { EmailHistoryEntity } from './../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from './../database/entities/EmailMediaEntity';
-import { PostgresDataSource } from './../../dataSources';
-import { SettingsModel } from '../../../wgo-base/settings/models/SettingsModel';
+import { PostgresDataSource } from '../dataSources';
+import { SettingsModel } from '../wgo-base/settings/models/SettingsModel';
 
 import { IPop3ConnectionOptions, Pop3Command } from '@wisegar-org/wgo-pop3';
 import { Buffer } from 'buffer';

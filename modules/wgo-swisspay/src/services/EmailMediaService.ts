@@ -1,6 +1,6 @@
 import { DataSource, Like } from 'typeorm';
-import { IIdInput } from '../../../wgo-base/core/models';
-import { UtilService } from '../../../wgo-base/core/services/UtilService';
+import { IIdInput } from '../wgo-base/core/models';
+import { UtilService } from '../wgo-base/core/services/UtilService';
 import { EmailHistoryEntity } from '../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from '../database/entities/EmailMediaEntity';
 import { WRONG_EMAIL_DONT_EXIST } from '../models/EmailMedia/constants';

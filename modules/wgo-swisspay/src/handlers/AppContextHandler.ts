@@ -6,10 +6,10 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
-import { SUPERADMIN } from '../../../wgo-base/authentication/models';
-import { translations } from '../../../wgo-base/core/models';
-import { UserRolesModel } from '../../../wgo-base/authentication/models/UserRolesModel';
-import { PostgresDataSource } from '../../dataSources';
+import { SUPERADMIN } from '../wgo-base/authentication/models';
+import { translations } from '../wgo-base/core/models';
+import { UserRolesModel } from '../wgo-base/authentication/models/UserRolesModel';
+import { PostgresDataSource } from '../dataSources';
 import { IContext } from '../models';
 
 const authModel = new UserRolesModel({

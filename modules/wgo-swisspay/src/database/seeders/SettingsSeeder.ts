@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { settingsAdminSeeder } from '../../../../wgo-base/settings/database/seeder/settings';
+import { settingsAdminSeeder } from '../../wgo-base/settings/database/seeder/settings';
 import { SETTINGS_POP3, SETTINGS_SMTP } from '../../models/Settings/constants';
 import { getPop3Settings, getSmtpSettings } from '../../services/SettingsService';
 

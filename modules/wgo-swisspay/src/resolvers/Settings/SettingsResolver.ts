@@ -1,9 +1,9 @@
 import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql';
-import { PostgresDataSource } from '../../../dataSources';
+import { PostgresDataSource } from '../../dataSources';
 import { DataSource } from 'typeorm';
 import { SettingsResponse } from './SettingsResolvers';
-import { SETTINGS_PATH_GET_ALL_SETTINGS, SETTINGS_PATH_SET_SETTING } from '../../../../wgo-base/settings/router/server';
-import { SettingsModel } from '../../../../wgo-base/settings/models/SettingsModel';
+import { SETTINGS_PATH_GET_ALL_SETTINGS, SETTINGS_PATH_SET_SETTING } from '../../wgo-base/settings/router/server';
+import { SettingsModel } from '../../wgo-base/settings/models/SettingsModel';
 import { PostSettingInput } from './SettingsInputs';
 
 @Resolver()

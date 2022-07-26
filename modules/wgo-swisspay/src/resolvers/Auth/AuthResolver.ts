@@ -8,9 +8,9 @@ import {
   ResetPasswordInput,
 } from './AuthInputs';
 import { LoginResponse, UserResponse } from './AuthResponses';
-import { AuthModel } from '../../../../wgo-base/authentication/models/AuthModel';
-import { UserRolesModel } from '../../../../wgo-base/authentication/models/UserRolesModel';
-import { IAuthModelArg } from '../../../../wgo-base/authentication/models';
+import { AuthModel } from '../../wgo-base/authentication/models/AuthModel';
+import { UserRolesModel } from '../../wgo-base/authentication/models/UserRolesModel';
+import { IAuthModelArg } from '../../wgo-base/authentication/models';
 import {
   AUTH_PATH_CHANGE_RESET_PASSWORD,
   AUTH_PATH_CONFIRM_REGIST,
@@ -24,8 +24,8 @@ import {
   AUTH_PATH_REGISTER,
   AUTH_PATH_RESEND_CONFIRMATION,
   AUTH_PATH_RESET_PASSWORD,
-} from '../../../../wgo-base/authentication/router/server';
-import { PostgresDataSource } from '../../../dataSources';
+} from '../../wgo-base/authentication/router/server';
+import { PostgresDataSource } from '../../dataSources';
 import {
   GetEmailAppAddressKey,
   GetExpiresInKey,

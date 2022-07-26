@@ -1,5 +1,5 @@
 import { Column, Entity, BaseEntity, PrimaryGeneratedColumn, ManyToMany, JoinColumn, ManyToOne } from 'typeorm';
-import { UserEntity } from '../../../../wgo-base/authentication/database/entities/UserEntity';
+import { UserEntity } from '../../wgo-base/authentication/database/entities/UserEntity';
 
 @Entity({ name: 'employees' })
 export class EmployeesEntity extends BaseEntity {

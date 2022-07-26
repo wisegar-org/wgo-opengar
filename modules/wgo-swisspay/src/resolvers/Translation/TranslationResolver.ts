@@ -1,8 +1,8 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import { DataSource } from 'typeorm';
-import { PostgresDataSource } from '../../../dataSources';
+import { PostgresDataSource } from '../../dataSources';
 import { TranslationResponse } from './TranslationResponses';
-import { TranslationModel } from '../../../../wgo-base/translation/models/TranslationModel';
+import { TranslationModel } from '../../wgo-base/translation/models/TranslationModel';
 import {
   TRANSLATION_PATH_DELETE_TRANSLATION,
   TRANSLATION_PATH_EXPORT_TRANSLATION,
@@ -10,7 +10,7 @@ import {
   TRANSLATION_PATH_GET_ALL_TRANSLATION,
   TRANSLATION_PATH_IMPORT_TRANSLATION,
   TRANSLATION_PATH_SET_TRANSLATION,
-} from '../../../../wgo-base/translation/router/server';
+} from '../../wgo-base/translation/router/server';
 import {
   DeleteTranslationInput,
   ExportTranslationInput,

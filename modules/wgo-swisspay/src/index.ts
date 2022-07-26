@@ -7,16 +7,16 @@ import { errorHandler } from './handlers/ErrorHandler';
 import { AppController } from './controllers/AppController';
 import { UseClientSPAHostMiddleware } from './middlewares/HostClientMiddleware';
 import { Express } from 'express';
-import { dataSourceOptions, PostgresDataSource } from '../dataSources';
+import { dataSourceOptions, PostgresDataSource } from './dataSources';
 import { createDatabase } from 'typeorm-extension';
 import { getResolverList } from './resolvers';
 import { EmailController } from './controllers/EmailController';
 import { loopReadEmails } from './services/Pop3Service';
 
 //base seeders
-import { roleSuperAdminSeeder } from '../../wgo-base/authentication/database/seeder/roles';
-import { userAdminSeeder } from '../../wgo-base/authentication/database/seeder/user';
-import { languageDefaultSeeder } from '../../wgo-base/language/database/seeder/language';
+import { roleSuperAdminSeeder } from './wgo-base/authentication/database/seeder/roles';
+import { userAdminSeeder } from './wgo-base/authentication/database/seeder/user';
+import { languageDefaultSeeder } from './wgo-base/language/database/seeder/language';
 import { roleClientSeeder, roleUserSeeder } from './database/seeders/ClinetSeeder';
 import { settingsSeeder } from './database/seeders/SettingsSeeder';
 
@@ -69,6 +69,6 @@ boot(serverOptions, async () => {
 
   // Loop through all emails in the inbox and save them to the database
   setTimeout(async () => {
-    // loopReadEmails();
+    loopReadEmails();
   }, 0);
 });

@@ -9,9 +9,9 @@ import {
 } from '@wisegar-org/wgo-settings';
 import PdfParse from 'pdf-parse';
 import { DataSource } from 'typeorm';
-import { UserRolesModel } from '../../../wgo-base/authentication/models/UserRolesModel';
-import { UserUtils } from '../../../wgo-base/authentication/models/UserUtils';
-import { UtilService } from '../../../wgo-base/core/services/UtilService';
+import { UserRolesModel } from '../wgo-base/authentication/models/UserRolesModel';
+import { UserUtils } from '../wgo-base/authentication/models/UserUtils';
+import { UtilService } from '../wgo-base/core/services/UtilService';
 import { EmployeesEntity } from '../database/entities/EmployeesEntity';
 import {
   IEmployeeDocumentProps,

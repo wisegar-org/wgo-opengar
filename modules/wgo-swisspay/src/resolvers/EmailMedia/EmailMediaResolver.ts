@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { PostgresDataSource } from '../../../dataSources';
+import { PostgresDataSource } from '../../dataSources';
 import { DataSource } from 'typeorm';
 import { EmailDetailsResponse, EmailMediaResponse, EmailResponse } from './EmailMediaResponses';
 import { EmailMediaFilterInput } from './EmailMediaInputs';
