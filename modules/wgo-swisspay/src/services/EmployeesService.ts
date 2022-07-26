@@ -7,10 +7,22 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
+import PdfParse from 'pdf-parse';
 import { DataSource } from 'typeorm';
 import { UserRolesModel } from '../../../wgo-base/authentication/models/UserRolesModel';
+import { UserUtils } from '../../../wgo-base/authentication/models/UserUtils';
+import { UtilService } from '../../../wgo-base/core/services/UtilService';
 import { EmployeesEntity } from '../database/entities/EmployeesEntity';
-import { IEmployeeFilter, IEmployeeModel, IEmployeeOptions, IRegisterEmployeeFilter } from '../models/EmployeesModel';
+import {
+  IEmployeeDocumentProps,
+  IEmployeeFilter,
+  IEmployeeModel,
+  IEmployeeOptions,
+  IRegisterEmployeeFilter,
+} from '../models/EmployeesModel';
+import { EmployeeSendDocumentsInput } from '../resolvers/Employees/EmployeesInput';
+import { EmailMediaService } from './EmailMediaService';
+import PDFService from './PDFService';
 
 export class EmployeesService {
   dataSource: DataSource;
@@ -63,7 +75,7 @@ export class EmployeesService {
           email: email,
         },
       ],
-      relations: ['enterprise_id', 'client_id'],
+      relations: ['enterprise_id', 'client_id', 'client_id.roles'],
     });
 
     if (exist_employee.length > 0) {
@@ -130,10 +142,42 @@ export class EmployeesService {
           },
         },
       ],
-      relations: ['enterprise_id', 'client_id'],
+      relations: ['enterprise_id', 'client_id', 'client_id.roles'],
     });
 
     return employeesList.map((employee) => this.mapEmployeeEntity(employee));
+  }
+
+  async sendEmployeeDocuments(data: EmployeeSendDocumentsInput) {
+    const userRolesModel = new UserRolesModel({ ...this.options, dataSource: this.dataSource });
+    const emailMediaService = new EmailMediaService(this.dataSource);
+    const docResult: IEmployeeDocumentProps[] = [];
+    const user = await userRolesModel.getUser(data.client_id.id);
+    const client = await userRolesModel.getUser(data.enterprise_id.id);
+    if (!user || !client) return false;
+    for (const file of data.files) {
+      const result = await emailMediaService.addMediaByEmail(file, user as any, client as any);
+      docResult.push(result);
+    }
+
+    let emailInfo = '';
+    docResult.forEach(
+      (doc) =>
+        (emailInfo += `<p><li>Document: ${doc.fileName}   ${UtilService.roundNumber(doc.size / 1024, 2)}kb</li></p>`)
+    );
+    await this.emailService.send({
+      ...this.options.emailOptions,
+      subject: `Wisegar - Send Employee Documents`,
+      to: `${user.email}`,
+      html: `<div>
+        <p>
+          Company ${client.name} ${client.lastName} has sent new documents:
+        </p>
+        ${emailInfo}
+        </div>`,
+    });
+
+    return true;
   }
 
   private async vaidateUserExist(email: string) {
@@ -144,6 +188,12 @@ export class EmployeesService {
 
   private mapEmployeeEntity(employee: EmployeesEntity): IEmployeeModel {
     console.log('EmployeesService mapEmployeeEntity employee: ', employee);
-    return employee as unknown as IEmployeeModel;
+    return {
+      id: employee.id,
+      email: employee.email,
+      name: employee.name,
+      client: UserUtils.mapUserEntity(employee.client_id),
+      enterprise: UserUtils.mapUserEntity(employee.enterprise_id),
+    };
   }
 }

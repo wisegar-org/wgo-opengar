@@ -2,6 +2,7 @@ import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql';
 import { PostgresDataSource } from '../../../dataSources';
 import { DataSource } from 'typeorm';
 import {
+  EmployeeSendDocumentsInput,
   EmployeesFilterInput,
   EmployeesInput,
   EmployeesRegisterInput,
@@ -70,5 +71,14 @@ export class EmployeesResolver {
     const deleteEmployee = await employessService.deleteEmployee(data.id);
 
     return deleteEmployee;
+  }
+
+  @Authorized()
+  @Mutation(() => Boolean)
+  async sendEmployeeDocuments(@Arg('data') data: EmployeeSendDocumentsInput) {
+    const employessService = new EmployeesService(this.dataSource);
+    const result = await employessService.sendEmployeeDocuments(data);
+
+    return result;
   }
 }

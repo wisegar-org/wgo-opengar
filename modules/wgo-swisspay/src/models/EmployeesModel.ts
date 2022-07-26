@@ -1,11 +1,12 @@
+import PdfParse from 'pdf-parse';
 import { UserResponse } from '../resolvers/Auth/AuthResponses';
 
 export interface IEmployeeModel {
   id: number;
   name: string;
   email: string;
-  enterprise_id: UserResponse;
-  client_id: UserResponse;
+  enterprise: UserResponse;
+  client: UserResponse;
 }
 
 export interface IUserFilter {
@@ -28,4 +29,10 @@ export interface IEmployeeOptions {
   tokenExpiresIn: string;
   tokenRegisterExpiresIn: string;
   emailOptions: any;
+}
+
+export interface IEmployeeDocumentProps {
+  fileName: string;
+  size: number;
+  data: PdfParse.Result;
 }

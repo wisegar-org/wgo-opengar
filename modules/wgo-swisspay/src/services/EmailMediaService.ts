@@ -1,9 +1,13 @@
 import { DataSource, Like } from 'typeorm';
 import { IIdInput } from '../../../wgo-base/core/models';
+import { UtilService } from '../../../wgo-base/core/services/UtilService';
 import { EmailHistoryEntity } from '../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from '../database/entities/EmailMediaEntity';
 import { WRONG_EMAIL_DONT_EXIST } from '../models/EmailMedia/constants';
 import { IEmailDetailsModel, IEmailMediaFilter, IEmailMediaModel, IEmailModel } from '../models/EmailModel';
+import { IEmployeeDocumentProps } from '../models/EmployeesModel';
+import { UserResponse } from '../resolvers/Auth/AuthResponses';
+import PDFService from './PDFService';
 
 export class EmailMediaService {
   dataSource: DataSource;
@@ -96,6 +100,35 @@ export class EmailMediaService {
     }
 
     throw new Error(WRONG_EMAIL_DONT_EXIST);
+  }
+
+  async addMediaByEmail(file: Promise<unknown>, to: UserResponse, from: UserResponse) {
+    const fileInput = await file;
+    const { createReadStream, filename, mimetype, encoding } = fileInput as any;
+    const stream: any = createReadStream();
+    const fileContent = (await UtilService.readStreamData(stream)) as Buffer;
+
+    const result = await PDFService.parsePDF(fileContent);
+
+    const emailHistoryRepo = this.dataSource.getRepository(EmailHistoryEntity);
+    let emailHistory = new EmailHistoryEntity();
+    emailHistory.to = to.email;
+    emailHistory.from = from.email;
+    emailHistory = await emailHistoryRepo.save(emailHistory);
+
+    const emailMediaRepo = this.dataSource.getRepository(EmailMediaEntity);
+    const emailMedia = new EmailMediaEntity();
+    emailMedia.contentType = mimetype;
+    emailMedia.size = Buffer.byteLength(fileContent);
+    emailMedia.name = filename;
+    emailMedia.fileName = filename;
+    emailMedia.fileContent = Buffer.from(Buffer.from(fileContent, encoding).toString('base64'));
+    emailMedia.fileExt = 'pdf';
+    emailMedia.senderTo = to.email;
+    emailMedia.email = emailHistory;
+    await emailMediaRepo.save(emailMedia);
+
+    return { data: result, fileName: emailMedia.fileName, size: emailMedia.size } as IEmployeeDocumentProps;
   }
 
   private mapEmailMediaEntity(emailMedia: EmailMediaEntity, emailId: number = 0): IEmailMediaModel {

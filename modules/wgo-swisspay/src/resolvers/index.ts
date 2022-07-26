@@ -11,10 +11,10 @@ export const getResolverList = () => {
   return [
     AppResolver,
     AuthResolver,
-    EmailMediaResolver,
-    EmployeesResolver,
     LanguageResolver,
     TranslationResolver,
     SettingsResolver,
+    EmailMediaResolver,
+    EmployeesResolver,
   ] as NonEmptyArray<Function>;
 };
