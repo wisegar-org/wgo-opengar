@@ -43,6 +43,10 @@
     border-radius: 7px !important;
 }
 
+.q-uploader {
+    border-radius: 7px !important;
+  }
+
 .btn_width_fix {
     min-width: 100px !important;
   }

@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="person"
-    :title="getLabel(translations.ADD_EMPLOYEE_MESSAGE_TITLE)"
+    :title="getLabel(translations.SEND_EMAIL_INVITATION_LINK)"
     :persistent="true"
     :showClose="true"
     maxWidth="800px"

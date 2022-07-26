@@ -10,10 +10,11 @@ import { EmployeesService } from 'src/services/Employees/EmployeesService';
 import { getEmployeesListSchema } from './EmployeesSchema';
 import { translations } from '../translations';
 import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
-import { Loading, useQuasar } from 'quasar';
-import { translations as transBase } from '../../../../../../wgo-base/core/models';
+import { Loading } from 'quasar';
+import { IUser, translations as transBase } from '../../../../../../wgo-base/core/models';
 import SendEmployMailDialog from '../SendEmployeeMail/SendEmployeeMailDialog.vue';
 import { IEmployeeModel } from 'app/../src/models/EmployeesModel';
+import SendDocumentStepper from '../SendDocument/SendDocumentStepper.vue';
 
 export default defineComponent({
   name: 'EmployeesList',
@@ -23,6 +24,7 @@ export default defineComponent({
   components: {
     Table,
     SendEmployMailDialog,
+    SendDocumentStepper,
   },
   data(props) {
     const router = useRouter();
@@ -31,8 +33,14 @@ export default defineComponent({
 
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } = resizeComponent;
+    const selectedUser: IUser = <IUser>{};
 
     const rowBtns: ITableRowButton[] = [
+      {
+        icon: 'send',
+        fnAction: this.sendDocumentToEmployee,
+        tooltip: translations.SEND_DOCUMENT,
+      },
       {
         icon: 'delete',
         fnAction: this.deleteEmployee,
@@ -52,6 +60,7 @@ export default defineComponent({
 
     return {
       open: false,
+      openWizard: false,
       schema: getEmployeesListSchema(props.tranStore, leftBtns, rowBtns),
       componentHeight,
       addResize,
@@ -60,6 +69,7 @@ export default defineComponent({
       routeService,
       translations,
       tableData,
+      selectedUser,
     };
   },
   methods: {
@@ -68,6 +78,13 @@ export default defineComponent({
     },
     closeEmployMailDialog() {
       this.open = false;
+    },
+    sendDocumentToEmployee(row: any) {
+      this.selectedUser = row.client;
+      this.openWizard = true;
+    },
+    closeWizardSendDocument() {
+      this.openWizard = false;
     },
     deleteEmployee(row: any) {
       this.$q
@@ -104,7 +121,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const $q = useQuasar();
     const authStore = useAuthStore();
     const appStatusStore = useAppStatusStore();
 
