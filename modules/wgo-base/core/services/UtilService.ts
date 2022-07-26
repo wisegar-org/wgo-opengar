@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import currency from "currency.js";
 
 export const UtilService = {
   parseDate(date: Date | string, format: string = "DD/MM/YYYY HH:mm") {
@@ -19,5 +20,14 @@ export const UtilService = {
           res(Buffer.concat(dataStm));
         });
     });
+  },
+  roundNumber(value: number, decimal?: number) {
+    if (!value) return value;
+    const roundValue = currency(value, {
+      symbol: "",
+      separator: "'",
+      precision: decimal || 2,
+    }).format();
+    return parseFloat(roundValue);
   },
 };

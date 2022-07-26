@@ -5,6 +5,7 @@ export const translations = {
   ADD: "WGO_ADD",
   CREATE: "WGO_CREATE",
   CONFIRM: "WGO_CONFIRM",
+  CONTINUE: "WGO_CONTINUE",
   CANCEL: "WGO_CANCEL",
   SAVE: "WGO_SAVE",
   DETAILS: "WGO_DETAILS",
