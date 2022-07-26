@@ -5,6 +5,7 @@ import {
   M_EMPLOYEES_CHECK_TOKEN,
   M_EMPLOYEES_DELETE,
   M_EMPLOYEES_REGISTER,
+  M_EMPLOYEES_SEND_DOCUMENTS,
   Q_EMPLOYEES_GETALL,
 } from './EmployeesServiceQueries';
 
@@ -147,6 +148,37 @@ export class EmployeesService {
     } catch (error) {
       console.log('EmployeesService getAllEmployees error: ', error);
       return [];
+    }
+  }
+
+  async sendEmployeeDocuments(client_id: number, enterprise_id: number, files: File[]) {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_EMPLOYEES_SEND_DOCUMENTS,
+        fetchPolicy: 'no-cache',
+        variables: {
+          data: {
+            client_id: {
+              id: client_id,
+            },
+            enterprise_id: {
+              id: enterprise_id,
+            },
+            files,
+          },
+        },
+      })) as {
+        data: { sendEmployeeDocuments: boolean };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data.sendEmployeeDocuments;
+      }
+
+      return false;
+    } catch (error) {
+      console.log('EmployeesService sendEmployeeDocuments error: ', error);
+      return false;
     }
   }
 }

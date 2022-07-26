@@ -6,15 +6,25 @@ export const Q_EMPLOYEES_GETALL = gql`
       id
       name
       email
-      enterprise_id {
+      enterprise {
         id
         name
+        lastName
+        userName
         email
+        roles
+        code
+        certificate
       }
-      client_id {
+      client {
         id
         name
+        lastName
+        userName
         email
+        roles
+        code
+        certificate
       }
     }
   }
@@ -41,5 +51,11 @@ export const M_EMPLOYEES_CHECK_TOKEN = gql`
 export const M_EMPLOYEES_DELETE = gql`
   mutation deleteEmployee($data: UserFilterInput!) {
     deleteEmployee(data: $data)
+  }
+`;
+
+export const M_EMPLOYEES_SEND_DOCUMENTS = gql`
+  mutation sendEmployeeDocuments($data: EmployeeSendDocumentsInput!) {
+    sendEmployeeDocuments(data: $data)
   }
 `;
