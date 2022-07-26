@@ -11,6 +11,10 @@
 const { configure } = require('quasar/wrappers');
 const fs = require('fs-extra');
 const path = require('path');
+const env = require('dotenv');
+const envValue = env.config({
+  path: '.env',
+});
 
 const buildsettings = fs.readJsonSync('settings.build.json', { throws: false });
 
@@ -48,8 +52,10 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
-        API_BASE: buildsettings.API_BASE,
-        API_GRAPHQL: buildsettings.API_GRAPHQL,
+        API_BASE: envValue.parsed?.PORT ? `http://localhost:${envValue.parsed.PORT}` : buildsettings.API_BASE,
+        API_GRAPHQL: envValue.parsed?.PORT
+          ? `http://localhost:${envValue.parsed.PORT}/graphql`
+          : buildsettings.API_GRAPHQL,
         VERSION: buildsettings.VERSION,
       },
 
