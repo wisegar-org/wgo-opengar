@@ -75,11 +75,11 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { IEmailModel } from '../../../../../src/models/EmailModel';
-import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
-import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
+import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
 import { translations } from '../translations';
 import { useTranslationStore } from '../../../stores/translationStore';
-import { UtilService } from '../../../../../../wgo-base/core/services/UtilService';
+import { UtilService } from '../../../wgo-base/core/services/UtilService';
 
 export default defineComponent({
   name: 'EmailDetailsEmailTab',

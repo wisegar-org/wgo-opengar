@@ -3,13 +3,13 @@ import { defineComponent, PropType } from 'vue';
 import EmailDetailsMediaTab from './EmailDetailsMediaTab.vue';
 import EmailDetailsEmailTab from './EmailDetailsEmailTab.vue';
 import { useRouter } from 'vue-router';
-import { RouteService } from '../../../../../../wgo-base/core/services/RouteService';
+import { RouteService } from '../../../wgo-base/core/services/RouteService';
 import { EmailMediaPaths } from '../../../router/paths/emailMediaPaths';
 import { translations } from '../translations';
-import { translations as tranBase } from '../../../../../../wgo-base/core/models';
+import { translations as tranBase } from '../../../wgo-base/core/models';
 import { useTranslationStore } from 'src/stores/translationStore';
-import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
-import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
+import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'EmailDetails',

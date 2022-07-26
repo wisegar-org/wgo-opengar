@@ -1,10 +1,10 @@
-import { ApiService } from '../../../../wgo-base/core/services/ApiService';
+import { ApiService } from '../wgo-base/core/services/ApiService';
 import { boot } from 'quasar/wrappers';
 import { getApiServiceOptions } from 'src/api/ApiOptions';
 import { useAuthStore } from 'src/stores/authStore';
 import { useLanguageStore } from 'src/stores/languageStore';
 import { useTranslationStore } from 'src/stores/translationStore';
-import { TranslationStore } from '../../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
 import { Translations } from '../settings/translations';
 
 export default boot(({ app, store, router }) => {

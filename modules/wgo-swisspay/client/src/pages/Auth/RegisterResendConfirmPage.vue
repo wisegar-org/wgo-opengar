@@ -3,14 +3,14 @@
 </template>
 
 <script lang="ts">
-import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
+import { RouteService } from '../../wgo-base/core/services/RouteService';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import ResendConfirmComponent from '../../../../../wgo-base/authentication/components/ResendConfirmComponent.vue';
+import ResendConfirmComponent from '../../wgo-base/authentication/components/ResendConfirmComponent.vue';
 import { Paths } from '../../router/paths';
-import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { AuthPaths } from '../../wgo-base/authentication/router';
 import { useTranslationStore } from '../../stores/translationStore';
-import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'RegisterResendConfirmPage',

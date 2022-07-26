@@ -2,19 +2,19 @@ import { IEmailModel, IEmailMediaModel } from '../../../../src/models/EmailModel
 import { EmailMediaService } from 'src/services/EmailMedia/EmailMediaService';
 import { useAuthStore } from 'src/stores/authStore';
 import { defineComponent, computed, PropType } from 'vue';
-import Table from '../../../../../wgo-base/core/components/Table/Table.vue';
-import { ITableData, ITableRowButton } from '../../../../../wgo-base/core/models/Table';
+import Table from '../../wgo-base/core/components/Table/Table.vue';
+import { ITableData, ITableRowButton } from '../../wgo-base/core/models/Table';
 import { getEmailMediaListSchema } from './EmailMediaSchema';
 import EmailDetailsDialog from './EmailDetails/EmailDetailsDialog.vue';
-import { BaseResizeComponent } from '../../../../../wgo-base/core/components/BaseComponents';
+import { BaseResizeComponent } from '../../wgo-base/core/components/BaseComponents';
 import { useRouter } from 'vue-router';
-import { RouteService } from '../../../../../wgo-base/core/services/RouteService';
+import { RouteService } from '../../wgo-base/core/services/RouteService';
 import { EmailMediaPaths } from 'src/router/paths/emailMediaPaths';
-import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { AuthPaths } from '../../wgo-base/authentication/router';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
-import { translations as tranBase } from '../../../../../wgo-base/core/models';
+import { translations as tranBase } from '../../wgo-base/core/models';
 import { translations } from './translations';
-import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'EmailMediaList',

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { TranslationStore } from '../../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
 
 export const translationStoreId = 'translationStore';
 

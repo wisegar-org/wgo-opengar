@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { TranslationStore } from '../../../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
 import EmployeesList from '../../components/Employees/EmployeesList/EmployeesList.vue';
 import { useTranslationStore } from '../../stores/translationStore';
 

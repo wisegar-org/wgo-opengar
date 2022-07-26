@@ -1,12 +1,12 @@
 import { MenuListItem } from 'src/components/Menu/models';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
-import { AdminLanguagePaths } from '../../../../wgo-base/language/router';
+import { AdminLanguagePaths } from '../wgo-base/language/router';
 import { TestMenu } from './test';
-import { AdminTranslationPaths } from '../../../../wgo-base/translation/router';
-import { AdminSettingsPaths } from '../../../../wgo-base/settings/router';
+import { AdminTranslationPaths } from '../wgo-base/translation/router';
+import { AdminSettingsPaths } from '../wgo-base/settings/router';
 import { EmployeesPaths } from 'src/router/paths/employeesPaths';
-import { AuthPaths } from '../../../../wgo-base/authentication/router';
+import { AuthPaths } from '../wgo-base/authentication/router';
 
 const listItems: MenuListItem[] = [
   {

@@ -28,22 +28,22 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import LoginBtn from '../../../../wgo-base/core/components/LoginBtn/LoginBtn.vue';
+import LoginBtn from '../wgo-base/core/components/LoginBtn/LoginBtn.vue';
 import { useAuthStore } from '../stores/authStore';
-import { RouteService } from '../../../../wgo-base/core/services/RouteService';
+import { RouteService } from '../wgo-base/core/services/RouteService';
 import { useRouter } from 'vue-router';
-import { AuthPaths } from '../../../../wgo-base/authentication/router';
+import { AuthPaths } from '../wgo-base/authentication/router';
 import { Paths } from '../router/paths';
-import { IUser } from '../../../../wgo-base/core/models';
+import { IUser } from '../wgo-base/core/models';
 import { LinksList } from './MenuSettings';
 import { useQuasar } from 'quasar';
 import Menu from '../components/Menu/Menu.vue';
-import LanguageSelector from '../../../../wgo-base/language/components/LanguageSelector/LanguageSelector.vue';
+import LanguageSelector from '../wgo-base/language/components/LanguageSelector/LanguageSelector.vue';
 import { useLanguageStore } from '../stores/languageStore';
 import { useTranslationStore } from '../stores/translationStore';
 import { translations } from './translationsKey';
-import { LanguageStore } from '../../../../wgo-base/language/models/LanguageStore';
-import { TranslationStore } from '../../../../wgo-base/translation/models/TranslationStore';
+import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
+import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
 
 export default defineComponent({
   name: 'MainLayout',

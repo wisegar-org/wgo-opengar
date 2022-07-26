@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Paths } from '../paths';
-import { AuthPaths } from '../../../../../wgo-base/authentication/router';
+import { AuthPaths } from '../../wgo-base/authentication/router';
 
 export const AuthPathRouter: RouteRecordRaw = {
   path: Paths.home.path,

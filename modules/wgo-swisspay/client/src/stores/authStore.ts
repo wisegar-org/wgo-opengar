@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { AuthStore } from '../../../../wgo-base/authentication/models/AuthStore';
+import { AuthStore } from '../wgo-base/authentication/models/AuthStore';
 
 export const userAuthId = 'authStore';
 

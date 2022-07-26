@@ -1,8 +1,8 @@
-import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
 import { defineComponent, PropType } from 'vue';
-import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
+import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
 import { translations } from '../translations';
-import { translations as transBase } from '../../../../../../wgo-base/core/models/translations';
+import { translations as transBase } from '../../../wgo-base/core/models/translations';
 
 export default defineComponent({
   name: 'SendDocumentInfoStep',

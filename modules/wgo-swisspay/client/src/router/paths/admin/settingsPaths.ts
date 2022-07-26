@@ -1,6 +1,5 @@
-import { SUPERADMIN } from '../../../../../../wgo-base/authentication/models';
 import { RouteRecordRaw } from 'vue-router';
-import { AdminSettingsPaths } from '../../../../../../wgo-base/settings/router';
+import { AdminSettingsPaths } from '../../../wgo-base/settings/router';
 
 export const SettingsPathRouter: RouteRecordRaw = {
   path: AdminSettingsPaths.adminSettings.path,

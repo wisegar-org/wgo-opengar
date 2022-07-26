@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { IRouteObject } from '../../../../../wgo-base/core/models';
+import { IRouteObject } from '../../wgo-base/core/models';
 import { translations } from '../../components/Employees/translations';
 import { CLIENT_ROLE } from '../../../../src/models/constants';
 

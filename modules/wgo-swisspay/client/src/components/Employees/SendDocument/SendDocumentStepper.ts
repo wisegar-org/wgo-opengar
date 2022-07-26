@@ -1,8 +1,8 @@
-import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
-import { IUser } from '../../../../../../wgo-base/core/models';
-import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
+import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import { IUser } from '../../../wgo-base/core/models';
+import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
 import { defineComponent, PropType } from 'vue';
-import Dialog from '../../../../../../wgo-base/core/components/Dialog/Dialog.vue';
+import Dialog from '../../../wgo-base/core/components/Dialog/Dialog.vue';
 import { translations } from '../translations';
 import SendDocumentUploadStep from '../SendDocumentUploadStep/SendDocumentUploadStep.vue';
 import SendDocumentInfoStep from '../SendDocumentInfoStep/SendDocumentInfoStep.vue';

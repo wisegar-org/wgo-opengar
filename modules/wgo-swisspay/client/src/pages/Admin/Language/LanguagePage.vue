@@ -4,9 +4,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import LanguageList from '../../../../../../wgo-base/language/components/LanguageList/LanguageList.vue';
-import { LanguageStore } from '../../../../../../wgo-base/language/models/LanguageStore';
-import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
+import LanguageList from '../../../wgo-base/language/components/LanguageList/LanguageList.vue';
+import { LanguageStore } from '../../../wgo-base/language/models/LanguageStore';
+import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
 import { useLanguageStore } from '../../../stores/languageStore';
 import { useNotifyStore } from '../../../stores/notifyStore';
 import { useTranslationStore } from '../../../stores/translationStore';

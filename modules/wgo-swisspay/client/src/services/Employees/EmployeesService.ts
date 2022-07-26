@@ -1,4 +1,4 @@
-import { ApiService } from 'app/../../wgo-base/core/services/ApiService';
+import { ApiService } from '../../wgo-base/core/services/ApiService';
 import { IEmployeeFilter, IEmployeeModel } from '../../../../src/models/EmployeesModel';
 import {
   M_EMPLOYEES_ADD,

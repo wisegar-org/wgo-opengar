@@ -42,11 +42,11 @@
 
 <script lang="ts">
 import { translations } from '../translations';
-import { translations as tranBase } from '../../../../../../wgo-base/core/models';
+import { translations as tranBase } from '../../../wgo-base/core/models';
 import { defineComponent, PropType } from 'vue';
-import { TranslationStore } from '../../../../../../wgo-base/translation/models/TranslationStore';
-import Dialog from '../../../../../../wgo-base/core/components/Dialog/Dialog.vue';
-import { BaseTranslateComponent } from '../../../../../../wgo-base/core/components/BaseComponents';
+import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import Dialog from '../../../wgo-base/core/components/Dialog/Dialog.vue';
+import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
 import { EmployeesService } from '../../../services/Employees/EmployeesService';
 import { useAuthStore } from '../../../stores/authStore';
 import { useAppStatusStore } from '../../../stores/appStatusStore';

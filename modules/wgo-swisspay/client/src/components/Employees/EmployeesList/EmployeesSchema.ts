@@ -1,6 +1,6 @@
 import { TranslationStore } from 'app/../../wgo-base/translation/models/TranslationStore';
 import { translations } from '../translations';
-import { ITableSchema, ITableLeftButton, ITableRowButton } from '../../../../../../wgo-base/core/models/Table';
+import { ITableSchema, ITableLeftButton, ITableRowButton } from '../../../wgo-base/core/models/Table';
 export const getEmployeesListSchema = (
   tranStore: TranslationStore,
   leftButtons?: ITableLeftButton[],
@@ -57,7 +57,7 @@ export const getEmployeesListSchema = (
     description: [],
     title: translations.TITLE,
     leftButtons: leftButtons,
-    translationStore: tranStore,
+    translationStore: tranStore as any,
     searchStrategy: {
       type: 'header',
     },

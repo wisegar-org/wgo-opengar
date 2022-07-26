@@ -1,6 +1,5 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
-// import Components from "../../../../wgo-base-lib/dist/wgo-base-lib.common";
 
 import messages from 'src/i18n';
 
@@ -12,9 +11,4 @@ export default boot(({ app }) => {
 
   // Set i18n instance on app
   app.use(i18n);
-
-  // const ComponentLibrary = Components as any;
-  // Object.keys(ComponentLibrary).forEach((name) => {
-  //   app.component(name, ComponentLibrary[name]);
-  // });
 });
