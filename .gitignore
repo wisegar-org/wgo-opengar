@@ -15,6 +15,8 @@ server/public
 .env
 #  modules
 modules/wgo-swisspay/settings
+modules/wgo-swisspay/src/wgo-base
+modules/wgo-swisspay/client/src/wgo-base
 modules/template/settings
 modules/.vscode
 modules/.vs
