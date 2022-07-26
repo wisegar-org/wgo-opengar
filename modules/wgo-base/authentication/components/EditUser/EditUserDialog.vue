@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="person"
-    title="Edit profile"
+    :title="getLabel(translations.EDIT_USER_TITLE)"
     :persistent="true"
     :showClose="true"
     maxWidth="700px"
@@ -20,11 +20,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, watch } from "@vue/composition-api";
+import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { IUser } from "../../../core/models";
 import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { AuthStore } from "../../models/AuthStore";
 import EditUserComponentVue from "./EditUserComponent.vue";
+import { translations } from "../../models/translations";
 
 export default defineComponent({
   name: "EditUserDialog",
@@ -40,6 +42,13 @@ export default defineComponent({
     },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
     authStore: { type: Object as PropType<AuthStore>, required: true },
+  },
+  data() {
+    const { getLabel } = new BaseTranslateComponent();
+    return {
+      translations,
+      getLabel: (name: string) => getLabel(this.tranStore, name),
+    };
   },
   methods: {
     close() {
