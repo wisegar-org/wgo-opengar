@@ -69,6 +69,6 @@ boot(serverOptions, async () => {
 
   // Loop through all emails in the inbox and save them to the database
   setTimeout(async () => {
-    loopReadEmails();
+    // loopReadEmails();
   }, 0);
 });
