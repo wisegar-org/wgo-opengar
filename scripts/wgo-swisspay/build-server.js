@@ -66,10 +66,10 @@ const build = (options) => {
 
   fs.emptyDirSync(`${projectPath}/build/settings`);
   const env = dotenv.config({
-    path: `${projectPath}/.env`,
+    path: `${projectPath}/.envss`,
   });
   let settingsPath = `${projectPath}/settings`;
-  if (env.parsed?.SETTINGS_PATH) {
+  if (!!env.parsed && !!env.parsed.SETTINGS_PATH) {
     settingsPath = env.parsed.SETTINGS_PATH.startsWith(".")
       ? path.join(projectPath, env.parsed.SETTINGS_PATH)
       : env.parsed.SETTINGS_PATH;
