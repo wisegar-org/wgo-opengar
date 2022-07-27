@@ -17,9 +17,6 @@ export class addRoleEntity1656005738186 implements MigrationInterface {
       `CREATE INDEX "IDX_b2f0366aa9349789527e0c36d9" ON "users_roles_roles" ("rolesId") `
     );
     await queryRunner.query(
-      `ALTER TABLE "email_history" ALTER COLUMN "date" SET DEFAULT '"2022-06-23T17:35:52.816Z"'`
-    );
-    await queryRunner.query(
       `ALTER TABLE "users_roles_roles" ADD CONSTRAINT "FK_df951a64f09865171d2d7a502b1" FOREIGN KEY ("usersId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
     await queryRunner.query(
@@ -33,9 +30,6 @@ export class addRoleEntity1656005738186 implements MigrationInterface {
     );
     await queryRunner.query(
       `ALTER TABLE "users_roles_roles" DROP CONSTRAINT "FK_df951a64f09865171d2d7a502b1"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "email_history" ALTER COLUMN "date" SET DEFAULT '2022-06-15 14:56:36.004'`
     );
     await queryRunner.query(
       `DROP INDEX "public"."IDX_b2f0366aa9349789527e0c36d9"`
