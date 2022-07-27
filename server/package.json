@@ -19,7 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@wisegar-org/wgo-crypto": "0.0.1-build.7",
-    "@wisegar-org/wgo-github": "0.0.1-build.15",
+    "@wisegar-org/wgo-github": "0.0.1-build.16",
     "@wisegar-org/wgo-mailer": "0.0.1-build.19",
     "@wisegar-org/wgo-opengar-core": "0.0.1-build.209",
     "@wisegar-org/wgo-printing": "0.0.1-build.3",
