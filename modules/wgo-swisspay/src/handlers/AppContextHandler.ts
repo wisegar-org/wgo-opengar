@@ -20,6 +20,7 @@ const authModel = new UserRolesModel({
   tokenExpiresIn: GetExpiresInKey(),
   tokenRegisterExpiresIn: '24h',
   emailOptions: { from: GetEmailAppAddressKey() } as any,
+  transportEmailOptions: {},
 });
 
 export const AppContextHandler = async (options: IContextOptions) => {

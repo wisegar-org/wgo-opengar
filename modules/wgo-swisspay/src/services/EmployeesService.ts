@@ -23,6 +23,9 @@ import {
 import { EmployeeSendDocumentsInput } from '../resolvers/Employees/EmployeesInput';
 import { EmailMediaService } from './EmailMediaService';
 import PDFService from './PDFService';
+import { SettingsModel } from '../wgo-base/settings/models/SettingsModel';
+import { SETTINGS_SMTP } from '../models/Settings/constants';
+import { SmtpSettings } from '../models/EmailModel';
 
 export class EmployeesService {
   dataSource: DataSource;
@@ -115,11 +118,23 @@ export class EmployeesService {
       userExists ? 'confirmEmployee' : 'registerEmployee'
     }?token=${token}`;
     console.debug(link);
-    await this.emailService.send({
-      ...this.options.emailOptions,
-      subject: 'Wisegar - Register Employee',
-      to: `${employee.email}`,
-      html: `<div>
+
+    const settingsModel = new SettingsModel(this.dataSource);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: config.SMTP_EMAIL_HOST,
+      port: config.SMTP_EMAIL_PORT,
+      auth: {
+        user: config.SMTP_EMAIL_USER,
+        pass: config.SMTP_EMAIL_PASSWORD,
+      },
+    };
+    await this.emailService.sendByConfig(
+      {
+        ...this.options.emailOptions,
+        subject: 'Wisegar - Register Employee',
+        to: `${employee.email}`,
+        html: `<div>
         <p>
           To register as an employee, please click on the link below:
         </p>
@@ -127,7 +142,9 @@ export class EmployeesService {
           Click here
         </a>
         </div>`,
-    });
+      },
+      transportEmailOptions
+    );
 
     return true;
   }
@@ -149,7 +166,11 @@ export class EmployeesService {
   }
 
   async sendEmployeeDocuments(data: EmployeeSendDocumentsInput) {
-    const userRolesModel = new UserRolesModel({ ...this.options, dataSource: this.dataSource });
+    const userRolesModel = new UserRolesModel({
+      ...this.options,
+      dataSource: this.dataSource,
+      transportEmailOptions: {},
+    });
     const emailMediaService = new EmailMediaService(this.dataSource);
     const docResult: IEmployeeDocumentProps[] = [];
     const user = await userRolesModel.getUser(data.client_id.id);
@@ -165,23 +186,47 @@ export class EmployeesService {
       (doc) =>
         (emailInfo += `<p><li>Document: ${doc.fileName}   ${UtilService.roundNumber(doc.size / 1024, 2)}kb</li></p>`)
     );
-    await this.emailService.send({
-      ...this.options.emailOptions,
-      subject: `Wisegar - Send Employee Documents`,
-      to: `${user.email}`,
-      html: `<div>
+
+    const settingsModel = new SettingsModel(this.dataSource);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: config.SMTP_EMAIL_HOST,
+      port: config.SMTP_EMAIL_PORT,
+      auth: {
+        user: config.SMTP_EMAIL_USER,
+        pass: config.SMTP_EMAIL_PASSWORD,
+      },
+    };
+    await this.emailService.sendByConfig(
+      {
+        ...this.options.emailOptions,
+        subject: `Wisegar - Send Employee Documents`,
+        to: `${user.email}`,
+        html: `<div>
         <p>
           Company ${client.name} ${client.lastName} has sent new documents:
         </p>
         ${emailInfo}
         </div>`,
-    });
+      },
+      transportEmailOptions
+    );
 
     return true;
   }
 
   private async vaidateUserExist(email: string) {
-    const userRepo = new UserRolesModel({ ...this.options, dataSource: this.dataSource });
+    const settingsModel = new SettingsModel(this.dataSource);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: config.SMTP_EMAIL_HOST,
+      port: config.SMTP_EMAIL_PORT,
+      auth: {
+        user: config.SMTP_EMAIL_USER,
+        pass: config.SMTP_EMAIL_PASSWORD,
+      },
+    };
+    const userRepo = new UserRolesModel({ ...this.options, dataSource: this.dataSource, transportEmailOptions });
     const user = await userRepo.getUserByEmail(email);
     return !!user;
   }

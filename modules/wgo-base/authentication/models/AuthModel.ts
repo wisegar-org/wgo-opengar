@@ -183,14 +183,17 @@ export class AuthModel {
       });
       user.isEmailConfirmed = false;
       await repo.save(user);
-      await this.emailService.send({
-        ...this.options.emailOptions,
-        subject: "Wisegar Email Confirmation",
-        to: `${data.email}`,
-        html: `<div>
+      await this.emailService.sendByConfig(
+        {
+          ...this.options.emailOptions,
+          subject: "Wisegar Email Confirmation",
+          to: `${data.email}`,
+          html: `<div>
           Confirm email <a href="${this.options.hostBase}/#${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}"> here </a>
           </div>`,
-      });
+        },
+        {}
+      );
       return UserUtils.mapUserEntity(user);
     }
 
@@ -214,14 +217,17 @@ export class AuthModel {
           sessionId: -1,
         },
       });
-      await this.emailService.send({
-        ...this.options.emailOptions,
-        subject: "Wisegar Email Reset Password",
-        to: `${data.email}`,
-        html: `<div>
+      await this.emailService.sendByConfig(
+        {
+          ...this.options.emailOptions,
+          subject: "Wisegar Email Reset Password",
+          to: `${data.email}`,
+          html: `<div>
           To reset the password click <a href="${this.options.hostBase}/#${AuthPaths.authChangePassword.path}?token=${token}"> here </a>
           </div>`,
-      });
+        },
+        this.options.transportEmailOptions
+      );
       return true;
     }
 

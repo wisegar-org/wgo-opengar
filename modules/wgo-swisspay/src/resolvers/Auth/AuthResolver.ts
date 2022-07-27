@@ -34,6 +34,9 @@ import {
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
 import { IdInput } from '../Core/CoreInputs';
+import { SettingsModel } from '../../wgo-base/settings/models/SettingsModel';
+import { SETTINGS_SMTP } from '../../models/Settings/constants';
+import { SmtpSettings } from '../../models/EmailModel';
 
 @Resolver()
 export class AuthResolver {
@@ -51,6 +54,7 @@ export class AuthResolver {
       tokenExpiresIn: GetExpiresInKey(),
       tokenRegisterExpiresIn: '24h',
       emailOptions: { from: GetEmailAppAddressKey() } as any,
+      transportEmailOptions: {},
     };
   }
 
@@ -70,28 +74,68 @@ export class AuthResolver {
 
   @Mutation(() => UserResponse, { name: AUTH_PATH_REGISTER })
   async register(@Arg('data') data: RegisterInput) {
-    const authModel = new AuthModel(this.options);
+    const settingsModel = new SettingsModel(this.options.dataSource);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: config.SMTP_EMAIL_HOST,
+      port: config.SMTP_EMAIL_PORT,
+      auth: {
+        user: config.SMTP_EMAIL_USER,
+        pass: config.SMTP_EMAIL_PASSWORD,
+      },
+    };
+    const authModel = new AuthModel({ ...this.options, transportEmailOptions });
     const user = await authModel.register(data as any);
     return user;
   }
 
   @Mutation(() => UserResponse, { name: AUTH_PATH_EDIT_USER })
   async editUser(@Arg('data') data: EditUserInput) {
-    const authModel = new AuthModel(this.options);
+    const settingsModel = new SettingsModel(this.options.dataSource);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: config.SMTP_EMAIL_HOST,
+      port: config.SMTP_EMAIL_PORT,
+      auth: {
+        user: config.SMTP_EMAIL_USER,
+        pass: config.SMTP_EMAIL_PASSWORD,
+      },
+    };
+    const authModel = new AuthModel({ ...this.options, transportEmailOptions });
     const user = await authModel.editUser(data as any);
     return user;
   }
 
   @Mutation(() => Boolean, { name: AUTH_PATH_RESEND_CONFIRMATION })
   async resendConfirmation(@Arg('data') data: ResendConfirmationInput) {
-    const authModel = new AuthModel(this.options);
+    const settingsModel = new SettingsModel(this.options.dataSource);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: config.SMTP_EMAIL_HOST,
+      port: config.SMTP_EMAIL_PORT,
+      auth: {
+        user: config.SMTP_EMAIL_USER,
+        pass: config.SMTP_EMAIL_PASSWORD,
+      },
+    };
+    const authModel = new AuthModel({ ...this.options, transportEmailOptions });
     const user = await authModel.resendConfirmation(data);
     return !!user;
   }
 
   @Mutation(() => Boolean, { name: AUTH_PATH_RESET_PASSWORD })
   async resetPassword(@Arg('data') data: ResendConfirmationInput) {
-    const authModel = new AuthModel(this.options);
+    const settingsModel = new SettingsModel(this.options.dataSource);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: config.SMTP_EMAIL_HOST,
+      port: config.SMTP_EMAIL_PORT,
+      auth: {
+        user: config.SMTP_EMAIL_USER,
+        pass: config.SMTP_EMAIL_PASSWORD,
+      },
+    };
+    const authModel = new AuthModel({ ...this.options, transportEmailOptions });
     const resetResult = await authModel.resetPassword(data);
     return !!resetResult;
   }

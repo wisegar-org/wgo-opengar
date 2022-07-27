@@ -13,6 +13,7 @@ export interface IAuthModelArg {
   tokenExpiresIn?: string;
   tokenRegisterExpiresIn?: string;
   emailOptions: EmailOptions;
+  transportEmailOptions: any;
 }
 
 export interface IAuthLoginParams {

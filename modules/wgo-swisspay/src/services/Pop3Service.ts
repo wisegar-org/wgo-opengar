@@ -1,4 +1,4 @@
-import { Pop3Settings } from './../models/EmailModel';
+import { Pop3Settings, SmtpSettings } from './../models/EmailModel';
 import { EmailHistoryEntity } from './../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from './../database/entities/EmailMediaEntity';
 import { PostgresDataSource } from '../dataSources';
@@ -10,7 +10,7 @@ import { ParsedMail, simpleParser } from 'mailparser';
 
 import { GetConfig } from '@wisegar-org/wgo-settings';
 import { READ_EMAILS_INTERVAL } from '../models/constants';
-import { SETTINGS_POP3 } from '../models/Settings/constants';
+import { SETTINGS_POP3, SETTINGS_SMTP } from '../models/Settings/constants';
 import PDFService from './PDFService';
 
 import { EmailServer } from '@wisegar-org/wgo-mailer';
@@ -20,9 +20,11 @@ export class Pop3Service {
    * Service to consume emails from a POP3
    */
   clientOptions: IPop3ConnectionOptions;
+  transportEmailOptions: any;
 
-  constructor(clientOptions: IPop3ConnectionOptions) {
+  constructor(clientOptions: IPop3ConnectionOptions, transportEmailOptions?: any) {
     this.clientOptions = clientOptions;
+    this.transportEmailOptions = transportEmailOptions || {};
   }
 
   // Get number of messages in the mailbox
@@ -71,11 +73,12 @@ export class Pop3Service {
 
       // Check if email is valid
       if (from_email != undefined && this.isValidEmail(from_email)) {
-        await emailService.send({
-          from: config.POP3_EMAIL_EMAIL,
-          subject: 'PDF Received!',
-          to: `${from_email}`,
-          html: `<div>
+        await emailService.sendByConfig(
+          {
+            from: config.POP3_EMAIL_EMAIL,
+            subject: 'PDF Received!',
+            to: `${from_email}`,
+            html: `<div>
             PDF Received! 
             <div>Info: ${JSON.stringify(result.info)}</div>
             <div>Metadata: ${JSON.stringify(result.metadata)}</div>
@@ -84,7 +87,9 @@ export class Pop3Service {
             <div>Version: ${result.version}</div>
             <div>Info: ${result.text}</div>
             </div>`,
-        });
+          },
+          this.transportEmailOptions
+        );
       }
     }
   }
@@ -257,13 +262,26 @@ export const readEmails = async (): Promise<number> => {
   const password = config.POP3_EMAIL_PASSWORD;
   const tls = config.POP3_EMAIL_TLS;
 
-  const pop3 = new Pop3Service({
-    host: host,
-    port: port,
-    user: username,
-    password: password,
-    tls: tls,
-  });
+  const configSmtp = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+  const transportEmailOptions = {
+    host: configSmtp.SMTP_EMAIL_HOST,
+    port: configSmtp.SMTP_EMAIL_PORT,
+    auth: {
+      user: configSmtp.SMTP_EMAIL_USER,
+      pass: configSmtp.SMTP_EMAIL_PASSWORD,
+    },
+  };
+
+  const pop3 = new Pop3Service(
+    {
+      host: host,
+      port: port,
+      user: username,
+      password: password,
+      tls: tls,
+    },
+    transportEmailOptions
+  );
 
   const numb = await pop3.readAllEmails();
   return numb;
