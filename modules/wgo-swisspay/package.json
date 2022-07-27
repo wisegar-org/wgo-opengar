@@ -8,6 +8,7 @@
     "build": "npx rimraf build && tsc",
     "build:promote": "npm run build && npm version prerelease",
     "update:wg-server": "npx rimraf ./node_modules@wisegar-org/wgo-server &&  npm install @wisegar-org/wgo-server@latest -E",
+    "update:wg-mailer": "npx rimraf ./node_modules@wisegar-org/wgo-mailer &&  npm install @wisegar-org/wgo-mailer@latest -E",
     "update:wg-settings": "npx rimraf ./node_modules@wisegar-org/wgo-settings &&  npm install @wisegar-org/wgo-settings@latest -E",
     "update:wg-obj-extensions": "npx rimraf ./node_modules@wisegar-org/wgo-object-extensions && npm install @wisegar-org/wgo-object-extensions@latest -E",
     "migration:run": "node --require ts-node/register ./node_modules/typeorm/cli.js migration:run",
@@ -28,7 +29,7 @@
   },
   "dependencies": {
     "@types/pdf-parse": "^1.1.1",
-    "@wisegar-org/wgo-mailer": "^0.0.1-build.21",
+    "@wisegar-org/wgo-mailer": "0.0.1-build.23",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.15",
     "@wisegar-org/wgo-pop3": "0.0.7-build.7",
     "@wisegar-org/wgo-server": "0.0.1-build.33",
