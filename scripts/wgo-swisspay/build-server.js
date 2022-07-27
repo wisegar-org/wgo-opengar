@@ -69,7 +69,7 @@ const build = (options) => {
     path: `${projectPath}/.env`,
   });
   let settingsPath = `${projectPath}/settings`;
-  if (env.parsed.SETTINGS_PATH) {
+  if (env.parsed?.SETTINGS_PATH) {
     settingsPath = env.parsed.SETTINGS_PATH.startsWith(".")
       ? path.join(projectPath, env.parsed.SETTINGS_PATH)
       : env.parsed.SETTINGS_PATH;
