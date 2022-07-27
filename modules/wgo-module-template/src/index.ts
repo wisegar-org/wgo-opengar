@@ -17,6 +17,9 @@ import { AppContextHandler } from "./handlers/AppContextHandler";
 import { errorHandler } from "./handlers/ErrorHandler";
 import { AppController } from "./controllers/AppController";
 import { AppResolver } from "./resolvers/AppResolver";
+import { Express } from "express";
+import { dataSourceOptions, PostgresDataSource } from "./dataSources";
+import { createDatabase } from "typeorm-extension";
 import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
 
 const port = GetPortKey();
@@ -31,7 +34,7 @@ const serverOptions: IServerOptions = {
   maxFileSize: 5000000000,
   maxFiles: 10,
   useCors: true,
-  middlewares: (app) => {
+  middlewares: (app: Express) => {
     UseClientSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
@@ -40,6 +43,27 @@ const serverOptions: IServerOptions = {
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
 };
-boot(serverOptions, () => {
+boot(serverOptions, async () => {
   console.log("Start other services here. ex. database connections");
+
+  await createDatabase({
+    ifNotExist: true,
+    options: {
+      ...dataSourceOptions,
+      migrationsRun: false,
+      entities: [],
+      migrations: [],
+    },
+  });
+  const dataSource = await PostgresDataSource.initialize();
+  if (!dataSourceOptions.migrationsRun) {
+    dataSource.runMigrations();
+  }
+
+  //Core Seeders
+
+  //App seeders
+
+  // Loop function
+  setTimeout(async () => {}, 0);
 });
