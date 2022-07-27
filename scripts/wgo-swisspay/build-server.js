@@ -76,14 +76,16 @@ const build = (options) => {
       ? path.join(projectPath, env.parsed.SETTINGS_PATH)
       : env.parsed.SETTINGS_PATH;
   }
-  settingsFiles.forEach((file) => {
-    if (fs.existsSync(`${settingsPath}/${file}`)) {
-      fs.copySync(
-        `${settingsPath}/${file}`,
-        `${projectPath}/build/settings/${file}`
-      );
-    }
-  });
+  if (fs.existsSync(settingsPath)) {
+    settingsFiles.forEach((file) => {
+      if (fs.existsSync(`${settingsPath}/${file}`)) {
+        fs.copySync(
+          `${settingsPath}/${file}`,
+          `${projectPath}/build/settings/${file}`
+        );
+      }
+    });
+  }
 
   console.log("npm install wgo-swissspay build");
   execSync("npm ci --quiet --only=production --unsafe-perm=true --allow-root", {
