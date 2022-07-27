@@ -18,7 +18,7 @@ import { errorHandler } from "./handlers/ErrorHandler";
 import { AppController } from "./controllers/AppController";
 import { AppResolver } from "./resolvers/AppResolver";
 import { Express } from "express";
-import { dataSourceOptions, PostgresDataSource } from "./dataSources";
+// import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
 import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
 
@@ -46,19 +46,20 @@ const serverOptions: IServerOptions = {
 boot(serverOptions, async () => {
   console.log("Start other services here. ex. database connections");
 
-  await createDatabase({
-    ifNotExist: true,
-    options: {
-      ...dataSourceOptions,
-      migrationsRun: false,
-      entities: [],
-      migrations: [],
-    },
-  });
-  const dataSource = await PostgresDataSource.initialize();
-  if (!dataSourceOptions.migrationsRun) {
-    dataSource.runMigrations();
-  }
+  // if you want to use typeorm
+  // await createDatabase({
+  //   ifNotExist: true,
+  //   options: {
+  //     ...dataSourceOptions,
+  //     migrationsRun: false,
+  //     entities: [],
+  //     migrations: [],
+  //   },
+  // });
+  // const dataSource = await PostgresDataSource.initialize();
+  // if (!dataSourceOptions.migrationsRun) {
+  //   dataSource.runMigrations();
+  // }
 
   //Core Seeders
 
