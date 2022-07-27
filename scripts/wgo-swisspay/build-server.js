@@ -1,6 +1,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const { execSync } = require("child_process");
+const dotenv = require("dotenv");
 
 // const buildOptions = {
 //   env: env,
@@ -66,10 +67,19 @@ const build = (options) => {
   });
 
   fs.emptyDirSync(`${projectPath}/build/settings`);
+  const env = dotenv.config({
+    path: `${projectPath}/.env`,
+  });
+  let settingsPath = `${projectPath}/settings`;
+  if (env.parsed.SETTINGS_PATH) {
+    settingsPath = env.parsed.SETTINGS_PATH.startsWith(".")
+      ? path.join(projectPath, env.parsed.SETTINGS_PATH)
+      : env.parsed.SETTINGS_PATH;
+  }
   settingsFiles.forEach((file) => {
-    if (fs.existsSync(`${projectPath}/settings/${file}`)) {
+    if (fs.existsSync(`${settingsPath}/${file}`)) {
       fs.copySync(
-        `${projectPath}/settings/${file}`,
+        `${settingsPath}/${file}`,
         `${projectPath}/build/settings/${file}`
       );
     }

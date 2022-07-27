@@ -15,6 +15,13 @@ console.log("\x1b[34m", `PORT_ENV: ${port_env}`);
 const web_root_env = build_args[2] ? build_args[2] : "/users/yarielre/web";
 console.log("\x1b[34m", `WEB_ROOT_ENV: ${web_root_env}`);
 
+const { execSync } = require("child_process");
+console.log("npm install solution");
+execSync("npm install", {
+  cwd: "./",
+  stdio: "inherit",
+});
+
 const buildOptions = {
   env: node_env,
   port: port_env,
