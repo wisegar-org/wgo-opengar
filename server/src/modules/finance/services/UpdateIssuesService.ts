@@ -6,7 +6,7 @@ import { Repo, IssueGithub, UserProfile, CommentGithub } from '../utils/models';
 import { LabelService } from './LabelService';
 import { CollaboratorService } from './CollaboratorService';
 import { ProjectService } from './ProjectService';
-import { getAllIssuesNotAccounted, getUserProfile, getIssuesComments } from '@wisegar-org/wgo-github'
+import { getAllIssuesNotAccounted, getUserProfile, getIssuesComments, Issue } from '@wisegar-org/wgo-github';
 import { IssueState } from '@wisegar-org/wgo-github/build/models/enums';
 
 export class UpdateIssuesService {
@@ -23,14 +23,19 @@ export class UpdateIssuesService {
     const orgDataController = new OrganizationDataService();
     const AccountLabel = (await orgDataController.getOrganizationData()).accountingLabel;
 
-
     const data: { [id: string]: Repo } = {};
 
-    const notAccountedIssues = await getAllIssuesNotAccounted(token, IssueState.closed, AccountLabel || 'Accounted')
+    let notAccountedIssues: Issue[] = [];
+    try {
+      notAccountedIssues = await getAllIssuesNotAccounted(token, IssueState.closed, AccountLabel || 'Accounted');
+    } catch (err) {
+      console.log(err);
+      notAccountedIssues = [];
+    }
 
-    if(notAccountedIssues.length > 0) {
-      for (const issue of notAccountedIssues) { 
-        if(issue.repo != undefined) {
+    if (notAccountedIssues.length > 0) {
+      for (const issue of notAccountedIssues) {
+        if (issue.repo != undefined) {
           const repoId = await repoController.updateOrInsertRepository(issue.repo.id, issue.repo.name);
 
           // Get Projects
@@ -40,10 +45,10 @@ export class UpdateIssuesService {
           // for (const project of projects.data) {
           //   const proj = await projController.updateOrInsertProject(project.id, project.name);
           // }
-          
+
           let labels_ids: string[] = [];
 
-          for(const label of issue.labels) {
+          for (const label of issue.labels) {
             try {
               await labelController.updateOrInsertLabel(label.id, label.name);
               labels_ids.push(label.name);
@@ -69,9 +74,9 @@ export class UpdateIssuesService {
             }
           }
           let collaboratorId = undefined;
-          if(issue.assignedTo) {
+          if (issue.assignedTo) {
             try {
-              const user = await getUserProfile(token, issue.assignedTo.login)
+              const user = await getUserProfile(token, issue.assignedTo.login);
 
               const col = await colController.updateOrInsertCollaborator(
                 issue.assignedTo.id,
@@ -121,12 +126,10 @@ export class UpdateIssuesService {
             console.log(error);
             console.log('---------------------------');
           }
-
         }
-      } 
+      }
     }
   }
-
 
   async SingleUpdate(token: string, issueGithub: IssueGithub, comment: CommentGithub, repo: Repo) {
     if (issueGithub.state != 'closed') {
@@ -163,7 +166,6 @@ export class UpdateIssuesService {
     }
 
     if (!isAccounted) {
-      
       let hours = 0;
       let last_comment = '';
       if (comment !== undefined) {
@@ -176,14 +178,13 @@ export class UpdateIssuesService {
           }
         }
       } else if (issueGithub.comments > 0) {
+        const comments = await getIssuesComments(token, repo.owner.login, repo.name, issueGithub.number);
 
-        const comments = await getIssuesComments(token, repo.owner.login, repo.name, issueGithub.number)
-        
         last_comment = comments[comments.length - 1].body as string;
         const matches = last_comment.match(/\d*.?\d*h/);
         if (matches && matches.length == 1) {
           hours = parseFloat(last_comment);
-          if (isNaN(hours)) {      
+          if (isNaN(hours)) {
             hours = 0;
           }
         }
@@ -263,7 +264,7 @@ export class UpdateIssuesService {
 
         const coll = issueGithub.assignees[0];
         const user = await getUserProfile(token, coll.login);
-        
+
         try {
           const col = await colController.updateOrInsertCollaborator(
             coll.id,
