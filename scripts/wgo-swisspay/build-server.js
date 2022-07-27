@@ -38,8 +38,6 @@ const build = (options) => {
     stdio: "inherit",
   });
 
-  fs.copySync(`${projectPath}/settings`, `${projectPath}/build/settings`);
-
   const envFilePath = `${projectPath}/build/.env`;
   fs.writeFileSync(envFilePath, `NODE_ENV=${options.env} \n`, function (err) {
     if (err) return console.log(err);
