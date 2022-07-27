@@ -1,6 +1,8 @@
 {
   "extends": "@quasar/app-webpack/tsconfig-preset",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "typeRoots": ["src/**/*.d.ts", "src/graphql.d.ts", "node_modules/@types"]
   }
 }

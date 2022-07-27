@@ -18,12 +18,16 @@ import { errorHandler } from "./handlers/ErrorHandler";
 import { AppController } from "./controllers/AppController";
 import { AppResolver } from "./resolvers/AppResolver";
 import { Express } from "express";
-// import { dataSourceOptions, PostgresDataSource } from "./dataSources";
+import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
 import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
+import { roleSuperAdminSeeder } from "./wgo-base/authentication/database/seeder/roles";
+import { userAdminSeeder } from "./wgo-base/authentication/database/seeder/user";
+import { languageDefaultSeeder } from "./wgo-base/language/database/seeder/language";
+import { getResolverList } from "./resolvers";
+import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 
 const port = GetPortKey();
-const environment = GetNodeEnvKey();
 
 const serverOptions: IServerOptions = {
   authenticator: AuthenticationHandler,
@@ -38,7 +42,7 @@ const serverOptions: IServerOptions = {
     UseClientSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
-  resolvers: [AppResolver] as unknown as NonEmptyArray<Function>,
+  resolvers: getResolverList(),
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
@@ -46,22 +50,27 @@ const serverOptions: IServerOptions = {
 boot(serverOptions, async () => {
   console.log("Start other services here. ex. database connections");
 
-  // if you want to use typeorm
-  // await createDatabase({
-  //   ifNotExist: true,
-  //   options: {
-  //     ...dataSourceOptions,
-  //     migrationsRun: false,
-  //     entities: [],
-  //     migrations: [],
-  //   },
-  // });
-  // const dataSource = await PostgresDataSource.initialize();
-  // if (!dataSourceOptions.migrationsRun) {
-  //   dataSource.runMigrations();
-  // }
+  await createDatabase({
+    ifNotExist: true,
+    options: {
+      ...dataSourceOptions,
+      migrationsRun: false,
+      entities: [],
+      migrations: [],
+    },
+  });
+  const dataSource = await PostgresDataSource.initialize();
+  if (!dataSourceOptions.migrationsRun) {
+    dataSource.runMigrations();
+  }
+
+  //Init db settings
+  settingsSeeder(dataSource);
 
   //Core Seeders
+  roleSuperAdminSeeder(dataSource); //create superadmin rol
+  userAdminSeeder(dataSource); //create admin user with superadmin rol
+  languageDefaultSeeder(dataSource); //create default language
 
   //App seeders
 
