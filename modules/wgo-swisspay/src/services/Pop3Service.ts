@@ -245,7 +245,11 @@ export class Pop3Service {
 
     // Read all emails
     for (let i = 1; i <= numMessages; i++) {
-      await this.readEmail(i, false);
+      try {
+        await this.readEmail(i, false);
+      } catch (err: any) {
+        console.log(err.message);
+      }
     }
 
     return numMessages;

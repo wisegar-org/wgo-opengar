@@ -57,13 +57,15 @@ boot(serverOptions, async () => {
     dataSource.runMigrations();
   }
 
+  //Init db settings
+  settingsSeeder(dataSource);
+
   //Core Seeders
   roleSuperAdminSeeder(dataSource); //create superadmin rol
   userAdminSeeder(dataSource); //create admin user with superadmin rol
   languageDefaultSeeder(dataSource); //create default language
 
   //App seeders
-  settingsSeeder(dataSource);
   roleClientSeeder(dataSource);
   roleUserSeeder(dataSource);
 

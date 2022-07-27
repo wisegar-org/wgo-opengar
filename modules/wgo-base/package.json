@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@vue/composition-api": "1.6.2",
-    "@wisegar-org/wgo-mailer": "0.0.1-build.23",
+    "@wisegar-org/wgo-mailer": "0.0.1-build.24",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.15",
     "@wisegar-org/wgo-opengar-core-ui": "0.0.1-build.12",
     "@wisegar-org/wgo-server": "0.0.1-build.33",
@@ -34,6 +34,8 @@
   "devDependencies": {
     "@types/apollo-upload-client": "^17.0.0",
     "@types/bcrypt": "^5.0.0",
-    "@types/file-saver": "^2.0.5"
+    "@types/file-saver": "^2.0.5",
+    "@types/fs-extra": "^9.0.13",
+    "@types/uuid": "^8.3.4"
   }
 }
