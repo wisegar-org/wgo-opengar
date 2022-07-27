@@ -15,6 +15,10 @@ const env = require('dotenv');
 const envValue = env.config({
   path: '.env',
 });
+let hostBase = envValue.parsed?.PORT ? `http://localhost:${envValue.parsed.PORT}` : buildsettings.API_BASE;
+if (envValue.parsed?.APP_WEB_HOST) {
+  hostBase = envValue.parsed.APP_WEB_HOST;
+}
 
 const buildsettings = fs.readJsonSync('settings.build.json', { throws: false });
 
@@ -52,10 +56,8 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
-        API_BASE: envValue.parsed?.PORT ? `http://localhost:${envValue.parsed.PORT}` : buildsettings.API_BASE,
-        API_GRAPHQL: envValue.parsed?.PORT
-          ? `http://localhost:${envValue.parsed.PORT}/graphql`
-          : buildsettings.API_GRAPHQL,
+        API_BASE: hostBase,
+        API_GRAPHQL: `${hostBase}/graphql`,
         VERSION: buildsettings.VERSION,
       },
 

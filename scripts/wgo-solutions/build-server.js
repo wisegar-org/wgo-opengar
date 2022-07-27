@@ -7,9 +7,12 @@ const dotenv = require("dotenv");
 //   env: env,
 //   port: port,
 //   web_root: web_root,
+//   web_host: app_web_host,
+//   module: module_env,
 // };
 const build = (options) => {
-  const projectPath = "./modules/wgo-swisspay";
+  const projectPath = `./modules/${options.module}`;
+  const baseName = path.basename(options.web_root);
   console.log("npm install wgo-base");
   execSync("npm install", {
     cwd: "./modules/wgo-base",
@@ -17,24 +20,19 @@ const build = (options) => {
   });
   fs.createSymlinkSync(
     "./modules/wgo-base",
-    "./modules/wgo-swisspay/src/wgo-base",
+    `./modules/${options.module}/src/wgo-base`,
     "junction"
   );
 
-  console.log("npm install wgo-swissspay");
+  console.log(`npm install ${options.module}`);
   execSync("npm install", {
-    cwd: "./modules/wgo-swisspay",
+    cwd: `./modules/${options.module}`,
     stdio: "inherit",
   });
 
-  console.log("npm install wgo-swissspay");
-  execSync("npm install", {
-    cwd: "./modules/wgo-swisspay",
-    stdio: "inherit",
-  });
-  console.log("build wgo-swissspay");
+  console.log(`build ${options.module}`);
   execSync("npm run build", {
-    cwd: "./modules/wgo-swisspay",
+    cwd: `./modules/${options.module}`,
     stdio: "inherit",
   });
 
@@ -43,14 +41,13 @@ const build = (options) => {
     if (err) return console.log(err);
   });
   fs.appendFileSync(envFilePath, `PORT=${options.port} \n`);
-  fs.appendFileSync(envFilePath, `APP_WEB_ROOT=${options.web_root} \n`);
   fs.appendFileSync(
     envFilePath,
-    `CLIENT_WEB_ROOT=${path.join(options.web_root, "client")} \n`
+    `APP_WEB_ROOT=${path.normalize(options.web_root)} \n`
   );
   fs.appendFileSync(
     envFilePath,
-    `SETTINGS_PATH=${path.join(options.web_root, "settings")} \n`
+    `CLIENT_WEB_ROOT=${path.join(options.web_root, "client")} \n`
   );
 
   const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
@@ -83,11 +80,26 @@ const build = (options) => {
         );
       }
     });
+
+    fs.appendFileSync(
+      envFilePath,
+      `SETTINGS_PATH=${path.resolve(
+        path.join(projectPath, `/build/settings`)
+      )} \n`
+    );
+  } else {
+    fs.appendFileSync(
+      envFilePath,
+      `SETTINGS_PATH=${path.join(
+        options.web_root,
+        `../settings/${baseName}`
+      )} \n`
+    );
   }
 
-  console.log("npm install wgo-swissspay build");
+  console.log(`npm install ${options.module} build`);
   execSync("npm ci --quiet --only=production --unsafe-perm=true --allow-root", {
-    cwd: "./modules/wgo-swisspay/build",
+    cwd: `./modules/${options.module}/build`,
     stdio: "inherit",
   });
 };

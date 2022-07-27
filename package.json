@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:swisspay": "node ./scripts/wgo-swisspay/deploy.js",
-    "start:swisspay": "node ./scripts/wgo-swisspay/dev-run.js",
+    "build:wgo-solution": "node ./scripts/wgo-solutions/deploy.js",
+    "start:swisspay": "node ./scripts/wgo-solutions/dev-run.js wgo-swisspay",
     "solution-build": "node ./scripts/solution-build.js development 5005 /users/yarielre/projects/wisegar-org/wgo-opengar-api http://localhost:5005",
     "solution-version-upgrade": "node ./scripts/solution-version-update.js",
     "server-dependencies-upgrade": "node ./scripts/server-dependencies-upgrade.js"
