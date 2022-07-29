@@ -1,5 +1,5 @@
 import { ObjectType, Field } from 'type-graphql';
-import { UserResponse } from '../Auth/AuthResponses';
+import { UserResponse } from '../../wgo-base/authentication/resolvers/AuthResponses';
 
 @ObjectType()
 export class EmployeesResponse {

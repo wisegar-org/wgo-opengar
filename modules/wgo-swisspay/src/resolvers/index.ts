@@ -1,18 +1,18 @@
 import { NonEmptyArray } from 'type-graphql';
+import { AuthResolver } from '../wgo-base/authentication/resolvers/AuthResolver';
+import { LanguageResolver } from '../wgo-base/language/resolvers/LanguageResolver';
+import { SettingsResolver } from '../wgo-base/settings/resolvers/SettingsResolver';
+import { PublicTranslationResolver } from './Translations/TranslationResolver';
 import { AppResolver } from './AppResolver';
-import { AuthResolver } from './Auth/AuthResolver';
 import { EmailMediaResolver } from './EmailMedia/EmailMediaResolver';
 import { EmployeesResolver } from './Employees/EmployeesResolver';
-import { LanguageResolver } from './Language/LanguageResolver';
-import { SettingsResolver } from './Settings/SettingsResolver';
-import { TranslationResolver } from './Translation/TranslationResolver';
 
 export const getResolverList = () => {
   return [
     AppResolver,
     AuthResolver,
     LanguageResolver,
-    TranslationResolver,
+    PublicTranslationResolver,
     SettingsResolver,
     EmailMediaResolver,
     EmployeesResolver,

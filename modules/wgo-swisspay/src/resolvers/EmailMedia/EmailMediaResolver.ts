@@ -4,8 +4,8 @@ import { DataSource } from 'typeorm';
 import { EmailDetailsResponse, EmailMediaResponse, EmailResponse } from './EmailMediaResponses';
 import { EmailMediaFilterInput } from './EmailMediaInputs';
 import { EmailMediaService } from '../../services/EmailMediaService';
-import { IdInput } from '../Core/CoreInputs';
 import { IContext } from '../../models';
+import { IdInput } from '../../wgo-base/core/resolvers/CoreInputs';
 
 @Resolver()
 export class EmailMediaResolver {
