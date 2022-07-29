@@ -1,5 +1,5 @@
 import PdfParse from 'pdf-parse';
-import { UserResponse } from '../resolvers/Auth/AuthResponses';
+import { UserResponse } from '../wgo-base/authentication/resolvers/AuthResponses';
 
 export interface IEmployeeModel {
   id: number;

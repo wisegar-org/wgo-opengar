@@ -6,8 +6,8 @@ import { EmailMediaEntity } from '../database/entities/EmailMediaEntity';
 import { WRONG_EMAIL_DONT_EXIST } from '../models/EmailMedia/constants';
 import { IEmailDetailsModel, IEmailMediaFilter, IEmailMediaModel, IEmailModel } from '../models/EmailModel';
 import { IEmployeeDocumentProps } from '../models/EmployeesModel';
-import { UserResponse } from '../resolvers/Auth/AuthResponses';
 import PDFService from './PDFService';
+import { UserResponse } from '../wgo-base/authentication/resolvers/AuthResponses';
 
 export class EmailMediaService {
   dataSource: DataSource;

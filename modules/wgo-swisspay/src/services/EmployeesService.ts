@@ -24,8 +24,8 @@ import { EmployeeSendDocumentsInput } from '../resolvers/Employees/EmployeesInpu
 import { EmailMediaService } from './EmailMediaService';
 import PDFService from './PDFService';
 import { SettingsModel } from '../wgo-base/settings/models/SettingsModel';
-import { SETTINGS_SMTP } from '../models/Settings/constants';
-import { SmtpSettings } from '../models/EmailModel';
+import { SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
+import { SmtpSettings } from '../wgo-base/settings/models';
 
 export class EmployeesService {
   dataSource: DataSource;

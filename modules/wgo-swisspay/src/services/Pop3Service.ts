@@ -1,4 +1,3 @@
-import { Pop3Settings, SmtpSettings } from './../models/EmailModel';
 import { EmailHistoryEntity } from './../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from './../database/entities/EmailMediaEntity';
 import { PostgresDataSource } from '../dataSources';
@@ -10,10 +9,11 @@ import { ParsedMail, simpleParser } from 'mailparser';
 
 import { GetConfig } from '@wisegar-org/wgo-settings';
 import { READ_EMAILS_INTERVAL } from '../models/constants';
-import { SETTINGS_POP3, SETTINGS_SMTP } from '../models/Settings/constants';
 import PDFService from './PDFService';
 
 import { EmailServer } from '@wisegar-org/wgo-mailer';
+import { Pop3Settings, SmtpSettings } from '../wgo-base/settings/models';
+import { SETTINGS_POP3, SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
 
 export class Pop3Service {
   /**
@@ -63,7 +63,7 @@ export class Pop3Service {
   async parsePDFAttachment(attachmentEntity: EmailMediaEntity, email: ParsedMail) {
     console.log('parsing pdf');
     const result = await PDFService.parsePDF(attachmentEntity.fileContent);
-    const config = GetConfig<Pop3Settings>();
+    const config = GetConfig<any>();
     // Send email to sender with data
     const emailService = new EmailServer();
     console.log('sending email with pdf data');

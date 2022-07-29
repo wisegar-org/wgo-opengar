@@ -10,6 +10,7 @@
 
 const { configure } = require('quasar/wrappers');
 const fs = require('fs-extra');
+const buildsettings = fs.readJsonSync('settings.build.json', { throws: false });
 const path = require('path');
 const env = require('dotenv');
 const envValue = env.config({
@@ -19,8 +20,6 @@ let hostBase = envValue.parsed?.PORT ? `http://localhost:${envValue.parsed.PORT}
 if (envValue.parsed?.APP_WEB_HOST) {
   hostBase = envValue.parsed.APP_WEB_HOST;
 }
-
-const buildsettings = fs.readJsonSync('settings.build.json', { throws: false });
 
 module.exports = configure(function (ctx) {
   return {

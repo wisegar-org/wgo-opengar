@@ -4,40 +4,31 @@ import { DataSource } from 'typeorm';
 import { EmailDetailsResponse, EmailMediaResponse, EmailResponse } from './EmailMediaResponses';
 import { EmailMediaFilterInput } from './EmailMediaInputs';
 import { EmailMediaService } from '../../services/EmailMediaService';
-import { IContext } from '../../models';
 import { IdInput } from '../../wgo-base/core/resolvers/CoreInputs';
+import { IContextBase } from '../../wgo-base/core/models/context';
 
 @Resolver()
 export class EmailMediaResolver {
-  private dataSource: DataSource;
-
-  /**
-   *
-   */
-  constructor() {
-    this.dataSource = PostgresDataSource;
-  }
-
   @Authorized()
   @Query(() => [EmailMediaResponse])
-  async getAllEmailMedia(@Arg('data') data: EmailMediaFilterInput, @Ctx() ctx: any) {
-    const emailMediaModel = new EmailMediaService(this.dataSource);
+  async getAllEmailMedia(@Arg('data') data: EmailMediaFilterInput, @Ctx() ctx: IContextBase) {
+    const emailMediaModel = new EmailMediaService(ctx.dataSource);
     const emails = await emailMediaModel.getAllEmails(data, ctx);
     return emails as EmailMediaResponse[];
   }
 
   @Authorized()
   @Query(() => EmailDetailsResponse)
-  async getEmailMedia(@Arg('data') data: IdInput, @Ctx() ctx: any) {
-    const emailMediaModel = new EmailMediaService(this.dataSource);
+  async getEmailMedia(@Arg('data') data: IdInput, @Ctx() ctx: IContextBase) {
+    const emailMediaModel = new EmailMediaService(ctx.dataSource);
     const email = await emailMediaModel.getEmailMediaById(data, ctx);
     return email;
   }
 
   @Authorized()
   @Query(() => EmailResponse)
-  async getEmail(@Arg('data') data: IdInput) {
-    const emailMediaModel = new EmailMediaService(this.dataSource);
+  async getEmail(@Arg('data') data: IdInput, @Ctx() ctx: IContextBase) {
+    const emailMediaModel = new EmailMediaService(ctx.dataSource);
     const email = await emailMediaModel.getEmailById(data);
     return email;
   }
