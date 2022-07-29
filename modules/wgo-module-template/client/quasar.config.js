@@ -46,7 +46,7 @@ module.exports = configure(function (ctx) {
       // 'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
-      // 'line-awesome',
+      "line-awesome",
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       "roboto-font", // optional, you are not bound to it
@@ -81,7 +81,23 @@ module.exports = configure(function (ctx) {
 
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      // chainWebpack (/* chain */) {}
+      extendWebpack(cfg) {
+        if (cfg.resolve.fallback) {
+          cfg.resolve.fallback["child_process"] = false;
+          cfg.resolve.fallback["https"] = false;
+        } else {
+          cfg.resolve.fallback = {
+            child_process: false,
+            https: false,
+          };
+        }
+
+        // Fix library components render
+        if (!cfg.resolve.alias) {
+          cfg.resolve.alias = {};
+        }
+        cfg.resolve.alias.vue = path.resolve("./node_modules/vue");
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
@@ -108,7 +124,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ["Notify", "Dialog"],
     },
 
     // animations: 'all', // --- includes all animations

@@ -10,7 +10,7 @@ import { SUPERADMIN } from "../wgo-base/authentication/models";
 import { translations } from "../wgo-base/core/models";
 import { UserRolesModel } from "../wgo-base/authentication/models/UserRolesModel";
 import { PostgresDataSource } from "../dataSources";
-import { IContext } from "../models";
+import { IContextBase } from "../wgo-base/core/models/context";
 
 const authModel = new UserRolesModel({
   privateKey: GetPrivateKey(),
@@ -28,7 +28,7 @@ export const AppContextHandler = async (options: IContextOptions) => {
     throw new Error(translations.INVALID_PARAMS);
   }
   const { tokenPayload, requestHeaders } = options;
-  const ctx = {} as IContext;
+  const ctx = {} as IContextBase;
   if (!tokenPayload) return ctx;
   const user = await authModel.getUser(parseInt(tokenPayload.userId));
   if (user) {
