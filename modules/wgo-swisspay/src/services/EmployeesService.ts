@@ -26,6 +26,7 @@ import PDFService from './PDFService';
 import { SettingsModel } from '../wgo-base/settings/models/SettingsModel';
 import { SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
 import { SmtpSettings } from '../wgo-base/settings/models';
+import { ctx } from '../handlers/AppContextHandler';
 
 export class EmployeesService {
   dataSource: DataSource;
@@ -119,7 +120,7 @@ export class EmployeesService {
     }?token=${token}`;
     console.debug(link);
 
-    const settingsModel = new SettingsModel(this.dataSource);
+    const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
     const transportEmailOptions = {
       host: config.SMTP_EMAIL_HOST,
@@ -168,7 +169,7 @@ export class EmployeesService {
   async sendEmployeeDocuments(data: EmployeeSendDocumentsInput) {
     const userRolesModel = new UserRolesModel({
       ...this.options,
-      dataSource: this.dataSource,
+      ctx,
       transportEmailOptions: {},
     });
     const emailMediaService = new EmailMediaService(this.dataSource);
@@ -187,7 +188,7 @@ export class EmployeesService {
         (emailInfo += `<p><li>Document: ${doc.fileName}   ${UtilService.roundNumber(doc.size / 1024, 2)}kb</li></p>`)
     );
 
-    const settingsModel = new SettingsModel(this.dataSource);
+    const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
     const transportEmailOptions = {
       host: config.SMTP_EMAIL_HOST,
@@ -216,7 +217,7 @@ export class EmployeesService {
   }
 
   private async vaidateUserExist(email: string) {
-    const settingsModel = new SettingsModel(this.dataSource);
+    const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
     const transportEmailOptions = {
       host: config.SMTP_EMAIL_HOST,
@@ -226,7 +227,7 @@ export class EmployeesService {
         pass: config.SMTP_EMAIL_PASSWORD,
       },
     };
-    const userRepo = new UserRolesModel({ ...this.options, dataSource: this.dataSource, transportEmailOptions });
+    const userRepo = new UserRolesModel({ ...this.options, ctx, transportEmailOptions });
     const user = await userRepo.getUserByEmail(email);
     return !!user;
   }

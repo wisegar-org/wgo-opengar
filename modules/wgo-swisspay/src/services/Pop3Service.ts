@@ -14,6 +14,7 @@ import PDFService from './PDFService';
 import { EmailServer } from '@wisegar-org/wgo-mailer';
 import { Pop3Settings, SmtpSettings } from '../wgo-base/settings/models';
 import { SETTINGS_POP3, SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
+import { ctx } from '../handlers/AppContextHandler';
 
 export class Pop3Service {
   /**
@@ -258,7 +259,7 @@ export class Pop3Service {
 
 export const readEmails = async (): Promise<number> => {
   // Get host, port, username, password from request
-  const settingsModel = new SettingsModel(PostgresDataSource);
+  const settingsModel = new SettingsModel(ctx);
   const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_POP3 })) as any as Pop3Settings;
   const host = config.POP3_EMAIL_HOST;
   const port = config.POP3_EMAIL_PORT;

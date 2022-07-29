@@ -14,7 +14,7 @@ export class ImportTranslationsInput {
 export class PublicTranslationResolver extends TranslationResolver {
   @Mutation(() => Boolean, { name: TRANSLATION_PATH_IMPORT_TRANSLATION })
   async importTranslations(@Arg('data') data: ImportTranslationsInput, @Ctx() ctx: IContextBase) {
-    const result = await this.importTranslationsPrivate(data, ctx.dataSource);
+    const result = await this.importTranslationsPrivate(data, ctx);
     return result;
   }
 }
