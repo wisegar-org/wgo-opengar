@@ -11,12 +11,12 @@
     <q-card flat square class="q-pa-none">
       <q-form @submit="saveTranslation" class="q-pa-none">
         <q-card-section class="row q-pa-none">
-          <div class="col-12 fit">
+          <div class="col-12 fit q-py-sm q-px-sm">
             <SimpleLanguageSelector
               :languages="langStore.allLangs"
               :selected="lang"
               @select="selectLang"
-              class="fit text-start q-my-sm q-mx-sm"
+              class="fit text-start"
             />
           </div>
           <div class="col-12">
