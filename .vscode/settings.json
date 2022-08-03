@@ -18,5 +18,9 @@
     "statusBarItem.remoteBackground": "#ad471f",
     "statusBarItem.remoteForeground": "#e7e7e7"
   },
-  "peacock.color": "#ad471f"
+  "peacock.color": "#ad471f",
+  "files.exclude": {
+    "**/.gitignore": false,
+    "**/node_modules": false
+  }
 }
