@@ -1,4 +1,4 @@
-import { MenuListItem } from 'src/components/Menu/models';
+import { MenuListItem } from 'src/wgo-base/core/models/Menu';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 import { AdminLanguagePaths } from '../wgo-base/language/router';

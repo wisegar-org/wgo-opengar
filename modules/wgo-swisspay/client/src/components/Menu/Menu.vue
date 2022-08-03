@@ -43,9 +43,9 @@ import { BaseTranslateComponent } from '../../wgo-base/core/components/BaseCompo
 import { RouteService } from '../../wgo-base/core/services/RouteService';
 import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
 import { useTranslationStore } from '../../stores/translationStore';
-import { MenuListItem } from './models';
 import { translations as tranBase } from '../../wgo-base/core/models';
 import { useAuthStore } from '../../stores/authStore';
+import { MenuListItem } from '../../wgo-base/core/models/Menu';
 
 export default defineComponent({
   name: 'Menu',
