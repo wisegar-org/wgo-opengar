@@ -1,12 +1,19 @@
 <template>
   <q-btn-dropdown
     no-caps
-    flat
-    outline
     unelevated
-    icon="language"
-    :label="selected.code"
+    color="primary"
+    style="width: 100%"
+    class=""
   >
+    <template v-slot:label>
+      <div class="row col-11" :style="style">
+        <q-icon left name="language"> </q-icon>
+        <div class="text-center q-pl-sm">
+          {{ selected.code }}
+        </div>
+      </div>
+    </template>
     <q-list>
       <q-item
         v-for="(item, index) in languages"
