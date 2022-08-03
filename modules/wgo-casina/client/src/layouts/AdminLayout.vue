@@ -1,5 +1,11 @@
 <template>
-  <AdminMainLayout :tranStore="tranStore" :authStore="authStore" :menuItems="menuItems" :routeService="routeService" />
+  <AdminMainLayout
+    :tranStore="tranStore"
+    :authStore="authStore"
+    :menuItems="menuItems"
+    :langStore="langStore"
+    :routeService="routeService"
+  />
 </template>
 
 <script lang="ts">
@@ -10,6 +16,7 @@ import AdminMainLayout from '../wgo-base/core/components/Layouts/AdminMainLayout
 import { menuItems } from '../settings/navigation';
 import { useRouter } from 'vue-router';
 import { RouteService } from '../wgo-base/core/services/RouteService';
+import { useLanguageStore } from '../stores/languageStore';
 
 export default defineComponent({
   components: {
@@ -24,10 +31,12 @@ export default defineComponent({
   setup() {
     const authStore = useAuthStore();
     const transStore = useTranslationStore();
+    const langStore = useLanguageStore();
 
     return {
       authStore: authStore.authStore,
       tranStore: transStore.translationStore,
+      langStore: langStore.languageStore,
       menuItems,
     };
   },
