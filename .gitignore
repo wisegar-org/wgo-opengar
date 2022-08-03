@@ -3,17 +3,27 @@
 node_modules
 quickweb-development
 build
+
 #  client
 client/node_modules
 client/.quasar
 client/public
 client/dist
+
 #  server
 server/node_modules
 server/private
 server/public
 .env
+
 #  modules
+#  wgo-casina
+modules/wgo-casina/settings
+modules/wgo-casina/src/wgo-base
+modules/wgo-casina/client/src/wgo-base
+modules/wgo-casina/public
+
+#  wgo-swisspay
 modules/wgo-swisspay/settings
 modules/wgo-swisspay/src/wgo-base
 modules/wgo-swisspay/client/src/wgo-base
