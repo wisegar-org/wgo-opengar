@@ -9,15 +9,18 @@ import {
   ITranslationModel,
 } from ".";
 import { UtilService } from "../../core/services/UtilService";
+import { IContextBase } from "../../core/models/context";
 
 export class TranslationModel {
+  private ctx: IContextBase;
   private dataSoure: DataSource;
 
   /**
    *
    */
-  constructor(dataSource: DataSource) {
-    this.dataSoure = dataSource;
+  constructor(ctx: IContextBase) {
+    this.ctx = ctx;
+    this.dataSoure = ctx.dataSource;
   }
 
   async getAllTranslation(data: IGetAllTranslationArg) {
@@ -98,7 +101,7 @@ export class TranslationModel {
   async getTranslationsByFilter(lang: number, search: string = "") {
     const searchTranslationskeys: { [key: string]: boolean } = {};
     const translationsFile: ITransaltionsType = {};
-    const languageService = new LanguageModel(this.dataSoure);
+    const languageService = new LanguageModel(this.ctx);
     const langs: ILanguageModel[] = await languageService.getAllLanguage();
     for (const language of langs) {
       await this.getKeysByFilterInDB(
@@ -126,7 +129,7 @@ export class TranslationModel {
   }
 
   async inportTranslations(buffer: any) {
-    const languageService = new LanguageModel(this.dataSoure);
+    const languageService = new LanguageModel(this.ctx);
     const { createReadStream } = buffer;
     const stream: any = createReadStream();
     const fileContent = await UtilService.readStreamData(stream);
@@ -159,7 +162,7 @@ export class TranslationModel {
   async exportTranslations(langIds: number[]) {
     const searchTranslationskeys: { [key: string]: boolean } = {};
     const translationsFile: { [key: number]: ITransaltionsType } = {};
-    const languageService = new LanguageModel(this.dataSoure);
+    const languageService = new LanguageModel(this.ctx);
     const langs: ILanguageModel[] = await languageService.getAllLanguage();
     const validLanguages = langs.filter(
       (lang) => langIds.length === 0 || langIds.indexOf(lang.id) !== -1

@@ -4,14 +4,17 @@ import {
 } from "@wisegar-org/wgo-object-extensions";
 import { DataSource } from "typeorm";
 import { IGetSettingsParam, ISetSettingsParam, ISettingsModel } from ".";
+import { IContextBase } from "../../core/models/context";
 import SettingsEntity from "../database/entities/SettingsEntity";
 import { APP_SETTINGS, WRONG_TYPE } from "./constants";
 
 export class SettingsModel {
   private dataSource: DataSource;
+  private ctx: IContextBase;
 
-  constructor(dataSource: DataSource) {
-    this.dataSource = dataSource;
+  constructor(ctx: IContextBase) {
+    this.ctx = ctx;
+    this.dataSource = ctx.dataSource;
   }
 
   public async getSettingsObject(data?: IGetSettingsParam): Promise<any> {

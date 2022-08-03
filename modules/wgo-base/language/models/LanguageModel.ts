@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { ILanguagePostArg, ILanguageModel } from ".";
 import { IIdInput } from "../../core/models";
+import { IContextBase } from "../../core/models/context";
 import { LanguageEntity } from "../database/entities/LanguageEntity";
 import {
   WRONG_LANGUAGE_CODE,
@@ -11,12 +12,14 @@ import {
 
 export class LanguageModel {
   private dataSoure: DataSource;
+  private ctx: IContextBase;
 
   /**
    *
    */
-  constructor(dataSource: DataSource) {
-    this.dataSoure = dataSource;
+  constructor(ctx: IContextBase) {
+    this.ctx = ctx;
+    this.dataSoure = ctx.dataSource;
   }
 
   async getAllLanguage() {

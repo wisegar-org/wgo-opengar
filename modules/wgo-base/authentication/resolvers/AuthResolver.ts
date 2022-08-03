@@ -40,7 +40,7 @@ import { IdInput } from "../../core/resolvers/CoreInputs";
 
 @Resolver()
 export class AuthResolver {
-  private options: any;
+  private options: IAuthModelArg;
 
   /**
    *
@@ -53,7 +53,8 @@ export class AuthResolver {
       tokenExpiresIn: GetExpiresInKey(),
       tokenRegisterExpiresIn: "24h",
       emailOptions: { from: GetEmailAppAddressKey() } as any,
-      transportEmailOptions: {},
+      transportEmailOptions: {} as any,
+      ctx: {} as any,
     };
   }
 
@@ -61,7 +62,7 @@ export class AuthResolver {
   async login(@Arg("data") data: LoginInput, @Ctx() ctx: IContextBase) {
     const authModel = new AuthModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const login = await authModel.login(data);
     return login as LoginResponse;
@@ -71,7 +72,7 @@ export class AuthResolver {
   async me(@Arg("data") data: MeInput, @Ctx() ctx: IContextBase) {
     const authModel = new AuthModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const user = await authModel.me(data);
     return user as UserResponse;
@@ -79,7 +80,7 @@ export class AuthResolver {
 
   @Mutation(() => UserResponse, { name: AUTH_PATH_REGISTER })
   async register(@Arg("data") data: RegisterInput, @Ctx() ctx: IContextBase) {
-    const settingsModel = new SettingsModel(ctx.dataSource);
+    const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({
       type_settings: SETTINGS_SMTP,
     })) as any as SmtpSettings;
@@ -98,7 +99,7 @@ export class AuthResolver {
 
   @Mutation(() => UserResponse, { name: AUTH_PATH_EDIT_USER })
   async editUser(@Arg("data") data: EditUserInput, @Ctx() ctx: IContextBase) {
-    const settingsModel = new SettingsModel(ctx.dataSource);
+    const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({
       type_settings: SETTINGS_SMTP,
     })) as any as SmtpSettings;
@@ -112,7 +113,7 @@ export class AuthResolver {
     };
     const authModel = new AuthModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
       transportEmailOptions,
     });
     const user = await authModel.editUser(data as any);
@@ -124,7 +125,7 @@ export class AuthResolver {
     @Arg("data") data: ResendConfirmationInput,
     @Ctx() ctx: IContextBase
   ) {
-    const settingsModel = new SettingsModel(ctx.dataSource);
+    const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({
       type_settings: SETTINGS_SMTP,
     })) as any as SmtpSettings;
@@ -138,7 +139,7 @@ export class AuthResolver {
     };
     const authModel = new AuthModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
       transportEmailOptions,
     });
     const user = await authModel.resendConfirmation(data);
@@ -150,7 +151,7 @@ export class AuthResolver {
     @Arg("data") data: ResendConfirmationInput,
     @Ctx() ctx: IContextBase
   ) {
-    const settingsModel = new SettingsModel(ctx.dataSource);
+    const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({
       type_settings: SETTINGS_SMTP,
     })) as any as SmtpSettings;
@@ -164,7 +165,7 @@ export class AuthResolver {
     };
     const authModel = new AuthModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
       transportEmailOptions,
     });
     const resetResult = await authModel.resetPassword(data);
@@ -178,7 +179,7 @@ export class AuthResolver {
   ) {
     const authModel = new AuthModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const resetResult = await authModel.changePassword(data);
     return resetResult;
@@ -188,7 +189,7 @@ export class AuthResolver {
   async confirmRegist(@Arg("data") data: MeInput, @Ctx() ctx: IContextBase) {
     const authModel = new AuthModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const user = await authModel.confirmRegist(data);
     return !!user;
@@ -198,7 +199,7 @@ export class AuthResolver {
   async getUser(@Arg("data") data: IdInput, @Ctx() ctx: IContextBase) {
     const userRolesModel = new UserRolesModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const user = await userRolesModel.getUser(data.id);
     return user;
@@ -208,7 +209,7 @@ export class AuthResolver {
   async getAllUsers(@Ctx() ctx: IContextBase) {
     const userRolesModel = new UserRolesModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const users = await userRolesModel.getAllUsers();
     return users;
@@ -218,7 +219,7 @@ export class AuthResolver {
   async getAllRoles(@Ctx() ctx: IContextBase) {
     const userRolesModel = new UserRolesModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const roles = await userRolesModel.getAllRoles();
     return roles;
@@ -228,7 +229,7 @@ export class AuthResolver {
   async deleteUser(@Arg("data") data: IdInput, @Ctx() ctx: IContextBase) {
     const userRolesModel = new UserRolesModel({
       ...this.options,
-      dataSource: ctx.dataSource,
+      ctx,
     });
     const user = await userRolesModel.deleteUser(data);
     return !!user;

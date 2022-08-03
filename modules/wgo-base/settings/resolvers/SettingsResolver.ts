@@ -13,7 +13,7 @@ export class SettingsResolver {
   @Authorized()
   @Query(() => [SettingsResponse], { name: SETTINGS_PATH_GET_ALL_SETTINGS })
   async getAllSettings(@Ctx() ctx: IContextBase) {
-    const emailMediaModel = new SettingsModel(ctx.dataSource);
+    const emailMediaModel = new SettingsModel(ctx);
     const emails = await emailMediaModel.getAllSettingsList();
     return emails as SettingsResponse[];
   }
@@ -24,7 +24,7 @@ export class SettingsResolver {
     @Arg("data") data: PostSettingInput,
     @Ctx() ctx: IContextBase
   ) {
-    const emailMediaModel = new SettingsModel(ctx.dataSource);
+    const emailMediaModel = new SettingsModel(ctx);
     const result = await emailMediaModel.setSettings(data);
     return result;
   }

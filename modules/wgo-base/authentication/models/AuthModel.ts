@@ -39,7 +39,7 @@ export class AuthModel {
    *
    */
   constructor(options: IAuthModelArg) {
-    this.dataSource = options.dataSource;
+    this.dataSource = options.ctx.dataSource;
     this.options = {
       ...options,
       tokenExpiresIn: options.tokenExpiresIn || TOKEN_EXP,

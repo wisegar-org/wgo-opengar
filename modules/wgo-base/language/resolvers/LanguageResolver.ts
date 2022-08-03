@@ -15,14 +15,14 @@ import { IContextBase } from "../../core/models/context";
 export class LanguageResolver {
   @Query(() => [LanguageResponse], { name: LANGUAGE_PATH_GET_ALL_LANGUAGE })
   async getAllLanguage(@Ctx() ctx: IContextBase) {
-    const languageModel = new LanguageModel(ctx.dataSource);
+    const languageModel = new LanguageModel(ctx);
     const languages = await languageModel.getAllLanguage();
     return languages;
   }
 
   @Query(() => LanguageResponse, { name: LANGUAGE_PATH_GET_LANGUAGE })
   async getLanguage(@Arg("data") data: IdInput, @Ctx() ctx: IContextBase) {
-    const languageModel = new LanguageModel(ctx.dataSource);
+    const languageModel = new LanguageModel(ctx);
     const language = await languageModel.getLanguage(data);
     return language;
   }
@@ -33,7 +33,7 @@ export class LanguageResolver {
     @Arg("data") data: LanguagePostInput,
     @Ctx() ctx: IContextBase
   ) {
-    const languageModel = new LanguageModel(ctx.dataSource);
+    const languageModel = new LanguageModel(ctx);
     const language = await languageModel.postLanguage(data);
     return language;
   }
@@ -44,7 +44,7 @@ export class LanguageResolver {
     @Arg("data") data: LanguageInput,
     @Ctx() ctx: IContextBase
   ) {
-    const languageModel = new LanguageModel(ctx.dataSource);
+    const languageModel = new LanguageModel(ctx);
     const language = await languageModel.putLanguage(data);
     return language;
   }

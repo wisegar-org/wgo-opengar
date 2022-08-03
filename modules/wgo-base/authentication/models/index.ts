@@ -1,11 +1,12 @@
 import { DataSource } from "typeorm";
 import { IUser } from "../../core/models/user";
 import { EmailOptions } from "@wisegar-org/wgo-mailer";
+import { IContextBase } from "../../core/models/context";
 
 export * from "./constants";
 
 export interface IAuthModelArg {
-  dataSource: DataSource;
+  ctx: IContextBase;
   privateKey: string;
   publicKey: string;
   // TOKEN_EXPIRES_IN
