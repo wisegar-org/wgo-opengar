@@ -1,0 +1,52 @@
+/* app global css */
+
+.q-field--outlined .q-field__control {
+    border-radius: 7px !important;
+}
+
+.q-card--bordered {
+    border-radius: 7px !important;
+
+}
+
+.q-btn .btn_width_fix {
+    border-radius: 7px !important;
+}
+
+.q-btn--dense {
+    border-radius: 7px !important;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+.q-btn-item {
+    border-radius: 7px !important;
+}
+
+.q-bottom-sheet__item {
+    border-radius: 7px !important;
+}
+
+.q-dialog__inner > div {
+    border-radius: 7px !important;
+}
+
+.q-item--clickable {
+    border-radius: 7px !important;
+}
+
+.q-list {
+    border-radius: 7px !important;
+}
+
+.q-tab {
+    border-radius: 7px !important;
+}
+
+.q-uploader {
+    border-radius: 7px !important;
+  }
+
+.btn_width_fix {
+    min-width: 100px !important;
+  }
