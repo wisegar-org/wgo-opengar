@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import currency from "currency.js";
+import { MenuListItem } from "../models/Menu";
 
 export const UtilService = {
   parseDate(date: Date | string, format: string = "DD/MM/YYYY HH:mm") {
@@ -29,5 +30,21 @@ export const UtilService = {
       precision: decimal || 2,
     }).format();
     return parseFloat(roundValue);
+  },
+  isListActive(activeRoute: string, items: MenuListItem[]) {
+    let result = false;
+    items.forEach((item) => {
+      switch (item.type) {
+        case "group": {
+          result = result || UtilService.isListActive(activeRoute, item.items);
+          break;
+        }
+        case "item": {
+          result = item.link === activeRoute;
+          break;
+        }
+      }
+    });
+    return result;
   },
 };

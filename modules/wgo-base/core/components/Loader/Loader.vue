@@ -5,16 +5,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
-  name: "Loader",
+  name: 'Loader',
   props: {
     loading: {
       default: false,
       type: Boolean,
     },
   },
-  setup() {},
 });
 </script>

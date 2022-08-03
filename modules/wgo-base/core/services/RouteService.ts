@@ -42,4 +42,8 @@ export class RouteService implements IRouteService {
   public getRouteUrlPath() {
     this.frameworkRouter.currentRoute.value.fullPath;
   }
+
+  public getCurrentPath() {
+    return this.frameworkRouter.currentRoute.value.path;
+  }
 }
