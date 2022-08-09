@@ -4,13 +4,21 @@
     <div v-if="!innerLoading">
       <MediaDiv :image="indexContent.image" />
       <div class="q-pt-xl q-pb-lg" v-html="getLabel(translations.CASINA_INDEX_CONTENT_TEXT)" />
-      <div class="q-pt-xl q-pb-lg" v-html="getLabel(translations.CASINA_INDEX_SERVICES_TEXT)" />
-      <div class="row justify-around q-py-xl">
+      <div
+        v-if="services.length > 0"
+        class="q-pt-xl q-pb-lg"
+        v-html="getLabel(translations.CASINA_INDEX_SERVICES_TEXT)"
+      />
+      <div v-if="services.length > 0" class="row justify-around q-py-xl">
         <div v-for="service in services" class="col-12 col-sm-5 col-md-4 q-pa-md" :key="'services' + service.id">
           <SimpleCard :title="service.content.title" :description="service.content.description" />
         </div>
       </div>
-      <div class="q-pt-xl q-pb-lg" v-html="getLabel(translations.CASINA_INDEX_DOCTORS_TEXT)" />
+      <div
+        v-if="doctors.length > 1"
+        class="q-pt-xl q-pb-lg"
+        v-html="getLabel(translations.CASINA_INDEX_DOCTORS_TEXT)"
+      />
       <div v-if="doctors.length > 1" class="row justify-around q-pt-xl q-pb-lg">
         <div v-for="doctor in doctors" class="col-12 col-sm-5 col-md-4 q-pa-md" :key="'doctors' + doctor.id">
           <ProfileCard

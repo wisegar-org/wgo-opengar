@@ -99,8 +99,8 @@ export default defineComponent({
     },
     async loadDataCards() {
       await this.loadIndexContent();
-      // await this.loadDoctors();
-      // await this.loadServices();
+      await this.loadDoctors();
+      await this.loadServices();
     },
   },
   async created() {
