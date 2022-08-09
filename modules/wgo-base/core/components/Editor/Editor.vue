@@ -17,7 +17,7 @@
         v-else
         dense
         max-height="150px"
-        v-model="toEdit[propToEdir]"
+        v-model="toEdit[propToEdit]"
         min-height="5rem"
       />
     </q-card>

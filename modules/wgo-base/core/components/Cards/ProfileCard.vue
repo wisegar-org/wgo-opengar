@@ -37,7 +37,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
+import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { IMediaModel } from "../../models";
+import { BaseTranslateComponent } from "../BaseComponents";
 import MediaDiv from "../MediaDiv/MediaDiv.vue";
 import { minText } from "./Utils";
 
@@ -51,13 +53,16 @@ export default defineComponent({
     name: { type: String, default: "" },
     description: { type: String, default: "" },
     email: { type: String, default: "" },
+    tranStore: { type: Object as PropType<TranslationStore>, required: true },
   },
   components: {
     MediaDiv,
   },
-  setup() {
+  setup(props) {
+    const { getLabel } = new BaseTranslateComponent();
     return {
       avatarSize: "170px",
+      getLabel: (name: string) => getLabel(props.tranStore as any, name),
     };
   },
   methods: {
