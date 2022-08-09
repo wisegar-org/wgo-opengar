@@ -1,21 +1,21 @@
 <template>
   <div style="width: 100%">
     <q-card v-if="!loading" flat>
-      <q-card-section>
+      <q-card-section class="q-py-md">
         <div class="row items-center justify-between q-table">
           <div class="col-12 col-sm-auto no-wrap">
-            <div class="q-table__title ellipsis">
+            <div class="q-table__title ellipsis text-h6">
               {{ getLabel(translations.CONTACT_ADM_TITLE) }}
             </div>
           </div>
-          <div class="flex q-pb-sm justify-end col-12 col-sm-auto row">
+          <div class="flex justify-end col-12 col-sm-auto row">
             <q-btn
               unelevated
               color="primary"
               icon="save"
               :label="getLabel(tranBase.SAVE)"
               @click="() => clickSaveContactData()"
-              class="col-12 col-sm-auto q-ml-sm q-mb-sm"
+              class="col-12 col-sm-auto"
               no-caps
             />
           </div>

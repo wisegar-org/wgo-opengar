@@ -1,6 +1,6 @@
 <template>
   <q-page class="row justify-evenly">
-    <div class="col-12 q-pa-md">
+    <div class="col-12">
       <ContactEditor :tranStore="tranStore" :langStore="langStore" @showMessage="showMessage" />
     </div>
   </q-page>
