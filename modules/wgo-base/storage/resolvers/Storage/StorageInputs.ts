@@ -1,4 +1,4 @@
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class StorageInput {
@@ -20,7 +20,9 @@ export class StoragePageInput {
   @Field(() => Number, { defaultValue: 5 }) take!: number;
   @Field(() => String) type!: string;
   @Field(() => String) urlApi!: string;
-  @Field(() => String, { defaultValue: '' }) search!: string;
+  @Field(() => String, { defaultValue: "" }) search!: string;
+  @Field(() => Boolean, { defaultValue: false }) descending!: boolean;
+  @Field(() => String, { defaultValue: "" }) sortBy!: string;
 }
 
 @InputType()
@@ -29,5 +31,5 @@ export class StorageAllInput {
   @Field(() => Boolean, { defaultValue: true }) loadTranslations!: boolean;
   @Field(() => String) type!: string;
   @Field(() => String) urlApi!: string;
-  @Field(() => String, { defaultValue: '' }) search!: string;
+  @Field(() => String, { defaultValue: "" }) search!: string;
 }

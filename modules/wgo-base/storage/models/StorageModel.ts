@@ -1,7 +1,7 @@
 import { IsString } from "@wisegar-org/wgo-object-extensions";
-import { DataSource, Repository } from "typeorm";
+import { DataSource, Like, Repository } from "typeorm";
 import { IStorageResponse } from ".";
-import { IMediaModel } from "../../core/models";
+import { IMediaModel, StringDictionary } from "../../core/models";
 import { IContextBase } from "../../core/models/context";
 import { TranslationModel } from "../../translation/models/TranslationModel";
 import StorageEntity from "../database/entities/StorageEntity";
@@ -20,6 +20,7 @@ export const StorageKeys = "WGO_STORAGE_CONTENT";
 export class StorageModel {
   dataSource: DataSource;
   storageRepository: Repository<StorageEntity>;
+  ctx: IContextBase;
   private mediaModel: MediaModel;
   private translationModel: TranslationModel;
 
@@ -27,6 +28,7 @@ export class StorageModel {
    *
    */
   constructor(ctx: IContextBase) {
+    this.ctx = ctx;
     this.dataSource = ctx.dataSource;
     this.storageRepository = this.dataSource.getRepository(StorageEntity);
     this.mediaModel = new MediaModel(ctx);
@@ -42,9 +44,17 @@ export class StorageModel {
     relations: string[] = [],
     skip: number = 0,
     take: number = 0,
-    search: string = ""
+    search: string = "",
+    sortBy: string = "",
+    descending: boolean = false
   ) {
-    const result = await this.allByCriteria({ type: type }, relations, search);
+    const result = await this.allByCriteria(
+      { type: type },
+      relations,
+      search,
+      sortBy,
+      descending
+    );
     return {
       storageItemsCount: result.length,
       storageItems: result.slice(skip, skip + take),
@@ -54,16 +64,57 @@ export class StorageModel {
   async allByCriteria(
     condition: any,
     relations: string[] = [],
-    search: string = ""
+    search: string = "",
+    sortBy: string = "",
+    descending: boolean = false
   ) {
     const fields = await this.storageRepository.find({
       where: condition,
       relations: relations,
     });
 
-    const result = fields.filter(
-      (item) => !search || JSON.stringify(item.content).indexOf(search) !== -1
-    );
+    let result = fields;
+    const translations = await this.translationModel.getTranslationsByCriteria({
+      key: Like(`%${StorageKeys}%`),
+      value: Like(`%${search}%`),
+      languageId: this.ctx.language,
+    });
+
+    const translationValues: StringDictionary = {};
+    translations.map((item) => {
+      translationValues[item.key] = item.value;
+    });
+
+    if (search) {
+      const keys = translations.map((item) => item.key);
+      result = result.filter((item) => {
+        const content = JSON.stringify(item.content);
+        const findItems = keys.filter((key) => content.indexOf(key) !== -1);
+        return (
+          JSON.stringify(item.content).indexOf(search) !== -1 ||
+          findItems.length > 0
+        );
+      });
+    }
+
+    if (sortBy) {
+      result = result.sort((item1: StorageEntity, item2: StorageEntity) => {
+        if (!item1.content[sortBy] || !item2.content[sortBy]) return 0;
+        if (
+          item1.content[sortBy] > item2.content[sortBy] ||
+          translationValues[item1.content[sortBy]] >
+            translationValues[item2.content[sortBy]]
+        )
+          return descending ? -1 : 1;
+        if (
+          item1.content[sortBy] < item2.content[sortBy] ||
+          translationValues[item1.content[sortBy]] <
+            translationValues[item2.content[sortBy]]
+        )
+          return descending ? 1 : -1;
+        return 0;
+      });
+    }
 
     return result;
   }
@@ -97,6 +148,13 @@ export class StorageModel {
   async delete(id: number) {
     const model = await this.oneByCriteria({ id: id });
     if (!!model) {
+      if (model.content) {
+        for (const valueKey of Object.values(model.content)) {
+          if (IsString(valueKey) && `${valueKey}`.startsWith(StorageKeys)) {
+            await this.translationModel.deleteTranslation(valueKey as string);
+          }
+        }
+      }
       await this.storageRepository.manager.remove(model);
       return true;
     }
@@ -165,7 +223,8 @@ export class StorageModel {
           content[key + "Key"] = content[key];
           content[key] = !loadTranslations
             ? content[key]
-            : await this.translationModel.getTranslation(lang, content[key]);
+            : (await this.translationModel.getTranslation(lang, content[key]))
+                .value;
         }
       }
       item.content = JSON.stringify(content);

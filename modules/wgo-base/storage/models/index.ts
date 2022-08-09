@@ -1,4 +1,4 @@
-import { IMediaModel } from "../../core/models";
+import { IMediaModel } from '../../core/models';
 
 export interface IStorageAllInput {
   lang: number;
@@ -24,6 +24,8 @@ export interface IStoragePageInput {
   type: string;
   urlApi: string;
   search?: string;
+  descending: boolean;
+  sortBy: string;
 }
 
 export type IStorageResponse = {

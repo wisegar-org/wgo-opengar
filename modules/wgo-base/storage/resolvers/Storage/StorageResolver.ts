@@ -50,7 +50,9 @@ export class StorageResolver {
       ["image", "imageList"],
       data.skip,
       data.take,
-      data.search
+      data.search,
+      data.sortBy,
+      data.descending
     );
 
     const listResult: StorageResponse[] = await storageModel.getResponseList(
