@@ -60,6 +60,13 @@ export class TranslationModel {
     return this.mapTranslationEntity(translation);
   }
 
+  async getTranslationsByCriteria(criteria: any) {
+    const translationRepository =
+      this.dataSoure.getRepository(TranslationEntity);
+    const translations = await translationRepository.find({ where: criteria });
+    return translations;
+  }
+
   async setTranslation(lang: number, key: string, value: string) {
     const translationRepository =
       this.dataSoure.getRepository(TranslationEntity);

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-none" style="width: 100%">
+  <div class="q-px-none q-py-md" style="width: 100%">
     <div class="row">
       <div class="col-12">
         <SimpleLanguageSelector
@@ -10,25 +10,25 @@
         />
       </div>
       <div class="col-12">
-        <EditorToolbar :toEdit="self" propToEdit="value" :label="label" />
+        <Editor :toEdit="self" propToEdit="value" :label="label" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from "@vue/composition-api";
+import { defineComponent, PropType } from "@vue/composition-api";
+import { IsStringEmpty } from "@wisegar-org/wgo-object-extensions";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
+import Editor from "../../../core/components/Editor/Editor.vue";
 import SimpleLanguageSelector from "../../../language/components/SimpleLanguageSelector/SimpleLanguageSelector.vue";
 import { ILanguageModel } from "../../../language/models";
 import { LanguageStore } from "../../../language/models/LanguageStore";
 import { TranslationStore } from "../../models/TranslationStore";
 import { TranslationResponse } from "../../resolvers/TranslationResponses";
-import EditorToolbar from "../../../core/components/Editor/EditorToolbar.vue";
-import { IsStringEmpty } from "@wisegar-org/wgo-object-extensions";
 
 export default defineComponent({
-  name: "TranslationComponent",
+  name: "TranslationSimpleComponent",
   props: {
     langStore: { type: Object as PropType<LanguageStore>, required: true },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
@@ -39,7 +39,7 @@ export default defineComponent({
     label: { type: String, default: "" },
   },
   components: {
-    EditorToolbar,
+    Editor,
     SimpleLanguageSelector,
   },
   data() {
@@ -54,14 +54,12 @@ export default defineComponent({
           }
         : {};
     const selectedLanguage: ILanguageModel = this.langStore.selectedLang;
-
     const { getLabel } = new BaseTranslateComponent();
     const self = this;
-
     return {
       self,
-      translations,
       value,
+      translations,
       selectedLanguage,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
