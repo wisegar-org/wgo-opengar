@@ -37,6 +37,7 @@ export const AppContextHandler = async (options: IContextOptions) => {
 
   const ctxApp = {
     ...ctx,
+    language: parseInt(requestHeaders.language) || 0,
   };
   if (!tokenPayload) return ctxApp;
   const user = await authModel.getUser(parseInt(tokenPayload.userId));

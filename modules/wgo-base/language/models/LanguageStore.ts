@@ -1,6 +1,7 @@
 import { ILanguageModel, ILanguagePostArg } from ".";
 import { TranslationStore } from "../../translation/models/TranslationStore";
 import { LanguageService } from "../service/LanguageService";
+import { LANGUAGE_ID } from "./constants";
 
 export class LanguageStore {
   allLangs: ILanguageModel[];
@@ -47,6 +48,7 @@ export class LanguageStore {
     if (this.selectedLang.id !== langSelected.id) {
       await this.translationStore.setLanguageId(langSelected.id);
     }
+    localStorage.setItem(LANGUAGE_ID, `${langSelected.id}`);
     this.selectedLang = langSelected;
   }
 

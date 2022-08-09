@@ -2,11 +2,13 @@ import { Pinia, Store } from 'pinia';
 import { IApiServiceOptions } from '../wgo-base/core/services/ApiService';
 import { Environment, getSettings } from './ApiSettings';
 import { USER_AUTH_TOKEN } from '../wgo-base/authentication/models';
+import { LANGUAGE_ID } from '../wgo-base/language/models';
 import { translations } from '../wgo-base/core/models';
 
 import { useNotifyStore } from 'src/stores/notifyStore';
 import { useAuthStore } from 'src/stores/authStore';
 import { useTranslationStore } from 'src/stores/translationStore';
+import { useLanguageStore } from 'src/stores/languageStore';
 const defaultEnv: Environment =
   process.env.NODE_ENV === Environment.Production ? Environment.Production : Environment.Development;
 
@@ -24,6 +26,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
   const notifyStore = useNotifyStore(pinia);
   const authStore = useAuthStore(pinia);
   const tranStore = useTranslationStore(pinia);
+  const langStore = useLanguageStore(pinia);
   const apiServiceOptions: IApiServiceOptions = {
     onMeErrorHandler: (message: any) => {},
     onGenericErrorHandler: (message: string, index: number) => {
@@ -60,7 +63,9 @@ export const getApiServiceOptions = (pinia: Pinia) => {
         authStore.authStore.setToken(refreshedToken);
       }
     },
-    onHeadersSetup: (headers: any) => {},
+    onHeadersSetup: (headers: any) => {
+      headers.language = langStore.languageStore.selectedLang.id || 0;
+    },
   };
   return apiServiceOptions;
 };

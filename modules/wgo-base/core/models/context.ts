@@ -8,4 +8,5 @@ export interface IContextBase {
   user?: IUserContext;
   dataSource: DataSource;
   web_root: string;
+  language: number;
 }

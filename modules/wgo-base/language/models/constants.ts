@@ -1,4 +1,5 @@
 export const LANGUAGE_EN = "EN";
+export const LANGUAGE_ID = "LANGUAGE";
 
 export const WRONG_LANGUAGE_DONT_EXIST =
   "WGO_LANGUAGE_WRONG_LANGUAGE_DONT_EXIST";
