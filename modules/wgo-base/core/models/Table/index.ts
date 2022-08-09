@@ -78,6 +78,8 @@ export interface ITableSchema {
   disableExportCsv?: boolean;
   disableExportExcel?: boolean;
   disableCopyClipboard?: boolean;
+  disableFilter?: boolean;
+  disableTitle?: boolean;
   leftButtons?: ITableLeftButton[];
   searchStrategy?: ITableSearchStrategy;
   leadingZeros?: number;
@@ -87,4 +89,11 @@ export interface ITableSchema {
   rowsPerPageDefault?: number;
   rowClass?: (row: any) => string | undefined;
   rowDblClick?: (row: any) => unknown;
+}
+
+export interface ITablePagination {
+  descending: boolean;
+  page: number;
+  rowsPerPage: number;
+  sortBy: string;
 }

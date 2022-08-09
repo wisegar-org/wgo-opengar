@@ -13,9 +13,11 @@
       class="my-sticky-header-table"
       :rows-per-page-options="rowsPerPage"
       :pagination="initialPagination"
+      @update:pagination="getPage"
     >
       <template v-slot:top>
         <TableTitleHeader
+          v-if="!mySchema.disableTitle"
           :title="getLabel(title)"
           :searchText="searchText"
           :schema="mySchema"
@@ -25,6 +27,7 @@
           @changeColumnSelected="changeColumnSelected"
           @enableFilterChange="changeEnableFilter"
         />
+        <slot name="subtitle"></slot>
       </template>
 
       <template v-slot:header-cell="props">
@@ -96,7 +99,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
-import { ITableColumn, ITableData, ITableSchema } from "../../models/Table";
+import {
+  ITableColumn,
+  ITableData,
+  ITablePagination,
+  ITableSchema,
+} from "../../models/Table";
 import TableColumns from "./TableColumns.vue";
 import TableTitleHeader from "./TableTitleHeader.vue";
 import { translations as tranBase } from "../../../core/models";
@@ -111,6 +119,10 @@ export default defineComponent({
     data: {
       type: Array as PropType<ITableData[]>,
       default: [],
+    },
+    countData: {
+      type: Number,
+      default: 0,
     },
     schema: {
       type: Object as PropType<ITableSchema>,
@@ -132,8 +144,11 @@ export default defineComponent({
     const filtredData: ITableData[] = [];
     const inputSequence: string[] = [];
     const filters: { [key: string]: string } = {};
-    const initialPagination = {
-      rowsPerPage: this.schema.rowsPerPageDefault || 0,
+    const initialPagination: ITablePagination = {
+      rowsPerPage: this.schema.rowsPerPageDefault || this.data.length,
+      descending: false,
+      page: 1,
+      sortBy: "",
     };
 
     return {
@@ -243,6 +258,10 @@ export default defineComponent({
       }
       return defaultValue || name;
     },
+    getPage(pagination: any) {
+      this.initialPagination = pagination;
+      this.$emit("getPagination", pagination);
+    },
   },
   computed: {
     rowsPerPage(): number[] {
@@ -251,7 +270,7 @@ export default defineComponent({
         : [0];
     },
   },
-  emits: ["selectCode", "buttonClick", "rowSelect"],
+  emits: ["selectCode", "buttonClick", "rowSelect", "getPagination"],
   mounted() {
     if (this.schema) {
       this.setFromSchema();

@@ -31,6 +31,7 @@
           />
           <!-- Buttons -->
           <q-btn
+            v-if="!schema.disableFilter"
             flat
             round
             color="primary"
