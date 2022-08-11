@@ -13,9 +13,13 @@ const fs = require("fs-extra");
 const buildsettings = fs.readJsonSync("settings.build.json", { throws: false });
 const path = require("path");
 const env = require("dotenv");
-const envValue = env.config({
-  path: ".env",
-});
+const envValue = fs.existsSync(".env")
+  ? env.config({
+      path: ".env",
+    })
+  : env.config({
+      path: "../.env",
+    });
 let hostBase = envValue.parsed?.PORT
   ? `http://localhost:${envValue.parsed.PORT}`
   : buildsettings.API_BASE;

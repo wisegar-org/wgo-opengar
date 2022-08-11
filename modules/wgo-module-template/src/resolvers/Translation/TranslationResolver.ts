@@ -17,7 +17,7 @@ export class PublicTranslationResolver extends TranslationResolver {
     @Arg("data") data: ImportTranslationsInput,
     @Ctx() ctx: IContextBase
   ) {
-    const result = await this.importTranslationsPrivate(data, ctx.dataSource);
+    const result = await this.importTranslationsPrivate(data, ctx);
     return result;
   }
 }

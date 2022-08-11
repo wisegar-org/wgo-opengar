@@ -1,23 +1,27 @@
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { PostgresDataSource } from "../../dataSources";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
 import { IContextBase } from "../../wgo-base/core/models/context";
-import { MediaModel } from "../../wgo-base/storage/models/MediaModel";
-import { MediaResolver } from "../../wgo-base/storage/resolvers/MediaResolver";
-import { MediaResponse } from "../../wgo-base/storage/resolvers/MediaResponses";
+import { MediaResolver } from "../../wgo-base/storage/resolvers/Media/MediaResolver";
+import { MediaResponse } from "../../wgo-base/storage/resolvers/Media/MediaResponses";
+import {
+  MEDIA_PATH_POST_FILE,
+  MEDIA_PATH_POST_FILES,
+} from "../../wgo-base/storage/router/server";
 import { MediaInput, MediasInput } from "./MediaInput";
 
 @Resolver()
 export class PublicMediaResolver extends MediaResolver {
-  @Mutation(() => MediaResponse)
+  @Authorized()
+  @Mutation(() => MediaResponse, { name: MEDIA_PATH_POST_FILE })
   async saveFile(
     @Arg("data") data: MediaInput,
     @Arg("urlApi") urlApi: string,
     @Ctx() ctx: IContextBase
   ) {
-    return await this.saveFilePrivate(data, urlApi, ctx.dataSource);
+    return await this.saveFilePrivate(data, urlApi, ctx);
   }
 
-  @Mutation(() => [MediaResponse])
+  @Authorized()
+  @Mutation(() => [MediaResponse], { name: MEDIA_PATH_POST_FILES })
   async saveFiles(
     @Arg("data") data: MediasInput,
     @Arg("urlApi") urlApi: string,
@@ -26,7 +30,7 @@ export class PublicMediaResolver extends MediaResolver {
     const result: MediaResponse[] = await this.saveFilesPrivate(
       data,
       urlApi,
-      ctx.dataSource
+      ctx
     );
     return result;
   }
