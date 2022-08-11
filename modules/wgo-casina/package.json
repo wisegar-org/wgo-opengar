@@ -1,7 +1,7 @@
 {
   "name": "wgo-casina",
   "version": "0.0.1-build.0",
-  "description": "Template Opengar App Module",
+  "description": "Casina App",
   "main": "build/index.js",
   "scripts": {
     "start": "nodemon",

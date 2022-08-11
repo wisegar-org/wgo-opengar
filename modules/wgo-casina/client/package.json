@@ -1,8 +1,8 @@
 {
-  "name": "client-template",
+  "name": "wgo-casina-client",
   "version": "0.0.1",
-  "description": "A WGO Client App Template",
-  "productName": "WGO Client Template Demo",
+  "description": "Casina Web App",
+  "productName": "Casina",
   "author": "Wisegar.org Development Group",
   "private": true,
   "scripts": {},
