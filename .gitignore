@@ -23,6 +23,12 @@ modules/wgo-casina/src/wgo-base
 modules/wgo-casina/client/src/wgo-base
 modules/wgo-casina/public
 
+#  wgo-wisegar
+modules/wgo-wisegar/settings
+modules/wgo-wisegar/src/wgo-base
+modules/wgo-wisegar/client/src/wgo-base
+modules/wgo-wisegar/public
+
 #  wgo-swisspay
 modules/wgo-swisspay/settings
 modules/wgo-swisspay/src/wgo-base
