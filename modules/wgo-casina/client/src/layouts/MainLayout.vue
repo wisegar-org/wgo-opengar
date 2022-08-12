@@ -8,6 +8,23 @@
 
         <div class="row">
           <LanguageSelector :langStore="langStore" class="q-mx-sm" />
+          <q-tabs shrink>
+            <q-route-tab
+              v-for="(path, key) in paths"
+              :key="'webMenu-' + key"
+              :name="path.name"
+              :label="getLabel(path.label)"
+              class="q-px-md"
+              :to="path.path"
+            />
+            <q-route-tab
+              v-if="isSuperAdmin()"
+              :name="adminPath.name"
+              :label="getLabel(adminPath.label)"
+              class="q-px-md"
+              :to="adminPath.path"
+            />
+          </q-tabs>
           <LoginBtn
             :user="authStore.user"
             :tranStore="transStore"
@@ -15,6 +32,7 @@
             @onLoginClick="goToLogin"
             @onLogoutClick="logout"
             @onSaveUser="onSave"
+            class="q-pl-sm"
           />
         </div>
       </q-toolbar>
@@ -46,6 +64,8 @@ import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
 import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
 import { translations as transBase } from '../wgo-base/core/models/translations';
 import { BaseTranslateComponent } from '../wgo-base/core/components/BaseComponents';
+import { SUPERADMIN } from '../wgo-base/authentication/models';
+import { AdminPaths } from '../wgo-base/core/router';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -66,8 +86,11 @@ export default defineComponent({
     function goToPath(pathName: string) {
       routeService.goTo(pathName);
     }
+    const paths = [Paths.home];
 
     return {
+      adminPath: AdminPaths.admin,
+      paths,
       loading: false,
       goToPath,
       authStore: authStore.authStore,
@@ -88,6 +111,9 @@ export default defineComponent({
     },
     onSave(user: IUser) {
       this.authStore.setUser(user);
+    },
+    isSuperAdmin() {
+      return this.authStore.isUserInRole([SUPERADMIN]);
     },
   },
 });

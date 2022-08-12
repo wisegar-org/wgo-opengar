@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="align-self: center">
     <div v-if="isLogged" class="row">
       <q-btn-dropdown flat :label="user.email" no-caps>
         <q-list style="min-width: 150px">
