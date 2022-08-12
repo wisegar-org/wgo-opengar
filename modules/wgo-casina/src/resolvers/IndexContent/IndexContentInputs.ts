@@ -3,8 +3,8 @@ import { TranslationInput } from "../../wgo-base/translation/resolvers/Translati
 
 @InputType()
 export class CasinaIndexContentInputs {
-  @Field(() => Number, { nullable: false })
+  @Field(() => Number, { defaultValue: 0 })
   imageId?: number;
-  @Field(() => [TranslationInput], { nullable: false })
+  @Field(() => [TranslationInput], { defaultValue: [] })
   translations!: TranslationInput[];
 }
