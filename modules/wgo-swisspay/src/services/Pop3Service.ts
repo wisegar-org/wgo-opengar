@@ -264,7 +264,7 @@ export const readEmails = async (): Promise<number> => {
   const host = config.POP3_EMAIL_HOST;
   const port = config.POP3_EMAIL_PORT;
   const username = config.POP3_EMAIL_USER;
-  const password = config.POP3_EMAIL_PASSWORD;
+  const password = settingsModel.getSettingPasswordValue(config.POP3_EMAIL_PASSWORD);
   const tls = config.POP3_EMAIL_TLS;
 
   const configSmtp = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
@@ -273,7 +273,7 @@ export const readEmails = async (): Promise<number> => {
     port: configSmtp.SMTP_EMAIL_PORT,
     auth: {
       user: configSmtp.SMTP_EMAIL_USER,
-      pass: configSmtp.SMTP_EMAIL_PASSWORD,
+      pass: settingsModel.getSettingPasswordValue(configSmtp.SMTP_EMAIL_PASSWORD),
     },
   };
 
