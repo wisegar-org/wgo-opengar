@@ -127,7 +127,7 @@ export class EmployeesService {
       port: config.SMTP_EMAIL_PORT,
       auth: {
         user: config.SMTP_EMAIL_USER,
-        pass: config.SMTP_EMAIL_PASSWORD,
+        pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
     await this.emailService.sendByConfig(
@@ -195,7 +195,7 @@ export class EmployeesService {
       port: config.SMTP_EMAIL_PORT,
       auth: {
         user: config.SMTP_EMAIL_USER,
-        pass: config.SMTP_EMAIL_PASSWORD,
+        pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
     await this.emailService.sendByConfig(
