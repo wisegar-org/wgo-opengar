@@ -30,10 +30,7 @@ export class EmailModel {
 
   async sendEmail(data: EmailOptions): Promise<EmailResponse> {
     try {
-      const settingsModel = new SettingsModel(this.ctx);
-      const configSmtp = (await settingsModel.getSettingsObject({
-        type_settings: SETTINGS_SMTP,
-      })) as any as SmtpSettings;
+      const configSmtp = await this.getTransportEmailOptions();
       const result = await this.emailServer.sendByConfig(data, configSmtp);
       return <EmailResponse>result;
     } catch (error) {
@@ -47,11 +44,8 @@ export class EmailModel {
 
   async sendEmailToApp(data: EmailToAppInput): Promise<EmailResponse> {
     try {
-      const settingsModel = new SettingsModel(this.ctx);
-      const configSmtp = (await settingsModel.getSettingsObject({
-        type_settings: SETTINGS_SMTP,
-      })) as any as SmtpSettings;
-      const config = this.getEmailConfi();
+      const configSmtp = await this.getTransportEmailOptions();
+      const config = this.getEmailConfig();
       const result = await this.emailServer.sendByConfig(
         {
           from: data.from,
@@ -78,11 +72,8 @@ export class EmailModel {
 
   async sendEmailFromToApp(data: EmailFromToAppInput): Promise<EmailResponse> {
     try {
-      const settingsModel = new SettingsModel(this.ctx);
-      const configSmtp = (await settingsModel.getSettingsObject({
-        type_settings: SETTINGS_SMTP,
-      })) as any as SmtpSettings;
-      const config = this.getEmailConfi();
+      const configSmtp = await this.getTransportEmailOptions();
+      const config = this.getEmailConfig();
       const from = `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`;
       const result = await this.emailServer.sendByConfig(
         {
@@ -112,11 +103,8 @@ export class EmailModel {
     data: EmailToAddressAndAppInput
   ): Promise<EmailResponse> {
     try {
-      const settingsModel = new SettingsModel(this.ctx);
-      const configSmtp = (await settingsModel.getSettingsObject({
-        type_settings: SETTINGS_SMTP,
-      })) as any as SmtpSettings;
-      const config = this.getEmailConfi();
+      const configSmtp = await this.getTransportEmailOptions();
+      const config = this.getEmailConfig();
       const from = `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`;
       const result = await this.emailServer.sendByConfig(
         {
@@ -142,7 +130,7 @@ export class EmailModel {
     }
   }
 
-  getEmailConfi() {
+  getEmailConfig() {
     const emailAppAddressKey = GetEmailAppAddressKey().split(",");
     const emailAppAddressNameKey = GetEmailAppAddressNameKey().split(",");
     const toSend: string[] = [];
@@ -159,5 +147,24 @@ export class EmailModel {
       to,
       bcc,
     };
+  }
+
+  async getTransportEmailOptions() {
+    const settingsModel = new SettingsModel(this.ctx);
+    const configSmtp = (await settingsModel.getSettingsObject({
+      type_settings: SETTINGS_SMTP,
+    })) as any as SmtpSettings;
+    const transportEmailOptions = {
+      host: configSmtp.SMTP_EMAIL_HOST,
+      port: configSmtp.SMTP_EMAIL_PORT,
+      auth: {
+        user: configSmtp.SMTP_EMAIL_USER,
+        pass: settingsModel.getSettingPasswordValue(
+          configSmtp.SMTP_EMAIL_PASSWORD
+        ),
+      },
+    };
+
+    return transportEmailOptions;
   }
 }

@@ -89,7 +89,7 @@ export class AuthResolver {
       port: config.SMTP_EMAIL_PORT,
       auth: {
         user: config.SMTP_EMAIL_USER,
-        pass: config.SMTP_EMAIL_PASSWORD,
+        pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
     const authModel = new AuthModel({ ...this.options, transportEmailOptions });
@@ -108,7 +108,7 @@ export class AuthResolver {
       port: config.SMTP_EMAIL_PORT,
       auth: {
         user: config.SMTP_EMAIL_USER,
-        pass: config.SMTP_EMAIL_PASSWORD,
+        pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
     const authModel = new AuthModel({
@@ -134,7 +134,7 @@ export class AuthResolver {
       port: config.SMTP_EMAIL_PORT,
       auth: {
         user: config.SMTP_EMAIL_USER,
-        pass: config.SMTP_EMAIL_PASSWORD,
+        pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
     const authModel = new AuthModel({
@@ -160,7 +160,7 @@ export class AuthResolver {
       port: config.SMTP_EMAIL_PORT,
       auth: {
         user: config.SMTP_EMAIL_USER,
-        pass: config.SMTP_EMAIL_PASSWORD,
+        pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
     const authModel = new AuthModel({

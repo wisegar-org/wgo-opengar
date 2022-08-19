@@ -35,6 +35,7 @@
           </div>
           <div class="col-12">
             <q-input
+              v-if="!isPasswordField()"
               autofocus
               square
               outlined
@@ -42,6 +43,14 @@
               v-model="settings.value"
               required
               :label="getLabel(translations.COLUMN_VALUE)"
+            />
+            <InputSecret
+              v-if="isPasswordField()"
+              class="q-my-md q-mx-sm"
+              v-model="settings.value"
+              :required="true"
+              :label="getLabel(translations.COLUMN_VALUE)"
+              :hideBtnSpace="true"
             />
           </div>
         </q-card-section>
@@ -70,6 +79,7 @@ import { BaseTranslateComponent } from "../../../core/components/BaseComponents"
 import { translations } from "../../models/translations";
 import { translations as tranBase } from "../../../core/models";
 import { SettingsService } from "../../services/SettingsService";
+import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 
 export default defineComponent({
   name: "SettingsDialog",
@@ -83,6 +93,7 @@ export default defineComponent({
   },
   components: {
     Dialog,
+    InputSecret,
   },
   data() {
     const { getLabel } = new BaseTranslateComponent();
@@ -112,6 +123,9 @@ export default defineComponent({
         );
         this.close();
       }
+    },
+    isPasswordField() {
+      return this.settings.key.toLowerCase().indexOf("password") !== -1;
     },
     close() {
       this.$emit("close");
