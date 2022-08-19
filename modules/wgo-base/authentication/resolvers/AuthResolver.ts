@@ -92,7 +92,11 @@ export class AuthResolver {
         pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
-    const authModel = new AuthModel({ ...this.options, transportEmailOptions });
+    const authModel = new AuthModel({
+      ...this.options,
+      ctx,
+      transportEmailOptions,
+    });
     const user = await authModel.register(data as any);
     return user;
   }
