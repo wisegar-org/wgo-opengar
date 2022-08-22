@@ -12,10 +12,12 @@ import { UserRolesModel } from '../wgo-base/authentication/models/UserRolesModel
 import { PostgresDataSource } from '../dataSources';
 import { IContextBase } from '../wgo-base/core/models/context';
 import { GetWebRootKey } from '../middlewares/HostClientMiddleware';
+import { EventEmitter } from 'events';
 
 export const ctx = {
   dataSource: PostgresDataSource,
   web_root: GetWebRootKey(),
+  emiter: new EventEmitter(),
 } as IContextBase;
 
 const authModel = new UserRolesModel({
