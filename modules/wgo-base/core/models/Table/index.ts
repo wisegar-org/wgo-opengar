@@ -30,7 +30,7 @@ export interface ITableColumn {
     | "date"
     | "decimal";
   extra?: unknown;
-  format?: (val: unknown, row?: number) => string;
+  format?: (val: unknown, row?: any) => string;
   export?: ITableExport;
 }
 

@@ -1,3 +1,4 @@
+import { IsStringEmpty } from "@wisegar-org/wgo-object-extensions";
 import {
   ITableSchema,
   ITableLeftButton,
@@ -57,6 +58,16 @@ export const getSettingsListSchema = (
         filterable: true,
         align: "left",
         width: 200,
+        format: (val: unknown, row?: any) => {
+          debugger;
+          if (
+            (row?.key || "").toLowerCase().indexOf("password") !== -1 &&
+            IsStringEmpty(val)
+          ) {
+            return "••••••••";
+          }
+          return `${val || ""}`;
+        },
       },
       commands: {
         name: "commands",

@@ -92,7 +92,7 @@ export class SettingsModel {
 
   getSettingValue(key: string, value: string) {
     if (key.toLowerCase().indexOf("password") !== -1) {
-      return "";
+      return value ? "" : null;
     }
     return value;
   }
