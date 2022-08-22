@@ -47,10 +47,11 @@ export const getApiServiceOptions = (pinia: Pinia) => {
     },
     onNetworkErrorHandler: (message) => {
       console.debug(`GQL Network Error: ${message}`);
+      const messageStr = typeof message === 'string' ? message : message.message;
       notifyStore.setNotify({
         position: 'top',
         type: 'negative',
-        message: tranStore.translationStore.getTranslation(message || translations.NETWORK_ERROR),
+        message: tranStore.translationStore.getTranslation(messageStr || translations.NETWORK_ERROR),
       });
     },
     onTokenRefresh: (headers: any) => {

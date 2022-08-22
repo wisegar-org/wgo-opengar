@@ -1,8 +1,7 @@
-import { Pinia, Store } from 'pinia';
+import { Pinia } from 'pinia';
 import { IApiServiceOptions } from '../wgo-base/core/services/ApiService';
 import { Environment, getSettings } from './ApiSettings';
 import { USER_AUTH_TOKEN } from '../wgo-base/authentication/models';
-import { LANGUAGE_ID } from '../wgo-base/language/models';
 import { translations } from '../wgo-base/core/models';
 
 import { useNotifyStore } from 'src/stores/notifyStore';
@@ -50,10 +49,11 @@ export const getApiServiceOptions = (pinia: Pinia) => {
     },
     onNetworkErrorHandler: (message) => {
       console.debug(`GQL Network Error: ${message}`);
+      const messageStr = typeof message === 'string' ? message : message.message;
       notifyStore.setNotify({
         position: 'top',
         type: 'negative',
-        message: tranStore.translationStore.getTranslation(message || translations.NETWORK_ERROR),
+        message: tranStore.translationStore.getTranslation(messageStr || translations.NETWORK_ERROR),
       });
     },
     onTokenRefresh: (headers: any) => {
