@@ -9,12 +9,12 @@ import { StorageDoctorItem } from 'src/models/StorageModels';
 import { CasinaDoctorType } from 'src/models/contansts';
 import UploadImageDiv from 'src/wgo-base/storage/components/UploadImageDiv/UploadImageDiv.vue';
 import TranslationSimpleComponent from 'src/wgo-base/translation/components/TranslationSimpleComponent/TranslationSimpleComponent.vue';
-import { TranslationResponse } from 'src/wgo-base/translation/resolvers/TranslationResponses';
 import { MediaService } from 'src/wgo-base/storage/services/MediaService';
 import { StorageService } from 'src/wgo-base/storage/services/StorageService';
 import { IStorageInput } from 'src/wgo-base/storage/models';
 import { useNotifyStore } from 'src/stores/notifyStore';
 import { ITranslationModel } from 'src/wgo-base/translation/models';
+import { ApiSettingsConfig } from 'src/api/ApiOptions';
 
 export default defineComponent({
   name: 'DoctorContentDialog',
@@ -67,9 +67,11 @@ export default defineComponent({
   },
   setup() {
     const notifyStore = useNotifyStore();
+    const urlApi = ApiSettingsConfig.API_BASE;
 
     return {
       notifyStore,
+      urlApi,
     };
   },
   methods: {
@@ -158,6 +160,7 @@ export default defineComponent({
           nameKey: this.doctor?.content?.nameKey || '',
           descriptionKey: this.doctor?.content?.descriptionKey || '',
         },
+        image: this.doctor?.image,
       };
     },
   },

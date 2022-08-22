@@ -14,10 +14,11 @@
           <div class="flex justify-center col-12">
             <UploadImageDiv
               :img="form.image"
-              :onSavedImg="onSavedImg"
+              @onSavedImg="onSavedImg"
               :ratio="1"
               width="min(max(30vw, 150px), 200px)"
-              :showLoading="showLoading"
+              @showLoading="showLoading"
+              :urlApi="urlApi"
             />
           </div>
           <TranslationSimpleComponent

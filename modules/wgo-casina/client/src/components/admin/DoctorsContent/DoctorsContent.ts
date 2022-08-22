@@ -3,7 +3,7 @@ import { useTranslationStore } from 'src/stores/translationStore';
 import { BaseTranslateComponent } from 'src/wgo-base/core/components/BaseComponents';
 import { TranslationStore } from 'src/wgo-base/translation/models/TranslationStore';
 import { translationsDoctorsContent, translationsIndexContent } from '../../../models/translations';
-import { translations as transBase, NumberDictionary, IMediaModel } from '../../../wgo-base/core/models';
+import { translations as transBase, NumberDictionary } from '../../../wgo-base/core/models';
 import Loader from '../../../wgo-base/core/components/Loader/Loader.vue';
 import { TranslationInput } from 'src/wgo-base/translation/resolvers/TranslationInputs';
 import { useLanguageStore } from 'src/stores/languageStore';
@@ -238,6 +238,7 @@ export default defineComponent({
             id: item.id,
             type: item.type,
             content: JSON.parse(item.content) as StorageServiceItemContent,
+            image: item.image,
           }
       );
 
