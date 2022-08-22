@@ -59,7 +59,6 @@ export const getSettingsListSchema = (
         align: "left",
         width: 200,
         format: (val: unknown, row?: any) => {
-          debugger;
           if (
             (row?.key || "").toLowerCase().indexOf("password") !== -1 &&
             IsStringEmpty(val)
