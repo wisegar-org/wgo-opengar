@@ -9,6 +9,21 @@ import { AuthPaths } from '../wgo-base/authentication/router';
 
 export const menuItems: MenuListItem[] = [
   {
+    link: Paths.home.path,
+    color: '',
+    icon: 'home',
+    id: Paths.home.name,
+    type: 'item',
+    label: Paths.home.label,
+    auth: true,
+    role: [SUPERADMIN],
+  },
+  {
+    type: 'separator',
+    auth: true,
+    role: [SUPERADMIN],
+  },
+  {
     link: Paths.adminIndexContent.path,
     color: '',
     icon: 'wysiwyg',

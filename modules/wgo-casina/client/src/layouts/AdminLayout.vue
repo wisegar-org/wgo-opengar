@@ -17,6 +17,9 @@ import { menuItems } from '../settings/navigation';
 import { useRouter } from 'vue-router';
 import { RouteService } from '../wgo-base/core/services/RouteService';
 import { useLanguageStore } from '../stores/languageStore';
+import { AuthStore } from '../wgo-base/authentication/models/AuthStore';
+import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
+import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
 
 export default defineComponent({
   components: {
@@ -25,7 +28,7 @@ export default defineComponent({
   data() {
     const router = useRouter();
     return {
-      routeService: new RouteService(router),
+      routeService: new RouteService(router) as any,
     };
   },
   setup() {
@@ -34,9 +37,9 @@ export default defineComponent({
     const langStore = useLanguageStore();
 
     return {
-      authStore: authStore.authStore,
-      tranStore: transStore.translationStore,
-      langStore: langStore.languageStore,
+      authStore: authStore.authStore as AuthStore,
+      tranStore: transStore.translationStore as TranslationStore,
+      langStore: langStore.languageStore as LanguageStore,
       menuItems,
     };
   },
