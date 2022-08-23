@@ -18,12 +18,12 @@ console.log("\x1b[34m", `WEB_ROOT_ENV: ${web_root_env}`);
 const web_root_settings = build_args[3]
   ? build_args[3]
   : "/users/yarielre/settings";
-console.log("\x1b[34m", `WEB_ROOT_ENV: ${web_root_settings}`);
+console.log("\x1b[34m", `WEB_ROOT_SETTINGS: ${web_root_settings}`);
 
 const app_web_host = build_args[4]
   ? build_args[4]
   : `http://localhost:${port_env}`;
-console.log("\x1b[34m", `WEB_ROOT_ENV: ${app_web_host}`);
+console.log("\x1b[34m", `WEB_ROOT_HOST: ${app_web_host}`);
 
 const module_env = build_args[5] ? build_args[5] : "wgo-swisspay";
 console.log("\x1b[34m", `MODULE_ENV: ${module_env}`);
@@ -52,5 +52,8 @@ buildClient.build(buildOptions);
 
 const buildBase = require("./build-base");
 buildBase.build(buildOptions);
+
+const buildCopy = require("./build-cp");
+buildCopy.build(buildOptions);
 
 console.log("**************END**************");
