@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 //   env: env,
 //   port: port,
 //   web_root: web_root,
+//   web_settings: web_root_settings,
 //   web_host: app_web_host,
 //   module: module_env,
 // };
@@ -47,6 +48,10 @@ const build = (options) => {
   );
   fs.appendFileSync(
     envFilePath,
+    `SETTINGS_PATH=${path.normalize(options.web_settings)} \n`
+  );
+  fs.appendFileSync(
+    envFilePath,
     `CLIENT_WEB_ROOT=${path.join(options.web_root, "client")} \n`
   );
 
@@ -60,42 +65,6 @@ const build = (options) => {
   sourceFiles.forEach((file) => {
     fs.copySync(`${projectPath}/${file}`, `${projectPath}/build/${file}`);
   });
-
-  fs.emptyDirSync(`${projectPath}/build/settings`);
-  const env = dotenv.config({
-    path: `${projectPath}/.envss`,
-  });
-  let settingsPath = `${projectPath}/settings`;
-  if (!!env.parsed && !!env.parsed.SETTINGS_PATH) {
-    settingsPath = env.parsed.SETTINGS_PATH.startsWith(".")
-      ? path.join(projectPath, env.parsed.SETTINGS_PATH)
-      : env.parsed.SETTINGS_PATH;
-  }
-  if (fs.existsSync(settingsPath)) {
-    settingsFiles.forEach((file) => {
-      if (fs.existsSync(`${settingsPath}/${file}`)) {
-        fs.copySync(
-          `${settingsPath}/${file}`,
-          `${projectPath}/build/settings/${file}`
-        );
-      }
-    });
-
-    fs.appendFileSync(
-      envFilePath,
-      `SETTINGS_PATH=${path.resolve(
-        path.join(projectPath, `/build/settings`)
-      )} \n`
-    );
-  } else {
-    fs.appendFileSync(
-      envFilePath,
-      `SETTINGS_PATH=${path.join(
-        options.web_root,
-        `../settings/${baseName}`
-      )} \n`
-    );
-  }
 
   console.log(`npm install ${options.module} build`);
   execSync("npm ci --quiet --only=production --unsafe-perm=true --allow-root", {
