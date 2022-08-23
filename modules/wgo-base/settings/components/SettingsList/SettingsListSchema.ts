@@ -58,14 +58,15 @@ export const getSettingsListSchema = (
         filterable: true,
         align: "left",
         width: 200,
-        format: (val: unknown, row?: any) => {
-          if (
-            (row?.key || "").toLowerCase().indexOf("password") !== -1 &&
-            IsStringEmpty(val)
-          ) {
-            return "••••••••";
+        format: (val: any, row?: any) => {
+          if (val.type === "password") {
+            return IsStringEmpty(val.value) ? "••••••••" : "";
+          } else if (val.type === "boolean") {
+            return `${val.value}` === "true"
+              ? translations.TRUE
+              : translations.FALSE;
           }
-          return `${val || ""}`;
+          return val.value;
         },
       },
       commands: {

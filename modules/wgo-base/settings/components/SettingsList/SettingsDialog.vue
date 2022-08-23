@@ -34,23 +34,46 @@
             />
           </div>
           <div class="col-12">
+            <InputSecret
+              v-if="isPasswordField()"
+              class="q-my-md q-mx-sm"
+              v-model="settings.value.value"
+              :required="true"
+              :label="getLabel(translations.COLUMN_VALUE)"
+              :hideBtnSpace="true"
+            />
             <q-input
-              v-if="!isPasswordField()"
+              v-else-if="isNumberField()"
               autofocus
               square
               outlined
               class="q-my-sm q-mx-sm"
-              v-model="settings.value"
+              v-model="settings.value.value"
               required
+              type="number"
               :label="getLabel(translations.COLUMN_VALUE)"
             />
-            <InputSecret
-              v-if="isPasswordField()"
-              class="q-my-md q-mx-sm"
-              v-model="settings.value"
-              :required="true"
+            <q-list v-else-if="isBooleanField()" class="q-my-sm q-mx-sm">
+              <q-item tag="label" v-ripple>
+                <q-item-section>
+                  <q-item-label class="text-left">{{
+                    getLabel(translations.COLUMN_VALUE)
+                  }}</q-item-label>
+                </q-item-section>
+                <q-item-section avatar>
+                  <q-checkbox v-model="settings.value.value" />
+                </q-item-section>
+              </q-item>
+            </q-list>
+            <q-input
+              v-else
+              autofocus
+              square
+              outlined
+              class="q-my-sm q-mx-sm"
+              v-model="settings.value.value"
+              required
               :label="getLabel(translations.COLUMN_VALUE)"
-              :hideBtnSpace="true"
             />
           </div>
         </q-card-section>
@@ -112,7 +135,10 @@ export default defineComponent({
       const input = {
         key: this.settings.key,
         type_settings: this.settings.type_settings,
-        value: this.settings.value,
+        value: {
+          type: (this.settings.value as any).type,
+          value: `${(this.settings.value as any).value}`,
+        },
       };
       const result = await this.settingsService.postSettings(input);
       if (result) {
@@ -125,7 +151,13 @@ export default defineComponent({
       }
     },
     isPasswordField() {
-      return this.settings.key.toLowerCase().indexOf("password") !== -1;
+      return (this.settings.value as any).type === "password";
+    },
+    isNumberField() {
+      return (this.settings.value as any).type === "number";
+    },
+    isBooleanField() {
+      return (this.settings.value as any).type === "boolean";
     },
     close() {
       this.$emit("close");
@@ -135,6 +167,10 @@ export default defineComponent({
   watch: {
     stting() {
       this.settings = { ...this.stting };
+      if (this.isBooleanField()) {
+        (this.settings.value as any).value =
+          (this.settings.value as any).value === "true";
+      }
       this.keyValue =
         this.getLabel(`WGO_SETTINGS_${this.stting.key}`) +
         ` (${this.stting.key})`;

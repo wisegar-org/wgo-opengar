@@ -9,7 +9,10 @@ query ${SETTINGS_PATH_GET_ALL_SETTINGS} {
     ${SETTINGS_PATH_GET_ALL_SETTINGS} {
         type_settings
         key
-        value
+        value {
+          type
+          value
+        }
   }
 }
 `;

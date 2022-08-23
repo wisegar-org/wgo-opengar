@@ -25,7 +25,7 @@ export class SettingsResolver {
     @Ctx() ctx: IContextBase
   ) {
     const emailMediaModel = new SettingsModel(ctx);
-    const result = await emailMediaModel.setSettings(data);
+    const result = await emailMediaModel.setSettings(data as any);
     return result;
   }
 }
