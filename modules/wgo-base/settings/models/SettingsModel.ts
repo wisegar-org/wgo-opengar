@@ -20,6 +20,7 @@ import {
 } from "./constants";
 import { cypherData, decypherData } from "@wisegar-org/wgo-crypto";
 import { EventEmitter } from "events";
+import { listenersEvents } from "./SettingsUtils";
 
 export class SettingsModel {
   private dataSource: DataSource;
@@ -104,9 +105,11 @@ export class SettingsModel {
       );
     }
 
-    if (POP3_EVENT_LOOP_KEYS.indexOf(data.key) !== -1) {
-      this.emiter.emit(POP3_EVENT_LOOP, value.value);
-    }
+    listenersEvents.forEach((listner) => {
+      if (listner.keyListeners.indexOf(data.key) !== -1) {
+        this.emiter.emit(listner.event, value.value);
+      }
+    });
 
     return true;
   }

@@ -1,4 +1,10 @@
-import { ISettingValueBoolean } from ".";
+import { IHandlerSettings, ISettingValueBoolean } from "./index";
+import {
+  POP3_EVENT_DELETE,
+  POP3_EVENT_DELETE_KEYS,
+  POP3_EVENT_LOOP,
+  POP3_EVENT_LOOP_KEYS,
+} from "./constants";
 
 export const getPop3Settings = (config: any) => {
   const settings: { [key: string]: any } = {};
@@ -35,3 +41,14 @@ export const getSmtpSettings = (config: any) => {
 
   return settings;
 };
+
+export const listenersEvents: IHandlerSettings[] = [
+  {
+    event: POP3_EVENT_LOOP,
+    keyListeners: POP3_EVENT_LOOP_KEYS,
+  },
+  {
+    event: POP3_EVENT_DELETE,
+    keyListeners: POP3_EVENT_DELETE_KEYS,
+  },
+];

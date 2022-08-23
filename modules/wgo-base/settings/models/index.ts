@@ -15,22 +15,22 @@ export interface ISetSettingsParam {
 }
 
 export interface ISettingValueBoolean {
-  type: 'boolean';
+  type: "boolean";
   value: boolean;
 }
 
 export interface ISettingValuePassword {
-  type: 'password';
+  type: "password";
   value: string;
 }
 
 export interface ISettingValueString {
-  type: 'string';
+  type: "string";
   value: string;
 }
 
 export interface ISettingValueNumber {
-  type: 'number';
+  type: "number";
   value: number;
 }
 
@@ -58,4 +58,9 @@ export interface SmtpSettings {
   SMTP_EMAIL_PASSWORD: string;
   SMTP_EMAIL_EMAIL: string;
   SMTP_EMAIL_TLS: boolean;
+}
+
+export interface IHandlerSettings {
+  event: string;
+  keyListeners: string[];
 }
