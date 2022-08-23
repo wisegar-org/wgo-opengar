@@ -135,9 +135,10 @@ export class SettingsModel {
       };
     } else {
       if (data.value.type === "password") {
+        const value = this.getSettingPasswordValue(data.value.value);
         return <ISettingValuePassword>{
           type: "password",
-          value: this.getSettingPassword(data.key, data.value.value),
+          value: this.getSettingPassword(data.key, value),
         };
       } else if (data.value.type === "boolean") {
         return <ISettingValueBoolean>{
