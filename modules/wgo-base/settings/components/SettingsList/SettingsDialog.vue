@@ -144,7 +144,9 @@ export default defineComponent({
       if (result) {
         this.$emit(
           "success",
-          this.isPasswordField() ? "" : this.settings.value,
+          this.isPasswordField()
+            ? { type: "password", value: "" }
+            : this.settings.value,
           this.getLabel(this.translations.SET_SUCCESS)
         );
         this.close();
