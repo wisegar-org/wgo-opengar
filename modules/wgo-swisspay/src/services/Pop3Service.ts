@@ -13,6 +13,7 @@ import PDFService from './PDFService';
 
 import { EmailServer } from '@wisegar-org/wgo-mailer';
 import { Pop3Settings, SmtpSettings } from '../wgo-base/settings/models';
+import { POP3_EVENT_LOOP } from '../wgo-base/settings/models/constants';
 import { SETTINGS_POP3, SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
 import { ctx } from '../handlers/AppContextHandler';
 
@@ -22,10 +23,12 @@ export class Pop3Service {
    */
   clientOptions: IPop3ConnectionOptions;
   transportEmailOptions: any;
+  deleteEmails: boolean;
 
-  constructor(clientOptions: IPop3ConnectionOptions, transportEmailOptions?: any) {
+  constructor(clientOptions: IPop3ConnectionOptions, transportEmailOptions?: any, deleteEmails?: boolean) {
     this.clientOptions = clientOptions;
     this.transportEmailOptions = transportEmailOptions || {};
+    this.deleteEmails = !!deleteEmails;
   }
 
   // Get number of messages in the mailbox
@@ -216,7 +219,7 @@ export class Pop3Service {
   }
 
   // Read single email from server
-  async readEmail(msgNum: number, deleteEmail: boolean = false) {
+  async readEmail(msgNum: number) {
     var pop3 = new Pop3Command(this.clientOptions);
 
     // RETR command to get the email
@@ -229,7 +232,7 @@ export class Pop3Service {
     await this.saveEmail(email);
 
     // Delete email from server
-    if (deleteEmail) {
+    if (this.deleteEmails) {
       await pop3.DELE(msgNum);
     }
 
@@ -247,7 +250,7 @@ export class Pop3Service {
     // Read all emails
     for (let i = 1; i <= numMessages; i++) {
       try {
-        await this.readEmail(i, false);
+        await this.readEmail(i);
       } catch (err: any) {
         console.log(err.message);
       }
@@ -285,18 +288,39 @@ export const readEmails = async (): Promise<number> => {
       password: password,
       tls: tls,
     },
-    transportEmailOptions
+    transportEmailOptions,
+    settingsModel.getSettingBoolean(config.POP3_EMAIL_DELETE)
   );
 
   const numb = await pop3.readAllEmails();
   return numb;
 };
 
-export const loopReadEmails = async () => {
+let time = 0;
+
+export const loopReadEmails = async (currentTime: number = 0) => {
+  console.log('email sync: ', new Date().toLocaleTimeString());
+  console.log('current time: ', currentTime);
   const numb = await readEmails();
   console.log(numb, 'emails readed!');
 
-  setTimeout(async () => {
-    loopReadEmails();
-  }, READ_EMAILS_INTERVAL);
+  if (time === 0) {
+    loadEvent();
+    const settingsModel = new SettingsModel(ctx);
+    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_POP3 })) as any as Pop3Settings;
+    time = config.POP3_EMAIL_LOAD_TIME;
+  }
+
+  if (time) {
+    setTimeout(async () => {
+      loopReadEmails(time);
+    }, time * READ_EMAILS_INTERVAL);
+  }
+};
+
+export const loadEvent = () => {
+  ctx.emiter.on(POP3_EVENT_LOOP, (value: number) => {
+    time = value;
+    loopReadEmails(time);
+  });
 };

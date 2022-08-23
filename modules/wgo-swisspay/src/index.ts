@@ -58,16 +58,16 @@ boot(serverOptions, async () => {
   }
 
   //Init db settings
-  settingsSeeder(dataSource);
+  await settingsSeeder(dataSource);
 
   //Core Seeders
-  roleSuperAdminSeeder(dataSource); //create superadmin rol
-  userAdminSeeder(dataSource); //create admin user with superadmin rol
-  languageDefaultSeeder(dataSource); //create default language
+  await roleSuperAdminSeeder(dataSource); //create superadmin rol
+  await userAdminSeeder(dataSource); //create admin user with superadmin rol
+  await languageDefaultSeeder(dataSource); //create default language
 
   //App seeders
-  roleClientSeeder(dataSource);
-  roleUserSeeder(dataSource);
+  await roleClientSeeder(dataSource);
+  await roleUserSeeder(dataSource);
 
   // Loop through all emails in the inbox and save them to the database
   setTimeout(async () => {
