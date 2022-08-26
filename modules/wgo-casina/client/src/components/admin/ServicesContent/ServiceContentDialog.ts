@@ -125,7 +125,7 @@ export default defineComponent({
     },
   },
   watch: {
-    doctor() {
+    service() {
       this.transDescription = <ITranslationModel>{
         key: this.service?.content ? this.service.content.descriptionKey : 'transDescription',
         id: this.service?.content ? this.service.content.descriptionKey : 'transDescription',
@@ -138,7 +138,7 @@ export default defineComponent({
       };
       this.form = {
         id: this.service?.id || 0,
-        type: CasinaDoctorType,
+        type: CasinaServiceType,
         content: {
           title: this.service?.content?.title || '',
           description: this.service?.content?.description || '',

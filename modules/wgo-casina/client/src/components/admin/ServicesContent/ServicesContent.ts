@@ -224,7 +224,7 @@ export default defineComponent({
         type: CasinaServiceType,
         urlApi: ApiSettingsConfig.API_BASE,
         search: this.search,
-        loadTranslations: false,
+        loadTranslations: true,
         descending: this.pagination.descending,
         sortBy: this.pagination.sortBy,
         skip: (this.pagination.page - 1) * this.pagination.rowsPerPage,

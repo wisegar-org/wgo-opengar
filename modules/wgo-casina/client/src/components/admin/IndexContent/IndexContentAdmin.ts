@@ -26,6 +26,7 @@ export default defineComponent({
   },
   data() {
     const traslationValue: NumberDictionary = {};
+    const traslationTitleValue: NumberDictionary = {};
 
     const innerLoading = false;
     const loading = false;
@@ -34,6 +35,7 @@ export default defineComponent({
 
     return {
       traslationValue,
+      traslationTitleValue,
       innerLoading,
       loading,
       imgIndex,
@@ -56,6 +58,15 @@ export default defineComponent({
       ),
     };
 
+    const transTitle: TranslationResponse = <TranslationResponse>{
+      key: translationsIndexContent.CASINA_INDEX_CONTENT_TEXT_TITLE,
+      id: translationsIndexContent.CASINA_INDEX_CONTENT_TEXT_TITLE,
+      value: getLabel(
+        tranStore.translationStore as TranslationStore,
+        translationsIndexContent.CASINA_INDEX_CONTENT_TEXT_TITLE
+      ),
+    };
+
     return {
       urlApi,
       tranStore: tranStore.translationStore as TranslationStore,
@@ -64,12 +75,16 @@ export default defineComponent({
       transBase,
       notifyStore,
       transContent,
+      transTitle,
       getLabel: (name: string) => getLabel(tranStore.translationStore as TranslationStore, name),
     };
   },
   methods: {
     onChangeIndexContent(langId: number, value: string) {
       this.traslationValue[langId] = value;
+    },
+    onChangeIndexTitleContent(langId: number, value: string) {
+      this.traslationTitleValue[langId] = value;
     },
     getTranslationItem(traslationValue: NumberDictionary, key: string) {
       return Object.keys(traslationValue).map((langId) => {
@@ -84,9 +99,9 @@ export default defineComponent({
     async saveData() {
       this.loading = true;
       let translationsToSet: TranslationInput[] = [];
-      translationsToSet = translationsToSet.concat(
-        this.getTranslationItem(this.traslationValue, this.translations.CASINA_INDEX_CONTENT_TEXT)
-      );
+      translationsToSet = translationsToSet
+        .concat(this.getTranslationItem(this.traslationValue, this.translations.CASINA_INDEX_CONTENT_TEXT))
+        .concat(this.getTranslationItem(this.traslationTitleValue, this.translations.CASINA_INDEX_CONTENT_TEXT_TITLE));
 
       const arg = {
         imageId: this.imgIndex ? this.imgIndex.id : 0,

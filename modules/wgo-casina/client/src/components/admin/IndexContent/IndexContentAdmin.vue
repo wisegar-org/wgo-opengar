@@ -34,8 +34,16 @@
         <TranslationComponent
           :langStore="langStore"
           :tranStore="tranStore"
+          :translation="transTitle"
+          @onChange="onChangeIndexTitleContent"
+          class="q-py-md"
+        />
+        <TranslationComponent
+          :langStore="langStore"
+          :tranStore="tranStore"
           :translation="transContent"
           @onChange="onChangeIndexContent"
+          class="q-py-md"
         />
       </q-card-section>
     </q-card>

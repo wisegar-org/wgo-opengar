@@ -28,6 +28,7 @@
           :translation="transTitleContent"
           @onChange="onChangeTitle"
           :label="translations.CASINA_SCHEDULE_TITLE_LB"
+          class="q-py-md"
         />
         <TranslationComponent
           :langStore="langStore"
@@ -35,6 +36,7 @@
           :translation="transContent"
           @onChange="onChangeContent"
           :label="translations.CASINA_SCHEDULE_CONTENT_LB"
+          class="q-py-md"
         />
       </q-card-section>
     </q-card>

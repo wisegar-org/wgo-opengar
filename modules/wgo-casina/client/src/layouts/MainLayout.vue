@@ -1,14 +1,14 @@
 <template>
   <q-layout view="hHh Lpr fff" style="display: flex; justify-content: center">
     <q-header>
-      <q-toolbar>
-        <q-toolbar-title>
+      <q-toolbar class="row">
+        <q-toolbar-title class="col-5">
           {{ transStore.getTranslation(transBase.APP_TITLE) }}
         </q-toolbar-title>
 
-        <div class="row">
-          <LanguageSelector :langStore="langStore" class="q-mx-sm" />
-          <q-tabs shrink>
+        <div class="col-7 row flex justify-end">
+          <LanguageSelector :langStore="langStore" class="q-mx-none self-center" />
+          <q-tabs shrink v-if="!$q.platform.is.mobile">
             <q-route-tab
               v-for="(path, key) in paths"
               :key="'webMenu-' + key"

@@ -5,6 +5,7 @@
     :menuItems="menuItems"
     :langStore="langStore"
     :routeService="routeService"
+    :homePath="homePath"
   />
 </template>
 
@@ -20,6 +21,7 @@ import { useLanguageStore } from '../stores/languageStore';
 import { AuthStore } from '../wgo-base/authentication/models/AuthStore';
 import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
 import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
+import { Paths } from '../router/paths';
 
 export default defineComponent({
   components: {
@@ -41,6 +43,7 @@ export default defineComponent({
       tranStore: transStore.translationStore as TranslationStore,
       langStore: langStore.languageStore as LanguageStore,
       menuItems,
+      homePath: Paths.home.path,
     };
   },
 });
