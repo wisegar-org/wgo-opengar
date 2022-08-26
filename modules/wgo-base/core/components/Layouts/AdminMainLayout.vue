@@ -43,6 +43,7 @@ import { BaseTranslateComponent } from "../BaseComponents";
 import LoginBtn from "../LoginBtn/LoginBtn.vue";
 import LanguageSelector from "../../../language/components/LanguageSelector/LanguageSelector.vue";
 import { LanguageStore } from "../../../language/models/LanguageStore";
+import { AuthPaths } from "../../../authentication/router";
 
 export default defineComponent({
   name: "AdminMainLayout",
@@ -55,6 +56,7 @@ export default defineComponent({
     langStore: { type: Object as PropType<LanguageStore>, required: true },
     authStore: { type: Object as PropType<AuthStore>, required: true },
     routeService: { type: Object as PropType<RouteService>, required: true },
+    homePath: { type: String, default: "/" },
   },
   components: {
     LeftDrawer,
@@ -68,6 +70,15 @@ export default defineComponent({
       tranBase,
       getLabel: (name: string) => getLabel(props.tranStore, name),
     };
+  },
+  methods: {
+    goToLogin() {
+      this.goToPath(AuthPaths.authLogin.path);
+    },
+    logout() {
+      this.authStore.resetState();
+      this.goToPath(this.homePath);
+    },
   },
 });
 </script>
