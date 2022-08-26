@@ -5,6 +5,7 @@ import { IMediaModel, StringDictionary } from "../../core/models";
 import { IContextBase } from "../../core/models/context";
 import { TranslationModel } from "../../translation/models/TranslationModel";
 import StorageEntity from "../database/entities/StorageEntity";
+import { StorageKeys } from "./constants";
 import { MediaModel } from "./MediaModel";
 
 export interface StorageItem {
@@ -14,8 +15,6 @@ export interface StorageItem {
   imageId: number;
   imageListId: number[];
 }
-
-export const StorageKeys = "WGO_STORAGE_CONTENT";
 
 export class StorageModel {
   dataSource: DataSource;
@@ -71,6 +70,7 @@ export class StorageModel {
     const fields = await this.storageRepository.find({
       where: condition,
       relations: relations,
+      order: { id: "ASC" },
     });
 
     let result = fields;
