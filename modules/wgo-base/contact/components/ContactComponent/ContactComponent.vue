@@ -1,7 +1,13 @@
 <template>
   <q-form @submit="sendEmail" class="q-pa-sm">
-    <div v-html="getLabel(translations.CONTACT_TITLE)"></div>
-    <div v-html="getLabel(translations.CONTACT_BODY)"></div>
+    <div
+      v-html="getLabel(translations.CONTACT_TITLE)"
+      class="text-h4 q-py-md"
+    ></div>
+    <div
+      v-html="getLabel(translations.CONTACT_BODY)"
+      class="text-body1 q-py-md"
+    ></div>
     <div class="row">
       <div class="col-12 col-md-6 q-px-sm">
         <q-input

@@ -1,6 +1,9 @@
 <template>
   <div class="q-pa-md">
-    <div v-html="getLabel(translations.MAP_TITLE)"></div>
+    <div
+      class="q-py-xl text-h4"
+      v-html="getLabel(translations.MAP_TITLE)"
+    ></div>
     <iframe
       style="border: 0"
       tabindex="0"
@@ -16,7 +19,7 @@
     <div>
       <q-card class="my-card" flat>
         <q-card-section>
-          <div class="text-h6 text-center">{{ contact.contactName }}</div>
+          <div class="text-h4 text-center">{{ contact.contactName }}</div>
           <div class="text-body1 text-center">{{ contact.address }}</div>
           <br />
           <div class="text-body1 text-center">
