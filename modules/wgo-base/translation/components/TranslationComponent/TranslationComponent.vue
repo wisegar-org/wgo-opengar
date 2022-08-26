@@ -10,7 +10,14 @@
         />
       </div>
       <div class="col-12">
-        <EditorToolbar :toEdit="self" propToEdit="value" :label="label" />
+        <EditorToolbar
+          :toEdit="self"
+          propToEdit="value"
+          :label="getLabel(label)"
+          :hideFormat="false"
+          :hideAlign="false"
+          :hideViewCode="false"
+        />
       </div>
     </div>
   </div>

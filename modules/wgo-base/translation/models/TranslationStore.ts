@@ -5,16 +5,19 @@ import {
   ITranslationListModel,
   ITranslationModel,
 } from ".";
+import { StorageKeys } from "../../storage/models/constants";
 import { TranslationService } from "../service/TranslationService";
 
 export class TranslationStore {
   translations: ITranslationListModel<ITranslationModel>;
   translationsValue: ITranslationListModel<string>;
+  onlyTranslations: ITranslationModel[];
   languageId: number;
 
   constructor() {
     this.translations = {} as ITranslationListModel<ITranslationModel>;
     this.translationsValue = {} as ITranslationListModel<string>;
+    this.onlyTranslations = [];
     this.languageId = 0;
   }
 
@@ -24,6 +27,12 @@ export class TranslationStore {
       languageId: this.languageId,
     });
     this.updateObject(translations);
+  }
+
+  async setOnlySiteTranslationsList() {
+    this.onlyTranslations = Object.values(this.translations).filter(
+      (traslation) => !traslation.key.startsWith(StorageKeys)
+    );
   }
 
   async getAllTranslationByLanguage(langId: number) {
@@ -111,5 +120,6 @@ export class TranslationStore {
       this.translations[translation.key] = translation;
       this.translationsValue[translation.key] = translation.value;
     });
+    this.setOnlySiteTranslationsList();
   }
 }

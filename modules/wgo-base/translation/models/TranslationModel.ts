@@ -10,6 +10,7 @@ import {
 } from ".";
 import { UtilService } from "../../core/services/UtilService";
 import { IContextBase } from "../../core/models/context";
+import { StorageKeys } from "../../storage/models/constants";
 
 export class TranslationModel {
   private ctx: IContextBase;
@@ -184,7 +185,9 @@ export class TranslationModel {
       );
     }
 
-    const translationsKeys = Object.keys(searchTranslationskeys);
+    const translationsKeys = Object.keys(searchTranslationskeys).filter(
+      (translation) => !translation.startsWith(StorageKeys)
+    );
     const keys = translationsKeys.sort();
 
     let result: string = '" Language "," Key "," Value ",\n';

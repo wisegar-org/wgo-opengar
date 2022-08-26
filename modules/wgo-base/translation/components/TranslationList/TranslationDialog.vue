@@ -130,6 +130,7 @@ export default defineComponent({
           this.translationList[this.translation.languageId];
         this.tranStore.translationsValue[this.translation.key] =
           this.translationList[this.translation.languageId].value;
+        this.tranStore.setOnlySiteTranslationsList();
         this.$emit("onSet");
         this.close();
       }

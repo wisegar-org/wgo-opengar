@@ -3,7 +3,7 @@
     <div ref="placeholder" style="height: 1px"></div>
     <Table
       :title="translations.TITLE"
-      :data="Object.values(tranStore.translations)"
+      :data="tranStore.onlyTranslations"
       :schema="schema"
       :height="componentHeight"
     />
