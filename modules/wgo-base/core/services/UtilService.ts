@@ -47,4 +47,11 @@ export const UtilService = {
     });
     return result;
   },
+  removeTags(str: string) {
+    const strBr = (str || "")
+      .split("<div>")
+      .map((text) => text.replace(/(<([^>]+)>)/gi, ""))
+      .join("<br/>");
+    return strBr.startsWith("<br/>") ? strBr.replace("<br/>", "") : strBr;
+  },
 };

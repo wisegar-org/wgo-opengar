@@ -1,7 +1,7 @@
 <template>
   <div style="align-self: center">
     <div v-if="isLogged" class="row">
-      <q-btn-dropdown flat :label="user.email" no-caps>
+      <q-btn-dropdown flat :label="userEmail" :icon="iconBtn" no-caps>
         <q-list style="min-width: 150px">
           <q-item clickable v-close-popup @click="() => showUserProfile(true)">
             <q-item-section>{{
@@ -27,7 +27,7 @@
       v-else
       icon="login"
       @click="onLogin"
-      :label="getLabel(translations.LOGIN)"
+      :label="getLoginLabel"
     />
   </div>
 </template>
@@ -81,7 +81,17 @@ export default defineComponent({
       return !!this.user && !!this.user.id;
     },
     userEmail(): string {
-      return this.user?.email || "";
+      return !this.$q.platform.is.mobile && this.user?.email
+        ? this.user.email
+        : "";
+    },
+    iconBtn(): string {
+      return !this.$q.platform.is.mobile ? "" : "person";
+    },
+    getLoginLabel(): string {
+      return !this.$q.platform.is.mobile
+        ? this.getLabel(translations.LOGIN)
+        : "";
     },
   },
   emits: {
