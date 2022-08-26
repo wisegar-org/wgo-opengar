@@ -16,6 +16,8 @@
       <q-editor
         v-else
         dense
+        ref="editorRef"
+        @paste="onPaste"
         max-height="150px"
         v-model="toEdit[propToEdit]"
         min-height="5rem"
@@ -39,6 +41,31 @@ export default defineComponent({
   data() {
     this.toEdit[this.propToEdit] = this.toEdit[this.propToEdit] || "";
     return {};
+  },
+  methods: {
+    onPaste(evt: any) {
+      // Let inputs do their thing, so we don't break pasting of links.
+      if (evt.target.nodeName === "INPUT") return;
+      let text, onPasteStripFormattingIEPaste;
+      evt.preventDefault();
+      evt.stopPropagation();
+      if (evt.originalEvent && evt.originalEvent.clipboardData.getData) {
+        text = evt.originalEvent.clipboardData.getData("text/plain");
+        (this.$refs.editorRef as any).runCmd("insertText", text);
+      } else if (evt.clipboardData && evt.clipboardData.getData) {
+        text = evt.clipboardData.getData("text/plain");
+        (this.$refs.editorRef as any).runCmd("insertText", text);
+      } else if (
+        (window as any).clipboardData &&
+        (window as any).clipboardData.getData
+      ) {
+        if (!onPasteStripFormattingIEPaste) {
+          onPasteStripFormattingIEPaste = true;
+          (this.$refs.editorRef as any).runCmd("ms-pasteTextOnly", text);
+        }
+        onPasteStripFormattingIEPaste = false;
+      }
+    },
   },
 });
 </script>
