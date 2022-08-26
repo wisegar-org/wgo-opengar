@@ -25,12 +25,17 @@
       </q-card-section>
 
       <q-card-section>
-        <div>{{ name }}</div>
-        <div class="q-pt-none text-grey-7" v-html="getDescription()" />
+        <div class="text-body1">{{ getName() }}</div>
+        <div
+          class="q-pt-none text-grey-7 text-body1"
+          v-html="getDescription()"
+        />
       </q-card-section>
     </div>
     <q-card-section>
-      <a :href="getMailTo()" target="_blank"> {{ email }} </a>
+      <a :href="getMailTo()" target="_blank" class="text-body1">
+        {{ email }}
+      </a>
     </q-card-section>
   </q-card>
 </template>
@@ -39,6 +44,7 @@
 import { defineComponent, PropType } from "@vue/composition-api";
 import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { IMediaModel } from "../../models";
+import { UtilService } from "../../services/UtilService";
 import { BaseTranslateComponent } from "../BaseComponents";
 import MediaDiv from "../MediaDiv/MediaDiv.vue";
 import { minText } from "./Utils";
@@ -69,9 +75,11 @@ export default defineComponent({
     getMailTo() {
       return `mailto:${this.email}`;
     },
-
+    getName() {
+      return UtilService.removeTags(this.name);
+    },
     getDescription() {
-      return minText(this.description, 300, 3);
+      return minText(UtilService.removeTags(this.description), 300, 3);
     },
   },
 });

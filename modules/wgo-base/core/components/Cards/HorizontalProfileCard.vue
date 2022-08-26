@@ -35,10 +35,10 @@
       class="col-12 col-sm-7 row align-content: space-between; q-mt-sm q-mb-lg"
     >
       <div class="col-12" style="height: 100%">
-        <div>{{ name }}</div>
-        <div class="text-grey-7" v-html="getDescription()" />
+        <div class="text-body1">{{ getName() }}</div>
+        <div class="text-grey-7 text-body1" v-html="getDescription()" />
       </div>
-      <div class="col-12 q-pb-lg">
+      <div class="col-12 q-pb-lg text-body1">
         <a :href="getMailTo()" target="_blank"> {{ email }} </a>
       </div>
     </q-card-section>
@@ -48,6 +48,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
 import { IMediaModel } from "../../models";
+import { UtilService } from "../../services/UtilService";
 import MediaDiv from "../MediaDiv/MediaDiv.vue";
 import { minText } from "./Utils";
 
@@ -72,9 +73,11 @@ export default defineComponent({
     getMailTo() {
       return `mailto:${this.email}`;
     },
-
+    getName() {
+      return UtilService.removeTags(this.name);
+    },
     getDescription() {
-      return minText(this.description, 1500, 3);
+      return minText(UtilService.removeTags(this.description), 1500, 3);
     },
   },
 });
