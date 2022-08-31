@@ -1,4 +1,4 @@
-import { DataSource, Like } from 'typeorm';
+import { DataSource, Like, In } from 'typeorm';
 import { IIdInput } from '../wgo-base/core/models';
 import { UtilService } from '../wgo-base/core/services/UtilService';
 import { EmailHistoryEntity } from '../database/entities/EmailHistoryEntity';
@@ -8,6 +8,7 @@ import { IEmailDetailsModel, IEmailMediaFilter, IEmailMediaModel, IEmailModel } 
 import { IEmployeeDocumentProps } from '../models/EmployeesModel';
 import PDFService from './PDFService';
 import { UserResponse } from '../wgo-base/authentication/resolvers/AuthResponses';
+import { EmployeesService } from './EmployeesService';
 
 export class EmailMediaService {
   dataSource: DataSource;
@@ -21,20 +22,22 @@ export class EmailMediaService {
 
   async getAllEmails(filter: IEmailMediaFilter, ctx: any) {
     const repo = await this.dataSource.getRepository(EmailMediaEntity);
+    const employeesService = new EmployeesService(ctx.dataSource);
+    const emails = await employeesService.getAllEmailsByEmployees(ctx.user?.id || 0);
     const whereParam = ctx.user.isSuperAdmin
       ? {}
       : {
           where: [
             {
-              senderTo: Like(`%${filter.email}%`),
+              senderTo: In(emails),
             },
             {
               email: [
                 {
-                  from: Like(`%${filter.email}%`),
+                  from: In(emails),
                 },
                 {
-                  to: Like(`%${filter.email}%`),
+                  to: In(emails),
                 },
               ],
             },
@@ -51,27 +54,34 @@ export class EmailMediaService {
 
   async getEmailMediaById(data: IIdInput, ctx: any) {
     const repo = await this.dataSource.getRepository(EmailMediaEntity);
+    const employeesService = new EmployeesService(ctx.dataSource);
+    const emails = await employeesService.getAllEmailsByEmployees(ctx.user?.id || 0);
     const idQuery = { id: data.id };
+    const whereParam = ctx.user.isSuperAdmin
+      ? { where: { ...idQuery } }
+      : {
+          where: [
+            {
+              ...idQuery,
+              senderTo: In(emails),
+            },
+            {
+              ...idQuery,
+              email: {
+                from: In(emails),
+              },
+            },
+            {
+              ...idQuery,
+              email: {
+                to: In(emails),
+              },
+            },
+          ],
+        };
     const emailResponse = await repo.findOne({
       relations: ['email', 'email.attachments'],
-      where: [
-        {
-          ...idQuery,
-          senderTo: Like(`%${ctx.user.email}%`),
-        },
-        {
-          ...idQuery,
-          email: {
-            from: Like(`%${ctx.user.email}%`),
-          },
-        },
-        {
-          ...idQuery,
-          email: {
-            to: Like(`%${ctx.user.email}%`),
-          },
-        },
-      ],
+      ...whereParam,
     });
 
     if (!!emailResponse) {

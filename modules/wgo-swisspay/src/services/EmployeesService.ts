@@ -216,6 +216,22 @@ export class EmployeesService {
     return true;
   }
 
+  async getAllEmailsByEmployees(idEmployee: number) {
+    const repo = await this.dataSource.getRepository(EmployeesEntity);
+
+    const employees = await repo.find({
+      where: [
+        {
+          client_id: {
+            id: idEmployee,
+          },
+        },
+      ],
+    });
+
+    return employees.map((employee) => employee.email);
+  }
+
   private async vaidateUserExist(email: string) {
     const settingsModel = new SettingsModel(ctx);
     const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
