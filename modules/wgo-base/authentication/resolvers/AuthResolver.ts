@@ -6,10 +6,12 @@ import {
   RegisterInput,
   ResendConfirmationInput,
   ResetPasswordInput,
+  ValidUserNameInput,
 } from "./AuthInputs";
 import { LoginResponse, UserResponse } from "./AuthResponses";
 import {
   AUTH_PATH_CHANGE_RESET_PASSWORD,
+  AUTH_PATH_CHECK_USER_NAME,
   AUTH_PATH_CONFIRM_REGIST,
   AUTH_PATH_DELETE_USER,
   AUTH_PATH_EDIT_USER,
@@ -237,5 +239,18 @@ export class AuthResolver {
     });
     const user = await userRolesModel.deleteUser(data);
     return !!user;
+  }
+
+  @Query(() => Boolean, { name: AUTH_PATH_CHECK_USER_NAME })
+  async validUserName(
+    @Arg("data") data: ValidUserNameInput,
+    @Ctx() ctx: IContextBase
+  ) {
+    const authModel = new AuthModel({
+      ...this.options,
+      ctx,
+    });
+    const result = await authModel.checkUserUniqueUserName(data);
+    return result;
   }
 }

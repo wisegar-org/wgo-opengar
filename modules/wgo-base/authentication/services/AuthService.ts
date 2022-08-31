@@ -8,6 +8,7 @@ import {
   M_AUTH_RESEND_CONFIRM,
   M_AUTH_RESET_PASSWORD,
   Q_AUTH_ME,
+  Q_AUTH_VALID_USER_NAME,
 } from "./AuthServiceQueries";
 import "../models";
 import {
@@ -17,11 +18,13 @@ import {
   IAuthRegisterParams,
   IAuthResendParam,
   IChangePasswordParam,
+  ICheckUserUniqueUserName,
   ISuccesLogin,
 } from "../models";
 import { IUser } from "../../core/models/user";
 import {
   AUTH_PATH_CHANGE_RESET_PASSWORD,
+  AUTH_PATH_CHECK_USER_NAME,
   AUTH_PATH_CONFIRM_REGIST,
   AUTH_PATH_EDIT_USER,
   AUTH_PATH_LOGIN,
@@ -78,6 +81,28 @@ export class AuthService {
     } catch (error) {
       console.log("AuthService me error: ", error);
       return undefined;
+    }
+  }
+
+  async validUserName(input: ICheckUserUniqueUserName): Promise<boolean> {
+    try {
+      const response = (await this.apiInstance.query({
+        query: Q_AUTH_VALID_USER_NAME,
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { [AUTH_PATH_CHECK_USER_NAME]: boolean };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data[AUTH_PATH_CHECK_USER_NAME];
+      }
+
+      return false;
+    } catch (error) {
+      console.log("AuthService validUserName error: ", error);
+      return false;
     }
   }
 

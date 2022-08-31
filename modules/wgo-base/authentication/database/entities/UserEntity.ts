@@ -20,7 +20,7 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false, default: "" })
   lastName?: string;
 
-  @Column({ nullable: false, default: "" })
+  @Column({ nullable: false, default: "", unique: true })
   userName!: string;
 
   @Column({ nullable: false, default: "" })
@@ -32,7 +32,7 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false, default: "" })
   certificate!: string;
 
-  @Column({ nullable: false, default: "" })
+  @Column({ nullable: true, default: " " })
   code!: string;
 
   @Column({ default: false })

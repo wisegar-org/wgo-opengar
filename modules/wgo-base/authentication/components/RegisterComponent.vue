@@ -38,6 +38,7 @@
                 class="q-my-sm q-mx-sm"
                 v-model="user.name"
                 required
+                :autofocus="true"
                 :label="getLabel(translations.COLUMN_NAME)"
               />
             </div>
@@ -60,8 +61,21 @@
                 required
                 class="q-my-sm q-mx-sm"
                 v-model="user.email"
-                :autofocus="true"
                 :label="getLabel(translations.COLUMN_EMAIL)"
+              />
+            </div>
+            <div class="col-12 col-sm-8">
+              <q-input
+                square
+                outlined
+                required
+                class="q-my-sm q-mx-sm"
+                v-model="user.userName"
+                :label="getLabel(translations.COLUMN_USER_NAME)"
+                :error="!validUserName"
+                :error-message="
+                  getLabel(translations.USER_NAME_EXIST_ERROR_MSG)
+                "
               />
             </div>
 
@@ -143,15 +157,27 @@ export default defineComponent({
       showLoading: false,
       tranBase,
       translations,
+      validUserName: true,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {
-    async registerUser() {
-      if (this.user.password !== this.confirmPassword) return;
+    async checkUserName() {
       this.showLoading = true;
       const service = new AuthService();
-      this.user.userName = this.user.email;
+      this.validUserName = await service.validUserName({
+        id: this.user.id,
+        userName: this.user.userName,
+      });
+      this.showLoading = false;
+      return this.validUserName;
+    },
+    async registerUser() {
+      await this.checkUserName();
+      if (this.user.password !== this.confirmPassword) return;
+      if (!this.validUserName) return;
+      this.showLoading = true;
+      const service = new AuthService();
       this.user.isEmailConfirmed = this.isEmailConfirmed;
       const user = await service.registerUser(this.user);
       if (user) {

@@ -1,7 +1,7 @@
 <template>
   <q-form @submit="editUser">
     <q-card-section class="row q-ma-xs q-pa-xs flex flex-center">
-      <div class="col-12">
+      <div class="col-12 col-md-6">
         <q-input
           square
           outlined
@@ -10,6 +10,20 @@
           v-model="userInput.email"
           :autofocus="true"
           :label="getLabel(translations.COLUMN_EMAIL)"
+        />
+      </div>
+
+      <div class="col-12 col-md-6">
+        <q-input
+          square
+          outlined
+          required
+          hide-bottom-space
+          class="q-my-sm q-mx-sm"
+          v-model="user.userName"
+          :label="getLabel(translations.COLUMN_USER_NAME)"
+          :error="!validUserName"
+          :error-message="getLabel(translations.USER_NAME_EXIST_ERROR_MSG)"
         />
       </div>
       <div class="col-12 col-md-6">
@@ -180,13 +194,27 @@ export default defineComponent({
       confirmPassword: "",
       innerLoading: false,
       showLoading: false,
+      validUserName: true,
       translations,
       tranBase,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
   methods: {
+    async checkUserName() {
+      this.showLoading = true;
+      const service = new AuthService();
+      this.validUserName = await service.validUserName({
+        id: this.user.id,
+        userName: this.user.userName,
+      });
+
+      this.showLoading = false;
+      return this.validUserName;
+    },
     async editUser() {
+      await this.checkUserName();
+      if (!this.validUserName) return;
       if (this.userInput.password !== this.confirmPassword) return;
       this.showLoading = true;
       const service = new AuthService();

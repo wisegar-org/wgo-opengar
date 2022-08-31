@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 import {
   AUTH_PATH_CHANGE_RESET_PASSWORD,
+  AUTH_PATH_CHECK_USER_NAME,
   AUTH_PATH_CONFIRM_REGIST,
   AUTH_PATH_EDIT_USER,
   AUTH_PATH_LOGIN,
@@ -95,5 +96,11 @@ export const M_AUTH_RESET_PASSWORD = gql`
 export const M_AUTH_CHANGE_PASSWORD = gql`
   mutation ${AUTH_PATH_CHANGE_RESET_PASSWORD}($data: ResetPasswordInput!) {
     ${AUTH_PATH_CHANGE_RESET_PASSWORD}(data: $data)
+  }
+`;
+
+export const Q_AUTH_VALID_USER_NAME = gql`
+  query ${AUTH_PATH_CHECK_USER_NAME}($data: ValidUserNameInput!) {
+    ${AUTH_PATH_CHECK_USER_NAME}(data: $data)
   }
 `;

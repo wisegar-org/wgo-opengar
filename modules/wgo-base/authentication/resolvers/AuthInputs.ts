@@ -1,4 +1,4 @@
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class LoginInput {
@@ -37,4 +37,10 @@ export class ResendConfirmationInput {
 export class ResetPasswordInput {
   @Field() token!: string;
   @Field() password!: string;
+}
+
+@InputType()
+export class ValidUserNameInput {
+  @Field() id!: number;
+  @Field() userName!: string;
 }
