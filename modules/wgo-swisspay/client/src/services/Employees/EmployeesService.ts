@@ -1,5 +1,5 @@
 import { ApiService } from '../../wgo-base/core/services/ApiService';
-import { IEmployeeFilter, IEmployeeModel } from '../../../../src/models/EmployeesModel';
+import { IEmployeeFilter, IEmployeeModel, IUserFilter } from '../../../../src/models/EmployeesModel';
 import {
   M_EMPLOYEES_ADD,
   M_EMPLOYEES_CHECK_TOKEN,
@@ -7,6 +7,7 @@ import {
   M_EMPLOYEES_REGISTER,
   M_EMPLOYEES_SEND_DOCUMENTS,
   Q_EMPLOYEES_GETALL,
+  Q_EMPLOYEES_GETALL_EMAILS,
 } from './EmployeesServiceQueries';
 
 export class EmployeesService {
@@ -179,6 +180,31 @@ export class EmployeesService {
     } catch (error) {
       console.log('EmployeesService sendEmployeeDocuments error: ', error);
       return false;
+    }
+  }
+
+  async getAllEmailsEmployees(input: IUserFilter): Promise<string[]> {
+    try {
+      const response = (await this.apiInstance.query({
+        query: Q_EMPLOYEES_GETALL_EMAILS,
+        fetchPolicy: 'no-cache',
+        variables: {
+          data: input,
+        },
+      })) as {
+        data: { getAllEmailEmployees: string[] };
+      };
+      if (response && response.data) {
+        const {
+          data: { getAllEmailEmployees },
+        } = response;
+        return getAllEmailEmployees;
+      }
+
+      return [];
+    } catch (error) {
+      console.log('EmployeesService getAllEmployees error: ', error);
+      return [];
     }
   }
 }

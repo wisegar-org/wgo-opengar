@@ -30,6 +30,12 @@ export const Q_EMPLOYEES_GETALL = gql`
   }
 `;
 
+export const Q_EMPLOYEES_GETALL_EMAILS = gql`
+  query getAllEmailEmployees($data: UserFilterInput!) {
+    getAllEmailEmployees(data: $data)
+  }
+`;
+
 export const M_EMPLOYEES_REGISTER = gql`
   mutation sendEmployeeAddLink($data: EmployeesRegisterInput!) {
     sendEmployeeAddLink(data: $data)

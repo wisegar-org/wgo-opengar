@@ -33,6 +33,15 @@ export class EmployeesResolver {
   }
 
   @Authorized()
+  @Query(() => [String])
+  async getAllEmailEmployees(@Arg('data') data: UserFilterInput) {
+    const employeesModel = new EmployeesService(this.dataSource);
+    const employees = await employeesModel.getAllEmailsByEmployees(data.id);
+
+    return employees as string[];
+  }
+
+  @Authorized()
   @Mutation(() => Boolean, { name: 'sendEmployeeAddLink' })
   async sendEmployeeAddLink(@Arg('data') data: EmployeesRegisterInput) {
     const employessService = new EmployeesService(this.dataSource);
