@@ -1,4 +1,4 @@
-import { DataSource, ILike } from "typeorm";
+import { DataSource, ILike, In } from "typeorm";
 import { ILanguageModel } from "../../language/models";
 import { LanguageModel } from "../../language/models/LanguageModel";
 import { TranslationEntity } from "../database/entities/TranslationEntity";
@@ -33,11 +33,44 @@ export class TranslationModel {
   }
 
   async getAllTranslationByKeys(data: IGetAllTranslationsByKeyArg) {
-    const translations: ITranslationModel[] = [];
-    for (const key of data.keys) {
-      translations.push(await this.getTranslation(data.languageId, key));
-    }
+    const translations: ITranslationModel[] = await this.getTranslations(
+      data.languageId,
+      data.keys
+    );
     return translations;
+  }
+
+  async getTranslations(lang: number, keys: string[]) {
+    const translationRepository =
+      this.dataSoure.getRepository(TranslationEntity);
+    let translations = await translationRepository.find({
+      where: {
+        key: In(keys),
+        languageId: lang,
+      },
+    });
+
+    const findKeys: { [key: string]: boolean } = {};
+    translations.forEach((trns) => (findKeys[trns.key] = true));
+    const entitiesToCreate: TranslationEntity[] = [];
+    keys.forEach((key) => {
+      if (!findKeys[key]) {
+        const toInsert = new TranslationEntity();
+        toInsert.key = key;
+        toInsert.value = key;
+        toInsert.languageId = lang;
+        entitiesToCreate.push(toInsert);
+      }
+    });
+
+    if (entitiesToCreate.length) {
+      translationRepository.insert(entitiesToCreate);
+      translations = translations.concat(entitiesToCreate);
+    }
+
+    return translations.map((translation) =>
+      this.mapTranslationEntity(translation)
+    );
   }
 
   async getTranslation(lang: number, key: string) {
