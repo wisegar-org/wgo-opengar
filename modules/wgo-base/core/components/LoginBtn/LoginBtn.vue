@@ -19,6 +19,7 @@
         :authStore="authStore"
         @close="() => showUserProfile(false)"
         :user="user"
+        :emails="emails"
         @onEdited="onEdited"
       />
     </div>
@@ -47,6 +48,7 @@ export default defineComponent({
       type: Object as PropType<IUser>,
       required: false,
     },
+    emails: { type: Array as PropType<string[]>, default: [] },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
     authStore: { type: Object as PropType<AuthStore>, required: true },
   },
@@ -81,8 +83,8 @@ export default defineComponent({
       return !!this.user && !!this.user.id;
     },
     userEmail(): string {
-      return !this.$q.platform.is.mobile && this.user?.email
-        ? this.user.email
+      return !this.$q.platform.is.mobile && this.user?.userName
+        ? this.user.userName
         : "";
     },
     iconBtn(): string {

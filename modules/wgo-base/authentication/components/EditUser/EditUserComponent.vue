@@ -3,12 +3,20 @@
     <q-card-section class="row q-ma-xs q-pa-xs flex flex-center">
       <div class="col-12 col-md-6">
         <q-input
+          v-if="emailList.length <= 1"
           square
           outlined
           readonly
           class="q-my-sm q-mx-sm"
           v-model="userInput.email"
           :autofocus="true"
+          :label="getLabel(translations.COLUMN_EMAIL)"
+        />
+        <q-select
+          v-else
+          outlined
+          v-model="userInput.email"
+          :options="emailList"
           :label="getLabel(translations.COLUMN_EMAIL)"
         />
       </div>
@@ -20,7 +28,7 @@
           required
           hide-bottom-space
           class="q-my-sm q-mx-sm"
-          v-model="user.userName"
+          v-model="userInput.userName"
           :label="getLabel(translations.COLUMN_USER_NAME)"
           :error="!validUserName"
           :error-message="getLabel(translations.USER_NAME_EXIST_ERROR_MSG)"
@@ -171,6 +179,7 @@ export default defineComponent({
       type: Object as PropType<IUser>,
       required: true,
     },
+    emails: { type: Array as PropType<string[]>, default: [] },
     showBtns: { type: Boolean, default: true },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
     authStore: { type: Object as PropType<AuthStore>, required: true },
@@ -178,6 +187,13 @@ export default defineComponent({
   data() {
     const { getLabel } = new BaseTranslateComponent();
     const roles: string[] = [];
+    let emailList: string[] = [];
+    if (this.emails) {
+      emailList =
+        this.emails.indexOf(this.user.email) === -1
+          ? this.emails.concat(this.user.email)
+          : this.emails;
+    }
     return {
       roles,
       userInput: {
@@ -191,6 +207,7 @@ export default defineComponent({
         code: this.user.code,
         roles: this.user.roles,
       } as IAuthRegisterParams,
+      emailList,
       confirmPassword: "",
       innerLoading: false,
       showLoading: false,
@@ -206,7 +223,7 @@ export default defineComponent({
       const service = new AuthService();
       this.validUserName = await service.validUserName({
         id: this.user.id,
-        userName: this.user.userName,
+        userName: this.userInput.userName,
       });
 
       this.showLoading = false;
@@ -252,6 +269,16 @@ export default defineComponent({
     },
     onEdit(user: IUser) {
       return user;
+    },
+  },
+  watch: {
+    emails() {
+      if (this.emails) {
+        this.emailList =
+          this.emails.indexOf(this.user.email) === -1
+            ? this.emails.concat(this.user.email)
+            : this.emails;
+      }
     },
   },
 });

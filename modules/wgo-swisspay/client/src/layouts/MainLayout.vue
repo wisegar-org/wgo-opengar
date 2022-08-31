@@ -15,6 +15,7 @@
             @onLoginClick="goToLogin"
             @onLogoutClick="logout"
             @onSaveUser="onSave"
+            :emails="emailList"
           />
         </div>
       </q-toolbar>
@@ -42,8 +43,12 @@ import LanguageSelector from '../wgo-base/language/components/LanguageSelector/L
 import { useLanguageStore } from '../stores/languageStore';
 import { useTranslationStore } from '../stores/translationStore';
 import { translations } from './translationsKey';
+import { translations as authTranslations } from '../wgo-base/authentication/models/translations';
 import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
 import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
+import { useNotifyStore } from '../stores/notifyStore';
+import { BaseTranslateComponent } from '../wgo-base/core/components/BaseComponents';
+import { EmployeesService } from '../services/Employees/EmployeesService';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -53,6 +58,12 @@ export default defineComponent({
     Menu,
     LanguageSelector,
   },
+  data() {
+    const emailList: string[] = [];
+    return {
+      emailList,
+    };
+  },
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
@@ -60,6 +71,8 @@ export default defineComponent({
     const $q = useQuasar();
     const langStore = useLanguageStore();
     const transStore = useTranslationStore();
+    const notify = useNotifyStore();
+    const { getLabel } = new BaseTranslateComponent();
 
     function goToPath(pathName: string) {
       routeService.goTo(pathName);
@@ -73,6 +86,8 @@ export default defineComponent({
       });
     }
     return {
+      notify,
+      getLabel: (name: string) => getLabel(transStore.translationStore as any, name),
       showMenu,
       goToPath,
       authStore: authStore.authStore,
@@ -80,6 +95,7 @@ export default defineComponent({
       langStore: langStore.languageStore as LanguageStore,
       transStore: transStore.translationStore as TranslationStore,
       translations,
+      authTranslations,
     };
   },
   methods: {
@@ -92,7 +108,20 @@ export default defineComponent({
     },
     onSave(user: IUser) {
       this.authStore.setUser(user);
+      this.notify.setNotify({
+        message: this.getLabel(this.authTranslations.EDIT_USER_SUCCESS),
+        position: 'top',
+        type: 'positive',
+      });
     },
+  },
+  async created() {
+    if (this.authStore.user.id) {
+      const employServices = new EmployeesService();
+      this.emailList = await employServices.getAllEmailsEmployees({
+        id: this.authStore.user.id,
+      });
+    }
   },
 });
 </script>

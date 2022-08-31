@@ -14,6 +14,7 @@
       @onClose="close"
       :tranStore="tranStore"
       :authStore="authStore"
+      :emails="emails"
     />
   </Dialog>
 </template>
@@ -40,6 +41,7 @@ export default defineComponent({
       type: Object as PropType<IUser>,
       required: true,
     },
+    emails: { type: Array as PropType<string[]>, default: [] },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
     authStore: { type: Object as PropType<AuthStore>, required: true },
   },

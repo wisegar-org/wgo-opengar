@@ -6,6 +6,7 @@ export const WRONG_TOKEN = "WGO_AUTH_WRONG_TOKEN";
 export const WRONG_EMAIL = "WGO_AUTH_WRONG_EMAIL";
 export const WRONG_REGISTER = "WGO_AUTH_WRONG_REGISTER";
 export const WRONG_USER_DONT_EXIST = "WGO_AUTH_WRONG_USER_DONT_EXIST";
+export const WRONG_USER_NAME = "WGO_AUTH_WRONG_USER_NAME_EXIST";
 
 export const serverTranslations = [
   WRONG_USER_PASSWORD,
@@ -14,6 +15,7 @@ export const serverTranslations = [
   WRONG_EMAIL,
   WRONG_REGISTER,
   WRONG_USER_DONT_EXIST,
+  WRONG_USER_NAME,
 ];
 
 export const USER_AUTH_TOKEN = "AUTH_TOKEN";

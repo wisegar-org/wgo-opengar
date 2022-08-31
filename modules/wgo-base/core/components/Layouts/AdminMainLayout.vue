@@ -18,6 +18,7 @@
             :user="authStore.user"
             :tranStore="tranStore"
             :authStore="authStore"
+            :emails="emails"
             @onLoginClick="goToLogin"
             @onLogoutClick="logout"
             @onSaveUser="onSave"
@@ -52,6 +53,7 @@ export default defineComponent({
       type: Array as PropType<MenuListItem[]>,
       default: [],
     },
+    emails: { type: Array as PropType<string[]>, default: [] },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
     langStore: { type: Object as PropType<LanguageStore>, required: true },
     authStore: { type: Object as PropType<AuthStore>, required: true },
@@ -72,6 +74,9 @@ export default defineComponent({
     };
   },
   methods: {
+    onSave(user: any) {
+      this.$emit("onSaveUser", user);
+    },
     goToLogin() {
       this.goToPath(AuthPaths.authLogin.path);
     },
@@ -80,5 +85,6 @@ export default defineComponent({
       this.goToPath(this.homePath);
     },
   },
+  emits: ["onSaveUser"],
 });
 </script>

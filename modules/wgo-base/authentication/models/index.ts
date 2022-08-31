@@ -47,3 +47,8 @@ export interface IChangePasswordParam {
   token: string;
   password: string;
 }
+
+export interface ICheckUserUniqueUserName {
+  id: number;
+  userName: string;
+}

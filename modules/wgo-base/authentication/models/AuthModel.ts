@@ -7,6 +7,7 @@ import {
   IAuthRegisterParams,
   IAuthResendParam,
   IChangePasswordParam,
+  ICheckUserUniqueUserName,
   ISuccesLogin,
   TOKEN_EXP,
   TOKEN_REGISTER_EXP,
@@ -29,6 +30,7 @@ import { EmailServer } from "@wisegar-org/wgo-mailer";
 import { AuthPaths } from "../router";
 import { UserUtils } from "./UserUtils";
 import { UserRolesModel } from "./UserRolesModel";
+import { WRONG_USER_NAME } from "./constants";
 
 export class AuthModel {
   private dataSource: DataSource;
@@ -110,7 +112,9 @@ export class AuthModel {
       relations: ["roles"],
     });
     if (listUsers.length > 0) {
-      throw new Error(WRONG_EMAIL);
+      throw new Error(
+        listUsers[0].userName === data.userName ? WRONG_USER_NAME : WRONG_EMAIL
+      );
     }
 
     let user = new UserEntity();
@@ -139,11 +143,19 @@ export class AuthModel {
       relations: ["roles"],
     });
     if (user) {
+      const userNameUser = await repo.findOne({
+        where: { userName: data.userName },
+      });
+      if (!!userNameUser && userNameUser.id !== data.id) {
+        throw new Error(WRONG_USER_NAME);
+      }
       user.name = data.name;
+      user.userName = data.userName;
       user.lastName = data.lastName;
       user.code = data.code;
       user.roles = await this.userRolesModel.getRolesByString(data.roles || []);
       let result = user;
+      user.email = data.email;
       if (data.password) user.password = bcrypt.hashSync(data.password, 10);
       if (user.isEmailConfirmed !== data.isEmailConfirmed) {
         if (data.isEmailConfirmed === true) {
@@ -283,6 +295,27 @@ export class AuthModel {
     }
 
     throw new Error(WRONG_TOKEN);
+  }
+
+  async checkUserUniqueUserName(data: ICheckUserUniqueUserName) {
+    const repo = await this.dataSource.getRepository(UserEntity);
+    const userExists = await repo.findOne({
+      where: {
+        id: data.id,
+      },
+    });
+
+    const userNameExist = await repo.findOne({
+      where: {
+        userName: data.userName,
+      },
+    });
+
+    return (
+      (!userExists && !userNameExist) ||
+      (!!userExists && !userNameExist) ||
+      (!!userExists && !!userNameExist && userExists.id === userNameExist.id)
+    );
   }
 
   private async comparePassword(
