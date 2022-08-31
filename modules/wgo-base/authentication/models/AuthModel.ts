@@ -30,7 +30,7 @@ import { EmailServer } from "@wisegar-org/wgo-mailer";
 import { AuthPaths } from "../router";
 import { UserUtils } from "./UserUtils";
 import { UserRolesModel } from "./UserRolesModel";
-import { WRONG_USER_NAME } from "./constants";
+import { WRONG_CODE_ALREADY_EXIST, WRONG_USER_NAME } from "./constants";
 
 export class AuthModel {
   private dataSource: DataSource;
@@ -148,6 +148,12 @@ export class AuthModel {
       });
       if (!!userNameUser && userNameUser.id !== data.id) {
         throw new Error(WRONG_USER_NAME);
+      }
+      const codeUser = await repo.findOne({
+        where: { code: data.code },
+      });
+      if (!!data.code && !!codeUser && codeUser.id !== data.id) {
+        throw new Error(WRONG_CODE_ALREADY_EXIST);
       }
       user.name = data.name;
       user.userName = data.userName;
