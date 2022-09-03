@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource } from 'typeorm';
 import {
   IAuthEditParams,
   IAuthLoginParams,
@@ -17,20 +17,17 @@ import {
   WRONG_TOKEN,
   WRONG_USER_DONT_EXIST,
   WRONG_USER_PASSWORD,
-} from ".";
-import { UserEntity } from "../database/entities/UserEntity";
-import { IsNullOrUndefined } from "@wisegar-org/wgo-object-extensions";
-import * as bcrypt from "bcrypt";
-import {
-  generateAccessToken,
-  validateAccessToken,
-} from "@wisegar-org/wgo-server";
-import { IUser } from "../../../wgo-base/core/models/user";
-import { EmailServer } from "@wisegar-org/wgo-mailer";
-import { AuthPaths } from "../router";
-import { UserUtils } from "./UserUtils";
-import { UserRolesModel } from "./UserRolesModel";
-import { WRONG_CODE_ALREADY_EXIST, WRONG_USER_NAME } from "./constants";
+} from '.';
+import { UserEntity } from '../database/entities/UserEntity';
+import { IsNullOrUndefined, IsUndefined } from '@wisegar-org/wgo-object-extensions';
+import * as bcrypt from 'bcrypt';
+import { generateAccessToken, validateAccessToken } from '@wisegar-org/wgo-server';
+import { IUser } from '../../../wgo-base/core/models/user';
+import { EmailServer } from '@wisegar-org/wgo-mailer';
+import { AuthPaths } from '../router';
+import { UserUtils } from './UserUtils';
+import { UserRolesModel } from './UserRolesModel';
+import { WRONG_CODE_ALREADY_EXIST, WRONG_USER_NAME } from './constants';
 
 export class AuthModel {
   private dataSource: DataSource;
@@ -45,8 +42,7 @@ export class AuthModel {
     this.options = {
       ...options,
       tokenExpiresIn: options.tokenExpiresIn || TOKEN_EXP,
-      tokenRegisterExpiresIn:
-        options.tokenRegisterExpiresIn || TOKEN_REGISTER_EXP,
+      tokenRegisterExpiresIn: options.tokenRegisterExpiresIn || TOKEN_REGISTER_EXP,
     };
     this.emailService = new EmailServer();
     this.userRolesModel = new UserRolesModel(options);
@@ -56,7 +52,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ userName: data.user }, { email: data.user }],
-      relations: ["roles"],
+      relations: ['roles'],
     });
 
     if (!IsNullOrUndefined(user)) {
@@ -95,7 +91,7 @@ export class AuthModel {
       const repo = await this.dataSource.getRepository(UserEntity);
       const user = await repo.findOne({
         where: [{ userName: result.userName }, { id: parseInt(result.userId) }],
-        relations: ["roles"],
+        relations: ['roles'],
       });
       if (!!user) {
         return UserUtils.mapUserEntity(user);
@@ -106,41 +102,49 @@ export class AuthModel {
   }
 
   public async register(data: IAuthRegisterParams): Promise<IUser> {
-    const repo = await this.dataSource.getRepository(UserEntity);
-    const listUsers = await repo.find({
-      where: [{ userName: data.userName }, { email: data.email }],
-      relations: ["roles"],
-    });
-    if (listUsers.length > 0) {
-      throw new Error(
-        listUsers[0].userName === data.userName ? WRONG_USER_NAME : WRONG_EMAIL
-      );
-    }
-
-    let user = new UserEntity();
-    user.name = data.name;
-    user.lastName = data.lastName;
-    user.userName = data.userName;
-    user.email = data.email;
-    user.password = bcrypt.hashSync(data.password, 10);
-    user.isEmailConfirmed = data.isEmailConfirmed;
-    user.roles = await this.userRolesModel.getRolesByString(data.roles || []);
-
-    user = await repo.save(user);
-    if (user) {
-      if (!user.isEmailConfirmed) {
-        await this.resendConfirmation(data);
+    const result = this.dataSource.transaction(async () => {
+      const repo = await this.dataSource.getRepository(UserEntity);
+      const filter: any[] = [{ userName: data.userName }, { email: data.email }];
+      if (data.code) filter.push({ code: data.code });
+      const listUsers = await repo.find({
+        where: filter,
+        relations: ['roles'],
+      });
+      if (listUsers.length > 0) {
+        if (data.code && listUsers[0].code === data.code) throw new Error(WRONG_CODE_ALREADY_EXIST);
+        throw new Error(listUsers[0].userName === data.userName ? WRONG_USER_NAME : WRONG_EMAIL);
       }
-      return UserUtils.mapUserEntity(user);
-    }
-    throw new Error(WRONG_REGISTER);
+
+      let user = new UserEntity();
+      user.name = data.name;
+      user.lastName = data.lastName;
+      user.userName = data.userName;
+      user.email = data.email;
+      user.code = data.code;
+      user.certificate = data.certificate;
+      const password = data.password ? data.password : this.getGenericPassword(10);
+      user.password = bcrypt.hashSync(password, 10);
+      user.isEmailConfirmed = data.isEmailConfirmed;
+      user.roles = await this.userRolesModel.getRolesByString(data.roles || []);
+
+      user = await repo.save(user);
+      if (user) {
+        if (!user.isEmailConfirmed) {
+          await this.resendConfirmation(data, !data.password ? password : undefined);
+        }
+        return UserUtils.mapUserEntity(user);
+      }
+      throw new Error(WRONG_REGISTER);
+    });
+
+    return result;
   }
 
   public async editUser(data: IAuthEditParams): Promise<IUser> {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ id: data.id }],
-      relations: ["roles"],
+      relations: ['roles'],
     });
     if (user) {
       const userNameUser = await repo.findOne({
@@ -166,7 +170,7 @@ export class AuthModel {
       if (user.isEmailConfirmed !== data.isEmailConfirmed) {
         if (data.isEmailConfirmed === true) {
           user.isEmailConfirmed = true;
-          user.confirmationToken = "";
+          user.confirmationToken = '';
           result = await repo.save(user);
         } else if (user.email) {
           await repo.save(user);
@@ -183,11 +187,11 @@ export class AuthModel {
     throw new Error(WRONG_USER_DONT_EXIST);
   }
 
-  public async resendConfirmation(data: IAuthResendParam): Promise<IUser> {
+  public async resendConfirmation(data: IAuthResendParam, password?: string): Promise<IUser> {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ email: data.email }],
-      relations: ["roles"],
+      relations: ['roles'],
     });
     if (user) {
       user.confirmationToken = generateAccessToken({
@@ -201,17 +205,24 @@ export class AuthModel {
       });
       user.isEmailConfirmed = false;
       await repo.save(user);
-      await this.emailService.sendByConfig(
-        {
-          ...this.options.emailOptions,
-          subject: "Wisegar Email Confirmation",
-          to: `${data.email}`,
-          html: `<div>
-          Confirm email <a href="${this.options.hostBase}/#${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}"> here </a>
-          </div>`,
-        },
-        {}
+      const msg = this.getConfirmationMsgWithPassword(
+        `${this.options.hostBase}/#${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}`,
+        user.userName,
+        password
       );
+      try {
+        await this.emailService.sendByConfig(
+          {
+            ...this.options.emailOptions,
+            subject: 'Wisegar Email Confirmation',
+            to: `${data.email}`,
+            html: msg,
+          },
+          {}
+        );
+      } catch (error: any) {
+        console.log(error.message);
+      }
       return UserUtils.mapUserEntity(user);
     }
 
@@ -222,7 +233,7 @@ export class AuthModel {
     const repo = await this.dataSource.getRepository(UserEntity);
     const user = await repo.findOne({
       where: [{ userName: data.email }, { email: data.email }],
-      relations: ["roles"],
+      relations: ['roles'],
     });
 
     if (!IsNullOrUndefined(user) && user) {
@@ -238,7 +249,7 @@ export class AuthModel {
       await this.emailService.sendByConfig(
         {
           ...this.options.emailOptions,
-          subject: "Wisegar Email Reset Password",
+          subject: 'Wisegar Email Reset Password',
           to: `${data.email}`,
           html: `<div>
           To reset the password click <a href="${this.options.hostBase}/#${AuthPaths.authChangePassword.path}?token=${token}"> here </a>
@@ -264,7 +275,7 @@ export class AuthModel {
       const repo = await this.dataSource.getRepository(UserEntity);
       const user = await repo.findOne({
         where: [{ id: parseInt(tokenValidation.userId) }],
-        relations: ["roles"],
+        relations: ['roles'],
       });
       if (user) {
         user.password = bcrypt.hashSync(data.password, 10);
@@ -290,10 +301,10 @@ export class AuthModel {
       const repo = await this.dataSource.getRepository(UserEntity);
       const user = await repo.findOne({
         where: [{ userName: result.userName }, { id: parseInt(result.userId) }],
-        relations: ["roles"],
+        relations: ['roles'],
       });
       if (!!user && user.confirmationToken === data.token) {
-        user.confirmationToken = "";
+        user.confirmationToken = '';
         user.isEmailConfirmed = true;
         await repo.save(user);
         return UserUtils.mapUserEntity(user);
@@ -324,10 +335,29 @@ export class AuthModel {
     );
   }
 
-  private async comparePassword(
-    attempt: string,
-    password: string
-  ): Promise<boolean> {
+  private async comparePassword(attempt: string, password: string): Promise<boolean> {
     return await bcrypt.compare(attempt, password);
+  }
+
+  getGenericPassword(length: number) {
+    const str = () => (Math.random() + 1).toString(36).substring(2);
+    const strPassword = `${str()}${str()}${str()}`.substring(length);
+    return strPassword;
+  }
+
+  getConfirmationMsgWithPassword(link: string, user?: string, password?: string) {
+    const passwordText =
+      user && password
+        ? `<br><br><p>The credentials to access the site are: 
+        <br> User: ${user} 
+        <br> Password: ${password} </p>
+        <p>Please change your password as soon as possible.</p>`
+        : '';
+    const message = `<div>
+          Confirm email <a href="${link}"> here </a>
+          ${passwordText}
+          </div>`;
+    console.log(message);
+    return message;
   }
 }
