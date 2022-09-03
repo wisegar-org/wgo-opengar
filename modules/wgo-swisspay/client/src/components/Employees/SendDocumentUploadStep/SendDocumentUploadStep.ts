@@ -8,6 +8,8 @@ import { QUploader } from 'quasar';
 export default defineComponent({
   name: 'SendDocumentUploadStep',
   props: {
+    name: Number,
+    title: { type: String, default: '' },
     step: { type: Number, default: 1 },
     currentStep: Number,
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
@@ -22,13 +24,13 @@ export default defineComponent({
     };
   },
   methods: {
-    addFile(files: File[]) {
+    addFile(files: readonly File[]) {
       if (this.files.length !== files.length || this.files[0] !== files[0]) {
         const filesResult = this.files.concat(files);
         this.$emit('changeFiles', filesResult);
       }
     },
-    removeFile(files: File[]) {
+    removeFile(files: readonly File[]) {
       const filesResult = this.files.filter((file) => files.indexOf(file) === -1);
       this.$emit('changeFiles', filesResult);
     },

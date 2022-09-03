@@ -1,5 +1,5 @@
 <template>
-  <q-step>
+  <q-step :name="name" :title="title">
     <q-item-section class="text-left">
       {{ getLabel(translations.WIZARD_SD_INFO_MESSAGE) }}
     </q-item-section>

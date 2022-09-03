@@ -1,5 +1,5 @@
 <template>
-  <q-step>
+  <q-step :name="name" :title="title">
     <q-item-section>
       <div class="row flex">
         <div class="col-12 col-md-6">

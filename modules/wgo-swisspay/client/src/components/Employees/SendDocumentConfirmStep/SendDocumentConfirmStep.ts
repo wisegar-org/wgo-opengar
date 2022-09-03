@@ -13,6 +13,8 @@ import { useNotifyStore } from 'src/stores/notifyStore';
 export default defineComponent({
   name: 'SendDocumentConfirmStep',
   props: {
+    name: Number,
+    title: { type: String, default: '' },
     step: { type: Number, default: 2 },
     currentStep: Number,
     tranStore: { type: Object as PropType<TranslationStore>, required: true },

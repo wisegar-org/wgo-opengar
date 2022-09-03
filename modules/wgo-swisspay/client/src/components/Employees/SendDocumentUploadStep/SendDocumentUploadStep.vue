@@ -1,5 +1,5 @@
 <template>
-  <q-step>
+  <q-step :name="name" :title="title">
     <q-item-section>
       <q-uploader
         class="fit"

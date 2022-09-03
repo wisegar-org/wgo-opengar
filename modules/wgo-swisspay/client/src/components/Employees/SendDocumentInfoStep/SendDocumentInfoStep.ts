@@ -7,6 +7,8 @@ import { translations as transBase } from '../../../wgo-base/core/models/transla
 export default defineComponent({
   name: 'SendDocumentInfoStep',
   props: {
+    name: Number,
+    title: { type: String, default: '' },
     step: { type: Number, default: 2 },
     currentStep: Number,
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
