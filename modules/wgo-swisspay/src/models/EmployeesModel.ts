@@ -9,6 +9,13 @@ export interface IEmployeeModel {
   client: UserResponse;
 }
 
+export interface IEmployeeToImportModel {
+  name: string;
+  lastName: string;
+  email: string;
+  code: string;
+}
+
 export interface IUserFilter {
   id: number;
 }

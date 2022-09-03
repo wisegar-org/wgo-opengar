@@ -31,9 +31,28 @@ export class EmployeesTokenInput {
 }
 
 @InputType()
-export class EmployeeSendDocumentsInput {
+export class GetEmployeesByFileInput {
   @Field(() => UserFilterInput) enterprise_id!: UserFilterInput;
-  @Field(() => UserFilterInput) client_id!: UserFilterInput;
   @Field(() => [GraphQLUpload], { description: 'Files uploaded' })
   files!: Promise<typeof GraphQLUpload>[];
+}
+
+@InputType()
+export class EmployeesImportInput {
+  @Field(() => String) name!: string;
+  @Field(() => String) lastName!: string;
+  @Field(() => String) email!: string;
+  @Field(() => String) code!: string;
+}
+
+@InputType()
+export class ImportEmployeesInput {
+  @Field(() => UserFilterInput) enterprise_id!: UserFilterInput;
+  @Field(() => [EmployeesImportInput])
+  employees!: EmployeesImportInput[];
+}
+
+@InputType()
+export class EmployeeSendDocumentsInput extends GetEmployeesByFileInput {
+  @Field(() => UserFilterInput) client_id!: UserFilterInput;
 }

@@ -9,3 +9,12 @@ export class EmployeesResponse {
   @Field() enterprise!: UserResponse;
   @Field() client!: UserResponse;
 }
+
+@ObjectType()
+export class EmployeesToImportResponse {
+  @Field() name!: string;
+  @Field() lastName!: string;
+  @Field() email!: string;
+  @Field() code!: string;
+  @Field() valid!: boolean;
+}

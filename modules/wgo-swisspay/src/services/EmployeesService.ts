@@ -18,15 +18,24 @@ import {
   IEmployeeFilter,
   IEmployeeModel,
   IEmployeeOptions,
+  IEmployeeToImportModel,
   IRegisterEmployeeFilter,
 } from '../models/EmployeesModel';
-import { EmployeeSendDocumentsInput } from '../resolvers/Employees/EmployeesInput';
+import {
+  EmployeeSendDocumentsInput,
+  GetEmployeesByFileInput,
+  ImportEmployeesInput,
+} from '../resolvers/Employees/EmployeesInput';
 import { EmailMediaService } from './EmailMediaService';
 import PDFService from './PDFService';
 import { SettingsModel } from '../wgo-base/settings/models/SettingsModel';
 import { SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
 import { SmtpSettings } from '../wgo-base/settings/models';
 import { ctx } from '../handlers/AppContextHandler';
+import { readEmployeesFromFile } from './UtilsServices';
+import { UserEntity } from '../wgo-base/authentication/database/entities/UserEntity';
+import { AuthModel } from '../wgo-base/authentication/models/AuthModel';
+import { CLIENT_ROLE, USER_ROLE } from '../models/constants';
 
 export class EmployeesService {
   dataSource: DataSource;
@@ -130,22 +139,26 @@ export class EmployeesService {
         pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
       },
     };
-    await this.emailService.sendByConfig(
-      {
-        ...this.options.emailOptions,
-        subject: 'Wisegar - Register Employee',
-        to: `${employee.email}`,
-        html: `<div>
-        <p>
-          To register as an employee, please click on the link below:
-        </p>
-        <a href="${link}">
-          Click here
-        </a>
-        </div>`,
-      },
-      transportEmailOptions
-    );
+    try {
+      await this.emailService.sendByConfig(
+        {
+          ...this.options.emailOptions,
+          subject: 'Wisegar - Register Employee',
+          to: `${employee.email}`,
+          html: `<div>
+          <p>
+            To register as an employee, please click on the link below:
+          </p>
+          <a href="${link}">
+            Click here
+          </a>
+          </div>`,
+        },
+        transportEmailOptions
+      );
+    } catch (err: any) {
+      console.log(err.message);
+    }
 
     return true;
   }
@@ -216,6 +229,79 @@ export class EmployeesService {
     return true;
   }
 
+  async getEmployeesByFiles(data: GetEmployeesByFileInput) {
+    let employees: IEmployeeToImportModel[] = [];
+
+    for (const file of data.files) {
+      employees = employees.concat(await readEmployeesFromFile(file));
+    }
+
+    return employees;
+  }
+
+  async importEmployeeList(data: ImportEmployeesInput) {
+    const arg = {
+      ...this.options,
+      ctx,
+      transportEmailOptions: {},
+    };
+    const result = await this.dataSource.transaction(async () => {
+      const userRolesModel = new UserRolesModel(arg);
+      const authModel = new AuthModel(arg);
+      const employeeRepo = this.dataSource.getRepository(EmployeesEntity);
+
+      const enterprise = await userRolesModel.getEntityByCriteria({ id: data.enterprise_id.id });
+      if (!enterprise) throw 'JAJAJA';
+
+      const employeList: EmployeesEntity[] = [];
+      for (const employee of data.employees) {
+        let user = await userRolesModel.getEntityByCriteria({ code: employee.code });
+        if (!user) {
+          const userRegiterd = await authModel.register({
+            name: employee.name,
+            lastName: employee.lastName,
+            code: employee.code,
+            email: employee.email,
+            userName: employee.email,
+            isEmailConfirmed: false,
+            certificate: '',
+            password: '',
+            roles: [USER_ROLE],
+            id: 0,
+          });
+          user = await userRolesModel.getEntityByCriteria({ code: userRegiterd.code });
+          if (!user) throw '';
+        }
+
+        const findEmployee = await employeeRepo.findOne({
+          where: {
+            client_id: {
+              id: user.id,
+            },
+            enterprise_id: {
+              id: enterprise.id,
+            },
+          },
+        });
+
+        if (!findEmployee) {
+          const employeeEntity = new EmployeesEntity();
+          employeeEntity.enterprise_id = enterprise;
+          employeeEntity.email = employee.email;
+          employeeEntity.client_id = user;
+          employeeEntity.name = user.userName;
+
+          employeList.push(employeeEntity);
+        }
+      }
+
+      const result = await employeeRepo.save(employeList);
+      return result;
+    });
+
+    return result.map((item) => this.mapEmployeeEntity(item));
+  }
+
   async getAllEmailsByEmployees(idEmployee: number) {
     const repo = await this.dataSource.getRepository(EmployeesEntity);
 
@@ -233,17 +319,7 @@ export class EmployeesService {
   }
 
   private async vaidateUserExist(email: string) {
-    const settingsModel = new SettingsModel(ctx);
-    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
-    const transportEmailOptions = {
-      host: config.SMTP_EMAIL_HOST,
-      port: config.SMTP_EMAIL_PORT,
-      auth: {
-        user: config.SMTP_EMAIL_USER,
-        pass: config.SMTP_EMAIL_PASSWORD,
-      },
-    };
-    const userRepo = new UserRolesModel({ ...this.options, ctx, transportEmailOptions });
+    const userRepo = new UserRolesModel({ ...this.options, ctx, transportEmailOptions: {} });
     const user = await userRepo.getUserByEmail(email);
     return !!user;
   }

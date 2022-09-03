@@ -7,9 +7,11 @@ import {
   EmployeesInput,
   EmployeesRegisterInput,
   EmployeesTokenInput,
+  GetEmployeesByFileInput,
+  ImportEmployeesInput,
   UserFilterInput,
 } from './EmployeesInput';
-import { EmployeesResponse } from './EmployeesResponse';
+import { EmployeesResponse, EmployeesToImportResponse } from './EmployeesResponse';
 import { EmployeesService } from '../../services/EmployeesService';
 
 @Resolver()
@@ -87,6 +89,24 @@ export class EmployeesResolver {
   async sendEmployeeDocuments(@Arg('data') data: EmployeeSendDocumentsInput) {
     const employessService = new EmployeesService(this.dataSource);
     const result = await employessService.sendEmployeeDocuments(data);
+
+    return result;
+  }
+
+  @Authorized()
+  @Query(() => [EmployeesToImportResponse])
+  async getEmployeesByFiles(@Arg('data') data: GetEmployeesByFileInput) {
+    const employessService = new EmployeesService(this.dataSource);
+    const result = await employessService.getEmployeesByFiles(data);
+
+    return result;
+  }
+
+  @Authorized()
+  @Mutation(() => [EmployeesResponse])
+  async importEmployeeList(@Arg('data') data: ImportEmployeesInput) {
+    const employessService = new EmployeesService(this.dataSource);
+    const result = await employessService.importEmployeeList(data);
 
     return result;
   }
