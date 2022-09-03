@@ -15,6 +15,7 @@ import { IUser, translations as transBase } from '../../../wgo-base/core/models'
 import SendEmployMailDialog from '../SendEmployeeMail/SendEmployeeMailDialog.vue';
 import { IEmployeeModel } from 'app/../src/models/EmployeesModel';
 import SendDocumentStepper from '../SendDocument/SendDocumentStepper.vue';
+import ImportEmployeesStepper from '../ImportEmployees/ImportEmployeesStepper.vue';
 
 export default defineComponent({
   name: 'EmployeesList',
@@ -25,6 +26,7 @@ export default defineComponent({
     Table,
     SendEmployMailDialog,
     SendDocumentStepper,
+    ImportEmployeesStepper,
   },
   data(props) {
     const router = useRouter();
@@ -56,11 +58,19 @@ export default defineComponent({
         tooltip: translations.ADD_EMPLOYEE_BTN,
         fnAction: this.sendLinkEmployee,
       },
+      {
+        label: '',
+        icon: 'upload',
+        color: 'primary',
+        tooltip: translations.IMPORT_EMPLOYEES_BTN,
+        fnAction: this.importEmployees,
+      },
     ];
 
     return {
       open: false,
       openWizard: false,
+      openImportWizard: false,
       schema: getEmployeesListSchema(props.tranStore as any, leftBtns, rowBtns),
       componentHeight,
       addResize,
@@ -76,6 +86,9 @@ export default defineComponent({
     sendLinkEmployee() {
       this.open = true;
     },
+    importEmployees() {
+      this.openImportWizard = true;
+    },
     closeEmployMailDialog() {
       this.open = false;
     },
@@ -85,6 +98,9 @@ export default defineComponent({
     },
     closeWizardSendDocument() {
       this.openWizard = false;
+    },
+    closeImportWizard() {
+      this.openImportWizard = false;
     },
     deleteEmployee(row: any) {
       this.$q
@@ -116,6 +132,17 @@ export default defineComponent({
           Loading.hide();
         });
     },
+    async loadEmployees() {
+      this.closeImportWizard();
+      const user = this.authStore.user;
+      this.appStatusStore.loading = true;
+      if (user.id) {
+        this.tableData = await this.employeesService.getAllEmployees({
+          enterprise_id: { id: user.id },
+        });
+      }
+      this.appStatusStore.loading = false;
+    },
     onResize() {
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
@@ -138,14 +165,7 @@ export default defineComponent({
     };
   },
   async mounted() {
-    const user = this.authStore.user;
-    this.appStatusStore.loading = true;
-    if (user.id) {
-      this.tableData = await this.employeesService.getAllEmployees({
-        enterprise_id: { id: user.id },
-      });
-    }
-    this.appStatusStore.loading = false;
+    await this.loadEmployees();
   },
   created() {
     this.$nextTick(() => {

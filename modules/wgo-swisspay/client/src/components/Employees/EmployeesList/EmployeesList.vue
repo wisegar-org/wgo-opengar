@@ -9,6 +9,12 @@
       :user="selectedUser"
       @close="closeWizardSendDocument"
     />
+    <ImportEmployeesStepper
+      :tranStore="tranStore"
+      :open="openImportWizard"
+      @close="closeImportWizard"
+      @success="loadEmployees"
+    />
   </div>
 </template>
 
