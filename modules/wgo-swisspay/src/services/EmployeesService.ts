@@ -251,7 +251,9 @@ export class EmployeesService {
       const employeeRepo = this.dataSource.getRepository(EmployeesEntity);
 
       const enterprise = await userRolesModel.getEntityByCriteria({ id: data.enterprise_id.id });
-      if (!enterprise) throw 'JAJAJA';
+      if (!enterprise) {
+        return [];
+      }
 
       const employeList: EmployeesEntity[] = [];
       for (const employee of data.employees) {
@@ -270,7 +272,7 @@ export class EmployeesService {
             id: 0,
           });
           user = await userRolesModel.getEntityByCriteria({ code: userRegiterd.code });
-          if (!user) throw '';
+          if (!user) throw 'Error on insert user';
         }
 
         const findEmployee = await employeeRepo.findOne({
