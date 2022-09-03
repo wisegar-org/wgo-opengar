@@ -5,11 +5,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  Unique,
 } from "typeorm";
 import { RoleEntity } from "./RoleEntity";
 import "reflect-metadata";
 
 @Entity({ name: "users" })
+@Unique("userName-unique", ["userName", "code"])
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -20,7 +22,7 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false, default: "" })
   lastName?: string;
 
-  @Column({ nullable: false, default: "", unique: true })
+  @Column({ nullable: false, default: "" })
   userName!: string;
 
   @Column({ nullable: false, default: "" })

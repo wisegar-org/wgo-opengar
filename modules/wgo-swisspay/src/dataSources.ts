@@ -34,6 +34,7 @@ import { renameTypeSettings1658240270133 } from './wgo-base/settings/database/mi
 import { removeAppSettings1658240565587 } from './wgo-base/settings/database/migrations/1658240565587-removeAppSettings';
 import { fixAdminPassword1658417129112 } from './wgo-base/authentication/database/migrations/1658417129112-fixAdminPassword';
 import { addUniqueUserProps1661872515554 } from './wgo-base/authentication/database/migrations/1661872515554-addUniqueUserProps';
+import { addUniqueCodeProp1662052264312 } from './wgo-base/authentication/database/migrations/1662052264312-addUniqueCodeProp';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -71,6 +72,7 @@ export const dataSourceOptions: DataSourceOptions = {
     removeAppSettings1658240565587,
     fixAdminPassword1658417129112,
     addUniqueUserProps1661872515554,
+    addUniqueCodeProp1662052264312,
   ],
   subscribers: [],
 };
