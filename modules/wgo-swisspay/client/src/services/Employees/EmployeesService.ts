@@ -1,13 +1,20 @@
 import { ApiService } from '../../wgo-base/core/services/ApiService';
-import { IEmployeeFilter, IEmployeeModel, IUserFilter } from '../../../../src/models/EmployeesModel';
+import {
+  IEmployeeFilter,
+  IEmployeeModel,
+  IEmployeeToImportModel,
+  IUserFilter,
+} from '../../../../src/models/EmployeesModel';
 import {
   M_EMPLOYEES_ADD,
   M_EMPLOYEES_CHECK_TOKEN,
   M_EMPLOYEES_DELETE,
   M_EMPLOYEES_REGISTER,
   M_EMPLOYEES_SEND_DOCUMENTS,
+  Q_EMPLOYEES_IMPORT_FROM_FILES,
   Q_EMPLOYEES_GETALL,
   Q_EMPLOYEES_GETALL_EMAILS,
+  M_EMPLOYEES_IMPORT_LIST,
 } from './EmployeesServiceQueries';
 
 export class EmployeesService {
@@ -183,6 +190,67 @@ export class EmployeesService {
     }
   }
 
+  async getEmployeesByFiles(enterprise_id: number, files: File[]) {
+    try {
+      const response = (await this.apiInstance.query({
+        query: Q_EMPLOYEES_IMPORT_FROM_FILES,
+        fetchPolicy: 'no-cache',
+        variables: {
+          data: {
+            enterprise_id: {
+              id: enterprise_id,
+            },
+            files,
+          },
+        },
+      })) as {
+        data: { getEmployeesByFiles: IEmployeeToImportModel[] };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data.getEmployeesByFiles.map((item) => ({
+          name: item.name,
+          lastName: item.lastName,
+          email: item.email,
+          code: item.code,
+        }));
+      }
+
+      return [];
+    } catch (error) {
+      console.log('EmployeesService getEmployeesByFiles error: ', error);
+      return [];
+    }
+  }
+
+  async importEmployeesList(enterprise_id: number, employees: IEmployeeToImportModel[]) {
+    try {
+      const response = (await this.apiInstance.mutate({
+        mutation: M_EMPLOYEES_IMPORT_LIST,
+        fetchPolicy: 'no-cache',
+        variables: {
+          data: {
+            enterprise_id: {
+              id: enterprise_id,
+            },
+            employees,
+          },
+        },
+      })) as {
+        data: { importEmployeeList: IEmployeeModel[] };
+      };
+      if (response && response.data) {
+        const { data } = response;
+        return data.importEmployeeList;
+      }
+
+      return [];
+    } catch (error) {
+      console.log('EmployeesService importEmployeesList error: ', error);
+      return [];
+    }
+  }
+
   async getAllEmailsEmployees(input: IUserFilter): Promise<string[]> {
     try {
       const response = (await this.apiInstance.query({
@@ -203,7 +271,7 @@ export class EmployeesService {
 
       return [];
     } catch (error) {
-      console.log('EmployeesService getAllEmployees error: ', error);
+      console.log('EmployeesService getAllEmailsEmployees error: ', error);
       return [];
     }
   }

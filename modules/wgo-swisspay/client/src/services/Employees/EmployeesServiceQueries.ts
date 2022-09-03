@@ -65,3 +65,44 @@ export const M_EMPLOYEES_SEND_DOCUMENTS = gql`
     sendEmployeeDocuments(data: $data)
   }
 `;
+
+export const Q_EMPLOYEES_IMPORT_FROM_FILES = gql`
+  query getEmployeesByFiles($data: GetEmployeesByFileInput!) {
+    getEmployeesByFiles(data: $data) {
+      name
+      lastName
+      email
+      code
+    }
+  }
+`;
+
+export const M_EMPLOYEES_IMPORT_LIST = gql`
+  mutation importEmployeeList($data: ImportEmployeesInput!) {
+    importEmployeeList(data: $data) {
+      id
+      name
+      email
+      enterprise {
+        id
+        name
+        lastName
+        userName
+        email
+        roles
+        code
+        certificate
+      }
+      client {
+        id
+        name
+        lastName
+        userName
+        email
+        roles
+        code
+        certificate
+      }
+    }
+  }
+`;
