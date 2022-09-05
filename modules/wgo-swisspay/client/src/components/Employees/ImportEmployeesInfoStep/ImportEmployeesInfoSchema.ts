@@ -11,7 +11,7 @@ export const getImportEmployeesInfoSchema = (
       name: {
         name: 'name',
         label: translations.NAME,
-        field: (row: any) => `${row.client_id.name} ${row.client_id.lastName}`,
+        field: (row: any) => `${row.client.name} ${row.client.lastName}`,
         sortable: true,
         visible: true,
         filterable: true,
@@ -31,7 +31,7 @@ export const getImportEmployeesInfoSchema = (
       code: {
         name: 'code',
         label: translations.CODE,
-        field: (row: any) => row.client_id.code,
+        field: (row: any) => row.client.code,
         sortable: true,
         visible: true,
         filterable: true,
