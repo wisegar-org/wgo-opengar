@@ -23,18 +23,6 @@
       </q-card-section>
       <q-card-section>
         <TranslationComponent
-          :label="getLabel(translations.CONTACT_ADM_MAP_TITLE_FL)"
-          :langStore="langStore"
-          :tranStore="tranStore"
-          :translation="objMapTitle"
-          class="q-px-sm"
-          @onChange="
-            (langId, value) =>
-              onChangeIndexContent(translationsMapTitle, langId, value)
-          "
-        />
-
-        <TranslationComponent
           :label="getLabel(translations.CONTACT_ADM_CONTACT_TITLE_FL)"
           :langStore="langStore"
           :tranStore="tranStore"
@@ -100,6 +88,18 @@
           </div>
         </div>
 
+        <TranslationComponent
+          :label="getLabel(translations.CONTACT_ADM_MAP_TITLE_FL)"
+          :langStore="langStore"
+          :tranStore="tranStore"
+          :translation="objMapTitle"
+          class="q-px-sm"
+          @onChange="
+            (langId, value) =>
+              onChangeIndexContent(translationsMapTitle, langId, value)
+          "
+        />
+
         <q-input
           dense
           outlined
@@ -118,8 +118,8 @@
           style="border: 0"
           tabindex="0"
           :src="contact.mapPath"
-          width="250px"
-          height="250px"
+          width="100%"
+          height="500"
           frameborder="0"
           allowfullscreen="allowfullscreen"
           aria-hidden="false"
