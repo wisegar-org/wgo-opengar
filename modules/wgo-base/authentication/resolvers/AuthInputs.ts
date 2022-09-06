@@ -41,6 +41,6 @@ export class ResetPasswordInput {
 
 @InputType()
 export class ValidUserNameInput {
-  @Field() id!: number;
+  @Field({ defaultValue: 0, nullable: true }) id!: number;
   @Field() userName!: string;
 }
