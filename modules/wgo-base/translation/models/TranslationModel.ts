@@ -33,6 +33,9 @@ export class TranslationModel {
   }
 
   async getAllTranslationByKeys(data: IGetAllTranslationsByKeyArg) {
+    if (data.languageId === 0) {
+      return [];
+    }
     const translations: ITranslationModel[] = await this.getTranslations(
       data.languageId,
       data.keys
