@@ -38,6 +38,21 @@ export const getImportEmployeesInfoSchema = (
         align: 'left',
         width: 200,
       },
+      confirmed: {
+        name: 'confirmed',
+        label: translations.WIZARD_IMPORT_CONFIRMED_COLUMN,
+        field: 'confirmed',
+        sortable: true,
+        visible: true,
+        filterable: true,
+        align: 'left',
+        width: 200,
+        format: (val: any, row?: any) => {
+          return `${val}` === 'true'
+            ? `${translations.WIZARD_IMPORT_CONFIRMED_CONFIRMED_VALUE}`
+            : `${translations.WIZARD_IMPORT_CONFIRMED_UNCONFIRMED_VALUE}`;
+        },
+      },
     },
     code: 'code',
     text: ['name'],

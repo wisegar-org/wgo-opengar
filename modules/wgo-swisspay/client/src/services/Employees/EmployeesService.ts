@@ -106,14 +106,14 @@ export class EmployeesService {
     }
   }
 
-  async sendEmployeeAddLink(email: string, enterprise_id: number) {
+  async sendEmployeeAddLink(code: string, enterprise_id: number) {
     try {
       const response = (await this.apiInstance.mutate({
         mutation: M_EMPLOYEES_REGISTER,
         fetchPolicy: 'no-cache',
         variables: {
           data: {
-            email: email,
+            code: code,
             enterprise_id: {
               id: enterprise_id,
             },

@@ -103,6 +103,7 @@ export const M_EMPLOYEES_IMPORT_LIST = gql`
         code
         certificate
       }
+      confirmed
     }
   }
 `;

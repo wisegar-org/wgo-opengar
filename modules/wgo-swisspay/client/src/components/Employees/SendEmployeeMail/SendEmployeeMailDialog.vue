@@ -16,11 +16,10 @@
               square
               outlined
               class="q-my-sm q-mx-sm"
-              v-model="email"
-              :rules="[(val) => isValidEmail(val) || getLabel(translations.INVALID_EMAIL)]"
+              v-model="code"
               required
               :lazyRules="true"
-              :label="getLabel(translations.EMAIL_ADDRESS_FIELD_NAME)"
+              :label="getLabel(translations.CODE)"
             />
           </div>
         </q-card-section>
@@ -67,7 +66,7 @@ export default defineComponent({
     const appStatusStore = useAppStatusStore();
     const notifyStore = useNotifyStore();
     return {
-      email: '',
+      code: '',
       getLabel: (name: string) => getLabel(this.tranStore, name),
       translations,
       tranBase,
@@ -84,9 +83,10 @@ export default defineComponent({
   },
   methods: {
     async sendEmployEmail() {
+      const self = this;
       const enterprise_id = this.authStore.user.id;
       this.appStatusStore.setLoading(true);
-      const result = await this.employeesService.sendEmployeeAddLink(this.email, enterprise_id);
+      const result = await this.employeesService.sendEmployeeAddLink(this.code, enterprise_id);
       this.appStatusStore.setLoading(false);
       if (result) {
         this.notifyStore.setNotify({
@@ -96,23 +96,33 @@ export default defineComponent({
         });
         this.close();
       } else {
-        this.notifyStore.setNotify({
-          position: 'top',
-          type: 'negative',
-          message: this.getLabel(translations.EMAIL_NOT_SENDED_MESSAGE),
-        });
+        this.$q
+          .dialog({
+            title: this.getLabel(translations.SEND_EMAIL_INVITATION_LINK),
+            message: this.getLabel(translations.CONFIRM_CREATE_USER_MESSAGE),
+            persistent: true,
+            focus: 'cancel',
+            ok: {
+              color: 'primary',
+              label: this.getLabel(tranBase.CONFIRM),
+              tabindex: 0,
+            },
+            cancel: {
+              flat: true,
+              label: this.getLabel(tranBase.CANCEL),
+              tabindex: 1,
+            },
+          })
+          .onOk(() => {
+            self.$emit('createUser', self.code);
+          });
       }
-    },
-    isValidEmail(email: string): boolean {
-      const re =
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
     },
     close() {
       this.$emit('close');
     },
   },
-  emits: ['close'],
+  emits: ['close', 'createUser'],
 });
 </script>
 

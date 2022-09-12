@@ -12,10 +12,12 @@ import { translations } from '../translations';
 import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
 import { Loading } from 'quasar';
 import { IUser, translations as transBase } from '../../../wgo-base/core/models';
-import SendEmployMailDialog from '../SendEmployeeMail/SendEmployeeMailDialog.vue';
-import { IEmployeeModel } from 'app/../src/models/EmployeesModel';
+import SendEmployeeMailDialog from '../SendEmployeeMail/SendEmployeeMailDialog.vue';
+import { IEmployeeModel, IEmployeeToImportModel } from '../../../../../src/models/EmployeesModel';
 import SendDocumentStepper from '../SendDocument/SendDocumentStepper.vue';
 import ImportEmployeesStepper from '../ImportEmployees/ImportEmployeesStepper.vue';
+import ImportEmployeeEditorDialog from '../ImportEmployeesValidStep/ImportEmployeeEditorDialog.vue';
+import { useNotifyStore } from 'src/stores/notifyStore';
 
 export default defineComponent({
   name: 'EmployeesList',
@@ -24,9 +26,10 @@ export default defineComponent({
   },
   components: {
     Table,
-    SendEmployMailDialog,
+    SendEmployeeMailDialog,
     SendDocumentStepper,
     ImportEmployeesStepper,
+    ImportEmployeeEditorDialog,
   },
   data(props) {
     const router = useRouter();
@@ -36,6 +39,7 @@ export default defineComponent({
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } = resizeComponent;
     const selectedUser: IUser = <IUser>{};
+    const newEmployee: IEmployeeToImportModel = {} as IEmployeeToImportModel;
 
     const rowBtns: ITableRowButton[] = [
       {
@@ -67,11 +71,15 @@ export default defineComponent({
       },
     ];
 
+    const { getLabel } = new BaseTranslateComponent();
+
     return {
       open: false,
       openWizard: false,
       openImportWizard: false,
+      openEmployeeEditor: false,
       schema: getEmployeesListSchema(props.tranStore as any, leftBtns, rowBtns),
+      getLabel: (name: string) => getLabel(this.tranStore, name),
       componentHeight,
       addResize,
       removeResize,
@@ -80,11 +88,40 @@ export default defineComponent({
       translations,
       tableData,
       selectedUser,
+      newEmployee,
     };
   },
   methods: {
     sendLinkEmployee() {
       this.open = true;
+    },
+    createUser(code: string) {
+      this.closeEmployMailDialog();
+      this.newEmployee = {
+        code,
+        email: '',
+        lastName: '',
+        name: '',
+      };
+      this.openEmployeeEditor = true;
+    },
+    async saveEmployee(employee: IEmployeeToImportModel) {
+      this.closeEmployeeEditor();
+      this.appStatusStore.loading = true;
+      const result = await this.employeesService.importEmployeesList(this.authStore.user.id, [employee]);
+      this.appStatusStore.loading = false;
+      if (result && result.length > 0) {
+        await this.loadEmployees();
+      } else {
+        this.notifyStore.setNotify({
+          position: 'top',
+          type: 'negative',
+          message: this.getLabel(translations.CONFIRM_CREATE_USER_FAIL_MESSAGE),
+        });
+      }
+    },
+    closeEmployeeEditor() {
+      this.openEmployeeEditor = false;
     },
     importEmployees() {
       this.openImportWizard = true;
@@ -157,7 +194,9 @@ export default defineComponent({
       return getLabel(props.tranStore, name);
     }
 
+    const notifyStore = useNotifyStore();
     return {
+      notifyStore,
       getLabelFromName,
       authStore: authStore.authStore,
       appStatusStore,
