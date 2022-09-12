@@ -3,6 +3,7 @@
 node_modules
 quickweb-development
 build
+build-wgo-swisspay
 
 #  client
 client/node_modules
@@ -33,6 +34,7 @@ modules/wgo-wisegar/public
 modules/wgo-swisspay/settings
 modules/wgo-swisspay/src/wgo-base
 modules/wgo-swisspay/client/src/wgo-base
+modules/wgo-swisspay/mobile/src/wgo-base
 modules/template/settings
 modules/.vscode
 modules/.vs
