@@ -7,6 +7,7 @@ export interface IEmployeeModel {
   email: string;
   enterprise: UserResponse;
   client: UserResponse;
+  confirmed: boolean;
 }
 
 export interface IEmployeeToImportModel {
@@ -25,7 +26,7 @@ export interface IEmployeeFilter {
 }
 
 export interface IRegisterEmployeeFilter {
-  email: string;
+  code: string;
   enterprise_id: IUserFilter;
 }
 

@@ -8,6 +8,7 @@ export class EmployeesResponse {
   @Field() email!: string;
   @Field() enterprise!: UserResponse;
   @Field() client!: UserResponse;
+  @Field({ defaultValue: true }) confirmed!: boolean;
 }
 
 @ObjectType()

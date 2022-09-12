@@ -119,33 +119,31 @@ export class EmployeesService {
       expiresIn: this.options.tokenRegisterExpiresIn,
       payload: {
         userId: employee.enterprise_id.id.toString(),
-        userName: employee.email,
+        userName: employee.code,
         sessionId: -1,
       },
     });
-    const userExists = await this.vaidateUserExist(employee.email);
-    const link = `${this.options.hostBase}/#/employees/${
-      userExists ? 'confirmEmployee' : 'registerEmployee'
-    }?token=${token}`;
-    console.debug(link);
-
-    const settingsModel = new SettingsModel(ctx);
-    const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
-    const transportEmailOptions = {
-      host: config.SMTP_EMAIL_HOST,
-      port: config.SMTP_EMAIL_PORT,
-      auth: {
-        user: config.SMTP_EMAIL_USER,
-        pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
-      },
-    };
-    try {
-      await this.emailService.sendByConfig(
-        {
-          ...this.options.emailOptions,
-          subject: 'Wisegar - Register Employee',
-          to: `${employee.email}`,
-          html: `<div>
+    const user = await this.getUserEntityByCriteria({ code: employee.code });
+    if (user) {
+      const link = `${this.options.hostBase}/#/employees/confirmEmployee?token=${token}`;
+      console.debug(link);
+      const settingsModel = new SettingsModel(ctx);
+      const config = (await settingsModel.getSettingsObject({ type_settings: SETTINGS_SMTP })) as any as SmtpSettings;
+      const transportEmailOptions = {
+        host: config.SMTP_EMAIL_HOST,
+        port: config.SMTP_EMAIL_PORT,
+        auth: {
+          user: config.SMTP_EMAIL_USER,
+          pass: settingsModel.getSettingPasswordValue(config.SMTP_EMAIL_PASSWORD),
+        },
+      };
+      try {
+        await this.emailService.sendByConfig(
+          {
+            ...this.options.emailOptions,
+            subject: 'Wisegar - Register Employee',
+            to: `${user.email}`,
+            html: `<div>
           <p>
             To register as an employee, please click on the link below:
           </p>
@@ -153,14 +151,21 @@ export class EmployeesService {
             Click here
           </a>
           </div>`,
-        },
-        transportEmailOptions
-      );
-    } catch (err: any) {
-      console.log(err.message);
-    }
+          },
+          transportEmailOptions
+        );
+      } catch (err: any) {
+        console.log(err.message);
+      }
 
-    return true;
+      return user;
+    }
+    // const link = `${this.options.hostBase}/#/employees/${
+    //   userExists ? 'confirmEmployee' : 'registerEmployee'
+    // }?token=${token}`;
+    // console.debug(link);
+
+    return user;
   }
 
   async getAllEmployees(filter: IEmployeeFilter) {
@@ -245,6 +250,7 @@ export class EmployeesService {
       ctx,
       transportEmailOptions: {},
     };
+    const pendigEmployeesLink: IEmployeeModel[] = [];
     const result = await this.dataSource.transaction(async () => {
       const userRolesModel = new UserRolesModel(arg);
       const authModel = new AuthModel(arg);
@@ -257,43 +263,84 @@ export class EmployeesService {
 
       const employeList: EmployeesEntity[] = [];
       for (const employee of data.employees) {
-        let user = await userRolesModel.getEntityByCriteria({ code: employee.code });
-        if (!user) {
-          const userRegiterd = await authModel.register({
-            name: employee.name,
-            lastName: employee.lastName,
-            code: employee.code,
-            email: employee.email,
-            userName: employee.email,
-            isEmailConfirmed: false,
-            certificate: '',
-            password: '',
-            roles: [USER_ROLE],
-            id: 0,
-          });
-          user = await userRolesModel.getEntityByCriteria({ code: userRegiterd.code });
-          if (!user) throw 'Error on insert user';
-        }
-
-        const findEmployee = await employeeRepo.findOne({
-          where: {
-            client_id: {
-              id: user.id,
-            },
-            enterprise_id: {
-              id: enterprise.id,
-            },
-          },
+        const employeeEntity = await userRolesModel.getEntityByCriteria({
+          code: employee.code,
         });
+        if (
+          employeeEntity &&
+          (await employeeRepo.findOne({
+            where: {
+              client_id: {
+                id: employeeEntity.id,
+              },
+              enterprise_id: {
+                id: enterprise.id,
+              },
+            },
+          }))
+        ) {
+          pendigEmployeesLink.push(
+            this.mapEmployeeEntity({
+              client_id: employeeEntity,
+              enterprise_id: enterprise,
+              email: employee.email,
+              name: employee.name,
+              id: 0,
+            } as EmployeesEntity)
+          );
+        } else {
+          let user = await this.sendEmployeeAddLink({ code: employee.code, enterprise_id: data.enterprise_id });
+          if (!!user) {
+            pendigEmployeesLink.push(
+              this.mapEmployeeEntity(
+                {
+                  client_id: user,
+                  enterprise_id: enterprise,
+                  email: employee.email,
+                  id: 0,
+                  name: `${user.name}`,
+                } as EmployeesEntity,
+                false
+              )
+            );
+          } else {
+            const userRegiterd = await authModel.register({
+              name: employee.name,
+              lastName: employee.lastName,
+              code: employee.code,
+              email: employee.email,
+              userName: employee.email,
+              isEmailConfirmed: false,
+              certificate: '',
+              password: '',
+              roles: [USER_ROLE],
+              id: 0,
+            });
+            const criteria = userRegiterd.code ? { code: userRegiterd.code } : { id: userRegiterd.id };
+            user = await userRolesModel.getEntityByCriteria(criteria);
+            if (!user) throw 'Error on insert user';
 
-        if (!findEmployee) {
-          const employeeEntity = new EmployeesEntity();
-          employeeEntity.enterprise_id = enterprise;
-          employeeEntity.email = employee.email;
-          employeeEntity.client_id = user;
-          employeeEntity.name = user.userName;
+            const findEmployee = await employeeRepo.findOne({
+              where: {
+                client_id: {
+                  id: user.id,
+                },
+                enterprise_id: {
+                  id: enterprise.id,
+                },
+              },
+            });
 
-          employeList.push(employeeEntity);
+            if (!findEmployee) {
+              const employeeEntity = new EmployeesEntity();
+              employeeEntity.enterprise_id = enterprise;
+              employeeEntity.email = employee.email;
+              employeeEntity.client_id = user;
+              employeeEntity.name = user.userName;
+
+              employeList.push(employeeEntity);
+            }
+          }
         }
       }
 
@@ -301,7 +348,7 @@ export class EmployeesService {
       return result;
     });
 
-    return result.map((item) => this.mapEmployeeEntity(item));
+    return pendigEmployeesLink.concat(result.map((item) => this.mapEmployeeEntity(item)));
   }
 
   async getAllEmailsByEmployees(idEmployee: number) {
@@ -320,13 +367,17 @@ export class EmployeesService {
     return employees.map((employee) => employee.email);
   }
 
-  private async vaidateUserExist(email: string) {
+  private async getUserEntityByCriteria(criteria: any) {
     const userRepo = new UserRolesModel({ ...this.options, ctx, transportEmailOptions: {} });
-    const user = await userRepo.getUserByEmail(email);
-    return !!user;
+    const user = await userRepo.getEntityByCriteria(criteria);
+    return user;
   }
 
-  private mapEmployeeEntity(employee: EmployeesEntity): IEmployeeModel {
+  private async validateUserExistByCriteria(criteria: any) {
+    return !!this.getUserEntityByCriteria(criteria);
+  }
+
+  private mapEmployeeEntity(employee: EmployeesEntity, confirmed: boolean = true): IEmployeeModel {
     console.log('EmployeesService mapEmployeeEntity employee: ', employee);
     return {
       id: employee.id,
@@ -334,6 +385,7 @@ export class EmployeesService {
       name: employee.name,
       client: UserUtils.mapUserEntity(employee.client_id),
       enterprise: UserUtils.mapUserEntity(employee.enterprise_id),
+      confirmed: confirmed,
     };
   }
 }

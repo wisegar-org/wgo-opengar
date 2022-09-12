@@ -13,7 +13,7 @@ export class EmployeesFilterInput {
 
 @InputType()
 export class EmployeesRegisterInput {
-  @Field(() => String) email!: string;
+  @Field(() => String) code!: string;
   @Field(() => UserFilterInput) enterprise_id!: UserFilterInput;
 }
 

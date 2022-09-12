@@ -48,7 +48,7 @@ export class EmployeesResolver {
   async sendEmployeeAddLink(@Arg('data') data: EmployeesRegisterInput) {
     const employessService = new EmployeesService(this.dataSource);
     const sendEmployeeAddLink = await employessService.sendEmployeeAddLink(data);
-    return sendEmployeeAddLink;
+    return !!sendEmployeeAddLink;
   }
 
   @Authorized()
