@@ -5,7 +5,7 @@ import { AuthenticationHandler } from './handlers/AuthenticationHandler';
 import { AppContextHandler } from './handlers/AppContextHandler';
 import { errorHandler } from './handlers/ErrorHandler';
 import { AppController } from './controllers/AppController';
-import { UseClientSPAHostMiddleware } from './middlewares/HostClientMiddleware';
+import { UseClientSPAHostMiddleware, UseMobileSPAHostMiddleware } from './middlewares/HostClientMiddleware';
 import { Express } from 'express';
 import { dataSourceOptions, PostgresDataSource } from './dataSources';
 import { createDatabase } from 'typeorm-extension';
@@ -33,6 +33,7 @@ const serverOptions: IServerOptions = {
   useCors: true,
   middlewares: (app: Express) => {
     UseClientSPAHostMiddleware(app);
+    UseMobileSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
   resolvers: getResolverList(),
