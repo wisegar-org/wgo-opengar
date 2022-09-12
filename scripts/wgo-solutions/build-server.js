@@ -54,6 +54,10 @@ const build = (options) => {
     envFilePath,
     `CLIENT_WEB_ROOT=${path.join(options.web_root, "client")} \n`
   );
+  fs.appendFileSync(
+    envFilePath,
+    `MOBILE_WEB_ROOT=${path.join(options.web_root, "mobile")} \n`
+  );
 
   const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
   const settingsFiles = [

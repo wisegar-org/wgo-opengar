@@ -48,7 +48,8 @@ const buildServer = require(`./build-server`);
 buildServer.build(buildOptions);
 
 const buildClient = require(`./build-client`);
-buildClient.build(buildOptions);
+buildClient.build(buildOptions, "client");
+buildClient.build(buildOptions, "mobile");
 
 const buildBase = require("./build-base");
 buildBase.build(buildOptions);

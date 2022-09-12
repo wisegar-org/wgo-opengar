@@ -1,5 +1,5 @@
 const { execSync } = require("child_process");
-const { createSymlinkSync } = require("fs-extra");
+const { createSymlinkSync, existsSync } = require("fs-extra");
 
 const build_args = process.argv.slice(2);
 console.log(`BUILD_ARGS: ${build_args}`);
@@ -25,6 +25,26 @@ createSymlinkSync(
   `./modules/${module_name}/client/src/wgo-base`,
   "junction"
 );
+
+if (existsSync(`./modules/${module_name}/mobile`)) {
+  createSymlinkSync(
+    "./modules/wgo-base",
+    `./modules/${module_name}/mobile/src/wgo-base`,
+    "junction"
+  );
+
+  console.log(`npm install ${module_name} mobile`);
+  execSync("npm install", {
+    cwd: `./modules/${module_name}/mobile`,
+    stdio: "inherit",
+  });
+
+  console.log(`build ${module_name} mobile`);
+  execSync("npx quasar build", {
+    cwd: `./modules/${module_name}/mobile`,
+    stdio: "inherit",
+  });
+}
 
 console.log(`npm install ${module_name} client`);
 execSync("npm install", {
