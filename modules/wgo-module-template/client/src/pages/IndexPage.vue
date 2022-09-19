@@ -5,13 +5,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import { useMeta } from "quasar";
+import { BaseSeoDataComponent } from "../wgo-base/core/components/BaseComponents";
 
 export default defineComponent({
   name: "IndexPage",
   components: {},
   setup() {
-    return {};
+    const { seoData, setSeoData } = new BaseSeoDataComponent();
+    useMeta(seoData);
+    return {
+      setSeoData,
+    };
   },
 });
 </script>

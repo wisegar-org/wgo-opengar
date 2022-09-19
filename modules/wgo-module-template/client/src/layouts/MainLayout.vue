@@ -1,116 +1,54 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  <AdminMainLayout
+    :tranStore="tranStore"
+    :authStore="authStore"
+    :menuItems="menuItems"
+    :langStore="langStore"
+    :routeService="routeService"
+    :homePath="homePath"
+    :title="title"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+import { defineComponent } from "vue";
+import { useAuthStore } from "../stores/authStore";
+import { useTranslationStore } from "../stores/translationStore";
+import AdminMainLayout from "../wgo-base/core/components/Layouts/AdminMainLayout.vue";
+import { menuItems } from "../settings/navigation";
+import { useRouter } from "vue-router";
+import { RouteService } from "../wgo-base/core/services/RouteService";
+import { useLanguageStore } from "../stores/languageStore";
+import { AuthStore } from "../wgo-base/authentication/models/AuthStore";
+import { TranslationStore } from "../wgo-base/translation/models/TranslationStore";
+import { LanguageStore } from "../wgo-base/language/models/LanguageStore";
+import { Paths } from "../router/paths";
+import { translations as tranBase } from "../wgo-base/core/models";
 
 export default defineComponent({
-  name: 'MainLayout',
-
   components: {
-    EssentialLink
+    AdminMainLayout,
   },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
+  data() {
+    const router = useRouter();
+    return {
+      routeService: new RouteService(router as any) as any,
+    };
+  },
+  setup() {
+    const authStore = useAuthStore();
+    const transStore = useTranslationStore();
+    const langStore = useLanguageStore();
+    const title = tranBase.APP_TITLE;
 
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
+      title,
+      authStore: authStore.authStore as AuthStore,
+      tranStore: transStore.translationStore as TranslationStore,
+      langStore: langStore.languageStore as LanguageStore,
+      menuItems,
+      homePath: Paths.home.path,
+    };
+  },
 });
 </script>

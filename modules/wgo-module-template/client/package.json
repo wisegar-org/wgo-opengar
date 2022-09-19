@@ -5,7 +5,9 @@
   "productName": "WGO Client Template Demo",
   "author": "Wisegar.org Development Group",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "build": "quasar build"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "vue-i18n": "^9.0.0",
