@@ -29,12 +29,14 @@ export default defineComponent({
       ) {
         this.$q.notify({
           type: 'positive',
+          position: 'top',
           message: this.getLabelFromName(translations.ADDED_EMPLOYEE_MESSAGE),
         });
         this.goToHome();
       } else {
         this.$q.notify({
           type: 'negative',
+          position: 'top',
           message: this.getLabelFromName(translations.ADDED_EMPLOYEE_ERROR_MESSAGE),
         });
       }
@@ -53,6 +55,7 @@ export default defineComponent({
       enterprise_id: 0,
       client_id: 0,
     };
+    const enterpriseName = '';
 
     return {
       open: true,
@@ -61,6 +64,7 @@ export default defineComponent({
       userData,
       tranBase,
       innerLoading: true,
+      enterpriseName,
     };
   },
   setup(props) {
@@ -94,12 +98,14 @@ export default defineComponent({
     const token = this.$route.query.token as string;
     if (token) {
       const resp = await this.employeesService.checkEmployeeToken(token);
-      if (resp) {
-        this.userData.enterprise_id = resp;
+      if (resp && resp.user_id === this.userData.client_id) {
+        this.enterpriseName = resp.enterprise_name;
+        this.userData.enterprise_id = resp.enterprise_id;
       } else {
         this.goToHome();
         this.$q.notify({
           type: 'negative',
+          position: 'top',
           message: this.getLabelFromName(translations.INVALID_TOKEN_EMPLOYEE),
         });
       }
@@ -107,6 +113,7 @@ export default defineComponent({
       this.goToHome();
       this.$q.notify({
         type: 'negative',
+        position: 'top',
         message: this.getLabelFromName(translations.MISSING_TOKEN_EMPLOYEE),
       });
     }

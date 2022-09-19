@@ -7,7 +7,7 @@
         </q-item-section>
         <q-item-section top class="self-center">
           <div class="text-h6 text-left" style="white-space: pre-line; overflow: hidden; overflow-wrap: anywhere">
-            {{ getLabelFromName(translations.ADD_EMPLOYEE_MESSAGE_TITLE) }}
+            {{ getLabelFromName(translations.ADD_EMPLOYEE_MESSAGE_TITLE) }}: {{ enterpriseName }}
           </div>
         </q-item-section>
         <q-item-section top side class="self-center">

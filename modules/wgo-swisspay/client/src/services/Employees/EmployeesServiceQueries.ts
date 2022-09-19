@@ -50,7 +50,11 @@ export const M_EMPLOYEES_ADD = gql`
 
 export const M_EMPLOYEES_CHECK_TOKEN = gql`
   mutation checkEmployeeToken($data: EmployeesTokenInput!) {
-    checkEmployeeToken(data: $data)
+    checkEmployeeToken(data: $data) {
+      user_id
+      enterprise_id
+      enterprise_name
+    }
   }
 `;
 

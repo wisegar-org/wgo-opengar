@@ -60,17 +60,17 @@ export class EmployeesService {
           },
         },
       })) as {
-        data: { checkEmployeeToken: number };
+        data: { checkEmployeeToken: any };
       };
       if (response && response.data) {
         const { data } = response;
         return data.checkEmployeeToken;
       }
 
-      return 0;
+      return {};
     } catch (error) {
       console.log('EmployeesService checkEmployeeToken error: ', error);
-      return 0;
+      return {};
     }
   }
 
