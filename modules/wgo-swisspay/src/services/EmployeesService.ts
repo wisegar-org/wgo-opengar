@@ -72,8 +72,22 @@ export class EmployeesService {
       publicKey: this.options.publicKey,
       token: token,
     });
+    if (validatedToken) {
+      const client = await this.getUserEntityByCriteria({ id: parseInt(`${validatedToken?.userId || 0}`) });
+      const user = await this.getUserEntityByCriteria({ code: validatedToken?.userName });
+      if (client && user)
+        return {
+          user_id: user.id,
+          enterprise_id: client.id,
+          enterprise_name: `${client.name} ${client.lastName}`,
+        };
+    }
 
-    return validatedToken;
+    return {
+      user_id: 0,
+      enterprise_id: 0,
+      enterprise_name: '',
+    };
   }
 
   async addEmployee(email: string, name: string, enterprise_id: number, client_id: number) {
@@ -124,7 +138,8 @@ export class EmployeesService {
       },
     });
     const user = await this.getUserEntityByCriteria({ code: employee.code });
-    if (user) {
+    const client = await this.getUserEntityByCriteria({ id: employee.enterprise_id.id });
+    if (user && client) {
       const link = `${this.options.hostBase}/#/employees/confirmEmployee?token=${token}`;
       console.debug(link);
       const settingsModel = new SettingsModel(ctx);
@@ -145,7 +160,7 @@ export class EmployeesService {
             to: `${user.email}`,
             html: `<div>
           <p>
-            To register as an employee, please click on the link below:
+            To register as an employee on ${client.name} ${client.lastName}, please click on the link below:
           </p>
           <a href="${link}">
             Click here

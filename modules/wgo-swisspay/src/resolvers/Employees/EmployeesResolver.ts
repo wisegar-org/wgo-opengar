@@ -11,7 +11,11 @@ import {
   ImportEmployeesInput,
   UserFilterInput,
 } from './EmployeesInput';
-import { EmployeesResponse, EmployeesToImportResponse } from './EmployeesResponse';
+import {
+  EmployeesEnterpriseToRegisterResponse,
+  EmployeesResponse,
+  EmployeesToImportResponse,
+} from './EmployeesResponse';
 import { EmployeesService } from '../../services/EmployeesService';
 
 @Resolver()
@@ -65,14 +69,11 @@ export class EmployeesResolver {
   }
 
   @Authorized()
-  @Mutation(() => Number, { name: 'checkEmployeeToken' })
+  @Mutation(() => EmployeesEnterpriseToRegisterResponse, { name: 'checkEmployeeToken' })
   async checkEmployeeToken(@Arg('data') data: EmployeesTokenInput) {
     const employessService = new EmployeesService(this.dataSource);
     const sendEmployeeAddLink = await employessService.validateRegisterEmployee(data.token);
-    if (sendEmployeeAddLink) {
-      return parseInt(sendEmployeeAddLink.userId);
-    }
-    return 0;
+    return sendEmployeeAddLink;
   }
 
   @Authorized()

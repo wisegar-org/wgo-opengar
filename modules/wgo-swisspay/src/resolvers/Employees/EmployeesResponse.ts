@@ -19,3 +19,10 @@ export class EmployeesToImportResponse {
   @Field() code!: string;
   @Field() valid!: boolean;
 }
+
+@ObjectType()
+export class EmployeesEnterpriseToRegisterResponse {
+  @Field() user_id!: number;
+  @Field() enterprise_id!: number;
+  @Field() enterprise_name!: string;
+}
