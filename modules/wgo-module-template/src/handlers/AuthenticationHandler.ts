@@ -5,5 +5,6 @@ export const AuthenticationHandler = async (userContext: any, roles: any) => {
     context: { user },
   } = userContext;
   // TODO: Add here authentication logic
+  if (!user) throw new Error("NotAuthorized");
   return true;
 };

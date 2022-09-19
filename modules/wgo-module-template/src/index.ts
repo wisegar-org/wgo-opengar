@@ -7,7 +7,6 @@ import {
 } from "@wisegar-org/wgo-server";
 import {
   GetPortKey,
-  GetNodeEnvKey,
   GetPrivateKey,
   GetPublicKey,
   GetExpiresInKey,
@@ -16,7 +15,6 @@ import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
 import { AppContextHandler } from "./handlers/AppContextHandler";
 import { errorHandler } from "./handlers/ErrorHandler";
 import { AppController } from "./controllers/AppController";
-import { AppResolver } from "./resolvers/AppResolver";
 import { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";

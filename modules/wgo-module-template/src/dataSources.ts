@@ -13,6 +13,7 @@ import { RoleEntity } from "./wgo-base/authentication/database/entities/RoleEnti
 import { LanguageEntity } from "./wgo-base/language/database/entities/LanguageEntity";
 import { TranslationEntity } from "./wgo-base/translation/database/entities/TranslationEntity";
 import { SettingsEntity } from "./wgo-base/settings/database/entities/SettingsEntity";
+import { ContactMeEntity } from "./wgo-base/contact/database/entities/ContactMeEntity";
 
 /** Migrations */
 import { migrations1651766519693 } from "./wgo-base/authentication/database/migrations/1651766519693-migrations";
@@ -24,6 +25,7 @@ import { addSettingsEntity1658164004212 } from "./wgo-base/settings/database/mig
 import { renameTypeSettings1658240270133 } from "./wgo-base/settings/database/migrations/1658240270133-renameTypeSettings";
 import { removeAppSettings1658240565587 } from "./wgo-base/settings/database/migrations/1658240565587-removeAppSettings";
 import { fixAdminPassword1658417129112 } from "./wgo-base/authentication/database/migrations/1658417129112-fixAdminPassword";
+import { addContactMeEntity1658932057343 } from "./wgo-base/contact/database/migrations/1658932057343-addContactMeEntity";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -31,7 +33,7 @@ export const dataSourceOptions: DataSourceOptions = {
   port: parseInt(`${GetDBPortKey() || 5432}`),
   username: GetDBUserNameKey() || "postgres",
   password: GetDBPasswordKey() || "postgres",
-  database: GetDBNameKey() || "wgo-swisspay",
+  database: GetDBNameKey() || "wgo-template",
   useUTC: true,
   migrationsRun: true,
   entities: [
@@ -40,6 +42,7 @@ export const dataSourceOptions: DataSourceOptions = {
     LanguageEntity,
     TranslationEntity,
     SettingsEntity,
+    ContactMeEntity,
   ],
   migrations: [
     migrations1651766519693,
@@ -51,6 +54,7 @@ export const dataSourceOptions: DataSourceOptions = {
     renameTypeSettings1658240270133,
     removeAppSettings1658240565587,
     fixAdminPassword1658417129112,
+    addContactMeEntity1658932057343,
   ],
   subscribers: [],
 };
