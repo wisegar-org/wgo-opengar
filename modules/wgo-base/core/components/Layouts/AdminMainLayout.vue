@@ -9,7 +9,7 @@
           :routeService="routeService"
         />
         <q-toolbar-title>
-          {{ getLabel(tranBase.APP_ADMIN_TITLE) }}
+          {{ getLabel(title || tranBase.APP_ADMIN_TITLE) }}
         </q-toolbar-title>
 
         <div class="row">
@@ -59,6 +59,7 @@ export default defineComponent({
     authStore: { type: Object as PropType<AuthStore>, required: true },
     routeService: { type: Object as PropType<RouteService>, required: true },
     homePath: { type: String, default: "/" },
+    title: { type: String, default: "" },
   },
   components: {
     LeftDrawer,
