@@ -14,6 +14,8 @@ import { LanguageEntity } from "./wgo-base/language/database/entities/LanguageEn
 import { TranslationEntity } from "./wgo-base/translation/database/entities/TranslationEntity";
 import { SettingsEntity } from "./wgo-base/settings/database/entities/SettingsEntity";
 import { ContactMeEntity } from "./wgo-base/contact/database/entities/ContactMeEntity";
+import { MediaEntity } from "./wgo-base/storage/database/entities/MediaEntity";
+import { IndexContentEntity } from "./database/entities/IndexContentEntity";
 
 /** Migrations */
 import { migrations1651766519693 } from "./wgo-base/authentication/database/migrations/1651766519693-migrations";
@@ -26,6 +28,8 @@ import { renameTypeSettings1658240270133 } from "./wgo-base/settings/database/mi
 import { removeAppSettings1658240565587 } from "./wgo-base/settings/database/migrations/1658240565587-removeAppSettings";
 import { fixAdminPassword1658417129112 } from "./wgo-base/authentication/database/migrations/1658417129112-fixAdminPassword";
 import { addContactMeEntity1658932057343 } from "./wgo-base/contact/database/migrations/1658932057343-addContactMeEntity";
+import { addMediaEntity1658931161380 } from "./wgo-base/storage/database/migrations/1658931161380-addMediaEntity";
+import { createIndexContentTb1663686346323 } from "./database/migrations/1663686346323-createIndexContentTb";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -43,6 +47,8 @@ export const dataSourceOptions: DataSourceOptions = {
     TranslationEntity,
     SettingsEntity,
     ContactMeEntity,
+    MediaEntity,
+    IndexContentEntity,
   ],
   migrations: [
     migrations1651766519693,
@@ -55,6 +61,8 @@ export const dataSourceOptions: DataSourceOptions = {
     removeAppSettings1658240565587,
     fixAdminPassword1658417129112,
     addContactMeEntity1658932057343,
+    addMediaEntity1658931161380,
+    createIndexContentTb1663686346323,
   ],
   subscribers: [],
 };
