@@ -3,13 +3,17 @@
     <q-header>
       <q-toolbar>
         <LeftDrawer
+          v-if="menuItems.length > 0"
           :items="menuItems"
           :authStore="authStore"
           :tranStore="tranStore"
           :routeService="routeService"
         />
+        <q-avatar @click="goToHome" class="cursor-pointer">
+          <img src="favicon.ico" />
+        </q-avatar>
         <q-toolbar-title>
-          {{ getLabel(title || tranBase.APP_ADMIN_TITLE) }}
+          {{ getLabel(title || tranBase.APP_TITLE) }}
         </q-toolbar-title>
 
         <div class="row">
@@ -84,9 +88,12 @@ export default defineComponent({
     goToLogin() {
       this.goToPath(AuthPaths.authLogin.path);
     },
+    goToHome() {
+      this.goToPath(this.homePath);
+    },
     logout() {
       this.authStore.resetState();
-      this.goToPath(this.homePath);
+      this.goToHome();
     },
   },
   emits: ["onSaveUser"],
