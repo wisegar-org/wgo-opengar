@@ -7,7 +7,25 @@ import { AdminTranslationPaths } from "src/wgo-base/translation/router";
 import { Paths } from "../router/paths";
 import { AuthPaths } from "../wgo-base/authentication/router";
 
-export const menuItems: MenuListItem[] = [
+export const financeMenuItems: MenuListItem[] = [
+  {
+    link: Paths.home.path,
+    color: "",
+    icon: "home",
+    id: Paths.home.name,
+    type: "item",
+    label: Paths.home.label,
+    auth: true,
+    role: [SUPERADMIN],
+  },
+  {
+    type: "separator",
+    auth: true,
+    role: [SUPERADMIN],
+  },
+];
+
+export const adminMenuItems: MenuListItem[] = [
   {
     link: Paths.home.path,
     color: "",
