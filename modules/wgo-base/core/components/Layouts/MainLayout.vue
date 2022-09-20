@@ -26,6 +26,7 @@
             @onLoginClick="goToLogin"
             @onLogoutClick="logout"
             @onSaveUser="onSave"
+            @onAdminClick="goToAdmin"
           />
         </div>
       </q-toolbar>
@@ -49,6 +50,7 @@ import LoginBtn from "../LoginBtn/LoginBtn.vue";
 import LanguageSelector from "../../../language/components/LanguageSelector/LanguageSelector.vue";
 import { LanguageStore } from "../../../language/models/LanguageStore";
 import { AuthPaths } from "../../../authentication/router";
+import { AdminBasePath } from "../../router";
 
 export default defineComponent({
   name: "AdminMainLayout",
@@ -90,6 +92,9 @@ export default defineComponent({
     },
     goToHome() {
       this.goToPath(this.homePath);
+    },
+    goToAdmin() {
+      this.goToPath(AdminBasePath);
     },
     logout() {
       this.authStore.resetState();

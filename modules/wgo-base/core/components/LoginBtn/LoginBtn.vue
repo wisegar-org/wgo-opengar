@@ -8,6 +8,16 @@
               getLabel(translations.EDIT_PROFILE)
             }}</q-item-section>
           </q-item>
+          <q-item
+            v-if="isAdminUser()"
+            clickable
+            v-close-popup
+            @click="goToAdmin"
+          >
+            <q-item-section>{{
+              getLabel(translations.APP_ADMIN_TITLE)
+            }}</q-item-section>
+          </q-item>
           <q-item clickable v-close-popup @click="onLogout">
             <q-item-section>{{ getLabel(translations.LOGOUT) }}</q-item-section>
           </q-item>
@@ -41,6 +51,8 @@ import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { BaseTranslateComponent } from "../BaseComponents";
 import { translations } from "../../models";
 import { AuthStore } from "../../../authentication/models/AuthStore";
+import { SUPERADMIN } from "../../../authentication/models";
+import { AdminBasePath } from "../../router";
 
 export default defineComponent({
   props: {
@@ -77,6 +89,15 @@ export default defineComponent({
       this.showUserProfile(false);
       this.$emit("onSaveUser", user);
     },
+    isAdminUser() {
+      return (
+        this.authStore.isUserInRole([SUPERADMIN]) &&
+        `${this.$route.path}`.indexOf(`${AdminBasePath}/`) === -1
+      );
+    },
+    goToAdmin() {
+      this.$emit("onAdminClick");
+    },
   },
   computed: {
     isLogged(): boolean {
@@ -105,6 +126,9 @@ export default defineComponent({
     },
     onSaveUser(user: IUser) {
       return user;
+    },
+    onAdminClick: () => {
+      return true;
     },
   },
 });
