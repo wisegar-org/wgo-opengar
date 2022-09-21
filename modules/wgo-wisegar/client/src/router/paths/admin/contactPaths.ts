@@ -4,7 +4,7 @@ import { AdminContactPaths } from "../../../wgo-base/contact/router";
 export const ContactPathRouter: RouteRecordRaw = {
   path: AdminContactPaths.adminContact.path,
   name: AdminContactPaths.adminContact.name,
-  component: () => import("layouts/MainLayout.vue"),
+  component: () => import("layouts/AdminMainLayout.vue"),
   children: [
     {
       path: AdminContactPaths.adminContact.path,

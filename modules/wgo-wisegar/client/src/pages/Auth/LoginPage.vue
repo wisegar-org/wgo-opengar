@@ -9,19 +9,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import LoginComponent from '../../wgo-base/authentication/components/LoginComponent.vue';
-import { ISuccesLogin } from '../../wgo-base/authentication/models';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
-import { useRouter } from 'vue-router';
-import { AuthPaths } from '../../wgo-base/authentication/router';
-import { useAuthStore } from '../../stores/authStore';
-import { Paths } from '../../router/paths';
-import { useTranslationStore } from '../../stores/translationStore';
-import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
+import { defineComponent } from "vue";
+import LoginComponent from "../../wgo-base/authentication/components/LoginComponent.vue";
+import { ISuccesLogin } from "../../wgo-base/authentication/models";
+import { RouteService } from "../../wgo-base/core/services/RouteService";
+import { useRouter } from "vue-router";
+import { AuthPaths } from "../../wgo-base/authentication/router";
+import { useAuthStore } from "../../stores/authStore";
+import { Paths } from "../../router/paths";
+import { useTranslationStore } from "../../stores/translationStore";
+import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
 
 export default defineComponent({
-  name: 'LoginPage',
+  name: "LoginPage",
   components: {
     LoginComponent,
   },
@@ -31,7 +31,7 @@ export default defineComponent({
   data() {
     const router = useRouter();
     return {
-      routeService: new RouteService(router),
+      routeService: new RouteService(router as any),
     };
   },
   setup() {
@@ -44,7 +44,7 @@ export default defineComponent({
   },
   methods: {
     onLogin(value: ISuccesLogin) {
-      console.log('Component login result');
+      console.log("Component login result");
       console.log(value);
       this.authStore.setLogin(value);
       this.routeService.goTo(this.path || Paths.home.path);

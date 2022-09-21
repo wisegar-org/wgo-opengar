@@ -42,6 +42,21 @@ export const adminMenuItems: MenuListItem[] = [
     role: [SUPERADMIN],
   },
   {
+    link: Paths.adminIndexContent.path,
+    color: "",
+    icon: "person",
+    id: Paths.adminIndexContent.name,
+    type: "item",
+    label: Paths.adminIndexContent.label,
+    auth: true,
+    role: [SUPERADMIN],
+  },
+  {
+    type: "separator",
+    auth: true,
+    role: [SUPERADMIN],
+  },
+  {
     link: AuthPaths.authUsers.path,
     color: "",
     icon: "person",
