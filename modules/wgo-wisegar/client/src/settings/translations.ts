@@ -5,6 +5,7 @@ import { getLanguageTranslationsKeys } from "../wgo-base/language/models/transla
 import { getAuthTranslationsKeys } from "../wgo-base/authentication/models/translations";
 import { getSettingsTranslationsKeys } from "../wgo-base/settings/models/translations";
 import { getContactTranslationsKeys } from "src/wgo-base/contact/models/translations";
+import { getWisegarTranslationsKeys } from "src/models";
 
 //Project translation components
 
@@ -13,5 +14,6 @@ const tanslations: string[] = getCoreTranslationsKeys()
   .concat(getLanguageTranslationsKeys())
   .concat(getAuthTranslationsKeys())
   .concat(getSettingsTranslationsKeys())
-  .concat(getContactTranslationsKeys());
+  .concat(getContactTranslationsKeys())
+  .concat(getWisegarTranslationsKeys());
 export const Translations = tanslations;
