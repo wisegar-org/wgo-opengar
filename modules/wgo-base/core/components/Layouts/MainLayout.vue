@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr lff">
+  <q-layout view="hHh Lpr lff" class="row" style="justify-content: center">
     <q-header>
       <q-toolbar>
         <LeftDrawer
@@ -31,8 +31,11 @@
         </div>
       </q-toolbar>
     </q-header>
-    <q-page-container>
-      <router-view />
+    <q-page-container
+      class="q-pa-sm row justify-evenly"
+      :style="{ width: '100%', 'max-width': maxWidth }"
+    >
+      <router-view :class="viewClasses" />
     </q-page-container>
   </q-layout>
 </template>
@@ -66,6 +69,8 @@ export default defineComponent({
     routeService: { type: Object as PropType<RouteService>, required: true },
     homePath: { type: String, default: "/" },
     title: { type: String, default: "" },
+    viewClasses: { type: String, default: "col-12" },
+    maxWidth: { type: String, default: "1800px" },
   },
   components: {
     LeftDrawer,
