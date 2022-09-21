@@ -7,7 +7,8 @@ import {
   GetDBUserNameKey,
 } from "@wisegar-org/wgo-settings";
 
-/** Entities */
+/********************************* Entities **********************************/
+/** Base Entities */
 import { UserEntity } from "./wgo-base/authentication/database/entities/UserEntity";
 import { RoleEntity } from "./wgo-base/authentication/database/entities/RoleEntity";
 import { LanguageEntity } from "./wgo-base/language/database/entities/LanguageEntity";
@@ -15,10 +16,20 @@ import { TranslationEntity } from "./wgo-base/translation/database/entities/Tran
 import { SettingsEntity } from "./wgo-base/settings/database/entities/SettingsEntity";
 import { ContactMeEntity } from "./wgo-base/contact/database/entities/ContactMeEntity";
 import { MediaEntity } from "./wgo-base/storage/database/entities/MediaEntity";
-import { IndexContentEntity } from "./database/entities/IndexContentEntity";
 import { StorageEntity } from "./wgo-base/storage/database/entities/StorageEntity";
 
-/** Migrations */
+/** Wisegar Module Entities */
+import { IndexContentEntity } from "./database/entities/IndexContentEntity";
+
+/** Wisegar Github submodule entities */
+import { AccountEntity } from "./database/entities/Finance/AccountEntity";
+import { CollaboratorEntity } from "./database/entities/Finance/CollaboratorEntity";
+import { IssueEntity } from "./database/entities/Finance/IssueEntity";
+import { LabelEntity } from "./database/entities/Finance/LabelEntity";
+import { ProjectEntity } from "./database/entities/Finance/ProjectEntity";
+import { RepositoryEntity } from "./database/entities/Finance/RepositoryEntity";
+
+/********************************* Migrations **********************************/
 import { migrations1651766519693 } from "./wgo-base/authentication/database/migrations/1651766519693-migrations";
 import { addRoleEntity1656005738186 } from "./wgo-base/authentication/database/migrations/1656005738186-addRoleEntity";
 import { addLanguageEntity1656012423678 } from "./wgo-base/language/database/migrations/1656012423678-addLanguageEntity";
@@ -32,6 +43,7 @@ import { addContactMeEntity1658932057343 } from "./wgo-base/contact/database/mig
 import { addMediaEntity1658931161380 } from "./wgo-base/storage/database/migrations/1658931161380-addMediaEntity";
 import { createIndexContentTb1663686346323 } from "./database/migrations/1663686346323-createIndexContentTb";
 import { addStorageEntity1658931419178 } from "./wgo-base/storage/database/migrations/1658931419178-addStorageEntity";
+import { createGithubFinanceDatabase1663797822990 } from "./database/migrations/Finance/1663797822990-createGithubFinanceDatabase";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -52,6 +64,12 @@ export const dataSourceOptions: DataSourceOptions = {
     MediaEntity,
     IndexContentEntity,
     StorageEntity,
+    IssueEntity,
+    CollaboratorEntity,
+    LabelEntity,
+    ProjectEntity,
+    RepositoryEntity,
+    AccountEntity,
   ],
   migrations: [
     migrations1651766519693,
@@ -67,6 +85,7 @@ export const dataSourceOptions: DataSourceOptions = {
     addMediaEntity1658931161380,
     createIndexContentTb1663686346323,
     addStorageEntity1658931419178,
+    createGithubFinanceDatabase1663797822990,
   ],
   subscribers: [],
 };
