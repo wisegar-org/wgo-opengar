@@ -6,6 +6,9 @@ import { ContactMeResolver } from "../wgo-base/contact/resolvers/ContactMeResolv
 import { AppResolver } from "./AppResolver";
 import { PublicMediaResolver } from "./Media/MediaResolver";
 import { PublicTranslationResolver } from "./Translation/TranslationResolver";
+import { MediaResolver } from "../wgo-base/storage/resolvers/Media/MediaResolver";
+import { StorageResolver } from "../wgo-base/storage/resolvers/Storage/StorageResolver";
+import { IndexContentResolver } from "./IndexContent/IndexContentResolver";
 
 export const getResolverList = () => {
   return [
@@ -16,5 +19,8 @@ export const getResolverList = () => {
     SettingsResolver,
     PublicMediaResolver,
     ContactMeResolver,
+    MediaResolver,
+    StorageResolver,
+    IndexContentResolver,
   ] as NonEmptyArray<Function>;
 };
