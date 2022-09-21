@@ -74,7 +74,7 @@ export class StorageResolver {
     @Ctx() ctx: IContextBase
   ) {
     const storageModel = new StorageModel(ctx);
-    const result = await storageModel.create(<StorageItem>{
+    const result = await storageModel.create(<StorageItem<any>>{
       content: JSON.parse(data.content as string),
       imageId: data.image,
       imageListId: data.imageList,
@@ -90,7 +90,7 @@ export class StorageResolver {
     @Ctx() ctx: IContextBase
   ) {
     const storageModel = new StorageModel(ctx);
-    const result = await storageModel.modify(<StorageItem>{
+    const result = await storageModel.modify(<StorageItem<any>>{
       id: data.id,
       content: JSON.parse(data.content as string),
       imageId: data.image,

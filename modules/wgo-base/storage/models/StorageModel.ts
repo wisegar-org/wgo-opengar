@@ -8,10 +8,10 @@ import StorageEntity from "../database/entities/StorageEntity";
 import { StorageKeys } from "./constants";
 import { MediaModel } from "./MediaModel";
 
-export interface StorageItem {
+export interface StorageItem<T> {
   id: number;
   type: string;
-  content: any;
+  content: T;
   imageId: number;
   imageListId: number[];
 }
@@ -128,14 +128,14 @@ export class StorageModel {
     return field;
   }
 
-  async create(storageItem: StorageItem) {
+  async create(storageItem: StorageItem<any>) {
     let model = new StorageEntity();
     model = await this.storageRepository.manager.save(model);
     model = await this.setProperties(model, storageItem);
     return !!(await this.storageRepository.manager.save(model));
   }
 
-  async modify(storageItem: StorageItem) {
+  async modify(storageItem: StorageItem<any>) {
     let model = await this.oneByCriteria({ id: storageItem.id });
     if (!!model) {
       model = await this.setProperties(model, storageItem);
@@ -161,7 +161,7 @@ export class StorageModel {
     return false;
   }
 
-  async setProperties(model: StorageEntity, storageItem: StorageItem) {
+  async setProperties(model: StorageEntity, storageItem: StorageItem<any>) {
     model.type = storageItem.type;
     const modelContent = IsString(model.content)
       ? JSON.parse(model.content as string)
