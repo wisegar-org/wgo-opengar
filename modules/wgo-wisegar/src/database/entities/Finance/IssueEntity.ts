@@ -1,42 +1,42 @@
-import { Entity, Column, BaseEntity, PrimaryColumn, OneToOne, OneToMany, ManyToOne } from 'typeorm'
-import { CollaboratorEntity } from './CollaboratorEntity'
-import { ProjectEntity } from './ProjectEntity'
-import { RepositoryEntity } from './RepositoryEntity'
-import { AccountEntity } from './AccountEntity'
+import { Entity, Column, BaseEntity, PrimaryColumn, ManyToOne } from "typeorm";
+import { CollaboratorEntity } from "./CollaboratorEntity";
+import { ProjectEntity } from "./ProjectEntity";
+import { RepositoryEntity } from "./RepositoryEntity";
+import { AccountEntity } from "./AccountEntity";
 
 @Entity()
 export class IssueEntity extends BaseEntity {
-  @PrimaryColumn() id: number
-  @Column() owner: string
-  @Column() repo: string
-  @Column() title: string
-  @Column() status: string
-  @Column({ type: 'float' }) hours: number
-  @Column() labels: string
-  @Column() milestones: string
-  @Column({ nullable: true }) last_comment?: string
-  @Column() created_at: Date
-  @Column() closed_at: Date
-  @Column() updated_at: Date
-  @Column() number: number
-  @Column({ nullable: true }) description: string
-  @Column() url: string
+  @PrimaryColumn() id: number;
+  @Column() owner: string;
+  @Column() repo: string;
+  @Column() title: string;
+  @Column() status: string;
+  @Column({ type: "float" }) hours: number;
+  @Column() labels: string;
+  @Column() milestones: string;
+  @Column({ nullable: true }) last_comment?: string;
+  @Column() created_at: Date;
+  @Column() closed_at: Date;
+  @Column() updated_at: Date;
+  @Column() number: number;
+  @Column({ nullable: true }) description: string;
+  @Column() url: string;
 
-  @Column({ nullable: true }) assignedToId!: number
+  @Column({ nullable: true }) assignedToId!: number;
   @ManyToOne(() => CollaboratorEntity, (col) => col.issues, { nullable: true })
-  assignedTo!: CollaboratorEntity
+  assignedTo!: CollaboratorEntity;
 
-  @Column({ nullable: true }) projectId!: number
+  @Column({ nullable: true }) projectId!: number;
   @ManyToOne(() => ProjectEntity, (proj) => proj.issues, { nullable: true })
-  project!: ProjectEntity
+  project!: ProjectEntity;
 
-  @Column({ nullable: true }) repositoryId!: number
+  @Column({ nullable: true }) repositoryId!: number;
   @ManyToOne(() => RepositoryEntity, (repo) => repo.issues, { nullable: true })
-  repository!: RepositoryEntity
+  repository!: RepositoryEntity;
 
-  @Column({ type: 'integer', nullable: true }) accountId!: number | null
+  @Column({ type: "integer", nullable: true }) accountId!: number | null;
   @ManyToOne(() => AccountEntity, (acc) => acc.issues, { nullable: true })
-  account!: AccountEntity | null
+  account!: AccountEntity | null;
 
   constructor(
     numberId: number,
@@ -52,50 +52,50 @@ export class IssueEntity extends BaseEntity {
     description: string,
     url: string,
     last_comment?: string,
-    collaborator?: CollaboratorEntity,
-    project?: ProjectEntity,
-    repo?: RepositoryEntity,
+    collaborator?: CollaboratorEntity | null,
+    project?: ProjectEntity | null,
+    repo?: RepositoryEntity | null,
     labels?: string[],
     milestones?: string,
-    account?: AccountEntity
+    account?: AccountEntity | null
   ) {
-    super()
-    this.id = numberId
-    this.title = title
-    this.status = status
-    this.hours = hours || 0
-    this.last_comment = last_comment
+    super();
+    this.id = numberId;
+    this.title = title;
+    this.status = status;
+    this.hours = hours || 0;
+    this.last_comment = last_comment;
 
-    this.created_at = created_at
-    this.closed_at = closed_at
-    this.updated_at = updated_at
+    this.created_at = created_at;
+    this.closed_at = closed_at;
+    this.updated_at = updated_at;
 
-    this.number = number
-    this.owner = owner
-    this.repo = repository_name
+    this.number = number;
+    this.owner = owner;
+    this.repo = repository_name;
 
-    this.description = description
-    this.url = url
+    this.description = description;
+    this.url = url;
 
     if (collaborator) {
-      this.assignedToId = collaborator.id
-      this.assignedTo = collaborator
+      this.assignedToId = collaborator.id;
+      this.assignedTo = collaborator;
     }
     if (project) {
-      this.projectId = project.id
-      this.project = project
+      this.projectId = project.id;
+      this.project = project;
     }
     if (repo) {
-      this.repositoryId = repo.id
-      this.repository = repo
+      this.repositoryId = repo.id;
+      this.repository = repo;
     }
     if (account) {
-      this.accountId = account.id
-      this.account = account
+      this.accountId = account.id;
+      this.account = account;
     }
-    this.labels = labels ? labels.join(', ') : ''
-    this.milestones = milestones || ''
+    this.labels = labels ? labels.join(", ") : "";
+    this.milestones = milestones || "";
   }
 }
 
-export default IssueEntity
+export default IssueEntity;

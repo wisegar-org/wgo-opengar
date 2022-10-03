@@ -9,17 +9,27 @@ import {
   getSmtpSettings,
 } from "../../wgo-base/settings/models/SettingsUtils";
 import { GetConfig } from "@wisegar-org/wgo-settings";
+import {
+  getFinanceOrganizationSettings,
+  SETTINGS_FINANCE_ORGANIZATION,
+} from "../../services/Finance/FInanceSettings";
 
 export const settingsSeeder = async (dataSource: DataSource) => {
   //Save keys to database settings
+  const settings = GetConfig<any>();
   await settingsAdminSeeder(
     dataSource,
     SETTINGS_POP3,
-    getPop3Settings(GetConfig<any>())
+    getPop3Settings(settings)
   );
   await settingsAdminSeeder(
     dataSource,
     SETTINGS_SMTP,
-    getSmtpSettings(GetConfig<any>())
+    getSmtpSettings(settings)
+  );
+  await settingsAdminSeeder(
+    dataSource,
+    SETTINGS_FINANCE_ORGANIZATION,
+    getFinanceOrganizationSettings(settings)
   );
 };

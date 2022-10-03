@@ -1,6 +1,6 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { IIndexContentInput } from "../../models/IndexContent";
-import { IndexContentModel } from "../../models/IndexContent/IndexContentModel";
+import { IndexContentService } from "../../services/IndexContentService";
 import { IContextBase } from "../../wgo-base/core/models/context";
 import { IndexContentInputs } from "./IndexContentInputs";
 import { IndexContentResponse } from "./IndexContentResponses";
@@ -12,7 +12,7 @@ export class IndexContentResolver {
     @Arg("urlApi") urlApi: string,
     @Ctx() ctx: IContextBase
   ) {
-    const indexContent = new IndexContentModel(ctx);
+    const indexContent = new IndexContentService(ctx);
     return await indexContent.getFinanceIndexContent(urlApi);
   }
 
@@ -21,7 +21,7 @@ export class IndexContentResolver {
     @Arg("data") data: IndexContentInputs,
     @Ctx() ctx: IContextBase
   ) {
-    const indexContent = new IndexContentModel(ctx);
+    const indexContent = new IndexContentService(ctx);
     return await indexContent.setFinanceIndexContent(
       data as IIndexContentInput
     );

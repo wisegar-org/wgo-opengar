@@ -9,6 +9,7 @@ import { PublicTranslationResolver } from "./Translation/TranslationResolver";
 import { MediaResolver } from "../wgo-base/storage/resolvers/Media/MediaResolver";
 import { StorageResolver } from "../wgo-base/storage/resolvers/Storage/StorageResolver";
 import { IndexContentResolver } from "./IndexContent/IndexContentResolver";
+import { FinanceIssuesResolver } from "./FinanceIssues/FinanceIssuesResolver";
 
 export const getResolverList = () => {
   return [
@@ -22,5 +23,6 @@ export const getResolverList = () => {
     MediaResolver,
     StorageResolver,
     IndexContentResolver,
+    FinanceIssuesResolver,
   ] as NonEmptyArray<Function>;
 };

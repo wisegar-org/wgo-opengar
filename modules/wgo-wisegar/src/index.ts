@@ -2,12 +2,10 @@ import "reflect-metadata";
 import {
   boot,
   IServerOptions,
-  NonEmptyArray,
   UseRestMiddleware,
 } from "@wisegar-org/wgo-server";
 import {
   GetPortKey,
-  GetNodeEnvKey,
   GetPrivateKey,
   GetPublicKey,
   GetExpiresInKey,
@@ -26,6 +24,7 @@ import { userAdminSeeder } from "./wgo-base/authentication/database/seeder/user"
 import { languageDefaultSeeder } from "./wgo-base/language/database/seeder/language";
 import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
+import { loopUpdateIssues } from "./services/Finance/FinanceUpdateIssuesService";
 
 const port = GetPortKey();
 
@@ -75,5 +74,7 @@ boot(serverOptions, async () => {
   //App seeders
 
   // Loop function
-  setTimeout(async () => {}, 0);
+  setTimeout(async () => {
+    loopUpdateIssues();
+  }, 0);
 });

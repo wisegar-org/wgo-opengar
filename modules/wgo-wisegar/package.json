@@ -26,6 +26,7 @@
     "typescript": "^4.5.2"
   },
   "dependencies": {
+    "@wisegar-org/wgo-github": "0.0.1-build.16",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.15",
     "@wisegar-org/wgo-server": "0.0.1-build.33",
     "@wisegar-org/wgo-settings": "0.0.1-build.8",
