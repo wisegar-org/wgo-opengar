@@ -20,7 +20,6 @@ import {
 } from "./constants";
 import { cypherData, decypherData } from "@wisegar-org/wgo-crypto";
 import { EventEmitter } from "events";
-import { listenersEvents } from "./SettingsUtils";
 
 export class SettingsModel {
   private dataSource: DataSource;
@@ -105,7 +104,7 @@ export class SettingsModel {
       );
     }
 
-    listenersEvents.forEach((listner) => {
+    this.ctx.listenersEvents.forEach((listner) => {
       if (listner.keyListeners.indexOf(data.key) !== -1) {
         this.emiter.emit(listner.event, value.value);
       }
