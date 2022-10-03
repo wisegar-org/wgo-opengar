@@ -23,6 +23,16 @@ export const financeMenuItems: MenuListItem[] = [
     auth: true,
     role: [SUPERADMIN],
   },
+  {
+    link: Paths.financeIssues.path,
+    color: "",
+    icon: "bug_report",
+    id: Paths.financeIssues.name,
+    type: "item",
+    label: Paths.financeIssues.label,
+    auth: true,
+    role: [SUPERADMIN],
+  },
 ];
 
 export const adminMenuItems: MenuListItem[] = [

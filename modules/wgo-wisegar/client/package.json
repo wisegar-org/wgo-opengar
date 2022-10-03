@@ -6,7 +6,8 @@
   "author": "Wisegar.org Development Group",
   "private": true,
   "scripts": {
-    "build": "quasar build"
+    "build": "quasar build",
+    "start": "quasar dev"
   },
   "dependencies": {
     "axios": "^0.21.1",
