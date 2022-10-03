@@ -96,4 +96,5 @@ export interface ITablePagination {
   page: number;
   rowsPerPage: number;
   sortBy: string;
+  rowsNumber?: number;
 }

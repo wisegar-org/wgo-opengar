@@ -32,7 +32,7 @@
       </q-toolbar>
     </q-header>
     <q-page-container
-      class="q-pa-sm row justify-evenly"
+      class="row justify-evenly"
       :style="{ width: '100%', 'max-width': maxWidth }"
     >
       <router-view :class="viewClasses" />
