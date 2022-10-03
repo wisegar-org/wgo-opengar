@@ -5,11 +5,13 @@
     :langStore="langStore"
     :routeService="routeService"
     :homePath="homePath"
+    maxWidtg="1400px"
+    :menuItems="menuItems"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { useAuthStore } from "../stores/authStore";
 import { useTranslationStore } from "../stores/translationStore";
 import MainLayout from "../wgo-base/core/components/Layouts/MainLayout.vue";
@@ -20,10 +22,17 @@ import { AuthStore } from "../wgo-base/authentication/models/AuthStore";
 import { TranslationStore } from "../wgo-base/translation/models/TranslationStore";
 import { LanguageStore } from "../wgo-base/language/models/LanguageStore";
 import { Paths } from "../router/paths";
+import { MenuListItem } from "../wgo-base/core/models/Menu";
 
 export default defineComponent({
   components: {
     MainLayout,
+  },
+  props: {
+    menuItems: {
+      type: Array as PropType<MenuListItem[]>,
+      default: [],
+    },
   },
   data() {
     const router = useRouter();
