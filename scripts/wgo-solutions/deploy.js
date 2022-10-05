@@ -54,7 +54,7 @@ buildClient.build(buildOptions, "mobile");
 const buildBase = require("./build-base");
 buildBase.build(buildOptions);
 
-const buildCopy = require("./build-cp");
-buildCopy.build(buildOptions);
+// const buildCopy = require("./build-cp");
+// buildCopy.build(buildOptions);
 
 console.log("**************END**************");
