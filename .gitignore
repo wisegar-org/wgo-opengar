@@ -38,3 +38,4 @@ modules/wgo-swisspay/mobile/src/wgo-base
 modules/template/settings
 modules/.vscode
 modules/.vs
+modules/wgo-cli/dist
