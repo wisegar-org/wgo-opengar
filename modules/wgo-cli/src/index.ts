@@ -33,4 +33,4 @@ export const wgoCli = () => {
   }
 };
 
-wgoCli();
+// wgoCli();
