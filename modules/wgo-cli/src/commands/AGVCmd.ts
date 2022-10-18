@@ -1,4 +1,13 @@
-import { appendFileSync, copySync, existsSync, writeFileSync } from "fs-extra";
+import { fstat } from "fs";
+import {
+  appendFileSync,
+  copySync,
+  existsSync,
+  writeFileSync,
+  readJsonSync,
+  writeJsonSync,
+  emptyDirSync,
+} from "fs-extra";
 import path from "path";
 import {
   BranchOption,
@@ -13,7 +22,10 @@ import {
   gitRepoPath,
   rootSourcePath,
   tmpUserPath,
+  buildSourcePath,
   serverSourcePath,
+  buildClientSourcePath,
+  clientSourcePath,
 } from "../utils/AgvBuildPaths";
 import { ValidateOption } from "../utils/CmdOptionsParser";
 import { runScript } from "../utils/ExecScript";
@@ -76,20 +88,12 @@ export class AgvCommand extends Command {
       );
     });
 
-    debugger;
-    Logger.Line("Installing root dependencies...", () => {
-      if (existsSync(rootSourcePath)) {
-        runScript(`npm install`, rootSourcePath, (err) => {
-          Logger.Error(err, true);
-        });
-      }
-    });
-
     /**
      * Server building
      */
-    const destination = path.join(app_root, "build");
+    const destination = app_root;
     const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
+    const buildServerPath = path.join(serverSourcePath, "build");
 
     Logger.Line("Installing server dependencies...", () => {
       if (existsSync(serverSourcePath)) {
@@ -108,40 +112,118 @@ export class AgvCommand extends Command {
     });
 
     Logger.Line("Building options.env file...", () => {
-      const ENV_FILENAME = `${destination}/.env`;
-      writeFileSync(
-        ENV_FILENAME,
-        `NODE_ENV=${AgvCommand.EnvCmdOption.value} \n`
-      );
-      appendFileSync(ENV_FILENAME, `PORT=${AgvCommand.PortCmdOption.value} \n`);
-      appendFileSync(ENV_FILENAME, `MODULES=${["agv"]} \n`);
-      appendFileSync(
-        ENV_FILENAME,
-        `APP_WEB_ROOT=${AgvCommand.RootCmdOption.value} \n`
-      );
-      appendFileSync(
-        ENV_FILENAME,
-        `SETTINGS_PATH=${[AgvCommand.SettingCmdOption.value]} \n`
-      );
+      if (existsSync(buildServerPath)) {
+        const ENV_FILENAME = path.join(buildServerPath, ".env");
+        writeFileSync(
+          ENV_FILENAME,
+          `NODE_ENV=${AgvCommand.EnvCmdOption.value} \n`
+        );
+        appendFileSync(
+          ENV_FILENAME,
+          `PORT=${AgvCommand.PortCmdOption.value} \n`
+        );
+        appendFileSync(ENV_FILENAME, `MODULES=${["agv"]} \n`);
+        appendFileSync(
+          ENV_FILENAME,
+          `APP_WEB_ROOT=${AgvCommand.RootCmdOption.value} \n`
+        );
+        appendFileSync(
+          ENV_FILENAME,
+          `SETTINGS_PATH=${[AgvCommand.SettingCmdOption.value]} \n`
+        );
+      }
     });
 
-    // Logger.Line("Updating build settings & dependencies...", () => {
-    //   sourceFiles.forEach((file) => {
-    //     copySync(file, `${destination}/${file}`);
-    //   });
-    //   moduleFiles.forEach((file) => {
-    //     copySync(`./src/modules/${app_name}/${file}`, `${destination}/${file}`);
-    //   });
-    //   copySync("./build", `${destination}`);
-    // });
+    Logger.Line("Updating build settings & dependencies...", () => {
+      if (existsSync(serverSourcePath) && existsSync(buildServerPath)) {
+        sourceFiles.forEach((file) => {
+          copySync(
+            path.join(serverSourcePath, file),
+            path.join(buildServerPath, file)
+          );
+        });
+        copySync(buildServerPath, buildSourcePath);
+      }
+    });
 
     /**
      * Client building
      */
-    // Compilar el client
+    const sourceFilesClient = [
+      "package.json",
+      "package-lock.json",
+      ".npmrc",
+      "settings.build.json",
+    ];
+    const buildClientPath = path.join(clientSourcePath, "dist", "ssr");
+
+    Logger.Line("Installing client dependencies...", () => {
+      if (existsSync(clientSourcePath)) {
+        runScript(`npm install`, clientSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
+
+    Logger.Line("Building client settings...", () => {
+      const buildSettings = path.join(clientSourcePath, "settings.build.json");
+      if (existsSync(clientSourcePath)) {
+        const packageJson = readJsonSync("package.json", { throws: false });
+        writeJsonSync(buildSettings, {
+          API_BASE: AgvCommand.UrlCmdOption.value,
+          VERSION: packageJson.version || "unknown",
+          MODULES: "agv",
+        });
+      }
+    });
+
+    Logger.Line("Transpiling the client application code...", () => {
+      if (existsSync(clientSourcePath)) {
+        runScript(`npx quasar build -m ssr`, clientSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
+
+    Logger.Line("Updating client build settings & dependencies...", () => {
+      if (existsSync(serverSourcePath) && existsSync(buildServerPath)) {
+        sourceFilesClient.forEach((file) => {
+          copySync(
+            path.join(clientSourcePath, file),
+            path.join(buildClientPath, file)
+          );
+        });
+
+        copySync(buildClientPath, buildClientSourcePath);
+      }
+    });
 
     /**
      * Deploy En la carpeta root del proyecto
      */
+
+    Logger.Line("Cleaning destination path...", () => {
+      emptyDirSync(destination);
+    });
+
+    Logger.Line("Copy files to destination path...", () => {
+      if (existsSync(buildSourcePath) && existsSync(buildServerPath)) {
+        copySync(buildSourcePath, destination);
+      }
+    });
+
+    Logger.Line("Installing final dependencies...", () => {
+      if (existsSync(destination)) {
+        runScript(`npm install`, destination, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+      const destinationClient = path.join(destination, "clientApp");
+      if (existsSync(destinationClient)) {
+        runScript(`npm install`, destinationClient, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
   };
 }

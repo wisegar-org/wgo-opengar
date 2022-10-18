@@ -24,6 +24,8 @@ export const wgoCli = () => {
       AgvCommand.PortCmdOption.parse(build_args);
       AgvCommand.RootCmdOption.parse(build_args);
       AgvCommand.SettingCmdOption.parse(build_args);
+      AgvCommand.BranchOption.parse(build_args);
+      AgvCommand.GraphUrlCmdOption.parse(build_args);
       AgvCommand.Execute();
       break;
 
