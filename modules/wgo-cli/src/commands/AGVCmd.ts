@@ -1,5 +1,5 @@
 import { existsSync } from "fs-extra";
-import path from "node:path";
+import path from "path";
 import {
   BranchOption,
   EnvCmdOption,

@@ -3,7 +3,7 @@ import { EmptyVersion } from "./options/ICmdOptions";
 import { Logger } from "./utils/Logger";
 
 export const wgoCli = () => {
-  const current_version: string = "0.0.2-8";
+  const current_version: string = "0.0.2-12";
 
   const processVersion = process.env.npm_package_version
     ? process.env.npm_package_version
@@ -11,6 +11,8 @@ export const wgoCli = () => {
 
   if (processVersion !== EmptyVersion && processVersion !== current_version)
     throw Error("Error on current version!");
+
+  Logger.TitleVerLine(`WISEGAR CLI`, `v${current_version}`);
 
   const module = process.argv.slice(2, 3)[0];
   const build_args = process.argv.slice(3);

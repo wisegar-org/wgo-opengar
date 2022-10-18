@@ -1,5 +1,5 @@
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { tmpdir } from "os";
+import { join } from "path";
 
 export const gitRepoPath = "https://github.com/wisegar-org/wgo-agv.git";
 export const tmpUserPath = tmpdir();

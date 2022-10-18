@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo",
-  "version": "0.0.2-8",
+  "version": "0.0.2-12",
   "description": "Wisegar Development CLI",
   "main": "./build/index.js",
   "bin": {
@@ -16,7 +16,8 @@
     "start": "nodemon",
     "build": "rimraf build && tsc",
     "build:exe": "npm run build && pkg ./build/index.js --config ./package.json",
-    "build:agv": "npm run build && node ./build/index.js agv --env production --port 5055 --root C://Web//Sites --url https://agv.wisegar.org --branch main --settings-root C://Web//Settings//agv"
+    "build:agv": "npm run build && node ./build/index.js agv --env production --port 5055 --root C://Web//Sites --url https://agv.wisegar.org --branch main --settings-root C://Web//Settings//agv",
+    "deploy": "npm run build && npm publish"
   },
   "pkg": {
     "scripts": "build/**/*.js",
@@ -44,6 +45,7 @@
   },
   "dependencies": {
     "fs-extra": "^10.1.0",
+    "rimraf": "3.0.2",
     "terminal-kit": "^3.0.0",
     "ts-node": "^10.9.1"
   },
