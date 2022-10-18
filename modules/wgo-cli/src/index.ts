@@ -28,8 +28,12 @@ export const wgoCli = () => {
     default:
       Logger.CmdLine(`Please use one of the available commands:`, () => {
         Logger.Line(`${AgvCommand.CMD} => ${AgvCommand.Description}`);
-        process.exit(0);
       });
   }
+  Logger.SimpleLine("\n\nThanks for using wisegar cli!");
+  Logger.SimpleLine(
+    `\u00A9 Wisegar Development Group ${new Date().getFullYear()}`
+  );
+  process.exit(0);
 };
 wgoCli();
