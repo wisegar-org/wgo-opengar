@@ -124,14 +124,23 @@ export class AgvCommand extends Command {
       );
     });
 
-    Logger.Line("Updating build settings & dependencies...", () => {
-      sourceFiles.forEach((file) => {
-        copySync(file, `${destination}/${file}`);
-      });
-      moduleFiles.forEach((file) => {
-        copySync(`./src/modules/${app_name}/${file}`, `${destination}/${file}`);
-      });
-      copySync("./build", `${destination}`);
-    });
+    // Logger.Line("Updating build settings & dependencies...", () => {
+    //   sourceFiles.forEach((file) => {
+    //     copySync(file, `${destination}/${file}`);
+    //   });
+    //   moduleFiles.forEach((file) => {
+    //     copySync(`./src/modules/${app_name}/${file}`, `${destination}/${file}`);
+    //   });
+    //   copySync("./build", `${destination}`);
+    // });
+
+    /**
+     * Client building
+     */
+    // Compilar el client
+
+    /**
+     * Deploy En la carpeta root del proyecto
+     */
   };
 }
