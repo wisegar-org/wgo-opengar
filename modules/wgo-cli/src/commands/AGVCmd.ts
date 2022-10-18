@@ -37,6 +37,7 @@ export class AgvCommand extends Command {
     ValidateOption(AgvCommand.RootCmdOption);
     ValidateOption(AgvCommand.UrlCmdOption);
     ValidateOption(AgvCommand.GraphUrlCmdOption);
+    ValidateOption(AgvCommand.BranchOption);
     ValidateOption(AgvCommand.SettingCmdOption);
     if (
       !AgvCommand.EnvCmdOption.exist ||
