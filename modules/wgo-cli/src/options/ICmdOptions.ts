@@ -10,16 +10,6 @@ export interface ICmdOptions {
   parse: (args: string[]) => void;
 }
 
-export const VersionCmdOption: ICmdOptions = {
-  option: "--version",
-  exist: false,
-  value: "",
-  description: "Cli version",
-  parse(args) {
-    ParseOption(args, VersionCmdOption);
-  },
-};
-
 export const HelpCmdOption: ICmdOptions = {
   option: "--help",
   exist: false,
@@ -50,16 +40,6 @@ export const PortCmdOption: ICmdOptions = {
   },
 };
 
-export const WSPortCmdOption: ICmdOptions = {
-  option: "--wss-port",
-  exist: false,
-  value: "",
-  description: "Web Socket server port",
-  parse(args) {
-    ParseOption(args, WSPortCmdOption);
-  },
-};
-
 export const RootCmdOption: ICmdOptions = {
   option: "--root",
   exist: false,
@@ -68,6 +48,14 @@ export const RootCmdOption: ICmdOptions = {
   parse(args) {
     ParseOption(args, RootCmdOption);
   },
+};
+
+export const GraphUrlCmdOption: ICmdOptions = {
+  option: "--graph",
+  exist: false,
+  value: "",
+  description: "Web application graph url",
+  parse() {},
 };
 
 export const UrlCmdOption: ICmdOptions = {
@@ -81,14 +69,6 @@ export const UrlCmdOption: ICmdOptions = {
     if (GraphUrlCmdOption.exist)
       GraphUrlCmdOption.value = `${UrlCmdOption.value}/graphql`;
   },
-};
-
-export const GraphUrlCmdOption: ICmdOptions = {
-  option: "--graph",
-  exist: false,
-  value: "",
-  description: "Web application graph url",
-  parse() {},
 };
 
 export const SettingCmdOption: ICmdOptions = {
@@ -108,46 +88,6 @@ export const ClientRootCmdOption: ICmdOptions = {
   description: "Client Application statics file root folder",
   parse(args) {
     ParseOption(args, ClientRootCmdOption);
-  },
-};
-
-export const HFSQLSvcInstallOption: ICmdOptions = {
-  option: "--install",
-  exist: false,
-  value: "",
-  description: "Install HFSQL as Windows Service",
-  parse(args) {
-    ParseOption(args, HFSQLSvcInstallOption);
-  },
-};
-
-export const HFSQLSvcDeleteOption: ICmdOptions = {
-  option: "--delete",
-  exist: false,
-  value: "",
-  description: "Delete HFSQL Windows Service",
-  parse(args) {
-    ParseOption(args, HFSQLSvcDeleteOption);
-  },
-};
-
-export const HFSQLSvcStartOption: ICmdOptions = {
-  option: "--start",
-  exist: false,
-  value: "",
-  description: "Start HFSQL Windows Service",
-  parse(args) {
-    ParseOption(args, HFSQLSvcStartOption);
-  },
-};
-
-export const HFSQLSvcStopOption: ICmdOptions = {
-  option: "--stop",
-  exist: false,
-  value: "",
-  description: "Stop HFSQL Windows Service",
-  parse(args) {
-    ParseOption(args, HFSQLSvcStopOption);
   },
 };
 
