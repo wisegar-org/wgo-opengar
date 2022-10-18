@@ -1,4 +1,4 @@
-import { existsSync } from "fs-extra";
+import { appendFileSync, copySync, existsSync, writeFileSync } from "fs-extra";
 import path from "path";
 import {
   BranchOption,
@@ -13,6 +13,7 @@ import {
   gitRepoPath,
   rootSourcePath,
   tmpUserPath,
+  serverSourcePath,
 } from "../utils/AgvBuildPaths";
 import { ValidateOption } from "../utils/CmdOptionsParser";
 import { runScript } from "../utils/ExecScript";
@@ -31,7 +32,6 @@ export class AgvCommand extends Command {
   public static BranchOption = BranchOption;
 
   public static Execute = () => {
-    debugger;
     ValidateOption(AgvCommand.EnvCmdOption);
     ValidateOption(AgvCommand.PortCmdOption);
     ValidateOption(AgvCommand.RootCmdOption);
@@ -75,16 +75,63 @@ export class AgvCommand extends Command {
       );
     });
 
-    Logger.Line("Build agv application", () => {
+    debugger;
+    Logger.Line("Installing root dependencies...", () => {
       if (existsSync(rootSourcePath)) {
-        runScript(
-          `node ./scripts/solution-build.js ${AgvCommand.EnvCmdOption.value} ${AgvCommand.PortCmdOption.value} ${AgvCommand.RootCmdOption.value} ${AgvCommand.UrlCmdOption.value} ${AgvCommand.SettingCmdOption.value}`,
-          rootSourcePath,
-          (err) => {
-            Logger.Error(err, true);
-          }
-        );
+        runScript(`npm install`, rootSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
       }
+    });
+
+    /**
+     * Server building
+     */
+    const destination = path.join(app_root, "build");
+    const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
+
+    Logger.Line("Installing server dependencies...", () => {
+      if (existsSync(serverSourcePath)) {
+        runScript(`npm install`, serverSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
+
+    Logger.Line("Transpiling the application code...", () => {
+      if (existsSync(serverSourcePath)) {
+        runScript(`npx tsc`, serverSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
+
+    Logger.Line("Building options.env file...", () => {
+      const ENV_FILENAME = `${destination}/.env`;
+      writeFileSync(
+        ENV_FILENAME,
+        `NODE_ENV=${AgvCommand.EnvCmdOption.value} \n`
+      );
+      appendFileSync(ENV_FILENAME, `PORT=${AgvCommand.PortCmdOption.value} \n`);
+      appendFileSync(ENV_FILENAME, `MODULES=${["agv"]} \n`);
+      appendFileSync(
+        ENV_FILENAME,
+        `APP_WEB_ROOT=${AgvCommand.RootCmdOption.value} \n`
+      );
+      appendFileSync(
+        ENV_FILENAME,
+        `SETTINGS_PATH=${[AgvCommand.SettingCmdOption.value]} \n`
+      );
+    });
+
+    Logger.Line("Updating build settings & dependencies...", () => {
+      sourceFiles.forEach((file) => {
+        copySync(file, `${destination}/${file}`);
+      });
+      moduleFiles.forEach((file) => {
+        copySync(`./src/modules/${app_name}/${file}`, `${destination}/${file}`);
+      });
+      copySync("./build", `${destination}`);
     });
   };
 }
