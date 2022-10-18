@@ -1,11 +1,12 @@
 {
   "name": "@wisegar-org/wgo",
-  "version": "0.0.2-5",
+  "version": "0.0.2-6",
   "description": "Wisegar Development CLI",
   "main": "./build/index.js",
   "bin": {
     "@wisegar-org/wgo": "./bin/wgo.js",
-    "wgo": "./bin/wgo.js"
+    "wgo": "./bin/wgo.js",
+    "wisegar": "./bin/wgo.js"
   },
   "publishConfig": {
     "access": "public",
