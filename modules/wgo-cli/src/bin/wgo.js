@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-import wgoCli from "../build/index";
+const wgoCli = require("../build/index");
 wgoCli();

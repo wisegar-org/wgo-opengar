@@ -1,15 +1,34 @@
 {
   "name": "@wisegar-org/wgo",
-  "version": "0.0.2-1",
+  "version": "0.0.2-2",
   "description": "Wisegar Development CLI",
   "main": "./build/index.js",
+  "bin": {
+    "@wisegar-org/wgo": "./bin/wgo.js",
+    "wgo": "./bin/wgo.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "start": "nodemon",
     "build": "rimraf build && tsc",
     "build:agv": "npm run build && node ./build/index.js agv --env production --port 5055 --root C://Web//Sites --url https://agv.wisegar.org --branch main --settings-root C://Web//Settings//agv"
   },
+  "pkg": {
+    "scripts": "build/**/*.js",
+    "assets": "",
+    "targets": [
+      "node16-linux-x64",
+      "node16-win-x64"
+    ],
+    "outputPath": "dist"
+  },
   "keywords": [
-    "cli"
+    "cli",
+    "wgo-cli",
+    "Wisegar Development Group"
   ],
   "author": "Wisegar Development Group",
   "license": "ISC",
@@ -28,5 +47,8 @@
   "files": [
     "build",
     "bin"
-  ]
+  ],
+  "repository": {
+    "url": "https://github.com/wisegar-org/wgo-opengar.git"
+  }
 }
