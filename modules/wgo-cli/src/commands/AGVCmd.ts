@@ -74,5 +74,17 @@ export class AgvCommand extends Command {
         }
       );
     });
+
+    Logger.Line("Build agv application", () => {
+      if (existsSync(rootSourcePath)) {
+        runScript(
+          `node ./scripts/solution-build.js ${AgvCommand.EnvCmdOption.value} ${AgvCommand.PortCmdOption.value} ${AgvCommand.RootCmdOption.value} ${AgvCommand.UrlCmdOption.value} ${AgvCommand.SettingCmdOption.value}`,
+          rootSourcePath,
+          (err) => {
+            Logger.Error(err, true);
+          }
+        );
+      }
+    });
   };
 }
