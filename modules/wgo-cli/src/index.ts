@@ -1,4 +1,5 @@
 import { AgvCommand } from "./commands/AGVCmd";
+import { WgoCommand } from "./commands/WGOCmd";
 import { EmptyVersion } from "./options/ICmdOptions";
 import { Logger } from "./utils/Logger";
 
@@ -28,10 +29,22 @@ export const wgoCli = () => {
       AgvCommand.GraphUrlCmdOption.parse(build_args);
       AgvCommand.Execute();
       break;
+    case WgoCommand.CMD:
+      WgoCommand.EnvCmdOption.parse(build_args);
+      WgoCommand.UrlCmdOption.parse(build_args);
+      WgoCommand.PortCmdOption.parse(build_args);
+      WgoCommand.RootCmdOption.parse(build_args);
+      WgoCommand.SettingCmdOption.parse(build_args);
+      WgoCommand.BranchOption.parse(build_args);
+      WgoCommand.GraphUrlCmdOption.parse(build_args);
+      WgoCommand.ModuleOption.parse(build_args);
+      WgoCommand.Execute();
+      break;
 
     default:
       Logger.CmdLine(`Please use one of the available commands:`, () => {
         Logger.Line(`${AgvCommand.CMD} => ${AgvCommand.Description}`);
+        Logger.Line(`${WgoCommand.CMD} => ${WgoCommand.Description}`);
       });
   }
   Logger.SimpleLine("\n\nThanks for using wisegar cli!");

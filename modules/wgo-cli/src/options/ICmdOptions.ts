@@ -100,3 +100,13 @@ export const BranchOption: ICmdOptions = {
     ParseOption(args, BranchOption);
   },
 };
+
+export const ModuleOption: ICmdOptions = {
+  option: "--module-name",
+  exist: false,
+  value: "",
+  description: "Repository module name",
+  parse(args) {
+    ParseOption(args, ModuleOption);
+  },
+};
