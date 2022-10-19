@@ -160,17 +160,14 @@ export class WgoCommand extends Command {
           ENV_FILENAME,
           `PORT=${WgoCommand.PortCmdOption.value} \n`
         );
+        appendFileSync(ENV_FILENAME, `APP_WEB_ROOT=${app_root} \n`);
         appendFileSync(
           ENV_FILENAME,
-          `APP_WEB_ROOT=${WgoCommand.RootCmdOption.value} \n`
+          `CLIENT_WEB_ROOT=${join(app_root, "client")} \n`
         );
         appendFileSync(
           ENV_FILENAME,
-          `CLIENT_WEB_ROOT=${join(WgoCommand.RootCmdOption.value, "client")} \n`
-        );
-        appendFileSync(
-          ENV_FILENAME,
-          `MOBILE_WEB_ROOT=${join(WgoCommand.RootCmdOption.value, "mobile")} \n`
+          `MOBILE_WEB_ROOT=${join(app_root, "mobile")} \n`
         );
         appendFileSync(
           ENV_FILENAME,

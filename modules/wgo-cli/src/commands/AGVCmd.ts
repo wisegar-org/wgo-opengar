@@ -66,27 +66,27 @@ export class AgvCommand extends Command {
       app_name
     );
 
-    Logger.Line("Cleaning workspace...", () => {
-      if (existsSync(rootSourcePath)) {
-        runScript(`npx rimraf ${rootSourcePath}`, tmpUserPath, (err) => {
-          Logger.Error(err, true);
-        });
-      }
-    });
+    // Logger.Line("Cleaning workspace...", () => {
+    //   if (existsSync(rootSourcePath)) {
+    //     runScript(`npx rimraf ${rootSourcePath}`, tmpUserPath, (err) => {
+    //       Logger.Error(err, true);
+    //     });
+    //   }
+    // });
 
-    Logger.Line("Downloading last app version...", () => {
-      const repositoryBranch = AgvCommand.BranchOption.exist
-        ? AgvCommand.BranchOption.value
-        : "production";
+    // Logger.Line("Downloading last app version...", () => {
+    //   const repositoryBranch = AgvCommand.BranchOption.exist
+    //     ? AgvCommand.BranchOption.value
+    //     : "production";
 
-      runScript(
-        `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
-        tmpUserPath,
-        (err) => {
-          Logger.Error(err, true);
-        }
-      );
-    });
+    //   runScript(
+    //     `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
+    //     tmpUserPath,
+    //     (err) => {
+    //       Logger.Error(err, true);
+    //     }
+    //   );
+    // });
 
     /**
      * Server building
@@ -123,10 +123,7 @@ export class AgvCommand extends Command {
           `PORT=${AgvCommand.PortCmdOption.value} \n`
         );
         appendFileSync(ENV_FILENAME, `MODULES=${["agv"]} \n`);
-        appendFileSync(
-          ENV_FILENAME,
-          `APP_WEB_ROOT=${AgvCommand.RootCmdOption.value} \n`
-        );
+        appendFileSync(ENV_FILENAME, `APP_WEB_ROOT=${app_root} \n`);
         appendFileSync(
           ENV_FILENAME,
           `SETTINGS_PATH=${[AgvCommand.SettingCmdOption.value]} \n`
@@ -212,6 +209,7 @@ export class AgvCommand extends Command {
       }
     });
 
+    debugger;
     Logger.Line("Installing final dependencies...", () => {
       if (existsSync(destination)) {
         runScript(`npm install`, destination, (err) => {
