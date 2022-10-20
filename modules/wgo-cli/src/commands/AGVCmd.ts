@@ -209,7 +209,6 @@ export class AgvCommand extends Command {
       }
     });
 
-    debugger;
     Logger.Line("Installing final dependencies...", () => {
       if (existsSync(destination)) {
         runScript(`npm install`, destination, (err) => {
