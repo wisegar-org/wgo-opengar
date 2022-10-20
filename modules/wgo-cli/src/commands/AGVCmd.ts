@@ -66,27 +66,27 @@ export class AgvCommand extends Command {
       app_name
     );
 
-    // Logger.Line("Cleaning workspace...", () => {
-    //   if (existsSync(rootSourcePath)) {
-    //     runScript(`npx rimraf ${rootSourcePath}`, tmpUserPath, (err) => {
-    //       Logger.Error(err, true);
-    //     });
-    //   }
-    // });
+    Logger.Line("Cleaning workspace...", () => {
+      if (existsSync(rootSourcePath)) {
+        runScript(`npx rimraf ${rootSourcePath}`, tmpUserPath, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
 
-    // Logger.Line("Downloading last app version...", () => {
-    //   const repositoryBranch = AgvCommand.BranchOption.exist
-    //     ? AgvCommand.BranchOption.value
-    //     : "production";
+    Logger.Line("Downloading last app version...", () => {
+      const repositoryBranch = AgvCommand.BranchOption.exist
+        ? AgvCommand.BranchOption.value
+        : "production";
 
-    //   runScript(
-    //     `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
-    //     tmpUserPath,
-    //     (err) => {
-    //       Logger.Error(err, true);
-    //     }
-    //   );
-    // });
+      runScript(
+        `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
+        tmpUserPath,
+        (err) => {
+          Logger.Error(err, true);
+        }
+      );
+    });
 
     /**
      * Server building
