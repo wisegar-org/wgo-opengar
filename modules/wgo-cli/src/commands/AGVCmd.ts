@@ -164,16 +164,22 @@ export class AgvCommand extends Command {
 
     Logger.Line("Building client settings...", () => {
       const buildSettings = path.join(clientSourcePath, "settings.build.json");
+      const packageSettings = path.join(clientSourcePath, "package.json");
       if (existsSync(clientSourcePath)) {
-        const packageJson = readJsonSync("package.json", { throws: false });
-        writeFileSync(
-          buildSettings,
-          JSON.stringify({
-            API_BASE: AgvCommand.UrlCmdOption.value,
-            VERSION: packageJson.version || "unknown",
-            MODULES: "agv",
-          })
-        );
+        try {
+          const packageJson = readJsonSync(packageSettings, { throws: false });
+          writeFileSync(
+            buildSettings,
+            JSON.stringify({
+              API_BASE: AgvCommand.UrlCmdOption.value,
+              VERSION: packageJson.version || "unknown",
+              MODULES: "agv",
+            })
+          );
+          appendFileSync(buildSettings, "");
+        } catch (err: any) {
+          Logger.Error(err.message, true);
+        }
       }
     });
 
