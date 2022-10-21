@@ -4,7 +4,7 @@ import { EmptyVersion } from "./options/ICmdOptions";
 import { Logger } from "./utils/Logger";
 
 export const wgoCli = () => {
-  const current_version: string = "0.0.2-17";
+  const current_version: string = "0.0.2-19";
 
   const processVersion = process.env.npm_package_version
     ? process.env.npm_package_version
