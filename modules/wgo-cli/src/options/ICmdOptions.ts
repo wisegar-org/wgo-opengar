@@ -20,6 +20,16 @@ export const HelpCmdOption: ICmdOptions = {
   },
 };
 
+export const WSCmdOption: ICmdOptions = {
+  option: "--ws",
+  exist: false,
+  value: "",
+  description: "Build workspace folder",
+  parse(args) {
+    ParseOption(args, WSCmdOption);
+  },
+};
+
 export const EnvCmdOption: ICmdOptions = {
   option: "--env",
   exist: false,
@@ -98,6 +108,26 @@ export const BranchOption: ICmdOptions = {
   description: "Repository branch. Default is the production branch",
   parse(args) {
     ParseOption(args, BranchOption);
+  },
+};
+
+export const GitUserOption: ICmdOptions = {
+  option: "--git-user",
+  exist: false,
+  value: "",
+  description: "Repository user. Default is the blank",
+  parse(args) {
+    ParseOption(args, GitUserOption);
+  },
+};
+
+export const GitPswOption: ICmdOptions = {
+  option: "--git-psw",
+  exist: false,
+  value: "",
+  description: "Repository password. Default is the blank",
+  parse(args) {
+    ParseOption(args, GitPswOption);
   },
 };
 

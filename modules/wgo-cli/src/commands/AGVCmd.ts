@@ -1,33 +1,37 @@
-import { fstat } from "fs";
 import {
   appendFileSync,
   copySync,
   existsSync,
   writeFileSync,
   readJsonSync,
-  writeJsonSync,
   emptyDirSync,
 } from "fs-extra";
 import path from "path";
 import {
   BranchOption,
   EnvCmdOption,
+  GitPswOption,
+  GitUserOption,
   GraphUrlCmdOption,
   PortCmdOption,
   RootCmdOption,
   SettingCmdOption,
   UrlCmdOption,
+  WSCmdOption,
 } from "../options/ICmdOptions";
 import {
-  gitRepoPath,
-  rootSourcePath,
-  tmpUserPath,
-  buildSourcePath,
-  serverSourcePath,
+  getRootSourcePath,
+  getBuildSourcePath,
+  getServerSourcePath,
   buildClientSourcePath,
-  clientSourcePath,
+  getClientSourcePath,
+  getGitRepoPath,
+  getWorkspacePath,
 } from "../utils/AgvBuildPaths";
-import { ValidateOption } from "../utils/CmdOptionsParser";
+import {
+  ValidateOption,
+  ValidateOptionalOption,
+} from "../utils/CmdOptionsParser";
 import { runScript } from "../utils/ExecScript";
 import { Logger } from "../utils/Logger";
 import { Command } from "./Command";
@@ -42,15 +46,21 @@ export class AgvCommand extends Command {
   public static GraphUrlCmdOption = GraphUrlCmdOption;
   public static SettingCmdOption = SettingCmdOption;
   public static BranchOption = BranchOption;
+  public static GitUserOption = GitUserOption;
+  public static GitPswOption = GitPswOption;
+  public static WSCmdOption = WSCmdOption;
 
   public static Execute = () => {
     ValidateOption(AgvCommand.EnvCmdOption);
     ValidateOption(AgvCommand.PortCmdOption);
     ValidateOption(AgvCommand.RootCmdOption);
     ValidateOption(AgvCommand.UrlCmdOption);
-    ValidateOption(AgvCommand.GraphUrlCmdOption);
-    ValidateOption(AgvCommand.BranchOption);
     ValidateOption(AgvCommand.SettingCmdOption);
+    ValidateOptionalOption(AgvCommand.WSCmdOption);
+    ValidateOptionalOption(AgvCommand.GraphUrlCmdOption);
+    ValidateOptionalOption(AgvCommand.BranchOption);
+    ValidateOptionalOption(AgvCommand.GitUserOption);
+    ValidateOptionalOption(AgvCommand.GitPswOption);
     if (
       !AgvCommand.EnvCmdOption.exist ||
       !AgvCommand.RootCmdOption.exist ||
@@ -67,21 +77,28 @@ export class AgvCommand extends Command {
     );
 
     Logger.Line("Cleaning workspace...", () => {
-      if (existsSync(rootSourcePath)) {
-        runScript(`npx rimraf ${rootSourcePath}`, tmpUserPath, (err) => {
-          Logger.Error(err, true);
-        });
+      if (existsSync(getRootSourcePath(AgvCommand.WSCmdOption))) {
+        runScript(
+          `npx rimraf ${getRootSourcePath(AgvCommand.WSCmdOption)}`,
+          getWorkspacePath(AgvCommand.WSCmdOption),
+          (err) => {
+            Logger.Error(err, true);
+          }
+        );
       }
     });
-
+    debugger;
     Logger.Line("Downloading last app version...", () => {
       const repositoryBranch = AgvCommand.BranchOption.exist
         ? AgvCommand.BranchOption.value
         : "production";
-
+      const gitRepoPath = getGitRepoPath(
+        AgvCommand.GitUserOption,
+        AgvCommand.GitPswOption
+      );
       runScript(
         `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
-        tmpUserPath,
+        getWorkspacePath(AgvCommand.WSCmdOption),
         (err) => {
           Logger.Error(err, true);
         }
@@ -93,21 +110,32 @@ export class AgvCommand extends Command {
      */
     const destination = app_root;
     const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
-    const buildServerPath = path.join(serverSourcePath, "build");
+    const buildServerPath = path.join(
+      getServerSourcePath(AgvCommand.WSCmdOption),
+      "build"
+    );
 
     Logger.Line("Installing server dependencies...", () => {
-      if (existsSync(serverSourcePath)) {
-        runScript(`npm install`, serverSourcePath, (err) => {
-          Logger.Error(err, true);
-        });
+      if (existsSync(getServerSourcePath(AgvCommand.WSCmdOption))) {
+        runScript(
+          `npm install`,
+          getServerSourcePath(AgvCommand.WSCmdOption),
+          (err) => {
+            Logger.Error(err, true);
+          }
+        );
       }
     });
 
     Logger.Line("Transpiling the application code...", () => {
-      if (existsSync(serverSourcePath)) {
-        runScript(`npx tsc`, serverSourcePath, (err) => {
-          Logger.Error(err, true);
-        });
+      if (existsSync(getServerSourcePath(AgvCommand.WSCmdOption))) {
+        runScript(
+          `npx tsc`,
+          getServerSourcePath(AgvCommand.WSCmdOption),
+          (err) => {
+            Logger.Error(err, true);
+          }
+        );
       }
     });
 
@@ -132,14 +160,17 @@ export class AgvCommand extends Command {
     });
 
     Logger.Line("Updating build settings & dependencies...", () => {
-      if (existsSync(serverSourcePath) && existsSync(buildServerPath)) {
+      if (
+        existsSync(getServerSourcePath(AgvCommand.WSCmdOption)) &&
+        existsSync(buildServerPath)
+      ) {
         sourceFiles.forEach((file) => {
           copySync(
-            path.join(serverSourcePath, file),
+            path.join(getServerSourcePath(AgvCommand.WSCmdOption), file),
             path.join(buildServerPath, file)
           );
         });
-        copySync(buildServerPath, buildSourcePath);
+        copySync(buildServerPath, getBuildSourcePath(AgvCommand.WSCmdOption));
       }
     });
 
@@ -152,20 +183,34 @@ export class AgvCommand extends Command {
       ".npmrc",
       "settings.build.json",
     ];
-    const buildClientPath = path.join(clientSourcePath, "dist", "ssr");
+    const buildClientPath = path.join(
+      getClientSourcePath(AgvCommand.WSCmdOption),
+      "dist",
+      "ssr"
+    );
 
     Logger.Line("Installing client dependencies...", () => {
-      if (existsSync(clientSourcePath)) {
-        runScript(`npm install`, clientSourcePath, (err) => {
-          Logger.Error(err, true);
-        });
+      if (existsSync(getClientSourcePath(AgvCommand.WSCmdOption))) {
+        runScript(
+          `npm install`,
+          getClientSourcePath(AgvCommand.WSCmdOption),
+          (err) => {
+            Logger.Error(err, true);
+          }
+        );
       }
     });
 
     Logger.Line("Building client settings...", () => {
-      const buildSettings = path.join(clientSourcePath, "settings.build.json");
-      const packageSettings = path.join(clientSourcePath, "package.json");
-      if (existsSync(clientSourcePath)) {
+      const buildSettings = path.join(
+        getClientSourcePath(AgvCommand.WSCmdOption),
+        "settings.build.json"
+      );
+      const packageSettings = path.join(
+        getClientSourcePath(AgvCommand.WSCmdOption),
+        "package.json"
+      );
+      if (existsSync(getClientSourcePath(AgvCommand.WSCmdOption))) {
         try {
           const packageJson = readJsonSync(packageSettings, { throws: false });
           writeFileSync(
@@ -184,23 +229,33 @@ export class AgvCommand extends Command {
     });
 
     Logger.Line("Transpiling the client application code...", () => {
-      if (existsSync(clientSourcePath)) {
-        runScript(`npx quasar build -m ssr`, clientSourcePath, (err) => {
-          Logger.Error(err, true);
-        });
+      if (existsSync(getClientSourcePath(AgvCommand.WSCmdOption))) {
+        runScript(
+          `npx quasar build -m ssr`,
+          getClientSourcePath(AgvCommand.WSCmdOption),
+          (err) => {
+            Logger.Error(err, true);
+          }
+        );
       }
     });
 
     Logger.Line("Updating client build settings & dependencies...", () => {
-      if (existsSync(serverSourcePath) && existsSync(buildServerPath)) {
+      if (
+        existsSync(getServerSourcePath(AgvCommand.WSCmdOption)) &&
+        existsSync(buildServerPath)
+      ) {
         sourceFilesClient.forEach((file) => {
           copySync(
-            path.join(clientSourcePath, file),
+            path.join(getClientSourcePath(AgvCommand.WSCmdOption), file),
             path.join(buildClientPath, file)
           );
         });
 
-        copySync(buildClientPath, buildClientSourcePath);
+        copySync(
+          buildClientPath,
+          buildClientSourcePath(AgvCommand.WSCmdOption)
+        );
       }
     });
 
@@ -213,8 +268,11 @@ export class AgvCommand extends Command {
     });
 
     Logger.Line("Copy files to destination path...", () => {
-      if (existsSync(buildSourcePath) && existsSync(buildServerPath)) {
-        copySync(buildSourcePath, destination);
+      if (
+        existsSync(getBuildSourcePath(AgvCommand.WSCmdOption)) &&
+        existsSync(buildServerPath)
+      ) {
+        copySync(getBuildSourcePath(AgvCommand.WSCmdOption), destination);
       }
     });
 

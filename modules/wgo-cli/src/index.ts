@@ -27,6 +27,9 @@ export const wgoCli = () => {
       AgvCommand.SettingCmdOption.parse(build_args);
       AgvCommand.BranchOption.parse(build_args);
       AgvCommand.GraphUrlCmdOption.parse(build_args);
+      AgvCommand.WSCmdOption.parse(build_args);
+      AgvCommand.GitUserOption.parse(build_args);
+      AgvCommand.GitPswOption.parse(build_args);
       AgvCommand.Execute();
       break;
     case WgoCommand.CMD:
