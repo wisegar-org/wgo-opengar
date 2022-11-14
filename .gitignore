@@ -18,6 +18,12 @@ server/public
 .env
 
 #  modules
+#  wgo-module-template
+modules/wgo-module-template/settings
+modules/wgo-module-template/src/wgo-base
+modules/wgo-module-template/client/src/wgo-base
+modules/wgo-module-template/public
+
 #  wgo-casina
 modules/wgo-casina/settings
 modules/wgo-casina/src/wgo-base
@@ -29,6 +35,12 @@ modules/wgo-wisegar/settings
 modules/wgo-wisegar/src/wgo-base
 modules/wgo-wisegar/client/src/wgo-base
 modules/wgo-wisegar/public
+
+#  wgo-agv
+modules/wgo-agv/settings
+modules/wgo-agv/src/wgo-base
+modules/wgo-agv/client/src/wgo-base
+modules/wgo-agv/public
 
 #  wgo-swisspay
 modules/wgo-swisspay/settings
