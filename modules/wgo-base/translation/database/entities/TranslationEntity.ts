@@ -5,10 +5,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
 } from "typeorm";
+import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
 import { LanguageEntity } from "../../../language/database/entities/LanguageEntity";
 
 @Entity({ name: "translations" })
-export class TranslationEntity extends BaseEntity {
+export class TranslationEntity extends WGBaseEntity {
   @PrimaryGeneratedColumn() id!: number;
 
   @Column({ nullable: false }) key!: string;

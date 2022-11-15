@@ -11,10 +11,12 @@ import {
 import { UtilService } from "../../core/services/UtilService";
 import { IContextBase } from "../../core/models/context";
 import { StorageKeys } from "../../storage/models/constants";
+import { HistoricModel } from "../../historic/models/HistoricModel";
 
 export class TranslationModel {
   private ctx: IContextBase;
   private dataSoure: DataSource;
+  private historicModel: HistoricModel<TranslationEntity>;
 
   /**
    *
@@ -22,6 +24,7 @@ export class TranslationModel {
   constructor(ctx: IContextBase) {
     this.ctx = ctx;
     this.dataSoure = ctx.dataSource;
+    this.historicModel = new HistoricModel(TranslationEntity, ctx);
   }
 
   async getAllTranslation(data: IGetAllTranslationArg) {
@@ -119,9 +122,9 @@ export class TranslationModel {
       translation.languageId = lang;
     }
     translation.value = value;
-    translation = await translationRepository.save(translation);
-
-    return this.mapTranslationEntity(translation);
+    const translationResult = await translationRepository.save(translation);
+    await this.historicModel.createPutHistoric(translationResult);
+    return this.mapTranslationEntity(translationResult);
   }
 
   async deleteTranslation(key: string) {
