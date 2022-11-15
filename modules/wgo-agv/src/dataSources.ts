@@ -14,6 +14,7 @@ import { LanguageEntity } from "./wgo-base/language/database/entities/LanguageEn
 import { TranslationEntity } from "./wgo-base/translation/database/entities/TranslationEntity";
 import { SettingsEntity } from "./wgo-base/settings/database/entities/SettingsEntity";
 import { ContactMeEntity } from "./wgo-base/contact/database/entities/ContactMeEntity";
+import { HistoricEntity } from "./wgo-base/historic/database/entities/HistoricEntity";
 
 /** Migrations */
 import { migrations1651766519693 } from "./wgo-base/authentication/database/migrations/1651766519693-migrations";
@@ -26,6 +27,9 @@ import { renameTypeSettings1658240270133 } from "./wgo-base/settings/database/mi
 import { removeAppSettings1658240565587 } from "./wgo-base/settings/database/migrations/1658240565587-removeAppSettings";
 import { fixAdminPassword1658417129112 } from "./wgo-base/authentication/database/migrations/1658417129112-fixAdminPassword";
 import { addContactMeEntity1658932057343 } from "./wgo-base/contact/database/migrations/1658932057343-addContactMeEntity";
+import { addUniqueUserProps1661872515554 } from "./wgo-base/authentication/database/migrations/1661872515554-addUniqueUserProps";
+import { addUniqueCodeProp1662052264312 } from "./wgo-base/authentication/database/migrations/1662052264312-addUniqueCodeProp";
+import { createHistoricTable1668532176196 } from "./wgo-base/historic/database/migrations/1668532176196-createHistoricTable";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -43,6 +47,7 @@ export const dataSourceOptions: DataSourceOptions = {
     TranslationEntity,
     SettingsEntity,
     ContactMeEntity,
+    HistoricEntity,
   ],
   migrations: [
     migrations1651766519693,
@@ -55,6 +60,9 @@ export const dataSourceOptions: DataSourceOptions = {
     removeAppSettings1658240565587,
     fixAdminPassword1658417129112,
     addContactMeEntity1658932057343,
+    addUniqueUserProps1661872515554,
+    addUniqueCodeProp1662052264312,
+    createHistoricTable1668532176196,
   ],
   subscribers: [],
 };
