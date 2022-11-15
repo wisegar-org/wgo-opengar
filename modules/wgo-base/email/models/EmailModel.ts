@@ -10,22 +10,29 @@ import { IContextBase } from "../../core/models/context";
 import { SmtpSettings } from "../../settings/models";
 import { SETTINGS_SMTP } from "../../settings/models/constants";
 import { SettingsModel } from "../../settings/models/SettingsModel";
+import { HandlebarsTemplateModel } from "../../template/models/HandlenarsTemplateModel";
+import { TemplateModel } from "../../template/models/TemplateModel";
 import {
   EmailFromToAppInput,
   EmailToAddressAndAppInput,
   EmailToAppInput,
 } from "../resolvers/EmailInputs";
 import { EmailResponse } from "../resolvers/EmailResponses";
+import { getInlineStyle } from "./StyleModel";
 
 export class EmailModel {
   emailServer: EmailServer;
   dataSource: DataSource;
   ctx: IContextBase;
+  templateModel: TemplateModel;
+  handlebardModel: HandlebarsTemplateModel;
 
   constructor(ctx: IContextBase) {
     this.ctx = ctx;
     this.emailServer = new EmailServer();
     this.dataSource = ctx.dataSource;
+    this.templateModel = new TemplateModel(ctx);
+    this.handlebardModel = new HandlebarsTemplateModel();
   }
 
   async sendEmail(data: EmailOptions): Promise<EmailResponse> {
@@ -44,6 +51,19 @@ export class EmailModel {
 
   async sendEmailToApp(data: EmailToAppInput): Promise<EmailResponse> {
     try {
+      let body = data.body;
+      if (data.data) {
+        const bodyTemplate = await this.templateModel.getTemplateByType(
+          data.body
+        );
+        const dataObj = JSON.parse(data.data) || {};
+        body = this.handlebardModel.getTemplateData(
+          bodyTemplate ? bodyTemplate.body : data.body,
+          dataObj
+        );
+      }
+      body = await getInlineStyle(body);
+      body = body.split("&lt;").join("<").split("&gt;").join(">");
       const configSmtp = await this.getTransportEmailOptions();
       const config = this.getEmailConfig();
       const result = await this.emailServer.sendByConfig(
@@ -51,7 +71,7 @@ export class EmailModel {
           from: data.from,
           to: config.to,
           subject: data.subject,
-          html: data.body,
+          html: body,
           bcc: config.bcc,
           // envelope: {
           //   from: data.from,
@@ -72,6 +92,19 @@ export class EmailModel {
 
   async sendEmailFromToApp(data: EmailFromToAppInput): Promise<EmailResponse> {
     try {
+      let body = data.body;
+      if (data.data) {
+        const bodyTemplate = await this.templateModel.getTemplateByType(
+          data.body
+        );
+        const dataObj = JSON.parse(data.data) || {};
+        body = this.handlebardModel.getTemplateData(
+          bodyTemplate ? bodyTemplate.body : data.body,
+          dataObj
+        );
+      }
+      body = await getInlineStyle(body);
+      body = body.split("&lt;").join("<").split("&gt;").join(">");
       const configSmtp = await this.getTransportEmailOptions();
       const config = this.getEmailConfig();
       const from = `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`;
@@ -80,7 +113,7 @@ export class EmailModel {
           from: from,
           to: config.to,
           subject: data.subject,
-          html: data.body,
+          html: body,
           bcc: config.bcc,
           // envelope: {
           //   from: from,
@@ -103,6 +136,19 @@ export class EmailModel {
     data: EmailToAddressAndAppInput
   ): Promise<EmailResponse> {
     try {
+      let body = data.body;
+      if (data.data) {
+        const bodyTemplate = await this.templateModel.getTemplateByType(
+          data.body
+        );
+        const dataObj = JSON.parse(data.data) || {};
+        body = this.handlebardModel.getTemplateData(
+          bodyTemplate ? bodyTemplate.body : data.body,
+          dataObj
+        );
+      }
+      body = await getInlineStyle(body);
+      body = body.split("&lt;").join("<").split("&gt;").join(">");
       const configSmtp = await this.getTransportEmailOptions();
       const config = this.getEmailConfig();
       const from = `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`;
@@ -111,7 +157,7 @@ export class EmailModel {
           from: from,
           to: config.to,
           subject: data.subject,
-          html: data.body,
+          html: body,
           bcc: config.bcc ? `${data.to},${config.bcc}` : data.to,
           // envelope: {
           //   from: from,

@@ -4,6 +4,7 @@ import { Field, InputType, ObjectType } from "type-graphql";
 export class EmailFromToAppInput {
   @Field(() => String) subject!: string;
   @Field(() => String) body!: string;
+  @Field(() => String, { nullable: true }) data!: string;
 }
 @InputType()
 export class EmailToAppInput extends EmailFromToAppInput {
