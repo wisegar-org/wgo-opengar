@@ -8,6 +8,10 @@ export const AUTH_PATH_RESET_PASSWORD = "resetPassword";
 export const AUTH_PATH_CHANGE_RESET_PASSWORD = "changeResetPassword";
 export const AUTH_PATH_CHECK_USER_NAME = "validUserName";
 
+export const AUTH_PATH_GET_HISTORIC = "getUserHistoric";
+export const AUTH_PATH_GET_ALL_HISTORIC = "getAllUserHistoric";
+export const AUTH_PATH_GET_ALL_HISTORIC_BY_USER = "getUserAllHistoricByUser";
+
 export const AUTH_PATH_DELETE_USER = "deleteUser";
 export const AUTH_PATH_GET_USER = "getUser";
 export const AUTH_PATH_GET_ALL_USERS = "getAllUsers";

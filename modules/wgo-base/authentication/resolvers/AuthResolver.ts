@@ -1,4 +1,4 @@
-import { Arg, Mutation, Query, Resolver, Ctx } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, Ctx, Authorized } from "type-graphql";
 import {
   EditUserInput,
   LoginInput,
@@ -15,8 +15,11 @@ import {
   AUTH_PATH_CONFIRM_REGIST,
   AUTH_PATH_DELETE_USER,
   AUTH_PATH_EDIT_USER,
+  AUTH_PATH_GET_ALL_HISTORIC,
+  AUTH_PATH_GET_ALL_HISTORIC_BY_USER,
   AUTH_PATH_GET_ALL_ROLES,
   AUTH_PATH_GET_ALL_USERS,
+  AUTH_PATH_GET_HISTORIC,
   AUTH_PATH_GET_USER,
   AUTH_PATH_LOGIN,
   AUTH_PATH_ME,
@@ -39,6 +42,9 @@ import { AuthModel } from "../models/AuthModel";
 import { IContextBase } from "../../core/models/context";
 import { UserRolesModel } from "../models/UserRolesModel";
 import { IdInput } from "../../core/resolvers/CoreInputs";
+import { HistoricResponse } from "../../historic/resolvers/HistoricResponses";
+import { HistoricModel } from "../../historic/models/HistoricModel";
+import { UserEntity } from "../database/entities/UserEntity";
 
 @Resolver()
 export class AuthResolver {
@@ -252,5 +258,38 @@ export class AuthResolver {
     });
     const result = await authModel.checkUserUniqueUserName(data);
     return result;
+  }
+
+  @Authorized()
+  @Query(() => HistoricResponse, { name: AUTH_PATH_GET_HISTORIC })
+  async getUserHistoric(@Arg("id") id: number, @Ctx() ctx: IContextBase) {
+    const historyService = new HistoricModel(UserEntity, ctx);
+    const result = await historyService.getHistoric(id);
+    return result.map((historic) =>
+      HistoricModel.ParseHistoricResponse(historic)
+    );
+  }
+
+  @Authorized()
+  @Query(() => [HistoricResponse], { name: AUTH_PATH_GET_ALL_HISTORIC })
+  async getAllUserHistoric(@Ctx() ctx: IContextBase) {
+    const historyService = new HistoricModel(UserEntity, ctx);
+    const result = await historyService.getAllHistoric();
+    return result.map((historic) =>
+      HistoricModel.ParseHistoricResponse(historic)
+    );
+  }
+
+  @Authorized()
+  @Query(() => [HistoricResponse], { name: AUTH_PATH_GET_ALL_HISTORIC_BY_USER })
+  async getUserAllHistoricByUser(
+    @Arg("id") id: number,
+    @Ctx() ctx: IContextBase
+  ) {
+    const historyService = new HistoricModel(UserEntity, ctx);
+    const result = await historyService.getAllHistoricByUser(id);
+    return result.map((historic) =>
+      HistoricModel.ParseHistoricResponse(historic)
+    );
   }
 }

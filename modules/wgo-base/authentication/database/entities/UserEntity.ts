@@ -9,10 +9,11 @@ import {
 } from "typeorm";
 import { RoleEntity } from "./RoleEntity";
 import "reflect-metadata";
+import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
 
 @Entity({ name: "users" })
 @Unique("userName-unique", ["userName", "code"])
-export class UserEntity extends BaseEntity {
+export class UserEntity extends WGBaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
