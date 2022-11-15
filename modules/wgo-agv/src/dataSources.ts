@@ -17,6 +17,7 @@ import { ContactMeEntity } from "./wgo-base/contact/database/entities/ContactMeE
 import { HistoricEntity } from "./wgo-base/historic/database/entities/HistoricEntity";
 import { TemplateEntity } from "./wgo-base/template/database/entities/TemplateEntity";
 import { MediaEntity } from "./wgo-base/storage/database/entities/MediaEntity";
+import { StorageEntity } from "./wgo-base/storage/database/entities/StorageEntity";
 
 import { AGVEventEntity } from "./database/entities/AGVEventEntity";
 import { AGVInscriptionEntity } from "./database/entities/AGVInscriptionEntity";
@@ -45,6 +46,8 @@ import { createInscriptionTable1668535321834 } from "./database/migrations/16685
 import { createPollTable1668539264505 } from "./database/migrations/1668539264505-createPollTable";
 import { createNewsletterInscriptionTable1668539471828 } from "./database/migrations/1668539471828-createNewsletterInscriptionTable";
 import { createNewsletterMessageTable1668539669907 } from "./database/migrations/1668539669907-createNewsletterMessageTable";
+import { addStorageEntity1658931419178 } from "./wgo-base/storage/database/migrations/1658931419178-addStorageEntity";
+import { addStorageHistory1668542155507 } from "./wgo-base/storage/database/migrations/1668542155507-addStorageHistory";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -65,6 +68,7 @@ export const dataSourceOptions: DataSourceOptions = {
     HistoricEntity,
     TemplateEntity,
     MediaEntity,
+    StorageEntity,
     AGVEventEntity,
     AGVInscriptionEntity,
     AGVPollEntity,
@@ -92,6 +96,8 @@ export const dataSourceOptions: DataSourceOptions = {
     createPollTable1668539264505,
     createNewsletterInscriptionTable1668539471828,
     createNewsletterMessageTable1668539669907,
+    addStorageEntity1658931419178,
+    addStorageHistory1668542155507,
   ],
   subscribers: [],
 };
