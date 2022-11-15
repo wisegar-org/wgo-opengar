@@ -48,6 +48,7 @@ import { createNewsletterInscriptionTable1668539471828 } from "./database/migrat
 import { createNewsletterMessageTable1668539669907 } from "./database/migrations/1668539669907-createNewsletterMessageTable";
 import { addStorageEntity1658931419178 } from "./wgo-base/storage/database/migrations/1658931419178-addStorageEntity";
 import { addStorageHistory1668542155507 } from "./wgo-base/storage/database/migrations/1668542155507-addStorageHistory";
+import { addMediaHistory1668545019180 } from "./wgo-base/storage/database/migrations/1668545019180-addMediaHistory";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -98,6 +99,7 @@ export const dataSourceOptions: DataSourceOptions = {
     createNewsletterMessageTable1668539669907,
     addStorageEntity1658931419178,
     addStorageHistory1668542155507,
+    addMediaHistory1668545019180,
   ],
   subscribers: [],
 };

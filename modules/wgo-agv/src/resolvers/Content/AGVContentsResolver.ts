@@ -34,6 +34,8 @@ export class AGVContentsResolver {
   async agvGetContentHistory(@Arg("id") id: number, @Ctx() ctx: IContextBase) {
     const contentModel = new AGVContentModel(ctx);
     const result = await contentModel.getAllHistory();
-    return result.map((history) => HistoricModel.ParseHistoryResponse(history));
+    return result.map((historic: any) =>
+      HistoricModel.ParseHistoricResponse(historic)
+    );
   }
 }
