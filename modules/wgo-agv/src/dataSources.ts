@@ -15,6 +15,7 @@ import { TranslationEntity } from "./wgo-base/translation/database/entities/Tran
 import { SettingsEntity } from "./wgo-base/settings/database/entities/SettingsEntity";
 import { ContactMeEntity } from "./wgo-base/contact/database/entities/ContactMeEntity";
 import { HistoricEntity } from "./wgo-base/historic/database/entities/HistoricEntity";
+import { TemplateEntity } from "./wgo-base/template/database/entities/TemplateEntity";
 
 /** Migrations */
 import { migrations1651766519693 } from "./wgo-base/authentication/database/migrations/1651766519693-migrations";
@@ -30,6 +31,7 @@ import { addContactMeEntity1658932057343 } from "./wgo-base/contact/database/mig
 import { addUniqueUserProps1661872515554 } from "./wgo-base/authentication/database/migrations/1661872515554-addUniqueUserProps";
 import { addUniqueCodeProp1662052264312 } from "./wgo-base/authentication/database/migrations/1662052264312-addUniqueCodeProp";
 import { createHistoricTable1668532176196 } from "./wgo-base/historic/database/migrations/1668532176196-createHistoricTable";
+import { createTemplateTable1668532715433 } from "./wgo-base/template/database/migrations/1668532715433-createTemplateTable";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -48,6 +50,7 @@ export const dataSourceOptions: DataSourceOptions = {
     SettingsEntity,
     ContactMeEntity,
     HistoricEntity,
+    TemplateEntity,
   ],
   migrations: [
     migrations1651766519693,
@@ -63,6 +66,7 @@ export const dataSourceOptions: DataSourceOptions = {
     addUniqueUserProps1661872515554,
     addUniqueCodeProp1662052264312,
     createHistoricTable1668532176196,
+    createTemplateTable1668532715433,
   ],
   subscribers: [],
 };
