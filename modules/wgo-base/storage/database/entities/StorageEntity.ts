@@ -7,10 +7,11 @@ import {
   Column,
   BaseEntity,
 } from "typeorm";
+import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
 import MediaEntity from "./MediaEntity";
 
 @Entity({ name: "storage" })
-export class StorageEntity extends BaseEntity {
+export class StorageEntity extends WGBaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

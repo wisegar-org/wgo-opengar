@@ -127,7 +127,7 @@ export class TranslationModel {
   async deleteTranslation(key: string) {
     const translationRepository =
       this.dataSoure.getRepository(TranslationEntity);
-    await translationRepository.delete({
+    await translationRepository.softDelete({
       key: key,
     });
     return true;

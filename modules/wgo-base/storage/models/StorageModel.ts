@@ -3,6 +3,8 @@ import { DataSource, Like, Repository } from "typeorm";
 import { IStorageResponse } from ".";
 import { IMediaModel, StringDictionary } from "../../core/models";
 import { IContextBase } from "../../core/models/context";
+import { HistoricModel } from "../../historic/models/HistoricModel";
+import { HistoricService } from "../../historic/services/HistoricService";
 import { TranslationModel } from "../../translation/models/TranslationModel";
 import StorageEntity from "../database/entities/StorageEntity";
 import { StorageKeys } from "./constants";
@@ -22,6 +24,7 @@ export class StorageModel {
   ctx: IContextBase;
   private mediaModel: MediaModel;
   private translationModel: TranslationModel;
+  private historicModel: HistoricModel<StorageEntity>;
 
   /**
    *
@@ -32,6 +35,7 @@ export class StorageModel {
     this.storageRepository = this.dataSource.getRepository(StorageEntity);
     this.mediaModel = new MediaModel(ctx);
     this.translationModel = new TranslationModel(ctx);
+    this.historicModel = new HistoricModel<StorageEntity>(StorageEntity, ctx);
   }
 
   async allByType(type: string, relations: string[] = [], search: string = "") {
@@ -132,15 +136,18 @@ export class StorageModel {
     let model = new StorageEntity();
     model = await this.storageRepository.manager.save(model);
     model = await this.setProperties(model, storageItem);
-    return !!(await this.storageRepository.manager.save(model));
+    const result = await this.storageRepository.manager.save(model);
+    await this.historicModel.createPostHistory(result);
+    return !!result;
   }
 
   async modify(storageItem: StorageItem<any>) {
     let model = await this.oneByCriteria({ id: storageItem.id });
     if (!!model) {
       model = await this.setProperties(model, storageItem);
-      await this.storageRepository.manager.save(model);
-      return true;
+      const result = await this.storageRepository.manager.save(model);
+      await this.historicModel.createPutHistory(result);
+      return !!result;
     }
     return false;
   }
@@ -155,8 +162,9 @@ export class StorageModel {
           }
         }
       }
-      await this.storageRepository.manager.remove(model);
-      return true;
+      const result = await this.storageRepository.manager.softRemove(model);
+      if (result) await this.historicModel.createDeleteHistory(model);
+      return !!result;
     }
     return false;
   }
@@ -231,6 +239,10 @@ export class StorageModel {
       results.push(item);
     }
     return results;
+  }
+
+  async getAllHistory(id: number) {
+    return await this.historicModel.getHistory(id);
   }
 
   getStorageResponses(model: StorageEntity, urlApi = "") {
