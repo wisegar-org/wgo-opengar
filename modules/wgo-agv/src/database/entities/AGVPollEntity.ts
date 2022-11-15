@@ -1,4 +1,10 @@
-import { PrimaryGeneratedColumn, Entity, Column, BaseEntity } from "typeorm";
+import {
+  PrimaryGeneratedColumn,
+  Entity,
+  Column,
+  BaseEntity,
+  CreateDateColumn,
+} from "typeorm";
 
 @Entity()
 export class AGVPollEntity extends BaseEntity {
@@ -18,7 +24,11 @@ export class AGVPollEntity extends BaseEntity {
   @Column({ default: "" }) phone!: string;
   @Column({ default: false }) disposition!: boolean;
   @Column({ default: false }) interest!: boolean;
-  @Column({ default: new Date(Date.now()) }) date!: Date;
+  @CreateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
+  date!: Date;
 }
 
 export default AGVPollEntity;

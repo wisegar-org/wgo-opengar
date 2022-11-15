@@ -1,4 +1,10 @@
-import { ManyToOne, PrimaryGeneratedColumn, Entity, Column } from "typeorm";
+import {
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Entity,
+  Column,
+  CreateDateColumn,
+} from "typeorm";
 import { WGBaseEntity } from "../../wgo-base/core/database/entities/WGBaseEntity";
 import AGVEventEntity from "./AGVEventEntity";
 
@@ -19,7 +25,10 @@ export class AGVInscriptionEntity extends WGBaseEntity {
   message!: string;
   @Column({ default: "" })
   class!: string;
-  @Column({ default: new Date(Date.now()) })
+  @CreateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
   inscriptionDate!: Date;
 
   @Column({ nullable: true }) eventId!: number;
