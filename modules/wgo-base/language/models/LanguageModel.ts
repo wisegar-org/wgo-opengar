@@ -2,6 +2,7 @@ import { DataSource } from "typeorm";
 import { ILanguagePostArg, ILanguageModel } from ".";
 import { IIdInput } from "../../core/models";
 import { IContextBase } from "../../core/models/context";
+import { HistoricModel } from "../../historic/models/HistoricModel";
 import { LanguageEntity } from "../database/entities/LanguageEntity";
 import {
   WRONG_LANGUAGE_CODE,
@@ -13,6 +14,7 @@ import {
 export class LanguageModel {
   private dataSoure: DataSource;
   private ctx: IContextBase;
+  private historicModel: HistoricModel<LanguageEntity>;
 
   /**
    *
@@ -20,6 +22,7 @@ export class LanguageModel {
   constructor(ctx: IContextBase) {
     this.ctx = ctx;
     this.dataSoure = ctx.dataSource;
+    this.historicModel = new HistoricModel(LanguageEntity, ctx);
   }
 
   async getAllLanguage() {
@@ -55,8 +58,10 @@ export class LanguageModel {
     languageEntity.default = data.default;
     const languageEntityCreated = await repository.save(languageEntity);
 
-    if (!!languageEntityCreated)
+    if (!!languageEntityCreated) {
+      await this.historicModel.createPostHistoric(languageEntityCreated);
       return this.mapLanguageEntity(languageEntityCreated);
+    }
 
     throw new Error(WRONG_LANGUAGE_POST);
   }
@@ -76,8 +81,10 @@ export class LanguageModel {
     languageEntity.enabled = data.enabled || languageEntity.default;
     const languageEntityUpdated = await repository.save(languageEntity);
 
-    if (!!languageEntityUpdated)
+    if (!!languageEntityUpdated) {
+      await this.historicModel.createPutHistoric(languageEntityUpdated);
       return this.mapLanguageEntity(languageEntityUpdated);
+    }
 
     throw new Error(WRONG_LANGUAGE_PUT);
   }
@@ -91,6 +98,7 @@ export class LanguageModel {
     if (defaultLanguage) {
       defaultLanguage.default = false;
       await repository.save(defaultLanguage);
+      await this.historicModel.createPutHistoric(defaultLanguage);
     }
   }
 

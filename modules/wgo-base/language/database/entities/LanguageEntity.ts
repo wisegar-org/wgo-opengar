@@ -1,13 +1,8 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
 
 @Entity({ name: "languages" })
-export class LanguageEntity extends BaseEntity {
+export class LanguageEntity extends WGBaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
   @Column({ default: "" })
