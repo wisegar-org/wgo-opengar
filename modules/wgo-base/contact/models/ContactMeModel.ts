@@ -1,12 +1,14 @@
 import { DataSource, Repository } from "typeorm";
 import { IContactModel } from ".";
 import { IContextBase } from "../../core/models/context";
+import { HistoricModel } from "../../historic/models/HistoricModel";
 import ContactMeEntity from "../database/entities/ContactMeEntity";
 
 export class ContactMeModel {
   ctx: IContextBase;
   dataSource: DataSource;
   contactRepository: Repository<ContactMeEntity>;
+  historicModel: HistoricModel<ContactMeEntity>;
   /**
    *
    */
@@ -14,6 +16,7 @@ export class ContactMeModel {
     this.ctx = ctx;
     this.dataSource = ctx.dataSource;
     this.contactRepository = this.dataSource.getRepository(ContactMeEntity);
+    this.historicModel = new HistoricModel(ContactMeEntity, ctx);
   }
 
   async getContactMeEntity(): Promise<IContactModel> {
@@ -45,7 +48,8 @@ export class ContactMeModel {
     contact.phoneNumber = contactData.phoneNumber;
     contact.mapPath = contactData.mapPath;
 
-    const result = !!(await this.contactRepository.manager.save(contact));
-    return result;
+    const contactEdited = await this.contactRepository.manager.save(contact);
+    await this.historicModel.createPutHistoric(contactEdited);
+    return !!contactEdited;
   }
 }
