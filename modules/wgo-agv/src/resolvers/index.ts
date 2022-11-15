@@ -6,6 +6,8 @@ import { ContactMeResolver } from "../wgo-base/contact/resolvers/ContactMeResolv
 import { AppResolver } from "./AppResolver";
 import { PublicMediaResolver } from "./Media/MediaResolver";
 import { PublicTranslationResolver } from "./Translation/TranslationResolver";
+import { TemplateResolver } from "../wgo-base/template/resolvers/TemplateResolver";
+import { HistoricResolver } from "../wgo-base/historic/resolvers/HistoricResolver";
 
 export const getResolverList = () => {
   return [
@@ -16,5 +18,7 @@ export const getResolverList = () => {
     SettingsResolver,
     PublicMediaResolver,
     ContactMeResolver,
+    TemplateResolver,
+    HistoricResolver,
   ] as NonEmptyArray<Function>;
 };

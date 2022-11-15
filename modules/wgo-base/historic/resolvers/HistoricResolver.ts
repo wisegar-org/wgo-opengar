@@ -30,7 +30,7 @@ export class HistoricResolver {
       ? { [data.sortBy]: data.descending ? "DESC" : "ASC" }
       : { id: "DESC" };
 
-    const histories = await historyService.getHistoryPageByCriteria(
+    const histories = await historyService.getHistoricPageByCriteria(
       filter,
       order,
       data.skip,
@@ -38,7 +38,7 @@ export class HistoricResolver {
     );
     return {
       histories: histories[0].map((history) =>
-        HistoricModel.ParseHistoryResponse(history)
+        HistoricModel.ParseHistoricResponse(history)
       ),
       count: histories[1],
     };
@@ -48,7 +48,7 @@ export class HistoricResolver {
   @Query(() => HistoricFiltersResponse, { name: HISTORIC_PATH_GET_FILTERS })
   async getHistoricFilters(@Ctx() ctx: IContextBase) {
     const historyService = new HistoricModel(HistoricEntity, ctx);
-    const filters = await historyService.getHistoryFilters();
+    const filters = await historyService.getHistoricFilters();
     return filters;
   }
 }

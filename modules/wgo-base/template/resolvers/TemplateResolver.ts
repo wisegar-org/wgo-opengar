@@ -9,7 +9,7 @@ import { TemplateInput } from "./TemplateInputs";
 import { TemplateResponse } from "./TemplateResponses";
 
 @Resolver()
-export class StorageResolver {
+export class TemplateResolver {
   @Query(() => [TemplateResponse], { name: TEMPLATE_PATH_GET_BY_TYPE })
   async getTemplateByType(@Arg("type") type: string, @Ctx() ctx: IContextBase) {
     const templateModel = new TemplateModel(ctx);
@@ -19,7 +19,7 @@ export class StorageResolver {
 
   @Authorized()
   @Mutation(() => Boolean, { name: TEMPLATE_PATH_POST })
-  async createStorageItem(
+  async setTemplate(
     @Arg("data") data: TemplateInput,
     @Ctx() ctx: IContextBase
   ) {
