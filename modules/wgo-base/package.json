@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-decoupled-document": "35.3.1",
+    "@ckeditor/ckeditor5-vue": "4.0.1",
     "@vue/composition-api": "1.6.2",
     "@wisegar-org/wgo-mailer": "0.0.1-build.24",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.15",
@@ -28,6 +30,7 @@
     "file-saver": "2.0.5",
     "fs-extra": "^10.1.0",
     "graphql-upload": "13.0.0",
+    "handlebars": "4.7.7",
     "https": "1.0.0",
     "reflect-metadata": "0.1.13",
     "type-graphql": "1.1.1",
@@ -37,6 +40,7 @@
   "devDependencies": {
     "@types/apollo-upload-client": "^17.0.0",
     "@types/bcrypt": "^5.0.0",
+    "@types/ckeditor__ckeditor5-build-decoupled-document": "^29.1.1",
     "@types/file-saver": "^2.0.5",
     "@types/fs-extra": "^9.0.13",
     "@types/graphql-upload": "8.0.11",
