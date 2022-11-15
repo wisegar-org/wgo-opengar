@@ -54,6 +54,7 @@ import { addContactMeHistoric1668549723950 } from "./wgo-base/contact/database/m
 import { changeDateType1668550334970 } from "./database/migrations/1668550334970-changeDateType";
 import { addLanguageHistoric1668550415911 } from "./wgo-base/language/database/migrations/1668550415911-addLanguageHistoric";
 import { addSettingHistoric1668553325149 } from "./wgo-base/settings/database/migrations/1668553325149-addSettingHistoric";
+import { addTemplateHistoric1668553582516 } from "./wgo-base/template/database/migrations/1668553582516-addTemplateHistoric";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -110,6 +111,7 @@ export const dataSourceOptions: DataSourceOptions = {
     changeDateType1668550334970,
     addLanguageHistoric1668550415911,
     addSettingHistoric1668553325149,
+    addTemplateHistoric1668553582516,
   ],
   subscribers: [],
 };
