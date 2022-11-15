@@ -18,7 +18,8 @@ import { HistoricEntity } from "./wgo-base/historic/database/entities/HistoricEn
 import { TemplateEntity } from "./wgo-base/template/database/entities/TemplateEntity";
 import { MediaEntity } from "./wgo-base/storage/database/entities/MediaEntity";
 
-import AGVEventEntity from "./database/entities/AGVEventEntity";
+import { AGVEventEntity } from "./database/entities/AGVEventEntity";
+import { AGVInscriptionEntity } from "./database/entities/AGVInscriptionEntity";
 
 /** Migrations */
 import { migrations1651766519693 } from "./wgo-base/authentication/database/migrations/1651766519693-migrations";
@@ -37,6 +38,7 @@ import { createHistoricTable1668532176196 } from "./wgo-base/historic/database/m
 import { createTemplateTable1668532715433 } from "./wgo-base/template/database/migrations/1668532715433-createTemplateTable";
 import { addMediaEntity1658931161380 } from "./wgo-base/storage/database/migrations/1658931161380-addMediaEntity";
 import { createEventTable1668534412569 } from "./database/migrations/1668534412569-createEventTable";
+import { createInscriptionTable1668535321834 } from "./database/migrations/1668535321834-createInscriptionTable";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -58,6 +60,7 @@ export const dataSourceOptions: DataSourceOptions = {
     TemplateEntity,
     MediaEntity,
     AGVEventEntity,
+    AGVInscriptionEntity,
   ],
   migrations: [
     migrations1651766519693,
@@ -76,6 +79,7 @@ export const dataSourceOptions: DataSourceOptions = {
     createTemplateTable1668532715433,
     addMediaEntity1658931161380,
     createEventTable1668534412569,
+    createInscriptionTable1668535321834,
   ],
   subscribers: [],
 };

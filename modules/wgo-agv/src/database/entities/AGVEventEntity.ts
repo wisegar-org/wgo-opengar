@@ -10,6 +10,7 @@ import {
 import { EventStateEnum, EventTypeEnum } from "../../models/enums";
 import { WGBaseEntity } from "../../wgo-base/core/database/entities/WGBaseEntity";
 import MediaEntity from "../../wgo-base/storage/database/entities/MediaEntity";
+import { AGVInscriptionEntity } from "./AGVInscriptionEntity";
 
 @Entity()
 export class AGVEventEntity extends WGBaseEntity {
@@ -48,6 +49,11 @@ export class AGVEventEntity extends WGBaseEntity {
   @ManyToMany(() => MediaEntity)
   @JoinTable()
   imgList!: MediaEntity[];
+
+  @OneToMany(() => AGVInscriptionEntity, (inscription) => inscription.event, {
+    cascade: true,
+  })
+  inscriptions?: AGVInscriptionEntity[];
 }
 
 export default AGVEventEntity;
