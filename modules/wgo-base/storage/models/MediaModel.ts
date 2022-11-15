@@ -7,17 +7,21 @@ import { UtilService } from "../../core/services/UtilService";
 import { v4 as uuidv4 } from "uuid";
 import { IMediaModel } from "../../core/models";
 import { IContextBase } from "../../core/models/context";
+import { HistoricModel } from "../../historic/models/HistoricModel";
+import { MediaResponse } from "../resolvers/Media/MediaResponses";
 
 export class MediaModel {
   private ctx: IContextBase;
   private dataSource: DataSource;
   private web_root: string;
   private mediaRepository: Repository<MediaEntity>;
+  private historicModel: HistoricModel<MediaEntity>;
   constructor(ctx: IContextBase) {
     this.ctx = ctx;
     this.dataSource = ctx.dataSource;
     this.mediaRepository = this.dataSource.getRepository(MediaEntity);
     this.web_root = ctx.web_root;
+    this.historicModel = new HistoricModel(MediaEntity, ctx);
   }
 
   async saveMedia(
@@ -35,6 +39,7 @@ export class MediaModel {
         fileName: fileName,
       },
     });
+    const existMedia = !!mediaEntity;
 
     if (!mediaEntity) {
       mediaEntity = new MediaEntity();
@@ -55,6 +60,9 @@ export class MediaModel {
     }
 
     mediaEntity = await this.mediaRepository.manager.save(mediaEntity);
+    (await existMedia)
+      ? this.historicModel.createPutHistoric(mediaEntity)
+      : this.historicModel.createPostHistoric(mediaEntity);
     return this.getMediaResponse(mediaEntity, options.urlApi);
   }
   async saveMediaEntity(mediaEntity: MediaEntity): Promise<MediaEntity> {
@@ -65,8 +73,11 @@ export class MediaModel {
         MEDIA_FILES_PATH
       );
     }
-    mediaEntity = await this.mediaRepository.manager.save(mediaEntity);
-    return mediaEntity;
+    const mediaResult = await this.mediaRepository.manager.save(mediaEntity);
+    (await mediaEntity.id)
+      ? this.historicModel.createPutHistoric(mediaResult)
+      : this.historicModel.createPostHistoric(mediaResult);
+    return mediaResult;
   }
 
   async saveMediaEntityInPublicFolder(mediaEntity: MediaEntity) {
@@ -139,6 +150,35 @@ export class MediaModel {
     return `${MEDIA_FILES_PATH}/${filename}`;
   }
 
+  async getMediaShortResponse(id: number, urlApi: string) {
+    const media = await this.mediaRepository
+      .createQueryBuilder("media")
+      .where(`media.id = ${id}`)
+      .select("media.isPublic", "isPublic")
+      .addSelect("media.fileName", "fileName")
+      .getRawOne();
+    const filePath = media.isPublic ? this.getPublicPath(media.fileName) : "";
+    if (filePath && !existsSync(filePath)) {
+      const mediaEntity = await this.mediaRepository.findOne({
+        where: {
+          id,
+        },
+      });
+      return mediaEntity
+        ? await this.getMediaResponse(mediaEntity, urlApi, false)
+        : undefined;
+    }
+
+    return <MediaResponse>{
+      isPublic: media.isPublic,
+      id,
+      url: `${urlApi}${this.getRelativeFileUrl(
+        media.isPublic,
+        media.fileName
+      )}`,
+    };
+  }
+
   getMediaResponse(media: MediaEntity, urlApi: string, replace = false) {
     let path = ``;
     if (media.isPublic)
@@ -209,6 +249,7 @@ export class MediaModel {
       }
     }
 
+    await this.historicModel.createDeleteHardHistoric(media);
     await this.mediaRepository.remove(media);
     return true;
   }

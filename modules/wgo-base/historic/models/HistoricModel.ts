@@ -27,28 +27,28 @@ export class HistoricModel<TEntity extends WGBaseEntity> {
     this.type = type;
   }
 
-  public async getHistory(entityRecordId: number): Promise<HistoricEntity[]> {
-    const history = await this.repository.find({
+  public async getHistoric(entityRecordId: number): Promise<HistoricEntity[]> {
+    const historic = await this.repository.find({
       where: { entity: this.type.name, recordId: entityRecordId },
     });
-    return history;
+    return historic;
   }
 
-  public async getAllHistory() {
-    const history = await this.repository.find({
+  public async getAllHistoric() {
+    const historic = await this.repository.find({
       where: { entity: this.type.name },
     });
-    return history;
+    return historic;
   }
 
-  public async getAllHistoryByUser(userId: number) {
-    const history = await this.repository.find({
+  public async getAllHistoricByUser(userId: number) {
+    const historic = await this.repository.find({
       where: { entity: this.type.name, userId: userId },
     });
-    return history;
+    return historic;
   }
 
-  public getHistoryModel(entity: TEntity) {
+  public getHistoricModel(entity: TEntity) {
     if (!this.context?.user) throw WRONG_CONTEXT_USER;
     if (!this.context.user.id) throw WRONG_CONTEXT_USER_ID;
     if (!this.context.user.email) throw WRONG_CONTEXT_USER_EMAIL;
@@ -70,8 +70,8 @@ export class HistoricModel<TEntity extends WGBaseEntity> {
     };
   }
 
-  public async getHistoryPage(skip: number, take: number) {
-    return await this.getHistoryPageByCriteria(
+  public async getHistoricPage(skip: number, take: number) {
+    return await this.getHistoricPageByCriteria(
       {
         entity: this.type.name,
       },
@@ -81,19 +81,19 @@ export class HistoricModel<TEntity extends WGBaseEntity> {
     );
   }
 
-  public async getHistoryPageByCriteria(
+  public async getHistoricPageByCriteria(
     whereQuery: any,
     orderQuery: any,
     skip: number,
     take: number
   ) {
-    const history = await this.repository.findAndCount({
+    const historic = await this.repository.findAndCount({
       where: whereQuery,
       order: orderQuery,
       skip,
       take,
     });
-    return history;
+    return historic;
   }
 
   public async create(entity: HistoricEntity): Promise<HistoricEntity> {
@@ -107,18 +107,21 @@ export class HistoricModel<TEntity extends WGBaseEntity> {
   }
 
   public async createMany(
-    historyEntities: HistoricEntity[]
+    historicEntities: HistoricEntity[]
   ): Promise<HistoricEntity[]> {
     if (!this.context) return [];
-    const inserResult = await this.repository.insert(historyEntities);
+    const inserResult = await this.repository.insert(historicEntities);
     if (!inserResult.identifiers || inserResult.identifiers.length === 0)
       throw `Non è stato possibile registrare il nuovo record!`;
 
     return inserResult.raw;
   }
 
-  public async createAccessHistory(entity: UserEntity, customMessage?: string) {
-    const historyModel = {
+  public async createAccessHistoric(
+    entity: UserEntity,
+    customMessage?: string
+  ) {
+    const historicModel = {
       action: Actions.Access,
       entity: this.type.name,
       message: !customMessage ? `Accesso` : customMessage,
@@ -127,77 +130,77 @@ export class HistoricModel<TEntity extends WGBaseEntity> {
       username: entity.email,
       snapshot: "{}",
     };
-    return this.create(Object.assign(new HistoricEntity(), historyModel));
+    return this.create(Object.assign(new HistoricEntity(), historicModel));
   }
 
-  public async createPostHistory(entity: TEntity, customMessage?: string) {
+  public async createPostHistoric(entity: TEntity, customMessage?: string) {
     if (!this.context) return undefined;
-    const historyModel = this.getHistoryModel(entity);
+    const historicModel = this.getHistoricModel(entity);
 
-    historyModel.message = !customMessage ? `Creato` : customMessage;
-    historyModel.action = Actions.Add;
-    return this.create(Object.assign(new HistoricEntity(), historyModel));
+    historicModel.message = !customMessage ? `Creato` : customMessage;
+    historicModel.action = Actions.Add;
+    return this.create(Object.assign(new HistoricEntity(), historicModel));
   }
 
-  public async createPutHistory(entity: TEntity, customMessage?: string) {
+  public async createPutHistoric(entity: TEntity, customMessage?: string) {
     if (!this.context) return undefined;
-    const historyModel = this.getHistoryModel(entity);
-    historyModel.action = Actions.Update;
-    historyModel.message = !customMessage ? `Modificato` : customMessage;
-    return this.create(Object.assign(new HistoricEntity(), historyModel));
+    const historicModel = this.getHistoricModel(entity);
+    historicModel.action = Actions.Update;
+    historicModel.message = !customMessage ? `Modificato` : customMessage;
+    return this.create(Object.assign(new HistoricEntity(), historicModel));
   }
 
-  public async createPutManyHistory(
+  public async createPutManyHistoric(
     entities: TEntity[],
     customMessage?: string
   ) {
     if (!this.context) return undefined;
-    const historyModels = entities.map((entity) =>
-      this.getHistoryModel(entity)
+    const historicModels = entities.map((entity) =>
+      this.getHistoricModel(entity)
     );
-    for (let HistoricEntityModel of historyModels) {
+    for (let HistoricEntityModel of historicModels) {
       HistoricEntityModel.action = Actions.Update;
       HistoricEntityModel.message = !customMessage
         ? `Modificato da modifica massiva`
         : customMessage;
     }
-    const historyEntities = historyModels.map((historyModel) =>
-      Object.assign(new HistoricEntity(), historyModel)
+    const historicEntities = historicModels.map((historicModel) =>
+      Object.assign(new HistoricEntity(), historicModel)
     );
-    return await this.createMany(historyEntities);
+    return await this.createMany(historicEntities);
   }
 
-  public async createDeleteHistory(entity: TEntity, customMessage?: string) {
+  public async createDeleteHistoric(entity: TEntity, customMessage?: string) {
     if (!this.context) return undefined;
-    const historyModel = this.getHistoryModel(entity);
-    historyModel.action = Actions.SoftDelete;
-    historyModel.message = !customMessage ? `Cancellato soft` : customMessage;
-    historyModel.snapshot = JSON.stringify(entity);
-    return this.create(Object.assign(new HistoricEntity(), historyModel));
+    const historicModel = this.getHistoricModel(entity);
+    historicModel.action = Actions.SoftDelete;
+    historicModel.message = !customMessage ? `Cancellato soft` : customMessage;
+    historicModel.snapshot = JSON.stringify(entity);
+    return this.create(Object.assign(new HistoricEntity(), historicModel));
   }
 
-  public async createDeleteHardHistory(
+  public async createDeleteHardHistoric(
     entity: TEntity,
     customMessage?: string
   ) {
     if (!this.context) return undefined;
-    const historyModel = this.getHistoryModel(entity);
-    historyModel.action = Actions.Delete;
-    historyModel.message = !customMessage ? `Cancellato` : customMessage;
-    historyModel.snapshot = JSON.stringify(entity);
-    return this.create(Object.assign(new HistoricEntity(), historyModel));
+    const historicModel = this.getHistoricModel(entity);
+    historicModel.action = Actions.Delete;
+    historicModel.message = !customMessage ? `Cancellato` : customMessage;
+    historicModel.snapshot = JSON.stringify(entity);
+    return this.create(Object.assign(new HistoricEntity(), historicModel));
   }
 
-  public async createRestoreHistory(entity: TEntity, customMessage?: string) {
+  public async createRestoreHistoric(entity: TEntity, customMessage?: string) {
     if (!this.context) return undefined;
-    const historyModel = this.getHistoryModel(entity);
-    historyModel.action = Actions.Restore;
-    historyModel.message = !customMessage ? `Restore` : customMessage;
-    historyModel.snapshot = JSON.stringify(entity);
-    return this.create(Object.assign(new HistoricEntity(), historyModel));
+    const historicModel = this.getHistoricModel(entity);
+    historicModel.action = Actions.Restore;
+    historicModel.message = !customMessage ? `Restore` : customMessage;
+    historicModel.snapshot = JSON.stringify(entity);
+    return this.create(Object.assign(new HistoricEntity(), historicModel));
   }
 
-  public async getHistoryFilters() {
+  public async getHistoricFilters() {
     const entitiesFilter = await this.repository
       .createQueryBuilder("")
       .select("distinct entity", "entity")
@@ -221,17 +224,17 @@ export class HistoricModel<TEntity extends WGBaseEntity> {
     };
   }
 
-  public static ParseHistoryResponse(HistoricEntity: HistoricEntity) {
+  public static ParseHistoricResponse(historicEntity: HistoricEntity) {
     return {
-      action: HistoricEntity.action,
-      creatoIl: HistoricEntity.creatoIl,
-      id: HistoricEntity.id,
-      message: HistoricEntity.message,
-      modificatoIl: HistoricEntity.modificatoIl,
-      userId: HistoricEntity.userId,
-      username: HistoricEntity.username,
-      snapshot: HistoricEntity.snapshot,
-      entity: HistoricEntity.entity,
+      action: historicEntity.action,
+      creatoIl: historicEntity.creatoIl,
+      id: historicEntity.id,
+      message: historicEntity.message,
+      modificatoIl: historicEntity.modificatoIl,
+      userId: historicEntity.userId,
+      username: historicEntity.username,
+      snapshot: historicEntity.snapshot,
+      entity: historicEntity.entity,
     };
   }
 }

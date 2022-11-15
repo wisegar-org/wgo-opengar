@@ -137,7 +137,7 @@ export class StorageModel {
     model = await this.storageRepository.manager.save(model);
     model = await this.setProperties(model, storageItem);
     const result = await this.storageRepository.manager.save(model);
-    await this.historicModel.createPostHistory(result);
+    await this.historicModel.createPostHistoric(result);
     return !!result;
   }
 
@@ -146,7 +146,7 @@ export class StorageModel {
     if (!!model) {
       model = await this.setProperties(model, storageItem);
       const result = await this.storageRepository.manager.save(model);
-      await this.historicModel.createPutHistory(result);
+      await this.historicModel.createPutHistoric(result);
       return !!result;
     }
     return false;
@@ -163,7 +163,7 @@ export class StorageModel {
         }
       }
       const result = await this.storageRepository.manager.softRemove(model);
-      if (result) await this.historicModel.createDeleteHistory(model);
+      if (result) await this.historicModel.createDeleteHistoric(model);
       return !!result;
     }
     return false;
@@ -242,7 +242,7 @@ export class StorageModel {
   }
 
   async getAllHistory(id: number) {
-    return await this.historicModel.getHistory(id);
+    return await this.historicModel.getHistoric(id);
   }
 
   getStorageResponses(model: StorageEntity, urlApi = "") {
