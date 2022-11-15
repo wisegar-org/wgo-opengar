@@ -1,7 +1,8 @@
 import { PrimaryGeneratedColumn, Entity, Column, BaseEntity } from "typeorm";
+import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
 
 @Entity({ name: "settings" })
-export class SettingsEntity extends BaseEntity {
+export class SettingsEntity extends WGBaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

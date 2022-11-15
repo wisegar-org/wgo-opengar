@@ -20,16 +20,19 @@ import {
 } from "./constants";
 import { cypherData, decypherData } from "@wisegar-org/wgo-crypto";
 import { EventEmitter } from "events";
+import { HistoricModel } from "../../historic/models/HistoricModel";
 
 export class SettingsModel {
   private dataSource: DataSource;
   private ctx: IContextBase;
   private emiter: EventEmitter;
+  private historicModel: HistoricModel<SettingsEntity>;
 
   constructor(ctx: IContextBase) {
     this.ctx = ctx;
     this.dataSource = ctx.dataSource;
     this.emiter = ctx.emiter;
+    this.historicModel = new HistoricModel(SettingsEntity, ctx);
   }
 
   public async getSettingsEntity(
@@ -44,7 +47,8 @@ export class SettingsModel {
 
   public async saveSettingsEntity(entity: SettingsEntity) {
     const repo = await this.dataSource.getRepository(SettingsEntity);
-    return await repo.save(entity);
+    const result = await repo.save(entity);
+    return result;
   }
 
   public async getSettingsObject(data?: IGetSettingsParam): Promise<any> {
@@ -97,11 +101,14 @@ export class SettingsModel {
       const settingsEntityResult = await settingsRepository.save(
         settingsEntity
       );
+
+      await this.historicModel.createPutHistoric(settingsEntityResult);
     } else if (!!settingsResult) {
       settingsResult.settings[data.key] = value;
       const settingsEntityResult = await settingsRepository.save(
         settingsResult
       );
+      await this.historicModel.createPutHistoric(settingsEntityResult);
     }
 
     this.ctx.listenersEvents.forEach((listner) => {
