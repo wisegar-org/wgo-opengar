@@ -24,6 +24,7 @@ import { userAdminSeeder } from "./wgo-base/authentication/database/seeder/user"
 import { languageDefaultSeeder } from "./wgo-base/language/database/seeder/language";
 import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
+import { agvTemplateSeeder } from "./database/seeders/TemplateSeeder";
 
 const port = GetPortKey();
 
@@ -71,6 +72,7 @@ boot(serverOptions, async () => {
   await languageDefaultSeeder(dataSource); //create default language
 
   //App seeders
+  await agvTemplateSeeder(dataSource);
 
   // Loop function
   setTimeout(async () => {}, 0);
