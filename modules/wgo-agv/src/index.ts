@@ -12,7 +12,7 @@ import {
   GetExpiresInKey,
 } from "@wisegar-org/wgo-settings";
 import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
-import { AppContextHandler } from "./handlers/AppContextHandler";
+import { AppContextHandler, ctx } from "./handlers/AppContextHandler";
 import { errorHandler } from "./handlers/ErrorHandler";
 import { AppController } from "./controllers/AppController";
 import { Express } from "express";
@@ -25,6 +25,7 @@ import { languageDefaultSeeder } from "./wgo-base/language/database/seeder/langu
 import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 import { agvTemplateSeeder } from "./database/seeders/TemplateSeeder";
+import { mediaPublicSeeder } from "./wgo-base/storage/database/seeder/media";
 
 const port = GetPortKey();
 
@@ -70,6 +71,7 @@ boot(serverOptions, async () => {
   await roleSuperAdminSeeder(dataSource); //create superadmin rol
   await userAdminSeeder(dataSource); //create admin user with superadmin rol
   await languageDefaultSeeder(dataSource); //create default language
+  mediaPublicSeeder({ ...ctx, dataSource }); //export public media files
 
   //App seeders
   await agvTemplateSeeder(dataSource);

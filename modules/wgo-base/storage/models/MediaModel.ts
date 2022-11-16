@@ -253,4 +253,16 @@ export class MediaModel {
     await this.mediaRepository.remove(media);
     return true;
   }
+
+  async saveAllPublicMediaOnFiles() {
+    const medias = await this.mediaRepository.find({
+      where: {
+        isPublic: true,
+      },
+    });
+
+    for (const media of medias) {
+      await this.saveMediaEntityInPublicFolder(media);
+    }
+  }
 }
