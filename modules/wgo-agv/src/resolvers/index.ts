@@ -9,6 +9,10 @@ import { PublicTranslationResolver } from "./Translation/TranslationResolver";
 import { TemplateResolver } from "../wgo-base/template/resolvers/TemplateResolver";
 import { HistoricResolver } from "../wgo-base/historic/resolvers/HistoricResolver";
 import { TranslationResolver } from "../wgo-base/translation/resolvers/TranslationResolver";
+import { AGVEventResolver } from "./Event/AGVEventResolver";
+import { AGVContentsResolver } from "./Content/AGVContentsResolver";
+import { AGVNewsletterResolver } from "./Newsletter/AGVNewsletterResolver";
+import { AGVInscriptionResolver } from "./Inscription/AGVInscriptionResolver";
 
 export const getResolverList = () => {
   return [
@@ -22,5 +26,9 @@ export const getResolverList = () => {
     TemplateResolver,
     HistoricResolver,
     TranslationResolver,
+    AGVEventResolver,
+    AGVContentsResolver,
+    AGVNewsletterResolver,
+    AGVInscriptionResolver,
   ] as NonEmptyArray<Function>;
 };

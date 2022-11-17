@@ -1,7 +1,6 @@
-import { Field, ObjectType } from 'type-graphql';
-import { MediaResponseGQL } from '../../../wgo/modules';
+import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 export class AGVContentsResponse {
-  @Field(() => String) contents: string;
+  @Field(() => String) contents!: string;
 }
