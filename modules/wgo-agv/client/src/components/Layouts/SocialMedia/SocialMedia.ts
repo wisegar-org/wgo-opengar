@@ -1,17 +1,14 @@
-import { IPageContent } from "src/models/Content";
 import { UtilService } from "src/services/UtilService";
 import { useAppContentStore } from "src/stores/appContentStore";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "SocialMedia",
-  data(vm) {
-    return {
-      content: {
-        facebook: "",
-        instagram: "",
-      } as IPageContent,
-    };
+  props: {
+    size: {
+      type: Number,
+      default: 40,
+    },
   },
   setup(props, ctx) {
     const contentStore = useAppContentStore();
@@ -26,12 +23,11 @@ export default defineComponent({
   },
   async created() {
     if (
-      !this.contentStore.content ||
-      !this.contentStore.content.facebook ||
-      !this.contentStore.content.instagram
+      !this.contentStore.contentObj ||
+      !this.contentStore.contentObj.facebook ||
+      !this.contentStore.contentObj.instagram
     ) {
       await this.contentStore.loadPageContent();
-      this.content = this.contentStore.contentObj;
     }
   },
 });

@@ -8,7 +8,7 @@
         Copyright © Assemblea Genitori Vezia {{ getYear() }}
       </div>
       <div class="col-2">
-        <SocialMedia class="q-pr-sm justify-end" size="40px" />
+        <SocialMedia class="q-pr-sm justify-end" :size="40" />
       </div>
     </div>
     <div v-else class="row justify-center">
@@ -21,7 +21,7 @@
       </div>
 
       <div class="col-12 q-py-none">
-        <SocialMedia size="56px" class="justify-center" />
+        <SocialMedia :size="56" class="justify-center" />
       </div>
       <div class="text-body col-12 self-center text-center q-pt-sm">
         <div class="q-pa-none">Version: {{ version }}</div>
