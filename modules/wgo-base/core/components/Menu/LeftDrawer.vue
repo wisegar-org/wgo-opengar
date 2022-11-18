@@ -16,6 +16,7 @@
       :mini="!show || minState"
       bordered
       content-class="bg-grey-3 hide-scrollbar"
+      :side="side"
     >
       <q-scroll-area class="text-black fit">
         <q-list class="fit">
@@ -85,6 +86,7 @@ export default defineComponent({
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
     authStore: { type: Object as PropType<AuthStore>, required: true },
     routeService: { type: Object as PropType<RouteService>, required: true },
+    side: { type: String, default: "left" },
   },
   components: {
     LeftDrawerList,
