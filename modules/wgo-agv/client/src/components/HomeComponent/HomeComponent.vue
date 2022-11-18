@@ -38,6 +38,26 @@
         />
       </div>
     </div>
+    <div class="row justify-center" v-if="!loadingEvents">
+      <div v-if="!!corso" class="col-sm-8 col-md-6">
+        <ItemCard
+          title="Prossimo Corso"
+          :item="corso"
+          @onEventClick="(item) => onItemClick(item, false)"
+        />
+      </div>
+
+      <div v-if="!!evento" class="col-sm-8 col-md-6">
+        <ItemCard
+          title="Prossimo Evento"
+          :item="evento"
+          @onEventClick="(item) => onItemClick(item, true)"
+        />
+      </div>
+    </div>
+    <div v-else class="row justify-center q-pt-xl q-pb-md">
+      <q-spinner size="50px" color="primary" />
+    </div>
   </div>
 </template>
 
