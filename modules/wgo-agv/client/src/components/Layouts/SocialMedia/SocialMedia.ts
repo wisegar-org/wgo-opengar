@@ -25,7 +25,6 @@ export default defineComponent({
     },
   },
   async created() {
-    debugger;
     if (
       !this.contentStore.content ||
       !this.contentStore.content.facebook ||

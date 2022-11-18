@@ -6,12 +6,13 @@
     <q-toolbar-title @click="goToHome" class="cursor-pointer">
       {{ title }}
     </q-toolbar-title>
-    <LeftDrawer
+    <SimpleDrawer
       :items="menuItems"
       :authStore="authStore"
       :tranStore="tranStore"
       :routeService="routeService"
       side="right"
+      @openAdmin="goToAdmin"
     />
   </q-toolbar>
 </template>

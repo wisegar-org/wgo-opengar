@@ -9,12 +9,18 @@ import { defineComponent, PropType } from "vue";
 import { useRouter } from "vue-router";
 import { IRoute } from "src/wgo-base/core/models";
 import { IMenuItem } from "src/wgo-base/core/models/Menu";
+import SimpleDrawer from "src/wgo-base/core/components/Menu/SimpleDrawer.vue";
+import { UtilService } from "src/services/UtilService";
+import { AdminBasePath } from "src/wgo-base/core/router";
 
 export default defineComponent({
   name: "MobileHeader",
   props: {
     title: { type: String, default: "" },
     menuList: { type: Array as PropType<IRoute[]>, default: [] },
+  },
+  components: {
+    SimpleDrawer,
   },
   data(vm) {
     const router = useRouter();
@@ -23,10 +29,11 @@ export default defineComponent({
         (item, index) =>
           ({
             color: "black",
-            icon: "",
+            icon: "item",
             id: `${index}-menu-${item.name}`,
             label: item.label,
             link: item.path,
+            type: "item",
           } as IMenuItem)
       ),
       routeService: new RouteService(router as any) as any,
@@ -46,6 +53,9 @@ export default defineComponent({
   methods: {
     goToHome() {
       if (this.$route.path !== "/") void this.$router.push("/");
+    },
+    goToAdmin() {
+      UtilService.openNewTabUrl(AdminBasePath);
     },
   },
 });
