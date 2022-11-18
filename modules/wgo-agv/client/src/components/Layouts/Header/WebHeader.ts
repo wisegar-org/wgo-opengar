@@ -1,7 +1,7 @@
 import { openURL } from "quasar";
 import { useAuthStore } from "src/stores/authStore";
-import { SUPERADMIN } from "src/wgo-base/build/authentication/models/constants";
-import { AdminBasePath } from "src/wgo-base/build/core/router";
+import { SUPERADMIN } from "src/wgo-base/authentication/models/constants";
+import { AdminBasePath } from "src/wgo-base/core/router";
 import { IRoute } from "src/wgo-base/core/models";
 import { defineComponent, PropType } from "vue";
 import { translations as transBase } from "src/wgo-base/core/models/translations";
