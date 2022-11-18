@@ -9,7 +9,7 @@ import { AuthPathRouter } from "./paths/authPaths";
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
-    component: () => import("layouts/MainLayout.vue"),
+    component: () => import("layouts/SiteMainLayout.vue"),
     children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
   },
 

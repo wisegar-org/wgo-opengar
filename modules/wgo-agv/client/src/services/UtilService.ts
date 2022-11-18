@@ -9,4 +9,11 @@ export const UtilService = {
       openURL(url);
     }
   },
+  openNewTabUrl(url: string) {
+    if (location.href.includes("/#")) {
+      openURL(`/#${url}`);
+    } else {
+      openURL(url);
+    }
+  },
 };

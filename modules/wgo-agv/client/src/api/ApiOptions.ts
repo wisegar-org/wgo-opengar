@@ -12,7 +12,7 @@ const defaultEnv: Environment =
     ? Environment.Production
     : Environment.Development;
 
-const apiSettings = getSettings(defaultEnv);
+export const apiSettings = getSettings(defaultEnv);
 
 const isNotAuthorizedErrorHandler = (message: string) => {
   return message === "NotAuthorized";
