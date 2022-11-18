@@ -18,7 +18,10 @@ import { AppController } from "./controllers/AppController";
 import { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
-import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
+import {
+  UseClientSPAHostMiddleware,
+  UsePublicMediaHostMiddleware,
+} from "./middlewares/HostClientMiddleware";
 import { roleSuperAdminSeeder } from "./wgo-base/authentication/database/seeder/roles";
 import { userAdminSeeder } from "./wgo-base/authentication/database/seeder/user";
 import { languageDefaultSeeder } from "./wgo-base/language/database/seeder/language";
@@ -40,6 +43,7 @@ const serverOptions: IServerOptions = {
   useCors: true,
   middlewares: (app: Express) => {
     UseClientSPAHostMiddleware(app);
+    UsePublicMediaHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
   resolvers: getResolverList(),
