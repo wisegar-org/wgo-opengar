@@ -6,7 +6,7 @@
           height="calc(min(600px,50vw))"
           class="bg-grey-1 rounded-borders"
           :src="imgList[0]"
-          img-style="'background-size: contain' "
+          :img-style="{ 'background-size': 'contain' }"
         />
       </div>
       <q-carousel
