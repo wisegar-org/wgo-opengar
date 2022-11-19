@@ -1,4 +1,6 @@
 import { IRouteObject } from "src/wgo-base/core/models";
+import { RouteRecordRaw } from "vue-router";
+import { AGVPaths } from "./sitePaths";
 
 export const AGVDetailsPaths: IRouteObject = {
   corsiDetails: {
@@ -16,4 +18,21 @@ export const AGVDetailsPaths: IRouteObject = {
     name: "agv_new_iscrizione",
     label: "WGO_NEW_INSCRIPTION",
   },
+};
+
+export const DetailsPathRouter: RouteRecordRaw = {
+  path: AGVPaths.home.path,
+  component: () => import("../../layouts/SiteMainLayout.vue"),
+  children: [
+    {
+      path: AGVDetailsPaths.corsiDetails.path,
+      props: (route) => ({ itemId: route.query.id }),
+      component: () => import("../../pages/Details/DetailsPage.vue"),
+    },
+    {
+      path: AGVDetailsPaths.eventiDetails.path,
+      props: (route) => ({ itemId: route.query.id }),
+      component: () => import("../../pages/Details/DetailsPage.vue"),
+    },
+  ],
 };

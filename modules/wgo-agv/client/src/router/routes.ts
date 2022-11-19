@@ -5,14 +5,14 @@ import { LanguagePathRouter } from "./paths/admin/languagePaths";
 import { SettingsPathRouter } from "./paths/admin/settingsPaths";
 import { TranslationPathRouter } from "./paths/admin/translationPaths";
 import { AuthPathRouter } from "./paths/authPaths";
+import { DetailsPathRouter } from "./paths/detailsPath";
+import { PollPathRouter } from "./paths/pollPaths";
+import { SitePathRouter } from "./paths/sitePaths";
 
 const routes: RouteRecordRaw[] = [
-  {
-    path: "/",
-    component: () => import("layouts/SiteMainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
-  },
-
+  SitePathRouter,
+  DetailsPathRouter,
+  PollPathRouter,
   AuthPathRouter,
   AuthAdminPathRouter,
   LanguagePathRouter,
