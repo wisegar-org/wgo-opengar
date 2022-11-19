@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <div
       class="q-py-xl text-h4"
+      v-if="contact.mapPath"
       v-html="getLabel(translations.MAP_TITLE)"
     ></div>
     <iframe
@@ -16,7 +17,7 @@
       v-if="contact.mapPath"
     >
     </iframe>
-    <div>
+    <div v-if="showLabels">
       <q-card class="my-card" flat>
         <q-card-section>
           <div class="text-h4 text-center">{{ contact.contactName }}</div>
@@ -46,6 +47,7 @@ export default defineComponent({
   name: "MapComponent",
   props: {
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    showLabels: { type: Boolean, default: true },
   },
   data() {
     const { getLabel } = new BaseTranslateComponent();
