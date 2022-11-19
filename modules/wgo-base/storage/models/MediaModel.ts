@@ -174,7 +174,7 @@ export class MediaModel {
     return <MediaResponse>{
       isPublic: media.isPublic,
       id,
-      url: `${urlApi}${this.getRelativeFileUrl(
+      url: `${urlApi}/${this.getRelativeFileUrl(
         media.isPublic,
         media.fileName
       )}`,
