@@ -18,23 +18,25 @@ import { EmailHistoryEntity } from './database/entities/EmailHistoryEntity';
 import { EmployeesEntity } from './database/entities/EmployeesEntity';
 
 /** Migrations */
-import { migrations1651766519693 } from './wgo-base/authentication/database/migrations/1651766519693-migrations';
-import { createEmailMedia1651972762300 } from './database/migrations/1651972762300-createEmailMedia';
-import { createEmailHistory1651974663732 } from './database/migrations/1651974663732-createEmailHistory';
-import { createEmailMediaRelation1651975332815 } from './database/migrations/1651975332815-createEmailMediaRelation';
-import { removeUniqueContentID1655304993610 } from './database/migrations/1655304993610-removeUniqueContentID';
-import { addRoleEntity1656005738186 } from './wgo-base/authentication/database/migrations/1656005738186-addRoleEntity';
-import { addLanguageEntity1656012423678 } from './wgo-base/language/database/migrations/1656012423678-addLanguageEntity';
-import { addCertificateFields1656434163078 } from './wgo-base/authentication/database/migrations/1656434163078-addCertificateFields';
-import { createTranslationEntity1656439638048 } from './wgo-base/translation/database/migrations/1656439638048-createTranslationEntity';
-import { createEmployees1657550848007 } from './database/migrations/1657550848007-createEmployees';
-import { updateEmployees1657747113758 } from './database/migrations/1657747113758-updateEmployees';
-import { addSettingsEntity1658164004212 } from './wgo-base/settings/database/migrations/1658164004212-addSettingsEntity';
-import { renameTypeSettings1658240270133 } from './wgo-base/settings/database/migrations/1658240270133-renameTypeSettings';
-import { removeAppSettings1658240565587 } from './wgo-base/settings/database/migrations/1658240565587-removeAppSettings';
-import { fixAdminPassword1658417129112 } from './wgo-base/authentication/database/migrations/1658417129112-fixAdminPassword';
-import { addUniqueUserProps1661872515554 } from './wgo-base/authentication/database/migrations/1661872515554-addUniqueUserProps';
-import { addUniqueCodeProp1662052264312 } from './wgo-base/authentication/database/migrations/1662052264312-addUniqueCodeProp';
+import { getAuthenticationMigrations } from './wgo-base/authentication/database/migrations';
+import { getContactMigrations } from './wgo-base/contact/database/migrations';
+import { getHistoricMigrations } from './wgo-base/historic/database/migrations';
+import { getLanguageMigrations } from './wgo-base/language/database/migrations';
+import { getSettingsMigrations } from './wgo-base/settings/database/migrations';
+import { getStorageMigrations } from './wgo-base/storage/database/migrations';
+import { getTemplateMigrations } from './wgo-base/template/database/migrations';
+import { getTranslationMigrations } from './wgo-base/translation/database/migrations';
+import { getSwisspayMigrations } from './database/migrations';
+
+const migrations = getAuthenticationMigrations()
+  .concat(getContactMigrations())
+  .concat(getHistoricMigrations())
+  .concat(getLanguageMigrations())
+  .concat(getSettingsMigrations())
+  .concat(getStorageMigrations())
+  .concat(getTemplateMigrations())
+  .concat(getTranslationMigrations())
+  .concat(getSwisspayMigrations());
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -55,25 +57,7 @@ export const dataSourceOptions: DataSourceOptions = {
     EmailHistoryEntity,
     EmployeesEntity,
   ],
-  migrations: [
-    migrations1651766519693,
-    createEmailMedia1651972762300,
-    createEmailHistory1651974663732,
-    createEmailMediaRelation1651975332815,
-    removeUniqueContentID1655304993610,
-    addRoleEntity1656005738186,
-    addLanguageEntity1656012423678,
-    addCertificateFields1656434163078,
-    createTranslationEntity1656439638048,
-    createEmployees1657550848007,
-    updateEmployees1657747113758,
-    addSettingsEntity1658164004212,
-    renameTypeSettings1658240270133,
-    removeAppSettings1658240565587,
-    fixAdminPassword1658417129112,
-    addUniqueUserProps1661872515554,
-    addUniqueCodeProp1662052264312,
-  ],
+  migrations: migrations,
   subscribers: [],
 };
 
