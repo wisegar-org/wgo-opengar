@@ -19,7 +19,7 @@ export const agvAdminUserSeeder = async (dataSource: DataSource) => {
   if (IsNullOrUndefined(adminUserResult) || !adminUserResult) {
     const adminUser = new UserEntity();
     adminUser.email = adminUserEmail;
-    adminUser.userName = adminUserEmail;
+    adminUser.userName = "admin";
     adminUser.isEmailConfirmed = true;
     adminUser.name = "AGV";
     adminUser.lastName = "Admin";
