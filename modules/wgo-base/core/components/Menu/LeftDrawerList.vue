@@ -107,8 +107,8 @@ export default defineComponent({
 
     getBorderStyle(item: any) {
       return this.isActiveRoute(item)
-        ? `border-right: 5px solid ${"primary" || "black"};`
-        : "";
+        ? "border-right: 5px solid var(--q-primary);"
+        : "border-right: 5px solid transparent;";
     },
 
     getColorStyle(item: any) {

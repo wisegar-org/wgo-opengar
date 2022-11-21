@@ -11,11 +11,11 @@
     />
     <q-drawer
       v-model="show"
-      :width="300"
+      :width="350"
       :breakpoint="500"
       :mini="!show || minState"
       bordered
-      content-class="bg-grey-3 hide-scrollbar"
+      content-class="bg-grey-3 hide-scrollbar fit"
       :side="side"
     >
       <q-scroll-area class="text-black fit">
@@ -32,7 +32,7 @@
                 </q-avatar>
               </div>
               <div
-                class="text-subtitle1 row justify-center full-width"
+                class="text-subtitle1 row justify-center full-width ellipsis"
                 style="white-space: nowrap"
                 v-if="!minState"
               >
@@ -47,6 +47,7 @@
             :authStore="authStore"
             :routeService="routeService"
             :minState="minState"
+            class="fit"
           />
         </q-list>
       </q-scroll-area>
@@ -108,3 +109,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.q-scrollarea__content {
+  width: fit-content !important;
+}
+</style>

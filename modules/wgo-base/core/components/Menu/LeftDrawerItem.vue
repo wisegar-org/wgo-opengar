@@ -39,8 +39,8 @@ export default defineComponent({
     },
     getBorderStyle() {
       return this.isActiveRoute()
-        ? `border-right: 5px solid ${"primary" || "black"};`
-        : "";
+        ? "border-right: 5px solid var(--q-primary);"
+        : "border-right: 5px solid transparent;";
     },
     getColorStyle() {
       return this.isActiveRoute() ? "primary" : "black";

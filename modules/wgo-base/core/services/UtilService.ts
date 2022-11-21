@@ -40,7 +40,7 @@ export const UtilService = {
           break;
         }
         case "item": {
-          result = item.link === activeRoute;
+          result = result || item.link === activeRoute;
           break;
         }
       }
