@@ -7,9 +7,10 @@ import {
 } from "typeorm";
 import "reflect-metadata";
 import { UserEntity } from "./UserEntity";
+import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
 
 @Entity({ name: "roles" })
-export class RoleEntity extends BaseEntity {
+export class RoleEntity extends WGBaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 

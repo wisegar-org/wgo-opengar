@@ -16,6 +16,12 @@ export class MediaEntity extends WGBaseEntity {
 
   @Column({ nullable: true, default: false })
   isPublic!: boolean;
+
+  @Column({ default: "" })
+  mediaType!: string;
+
+  @Column({ nullable: true, default: "" })
+  path!: string;
 }
 
 export default MediaEntity;

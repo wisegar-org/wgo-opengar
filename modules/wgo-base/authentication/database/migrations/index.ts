@@ -5,6 +5,8 @@ import { fixAdminPassword1658417129112 } from "./1658417129112-fixAdminPassword"
 import { addUniqueUserProps1661872515554 } from "./1661872515554-addUniqueUserProps";
 import { addUniqueCodeProp1662052264312 } from "./1662052264312-addUniqueCodeProp";
 import { addAuthHistoric1668548748218 } from "./1668548748218-addAuthHistoric";
+import { addLanguageAndProfile1668893995656 } from "./1668893995656-addLanguageAndProfile";
+import { addRoleHistoric1668897491219 } from "./1668897491219-addRoleHistoric";
 
 export const getAuthenticationMigrations = () => {
   return [
@@ -15,5 +17,7 @@ export const getAuthenticationMigrations = () => {
     addUniqueUserProps1661872515554,
     addUniqueCodeProp1662052264312,
     addAuthHistoric1668548748218,
+    addLanguageAndProfile1668893995656,
+    addRoleHistoric1668897491219,
   ];
 };

@@ -6,10 +6,13 @@ import {
   ManyToMany,
   JoinTable,
   Unique,
+  ManyToOne,
 } from "typeorm";
 import { RoleEntity } from "./RoleEntity";
 import "reflect-metadata";
 import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
+import MediaEntity from "../../../storage/database/entities/MediaEntity";
+import { LanguageEntity } from "../../../language/database/entities/LanguageEntity";
 
 @Entity({ name: "users" })
 @Unique("userName-unique", ["userName", "code"])
@@ -47,4 +50,14 @@ export class UserEntity extends WGBaseEntity {
   @ManyToMany(() => RoleEntity)
   @JoinTable()
   roles?: RoleEntity[];
+
+  @Column({ nullable: true })
+  profileImageId!: number;
+  @ManyToOne(() => MediaEntity, (media) => media.id)
+  profileImage!: MediaEntity;
+
+  @Column({ nullable: true })
+  languageId!: number;
+  @ManyToOne(() => LanguageEntity, (lang) => lang.id)
+  language!: LanguageEntity;
 }
