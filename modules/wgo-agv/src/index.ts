@@ -29,6 +29,7 @@ import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 import { agvTemplateSeeder } from "./database/seeders/TemplateSeeder";
 import { mediaPublicSeeder } from "./wgo-base/storage/database/seeder/media";
+import { agvAdminUserSeeder } from "./database/seeders/AdminUserSeeder";
 
 const port = GetPortKey();
 
@@ -79,6 +80,7 @@ boot(serverOptions, async () => {
 
   //App seeders
   await agvTemplateSeeder(dataSource);
+  await agvAdminUserSeeder(dataSource);
 
   // Loop function
   setTimeout(async () => {}, 0);
