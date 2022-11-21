@@ -18,7 +18,7 @@
         <q-item
           clickable
           v-ripple
-          @click="showSubMenu"
+          @click="() => showSubMenu(menuItem, index)"
           :class="!minState ? 'q-pl-md' : 'q-pl-none'"
           :style="getBorderStyle(menuItem)"
         >
@@ -36,7 +36,7 @@
           </q-item-section>
         </q-item>
         <LeftDrawerList
-          v-show="!!subMenu"
+          v-show="!!showMenu[index]"
           :items="menuItem.items"
           :class="!minState ? 'q-pl-md' : 'q-pl-none'"
           :tranStore="tranStore"
@@ -58,6 +58,7 @@
 import { defineComponent, PropType } from "@vue/composition-api";
 import { AuthStore } from "../../../authentication/models/AuthStore";
 import { TranslationStore } from "../../../translation/models/TranslationStore";
+import { NumberDictionary, NumberDictionaryG } from "../../models";
 import { MenuListItem } from "../../models/Menu";
 import { RouteService } from "../../services/RouteService";
 import { UtilService } from "../../services/UtilService";
@@ -81,9 +82,10 @@ export default defineComponent({
   },
   data() {
     const { getLabel } = new BaseTranslateComponent();
+    const showMenu: NumberDictionaryG<boolean> = {};
     return {
       getLabel: (name: string) => getLabel(this.tranStore, name),
-      subMenu: false,
+      showMenu,
     };
   },
   setup() {
@@ -93,9 +95,9 @@ export default defineComponent({
     };
   },
   methods: {
-    showSubMenu(item: any) {
+    showSubMenu(item: any, index: any) {
       item.status = !item.status;
-      this.subMenu = !this.subMenu;
+      this.showMenu[index] = !this.showMenu[index];
     },
 
     isActiveRoute(item: any) {
