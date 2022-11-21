@@ -24,7 +24,7 @@
         v-if="isUserAdmin()"
         flat
         stretch
-        class="q-px-md fit"
+        class="q-tab--inactive q-px-md fit"
         :label="getLabel(transBase.APP_ADMIN_TITLE)"
         @click="openNewTab"
       />
