@@ -1,0 +1,110 @@
+<template>
+  <div>
+    <div ref="placeholder" style="height: 1px"></div>
+    <Table
+      :title="translations.TITLE"
+      :data="events"
+      :schema="schema"
+      :height="componentHeight"
+      :countData="eventsCount"
+      @getPagination="getDataByConfig"
+    >
+      <template v-slot:subtitle>
+        <div class="fit row">
+          <div class="col-12 col-sm-3">
+            <q-input
+              dense
+              filled
+              clearable
+              square
+              outlined
+              class="q-ma-sm"
+              v-model="filterObj.title"
+              lazy-rules="ondemand"
+              standout="bg-primary text-white"
+              :autofocus="true"
+              label="Titolo"
+            />
+          </div>
+          <div class="col-12 col-sm-3">
+            <q-select
+              class="q-ma-sm"
+              dense
+              filled
+              clearable
+              v-model="filterObj.class"
+              label="Corso Scolastico"
+              :options="classOptions"
+              standout="bg-primary text-white"
+              lazy-rules="ondemand"
+              autocomplete="new-password"
+            />
+          </div>
+          <div class="col-12 col-sm-3">
+            <q-select
+              class="q-ma-sm"
+              filled
+              dense
+              clearable
+              v-model="filterObj.type"
+              label="Tipo di Evento"
+              :options="typeOptions"
+              standout="bg-primary text-white"
+              lazy-rules="ondemand"
+              autocomplete="new-password"
+            />
+          </div>
+          <div class="col-12 col-sm-3">
+            <q-select
+              class="q-ma-sm"
+              dense
+              filled
+              clearable
+              v-model="filterObj.state"
+              label="Stato"
+              :options="stateOptions"
+              standout="bg-primary text-white"
+              lazy-rules="ondemand"
+              autocomplete="new-password"
+            />
+          </div>
+          <div class="col-12 col-sm-3">
+            <q-select
+              class="q-ma-sm"
+              dense
+              filled
+              clearable
+              v-model="filterObj.enrollment"
+              label="Iscrizioni"
+              :options="enrollmentOptions"
+              standout="bg-primary text-white"
+              lazy-rules="ondemand"
+              autocomplete="new-password"
+              emit-value
+              map-options
+            />
+          </div>
+          <div class="col-12 col-sm-3">
+            <q-select
+              class="q-ma-sm"
+              dense
+              filled
+              clearable
+              v-model="filterObj.visible"
+              label="Visibile"
+              :options="visibleOptions"
+              standout="bg-primary text-white"
+              lazy-rules="ondemand"
+              autocomplete="new-password"
+              emit-value
+              map-options
+            />
+          </div>
+        </div>
+      </template>
+    </Table>
+    <Loader :loading="loading" />
+  </div>
+</template>
+
+<script lang="ts" src="./EventAdminComponent.ts" />
