@@ -7,7 +7,10 @@ import { LanguagePathRouter } from "./paths/admin/languagePaths";
 import { SettingsPathRouter } from "./paths/admin/settingsPaths";
 import { TranslationPathRouter } from "./paths/admin/translationPaths";
 import { AGVContentPathRouter } from "./paths/adminAgv/contentPaths";
-import { AGVEventsPathRouter } from "./paths/adminAgv/eventsPaths";
+import {
+  AGVEventsAdminPaths,
+  AGVEventsPathRouter,
+} from "./paths/adminAgv/eventsPaths";
 import { AGVInscriptionsPathRouter } from "./paths/adminAgv/inscriptionsPaths";
 import { AGVNewslettersPathRouter } from "./paths/adminAgv/newslettersPaths";
 import { AuthPathRouter } from "./paths/authPaths";
@@ -22,7 +25,7 @@ const routes: RouteRecordRaw[] = [
   AuthPathRouter,
   {
     path: AdminBasePath,
-    redirect: AuthPaths.authUsers.path,
+    redirect: AGVEventsAdminPaths.events.path,
   },
   AGVContentPathRouter,
   AGVEventsPathRouter,
