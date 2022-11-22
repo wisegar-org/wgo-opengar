@@ -32,7 +32,7 @@ export const getEventListSchema = (
         visible: true,
         filterable: true,
         align: "left",
-        width: 150,
+        width: 250,
       },
       type: {
         name: "type",
@@ -42,7 +42,7 @@ export const getEventListSchema = (
         visible: true,
         filterable: true,
         align: "left",
-        width: 50,
+        width: 100,
       },
       state: {
         name: "state",
@@ -52,7 +52,7 @@ export const getEventListSchema = (
         visible: true,
         filterable: true,
         align: "left",
-        width: 50,
+        width: 100,
       },
       visible: {
         name: "visible",
@@ -65,6 +65,10 @@ export const getEventListSchema = (
         align: "left",
         type: "icon",
         width: 50,
+        extra: {
+          tooltip: translations.COLUMN_VISIBLE,
+          color: "primary",
+        },
       },
       enrollment: {
         name: "enrollment",
@@ -77,6 +81,10 @@ export const getEventListSchema = (
         align: "left",
         type: "icon",
         width: 50,
+        extra: {
+          tooltip: translations.COLUMN_ENROLLMENT,
+          color: "primary",
+        },
       },
       class: {
         name: "class",
@@ -86,7 +94,7 @@ export const getEventListSchema = (
         visible: true,
         filterable: true,
         align: "left",
-        width: 50,
+        width: 100,
       },
       inscriptions: {
         name: "inscriptions",
@@ -117,6 +125,13 @@ export const getEventListSchema = (
     title: "Events",
     leftButtons: leftButtons,
     translationStore: transStore,
+    disableCopyClipboard: true,
+    disableExportCsv: true,
+    disableExportExcel: true,
+    disableFullscreen: true,
+    disableSelectColumns: true,
+    disableFilter: true,
+    disableTitle: false,
     searchStrategy: {
       type: "header",
     },

@@ -10,7 +10,7 @@
       @getPagination="getDataByConfig"
     >
       <template v-slot:subtitle>
-        <div class="fit row">
+        <div class="fit row col-12">
           <div class="col-12 col-sm-3">
             <q-input
               dense

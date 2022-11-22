@@ -17,18 +17,21 @@
       @request="getByPagination"
     >
       <template v-slot:top>
-        <TableTitleHeader
-          v-if="!mySchema.disableTitle"
-          :title="getLabel(title)"
-          :searchText="searchText"
-          :schema="mySchema"
-          :columns="columns"
-          :data="data"
-          :enableFilter="enableFilter"
-          @changeColumnSelected="changeColumnSelected"
-          @enableFilterChange="changeEnableFilter"
-        />
-        <slot name="subtitle"></slot>
+        <div class="row col-12">
+          <TableTitleHeader
+            v-if="!mySchema.disableTitle"
+            :title="getLabel(title)"
+            :searchText="searchText"
+            :schema="mySchema"
+            :columns="columns"
+            :data="data"
+            :enableFilter="enableFilter"
+            @changeColumnSelected="changeColumnSelected"
+            @enableFilterChange="changeEnableFilter"
+            class="col-12 fit"
+          />
+          <slot name="subtitle"></slot>
+        </div>
       </template>
 
       <template v-slot:header-cell="props">
@@ -39,9 +42,18 @@
             width: props.col.width + 'px',
           }"
         >
-          <div v-if="mySchema.searchStrategy && mySchema.searchStrategy.type == 'header'" class="column">
+          <div
+            v-if="
+              mySchema.searchStrategy &&
+              mySchema.searchStrategy.type == 'header'
+            "
+            class="column"
+          >
             <div>{{ getLabel(props.col.label) }}</div>
-            <div v-if="props.col.filterable && enableFilter" class="row justify-between items-center">
+            <div
+              v-if="props.col.filterable && enableFilter"
+              class="row justify-between items-center"
+            >
               <q-input
                 v-if="props.col.filterable"
                 v-model="filters[props.col.name]"
@@ -61,33 +73,52 @@
                 </template>
               </q-input>
             </div>
-            <div v-if="!props.col.filterable && enableFilter" style="min-height: 22px" />
+            <div
+              v-if="!props.col.filterable && enableFilter"
+              style="min-height: 22px"
+            />
           </div>
-          <div v-if="!mySchema.searchStrategy || mySchema.searchStrategy.type != 'header'" class="column">
+          <div
+            v-if="
+              !mySchema.searchStrategy ||
+              mySchema.searchStrategy.type != 'header'
+            "
+            class="column"
+          >
             <div>{{ getLabel(props.col.label) }}</div>
           </div>
         </q-th>
       </template>
       <template v-slot:body-cell="props">
-        <TableColumns :schema="mySchema" :props="props" @rowSelect="onRowSelect" @dbclick="onDblClick" />
+        <TableColumns
+          :schema="mySchema"
+          :props="props"
+          @rowSelect="onRowSelect"
+          @dbclick="onDblClick"
+        />
       </template>
     </q-table>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from '@vue/composition-api';
-import { ITableColumn, ITableData, ITablePagination, ITableSchema } from '../../models/Table';
-import TableColumns from './TableColumns.vue';
-import TableTitleHeader from './TableTitleHeader.vue';
-import { translations as tranBase } from '../../../core/models';
+import { defineComponent, PropType } from "@vue/composition-api";
+import {
+  ITableColumn,
+  ITableData,
+  ITablePagination,
+  ITableSchema,
+} from "../../models/Table";
+import TableColumns from "./TableColumns.vue";
+import TableTitleHeader from "./TableTitleHeader.vue";
+import { translations as tranBase } from "../../../core/models";
 
 export default defineComponent({
-  name: 'Table',
+  name: "Table",
   props: {
     title: {
       type: String,
-      default: '',
+      default: "",
     },
     data: {
       type: Array as PropType<ITableData[]>,
@@ -99,7 +130,7 @@ export default defineComponent({
     },
     schema: {
       type: Object as PropType<ITableSchema>,
-      default: { schema: {}, title: '', code: 'id' },
+      default: { schema: {}, title: "", code: "id" },
     },
     height: {
       type: Number,
@@ -111,7 +142,7 @@ export default defineComponent({
     TableTitleHeader,
   },
   data() {
-    const mySchema: ITableSchema = { schema: {}, title: '' };
+    const mySchema: ITableSchema = { schema: {}, title: "" };
     const columns: ITableColumn[] = [];
     const visibleColumns: string[] = [];
     const filtredData: ITableData[] = [];
@@ -121,7 +152,7 @@ export default defineComponent({
       rowsPerPage: this.schema.rowsPerPageDefault || this.data.length,
       descending: false,
       page: 1,
-      sortBy: '',
+      sortBy: "",
     };
     if (this.countData && this.countData !== this.data.length) {
       initialPagination.rowsNumber = this.countData;
@@ -134,8 +165,8 @@ export default defineComponent({
       visibleColumns,
       filters,
       filtredData,
-      apiURL: '',
-      searchText: '',
+      apiURL: "",
+      searchText: "",
       enableFilter: false,
       tranBase,
       initialPagination,
@@ -161,12 +192,12 @@ export default defineComponent({
       }
     },
     selectCode(e: Event, row: ITableData) {
-      this.$emit('selectCode', row);
+      this.$emit("selectCode", row);
     },
     buttonClick(clickFunction: string, row?: ITableData) {
-      console.log('Click on button ', clickFunction, ' on row ', row);
+      console.log("Click on button ", clickFunction, " on row ", row);
 
-      this.$emit('buttonClick', {
+      this.$emit("buttonClick", {
         clickFunction: clickFunction,
         row: row,
       });
@@ -175,13 +206,13 @@ export default defineComponent({
       this.visibleColumns = visibleColumns;
     },
     onRowSelect(row: any) {
-      this.$emit('rowSelect', row);
+      this.$emit("rowSelect", row);
     },
     onDblClick(row: any) {
       if (this.mySchema.rowDblClick) this.mySchema.rowDblClick(row);
     },
     onClenaFilter(colName: string) {
-      this.filters[colName] = '';
+      this.filters[colName] = "";
       this.onSearchInput(colName);
     },
     onSearchInput(colName?: string) {
@@ -195,23 +226,26 @@ export default defineComponent({
       }
 
       let tmpData: ITableData[] = this.data.map((item) => ({ ...item }));
-      this.searchText = '';
+      this.searchText = "";
       const queryStr: string[] = [];
       for (let i = 0; i < this.inputSequence.length; i++) {
         const colName = this.inputSequence[i];
         const inputValue = this.filters[colName];
         const column = this.mySchema.schema[colName];
         queryStr.push(
-          `${this.getLabel(column.label)} ${this.getLabel(this.tranBase.CONTAIN, 'contain')} <${inputValue}>`
+          `${this.getLabel(column.label)} ${this.getLabel(
+            this.tranBase.CONTAIN,
+            "contain"
+          )} <${inputValue}>`
         );
         tmpData = tmpData.filter((v) => {
           let c;
-          if (typeof column.field == 'string') {
+          if (typeof column.field == "string") {
             c = v[column.field];
-          } else if (typeof column.field == 'function') {
+          } else if (typeof column.field == "function") {
             c = column.field(v);
           }
-          if (c && typeof c == 'string') {
+          if (c && typeof c == "string") {
             c = c.toLowerCase();
           } else {
             c = c.toString().toLowerCase();
@@ -220,7 +254,9 @@ export default defineComponent({
           return false;
         });
       }
-      this.searchText = queryStr.join(` ${this.getLabel(this.tranBase.AND, 'and')} `);
+      this.searchText = queryStr.join(
+        ` ${this.getLabel(this.tranBase.AND, "and")} `
+      );
       this.filtredData = tmpData;
     },
     getLabel(name: string, defaultValue?: string) {
@@ -231,7 +267,7 @@ export default defineComponent({
     },
     getPage(pagination: any) {
       this.initialPagination = pagination;
-      this.$emit('getPagination', pagination);
+      this.$emit("getPagination", pagination);
     },
     getByPagination(objPagination: any) {
       this.getPage(objPagination.pagination);
@@ -239,10 +275,12 @@ export default defineComponent({
   },
   computed: {
     rowsPerPage(): number[] {
-      return this.schema && this.schema.rowsPerPage ? this.schema.rowsPerPage : [0];
+      return this.schema && this.schema.rowsPerPage
+        ? this.schema.rowsPerPage
+        : [0];
     },
   },
-  emits: ['selectCode', 'buttonClick', 'rowSelect', 'getPagination'],
+  emits: ["selectCode", "buttonClick", "rowSelect", "getPagination"],
   mounted() {
     if (this.schema) {
       this.setFromSchema();
@@ -285,13 +323,12 @@ export default defineComponent({
     .q-table__sort-icon--right
       position: absolute
       top: 4px
-      left:8px
+      left: 8px
     .q-table__sort-icon--center
       position: absolute
       top: 4px
       right: 10px
-    top: 0
-
+      top: 0
 
   /* this is when the loading indicator appears */
   &.q-table--loading thead tr:last-child th

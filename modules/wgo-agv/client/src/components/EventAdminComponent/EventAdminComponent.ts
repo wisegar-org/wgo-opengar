@@ -93,7 +93,7 @@ export default defineComponent({
   },
   methods: {
     onResize() {
-      this.resizeTable(this.$refs.placeholder as HTMLElement, 1);
+      this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
     async loadData() {
       const eventService = new EventService();
