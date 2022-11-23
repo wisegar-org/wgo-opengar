@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent, reactive, watch } from "vue";
 import { translations } from "../../models/translations/events";
 import Table from "../../wgo-base/core/components/Table/Table.vue";
 import Loader from "../../wgo-base/core/components/Loader/Loader.vue";
@@ -22,6 +22,11 @@ import {
   EventTypeOptions,
   EventVisibleOptions,
 } from "src/models/Events";
+import { translations as transBase } from "src/wgo-base/core/models/translations";
+import { AgvEventResponseModel } from "src/models/models";
+import { RouteService } from "src/wgo-base/core/services/RouteService";
+import { AGVEventsAdminPaths } from "src/router/paths/adminAgv/eventsPaths";
+import { useAppStatusStore } from "src/stores/appStatusStore";
 
 export default defineComponent({
   name: "EventAdminComponent",
@@ -29,23 +34,45 @@ export default defineComponent({
     Table,
     Loader,
   },
+  props: {
+    page: { type: Number, default: 0 },
+  },
   data() {
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } =
       resizeComponent;
 
-    const rowBtns: ITableRowButton[] = [];
+    const fnAction = (row?: AgvEventResponseModel) => {
+      this.editEvent(row?.id || 0);
+    };
 
-    const leftBtns: ITableLeftButton[] = [];
+    const rowBtns: ITableRowButton[] = [
+      {
+        icon: "edit",
+        tooltip: transBase.EDIT,
+        fnAction,
+      },
+    ];
+
+    const leftBtns: ITableLeftButton[] = [
+      {
+        label: "",
+        icon: "add",
+        color: "primary",
+        tooltip: transBase.ADD,
+        fnAction: () => fnAction(),
+      },
+    ];
     const { getLabel } = new BaseTranslateComponent();
     const schema = getEventListSchema(this.tranStore as any, leftBtns, rowBtns);
+    schema.rowDblClick = fnAction;
     schema.rowsPerPage = this.$q.platform.is.mobile
       ? [5, 10, 20, 0]
       : [15, 20, 30, 50, 100, 0];
     schema.rowsPerPageDefault = schema.rowsPerPage[1];
     const pagination: ITablePagination = {
       descending: false,
-      page: 1,
+      page: this.page || 1,
       rowsPerPage: schema.rowsPerPageDefault,
       sortBy: "",
     } as ITablePagination;
@@ -57,18 +84,33 @@ export default defineComponent({
     const enrollmentOptions = EventEnrollmentOptions;
     const visibleOptions = EventVisibleOptions;
 
+    const routeService = new RouteService(this.$router as any);
+    const self = this;
+
+    const filterObj = reactive({
+      class: "",
+      state: "",
+      title: "",
+      type: "",
+      enrollment: "",
+      visible: "",
+    });
+
+    watch(
+      () => [filterObj],
+      () => {
+        this.loadData();
+      },
+      {
+        deep: true,
+      }
+    );
+
     return {
+      filterObj: filterObj,
       eventsCount: 0,
       events,
       pagination,
-      filterObj: {
-        class: "",
-        state: "",
-        title: "",
-        type: "",
-        enrollment: "",
-        visible: "",
-      },
       loading: false,
       componentHeight,
       typeOptions,
@@ -76,18 +118,24 @@ export default defineComponent({
       classOptions,
       enrollmentOptions,
       visibleOptions,
+      routeService,
+      fnAction,
       addResize,
       removeResize,
       resizeTable,
       schema: schema,
       translations: translations,
+      openDialog: false,
       id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
       getLabel: (name: string) => getLabel(this.tranStore as any, name),
     };
   },
   setup() {
     const translationStore = useTranslationStore();
+    const appStatusStore = useAppStatusStore();
+
     return {
+      appStatusStore,
       tranStore: translationStore.translationStore as TranslationStore,
     };
   },
@@ -104,7 +152,7 @@ export default defineComponent({
         sortBy: this.pagination.sortBy || "",
         filter: this.filterObj,
       });
-      if (result && result.count) {
+      if (result && result.events) {
         this.eventsCount = result.count;
         this.events = result.events || [];
       }
@@ -112,6 +160,17 @@ export default defineComponent({
     async getDataByConfig(pagination: ITablePagination) {
       this.pagination = pagination;
       await this.loadData();
+    },
+    editEvent(idEvent: number) {
+      this.appStatusStore.setLoading(true);
+      this.routeService.goTo(AGVEventsAdminPaths.eventEditor.path, {
+        event: idEvent,
+        page: this.pagination.page,
+      });
+    },
+    onClose(success: boolean) {
+      this.openDialog = false;
+      if (success) this.loadData();
     },
   },
   async created() {

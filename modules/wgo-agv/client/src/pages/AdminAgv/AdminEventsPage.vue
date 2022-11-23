@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col-12">
-      <EventAdminComponent />
+      <EventAdminComponent :page="page" />
     </div>
   </q-page>
 </template>
@@ -14,6 +14,9 @@ export default defineComponent({
   name: "AdminEventsPage",
   components: {
     EventAdminComponent,
+  },
+  props: {
+    page: { type: Number, default: 0 },
   },
 });
 </script>
