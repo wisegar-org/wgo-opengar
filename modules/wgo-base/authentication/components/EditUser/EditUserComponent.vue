@@ -6,7 +6,7 @@
           v-if="emailList.length <= 1"
           square
           outlined
-          readonly
+          :readonly="userInput.id"
           class="q-my-sm q-mx-sm"
           v-model="userInput.email"
           :autofocus="true"
@@ -235,7 +235,17 @@ export default defineComponent({
       if (this.userInput.password !== this.confirmPassword) return;
       this.showLoading = true;
       const service = new AuthService();
-      const user = await service.editUser(this.userInput);
+      const user = this.userInput.id
+        ? await service.editUser(this.userInput)
+        : await service.registerUser({
+            name: this.userInput.name,
+            lastName: this.userInput.lastName,
+            userName: this.userInput.userName,
+            email: this.userInput.email,
+            password: this.userInput.password,
+            isEmailConfirmed: this.userInput.isEmailConfirmed,
+            roles: this.userInput.roles,
+          } as any);
       if (user) {
         this.$emit("onEdit", user);
       }
