@@ -1,24 +1,34 @@
 <template>
   <div
     :style="{
-      height: height,
       border: '1px solid #695656',
     }"
   >
-    <ckeditor
-      v-model="text"
-      :editor="editor"
-      @ready="onReady"
-      :config="editorConfig"
-      ref="editor"
-    />
+    <div v-if="label" class="q-py-sm label_component">
+      {{ label }}
+    </div>
+    <div
+      :style="{
+        height: height,
+      }"
+    >
+      <ckeditor
+        :modelValue="modelValue"
+        :editor="editor"
+        @input="onInput"
+        @ready="onReady"
+        :config="editorConfig"
+        ref="editor"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType, watch } from "@vue/composition-api";
 import { UploadAdapter } from "./UploadAdapter";
 const DecoupledEditor = require("@ckeditor/ckeditor5-build-decoupled-document");
+import CKEditor from "@ckeditor/ckeditor5-vue";
 
 export default defineComponent({
   name: "QCKEditor",
@@ -27,8 +37,13 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    label: { type: String, default: "" },
     urlApi: { type: String, required: true },
-    required: { type: Boolean, required: false, default: false },
+    required: { type: Boolean, default: false },
+    modelValue: { type: String, default: "" },
+  },
+  components: {
+    ckeditor: (CKEditor as any).component,
   },
   model: {
     prop: "text",
@@ -55,6 +70,9 @@ export default defineComponent({
         return new UploadAdapter(loader, this.urlApi);
       };
     },
+    onInput(text: string) {
+      this.$emit("update:modelValue", text);
+    },
     validate() {
       return !this.required || !!this.text;
     },
@@ -68,5 +86,9 @@ export default defineComponent({
 }
 .cke_chrome {
   border: 1px solid #695656;
+}
+.label_component {
+  padding-left: 12px;
+  color: rgba(0, 0, 0, 0.6);
 }
 </style>
