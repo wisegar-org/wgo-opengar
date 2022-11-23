@@ -136,6 +136,10 @@ export default defineComponent({
       type: Number,
       default: 300,
     },
+    page: {
+      type: Number,
+      default: 1,
+    },
   },
   components: {
     TableColumns,
@@ -151,7 +155,7 @@ export default defineComponent({
     const initialPagination: ITablePagination = {
       rowsPerPage: this.schema.rowsPerPageDefault || this.data.length,
       descending: false,
-      page: 1,
+      page: this.page || 1,
       sortBy: "",
     };
     if (this.countData && this.countData !== this.data.length) {
