@@ -9,6 +9,11 @@ export const AGVEventsAdminPaths: IRouteObject = {
     name: "agv_admin_events",
     label: "WGO_EVENTS_ADMIN",
   },
+  eventEditor: {
+    path: `${AdminBasePath}/events/editor`,
+    name: "agv_admin_events_editor",
+    label: "WGO_EVENTS_ADMIN_EDITOR",
+  },
 };
 
 export const AGVEventsPathRouter: RouteRecordRaw = {
@@ -18,6 +23,25 @@ export const AGVEventsPathRouter: RouteRecordRaw = {
     {
       path: AGVEventsAdminPaths.events.path,
       component: () => import("pages/AdminAgv/AdminEventsPage.vue"),
+      props: (route) => {
+        return {
+          page: parseInt(`${route.query.page || 0}`),
+        };
+      },
+      meta: {
+        auth: true,
+        role: [SUPERADMIN],
+      },
+    },
+    {
+      path: AGVEventsAdminPaths.eventEditor.path,
+      component: () => import("pages/AdminAgv/AdminEventEditorPage.vue"),
+      props: (route) => {
+        return {
+          event: parseInt(`${route.query.event || 0}`),
+          page: parseInt(`${route.query.page || 0}`),
+        };
+      },
       meta: {
         auth: true,
         role: [SUPERADMIN],
