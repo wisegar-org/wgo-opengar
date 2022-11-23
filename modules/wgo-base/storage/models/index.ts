@@ -1,4 +1,4 @@
-import { IMediaModel } from '../../core/models';
+import { IMediaModel } from "../../core/models";
 
 export interface IStorageAllInput {
   lang: number;
@@ -46,3 +46,12 @@ export interface IStoragePageModel {
     imageList: IMediaModel[];
   }[];
 }
+
+export type IMediaResponseCheck = {
+  id: number;
+  mimetype?: string;
+  isPublic?: boolean;
+  data?: string;
+  url?: string;
+  delete?: boolean;
+};
