@@ -1,4 +1,7 @@
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
+
+dayjs.extend(customParseFormat);
 import currency from "currency.js";
 import { MenuListItem } from "../models/Menu";
 
@@ -6,6 +9,14 @@ export const UtilService = {
   parseDate(date: Date | string, format: string = "DD/MM/YYYY HH:mm") {
     if (!date) return "";
     return dayjs(date).format(format);
+  },
+  parseDateFormFormat(
+    date: Date | string,
+    from: string = "DD/MM/YYYY HH:mm",
+    format: string = "DD/MM/YYYY HH:mm"
+  ) {
+    if (!date) return "";
+    return dayjs(date, from).format(format);
   },
   async readStreamData(stream: any) {
     return new Promise((res, rej) => {
