@@ -19,12 +19,14 @@ import {
   INewsletterMessagePageInput,
 } from "../newsletterModels";
 import { AGVNewsletterInscriptionModel } from "./NewsletterInscriptionModel";
+import { HandlebarsTemplateService } from "@wisegar-org/wgo-templating";
 
 export class AGVNewsletterMessageModel {
   private repository: Repository<AGVNewsletterMessageEntity>;
   private historyModel: HistoricModel<AGVNewsletterMessageEntity>;
   private emailModel: EmailModel;
   private inscriptionModel: AGVNewsletterInscriptionModel;
+  private handlebardService: HandlebarsTemplateService;
   /**
    *
    */
@@ -33,6 +35,7 @@ export class AGVNewsletterMessageModel {
     this.historyModel = new HistoricModel(AGVNewsletterMessageEntity, ctx);
     this.emailModel = new EmailModel(ctx);
     this.inscriptionModel = new AGVNewsletterInscriptionModel(ctx);
+    this.handlebardService = new HandlebarsTemplateService();
   }
 
   public async getMessageById(id: number) {
@@ -135,12 +138,17 @@ export class AGVNewsletterMessageModel {
 
     inscriptions.forEach(
       (inscription: AGVNewsletterInscriptionEntity, index: number) => {
+        const body = this.handlebardService.getTemplateData(msg, {
+          utente: {
+            email: inscription.email,
+          },
+        });
         setTimeout(async () => {
           await this.emailModel.sendEmail({
             subject: "Collettivo dell'Assemblea Genitori di Vezia",
             to: inscription.email,
             from: `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`,
-            html: msg,
+            html: body,
           });
         }, 30 * index);
       }
