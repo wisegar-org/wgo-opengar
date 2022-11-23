@@ -134,7 +134,7 @@ export default defineComponent({
         this.urlApi
       );
       if (result && result.id) {
-        this.listMedia.push({
+        this.mediaListCheck.push({
           ...result,
           delete: false,
         } as IMediaResponseCheck);
