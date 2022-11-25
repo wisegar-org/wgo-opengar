@@ -30,7 +30,7 @@
               :src="media.url"
               :ratio="19 / 9"
               width="100%"
-              :img-style="{ 'background-size': 'contain' }"
+              fit="contain"
               class="rounded-borders cursor-pointer"
               @click="() => deleteFile(media)"
             >
