@@ -23,8 +23,8 @@
     <div class="row justify-center q-py-lg">
       <div class="col-12">
         <BannerComponent
-          :text="pollData?.textBanner?.text"
-          :button="pollData?.textBanner?.clickText"
+          :text="appContentStore.pollDataObj?.textBanner?.text"
+          :button="appContentStore.pollDataObj?.textBanner?.clickText"
           :url="pullPath"
         />
       </div>
@@ -32,8 +32,8 @@
     <div class="row justify-center q-py-lg">
       <div class="col-12">
         <BannerComponent
-          :text="pollData?.textBannerReedme?.text"
-          :button="pollData?.textBannerReedme?.clickText"
+          :text="appContentStore.pollDataObj?.textBannerReedme?.text"
+          :button="appContentStore.pollDataObj?.textBannerReedme?.clickText"
           :url="rulesPath"
         />
       </div>

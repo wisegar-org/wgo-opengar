@@ -5,6 +5,7 @@ import { AGVDetailsPaths } from "src/router/paths/detailsPath";
 import { AGVPollPaths } from "src/router/paths/pollPaths";
 import { EventService } from "src/services/Event/EventService";
 import { PollService } from "src/services/PollService";
+import { useAppContentStore } from "src/stores/appContentStore";
 import { RouteService } from "src/wgo-base/core/services/RouteService";
 import { defineComponent } from "vue";
 import Text from "../../wgo-base/core/components/Text/Text.vue";
@@ -19,20 +20,22 @@ export default defineComponent({
     BannerComponent,
   },
   data() {
-    const pollService = new PollService();
-    const pollData: IPoll = <IPoll>{};
     const corso: AgvEventResponseModel | undefined = <AgvEventResponseModel>{};
     const evento: AgvEventResponseModel | undefined = <AgvEventResponseModel>{};
     const routerService = new RouteService(this.$router as any);
     return {
       corso,
       evento,
-      pollService,
-      pollData,
       loadingEvents: false,
       routerService,
       pullPath: AGVPollPaths.pollData.path,
       rulesPath: AGVPollPaths.pollRules.path,
+    };
+  },
+  setup(props, ctx) {
+    const appContentStore = useAppContentStore();
+    return {
+      appContentStore,
     };
   },
   methods: {
@@ -50,7 +53,7 @@ export default defineComponent({
     },
   },
   async created() {
-    this.pollData = await this.pollService.getPollConfig();
+    await this.appContentStore.loadPollData();
 
     this.loadingEvents = true;
     const eventService = new EventService();

@@ -1,6 +1,10 @@
 <template>
   <q-card flat>
-    <q-form @submit="onSubmit" @reset="onReset" v-if="pollConfig.labels">
+    <q-form
+      @submit="onSubmit"
+      @reset="onReset"
+      v-if="appContentStore.pollDataObj.labels"
+    >
       <q-input
         class="q-my-sm"
         filled
@@ -26,12 +30,12 @@
         ]"
       />
       <q-select
-        v-if="!!pollConfig"
+        v-if="!!appContentStore.pollDataObj.labels.class"
         class="q-my-sm"
         filled
         v-model="formContact.class"
-        :label="`${pollConfig.labels.class} *`"
-        :options="pollConfig.options.class"
+        :label="`${appContentStore.pollDataObj.labels.class} *`"
+        :options="appContentStore.pollDataObj.options.class"
         standout="bg-primary text-white"
         lazy-rules="ondemand"
         autocomplete="new-password"

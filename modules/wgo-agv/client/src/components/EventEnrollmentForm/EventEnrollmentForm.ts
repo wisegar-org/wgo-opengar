@@ -6,7 +6,7 @@ import {
 import { IPoll } from "src/models/Poll";
 import { AGVTemplateEnum, getAgvTemplateKey } from "src/models/Templates";
 import { InscriptionService } from "src/services/Inscription/InscriptionService";
-import { PollService } from "src/services/PollService";
+import { useAppContentStore } from "src/stores/appContentStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { EmailService } from "src/wgo-base/email/services/EmailService";
@@ -28,10 +28,8 @@ export default defineComponent({
       class: "",
     };
     const showLoader = false;
-    const pollConfig: IPoll = {} as IPoll;
     return {
       formContact,
-      pollConfig,
       inscriptionService: new InscriptionService(),
       emailService: new EmailService(),
     };
@@ -39,9 +37,11 @@ export default defineComponent({
   setup(props, ctx) {
     const notifyStore = useNotifyStore();
     const appStatusStore = useAppStatusStore();
+    const appContentStore = useAppContentStore();
     return {
       notifyStore,
       appStatusStore,
+      appContentStore,
     };
   },
   methods: {
@@ -152,7 +152,6 @@ export default defineComponent({
     },
   },
   async mounted() {
-    const pollService = new PollService();
-    this.pollConfig = await pollService.getPollConfig();
+    await this.appContentStore.loadPageContent();
   },
 });

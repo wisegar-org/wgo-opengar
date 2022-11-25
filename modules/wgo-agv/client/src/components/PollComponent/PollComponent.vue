@@ -7,10 +7,7 @@
     <q-card-section>
       <div class="row display-flex justify-center">
         <div class="col-0 col-sm-2 col-md-2 image-div-justify">
-          <q-img
-            src="icons/favicon.png"
-            :img-style="{ 'background-size': 'contain' }"
-          />
+          <q-img src="icons/favicon.png" fit="contain" />
         </div>
 
         <q-card-section

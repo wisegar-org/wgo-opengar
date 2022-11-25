@@ -2,7 +2,7 @@
   <div class="row justify-center">
     <PollComponent
       class="col-12 col-md-10"
-      :pollData="pollData"
+      :pollData="appContentStore.pollDataObj"
       v-if="showPage()"
       @onClose="closePage"
     />
@@ -10,20 +10,19 @@
 </template>
 
 <script lang="ts">
-import { IPoll } from "../../models/Poll";
-import { PollService } from "../../services/PollService";
 import { defineComponent } from "vue";
 import PollComponent from "../../components/PollComponent/PollComponent.vue";
+import { useAppContentStore } from "../../stores/appContentStore";
 
 export default defineComponent({
   name: "PollDataPage",
   components: {
     PollComponent,
   },
-  data() {
+  setup(props, ctx) {
+    const appContentStore = useAppContentStore();
     return {
-      pollData: <IPoll>{},
-      pollService: new PollService(),
+      appContentStore,
     };
   },
   methods: {
@@ -32,12 +31,13 @@ export default defineComponent({
     },
     showPage() {
       return (
-        this.pollData && this.pollData.header && this.pollData.header.title
+        this.appContentStore.pollDataObj.header &&
+        this.appContentStore.pollDataObj.header.title
       );
     },
   },
   async mounted() {
-    this.pollData = await this.pollService.getPollConfig();
+    await this.appContentStore.loadPollData();
   },
 });
 </script>

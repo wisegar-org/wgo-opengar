@@ -1,17 +1,10 @@
 <template>
   <div class="row justify-center">
-    <q-card
-      v-if="!!pollData && !!pollData.header && !!pollData.header.title"
-      class="my-card col-12 col-md-10"
-      flat
-    >
+    <q-card v-if="!!showPage()" class="my-card col-12 col-md-10" flat>
       <q-card-section q-pb-xl>
         <div class="row display-flex justify-center">
           <div class="col-0 col-sm-2 col-md-2 image-div-justify">
-            <q-img
-              src="icons/favicon.png"
-              :img-style="{ 'background-size': 'contain' }"
-            />
+            <q-img fit="contain" src="icons/favicon.png" />
           </div>
 
           <q-card-section
@@ -30,17 +23,17 @@
               <div class="col-md-11 col-12 q-pa-sm">
                 <div style="display: flex; justify-content: center">
                   <h5 class="q-pa-none q-ma-sm text-center text-primary">
-                    {{ pollData.header.title }}
+                    {{ appContentStore.pollDataObj.header.title }}
                   </h5>
                 </div>
                 <div style="display: flex; justify-content: center">
                   <h6 class="q-pa-none q-ma-sm text-center text-primary">
-                    {{ pollData.header.address }}
+                    {{ appContentStore.pollDataObj.header.address }}
                   </h6>
                 </div>
                 <div style="display: flex; justify-content: center">
                   <h6 class="q-pa-none q-ma-sm text-center text-primary">
-                    <a>{{ pollData.header.email }}</a>
+                    <a>{{ appContentStore.pollDataObj.header.email }}</a>
                   </h6>
                 </div>
               </div>
@@ -50,7 +43,7 @@
       </q-card-section>
       <q-card-section class="q-py-xl">
         <div
-          v-html="pollData.textBannerReedme.description"
+          v-html="appContentStore.pollDataObj.textBannerReedme.description"
           class="textDescription"
         />
       </q-card-section>
@@ -72,13 +65,14 @@
 import { defineComponent } from "vue";
 import { IPoll } from "../../models/Poll";
 import { PollService } from "../../services/PollService";
+import { useAppContentStore } from "../../stores/appContentStore";
 
 export default defineComponent({
   name: "PollRulesPage",
-  data() {
+  setup(props, ctx) {
+    const appContentStore = useAppContentStore();
     return {
-      pollData: <IPoll>{},
-      pollService: new PollService(),
+      appContentStore,
     };
   },
   methods: {
@@ -87,12 +81,13 @@ export default defineComponent({
     },
     showPage() {
       return (
-        this.pollData && this.pollData.header && this.pollData.header.title
+        this.appContentStore.pollDataObj.header &&
+        this.appContentStore.pollDataObj.header.title
       );
     },
   },
   async mounted() {
-    this.pollData = await this.pollService.getPollConfig();
+    await this.appContentStore.loadPollData();
   },
 });
 </script>
