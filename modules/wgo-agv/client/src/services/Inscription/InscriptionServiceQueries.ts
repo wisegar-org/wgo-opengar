@@ -27,3 +27,24 @@ export const Q_AGV_ALL_INSCRIPTIONS = gql`
     }
   }
 `;
+
+export const Q_AGV_ALL_INSCRIPTIONS_BY_PAGE = gql`
+  query agvAllInscriptionsByPage($data: AGVInscriptionPageInput!) {
+    agvAllInscriptionsByPage(data: $data) {
+      count
+      inscriptions {
+        id
+        nome
+        cognome
+        email
+        phone
+        message
+        class
+        eventId
+        eventTitle
+        eventClass
+        date
+      }
+    }
+  }
+`;

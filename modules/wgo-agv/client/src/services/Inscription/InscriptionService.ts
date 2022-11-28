@@ -2,17 +2,52 @@ import {
   AgvInscriptionAddModel,
   AgvInscriptionInputModel,
   AgvInscriptionResponseModel,
+  AgvInscriptionsPageResponseModel,
 } from "src/models/models";
 import { ApiService } from "src/wgo-base/core/services/ApiService";
 import {
   M_AGV_CREATE_INSCRIPTION,
   Q_AGV_ALL_INSCRIPTIONS,
+  Q_AGV_ALL_INSCRIPTIONS_BY_PAGE,
 } from "./InscriptionServiceQueries";
 
 export class InscriptionService {
   apiInstance: ApiService;
   constructor() {
     this.apiInstance = ApiService.GetInstance();
+  }
+
+  async allInscriptionsByPage(
+    filter: any
+  ): Promise<AgvInscriptionsPageResponseModel> {
+    try {
+      const response = (await this.apiInstance.query({
+        query: Q_AGV_ALL_INSCRIPTIONS_BY_PAGE,
+        variables: {
+          data: filter,
+        },
+        fetchPolicy: "no-cache",
+      })) as {
+        data: { agvAllInscriptionsByPage: AgvInscriptionsPageResponseModel };
+      };
+      if (response && response.data) {
+        const {
+          data: { agvAllInscriptionsByPage },
+        } = response;
+        return agvAllInscriptionsByPage;
+      } else
+        return {
+          count: 0,
+          inscriptions: [],
+        };
+    } catch (error) {
+      //
+      console.log(error);
+      return {
+        count: 0,
+        inscriptions: [],
+      };
+    }
   }
 
   async allInscriptions(): Promise<AgvInscriptionResponseModel[]> {
