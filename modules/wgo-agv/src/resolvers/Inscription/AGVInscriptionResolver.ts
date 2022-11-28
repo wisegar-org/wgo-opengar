@@ -1,9 +1,13 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { AGVInscriptionModel } from "../../models/Inscription/InscriptionModel";
 import { IContextBase } from "../../wgo-base/core/models/context";
-import { AGVInscriptionInput } from "./AGVInscriptionInputs";
+import {
+  AGVInscriptionInput,
+  AGVInscriptionPageInput,
+} from "./AGVInscriptionInputs";
 import {
   AGVInscriptionAddResponse,
+  AGVInscriptionGetPageResponse,
   AGVInscriptionResponse,
 } from "./AGVInscriptionResponses";
 
@@ -13,6 +17,15 @@ export class AGVInscriptionResolver {
   async agvAllInscriptions(@Ctx() ctx: IContextBase) {
     const inscriptionModel = new AGVInscriptionModel(ctx);
     return await inscriptionModel.all();
+  }
+
+  @Query(() => AGVInscriptionGetPageResponse)
+  async agvAllInscriptionsByPage(
+    @Arg("data") data: AGVInscriptionPageInput,
+    @Ctx() ctx: IContextBase
+  ) {
+    const inscriptionModel = new AGVInscriptionModel(ctx);
+    return await inscriptionModel.getPage(data);
   }
 
   @Mutation(() => AGVInscriptionAddResponse)

@@ -25,3 +25,10 @@ export class AGVInscriptionAddResponse {
   @Field(() => Boolean, { defaultValue: false }) exist!: boolean;
   @Field(() => Boolean, { defaultValue: false }) error!: boolean;
 }
+
+@ObjectType()
+export class AGVInscriptionGetPageResponse {
+  @Field(() => Number) count!: number;
+  @Field(() => [AGVInscriptionResponse])
+  inscriptions!: AGVInscriptionResponse[];
+}

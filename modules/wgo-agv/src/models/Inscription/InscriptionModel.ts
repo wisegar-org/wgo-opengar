@@ -1,8 +1,14 @@
-import { In, Not, Repository } from "typeorm";
+import { ILike, In, Not, Repository } from "typeorm";
 import AGVEventEntity from "../../database/entities/AGVEventEntity";
 import { AGVInscriptionEntity } from "../../database/entities/AGVInscriptionEntity";
-import { AGVInscriptionInput } from "../../resolvers/Inscription/AGVInscriptionInputs";
-import { AGVInscriptionResponse } from "../../resolvers/Inscription/AGVInscriptionResponses";
+import {
+  AGVInscriptionInput,
+  AGVInscriptionPageInput,
+} from "../../resolvers/Inscription/AGVInscriptionInputs";
+import {
+  AGVInscriptionGetPageResponse,
+  AGVInscriptionResponse,
+} from "../../resolvers/Inscription/AGVInscriptionResponses";
 import { IContextBase } from "../../wgo-base/core/models/context";
 import { HistoricModel } from "../../wgo-base/historic/models/HistoricModel";
 import { AGVEventModel } from "../Event/EventModel";
@@ -20,6 +26,101 @@ export class AGVInscriptionModel {
       ctx.dataSource.getRepository(AGVInscriptionEntity);
     this.eventModel = new AGVEventModel(ctx);
     this.historyModel = new HistoricModel(AGVInscriptionEntity, ctx);
+  }
+
+  public async getPage(
+    data: AGVInscriptionPageInput
+  ): Promise<AGVInscriptionGetPageResponse> {
+    const filter: { [key: string]: any } = {};
+    if (data.filter.class) filter.class = data.filter.class;
+    if (data.filter.email) filter.email = ILike(`%${data.filter.email}%`);
+    if (data.filter.eventClass || data.filter.eventTitle) filter.event = {};
+    if (data.filter.eventClass) filter.event.class = data.filter.eventClass;
+    if (data.filter.eventTitle)
+      filter.event.title = ILike(`%${data.filter.eventTitle}%`);
+    if (data.filter.phone) filter.phone = ILike(`%${data.filter.phone}%`);
+
+    const filters: any = [];
+    const nomes = (data.filter.nome || "")
+      .split(" ")
+      .filter((item) => !!item)
+      .map((nome) => ILike(`%${nome}%`));
+    if (data.filter.nome && nomes.length > 1) {
+      for (const nome of nomes) {
+        filters.push({
+          ...filter,
+          nome: nome,
+        });
+        filters.push({
+          ...filter,
+          cognome: nome,
+        });
+      }
+
+      const inscriptions = await this.inscriptionRepository.findAndCount({
+        where: filters.length ? filters : {},
+        relations: ["event"],
+        order: data.sortBy
+          ? { [data.sortBy]: data.descending ? "DESC" : "ASC" }
+          : { id: "DESC" },
+      });
+
+      const inscriptionsResult = inscriptions[0].filter(
+        (inscrpt) =>
+          `${inscrpt.nome} ${inscrpt.cognome}`
+            .toLocaleLowerCase()
+            .indexOf(data.filter.nome.toLocaleLowerCase()) !== -1
+      );
+
+      const inscriptionsResponses: AGVInscriptionResponse[] = [];
+      const inscriptionsResultSelected = inscriptionsResult.slice(
+        data.skip,
+        data.skip + data.take
+      );
+
+      for (const inscription of inscriptionsResultSelected) {
+        inscriptionsResponses.push(this.parseInscription(inscription));
+      }
+
+      return {
+        count: inscriptionsResult.length,
+        inscriptions: inscriptionsResponses,
+      };
+    } else if (nomes.length === 1) {
+      filters.push(
+        {
+          ...filter,
+          nome: nomes[0],
+        },
+        {
+          ...filter,
+          cognome: nomes[0],
+        }
+      );
+    } else {
+      Object.keys(filter).length ? filters.push(filter) : null;
+    }
+
+    const inscriptions = await this.inscriptionRepository.findAndCount({
+      where: filters.length ? filters : {},
+      relations: ["event"],
+      order: data.sortBy
+        ? { [data.sortBy]: data.descending ? "DESC" : "ASC" }
+        : { id: "DESC" },
+      take: data.take,
+      skip: data.skip,
+    });
+
+    const inscriptionsResponses: AGVInscriptionResponse[] = [];
+
+    for (const inscription of inscriptions[0]) {
+      inscriptionsResponses.push(this.parseInscription(inscription));
+    }
+
+    return {
+      count: inscriptions[1],
+      inscriptions: inscriptionsResponses,
+    };
   }
 
   public async all(): Promise<AGVInscriptionResponse[]> {
@@ -85,5 +186,21 @@ export class AGVInscriptionModel {
     }
     const result = await this.inscriptionRepository.manager.save(inscription);
     return { create: !!result, error: !result };
+  }
+
+  public parseInscription(inscription: AGVInscriptionEntity) {
+    return <AGVInscriptionResponse>{
+      id: inscription.id,
+      nome: inscription.nome,
+      cognome: inscription.cognome,
+      email: inscription.email,
+      phone: inscription.phone,
+      message: inscription.message,
+      class: inscription.class,
+      eventId: inscription.event.id,
+      eventTitle: inscription.event.title,
+      eventClass: inscription.event.class,
+      date: inscription.inscriptionDate,
+    };
   }
 }

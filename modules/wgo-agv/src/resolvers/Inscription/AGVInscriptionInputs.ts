@@ -12,3 +12,22 @@ export class AGVInscriptionInput {
 
   @Field(() => Int, { nullable: false }) eventId!: number;
 }
+@InputType()
+export class AGVInscriptionFilterInput {
+  @Field(() => String, { nullable: true }) class!: string;
+  @Field(() => String, { nullable: true }) email!: string;
+  @Field(() => String, { nullable: true }) eventClass!: string;
+  @Field(() => String, { nullable: true }) eventTitle!: string;
+  @Field(() => String, { nullable: true }) nome!: string;
+  @Field(() => String, { nullable: true }) phone!: string;
+}
+
+@InputType()
+export class AGVInscriptionPageInput {
+  @Field(() => Number) skip!: number;
+  @Field(() => Number) take!: number;
+  @Field(() => Boolean) descending!: boolean;
+  @Field(() => String) sortBy!: string;
+  @Field(() => AGVInscriptionFilterInput, { nullable: true })
+  filter!: AGVInscriptionFilterInput;
+}
