@@ -85,6 +85,14 @@ export const useAppContentStore = defineStore({
         this.content = { ...this.content, ...result };
       }
     },
+    async savePageContent(data: IPageContent) {
+      const contentService = new ContentService();
+      if (await contentService.modifyContent(data)) {
+        this.content = { ...this.content, ...data };
+        return true;
+      }
+      return false;
+    },
     async loadPollData() {
       if (!this.pollData.header.title) {
         const pollDataService = new PollService();

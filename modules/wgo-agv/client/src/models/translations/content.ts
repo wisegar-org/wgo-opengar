@@ -1,0 +1,10 @@
+export const translations = {
+  TITLE_COMITATO: "WGO_AGV_CONTENT_COMITATO_TITLE",
+  TITLE_COMITATO_LABEL: "WGO_AGV_CONTENT_COMITATO_LABEL",
+  SAVE_COMITATO_SUCCESS: "WGO_AGV_CONTENT_COMITATO_EDITION_SUCCESS",
+  SAVE_COMITATO_FAIL: "WGO_AGV_CONTENT_COMITATO_EDITION_FAIL",
+};
+
+export const getAGVContentTranslationsKeys = () => {
+  return Object.values(translations).concat([]);
+};
