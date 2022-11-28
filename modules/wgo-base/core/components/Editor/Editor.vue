@@ -1,14 +1,17 @@
 <template>
-  <div class="q-pa-none">
-    <q-card bordered flat class="border_component_editor">
+  <div :class="`q-pa-none ${classFit}`">
+    <q-card bordered flat :class="`border_component_editor ${classFit}`">
       <q-card-section v-if="label" class="q-py-sm label_component">
         {{ label }}
       </q-card-section>
+
+      <div ref="placeholder" style="height: 1px"></div>
       <q-editor
         v-if="readonly"
         dense
         readonly
-        max-height="150px"
+        :max-height="maxHeigthValue"
+        :height="heigthValue"
         :toolbar="[]"
         v-model="toEdit[propToEdit]"
         min-height="5rem"
@@ -18,7 +21,8 @@
         dense
         ref="editorRef"
         @paste="onPaste"
-        max-height="150px"
+        :max-height="maxHeigthValue"
+        :height="heigthValue"
         v-model="toEdit[propToEdit]"
         min-height="5rem"
       />
@@ -29,6 +33,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "@vue/composition-api";
 import { StringDictionary } from "../../models";
+import { BaseResizeComponent } from "../BaseComponents";
 
 export default defineComponent({
   name: "Editor",
@@ -37,10 +42,33 @@ export default defineComponent({
     propToEdit: { type: String, required: true },
     label: { type: String, default: "" },
     readonly: { type: Boolean, default: false },
+    height: { type: Number, default: 0 },
+    fullHeight: { type: Boolean, default: false },
   },
   data() {
     this.toEdit[this.propToEdit] = this.toEdit[this.propToEdit] || "";
-    return {};
+    const resizeComponent = new BaseResizeComponent();
+    const { componentHeight, addResize, removeResize, resizeTable } =
+      resizeComponent;
+    return {
+      componentHeight,
+      addResize,
+      removeResize,
+      resizeTable,
+    };
+  },
+  computed: {
+    heigthValue(): string {
+      if (this.fullHeight) return `${this.componentHeight}px`;
+      return this.height ? `${this.height}px` : `150px`;
+    },
+    maxHeigthValue(): string {
+      if (this.fullHeight) return `${this.componentHeight}px`;
+      return this.height ? `${this.height}px` : `150px`;
+    },
+    classFit(): string {
+      return this.fullHeight ? "fit" : "";
+    },
   },
   methods: {
     onPaste(evt: any) {
@@ -66,6 +94,17 @@ export default defineComponent({
         onPasteStripFormattingIEPaste = false;
       }
     },
+    onResize() {
+      this.resizeTable(this.$refs.placeholder as HTMLElement, 50);
+    },
+  },
+  async created() {
+    this.$nextTick(() => {
+      this.addResize(this.onResize);
+    });
+  },
+  async unmounted() {
+    this.removeResize(this.onResize);
   },
 });
 </script>
