@@ -73,3 +73,7 @@ export interface AgvInscriptionAddModel {
   exist: boolean;
   error: boolean;
 }
+export interface AgvInscriptionsPageResponseModel {
+  count: number;
+  inscriptions: AgvInscriptionResponseModel[];
+}
