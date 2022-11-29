@@ -149,6 +149,7 @@ export default defineComponent({
           title: this.getLabel(tranBase.CONFIRM),
           message: this.getLabel(translations.DELETE_USER_MSG),
           persistent: true,
+          style: "width: 100%",
           focus: "cancel",
           ok: {
             color: "primary",

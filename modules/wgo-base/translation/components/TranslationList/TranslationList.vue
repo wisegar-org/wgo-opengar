@@ -157,6 +157,7 @@ export default defineComponent({
         .dialog({
           title: this.getLabel(transBase.CONFIRM),
           message: this.getLabel(translations.DELETE_MSG),
+          style: "width: 100%",
           persistent: true,
           focus: "cancel",
           ok: {
