@@ -10,7 +10,7 @@ import { TemplateResponse } from "./TemplateResponses";
 
 @Resolver()
 export class TemplateResolver {
-  @Query(() => [TemplateResponse], { name: TEMPLATE_PATH_GET_BY_TYPE })
+  @Query(() => TemplateResponse, { name: TEMPLATE_PATH_GET_BY_TYPE })
   async getTemplateByType(@Arg("type") type: string, @Ctx() ctx: IContextBase) {
     const templateModel = new TemplateModel(ctx);
     const result = await templateModel.getTemplateByType(type);

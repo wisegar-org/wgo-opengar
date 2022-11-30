@@ -11,8 +11,6 @@ export const Q_TEMPLATE_GET_BY_TYPE = gql`
       title
       body
       documentType
-      entityTemplate
-      defaultTemplate
     }
   }
 `;
