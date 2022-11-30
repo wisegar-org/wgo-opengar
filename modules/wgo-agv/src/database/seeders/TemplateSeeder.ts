@@ -8,7 +8,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   let templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_NEWSLETTER_INSOSPESO"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_NEWSLETTER_INSOSPESO",
@@ -20,7 +20,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_NEWSLETTER_CONFERMATO"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_NEWSLETTER_CONFERMATO",
@@ -32,7 +32,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_NEWSLETTER_ANNULLATO"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_NEWSLETTER_ANNULLATO",
@@ -44,7 +44,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_INSCRIPTION"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_INSCRIPTION",
@@ -56,7 +56,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_INSCRIPTIONREPT"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_INSCRIPTIONREPT",
@@ -68,7 +68,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_EMAILCOMITATO"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_EMAILCOMITATO",
@@ -80,7 +80,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_EMAILCONTACT"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_EMAILCONTACT",
@@ -92,7 +92,7 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
   templateEntity = await templateService.getTemplateByType(
     "AGV_TEMPLATE_DATA_EMAILPOLL"
   );
-  if (!templateEntity) {
+  if (!templateEntity.id) {
     await templateService.saveTamplate({
       id: 0,
       title: "AGV_TEMPLATE_DATA_EMAILPOLL",
