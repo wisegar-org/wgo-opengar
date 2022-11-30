@@ -13,6 +13,7 @@ import {
 } from "./paths/adminAgv/eventsPaths";
 import { AGVInscriptionsPathRouter } from "./paths/adminAgv/inscriptionsPaths";
 import { AGVNewslettersPathRouter } from "./paths/adminAgv/newslettersPaths";
+import { AGVTemplatePathRouter } from "./paths/adminAgv/templatePaths";
 import { AuthPathRouter } from "./paths/authPaths";
 import { DetailsPathRouter } from "./paths/detailsPath";
 import { PollPathRouter } from "./paths/pollPaths";
@@ -36,6 +37,7 @@ const routes: RouteRecordRaw[] = [
   ContactPathRouter,
   TranslationPathRouter,
   SettingsPathRouter,
+  AGVTemplatePathRouter,
   // Always leave this as last one,
   // but you can also remove it
   {
