@@ -34,7 +34,7 @@ export default defineComponent({
     const { componentHeight, addResize, removeResize, resizeTable } =
       resizeComponent;
 
-    const objectToken: string[] = [];
+    const objectToken: string[] = ["{{utente.email}}"];
     const title = this.message.id
       ? translations.MSG_EDITOR_MODIFICATION_TITLE
       : translations.MSG_EDITOR_CREATION_TITLE;
@@ -129,7 +129,7 @@ export default defineComponent({
       }
     },
     writeToken(text: string) {
-      const model = (this.$refs.editor as any).$refs.editor.$_instance.model;
+      const model = (this.$refs.editor as any).$refs.editor.instance.model;
 
       model.change((writer: any) => {
         writer.insertText(
