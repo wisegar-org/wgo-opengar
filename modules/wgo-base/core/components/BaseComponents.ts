@@ -23,7 +23,8 @@ export class BaseResizeComponent {
     if (placeholder) {
       const h =
         placeholder.getBoundingClientRect().bottom || defaultPlaceholderPx;
-      this.componentHeight = window.innerHeight - h - defaultBottomPx;
+      const height = window.innerHeight - h - defaultBottomPx;
+      this.componentHeight = Math.max(400, height);
     } else {
       this.componentHeight = 500;
     }
