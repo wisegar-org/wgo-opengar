@@ -13,6 +13,7 @@ import { AGVEventResolver } from "./Event/AGVEventResolver";
 import { AGVContentsResolver } from "./Content/AGVContentsResolver";
 import { AGVNewsletterResolver } from "./Newsletter/AGVNewsletterResolver";
 import { AGVInscriptionResolver } from "./Inscription/AGVInscriptionResolver";
+import { EmailResolver } from "../wgo-base/email/resolvers/EmailResolver";
 
 export const getResolverList = () => {
   return [
@@ -26,6 +27,7 @@ export const getResolverList = () => {
     TemplateResolver,
     HistoricResolver,
     TranslationResolver,
+    EmailResolver,
     AGVEventResolver,
     AGVContentsResolver,
     AGVNewsletterResolver,
