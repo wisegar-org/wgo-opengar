@@ -1,6 +1,6 @@
 import { defineComponent, reactive, watch } from "vue";
-import NsLtInscriptionAdminEditor from "../NsLtInscriptionAdminEditor/NsLtInscriptionAdminEditor.vue";
-import { AgvNewsletterInscriptionResponse } from "../../../../src/models/Newsletter";
+import NsLtMessageAdminEditor from "../NsLtMessageAdminEditor/NsLtMessageAdminEditor.vue";
+import { AgvNewsletterMessageResponse } from "../../../../src/models/Newsletter";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
@@ -11,25 +11,27 @@ import {
   ITableRowButton,
 } from "src/wgo-base/core/models/Table";
 import { translations as transBase } from "src/wgo-base/core/models";
-import { getNewsletterInscriptionListSchema } from "./NsLtInscriptionAdminComponentSchema";
+import { getNewsletterMessageListSchema } from "./NsLtMessageAdminComponentSchema";
 import { translations } from "src/models/translations/newsletter";
-import { NewsletterInscriptionService } from "src/services/Newsletter/NwLtInscriptionService";
+import { NewsletterMessageService } from "src/services/Newsletter/NwLtMessengerService";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
 import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
 import Table from "src/wgo-base/core/components/Table/Table.vue";
-import {
-  AGVNewsletterInscriptionModel,
-  AGVNewsletterInscriptionStatusEnum,
-} from "src/models/Newsletter";
+import { AGVNewsletterMessageStatusEnum } from "src/models/Newsletter";
+import { RouteService } from "src/wgo-base/core/services/RouteService";
+import { AGVNewslettersAdminPaths } from "src/router/paths/adminAgv/newslettersPaths";
 
 export default defineComponent({
-  name: "NsLtInscriptionAdminComponent",
+  name: "NsLtMessageAdminComponent",
   components: {
     Table,
-    NsLtInscriptionAdminEditor,
+    NsLtMessageAdminEditor,
+  },
+  props: {
+    page: { type: Number, default: 0 },
   },
   data(vm) {
     const { getLabel } = new BaseTranslateComponent();
@@ -37,15 +39,13 @@ export default defineComponent({
     const { componentHeight, addResize, removeResize, resizeTable } =
       resizeComponent;
 
-    const inscriptionSelected: AgvNewsletterInscriptionResponse =
-      {} as AgvNewsletterInscriptionResponse;
-    const fnAction = (row?: AgvNewsletterInscriptionResponse) => {
-      this.showInscriptionDetails(
+    const fnAction = (row?: AgvNewsletterMessageResponse) => {
+      this.createMessage(
         row ||
-          <AgvNewsletterInscriptionResponse>{
-            email: "",
+          <AgvNewsletterMessageResponse>{
+            title: "",
             id: 0,
-            status: AGVNewsletterInscriptionStatusEnum.Waiting,
+            status: AGVNewsletterMessageStatusEnum.Waiting,
           }
       );
     };
@@ -59,8 +59,7 @@ export default defineComponent({
       {
         icon: "send",
         tooltip: transBase.SEND,
-        fnAction: (row: AgvNewsletterInscriptionResponse) =>
-          this.sendMessage(row),
+        fnAction: (row: AgvNewsletterMessageResponse) => this.sendMessage(row),
       },
     ];
 
@@ -72,17 +71,8 @@ export default defineComponent({
         tooltip: transBase.ADD,
         fnAction: () => fnAction(),
       },
-      {
-        label: translations.INSC_SYNC,
-        icon: "sync",
-        color: "primary",
-        tooltip: transBase.ADD,
-        fnAction: () => {
-          this.zyncInscriptions();
-        },
-      },
     ];
-    const schema = getNewsletterInscriptionListSchema(
+    const schema = getNewsletterMessageListSchema(
       this.tranStore as any,
       leftBtns,
       rowBtns
@@ -94,14 +84,14 @@ export default defineComponent({
     schema.rowsPerPageDefault = schema.rowsPerPage[1];
     const pagination: ITablePagination = {
       descending: false,
-      page: 1,
+      page: this.page || 1,
       rowsPerPage: schema.rowsPerPageDefault,
       sortBy: "",
     } as ITablePagination;
-    const inscriptions: any[] = [];
+    const messages: any[] = [];
 
     const filterObj = reactive({
-      email: "",
+      title: "",
       status: "",
     });
 
@@ -115,16 +105,15 @@ export default defineComponent({
       }
     );
 
-    const statusOptions = Object.values(AGVNewsletterInscriptionStatusEnum);
+    const statusOptions = Object.values(AGVNewsletterMessageStatusEnum);
 
     return {
       filterObj: filterObj,
-      inscriptionsCount: 0,
-      inscriptions,
+      messagesCount: 0,
+      messages,
       pagination,
       loading: false,
       componentHeight,
-      inscriptionSelected,
       fnAction,
       addResize,
       removeResize,
@@ -135,7 +124,7 @@ export default defineComponent({
       openDialog: false,
       statusOptions,
       getLabel: (name: string) => getLabel(this.tranStore as any, name),
-      newsletterService: new NewsletterInscriptionService(),
+      newsletterService: new NewsletterMessageService(),
     };
   },
   setup(props, ctx) {
@@ -153,37 +142,36 @@ export default defineComponent({
   },
   methods: {
     async loadData() {
-      const result = await this.newsletterService.getNewsletterInscriptionsPage(
-        {
-          skip: this.pagination.rowsPerPage * (this.pagination.page - 1),
-          take: this.pagination.rowsPerPage,
-          descending: this.pagination.descending,
-          sortBy: this.pagination.sortBy || "",
-          filter: this.filterObj,
-        }
-      );
-      this.inscriptions = result.inscriptions;
-      this.inscriptionsCount = result.count;
+      const result = await this.newsletterService.getNewsletterMessagesPage({
+        skip: this.pagination.rowsPerPage * (this.pagination.page - 1),
+        take: this.pagination.rowsPerPage,
+        descending: this.pagination.descending,
+        sortBy: this.pagination.sortBy || "",
+        filter: this.filterObj,
+      });
+      this.messages = result.messages;
+      this.messagesCount = result.count;
       this.pagination.rowsNumber = result.count;
     },
-    zyncInscriptions() {
-      this.newsletterService
-        .zyncNewsletterInscriptions()
-        .then((result: boolean) => {
-          if (result) {
-            this.showSendMsgConfirmDialog(
-              [],
-              this.getLabel(this.translations.INSC_RESEND_ALL_CONFIRMATION)
-            );
-            this.loadData();
-          }
-        });
+    async getDataByConfig(pagination: ITablePagination) {
+      this.pagination = pagination;
+      await this.loadData();
     },
-    showSendMsgConfirmDialog(emails: string[], message: string) {
+    createMessage(message: AgvNewsletterMessageResponse) {
+      const routerService = new RouteService(this.$router as any);
+      routerService.goTo(
+        AGVNewslettersAdminPaths.newsletterMessagesEditor.path,
+        {
+          id: message?.id || 0,
+          page: this.pagination.page || 0,
+        }
+      );
+    },
+    sendMessage(message: AgvNewsletterMessageResponse) {
       this.$q
         .dialog({
           title: this.getLabel(this.transBase.CONFIRM),
-          message: message,
+          message: this.getLabel(this.translations.MSG_SEND_MESSAGE_MSG),
           style: "width: 100%",
           persistent: true,
           focus: "cancel",
@@ -199,55 +187,20 @@ export default defineComponent({
           },
         })
         .onOk(async () => {
-          this.loading = true;
-          if (
-            await this.newsletterService.sendNewsletterInscriptionMessage(
-              emails
-            )
-          ) {
+          if (await this.newsletterService.sendNewsletterMessage(message.id)) {
+            await this.loadData();
             this.notifyStore.setNotify({
-              message: this.getLabel(this.translations.INSC_SEND_EMAIL_SUCCESS),
+              message: this.getLabel(
+                this.translations.MSG_SEND_MESSAGE_SUCCESS
+              ),
               type: "positive",
               position: "top",
             });
-          } else {
-            this.notifyStore.setNotify({
-              message: this.getLabel(this.translations.INSC_SEND_EMAIL_FAIL),
-              type: "negative",
-              position: "top",
-            });
           }
-
-          this.loading = false;
         });
     },
     onResize() {
       this.resizeTable(this.$refs.placeholder as HTMLElement);
-    },
-    async getDataByConfig(pagination: ITablePagination) {
-      this.pagination = pagination;
-      await this.loadData();
-    },
-    showInscriptionDetails(inscription: AgvNewsletterInscriptionResponse) {
-      this.inscriptionSelected = { ...inscription };
-      this.openDialog = true;
-    },
-    async onClose(status: boolean, email: string) {
-      this.openDialog = false;
-      if (status) {
-        this.showSendMsgConfirmDialog(
-          [email],
-          this.getLabel(this.translations.INSC_RESEND_CONFIRMATION)
-        );
-        await this.loadData();
-      }
-    },
-
-    async sendMessage(inscription: AGVNewsletterInscriptionModel) {
-      this.showSendMsgConfirmDialog(
-        [inscription.email],
-        this.getLabel(this.translations.INSC_RESEND_CONFIRMATION)
-      );
     },
   },
   async created() {
