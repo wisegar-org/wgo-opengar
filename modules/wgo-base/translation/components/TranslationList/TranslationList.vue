@@ -64,12 +64,15 @@ export default defineComponent({
     const { componentHeight, addResize, removeResize, resizeTable } =
       resizeComponent;
 
+    const id_input =
+      "upload-button-" + Math.random().toString(36).substring(2, 10);
+
     const fnAction = (row: any) => {
-      this.showDetails(row);
+      (this as any).showDetails(row);
       console.log("click on", row);
     };
     const deleteTranslation = (row: any) => {
-      this.deleteTranslation(row);
+      (this as any).deleteTranslation(row);
     };
     const rowBtns: ITableRowButton[] = [
       {
@@ -93,7 +96,7 @@ export default defineComponent({
       }
     };
     const importTranslations = () => {
-      (this.$refs[this.id_input] as any).pickFiles();
+      (this.$refs[id_input] as any).pickFiles();
     };
     const leftBtns: ITableLeftButton[] = [
       {
@@ -126,7 +129,7 @@ export default defineComponent({
     const { getLabel } = new BaseTranslateComponent();
     const schema = getTranslationListSchema(this.tranStore, leftBtns, rowBtns);
     schema.rowDblClick = fnAction;
-    schema.rowsPerPage = this.$q.platform.is.mobile
+    schema.rowsPerPage = (this as any).$q.platform.is.mobile
       ? [5, 10, 20, 0]
       : [15, 20, 30, 50, 100, 0];
     schema.rowsPerPageDefault = schema.rowsPerPage[1];
@@ -140,7 +143,7 @@ export default defineComponent({
       resizeTable,
       schema: schema,
       translations: translations,
-      id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
+      id_input,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
@@ -153,7 +156,7 @@ export default defineComponent({
       this.open = true;
     },
     deleteTranslation(row: ITranslationModel) {
-      this.$q
+      (this as any).$q
         .dialog({
           title: this.getLabel(transBase.CONFIRM),
           message: this.getLabel(translations.DELETE_MSG),
@@ -175,7 +178,7 @@ export default defineComponent({
           const result = await this.tranStore.deleteTranslation({
             key: row.key,
           });
-          if (result) this.onSuccess(translations.DELETE_SUCCESS);
+          if (result) this.$emit("success", translations.DELETE_SUCCESS);
         });
     },
     closeDetails() {
