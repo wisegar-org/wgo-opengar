@@ -47,7 +47,7 @@ export default defineComponent({
       resizeComponent;
 
     const fnAction = (row: any) => {
-      this.showDetails(row);
+      (this as any).showDetails(row);
       console.log("click on", row);
     };
     const rowBtns: ITableRowButton[] = [
@@ -68,7 +68,7 @@ export default defineComponent({
     ];
     const schema = getLanguageListSchema(this.tranStore, leftBtns, rowBtns);
     schema.rowDblClick = fnAction;
-    schema.rowsPerPage = this.$q.platform.is.mobile
+    schema.rowsPerPage = (this as any).$q.platform.is.mobile
       ? [5, 10, 20, 0]
       : [15, 20, 30, 50, 100, 0];
     schema.rowsPerPageDefault = 0;

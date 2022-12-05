@@ -66,7 +66,7 @@ export default defineComponent({
   },
   computed: {
     iconBtn(): string | boolean {
-      return this.$q.platform.is.mobile ? "null" : "language";
+      return (this as any).$q.platform.is.mobile ? "null" : "language";
     },
   },
 });
