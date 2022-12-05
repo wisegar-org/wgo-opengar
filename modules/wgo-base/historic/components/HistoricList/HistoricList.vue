@@ -54,7 +54,7 @@ export default defineComponent({
     const leftBtns: ITableLeftButton[] = [];
     const { getLabel } = new BaseTranslateComponent();
     const schema = getHistoricListSchema(this.tranStore, leftBtns, rowBtns);
-    schema.rowsPerPage = this.$q.platform.is.mobile
+    schema.rowsPerPage = (this as any).$q.platform.is.mobile
       ? [5, 10, 20, 0]
       : [15, 20, 30, 50, 100, 0];
     schema.rowsPerPageDefault = schema.rowsPerPage[1];
