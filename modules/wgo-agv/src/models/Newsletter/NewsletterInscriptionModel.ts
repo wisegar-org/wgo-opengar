@@ -133,13 +133,14 @@ export class AGVNewsletterInscriptionModel {
 
   async sendInscriptionEmail(email: string, msg: string, time = 0) {
     const config = GetConfig<any>();
-    const url = config.API_BASEURL;
+    const url = config.HOST_BASE;
     const linkConfirmation = `${url}/subscription?email=${email}`;
-    let body = this.handlebardModel.getTemplateData(msg, {
+    const data = {
       url,
       email,
       linkDiConferma: linkConfirmation,
-    });
+    };
+    let body = this.handlebardModel.getTemplateData(msg, data);
     body = await getInlineStyle(body);
     body = body.split("&lt;").join("<").split("&gt;").join(">");
     const params = {
