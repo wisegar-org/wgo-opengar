@@ -58,7 +58,7 @@ export class EmailModel {
         );
         const dataObj = JSON.parse(data.data) || {};
         body = this.handlebardModel.getTemplateData(
-          bodyTemplate ? bodyTemplate.body : data.body,
+          bodyTemplate && bodyTemplate.body ? bodyTemplate.body : data.body,
           dataObj
         );
       }
@@ -99,7 +99,7 @@ export class EmailModel {
         );
         const dataObj = JSON.parse(data.data) || {};
         body = this.handlebardModel.getTemplateData(
-          bodyTemplate ? bodyTemplate.body : data.body,
+          bodyTemplate && bodyTemplate.body ? bodyTemplate.body : data.body,
           dataObj
         );
       }
@@ -143,7 +143,7 @@ export class EmailModel {
         );
         const dataObj = JSON.parse(data.data) || {};
         body = this.handlebardModel.getTemplateData(
-          bodyTemplate ? bodyTemplate.body : data.body,
+          bodyTemplate && bodyTemplate.body ? bodyTemplate.body : data.body,
           dataObj
         );
       }

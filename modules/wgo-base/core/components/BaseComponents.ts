@@ -46,9 +46,10 @@ export class BaseTranslateComponent {
 }
 
 export class BaseSeoDataComponent {
+  public webSite: string = "My Website";
   public seoData: ObjectDictionary = {
     title: "Title default",
-    titleTemplate: (title: string) => `${title} - My Website`,
+    titleTemplate: (title: string) => `${title} - ${this.webSite}`,
     meta: {
       description: { name: "description", content: "Page 1" },
       keywords: { name: "keywords", content: "Quasar website" },
@@ -58,8 +59,8 @@ export class BaseSeoDataComponent {
       },
       ogTitle: {
         property: "og:title",
-        template(ogTitle: string) {
-          return `${ogTitle} - My Website`;
+        template: (ogTitle: string) => {
+          return `${ogTitle} - ${this.webSite}`;
         },
       },
     },
@@ -67,6 +68,7 @@ export class BaseSeoDataComponent {
 
   public setSeoData(seoData: ISeoModel) {
     this.seoData.title = seoData.title;
+    if (seoData.webSite) this.webSite = seoData.webSite;
     if (seoData.description)
       this.seoData.meta.description.content = seoData.description;
     if (seoData.keywords) this.seoData.meta.keywords.content = seoData.keywords;

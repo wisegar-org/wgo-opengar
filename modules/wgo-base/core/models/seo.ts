@@ -1,6 +1,7 @@
 export interface ISeoModel {
   title: string;
-  description: string;
-  keywords: string;
-  equiv: string;
+  webSite?: string;
+  description?: string;
+  keywords?: string;
+  equiv?: string;
 }

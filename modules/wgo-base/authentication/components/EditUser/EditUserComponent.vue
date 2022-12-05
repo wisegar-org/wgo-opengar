@@ -143,7 +143,7 @@
             color="primary"
             align="around"
             class="btn_width_fix"
-            :label="getLabel(tranBase.EDIT)"
+            :label="getLabel(labelBtn)"
             type="submit"
           />
         </div>
@@ -256,6 +256,9 @@ export default defineComponent({
     },
   },
   computed: {
+    labelBtn(): string {
+      return this.user.id ? tranBase.EDIT : tranBase.SAVE;
+    },
     validBtn(): boolean {
       return (
         !!this.userInput.email &&
