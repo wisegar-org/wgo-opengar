@@ -20,7 +20,7 @@ export const getInlineStyle = async (message: string) => {
     `;
 
   const config = GetConfig<any>();
-  const url = config.API_BASEURL;
+  const url = config.HOST_BASE;
   const inlineCss = require("inline-css");
 
   const result = await inlineCss(message, { url, extraCss: extraStyle });
