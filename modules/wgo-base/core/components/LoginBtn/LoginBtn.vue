@@ -92,7 +92,7 @@ export default defineComponent({
     isAdminUser() {
       return (
         this.authStore.isUserInRole([SUPERADMIN]) &&
-        `${this.$route.path}`.indexOf(`${AdminBasePath}/`) === -1
+        `${(this as any).$route.path}`.indexOf(`${AdminBasePath}/`) === -1
       );
     },
     goToAdmin() {
@@ -104,15 +104,15 @@ export default defineComponent({
       return !!this.user && !!this.user.id;
     },
     userEmail(): string {
-      return !this.$q.platform.is.mobile && this.user?.userName
+      return !(this as any).$q.platform.is.mobile && this.user?.userName
         ? this.user.userName
         : "";
     },
     iconBtn(): string {
-      return !this.$q.platform.is.mobile ? "" : "person";
+      return !(this as any).$q.platform.is.mobile ? "" : "person";
     },
     getLoginLabel(): string {
-      return !this.$q.platform.is.mobile
+      return !(this as any).$q.platform.is.mobile
         ? this.getLabel(translations.LOGIN)
         : "";
     },

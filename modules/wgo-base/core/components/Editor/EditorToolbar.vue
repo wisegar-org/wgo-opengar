@@ -52,8 +52,8 @@ export default defineComponent({
     if (!this.hideAlign)
       toolbar.push([
         {
-          label: this.$q.lang.editor.align,
-          icon: this.$q.iconSet.editor.align,
+          label: (this as any).$q.lang.editor.align,
+          icon: (this as any).$q.iconSet.editor.align,
           fixedLabel: true,
           list: "only-icons",
           options: ["left", "center", "right", "justify"],
@@ -71,14 +71,14 @@ export default defineComponent({
     if (!this.hideFontFormating)
       toolbar.push([
         {
-          label: this.$q.lang.editor.formatting,
-          icon: this.$q.iconSet.editor.formatting,
+          label: (this as any).$q.lang.editor.formatting,
+          icon: (this as any).$q.iconSet.editor.formatting,
           list: "no-icons",
           options: ["p", "h1", "h2", "h3", "h4", "h5", "h6", "code"],
         },
         {
-          label: this.$q.lang.editor.fontSize,
-          icon: this.$q.iconSet.editor.fontSize,
+          label: (this as any).$q.lang.editor.fontSize,
+          icon: (this as any).$q.iconSet.editor.fontSize,
           fixedLabel: true,
           fixedIcon: true,
           list: "no-icons",
@@ -93,8 +93,8 @@ export default defineComponent({
           ],
         },
         {
-          label: this.$q.lang.editor.defaultFont,
-          icon: this.$q.iconSet.editor.font,
+          label: (this as any).$q.lang.editor.defaultFont,
+          icon: (this as any).$q.iconSet.editor.font,
           fixedIcon: true,
           list: "no-icons",
           options: [

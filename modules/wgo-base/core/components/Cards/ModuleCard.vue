@@ -63,7 +63,7 @@ export default defineComponent({
   },
   methods: {
     goToPath() {
-      if (this.$route.path !== this.path) {
+      if ((this as any).$route.path !== this.path) {
         window.open(this.path, "_blank");
         // void this.$router.push(this.path);
       }
