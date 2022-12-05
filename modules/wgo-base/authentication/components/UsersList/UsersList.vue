@@ -53,12 +53,12 @@ export default defineComponent({
       resizeComponent;
 
     const fnAction = (row: any) => {
-      this.showDetails(row);
+      (this as any).showDetails(row);
       console.log("click on", row);
     };
 
     const deleteUser = async (row: any) => {
-      await this.deleteUser(row);
+      await (this as any).deleteUser(row);
     };
     const rowBtns: ITableRowButton[] = [
       {
@@ -96,7 +96,7 @@ export default defineComponent({
     const { getLabel } = new BaseTranslateComponent();
     const schema = getAuthUserListSchema(this.tranStore, leftBtns, rowBtns);
     schema.rowDblClick = fnAction;
-    schema.rowsPerPage = this.$q.platform.is.mobile
+    schema.rowsPerPage = (this as any).$q.platform.is.mobile
       ? [5, 10, 20, 0]
       : [15, 20, 30, 50, 100, 0];
     schema.rowsPerPageDefault = schema.rowsPerPage[1];
@@ -144,7 +144,7 @@ export default defineComponent({
       this.loading = false;
     },
     async deleteUser(user: IUser) {
-      this.$q
+      (this as any).$q
         .dialog({
           title: this.getLabel(tranBase.CONFIRM),
           message: this.getLabel(translations.DELETE_USER_MSG),
