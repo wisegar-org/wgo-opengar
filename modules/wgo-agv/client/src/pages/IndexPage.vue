@@ -25,11 +25,15 @@ export default defineComponent({
       seoComponent,
     };
   },
-  setup() {},
   mounted() {
     this.seoComponent.setSeoData({
-      title: "Index",
-      webSite: "Assemblea Genitori Vezia",
+      title: "Home",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina iniziale.",
+      },
     } as any);
   },
 });

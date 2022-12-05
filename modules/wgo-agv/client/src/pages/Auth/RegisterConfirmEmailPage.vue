@@ -18,6 +18,8 @@ import ConfirmEmailComponent from "../../wgo-base/authentication/components/Conf
 import { AuthPaths } from "../../wgo-base/authentication/router";
 import { useTranslationStore } from "../../stores/translationStore";
 import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
+import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
+import { useMeta } from "quasar";
 
 export default defineComponent({
   name: "RegisterConfirmEmailPage",
@@ -25,9 +27,12 @@ export default defineComponent({
   data() {
     const route = useRoute();
     const router = useRouter();
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
     return {
       routeService: new RouteService(router as any),
       token: (route.query.token as string) || "",
+      seoComponent,
     };
   },
   setup() {
@@ -45,6 +50,17 @@ export default defineComponent({
         this.routeService.goTo(AuthPaths.authResendConfirmation.path);
       }
     },
+  },
+  mounted() {
+    this.seoComponent.setSeoData({
+      title: "Accesso",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina di accesso.",
+      },
+    } as any);
   },
 });
 </script>

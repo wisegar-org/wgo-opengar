@@ -7,7 +7,9 @@
 </template>
   
   <script lang="ts">
+import { useMeta } from "quasar";
 import { defineComponent } from "vue";
+import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import EventDetailsComponent from "../../components/EventDetailsComponent/EventDetailsComponent.vue";
 
 export default defineComponent({
@@ -18,8 +20,24 @@ export default defineComponent({
   props: {
     itemId: { type: Number, default: 0 },
   },
-  setup() {
-    return {};
+  data() {
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
+
+    return {
+      seoComponent,
+    };
+  },
+  mounted() {
+    this.seoComponent.setSeoData({
+      title: "Details",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina dei dettagli.",
+      },
+    } as any);
   },
 });
 </script>

@@ -24,6 +24,8 @@ import { TranslationStore } from "../wgo-base/translation/models/TranslationStor
 import { LanguageStore } from "../wgo-base/language/models/LanguageStore";
 import { Paths } from "../router/paths";
 import { translations as tranBase } from "../wgo-base/core/models";
+import { BaseSeoDataComponent } from "../../../src/wgo-base/core/components/BaseComponents";
+import { useMeta } from "quasar";
 
 export default defineComponent({
   components: {
@@ -31,8 +33,12 @@ export default defineComponent({
   },
   data() {
     const router = useRouter();
+
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
     return {
       routeService: new RouteService(router as any) as any,
+      seoComponent,
     };
   },
   setup() {
@@ -49,6 +55,17 @@ export default defineComponent({
       menuItems,
       homePath: Paths.home.path,
     };
+  },
+  mounted() {
+    this.seoComponent.setSeoData({
+      title: "Amministrazione",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina di amministrazione.",
+      },
+    } as any);
   },
 });
 </script>

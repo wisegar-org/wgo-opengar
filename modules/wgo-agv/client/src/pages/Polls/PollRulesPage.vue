@@ -62,7 +62,9 @@
 </template>
   
 <script lang="ts">
+import { useMeta } from "quasar";
 import { defineComponent } from "vue";
+import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import { IPoll } from "../../models/Poll";
 import { PollService } from "../../services/PollService";
 import { useAppContentStore } from "../../stores/appContentStore";
@@ -73,6 +75,14 @@ export default defineComponent({
     const appContentStore = useAppContentStore();
     return {
       appContentStore,
+    };
+  },
+  data() {
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
+
+    return {
+      seoComponent,
     };
   },
   methods: {
@@ -87,6 +97,15 @@ export default defineComponent({
     },
   },
   async mounted() {
+    this.seoComponent.setSeoData({
+      title: "Regolamento",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina del regolamento.",
+      },
+    } as any);
     await this.appContentStore.loadPollData();
   },
 });

@@ -19,6 +19,8 @@ import { useAuthStore } from "../../stores/authStore";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";
 import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
+import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
+import { useMeta } from "quasar";
 
 export default defineComponent({
   name: "LoginPage",
@@ -30,8 +32,11 @@ export default defineComponent({
   },
   data() {
     const router = useRouter();
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
     return {
       routeService: new RouteService(router as any),
+      seoComponent,
     };
   },
   setup() {
@@ -58,6 +63,17 @@ export default defineComponent({
     goToResetPassword() {
       this.routeService.goTo(AuthPaths.authResetPassword.path);
     },
+  },
+  mounted() {
+    this.seoComponent.setSeoData({
+      title: "Accesso",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina di accesso.",
+      },
+    } as any);
   },
 });
 </script>

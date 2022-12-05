@@ -1,13 +1,11 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
+  <div
+    class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center"
+  >
     <div>
-      <div style="font-size: 30vh">
-        404
-      </div>
+      <div style="font-size: 30vh">404</div>
 
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
-      </div>
+      <div class="text-h2" style="opacity: 0.4">Oops. Nothing here...</div>
 
       <q-btn
         class="q-mt-xl"
@@ -23,9 +21,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { useMeta } from "quasar";
+import { defineComponent } from "vue";
+import { BaseSeoDataComponent } from "../../../src/wgo-base/core/components/BaseComponents";
 
 export default defineComponent({
-  name: 'ErrorNotFound'
+  name: "ErrorNotFound",
+  data() {
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
+
+    return {
+      seoComponent,
+    };
+  },
+  mounted() {
+    this.seoComponent.setSeoData({
+      title: "Error",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina de errore.",
+      },
+    } as any);
+  },
 });
 </script>

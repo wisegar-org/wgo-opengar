@@ -11,6 +11,8 @@ import { ITemType } from "../../models/Item";
 import { defineComponent } from "vue";
 import EventListComponent from "../../components/EventListComponent/EventListComponent.vue";
 import { AGVDetailsPaths } from "../../router/paths/detailsPath";
+import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
+import { useMeta } from "quasar";
 
 export default defineComponent({
   name: "CorsiPage",
@@ -22,6 +24,25 @@ export default defineComponent({
       eventType: ITemType.Course,
       detailPath: AGVDetailsPaths.corsiDetails.path,
     };
+  },
+  data() {
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
+
+    return {
+      seoComponent,
+    };
+  },
+  mounted() {
+    this.seoComponent.setSeoData({
+      title: "Corsi",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina di corsi.",
+      },
+    } as any);
   },
 });
 </script>

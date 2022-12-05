@@ -18,7 +18,9 @@
 </template>
 
 <script lang="ts" >
+import { useMeta } from "quasar";
 import { defineComponent } from "vue";
+import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import LinkCard from "../../components/LinkCard/LinkCard.vue";
 
 export default defineComponent({
@@ -96,6 +98,25 @@ export default defineComponent({
         },
       ],
     };
+  },
+  data() {
+    const seoComponent = new BaseSeoDataComponent();
+    useMeta(seoComponent.seoData);
+
+    return {
+      seoComponent,
+    };
+  },
+  mounted() {
+    this.seoComponent.setSeoData({
+      title: "Link Utili",
+      webSite: "Assemblea Genitori di Vezia",
+      description: {
+        name: "description",
+        content:
+          "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina dell'indirizzi utili.",
+      },
+    } as any);
   },
 });
 </script>
