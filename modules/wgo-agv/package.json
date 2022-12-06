@@ -28,7 +28,7 @@
   "dependencies": {
     "@types/bcrypt": "5.0.0",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.15",
-    "@wisegar-org/wgo-server": "0.0.1-build.33",
+    "@wisegar-org/wgo-server": "0.0.1-build.52",
     "@wisegar-org/wgo-settings": "0.0.1-build.8",
     "@wisegar-org/wgo-templating": "0.0.1-build.3",
     "bcrypt": "^5.1.0",

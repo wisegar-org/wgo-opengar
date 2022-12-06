@@ -27,8 +27,8 @@ export const getApiServiceOptions = (pinia: Pinia) => {
   const authStore = useAuthStore(pinia);
   const tranStore = useTranslationStore(pinia);
   const apiServiceOptions: IApiServiceOptions = {
-    onMeErrorHandler: (message: any) => {},
-    onGenericErrorHandler: (message: string, index: number) => {
+    onGenericErrorHandler: (message: string) => {},
+    onGenericErrorHandlerIndex: (message: string, index: number) => {
       console.debug(`GQL Error: ${message}`);
       if (
         isValidateAccessTokenErrorHandelr(message) ||
@@ -52,7 +52,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
     onGetBaseUrl: () => {
       return apiSettings.API_GRAPHQL;
     },
-    onNetworkErrorHandler: (message) => {
+    onNetworkErrorHandler: (message: any) => {
       console.debug(`GQL Network Error: ${message}`);
       const messageStr =
         typeof message === "string" ? message : message.message;
