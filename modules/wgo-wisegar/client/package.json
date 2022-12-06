@@ -10,6 +10,7 @@
     "start": "quasar dev"
   },
   "dependencies": {
+    "agent-base": "^6.0.2",
     "axios": "^0.21.1",
     "vue-i18n": "^9.0.0",
     "pinia": "^2.0.11",

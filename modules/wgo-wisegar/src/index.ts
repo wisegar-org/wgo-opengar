@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import {
   boot,
+  ExpirationFreqEnum,
   IServerOptions,
   UseRestMiddleware,
 } from "@wisegar-org/wgo-server";
@@ -45,6 +46,7 @@ const serverOptions: IServerOptions = {
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
+  expirationFreq: ExpirationFreqEnum.Low,
 };
 boot(serverOptions, async () => {
   console.log("Start other services here. ex. database connections");
