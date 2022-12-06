@@ -15,11 +15,11 @@ const path = require('path');
 const env = require('dotenv');
 const envValue = fs.existsSync('.env')
   ? env.config({
-      path: '.env',
-    })
+    path: '.env',
+  })
   : env.config({
-      path: '../.env',
-    });
+    path: '../.env',
+  });
 let hostBase = envValue.parsed?.PORT ? `http://localhost:${envValue.parsed.PORT}` : buildsettings.API_BASE;
 if (envValue.parsed?.APP_WEB_HOST) {
   hostBase = envValue.parsed.APP_WEB_HOST;
@@ -99,6 +99,7 @@ module.exports = configure(function (ctx) {
           cfg.resolve.alias = {};
         }
         cfg.resolve.alias.vue = path.resolve('./node_modules/vue');
+        cfg.resolve.alias.https = path.resolve("./node_modules/agent-base");
       },
     },
 

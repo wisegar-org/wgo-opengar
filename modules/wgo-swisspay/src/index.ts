@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { boot, IServerOptions, UseRestMiddleware } from '@wisegar-org/wgo-server';
+import { boot, ExpirationFreqEnum, IServerOptions, UseRestMiddleware } from '@wisegar-org/wgo-server';
 import { GetPortKey, GetPrivateKey, GetPublicKey, GetExpiresInKey } from '@wisegar-org/wgo-settings';
 import { AuthenticationHandler } from './handlers/AuthenticationHandler';
 import { AppContextHandler } from './handlers/AppContextHandler';
@@ -40,6 +40,7 @@ const serverOptions: IServerOptions = {
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
+  expirationFreq: ExpirationFreqEnum.Low,
 };
 boot(serverOptions, async () => {
   console.log('Start other services here. ex. database connections');

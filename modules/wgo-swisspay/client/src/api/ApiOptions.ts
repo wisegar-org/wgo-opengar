@@ -25,8 +25,8 @@ export const getApiServiceOptions = (pinia: Pinia) => {
   const authStore = useAuthStore(pinia);
   const tranStore = useTranslationStore(pinia);
   const apiServiceOptions: IApiServiceOptions = {
-    onMeErrorHandler: (message: any) => {},
-    onGenericErrorHandler: (message: string, index: number) => {
+    onGenericErrorHandler: (message: any) => {},
+    onGenericErrorHandlerIndex: (message: string, index: number) => {
       console.debug(`GQL Error: ${message}`);
       if (isValidateAccessTokenErrorHandelr(message) || isNotAuthorizedErrorHandler(message)) {
         if (index === 0) authStore.authStore.setToken('');

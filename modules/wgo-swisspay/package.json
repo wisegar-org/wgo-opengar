@@ -32,7 +32,7 @@
     "@wisegar-org/wgo-mailer": "0.0.1-build.24",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.15",
     "@wisegar-org/wgo-pop3": "0.0.7-build.7",
-    "@wisegar-org/wgo-server": "0.0.1-build.33",
+    "@wisegar-org/wgo-server": "0.0.1-build.52",
     "@wisegar-org/wgo-settings": "0.0.1-build.8",
     "exceljs": "4.3.0",
     "express": "4.18.1",
