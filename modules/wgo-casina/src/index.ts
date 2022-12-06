@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import {
   boot,
+  ExpirationFreqEnum,
   IServerOptions,
   NonEmptyArray,
   UseRestMiddleware,
@@ -48,6 +49,7 @@ const serverOptions: IServerOptions = {
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
+  expirationFreq: ExpirationFreqEnum.Low,
 };
 boot(serverOptions, async () => {
   console.log("Start other services here. ex. database connections");
