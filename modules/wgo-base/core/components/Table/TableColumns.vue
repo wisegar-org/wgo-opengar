@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 import TableAvatarColumn from "./Columns/TableAvatarColumn.vue";
 import TableBadgeColumn from "./Columns/TableBadgeColumn.vue";
 import TableCommandColumn from "./Columns/TableCommandColumn.vue";

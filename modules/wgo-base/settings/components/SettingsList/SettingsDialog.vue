@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { ISettingsModel } from "../../models";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { TranslationStore } from "../../../translation/models/TranslationStore";

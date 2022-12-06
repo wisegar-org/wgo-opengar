@@ -132,7 +132,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { TranslationStore } from "../../../translation/models/TranslationStore";
 import TranslationComponent from "../../../translation/components/TranslationComponent/TranslationComponent.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";

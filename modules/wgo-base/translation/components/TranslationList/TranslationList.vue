@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { TranslationStore } from "../../models/TranslationStore";
 import Table from "../../../core/components/Table/Table.vue";
 import { getTranslationListSchema } from "./TranslationListSchema";

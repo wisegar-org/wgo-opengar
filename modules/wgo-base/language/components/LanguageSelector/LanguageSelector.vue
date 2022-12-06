@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { ILanguageModel } from "../../models";
 import { LanguageStore } from "../../models/LanguageStore";
 

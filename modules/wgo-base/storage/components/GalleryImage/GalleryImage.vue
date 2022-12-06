@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { IMediaResponseCheck } from "../../models";
 import { MediaInputArg } from "../../resolvers/Media/MediaInputs";
 import { MediaResponse } from "../../resolvers/Media/MediaResponses";

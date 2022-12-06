@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "@vue/composition-api";
+import { defineComponent, PropType, ref } from "vue";
 import { StringDictionary } from "../../models";
 
 export default defineComponent({

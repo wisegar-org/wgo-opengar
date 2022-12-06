@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { StringDictionary } from "../../models";
 import { BaseResizeComponent } from "../BaseComponents";
 

@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { AuthService } from "../services/AuthService";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import Loader from "../../core/components/Loader/Loader.vue";

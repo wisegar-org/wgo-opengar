@@ -96,7 +96,7 @@
 import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
 import { ISuccesLogin } from "../models";
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import { TranslationStore } from "../../translation/models/TranslationStore";
 import { translations } from "../models/translations";

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { ITableColumn, ITableData, ITableSchema } from "../../../models/Table";
 import { UtilService } from "../../../services/UtilService";
 import { saveAs } from "file-saver";

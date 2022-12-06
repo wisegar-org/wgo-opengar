@@ -157,7 +157,7 @@
 import { AuthService } from "../../services/AuthService";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { IAuthRegisterParams, ISuccesLogin, SUPERADMIN } from "../../models";
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import { IUser } from "../../../core/models/user";
 import InputCopy from "../../../core/components/InputCopy/InputCopy.vue";

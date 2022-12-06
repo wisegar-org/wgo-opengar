@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { LanguageStore } from "../../models/LanguageStore";
 import Table from "../../../core/components/Table/Table.vue";
 import { getLanguageListSchema } from "./LanguageListSchema";

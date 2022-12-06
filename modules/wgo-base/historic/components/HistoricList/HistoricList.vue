@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import Table from "../../../core/components/Table/Table.vue";
 import {
   BaseResizeComponent,

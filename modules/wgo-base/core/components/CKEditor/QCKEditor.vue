@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, watch } from "@vue/composition-api";
+import { defineComponent, PropType, watch } from "vue";
 import { UploadAdapter } from "./UploadAdapter";
 const DecoupledEditor = require("@ckeditor/ckeditor5-build-decoupled-document");
 import CKEditor from "@ckeditor/ckeditor5-vue";

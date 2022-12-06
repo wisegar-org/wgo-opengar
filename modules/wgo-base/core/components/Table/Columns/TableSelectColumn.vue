@@ -5,11 +5,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "TableSelectColumn",
   props: ["props", "schema"],
+  data() {
+    return {
+      value: false,
+    };
+  },
   computed: {
     tooltip(): string | false {
       if (this.props.col.extra && this.props.col.extra.tooltip) {
@@ -23,7 +28,7 @@ export default defineComponent({
     },
   },
   methods: {
-    onRowSelect() {
+    onRowSelect(): void {
       return this.$emit("rowSelect", this.value);
     },
     getLabel(name: string) {

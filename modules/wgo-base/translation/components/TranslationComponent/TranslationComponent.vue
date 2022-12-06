@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from "@vue/composition-api";
+import { PropType, defineComponent } from "vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import SimpleLanguageSelector from "../../../language/components/SimpleLanguageSelector/SimpleLanguageSelector.vue";
 import { ILanguageModel } from "../../../language/models";

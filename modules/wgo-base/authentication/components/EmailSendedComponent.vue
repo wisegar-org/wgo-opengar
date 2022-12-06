@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { TranslationStore } from "../../translation/models/TranslationStore";
 import { translations } from "../models/translations";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";

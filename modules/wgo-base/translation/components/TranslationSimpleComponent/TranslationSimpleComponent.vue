@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { IsStringEmpty } from "@wisegar-org/wgo-object-extensions";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import Editor from "../../../core/components/Editor/Editor.vue";

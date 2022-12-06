@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from "@vue/composition-api";
+import { defineComponent, PropType, ref, watch } from "vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { IUser } from "../../../core/models";

@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { IUser } from "../../models/user";
 import EditUserDialog from "../../../authentication/components/EditUser/EditUserDialog.vue";
 import { TranslationStore } from "../../../translation/models/TranslationStore";

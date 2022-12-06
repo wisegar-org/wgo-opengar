@@ -4,20 +4,24 @@
       <div class="text-body1 q-pb-sm">{{ getTitle() }}</div>
     </q-card-section>
 
-    <q-card-section class="q-pt-none text-grey-7 text-body1" v-html="getDescription()"> </q-card-section>
+    <q-card-section
+      class="q-pt-none text-grey-7 text-body1"
+      v-html="getDescription()"
+    >
+    </q-card-section>
   </q-card>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
-import { minText } from './Utils';
-import { UtilService } from '../../services/UtilService';
+import { defineComponent } from "vue";
+import { minText } from "./Utils";
+import { UtilService } from "../../services/UtilService";
 
 export default defineComponent({
-  name: 'SimpleCard',
+  name: "SimpleCard",
   props: {
-    title: { type: String, default: '' },
-    description: { type: String, default: '' },
+    title: { type: String, default: "" },
+    description: { type: String, default: "" },
   },
   methods: {
     getTitle() {

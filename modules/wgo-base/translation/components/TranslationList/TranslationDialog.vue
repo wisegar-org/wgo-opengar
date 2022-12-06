@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { ITranslationModel } from "../../models";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { TranslationStore } from "../../models/TranslationStore";
@@ -139,7 +139,7 @@ export default defineComponent({
       this.$emit("close");
     },
   },
-  emits: ["onSet"],
+  emits: ["onSet", "close"],
   watch: {
     translation() {
       if (this.translation && this.translation.languageId) {

@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { ITableColumn, ITableData, ITableSchema } from "../../models/Table";
 import TableTopButtons from "./Buttons/TableTopButtons.vue";
 import TableSelectColumnsButton from "./Buttons/TableSelectColumnsButton.vue";

@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { AuthStore } from "../../../authentication/models/AuthStore";
 import { TranslationStore } from "../../../translation/models/TranslationStore";
 import { NumberDictionary, NumberDictionaryG } from "../../models";
