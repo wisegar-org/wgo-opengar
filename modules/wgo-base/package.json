@@ -14,7 +14,7 @@
     "@wisegar-org/wgo-mailer": "0.0.1-build.24",
     "@wisegar-org/wgo-object-extensions": "0.0.1-build.15",
     "@wisegar-org/wgo-opengar-core-ui": "0.0.1-build.17",
-    "@wisegar-org/wgo-server": "0.0.1-build.33",
+    "@wisegar-org/wgo-server": "0.0.1-build.52",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
@@ -43,7 +43,6 @@
     "@types/file-saver": "^2.0.5",
     "@types/fs-extra": "^9.0.13",
     "@types/graphql-upload": "8.0.11",
-    "@types/uuid": "^8.3.4",
-    "vue": "3.2.45"
+    "@types/uuid": "^8.3.4"
   }
 }

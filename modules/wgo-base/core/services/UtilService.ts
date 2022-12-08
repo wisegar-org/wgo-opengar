@@ -1,5 +1,6 @@
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
+import * as bcrypt from "bcrypt";
 
 dayjs.extend(customParseFormat);
 import currency from "currency.js";
@@ -69,5 +70,8 @@ export const UtilService = {
     const re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  },
+  hashSync(pass: string, rounds: number) {
+    return bcrypt.hashSync(pass, rounds);
   },
 };

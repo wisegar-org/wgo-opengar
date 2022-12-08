@@ -3,7 +3,7 @@ import { DataSource } from "typeorm";
 import { RoleEntity } from "../../wgo-base/authentication/database/entities/RoleEntity";
 import { UserEntity } from "../../wgo-base/authentication/database/entities/UserEntity";
 import { SUPERADMIN } from "../../wgo-base/authentication/models";
-import * as bcrypt from "bcrypt";
+import { UtilService } from "../../wgo-base/core/services/UtilService";
 
 export const agvAdminUserSeeder = async (dataSource: DataSource) => {
   const adminUserEmail = "assembleagenitorivezia@gmail.com";
@@ -23,7 +23,7 @@ export const agvAdminUserSeeder = async (dataSource: DataSource) => {
     adminUser.isEmailConfirmed = true;
     adminUser.name = "AGV";
     adminUser.lastName = "Admin";
-    adminUser.password = bcrypt.hashSync("@dmin.21", 10);
+    adminUser.password = UtilService.hashSync("@dmin.21", 10);
     adminUser.roles = roleEntity ? [roleEntity] : [];
     const adminUserRegistered = await userRepository.save(adminUser);
     if (!IsNullOrUndefined(adminUserRegistered))

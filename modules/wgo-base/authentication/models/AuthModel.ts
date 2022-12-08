@@ -25,6 +25,7 @@ import {
 } from "@wisegar-org/wgo-object-extensions";
 import * as bcrypt from "bcrypt";
 import {
+  ExpirationFreqEnum,
   generateAccessToken,
   validateAccessToken,
 } from "@wisegar-org/wgo-server";
@@ -96,6 +97,7 @@ export class AuthModel {
       token: data.token,
       expiresIn: TOKEN_EXP,
       privateKey: this.options.privateKey,
+      expirationFreq: ExpirationFreqEnum.Low,
     });
 
     if (!!result) {
@@ -301,6 +303,7 @@ export class AuthModel {
       token: data.token,
       expiresIn: TOKEN_EXP,
       privateKey: this.options.privateKey,
+      expirationFreq: ExpirationFreqEnum.Low,
     });
 
     if (tokenValidation) {
@@ -328,6 +331,7 @@ export class AuthModel {
       token: data.token,
       expiresIn: TOKEN_EXP,
       privateKey: this.options.privateKey,
+      expirationFreq: ExpirationFreqEnum.Low,
     });
 
     if (!!result) {
