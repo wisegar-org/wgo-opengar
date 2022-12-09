@@ -9,13 +9,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import ResendConfirmComponent from "../../wgo-base/client/authentication/components/ResendConfirmComponent.vue";
+import ResendConfirmComponent from "@wisegar-org/wgo-base-client/build/authentication/components/ResendConfirmComponent.vue";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";
 import { useMeta } from "quasar";
-import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
-import { RouteService } from "../../wgo-base/client/core/services/RouteService";
-import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 
 export default defineComponent({

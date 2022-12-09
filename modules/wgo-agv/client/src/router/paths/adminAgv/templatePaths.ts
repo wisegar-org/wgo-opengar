@@ -1,7 +1,10 @@
 import { AGVNewsletterInscriptionStatusEnum } from "src/models/Newsletter";
 import { AGVTemplateEnum } from "src/models/Templates";
-import { SUPERADMIN } from "src/wgo-base/models/authentication";
-import { AdminBasePath, IRouteObject } from "src/wgo-base/models/core";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
+import {
+  AdminBasePath,
+  IRouteObject,
+} from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
 
 export const AGVTemplateAdminPaths: IRouteObject = {

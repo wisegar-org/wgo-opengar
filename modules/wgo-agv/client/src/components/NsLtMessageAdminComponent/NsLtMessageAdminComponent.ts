@@ -1,7 +1,7 @@
 import { defineComponent, reactive, watch } from "vue";
 import NsLtMessageAdminEditor from "../NsLtMessageAdminEditor/NsLtMessageAdminEditor.vue";
 import { AgvNewsletterMessageResponse } from "../../../../src/models/Newsletter";
-import { translations as transBase } from "src/wgo-base/models/core";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { getNewsletterMessageListSchema } from "./NsLtMessageAdminComponentSchema";
 import { translations } from "src/models/translations/newsletter";
 import { NewsletterMessageService } from "src/services/Newsletter/NwLtMessengerService";
@@ -9,20 +9,20 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
-import Table from "src/wgo-base/client/core/components/Table/Table.vue";
+import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
 import { AGVNewsletterMessageStatusEnum } from "src/models/Newsletter";
 import { AGVNewslettersAdminPaths } from "src/router/paths/adminAgv/newslettersPaths";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/client/core/components/BaseComponents";
+} from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import {
   ITableLeftButton,
   ITablePagination,
   ITableRowButton,
-} from "src/wgo-base/models/core/Table";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
-import { RouteService } from "src/wgo-base/client/core/services/RouteService";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 
 export default defineComponent({
   name: "NsLtMessageAdminComponent",

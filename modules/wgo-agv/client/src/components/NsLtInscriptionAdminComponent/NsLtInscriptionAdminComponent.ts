@@ -1,7 +1,7 @@
 import { defineComponent, reactive, watch } from "vue";
 import NsLtInscriptionAdminEditor from "../NsLtInscriptionAdminEditor/NsLtInscriptionAdminEditor.vue";
 import { AgvNewsletterInscriptionResponse } from "../../../../src/models/Newsletter";
-import { translations as transBase } from "src/wgo-base/models/core";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { getNewsletterInscriptionListSchema } from "./NsLtInscriptionAdminComponentSchema";
 import { translations } from "src/models/translations/newsletter";
 import { NewsletterInscriptionService } from "src/services/Newsletter/NwLtInscriptionService";
@@ -9,7 +9,7 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
-import Table from "src/wgo-base/client/core/components/Table/Table.vue";
+import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
 import {
   AGVNewsletterInscriptionModel,
   AGVNewsletterInscriptionStatusEnum,
@@ -17,13 +17,13 @@ import {
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/client/core/components/BaseComponents";
+} from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import {
   ITableLeftButton,
   ITablePagination,
   ITableRowButton,
-} from "src/wgo-base/models/core/Table";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "NsLtInscriptionAdminComponent",

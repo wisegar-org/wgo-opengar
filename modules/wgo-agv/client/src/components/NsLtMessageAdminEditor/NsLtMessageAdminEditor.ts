@@ -1,20 +1,20 @@
 import { AgvNewsletterMessageResponse } from "app/../src/models/Newsletter";
 import { apiSettings } from "src/api/ApiOptions";
 import { defineComponent, PropType } from "vue";
-import QCKEditor from "src/wgo-base/client/core/components/CKEditor/QCKEditor.vue";
+import QCKEditor from "@wisegar-org/wgo-base-client/build/core/components/CKEditor/QCKEditor.vue";
 import { translations } from "src/models/translations/newsletter";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
-import { translations as transBase } from "src/wgo-base/models/core";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { useAuthStore } from "src/stores/authStore";
 import { NewsletterMessageService } from "src/services/Newsletter/NwLtMessengerService";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/client/core/components/BaseComponents";
-import { EmailService } from "src/wgo-base/client/email/services/EmailService";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+} from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "NsLtMessageAdminEditor",

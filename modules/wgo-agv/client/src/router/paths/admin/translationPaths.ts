@@ -1,4 +1,4 @@
-import { AdminTranslationPaths } from "src/wgo-base/models/translation/router";
+import { AdminTranslationPaths } from "@wisegar-org/wgo-base-models/build/translation/router";
 import { RouteRecordRaw } from "vue-router";
 
 export const TranslationPathRouter: RouteRecordRaw = {

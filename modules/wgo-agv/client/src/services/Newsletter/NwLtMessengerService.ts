@@ -1,4 +1,4 @@
-import { ApiService } from "src/wgo-base/client/core/services/ApiService";
+import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 import {
   M_AGV_NEWSLETTER_ADD_MESSAGE,
   M_AGV_NEWSLETTER_DELETE_MESSAGE,

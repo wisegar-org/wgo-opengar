@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ContactEditor from "../../../wgo-base/client/contact/components/ContactEditor/ContactEditor.vue";
+import ContactEditor from "@wisegar-org/wgo-base-client/build/contact/components/ContactEditor/ContactEditor.vue";
 import { useTranslationStore } from "../../../stores/translationStore";
 import { useLanguageStore } from "../../../stores/languageStore";
 import { useNotifyStore } from "../../../stores/notifyStore";

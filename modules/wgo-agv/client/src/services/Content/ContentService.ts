@@ -1,4 +1,4 @@
-import { ApiService } from "src/wgo-base/client/core/services/ApiService";
+import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 import {
   M_AGV_MODIFY_CONTENTS,
   Q_AGV_ALL_CONTENTS,

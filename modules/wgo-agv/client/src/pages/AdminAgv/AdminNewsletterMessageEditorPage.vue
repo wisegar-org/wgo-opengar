@@ -14,7 +14,7 @@ import NsLtMessageAdminEditor from "../../components/NsLtMessageAdminEditor/NsLt
 import { NewsletterMessageService } from "../../services/Newsletter/NwLtMessengerService";
 import { AGVNewslettersAdminPaths } from "../../router/paths/adminAgv/newslettersPaths";
 import { useAppStatusStore } from "../../stores/appStatusStore";
-import { RouteService } from "../../wgo-base/client/core/services/RouteService";
+import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 
 export default defineComponent({
   name: "AdminNewsletterMessageEditorPage",

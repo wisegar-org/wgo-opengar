@@ -1,4 +1,4 @@
-import { IMediaResponse } from "src/wgo-base/models/storage";
+import { IMediaResponse } from "@wisegar-org/wgo-base-models/build/storage";
 
 export interface AgvEventResponseModel {
   id: number;

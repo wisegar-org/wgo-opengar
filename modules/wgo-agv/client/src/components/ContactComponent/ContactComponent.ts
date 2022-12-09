@@ -1,14 +1,14 @@
 import { useTranslationStore } from "src/stores/translationStore";
 import { defineComponent } from "vue";
-import MapComponent from "../../wgo-base/client/contact/components/MapComponent/MapComponent.vue";
+import MapComponent from "@wisegar-org/wgo-base-client/build/contact/components/MapComponent/MapComponent.vue";
 import ContactForm from "../ContactForm/ContactForm.vue";
-import Text from "../../wgo-base/client/core/components/Text/Text.vue";
+import Text from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
 import { AGVTemplateEnum, getAgvTemplateKey } from "src/models/Templates";
 import { Dialog } from "quasar";
 import { useNotifyStore } from "src/stores/notifyStore";
-import { EmailService } from "src/wgo-base/client/email/services/EmailService";
-import { TemplateService } from "src/wgo-base/client/template/services/TemplateService";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
+import { TemplateService } from "@wisegar-org/wgo-base-client/build/template/services/TemplateService";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "ContactComponent",

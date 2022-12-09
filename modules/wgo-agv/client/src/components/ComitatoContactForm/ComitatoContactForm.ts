@@ -1,8 +1,8 @@
 import { Dialog } from "quasar";
 import { AGVTemplateEnum, getAgvTemplateKey } from "src/models/Templates";
 import { useNotifyStore } from "src/stores/notifyStore";
-import { EmailService } from "src/wgo-base/client/email/services/EmailService";
-import { TemplateService } from "src/wgo-base/client/template/services/TemplateService";
+import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
+import { TemplateService } from "@wisegar-org/wgo-base-client/build/template/services/TemplateService";
 import { defineComponent } from "vue";
 import ContactForm from "../ContactForm/ContactForm.vue";
 

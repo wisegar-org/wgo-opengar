@@ -10,7 +10,7 @@
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
 import ComitatoComponent from "../../components/ComitatoComponent/ComitatoComponent.vue";
-import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 
 export default defineComponent({
   name: "ComitatoPage",

@@ -1,4 +1,4 @@
-import { AdminBasePath } from "src/wgo-base/models/core";
+import { AdminBasePath } from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
 import { AuthAdminPathRouter } from "./paths/admin/authPaths";
 import { ContactPathRouter } from "./paths/admin/contactPaths";

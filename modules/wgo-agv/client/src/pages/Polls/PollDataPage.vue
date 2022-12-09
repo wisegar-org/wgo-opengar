@@ -14,7 +14,7 @@ import { useMeta } from "quasar";
 import { defineComponent } from "vue";
 import PollComponent from "../../components/PollComponent/PollComponent.vue";
 import { useAppContentStore } from "../../stores/appContentStore";
-import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 
 export default defineComponent({
   name: "PollDataPage",
@@ -60,4 +60,3 @@ export default defineComponent({
   },
 });
 </script>
-  

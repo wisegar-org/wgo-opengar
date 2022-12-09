@@ -23,7 +23,7 @@
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
-import { BaseSeoDataComponent } from "../wgo-base/client/core/components/BaseComponents";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 
 export default defineComponent({
   name: "ErrorNotFound",

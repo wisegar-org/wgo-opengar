@@ -1,4 +1,4 @@
-import { AdminContactPaths } from "src/wgo-base/models/contact/router";
+import { AdminContactPaths } from "@wisegar-org/wgo-base-models/build/contact/router";
 import { RouteRecordRaw } from "vue-router";
 
 export const ContactPathRouter: RouteRecordRaw = {

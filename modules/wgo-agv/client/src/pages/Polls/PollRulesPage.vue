@@ -8,13 +8,7 @@
           </div>
 
           <q-card-section
-            class="
-              col-12 col-sm-10 col-md-8 col-lg-8
-              column
-              display-flex
-              justify-center
-              self-center
-            "
+            class="col-12 col-sm-10 col-md-8 col-lg-8 column display-flex justify-center self-center"
           >
             <div
               class="row display-flex justify-center"
@@ -60,12 +54,12 @@
     </q-card>
   </div>
 </template>
-  
+
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
 import { useAppContentStore } from "../../stores/appContentStore";
-import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 
 export default defineComponent({
   name: "PollRulesPage",
@@ -108,7 +102,7 @@ export default defineComponent({
   },
 });
 </script>
-    
+
 <style scoped>
 .image-div-justify {
   justify-content: center;

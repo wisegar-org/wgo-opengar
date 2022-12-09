@@ -1,11 +1,11 @@
-import { ApiService } from "../wgo-base/client/core/services/ApiService";
+import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 import { boot } from "quasar/wrappers";
 import { getApiServiceOptions } from "src/api/ApiOptions";
 import { useAuthStore } from "src/stores/authStore";
 import { useLanguageStore } from "src/stores/languageStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { Translations } from "../settings/translations";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default boot(({ app, store, router }) => {
   if (!ApiService.isDefineInstance()) {

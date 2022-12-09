@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { LanguageStore } from "../wgo-base/client/language/store/LanguageStore";
-import { TranslationStore } from "../wgo-base/client/translation/store/TranslationStore";
+import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export const languageStoreId = "languageStore";
 

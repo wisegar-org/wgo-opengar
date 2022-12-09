@@ -3,13 +3,13 @@ import { AGVEventsAdminPaths } from "src/router/paths/adminAgv/eventsPaths";
 import { AGVInscriptionsAdminPaths } from "src/router/paths/adminAgv/inscriptionsPaths";
 import { AGVNewslettersAdminPaths } from "src/router/paths/adminAgv/newslettersPaths";
 import { AGVTemplateAdminPaths } from "src/router/paths/adminAgv/templatePaths";
-import { SUPERADMIN } from "src/wgo-base/models/authentication";
-import { AuthPaths } from "src/wgo-base/models/authentication/router";
-import { AdminContactPaths } from "src/wgo-base/models/contact/router";
-import { MenuListItem } from "src/wgo-base/models/core/Menu";
-import { AdminLanguagePaths } from "src/wgo-base/models/language/router";
-import { AdminSettingsPaths } from "src/wgo-base/models/settings/router";
-import { AdminTranslationPaths } from "src/wgo-base/models/translation/router";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
+import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
+import { AdminContactPaths } from "@wisegar-org/wgo-base-models/build/contact/router";
+import { MenuListItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
+import { AdminLanguagePaths } from "@wisegar-org/wgo-base-models/build/language/router";
+import { AdminSettingsPaths } from "@wisegar-org/wgo-base-models/build/settings/router";
+import { AdminTranslationPaths } from "@wisegar-org/wgo-base-models/build/translation/router";
 import { Paths } from "../router/paths";
 
 export const menuItems: MenuListItem[] = [

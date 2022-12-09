@@ -4,13 +4,13 @@ import { translations } from "src/models/translations/content";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
-import Editor from "src/wgo-base/client/core/components/Editor/Editor.vue";
+import Editor from "@wisegar-org/wgo-base-client/build/core/components/Editor/Editor.vue";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/client/core/components/BaseComponents";
-import { translations as transBase } from "src/wgo-base/models/core";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+} from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "ComitatoAdminContent",

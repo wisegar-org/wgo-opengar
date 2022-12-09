@@ -10,9 +10,9 @@
 import { useTranslationStore } from "../../../stores/translationStore";
 import { defineComponent } from "vue";
 import { useNotifyStore } from "../../../stores/notifyStore";
-import UsersList from "../../../wgo-base/client/authentication/components/UsersList/UsersList.vue";
+import UsersList from "@wisegar-org/wgo-base-client/build/authentication/components/UsersList/UsersList.vue";
 import { useAuthStore } from "../../../stores/authStore";
-import { TranslationStore } from "../../../wgo-base/client/translation/store/TranslationStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "AuthUserPage",

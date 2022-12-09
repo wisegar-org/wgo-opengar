@@ -4,11 +4,11 @@ import {
   AdminBasePath,
   IRoute,
   translations as transBase,
-} from "src/wgo-base/models/core";
+} from "@wisegar-org/wgo-base-models/build/core";
 import { useTranslationStore } from "src/stores/translationStore";
-import { BaseTranslateComponent } from "src/wgo-base/client/core/components/BaseComponents";
+import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { UtilService } from "src/services/UtilService";
-import { SUPERADMIN } from "src/wgo-base/models/authentication";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
 
 export default defineComponent({
   name: "WebHeader",

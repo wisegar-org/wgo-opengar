@@ -12,7 +12,7 @@ import { defineComponent } from "vue";
 import EventListComponent from "../../components/EventListComponent/EventListComponent.vue";
 import { AGVDetailsPaths } from "../../router/paths/detailsPath";
 import { useMeta } from "quasar";
-import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 
 export default defineComponent({
   name: "CorsiPage",

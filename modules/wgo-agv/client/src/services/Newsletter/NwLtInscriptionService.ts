@@ -10,7 +10,7 @@ import {
   Q_AGV_NEWSLETTER_GET_INSCRIPTION,
   Q_AGV_NEWSLETTER_GET_PAGE_INSCRIPTION,
 } from "./NwLtInscriptionServiceQueries";
-import { ApiService } from "src/wgo-base/client/core/services/ApiService";
+import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 
 export class NewsletterInscriptionService {
   apiInstance: ApiService;

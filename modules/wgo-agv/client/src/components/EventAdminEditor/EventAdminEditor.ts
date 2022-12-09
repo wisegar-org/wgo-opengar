@@ -1,11 +1,11 @@
 import { defineComponent, PropType } from "vue";
-import UploadImageDiv from "src/wgo-base/client/storage/components/UploadImageDiv/UploadImageDiv.vue";
-import GalleryImage from "src/wgo-base/client/storage/components/GalleryImage/GalleryImage.vue";
-import QCKEditor from "src/wgo-base/client/core/components/CKEditor/QCKEditor.vue";
-import { translations as transBase } from "src/wgo-base/models/core";
+import UploadImageDiv from "@wisegar-org/wgo-base-client/build/storage/components/UploadImageDiv/UploadImageDiv.vue";
+import GalleryImage from "@wisegar-org/wgo-base-client/build/storage/components/GalleryImage/GalleryImage.vue";
+import QCKEditor from "@wisegar-org/wgo-base-client/build/core/components/CKEditor/QCKEditor.vue";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { translations } from "src/models/translations/events";
 import { useTranslationStore } from "src/stores/translationStore";
-import { BaseTranslateComponent } from "src/wgo-base/client/core/components/BaseComponents";
+import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { AgvEventInputModel, AgvEventResponseModel } from "src/models/models";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useNotifyStore } from "src/stores/notifyStore";
@@ -16,11 +16,11 @@ import {
   EventTypeOptions,
 } from "src/models/Events";
 import { QPopupProxy } from "quasar";
-import Dialog from "src/wgo-base/client/core/components/Dialog/Dialog.vue";
+import Dialog from "@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue";
 import { apiSettings } from "src/api/ApiOptions";
-import { IMediaResponse } from "src/wgo-base/models/storage";
-import { UtilService } from "src/wgo-base/client/core/services/UtilService";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+import { IMediaResponse } from "@wisegar-org/wgo-base-models/build/storage";
+import { UtilService } from "@wisegar-org/wgo-base-client/build/core/services/UtilService";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "EventAdminEditor",

@@ -1,9 +1,9 @@
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "src/wgo-base/models/core/Table";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 import { translations } from "src/models/translations/newsletter";
 
 export const getNewsletterMessageListSchema = (

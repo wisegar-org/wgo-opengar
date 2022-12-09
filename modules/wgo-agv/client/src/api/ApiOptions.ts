@@ -1,12 +1,12 @@
 import { Pinia } from "pinia";
-import { IApiServiceOptions } from "../wgo-base/client/core/services/ApiService";
+import { IApiServiceOptions } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 import { Environment, getSettings } from "./ApiSettings";
 import { translations } from "@wisegar-org/wgo-base-models/build/core";
 
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useAuthStore } from "src/stores/authStore";
 import { useTranslationStore } from "src/stores/translationStore";
-import { USER_AUTH_TOKEN } from "src/wgo-base/models/authentication";
+import { USER_AUTH_TOKEN } from "@wisegar-org/wgo-base-models/build/authentication";
 const defaultEnv: Environment =
   process.env.NODE_ENV === Environment.Production
     ? Environment.Production

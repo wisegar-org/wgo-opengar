@@ -1,4 +1,4 @@
-import { IRouteObject } from "src/wgo-base/models/core";
+import { IRouteObject } from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
 import { AGVPaths } from "./sitePaths";
 

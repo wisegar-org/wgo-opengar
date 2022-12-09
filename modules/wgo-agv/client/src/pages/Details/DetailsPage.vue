@@ -5,12 +5,12 @@
     </div>
   </q-page>
 </template>
-  
-  <script lang="ts">
+
+<script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
 import EventDetailsComponent from "../../components/EventDetailsComponent/EventDetailsComponent.vue";
-import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 
 export default defineComponent({
   name: "DetailsPage",
@@ -41,4 +41,3 @@ export default defineComponent({
   },
 });
 </script>
-  

@@ -8,12 +8,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LanguageList from "../../../wgo-base/client/language/components/LanguageList/LanguageList.vue";
+import LanguageList from "@wisegar-org/wgo-base-client/build/language/components/LanguageList/LanguageList.vue";
 import { useLanguageStore } from "../../../stores/languageStore";
 import { useNotifyStore } from "../../../stores/notifyStore";
 import { useTranslationStore } from "../../../stores/translationStore";
-import { LanguageStore } from "../../../wgo-base/client/language/store/LanguageStore";
-import { TranslationStore } from "../../../wgo-base/client/translation/store/TranslationStore";
+import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "LanguagePage",

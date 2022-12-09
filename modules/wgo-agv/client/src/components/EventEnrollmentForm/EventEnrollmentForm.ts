@@ -8,7 +8,7 @@ import { InscriptionService } from "src/services/Inscription/InscriptionService"
 import { useAppContentStore } from "src/stores/appContentStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useNotifyStore } from "src/stores/notifyStore";
-import { EmailService } from "src/wgo-base/client/email/services/EmailService";
+import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
 import { defineComponent, PropType } from "vue";
 
 export default defineComponent({

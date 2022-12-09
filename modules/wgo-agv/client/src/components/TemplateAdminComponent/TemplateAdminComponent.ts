@@ -3,18 +3,18 @@ import { useAuthStore } from "src/stores/authStore";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { defineComponent, PropType } from "vue";
-import QCKEditor from "src/wgo-base/client/core/components/CKEditor/QCKEditor.vue";
+import QCKEditor from "@wisegar-org/wgo-base-client/build/core/components/CKEditor/QCKEditor.vue";
 import { translations } from "src/models/translations/template";
-import { translations as transBase } from "src/wgo-base/models/core";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { apiSettings } from "src/api/ApiOptions";
-import { ITemplateResponse } from "src/wgo-base/models/template";
+import { ITemplateResponse } from "@wisegar-org/wgo-base-models/build/template";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/client/core/components/BaseComponents";
-import { TemplateService } from "src/wgo-base/client/template/services/TemplateService";
-import { EmailService } from "src/wgo-base/client/email/services/EmailService";
-import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+} from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { TemplateService } from "@wisegar-org/wgo-base-client/build/template/services/TemplateService";
+import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "TemplateAdminComponent",

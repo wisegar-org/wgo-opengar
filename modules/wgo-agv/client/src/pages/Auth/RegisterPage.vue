@@ -11,14 +11,14 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import { defineComponent } from "vue";
-import RegisterComponent from "../../wgo-base/client/authentication/components/RegisterComponent.vue";
+import RegisterComponent from "@wisegar-org/wgo-base-client/build/authentication/components/RegisterComponent.vue";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";
 import { USER_ROLE } from "../../../../src/models/constants";
 import { useMeta } from "quasar";
-import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
-import { RouteService } from "../../wgo-base/client/core/services/RouteService";
-import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 

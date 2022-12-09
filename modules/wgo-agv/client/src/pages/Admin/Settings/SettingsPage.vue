@@ -6,8 +6,8 @@
 import { useTranslationStore } from "../../../stores/translationStore";
 import { defineComponent } from "vue";
 import { useNotifyStore } from "../../../stores/notifyStore";
-import SettingsList from "../../../wgo-base/client/settings/components/SettingsList/SettingsList.vue";
-import { TranslationStore } from "../../../wgo-base/client/translation/store/TranslationStore";
+import SettingsList from "@wisegar-org/wgo-base-client/build/settings/components/SettingsList/SettingsList.vue";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "SettingsPage",

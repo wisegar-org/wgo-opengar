@@ -14,18 +14,18 @@
 import { defineComponent } from "vue";
 import { useAuthStore } from "../stores/authStore";
 import { useTranslationStore } from "../stores/translationStore";
-import AdminMainLayout from "../wgo-base/client/core/components/Layouts/AdminMainLayout.vue";
+import AdminMainLayout from "@wisegar-org/wgo-base-client/build/core/components/Layouts/AdminMainLayout.vue";
 import { menuItems } from "../settings/navigation";
 import { useRouter } from "vue-router";
 import { useLanguageStore } from "../stores/languageStore";
 import { Paths } from "../router/paths";
 import { useMeta } from "quasar";
-import { BaseSeoDataComponent } from "../wgo-base/client/core/components/BaseComponents";
-import { RouteService } from "../wgo-base/client/core/services/RouteService";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
-import { AuthStore } from "../wgo-base/client/authentication/store/AuthStore";
-import { TranslationStore } from "../wgo-base/client/translation/store/TranslationStore";
-import { LanguageStore } from "../wgo-base/client/language/store/LanguageStore";
+import { AuthStore } from "@wisegar-org/wgo-base-client/build/authentication/store/AuthStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
 
 export default defineComponent({
   components: {
