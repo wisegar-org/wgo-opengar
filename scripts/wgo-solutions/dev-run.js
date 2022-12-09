@@ -1,5 +1,5 @@
 const { execSync } = require("child_process");
-const { createSymlinkSync, existsSync } = require("fs-extra");
+const { createSymlinkSync, existsSync, emptyDirSync } = require("fs-extra");
 
 const build_args = process.argv.slice(2);
 console.log(`BUILD_ARGS: ${build_args}`);
@@ -10,26 +10,40 @@ if (!build_args || build_args.length < 1)
 const module_name = build_args[0] ? build_args[0] : "wgo-swisspay";
 console.log("\x1b[34m", `PROJECT: ${module_name}`);
 
-console.log("npm install wgo-base");
-execSync("npm install", {
-  cwd: "./modules/wgo-base",
-  stdio: "inherit",
-});
+emptyDirSync(`./modules/${module_name}/src/wgo-base`)
 createSymlinkSync(
-  "./modules/wgo-base",
-  `./modules/${module_name}/src/wgo-base`,
+  "./modules/wgo-base/models",
+  `./modules/${module_name}/src/wgo-base/models`,
   "junction"
 );
 createSymlinkSync(
-  "./modules/wgo-base",
-  `./modules/${module_name}/client/src/wgo-base`,
+  "./modules/wgo-base/server",
+  `./modules/${module_name}/src/wgo-base/server`,
+  "junction"
+);
+
+emptyDirSync(`./modules/${module_name}/client/src/wgo-base`)
+createSymlinkSync(
+  "./modules/wgo-base/models",
+  `./modules/${module_name}/client/src/wgo-base/models`,
+  "junction"
+);
+createSymlinkSync(
+  "./modules/wgo-base/client",
+  `./modules/${module_name}/client/src/wgo-base/client`,
   "junction"
 );
 
 if (existsSync(`./modules/${module_name}/mobile`)) {
+  emptyDirSync(`./modules/${module_name}/mobile/src/wgo-base`)
   createSymlinkSync(
-    "./modules/wgo-base",
-    `./modules/${module_name}/mobile/src/wgo-base`,
+    "./modules/wgo-base/models",
+    `./modules/${module_name}/mobile/src/wgo-base/models`,
+    "junction"
+  );
+  createSymlinkSync(
+    "./modules/wgo-base/client",
+    `./modules/${module_name}/mobile/src/wgo-base/client`,
     "junction"
   );
 
