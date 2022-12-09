@@ -1,20 +1,24 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col-12">
-      <ContactEditor :tranStore="tranStore" :langStore="langStore" @showMessage="showMessage" />
+      <ContactEditor
+        :tranStore="tranStore"
+        :langStore="langStore"
+        @showMessage="showMessage"
+      />
     </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import ContactEditor from '../../../wgo-base/contact/components/ContactEditor/ContactEditor.vue';
-import { useTranslationStore } from '../../../stores/translationStore';
-import { useLanguageStore } from '../../../stores/languageStore';
-import { useNotifyStore } from '../../../stores/notifyStore';
+import { defineComponent } from "vue";
+import ContactEditor from "../../../wgo-base/client/contact/components/ContactEditor/ContactEditor.vue";
+import { useTranslationStore } from "../../../stores/translationStore";
+import { useLanguageStore } from "../../../stores/languageStore";
+import { useNotifyStore } from "../../../stores/notifyStore";
 
 export default defineComponent({
-  name: 'AdminContactPage',
+  name: "AdminContactPage",
   components: {
     ContactEditor,
   },
@@ -32,9 +36,9 @@ export default defineComponent({
   methods: {
     showMessage(status: boolean, msg: string) {
       this.notifyStore.setNotify({
-        position: 'top',
+        position: "top",
         message: msg,
-        type: status ? 'positive' : 'negative',
+        type: status ? "positive" : "negative",
       });
     },
   },

@@ -1,6 +1,6 @@
-import { AuthPaths } from "../wgo-base/authentication/router";
 import { route } from "quasar/wrappers";
 import { useAuthStore } from "src/stores/authStore";
+import { AuthPaths } from "src/wgo-base/models/authentication/router";
 import {
   createMemoryHistory,
   createRouter,

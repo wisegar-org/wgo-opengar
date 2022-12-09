@@ -1,13 +1,13 @@
-import { BaseTranslateComponent } from "src/wgo-base/core/components/BaseComponents";
+import { BaseTranslateComponent } from "src/wgo-base/client/core/components/BaseComponents";
 import { defineComponent } from "vue";
-import { translations as transBase } from "src/wgo-base/core/models";
+import { translations as transBase } from "src/wgo-base/models/core";
 import { translations } from "src/models/translations/content";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
 import { useTranslationStore } from "src/stores/translationStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
 import { openURL } from "quasar";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "SocialMediaAdminContent",

@@ -4,7 +4,7 @@ import {
   AgvInscriptionResponseModel,
   AgvInscriptionsPageResponseModel,
 } from "src/models/models";
-import { ApiService } from "src/wgo-base/core/services/ApiService";
+import { ApiService } from "src/wgo-base/client/core/services/ApiService";
 import {
   M_AGV_CREATE_INSCRIPTION,
   Q_AGV_ALL_INSCRIPTIONS,

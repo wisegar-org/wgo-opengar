@@ -1,10 +1,10 @@
+import { translations } from "src/models/translations/newsletter";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "src/wgo-base/core/models/Table";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import { translations } from "src/models/translations/newsletter";
+} from "src/wgo-base/models/core/Table";
 
 export const getNewsletterInscriptionListSchema = (
   transStore: TranslationStore,

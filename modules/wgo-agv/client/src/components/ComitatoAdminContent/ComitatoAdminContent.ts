@@ -2,15 +2,15 @@ import { useAppContentStore } from "src/stores/appContentStore";
 import { defineComponent } from "vue";
 import { translations } from "src/models/translations/content";
 import { useTranslationStore } from "src/stores/translationStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
+import { useNotifyStore } from "src/stores/notifyStore";
+import { useAppStatusStore } from "src/stores/appStatusStore";
+import Editor from "src/wgo-base/client/core/components/Editor/Editor.vue";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/core/components/BaseComponents";
-import { translations as transBase } from "src/wgo-base/core/models";
-import { useNotifyStore } from "src/stores/notifyStore";
-import { useAppStatusStore } from "src/stores/appStatusStore";
-import Editor from "src/wgo-base/core/components/Editor/Editor.vue";
+} from "src/wgo-base/client/core/components/BaseComponents";
+import { translations as transBase } from "src/wgo-base/models/core";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "ComitatoAdminContent",

@@ -7,16 +7,16 @@
 </template>
 
 <script lang="ts">
-import { RouteService } from "../../wgo-base/core/services/RouteService";
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import ResendConfirmComponent from "../../wgo-base/authentication/components/ResendConfirmComponent.vue";
+import ResendConfirmComponent from "../../wgo-base/client/authentication/components/ResendConfirmComponent.vue";
 import { Paths } from "../../router/paths";
-import { AuthPaths } from "../../wgo-base/authentication/router";
 import { useTranslationStore } from "../../stores/translationStore";
-import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import { useMeta } from "quasar";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { RouteService } from "../../wgo-base/client/core/services/RouteService";
+import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
+import { AuthPaths } from "../../wgo-base/models/authentication/router";
 
 export default defineComponent({
   name: "RegisterResendConfirmPage",

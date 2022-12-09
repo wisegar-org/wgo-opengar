@@ -1,17 +1,13 @@
 import { defineComponent, PropType } from "vue";
-import UploadImageDiv from "src/wgo-base/storage/components/UploadImageDiv/UploadImageDiv.vue";
-import GalleryImage from "src/wgo-base/storage/components/GalleryImage/GalleryImage.vue";
-import QCKEditor from "src/wgo-base/core/components/CKEditor/QCKEditor.vue";
-// import QCKEditor from "../CKEditor/QCKEditor.vue";
-import { translations as transBase } from "src/wgo-base/core/models";
+import UploadImageDiv from "src/wgo-base/client/storage/components/UploadImageDiv/UploadImageDiv.vue";
+import GalleryImage from "src/wgo-base/client/storage/components/GalleryImage/GalleryImage.vue";
+import QCKEditor from "src/wgo-base/client/core/components/CKEditor/QCKEditor.vue";
+import { translations as transBase } from "src/wgo-base/models/core";
 import { translations } from "src/models/translations/events";
 import { useTranslationStore } from "src/stores/translationStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import { BaseTranslateComponent } from "src/wgo-base/core/components/BaseComponents";
+import { BaseTranslateComponent } from "src/wgo-base/client/core/components/BaseComponents";
 import { AgvEventInputModel, AgvEventResponseModel } from "src/models/models";
 import { useAppStatusStore } from "src/stores/appStatusStore";
-import { MediaResponse } from "src/wgo-base/storage/resolvers/Media/MediaResponses";
-import { UtilService } from "src/wgo-base/core/services/UtilService";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { EventService } from "src/services/Event/EventService";
 import {
@@ -20,8 +16,11 @@ import {
   EventTypeOptions,
 } from "src/models/Events";
 import { QPopupProxy } from "quasar";
-import Dialog from "src/wgo-base/core/components/Dialog/Dialog.vue";
+import Dialog from "src/wgo-base/client/core/components/Dialog/Dialog.vue";
 import { apiSettings } from "src/api/ApiOptions";
+import { IMediaResponse } from "src/wgo-base/models/storage";
+import { UtilService } from "src/wgo-base/client/core/services/UtilService";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "EventAdminEditor",
@@ -35,8 +34,8 @@ export default defineComponent({
     event: { type: Object as PropType<AgvEventResponseModel>, required: true },
   },
   data(vm) {
-    const imgTitle: MediaResponse = this.event.imgTitle || {};
-    const imgList: MediaResponse[] = this.event.imgList || [];
+    const imgTitle: IMediaResponse = this.event.imgTitle || {};
+    const imgList: IMediaResponse[] = this.event.imgList || [];
     const { getLabel } = new BaseTranslateComponent();
     const startDate = UtilService.parseDate(
       (this.event.startDate || new Date()).toString(),
@@ -126,11 +125,11 @@ export default defineComponent({
       }
       this.appStatusStore.setLoading(false);
     },
-    setImageTitle(img: MediaResponse) {
+    setImageTitle(img: IMediaResponse) {
       this.imgTitle = img;
     },
 
-    setListImg(imgs: MediaResponse[]) {
+    setListImg(imgs: IMediaResponse[]) {
       this.imgList = imgs;
     },
     closePopUp(popup: unknown) {

@@ -64,10 +64,8 @@
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
-import { IPoll } from "../../models/Poll";
-import { PollService } from "../../services/PollService";
 import { useAppContentStore } from "../../stores/appContentStore";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
 
 export default defineComponent({
   name: "PollRulesPage",

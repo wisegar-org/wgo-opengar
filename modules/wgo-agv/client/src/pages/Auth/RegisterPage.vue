@@ -11,16 +11,16 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import { defineComponent } from "vue";
-import RegisterComponent from "../../wgo-base/authentication/components/RegisterComponent.vue";
-import { RouteService } from "../../wgo-base/core/services/RouteService";
-import { IUser } from "../../wgo-base/core/models/user";
-import { AuthPaths } from "../../wgo-base/authentication/router";
+import RegisterComponent from "../../wgo-base/client/authentication/components/RegisterComponent.vue";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";
-import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
 import { USER_ROLE } from "../../../../src/models/constants";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import { useMeta } from "quasar";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { RouteService } from "../../wgo-base/client/core/services/RouteService";
+import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
+import { IUser } from "../../wgo-base/models/core";
+import { AuthPaths } from "../../wgo-base/models/authentication/router";
 
 export default defineComponent({
   name: "RegisterPage",

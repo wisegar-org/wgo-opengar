@@ -3,14 +3,14 @@
 </template>
 
 <script lang="ts">
-import { useTranslationStore } from '../../../stores/translationStore';
-import { defineComponent } from 'vue';
-import { useNotifyStore } from '../../../stores/notifyStore';
-import SettingsList from '../../../wgo-base/settings/components/SettingsList/SettingsList.vue';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { useTranslationStore } from "../../../stores/translationStore";
+import { defineComponent } from "vue";
+import { useNotifyStore } from "../../../stores/notifyStore";
+import SettingsList from "../../../wgo-base/client/settings/components/SettingsList/SettingsList.vue";
+import { TranslationStore } from "../../../wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
-  name: 'SettingsPage',
+  name: "SettingsPage",
   components: {
     SettingsList,
   },
@@ -25,8 +25,8 @@ export default defineComponent({
   methods: {
     success(msg: string) {
       this.notifyStore.setNotify({
-        position: 'top',
-        type: 'positive',
+        position: "top",
+        type: "positive",
         message: msg,
       });
     },

@@ -1,16 +1,7 @@
 import { defineComponent, reactive, watch } from "vue";
 import NsLtMessageAdminEditor from "../NsLtMessageAdminEditor/NsLtMessageAdminEditor.vue";
 import { AgvNewsletterMessageResponse } from "../../../../src/models/Newsletter";
-import {
-  BaseResizeComponent,
-  BaseTranslateComponent,
-} from "src/wgo-base/core/components/BaseComponents";
-import {
-  ITableLeftButton,
-  ITablePagination,
-  ITableRowButton,
-} from "src/wgo-base/core/models/Table";
-import { translations as transBase } from "src/wgo-base/core/models";
+import { translations as transBase } from "src/wgo-base/models/core";
 import { getNewsletterMessageListSchema } from "./NsLtMessageAdminComponentSchema";
 import { translations } from "src/models/translations/newsletter";
 import { NewsletterMessageService } from "src/services/Newsletter/NwLtMessengerService";
@@ -18,11 +9,20 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import Table from "src/wgo-base/core/components/Table/Table.vue";
+import Table from "src/wgo-base/client/core/components/Table/Table.vue";
 import { AGVNewsletterMessageStatusEnum } from "src/models/Newsletter";
-import { RouteService } from "src/wgo-base/core/services/RouteService";
 import { AGVNewslettersAdminPaths } from "src/router/paths/adminAgv/newslettersPaths";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "src/wgo-base/client/core/components/BaseComponents";
+import {
+  ITableLeftButton,
+  ITablePagination,
+  ITableRowButton,
+} from "src/wgo-base/models/core/Table";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+import { RouteService } from "src/wgo-base/client/core/services/RouteService";
 
 export default defineComponent({
   name: "NsLtMessageAdminComponent",

@@ -1,10 +1,10 @@
-import { IRouteObject, translations } from '../wgo-base/core/models';
+import { translations, IRouteObject } from "../wgo-base/models/core";
 
 export const Paths: IRouteObject = {
   home: {
-    path: '/',
+    path: "/",
     label: translations.HOME,
-    name: 'home',
+    name: "home",
     auth: false,
   },
 };

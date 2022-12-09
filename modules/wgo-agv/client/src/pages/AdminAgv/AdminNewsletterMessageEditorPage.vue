@@ -7,15 +7,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from "vue";
+import { defineComponent } from "vue";
 import { AGVNewsletterMessageStatusEnum } from "../../../../src/models/enums";
-import { AGVNewsletterMessageModel } from "../../../../src/models/Newsletter/NewsletterMessageModel";
 import { AGVNewsletterMessageResponse } from "../../../../src/resolvers/Newsletter/AGVNewsletterMessageResponses";
-import { RouteService } from "../../../../src/wgo-base/core/services/RouteService";
 import NsLtMessageAdminEditor from "../../components/NsLtMessageAdminEditor/NsLtMessageAdminEditor.vue";
 import { NewsletterMessageService } from "../../services/Newsletter/NwLtMessengerService";
 import { AGVNewslettersAdminPaths } from "../../router/paths/adminAgv/newslettersPaths";
 import { useAppStatusStore } from "../../stores/appStatusStore";
+import { RouteService } from "../../wgo-base/client/core/services/RouteService";
 
 export default defineComponent({
   name: "AdminNewsletterMessageEditorPage",

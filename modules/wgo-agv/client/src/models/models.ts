@@ -1,4 +1,4 @@
-import { MediaResponse } from "../wgo-base/storage/resolvers/Media/MediaResponses";
+import { IMediaResponse } from "src/wgo-base/models/storage";
 
 export interface AgvEventResponseModel {
   id: number;
@@ -13,8 +13,8 @@ export interface AgvEventResponseModel {
   visible: boolean;
   enrollment: boolean;
   inscriptions: number;
-  imgTitle?: MediaResponse;
-  imgList?: MediaResponse[];
+  imgTitle?: IMediaResponse;
+  imgList?: IMediaResponse[];
 }
 
 export interface AgvEventsPageResponseModel {

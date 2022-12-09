@@ -4,11 +4,10 @@ import { IPoll } from "src/models/Poll";
 import { AGVDetailsPaths } from "src/router/paths/detailsPath";
 import { AGVPollPaths } from "src/router/paths/pollPaths";
 import { EventService } from "src/services/Event/EventService";
-import { PollService } from "src/services/PollService";
 import { useAppContentStore } from "src/stores/appContentStore";
-import { RouteService } from "src/wgo-base/core/services/RouteService";
+import { RouteService } from "src/wgo-base/client/core/services/RouteService";
 import { defineComponent } from "vue";
-import Text from "../../wgo-base/core/components/Text/Text.vue";
+import Text from "../../wgo-base/client/core/components/Text/Text.vue";
 import BannerComponent from "../BannerComponent/BannerComponent.vue";
 import ItemCard from "../ItemCard/ItemCard.vue";
 

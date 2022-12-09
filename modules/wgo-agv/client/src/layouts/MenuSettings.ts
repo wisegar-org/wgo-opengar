@@ -1,4 +1,4 @@
-import { MenuListItem } from "src/wgo-base/core/models/Menu";
+import { MenuListItem } from "src/wgo-base/models/core/Menu";
 import { Paths } from "../router/paths";
 
 const listItems: MenuListItem[] = [

@@ -11,8 +11,8 @@ import { ITemType } from "../../models/Item";
 import { defineComponent } from "vue";
 import EventListComponent from "../../components/EventListComponent/EventListComponent.vue";
 import { AGVDetailsPaths } from "../../router/paths/detailsPath";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import { useMeta } from "quasar";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
 
 export default defineComponent({
   name: "CorsiPage",

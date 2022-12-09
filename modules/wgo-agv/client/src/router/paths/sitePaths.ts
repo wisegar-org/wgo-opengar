@@ -1,4 +1,4 @@
-import { IRouteObject } from "src/wgo-base/core/models";
+import { IRouteObject } from "src/wgo-base/models/core";
 import { RouteRecordRaw } from "vue-router";
 
 export const AGVPaths: IRouteObject = {

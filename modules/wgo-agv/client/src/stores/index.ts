@@ -1,7 +1,7 @@
 import { store } from "quasar/wrappers";
 import { createPinia } from "pinia";
 import { getApiServiceOptions } from "../api/ApiOptions";
-import { ApiService } from "../wgo-base/core/services/ApiService";
+import { ApiService } from "../wgo-base/client/core/services/ApiService";
 
 /*
  * If not building with SSR mode, you can

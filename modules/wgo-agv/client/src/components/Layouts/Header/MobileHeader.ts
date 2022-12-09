@@ -1,17 +1,16 @@
 import { useAuthStore } from "src/stores/authStore";
 import { useLanguageStore } from "src/stores/languageStore";
 import { useTranslationStore } from "src/stores/translationStore";
-import { AuthStore } from "src/wgo-base/authentication/models/AuthStore";
-import { RouteService } from "src/wgo-base/core/services/RouteService";
-import { LanguageStore } from "src/wgo-base/language/models/LanguageStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
 import { defineComponent, PropType } from "vue";
 import { useRouter } from "vue-router";
-import { IRoute } from "src/wgo-base/core/models";
-import { IMenuItem } from "src/wgo-base/core/models/Menu";
-import SimpleDrawer from "src/wgo-base/core/components/Menu/SimpleDrawer.vue";
+import SimpleDrawer from "src/wgo-base/client/core/components/Menu/SimpleDrawer.vue";
 import { UtilService } from "src/services/UtilService";
-import { AdminBasePath } from "src/wgo-base/core/router";
+import { AdminBasePath, IRoute } from "src/wgo-base/models/core";
+import { IMenuItem } from "src/wgo-base/models/core/Menu";
+import { RouteService } from "src/wgo-base/client/core/services/RouteService";
+import { AuthStore } from "src/wgo-base/client/authentication/store/AuthStore";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+import { LanguageStore } from "src/wgo-base/client/language/store/LanguageStore";
 
 export default defineComponent({
   name: "MobileHeader",

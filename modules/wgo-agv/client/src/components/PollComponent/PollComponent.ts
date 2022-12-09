@@ -3,7 +3,7 @@ import { IFormPoll, IPoll } from "src/models/Poll";
 import { AGVTemplateEnum, getAgvTemplateKey } from "src/models/Templates";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useNotifyStore } from "src/stores/notifyStore";
-import { EmailService } from "src/wgo-base/email/services/EmailService";
+import { EmailService } from "src/wgo-base/client/email/services/EmailService";
 import { defineComponent, PropType } from "vue";
 
 export default defineComponent({

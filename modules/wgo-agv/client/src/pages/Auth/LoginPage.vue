@@ -10,17 +10,17 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LoginComponent from "../../wgo-base/authentication/components/LoginComponent.vue";
-import { ISuccesLogin } from "../../wgo-base/authentication/models";
-import { RouteService } from "../../wgo-base/core/services/RouteService";
+import LoginComponent from "../../wgo-base/client/authentication/components/LoginComponent.vue";
+import { ISuccesLogin } from "../../wgo-base/models/authentication";
+import { RouteService } from "../../wgo-base/client/core/services/RouteService";
 import { useRouter } from "vue-router";
-import { AuthPaths } from "../../wgo-base/authentication/router";
+import { AuthPaths } from "../../wgo-base/models/authentication/router";
 import { useAuthStore } from "../../stores/authStore";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";
-import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import { useMeta } from "quasar";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "LoginPage",

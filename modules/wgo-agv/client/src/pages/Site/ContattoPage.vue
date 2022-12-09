@@ -9,8 +9,8 @@
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import ContactComponent from "../../components/ContactComponent/ContactComponent.vue";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
 
 export default defineComponent({
   name: "ContattoPage",

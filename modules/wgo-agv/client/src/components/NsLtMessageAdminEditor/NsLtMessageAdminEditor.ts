@@ -1,20 +1,20 @@
 import { AgvNewsletterMessageResponse } from "app/../src/models/Newsletter";
 import { apiSettings } from "src/api/ApiOptions";
 import { defineComponent, PropType } from "vue";
-import QCKEditor from "src/wgo-base/core/components/CKEditor/QCKEditor.vue";
+import QCKEditor from "src/wgo-base/client/core/components/CKEditor/QCKEditor.vue";
 import { translations } from "src/models/translations/newsletter";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
+import { translations as transBase } from "src/wgo-base/models/core";
+import { useAuthStore } from "src/stores/authStore";
+import { NewsletterMessageService } from "src/services/Newsletter/NwLtMessengerService";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/core/components/BaseComponents";
-import { translations as transBase } from "src/wgo-base/core/models";
-import { EmailService } from "src/wgo-base/email/services/EmailService";
-import { useAuthStore } from "src/stores/authStore";
-import { NewsletterMessageService } from "src/services/Newsletter/NwLtMessengerService";
+} from "src/wgo-base/client/core/components/BaseComponents";
+import { EmailService } from "src/wgo-base/client/email/services/EmailService";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "NsLtMessageAdminEditor",
@@ -35,7 +35,7 @@ export default defineComponent({
       resizeComponent;
 
     const objectToken: string[] = ["{{utente.email}}"];
-    const title = this.message.id
+    const title: string = this.message.id
       ? translations.MSG_EDITOR_MODIFICATION_TITLE
       : translations.MSG_EDITOR_CREATION_TITLE;
 

@@ -16,9 +16,9 @@ import { defineComponent } from "vue";
 import EventAdminEditor from "../../components/EventAdminEditor/EventAdminEditor.vue";
 import { EventService } from "../../services/Event/EventService";
 import { UtilService } from "../../services/UtilService";
-import { RouteService } from "../../../../src/wgo-base/core/services/RouteService";
 import { AGVEventsAdminPaths } from "../../router/paths/adminAgv/eventsPaths";
 import { useAppStatusStore } from "../../stores/appStatusStore";
+import { RouteService } from "../../wgo-base/client/core/services/RouteService";
 
 export default defineComponent({
   name: "AdminEventEditorPage",

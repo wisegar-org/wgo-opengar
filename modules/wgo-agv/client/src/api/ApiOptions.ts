@@ -1,12 +1,12 @@
-import { Pinia, Store } from "pinia";
-import { IApiServiceOptions } from "../wgo-base/core/services/ApiService";
+import { Pinia } from "pinia";
+import { IApiServiceOptions } from "../wgo-base/client/core/services/ApiService";
 import { Environment, getSettings } from "./ApiSettings";
-import { USER_AUTH_TOKEN } from "../wgo-base/authentication/models";
-import { translations } from "../wgo-base/core/models";
+import { translations } from "../wgo-base/models/core";
 
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useAuthStore } from "src/stores/authStore";
 import { useTranslationStore } from "src/stores/translationStore";
+import { USER_AUTH_TOKEN } from "src/wgo-base/models/authentication";
 const defaultEnv: Environment =
   process.env.NODE_ENV === Environment.Production
     ? Environment.Production
@@ -65,7 +65,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       });
     },
     onTokenRefresh: (headers: any) => {
-      if (headers) {
+      if (headers && headers.get) {
         const refreshedToken = headers.get("authorization-refresh");
         if (!refreshedToken || refreshedToken === null) return;
         authStore.authStore.setToken(refreshedToken);

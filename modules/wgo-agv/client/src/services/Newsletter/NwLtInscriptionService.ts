@@ -2,7 +2,6 @@ import {
   AgvNewsletterInscriptionInput,
   AgvNewsletterInscriptionPageInput,
 } from "../../../../src/models/Newsletter";
-import { ApiService } from "src/wgo-base/core/services/ApiService";
 import {
   M_AGV_NEWSLETTER_ADD_INSCRIPTION,
   M_AGV_NEWSLETTER_EDIT_INSCRIPTION,
@@ -11,6 +10,7 @@ import {
   Q_AGV_NEWSLETTER_GET_INSCRIPTION,
   Q_AGV_NEWSLETTER_GET_PAGE_INSCRIPTION,
 } from "./NwLtInscriptionServiceQueries";
+import { ApiService } from "src/wgo-base/client/core/services/ApiService";
 
 export class NewsletterInscriptionService {
   apiInstance: ApiService;

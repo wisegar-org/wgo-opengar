@@ -12,9 +12,9 @@
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import PollComponent from "../../components/PollComponent/PollComponent.vue";
 import { useAppContentStore } from "../../stores/appContentStore";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
 
 export default defineComponent({
   name: "PollDataPage",

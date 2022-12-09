@@ -1,18 +1,22 @@
 <template>
-  <TranslationList :tranStore="translationStore" :langStore="languageStore" @success="success" />
+  <TranslationList
+    :tranStore="translationStore"
+    :langStore="languageStore"
+    @success="success"
+  />
 </template>
 
 <script lang="ts">
-import { useTranslationStore } from '../../../stores/translationStore';
-import { defineComponent } from 'vue';
-import { useNotifyStore } from '../../../stores/notifyStore';
-import TranslationList from '../../../wgo-base/translation/components/TranslationList/TranslationList.vue';
-import { useLanguageStore } from '../../../stores/languageStore';
-import { LanguageStore } from '../../../wgo-base/language/models/LanguageStore';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { useTranslationStore } from "../../../stores/translationStore";
+import { defineComponent } from "vue";
+import { useNotifyStore } from "../../../stores/notifyStore";
+import TranslationList from "../../../wgo-base/client/translation/components/TranslationList/TranslationList.vue";
+import { useLanguageStore } from "../../../stores/languageStore";
+import { TranslationStore } from "../../../wgo-base/client/translation/store/TranslationStore";
+import { LanguageStore } from "../../../wgo-base/client/language/store/LanguageStore";
 
 export default defineComponent({
-  name: 'TranslationPage',
+  name: "TranslationPage",
   components: {
     TranslationList,
   },
@@ -29,8 +33,8 @@ export default defineComponent({
   methods: {
     success(msg: string) {
       this.notifyStore.setNotify({
-        position: 'top',
-        type: 'positive',
+        position: "top",
+        type: "positive",
         message: msg,
       });
     },

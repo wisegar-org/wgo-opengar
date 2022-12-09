@@ -9,8 +9,8 @@ import { useRoute, useRouter } from "vue-router";
 import { useAppStatusStore } from "./stores/appStatusStore";
 import { useAuthStore } from "./stores/authStore";
 import { useNotifyStore } from "./stores/notifyStore";
-import { AuthPaths } from "./wgo-base/authentication/router";
-import { AuthService } from "./wgo-base/authentication/services/AuthService";
+import { AuthPaths } from "./wgo-base/models/authentication/router";
+import { AuthService } from "./wgo-base/client/authentication/services/AuthService";
 
 export default defineComponent({
   name: "App",

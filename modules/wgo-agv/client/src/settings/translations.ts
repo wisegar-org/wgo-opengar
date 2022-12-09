@@ -1,10 +1,11 @@
 //Translations base components
-import { getCoreTranslationsKeys } from "../wgo-base/core/models";
-import { getTranslationTranslationsKeys } from "../wgo-base/translation/models/translations";
-import { getLanguageTranslationsKeys } from "../wgo-base/language/models/translations";
-import { getAuthTranslationsKeys } from "../wgo-base/authentication/models/translations";
-import { getSettingsTranslationsKeys } from "../wgo-base/settings/models/translations";
-import { getContactTranslationsKeys } from "src/wgo-base/contact/models/translations";
+
+import { getAuthTranslationsKeys } from "src/wgo-base/models/authentication/translations";
+import { getContactTranslationsKeys } from "src/wgo-base/models/contact/translations";
+import { getCoreTranslationsKeys } from "src/wgo-base/models/core";
+import { getLanguageTranslationsKeys } from "src/wgo-base/models/language/translations";
+import { getSettingsTranslationsKeys } from "src/wgo-base/models/settings/translations";
+import { getTranslationTranslationsKeys } from "src/wgo-base/models/translation/translations";
 
 //Project translation components
 

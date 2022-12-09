@@ -2,19 +2,19 @@ import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAuthStore } from "src/stores/authStore";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
+import { defineComponent, PropType } from "vue";
+import QCKEditor from "src/wgo-base/client/core/components/CKEditor/QCKEditor.vue";
+import { translations } from "src/models/translations/template";
+import { translations as transBase } from "src/wgo-base/models/core";
+import { apiSettings } from "src/api/ApiOptions";
+import { ITemplateResponse } from "src/wgo-base/models/template";
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
-} from "src/wgo-base/core/components/BaseComponents";
-import { EmailService } from "src/wgo-base/email/services/EmailService";
-import { TemplateResponse } from "src/wgo-base/template/resolvers/TemplateResponses";
-import { TemplateService } from "src/wgo-base/template/services/TemplateService";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import { defineComponent, PropType, watch } from "vue";
-import QCKEditor from "src/wgo-base/core/components/CKEditor/QCKEditor.vue";
-import { translations } from "src/models/translations/template";
-import { translations as transBase } from "src/wgo-base/core/models";
-import { apiSettings } from "src/api/ApiOptions";
+} from "src/wgo-base/client/core/components/BaseComponents";
+import { TemplateService } from "src/wgo-base/client/template/services/TemplateService";
+import { EmailService } from "src/wgo-base/client/email/services/EmailService";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "TemplateAdminComponent",
@@ -27,7 +27,7 @@ export default defineComponent({
     QCKEditor,
   },
   data(vm) {
-    const template: TemplateResponse = {
+    const template: ITemplateResponse = {
       id: 0,
       body: "",
       documentType: "",

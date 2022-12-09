@@ -1,13 +1,14 @@
-import { openURL } from "quasar";
 import { useAuthStore } from "src/stores/authStore";
-import { SUPERADMIN } from "src/wgo-base/authentication/models/constants";
-import { AdminBasePath } from "src/wgo-base/core/router";
-import { IRoute } from "src/wgo-base/core/models";
 import { defineComponent, PropType } from "vue";
-import { translations as transBase } from "src/wgo-base/core/models/translations";
+import {
+  AdminBasePath,
+  IRoute,
+  translations as transBase,
+} from "src/wgo-base/models/core";
 import { useTranslationStore } from "src/stores/translationStore";
-import { BaseTranslateComponent } from "src/wgo-base/core/components/BaseComponents";
+import { BaseTranslateComponent } from "src/wgo-base/client/core/components/BaseComponents";
 import { UtilService } from "src/services/UtilService";
+import { SUPERADMIN } from "src/wgo-base/models/authentication";
 
 export default defineComponent({
   name: "WebHeader",

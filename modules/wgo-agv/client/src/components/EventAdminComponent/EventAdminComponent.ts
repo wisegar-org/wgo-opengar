@@ -1,18 +1,8 @@
 import { defineComponent, reactive, watch } from "vue";
 import { translations } from "../../models/translations/events";
-import Table from "../../wgo-base/core/components/Table/Table.vue";
-import Loader from "../../wgo-base/core/components/Loader/Loader.vue";
+import Table from "../../wgo-base/client/core/components/Table/Table.vue";
+import Loader from "../../wgo-base/client/core/components/Loader/Loader.vue";
 import { useTranslationStore } from "src/stores/translationStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import {
-  BaseResizeComponent,
-  BaseTranslateComponent,
-} from "src/wgo-base/core/components/BaseComponents";
-import {
-  ITableLeftButton,
-  ITablePagination,
-  ITableRowButton,
-} from "src/wgo-base/core/models/Table";
 import { EventService } from "src/services/Event/EventService";
 import { getEventListSchema } from "./EventAdminComponentSchema";
 import {
@@ -22,11 +12,21 @@ import {
   EventTypeOptions,
   EventVisibleOptions,
 } from "src/models/Events";
-import { translations as transBase } from "src/wgo-base/core/models/translations";
+import { translations as transBase } from "src/wgo-base/models/core";
 import { AgvEventResponseModel } from "src/models/models";
-import { RouteService } from "src/wgo-base/core/services/RouteService";
 import { AGVEventsAdminPaths } from "src/router/paths/adminAgv/eventsPaths";
 import { useAppStatusStore } from "src/stores/appStatusStore";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "src/wgo-base/client/core/components/BaseComponents";
+import {
+  ITableLeftButton,
+  ITablePagination,
+  ITableRowButton,
+} from "src/wgo-base/models/core/Table";
+import { RouteService } from "src/wgo-base/client/core/services/RouteService";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "EventAdminComponent",

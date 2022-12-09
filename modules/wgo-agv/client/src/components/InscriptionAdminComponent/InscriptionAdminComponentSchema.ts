@@ -1,11 +1,11 @@
+import { translations } from "src/models/translations/inscriptions";
+import { AgvInscriptionResponseModel } from "src/models/models";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "src/wgo-base/core/models/Table";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import { translations } from "src/models/translations/inscriptions";
-import { AgvInscriptionResponseModel } from "src/models/models";
+} from "src/wgo-base/models/core/Table";
 
 export const getInscriptionListSchema = (
   transStore: TranslationStore,

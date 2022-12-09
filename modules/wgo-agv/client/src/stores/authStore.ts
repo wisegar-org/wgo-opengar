@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { AuthStore } from '../wgo-base/authentication/models/AuthStore';
+import { defineStore } from "pinia";
+import { AuthStore } from "../wgo-base/client/authentication/store/AuthStore";
 
-export const userAuthId = 'authStore';
+export const userAuthId = "authStore";
 
 export const useAuthStore = defineStore({
   id: userAuthId,

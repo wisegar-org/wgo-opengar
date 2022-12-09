@@ -9,8 +9,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useMeta } from "quasar";
-import { BaseSeoDataComponent } from "../wgo-base/core/components/BaseComponents";
 import HomeComponent from "../components/HomeComponent/HomeComponent.vue";
+import { BaseSeoDataComponent } from "../wgo-base/client/core/components/BaseComponents";
 
 export default defineComponent({
   name: "IndexPage",

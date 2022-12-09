@@ -3,14 +3,14 @@ import { AGVEventsAdminPaths } from "src/router/paths/adminAgv/eventsPaths";
 import { AGVInscriptionsAdminPaths } from "src/router/paths/adminAgv/inscriptionsPaths";
 import { AGVNewslettersAdminPaths } from "src/router/paths/adminAgv/newslettersPaths";
 import { AGVTemplateAdminPaths } from "src/router/paths/adminAgv/templatePaths";
-import { SUPERADMIN } from "src/wgo-base/authentication/models";
-import { AdminContactPaths } from "src/wgo-base/contact/router";
-import { MenuListItem } from "src/wgo-base/core/models/Menu";
-import { AdminLanguagePaths } from "src/wgo-base/language/router";
-import { AdminSettingsPaths } from "src/wgo-base/settings/router";
-import { AdminTranslationPaths } from "src/wgo-base/translation/router";
+import { SUPERADMIN } from "src/wgo-base/models/authentication";
+import { AuthPaths } from "src/wgo-base/models/authentication/router";
+import { AdminContactPaths } from "src/wgo-base/models/contact/router";
+import { MenuListItem } from "src/wgo-base/models/core/Menu";
+import { AdminLanguagePaths } from "src/wgo-base/models/language/router";
+import { AdminSettingsPaths } from "src/wgo-base/models/settings/router";
+import { AdminTranslationPaths } from "src/wgo-base/models/translation/router";
 import { Paths } from "../router/paths";
-import { AuthPaths } from "../wgo-base/authentication/router";
 
 export const menuItems: MenuListItem[] = [
   {

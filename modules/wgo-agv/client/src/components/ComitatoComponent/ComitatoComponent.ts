@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import Text from "src/wgo-base/core/components/Text/Text.vue";
+import Text from "src/wgo-base/client/core/components/Text/Text.vue";
 import { useAppContentStore } from "src/stores/appContentStore";
 import { IPageContent } from "src/models/Content";
 import ComitatoContactForm from "../ComitatoContactForm/ComitatoContactForm.vue";

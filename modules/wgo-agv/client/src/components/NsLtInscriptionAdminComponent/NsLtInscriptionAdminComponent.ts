@@ -1,16 +1,7 @@
 import { defineComponent, reactive, watch } from "vue";
 import NsLtInscriptionAdminEditor from "../NsLtInscriptionAdminEditor/NsLtInscriptionAdminEditor.vue";
 import { AgvNewsletterInscriptionResponse } from "../../../../src/models/Newsletter";
-import {
-  BaseResizeComponent,
-  BaseTranslateComponent,
-} from "src/wgo-base/core/components/BaseComponents";
-import {
-  ITableLeftButton,
-  ITablePagination,
-  ITableRowButton,
-} from "src/wgo-base/core/models/Table";
-import { translations as transBase } from "src/wgo-base/core/models";
+import { translations as transBase } from "src/wgo-base/models/core";
 import { getNewsletterInscriptionListSchema } from "./NsLtInscriptionAdminComponentSchema";
 import { translations } from "src/models/translations/newsletter";
 import { NewsletterInscriptionService } from "src/services/Newsletter/NwLtInscriptionService";
@@ -18,12 +9,21 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import Table from "src/wgo-base/core/components/Table/Table.vue";
+import Table from "src/wgo-base/client/core/components/Table/Table.vue";
 import {
   AGVNewsletterInscriptionModel,
   AGVNewsletterInscriptionStatusEnum,
 } from "src/models/Newsletter";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "src/wgo-base/client/core/components/BaseComponents";
+import {
+  ITableLeftButton,
+  ITablePagination,
+  ITableRowButton,
+} from "src/wgo-base/models/core/Table";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "NsLtInscriptionAdminComponent",

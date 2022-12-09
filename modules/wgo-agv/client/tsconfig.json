@@ -3,6 +3,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "experimentalDecorators": true,
-    "typeRoots": ["src/**/*.d.ts", "src/graphql.d.ts", "node_modules/@types"]
-  }
+    "typeRoots": [
+      "src/**/*.d.ts",
+      "src/graphql.d.ts",
+      "node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

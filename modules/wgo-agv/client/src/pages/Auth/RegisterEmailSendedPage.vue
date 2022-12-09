@@ -12,13 +12,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import EmailSendedComponent from "../../wgo-base/authentication/components/EmailSendedComponent.vue";
-import { RouteService } from "../../wgo-base/core/services/RouteService";
+import EmailSendedComponent from "../../wgo-base/client/authentication/components/EmailSendedComponent.vue";
+import { RouteService } from "../../wgo-base/client/core/services/RouteService";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";
-import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import { useMeta } from "quasar";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
+import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "RegisterEmailSendedPage",

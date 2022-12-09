@@ -1,8 +1,8 @@
-import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
-import { defineStore } from 'pinia';
-import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
+import { defineStore } from "pinia";
+import { LanguageStore } from "../wgo-base/client/language/store/LanguageStore";
+import { TranslationStore } from "../wgo-base/client/translation/store/TranslationStore";
 
-export const languageStoreId = 'languageStore';
+export const languageStoreId = "languageStore";
 
 export const useLanguageStore = defineStore({
   id: languageStoreId,

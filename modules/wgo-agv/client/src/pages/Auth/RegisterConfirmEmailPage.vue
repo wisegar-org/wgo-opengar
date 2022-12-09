@@ -12,14 +12,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { IUser } from "../../wgo-base/core/models";
-import { RouteService } from "../../wgo-base/core/services/RouteService";
-import ConfirmEmailComponent from "../../wgo-base/authentication/components/ConfirmEmailComponent.vue";
-import { AuthPaths } from "../../wgo-base/authentication/router";
+import { RouteService } from "../../wgo-base/client/core/services/RouteService";
+import ConfirmEmailComponent from "../../wgo-base/client/authentication/components/ConfirmEmailComponent.vue";
+import { AuthPaths } from "../../wgo-base/models/authentication/router";
 import { useTranslationStore } from "../../stores/translationStore";
-import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
-import { BaseSeoDataComponent } from "../../../../src/wgo-base/core/components/BaseComponents";
 import { useMeta } from "quasar";
+import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
+import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
 
 export default defineComponent({
   name: "RegisterConfirmEmailPage",

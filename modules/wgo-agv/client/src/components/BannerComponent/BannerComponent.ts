@@ -1,7 +1,6 @@
-import { openURL } from "quasar";
 import { UtilService } from "src/services/UtilService";
 import { useTranslationStore } from "src/stores/translationStore";
-import { BaseTranslateComponent } from "src/wgo-base/core/components/BaseComponents";
+import { BaseTranslateComponent } from "src/wgo-base/client/core/components/BaseComponents";
 import { defineComponent } from "vue";
 
 export default defineComponent({

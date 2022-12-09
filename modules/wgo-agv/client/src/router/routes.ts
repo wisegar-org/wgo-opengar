@@ -1,5 +1,4 @@
-import { AuthPaths } from "src/wgo-base/authentication/router";
-import { AdminBasePath } from "src/wgo-base/core/router";
+import { AdminBasePath } from "src/wgo-base/models/core";
 import { RouteRecordRaw } from "vue-router";
 import { AuthAdminPathRouter } from "./paths/admin/authPaths";
 import { ContactPathRouter } from "./paths/admin/contactPaths";

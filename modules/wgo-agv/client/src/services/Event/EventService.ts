@@ -5,7 +5,7 @@ import {
   AgvEventResponseModel,
   AgvEventsPageResponseModel,
 } from "src/models/models";
-import { ApiService } from "src/wgo-base/core/services/ApiService";
+import { ApiService } from "src/wgo-base/client/core/services/ApiService";
 import {
   M_AGV_CREATE_EVENTS,
   M_AGV_MODIFY_EVENTS,

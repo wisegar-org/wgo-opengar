@@ -1,15 +1,15 @@
 import { defineComponent, PropType } from "vue";
-import Dialog from "src/wgo-base/core/components/Dialog/Dialog.vue";
+import Dialog from "src/wgo-base/client/core/components/Dialog/Dialog.vue";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import { BaseTranslateComponent } from "src/wgo-base/core/components/BaseComponents";
+import { BaseTranslateComponent } from "src/wgo-base/client/core/components/BaseComponents";
 import { translations } from "src/models/translations/newsletter";
 import { AgvNewsletterInscriptionResponse } from "../../../../src/models/Newsletter";
 import { AGVNewsletterInscriptionStatusEnum } from "src/models/Newsletter";
-import { UtilService } from "src/wgo-base/core/services/UtilService";
-import { translations as transBase } from "src/wgo-base/core/models";
+import { translations as transBase } from "src/wgo-base/models/core";
 import { NewsletterInscriptionService } from "src/services/Newsletter/NwLtInscriptionService";
+import { TranslationStore } from "src/wgo-base/client/translation/store/TranslationStore";
+import { UtilService } from "src/wgo-base/client/core/services/UtilService";
 
 export default defineComponent({
   name: "NsLtInscriptionAdminEditor",
