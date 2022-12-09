@@ -10,14 +10,14 @@
       <AddExpenseEditor
         :expenseToEdit="expenseToEdit"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { ExpenseRecord } from '../../../models/models';
+import { ExpenseRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AddExpenseEditor from './AddExpenseEditor.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     AddExpenseEditor,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class AddExpenseEditorDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

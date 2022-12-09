@@ -169,8 +169,8 @@ import {
   AccountRecord,
   IssuesRecord,
   OptionFilter,
-  OrganizationDataRecord
-} from '../../../models/models';
+  OrganizationDataRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 import { Action, Getter } from 'vuex-class';
@@ -181,8 +181,8 @@ import VisorEditor from '../../VisorEditor.vue';
 @Component({
   components: {
     SimpleViewIssues,
-    VisorEditor
-  }
+    VisorEditor,
+  },
 })
 export default class AccountingPrint extends Vue {
   @Prop() accounting!: AccountRecord;

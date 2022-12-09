@@ -92,19 +92,19 @@
 </template>
 
 <script lang="ts">
-import { IncomeRecord } from '../../../models/models';
+import { IncomeRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import MediaListViewer from '../../../../wgo/components/MediaList/MediaListViewer.vue';
 import moment from 'moment';
 import {
   getFrequencyString,
-  getStatusPayedString
-} from '../../../models/parsers';
+  getStatusPayedString,
+} from '@wisegar-org/wgo-base-models/build/parsers';
 
 @Component({
   components: {
-    MediaListViewer
-  }
+    MediaListViewer,
+  },
 })
 export default class ViewerIncome extends Vue {
   @Prop() close!: () => void;

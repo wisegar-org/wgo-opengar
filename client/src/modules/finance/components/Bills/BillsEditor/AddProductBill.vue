@@ -6,7 +6,7 @@
         label="Product"
         :options="products"
         filterProp="name"
-        @onChange="value => setProducts(value)"
+        @onChange="(value) => setProducts(value)"
         :value="productInBill.product"
       />
     </div>
@@ -32,11 +32,11 @@
       label="Count"
       dense
       :rules="[
-        val => val > 0 || '* Required',
-        val =>
+        (val) => val > 0 || '* Required',
+        (val) =>
           productInBill.type !== 1 ||
           val <= productInBill.maxCount ||
-          `Max count: ${productInBill.maxCount}`
+          `Max count: ${productInBill.maxCount}`,
       ]"
     />
     <q-card-actions align="right" class="text-primary">
@@ -54,7 +54,10 @@
 </template>
 
 <script lang="ts">
-import { ProductRecord, ProductsBill } from '../../../models/models';
+import {
+  ProductRecord,
+  ProductsBill,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import MediaListEditor from '../../../../wgo/components/MediaList/MediaListEditor.vue';
 import FilterSelect from '../../FilterSelect.vue';
@@ -62,8 +65,8 @@ import FilterSelect from '../../FilterSelect.vue';
 @Component({
   components: {
     MediaListEditor,
-    FilterSelect
-  }
+    FilterSelect,
+  },
 })
 export default class AddProductBill extends Vue {
   @Prop() close!: () => void;
@@ -85,7 +88,7 @@ export default class AddProductBill extends Vue {
           count: 0,
           maxCount: 0,
           remove: false,
-          type: 1
+          type: 1,
         };
   }
 

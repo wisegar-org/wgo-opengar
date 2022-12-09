@@ -2,8 +2,8 @@ import {
   ISuccesLogin,
   SUPERADMIN,
   USER_AUTH_TOKEN,
-} from "../../../models/authentication";
-import { IIdInput, IUser } from "../../../models/core";
+} from "@wisegar-org/wgo-base-models/build/authentication";
+import { IIdInput, IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { AuthService } from "../services/AuthService";
 import { UserRolesService } from "../services/UserRolesService";
 

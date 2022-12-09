@@ -1,6 +1,9 @@
-import { ILanguageModel, ILanguagePostArg } from "../../../models/language";
+import {
+  ILanguageModel,
+  ILanguagePostArg,
+} from "@wisegar-org/wgo-base-models/build/language";
 import { TranslationStore } from "../../translation/store/TranslationStore";
-import { LANGUAGE_ID } from "../../../models/language/constants";
+import { LANGUAGE_ID } from "@wisegar-org/wgo-base-models/build/language/constants";
 import { LanguageService } from "../service/LanguageService";
 
 export class LanguageStore {

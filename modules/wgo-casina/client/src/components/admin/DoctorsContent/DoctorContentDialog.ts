@@ -3,7 +3,7 @@ import Dialog from 'src/wgo-base/core/components/Dialog/Dialog.vue';
 import { LanguageStore } from 'src/wgo-base/language/models/LanguageStore';
 import { TranslationStore } from 'src/wgo-base/translation/models/TranslationStore';
 import { BaseTranslateComponent } from 'src/wgo-base/core/components/BaseComponents';
-import { translationsDoctorsContent } from '../../../models/translations';
+import { translationsDoctorsContent } from '@wisegar-org/wgo-base-models/build/translations';
 import { IMediaModel, NumberDictionary, translations as transBase } from 'src/wgo-base/core/models';
 import { StorageDoctorItem } from 'src/models/StorageModels';
 import { CasinaDoctorType } from 'src/models/contansts';

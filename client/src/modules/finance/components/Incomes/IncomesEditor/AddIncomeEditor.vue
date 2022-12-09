@@ -5,7 +5,7 @@
         label="Client"
         :options="getValidCollaborators()"
         filterProp="login"
-        @onChange="value => setCollaborator(value)"
+        @onChange="(value) => setCollaborator(value)"
         :value="income.collaborator"
       />
     </div>
@@ -80,7 +80,7 @@
         filterProp="label"
         :value="repeat"
         @onChange="
-          value => {
+          (value) => {
             setRepeat(value);
           }
         "
@@ -89,7 +89,7 @@
     <MediaListEditor
       :items="income.invoiceDocs"
       :addItems="
-        items => {
+        (items) => {
           docsToAdd = items;
         }
       "
@@ -115,25 +115,28 @@
 
 <script lang="ts">
 import { Action, Getter } from 'vuex-class';
-import { Dictionary, IncomeRecord } from '../../../models/models';
+import {
+  Dictionary,
+  IncomeRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { githubActions, githubGetters, githubNamespace } from '../../../store';
 import MediaListEditor from '../../../../wgo/components/MediaList/MediaListEditor.vue';
 import moment from 'moment';
 import { repeatOption } from '../FilterIncomes';
 import FilterSelect from '../../FilterSelect.vue';
-import { getFrequencyString } from '../../../models/parsers';
+import { getFrequencyString } from '@wisegar-org/wgo-base-models/build/parsers';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
 @Component({
   components: {
     MediaListEditor,
-    FilterSelect
-  }
+    FilterSelect,
+  },
 })
 export default class AddIncomeEditor extends Vue {
   @Prop() close!: () => void;
@@ -171,14 +174,14 @@ export default class AddIncomeEditor extends Vue {
           name: '',
           description: '',
           amount: 0,
-          repeat: 0
+          repeat: 0,
         };
     this.card_number = this.income.collaborator
       ? this.income.collaborator.card_number
       : '';
     this.repeat = {
       label: getFrequencyString(this.income.repeat),
-      value: this.income.repeat.toString()
+      value: this.income.repeat.toString(),
     };
   }
 
@@ -222,7 +225,7 @@ export default class AddIncomeEditor extends Vue {
           repeat: parseInt(this.repeat ? this.repeat.value : '0'),
           date: moment(this.initDate).toDate(),
           invoiceDocs: this.docsToAdd,
-          collaboratorId: this.income.collaboratorId
+          collaboratorId: this.income.collaboratorId,
         })
       : await this.addIncome(<IncomeRecord>{
           name: this.income.name,
@@ -231,7 +234,7 @@ export default class AddIncomeEditor extends Vue {
           date: moment(this.initDate).toDate(),
           repeat: parseInt(this.repeat ? this.repeat.value : '0'),
           invoiceDocs: this.docsToAdd,
-          collaboratorId: this.income.collaboratorId
+          collaboratorId: this.income.collaboratorId,
         });
     this.showLoading(false);
     if (result) {
@@ -239,7 +242,7 @@ export default class AddIncomeEditor extends Vue {
         message: `Income ${
           this.isUpdateIncome ? 'updated' : 'created'
         } successfully`,
-        type: 'positive'
+        type: 'positive',
       });
       if (!!this.close) {
         this.close();

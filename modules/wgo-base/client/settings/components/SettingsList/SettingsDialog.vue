@@ -95,11 +95,11 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ISettingsModel } from "../../../../models/settings";
+import { ISettingsModel } from "@wisegar-org/wgo-base-models/build/settings";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations } from "../../../../models/settings/translations";
-import { translations as tranBase } from "../../../../models/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/settings/translations";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 import { SettingsService } from "../../services/SettingsService";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";

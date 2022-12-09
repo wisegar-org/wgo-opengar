@@ -4,8 +4,8 @@ import {
   AddAccountParams,
   CollaboratorRecord,
   IssuesRecord,
-  OrganizationDataRecord
-} from '../../../models/models';
+  OrganizationDataRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import SelectCollaboratorStep from './Steps/SelectCollaboratorStep.vue';
 import ShowInfoCollaboratorStep from './Steps/ShowInfoCollaboratorStep.vue';
@@ -15,17 +15,17 @@ import SetAccountingDataStep from './Steps/SetAccountingDataStep.vue';
 import { githubActions, githubNamespace } from '../../../store';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from 'src/modules/wgo/store/Language';
 import {
   ITranslationFinanceAccountingKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from '../TranslationsKeys';
 
 @Component({
@@ -34,12 +34,12 @@ import {
     ShowInfoCollaboratorStep,
     ShowIssuesToAccount,
     ShowResumeAccount,
-    SetAccountingDataStep
-  }
+    SetAccountingDataStep,
+  },
 })
 export default class AccountingStepper extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -85,7 +85,8 @@ export default class AccountingStepper extends Vue {
     if (collaborator) {
       return this.filterIssues
         ? this.filterIssues.filter(
-            issue => issue.assignedToId === collaborator.id && !issue.accountId
+            (issue) =>
+              issue.assignedToId === collaborator.id && !issue.accountId
           )
         : this.getIssues(collaborator);
     }
@@ -103,9 +104,9 @@ export default class AccountingStepper extends Vue {
       this.showLoading(true);
       if (await this.addAccount(this.getAccountingConfig())) {
         this.notify({
-          message: this.translationContent
-            .WGO_FINANCE_ACCOUNTING_CREATE_SUCCESS,
-          type: 'positive'
+          message:
+            this.translationContent.WGO_FINANCE_ACCOUNTING_CREATE_SUCCESS,
+          type: 'positive',
         });
         if (!!this.close) {
           this.close();
@@ -113,7 +114,7 @@ export default class AccountingStepper extends Vue {
       } else {
         this.notify({
           message: this.translationContent.WGO_FINANCE_ACCOUNTING_CREATE_FAIL,
-          type: 'negative'
+          type: 'negative',
         });
       }
       this.showLoading(false);
@@ -138,7 +139,7 @@ export default class AccountingStepper extends Vue {
       accountObj.collaboratorId = this.collaboratorValue.id;
     }
 
-    (this.issues || []).forEach(issue => {
+    (this.issues || []).forEach((issue) => {
       accountObj.hours += issue.hours ? issue.hours : 0;
       issue.id ? accountObj.issuesId.push(issue.id) : null;
       issue.repository && accountObj.reposId.indexOf(issue.repository.id) === -1
@@ -178,7 +179,7 @@ export default class AccountingStepper extends Vue {
 
   getHourIssues() {
     return this.issues
-      .map(issues => (issues.hours ? issues.hours : 0))
+      .map((issues) => (issues.hours ? issues.hours : 0))
       .reduce((a, b) => a + b, 0);
   }
 

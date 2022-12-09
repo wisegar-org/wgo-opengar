@@ -52,7 +52,7 @@
         bordered
         flat
         title=""
-        :data="Object.values(billProducts).filter(prod => !prod.remove)"
+        :data="Object.values(billProducts).filter((prod) => !prod.remove)"
         :columns="columns"
         row-key="productBillName"
         no-data-label="Please, add some product to bill"
@@ -62,9 +62,7 @@
             class="row q-col-gutter-none justify-between q-pa-none"
             style="width: 100%"
           >
-            <div class="self-center">
-              Products
-            </div>
+            <div class="self-center">Products</div>
           </div>
         </template>
         <template v-slot:loading>
@@ -140,19 +138,22 @@
 </template>
 
 <script lang="ts">
-import { BillRecord, ProductsBill } from '../../../models/models';
+import {
+  BillRecord,
+  ProductsBill,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 import MediaListViewer from '../../../../wgo/components/MediaList/MediaListViewer.vue';
 import { ColumnsProductsBill } from '../ColumnsBills';
 import QEditor from '../../../../wgo/components/QEditor.vue';
-import { getBillStatusString } from '../../../models/parsers';
+import { getBillStatusString } from '@wisegar-org/wgo-base-models/build/parsers';
 
 @Component({
   components: {
     MediaListViewer,
-    QEditor
-  }
+    QEditor,
+  },
 })
 export default class ViewerBill extends Vue {
   @Prop() close!: () => void;
@@ -176,13 +177,13 @@ export default class ViewerBill extends Vue {
       [key: number]: ProductsBill;
     } = {};
     if (this.bill) {
-      this.bill.products.forEach(prod => {
+      this.bill.products.forEach((prod) => {
         const prodRecord = prod.product;
         billProducts[prod.productId] = {
           ...prod,
           maxCount: prod.count + (prodRecord ? prodRecord.unitCount : 0),
           type: prodRecord ? prodRecord.type : 1,
-          remove: false
+          remove: false,
         };
       });
     }
@@ -191,8 +192,8 @@ export default class ViewerBill extends Vue {
 
   getPrice() {
     const price = Object.values(this.billProducts)
-      .filter(prod => !prod.remove)
-      .map(prod => prod.count * prod.price)
+      .filter((prod) => !prod.remove)
+      .map((prod) => prod.count * prod.price)
       .reduce((a, b) => a + b, 0);
     const discount = parseFloat(`${this.bill.discount}`);
     if (discount) {

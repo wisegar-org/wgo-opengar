@@ -22,8 +22,8 @@
         @click="() => saveTranslation()"
         :disabled="
           !!selectedLang &&
-            !!translations &&
-            value === translations[selectedLang.code]
+          !!translations &&
+          value === translations[selectedLang.code]
         "
         icon="save"
         color="primary"
@@ -40,29 +40,29 @@ import {
   GetTranslationInputGql,
   LanguageResponseGql,
   TranslationFilterResponseGql,
-  TranslationInputGql
+  TranslationInputGql,
 } from '../../../../../graphql';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../store/ComponentsState';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import LanguageSimpleSelect from '../../Languages/LanguageSelect/LanguageSimpleSelect.vue';
-import { INotify } from '../../../models';
+import { INotify } from '@wisegar-org/wgo-base-models/build/';
 import QEditorToolbar from '../../QEditorToolbar.vue';
 import { ITranslationTranslationKeys } from '../TranslationsKeys';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../store/Language';
 
 @Component({
   components: {
     LanguageSimpleSelect,
-    QEditorToolbar
-  }
+    QEditorToolbar,
+  },
 })
 export default class TranslationEditor extends Vue {
   @Action(languageActions.getTranslation, { namespace: languageNamespace })
@@ -80,7 +80,7 @@ export default class TranslationEditor extends Vue {
   translations: { [key: string]: string } =
     this.language && this.translation
       ? {
-          [this.language.code]: this.translation.value
+          [this.language.code]: this.translation.value,
         }
       : {};
   value = this.translation.value;
@@ -101,7 +101,7 @@ export default class TranslationEditor extends Vue {
     if (!(lang.code in this.translations)) {
       this.translations[lang.code] = await this.getTranslation({
         languageId: lang.id,
-        key: this.translation.key
+        key: this.translation.key,
       });
     }
     this.value = this.translations[lang.code];
@@ -112,13 +112,13 @@ export default class TranslationEditor extends Vue {
       await this.setTranslation({
         languageId: this.selectedLang.id,
         key: this.translation.key,
-        value: this.value
+        value: this.value,
       })
     ) {
       this.translations[this.selectedLang.code] = this.value;
       this.notify({
         message: this.translationContent.WGO_TRANSLATIONS_SUCCESS_EDIT_ACTION,
-        type: 'positive'
+        type: 'positive',
       });
     }
   }

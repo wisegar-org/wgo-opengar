@@ -39,9 +39,9 @@
 import { defineComponent, PropType } from "vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import { ContactService } from "../../services/ContactService";
-import { translations } from "../../../../models/contact/translations";
+import { translations } from "@wisegar-org/wgo-base-models/build/contact/translations";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
-import { IContactModel } from "../../../../models/contact";
+import { IContactModel } from "@wisegar-org/wgo-base-models/build/contact";
 
 export default defineComponent({
   name: "MapComponent",

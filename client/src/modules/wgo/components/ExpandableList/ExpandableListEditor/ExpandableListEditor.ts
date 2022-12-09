@@ -8,17 +8,17 @@ import { QForm, QInput } from 'quasar';
 import {
   GetMaskedDate,
   MASK_YYYY_MM_DD_HH_mm_ss,
-  MASK_DD_MM_YYYY
+  MASK_DD_MM_YYYY,
 } from '@wisegar-org/wgo-opengar-core-ui';
-import { InputDateOptions } from '../../../models/IInputOptions';
+import { InputDateOptions } from '@wisegar-org/wgo-base-models/build/IInputOptions';
 
 @Component({
   components: {
     InputDate,
     InputText,
     InputNumber,
-    InputSelect
-  }
+    InputSelect,
+  },
 })
 export default class ExpandableListEditor extends Vue {
   @Prop() item!: ListItem;
@@ -37,11 +37,7 @@ export default class ExpandableListEditor extends Vue {
     else this.itemForm = {};
   }
 
-  id_item =
-    'upload-button-' +
-    Math.random()
-      .toString(20)
-      .substring(2, 10);
+  id_item = 'upload-button-' + Math.random().toString(20).substring(2, 10);
 
   async onSave() {
     const form = this.$refs.oAdminEditor as QForm;
@@ -66,7 +62,7 @@ export default class ExpandableListEditor extends Vue {
   getDateOptions(options: InputDateOptions, obj: ListItem, prop: string) {
     const setDateValue = this.setDateValue;
     const inputOptions = {
-      onChangeDate: (date: Date) => setDateValue(date, obj, prop)
+      onChangeDate: (date: Date) => setDateValue(date, obj, prop),
     };
     return options ? { ...options, ...inputOptions } : inputOptions;
   }

@@ -1,7 +1,7 @@
 import { Pinia } from "pinia";
 import { IApiServiceOptions } from "../wgo-base/client/core/services/ApiService";
 import { Environment, getSettings } from "./ApiSettings";
-import { translations } from "../wgo-base/models/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/core";
 
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useAuthStore } from "src/stores/authStore";

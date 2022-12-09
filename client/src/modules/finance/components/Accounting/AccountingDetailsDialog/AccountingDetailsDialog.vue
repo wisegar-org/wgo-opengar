@@ -23,22 +23,22 @@
 </template>
 
 <script lang="ts">
-import { AccountRecord } from '../../../models/models';
+import { AccountRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AccountingDetails from './AccountingDetails.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import { Getter } from 'vuex-class';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import { ITranslationFinanceAccountingKeys } from '../TranslationsKeys';
 
 @Component({
   components: {
     AccountingDetails,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class AccountingDetailsDialog extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })

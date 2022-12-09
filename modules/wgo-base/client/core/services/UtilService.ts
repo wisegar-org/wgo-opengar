@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 dayjs.extend(customParseFormat);
 import currency from "currency.js";
-import { MenuListItem } from "../../../models/core/Menu";
+import { MenuListItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
 
 export const UtilService = {
   parseDate(date: Date | string, format: string = "DD/MM/YYYY HH:mm") {

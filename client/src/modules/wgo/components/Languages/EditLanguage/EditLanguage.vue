@@ -22,7 +22,7 @@
           standout="bg-primary text-white"
           dense
           :rules="[
-            val => !!val || translationContent.WGO_LANGUAGE_ERROR_NULL_FIELD
+            (val) => !!val || translationContent.WGO_LANGUAGE_ERROR_NULL_FIELD,
           ]"
         />
       </div>
@@ -70,27 +70,27 @@
 import {
   LanguageInputGql,
   LanguageResponseGql,
-  MediaResponseGql
+  MediaResponseGql,
 } from '../../../../../graphql';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../store/ComponentsState';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import UploadImageDiv from '../../UploadImageDiv/UploadImageDiv.vue';
-import { INotify } from '../../../models';
+import { INotify } from '@wisegar-org/wgo-base-models/build/';
 import { ITranslationLanguageKeys } from '../TranslationsKeys';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../store/Language';
 
 @Component({
   components: {
-    UploadImageDiv
-  }
+    UploadImageDiv,
+  },
 })
 export default class EditLanguage extends Vue {
   @Prop() language!: LanguageResponseGql;
@@ -113,7 +113,7 @@ export default class EditLanguage extends Vue {
     code: '',
     default: false,
     enabled: false,
-    logoId: 0
+    logoId: 0,
   };
 
   imageLogo: MediaResponseGql | null = null;
@@ -144,7 +144,7 @@ export default class EditLanguage extends Vue {
   async updateProps() {
     this.showLoading(true);
     const arg = <LanguageInputGql>{
-      ...this.form
+      ...this.form,
     };
 
     const result = this.language
@@ -156,7 +156,7 @@ export default class EditLanguage extends Vue {
         message: this.language
           ? this.translationContent.WGO_LANGUAGE_SUCCESS_EDIT_ACTION
           : this.translationContent.WGO_LANGUAGE_SUCCESS_CREATE_ACTION,
-        type: 'positive'
+        type: 'positive',
       });
       this.close(true);
     }

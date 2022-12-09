@@ -66,9 +66,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
-import { CollaboratorRecord } from '../../../../models/models';
+import { CollaboratorRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { ITranslationFinanceAccountingKeys } from '../../TranslationsKeys';
 
 @Component({})

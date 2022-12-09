@@ -35,20 +35,20 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import DoctorEditor from './DoctorEditor.vue';
-import { StorageDoctorItem } from '../../../../models/StorageModels';
+import { StorageDoctorItem } from '@wisegar-org/wgo-base-models/build/StorageModels';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import {
   casinaModelsActionsKeys,
-  casinaModelsNamespace
+  casinaModelsNamespace,
 } from '../../../../store/CasinaModels';
 import { Action, Getter } from 'vuex-class';
 import {
   componentsNamespace,
-  componentsActionsKeys
+  componentsActionsKeys,
 } from '../../../../../wgo/store/ComponentsState';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import { ITranslationDoctorsAdminKeys } from '../TranslationsKeys';
 import { INotify } from '../../../../../wgo/models';
@@ -56,8 +56,8 @@ import { INotify } from '../../../../../wgo/models';
 @Component({
   components: {
     DoctorEditor,
-    ConfirmDialog
-  }
+    ConfirmDialog,
+  },
 })
 export default class SeoExpandedEditor extends Vue {
   @Prop() groupName!: string;
@@ -68,7 +68,7 @@ export default class SeoExpandedEditor extends Vue {
   @Prop() onSuccess!: (result: boolean) => unknown;
 
   @Action(casinaModelsActionsKeys.deleteStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   deleteDoctorItem!: (id: number) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -84,12 +84,12 @@ export default class SeoExpandedEditor extends Vue {
       if (this.onSuccess) this.onSuccess(true);
       this.notify({
         message: this.translationContent.CASINA_DOCTORS_ADMIN_SUCCESS_DELETE,
-        type: 'positive'
+        type: 'positive',
       });
     } else {
       this.notify({
         message: this.translationContent.CASINA_DOCTORS_ADMIN_FAIL_DELETE,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading(false);

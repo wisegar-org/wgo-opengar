@@ -6,14 +6,14 @@ import { AGVEventResolver } from "./Event/AGVEventResolver";
 import { AGVContentsResolver } from "./Content/AGVContentsResolver";
 import { AGVNewsletterResolver } from "./Newsletter/AGVNewsletterResolver";
 import { AGVInscriptionResolver } from "./Inscription/AGVInscriptionResolver";
-import { EmailResolver } from "../wgo-base/server/email/resolvers/EmailResolver";
-import { AuthResolver } from "../wgo-base/server/authentication/resolvers/AuthResolver";
-import { LanguageResolver } from "../wgo-base/server/language/resolvers/LanguageResolver";
-import { SettingsResolver } from "../wgo-base/server/settings/resolvers/SettingsResolver";
-import { ContactMeResolver } from "../wgo-base/server/contact/resolvers/ContactMeResolver";
-import { TemplateResolver } from "../wgo-base/server/template/resolvers/TemplateResolver";
-import { HistoricResolver } from "../wgo-base/server/historic/resolvers/HistoricResolver";
-import { TranslationResolver } from "../wgo-base/server/translation/resolvers/TranslationResolver";
+import { EmailResolver } from "@wisegar-org/wgo-base-server/build/email/resolvers/EmailResolver";
+import { AuthResolver } from "@wisegar-org/wgo-base-server/build/authentication/resolvers/AuthResolver";
+import { LanguageResolver } from "@wisegar-org/wgo-base-server/build/language/resolvers/LanguageResolver";
+import { SettingsResolver } from "@wisegar-org/wgo-base-server/build/settings/resolvers/SettingsResolver";
+import { ContactMeResolver } from "@wisegar-org/wgo-base-server/build/contact/resolvers/ContactMeResolver";
+import { TemplateResolver } from "@wisegar-org/wgo-base-server/build/template/resolvers/TemplateResolver";
+import { HistoricResolver } from "@wisegar-org/wgo-base-server/build/historic/resolvers/HistoricResolver";
+import { TranslationResolver } from "@wisegar-org/wgo-base-server/build/translation/resolvers/TranslationResolver";
 
 export const getResolverList = () => {
   return [

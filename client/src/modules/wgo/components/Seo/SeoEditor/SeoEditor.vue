@@ -44,7 +44,7 @@
               fill-input
               input-debounce="0"
               :options="options"
-              @input-value="val => (props.row.name = val)"
+              @input-value="(val) => (props.row.name = val)"
             />
           </q-popup-edit>
         </q-td>
@@ -53,7 +53,7 @@
         <q-td :props="props">
           {{
             props.row.value ||
-              translationContent.WGO_SEO_COLUMN_EMPTY_VALE_LABEL
+            translationContent.WGO_SEO_COLUMN_EMPTY_VALE_LABEL
           }}
           <q-popup-edit
             v-model="props.row.value"
@@ -115,9 +115,9 @@ import { ColumnsSeo } from '../ColumnsSeo';
 import { ITranslationSeoKeys } from '../TranslationsKeys';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../store/ComponentsState';
-import { BoolDictionary, INotify } from '../../../models';
+import { BoolDictionary, INotify } from '@wisegar-org/wgo-base-models/build/';
 import { languageGetters, languageNamespace } from '../../../store/Language';
 
 @Component({})
@@ -139,13 +139,13 @@ export default class SeoEditor extends Vue {
 
   constructor() {
     super();
-    if (this.metaData) this.data = this.metaData.map(item => ({ ...item }));
+    if (this.metaData) this.data = this.metaData.map((item) => ({ ...item }));
   }
 
   addNewRecord() {
     this.data.push({
       name: '',
-      value: ''
+      value: '',
     });
   }
 
@@ -156,7 +156,7 @@ export default class SeoEditor extends Vue {
   saveClick() {
     const keys: BoolDictionary = {};
     const data: { name: string; value: string }[] = [];
-    this.data.forEach(item => {
+    this.data.forEach((item) => {
       if (!!item.name && !(item.name in keys)) {
         keys[item.name] = true;
         data.push(item);
@@ -168,7 +168,7 @@ export default class SeoEditor extends Vue {
     } else {
       this.notify({
         message: this.translationContent.WGO_SEO_FAIL_ADD_META_ACTION,
-        type: 'negative'
+        type: 'negative',
       });
     }
   }

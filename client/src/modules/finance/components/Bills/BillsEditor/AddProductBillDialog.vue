@@ -11,7 +11,7 @@
         :products="products"
         :productBill="productBill"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
         :addProduct="addProduct"
       />
     </template>
@@ -19,7 +19,10 @@
 </template>
 
 <script lang="ts">
-import { ProductRecord, ProductsBill } from '../../../models/models';
+import {
+  ProductRecord,
+  ProductsBill,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AddProductBill from './AddProductBill.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -27,8 +30,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     AddProductBill,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class AddProductBillDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

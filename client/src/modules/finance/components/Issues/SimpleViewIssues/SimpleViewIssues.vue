@@ -21,9 +21,7 @@
               flat
               :value="getHourIssues()"
               type="number"
-              :prefix="
-                `${translationContent.WGO_FINANCE_ISSUES_COLUMN_HOURS}: `
-              "
+              :prefix="`${translationContent.WGO_FINANCE_ISSUES_COLUMN_HOURS}: `"
             />
           </div>
         </div>
@@ -36,24 +34,24 @@
 </template>
 
 <script lang="ts">
-import { IssuesRecord } from '../../../models/models';
+import { IssuesRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { SimpleColumnsIssues } from '../ColumnsIssues';
 import { Action, Getter } from 'vuex-class';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import {
   ITranslationFinanceIssuesKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from '../TranslationsKeys';
 
 @Component({})
 export default class SimpleViewIssues extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -69,7 +67,7 @@ export default class SimpleViewIssues extends Vue {
 
   getHourIssues() {
     return this.issuesData
-      .map(issues => (issues.hours ? issues.hours : 0))
+      .map((issues) => (issues.hours ? issues.hours : 0))
       .reduce((a, b) => a + b, 0);
   }
 

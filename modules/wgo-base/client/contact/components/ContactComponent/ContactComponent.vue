@@ -59,11 +59,11 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { IContactModel } from "../../../../models/contact";
+import { IContactModel } from "@wisegar-org/wgo-base-models/build/contact";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import { EmailService } from "../../../email/services/EmailService";
-import { translations } from "../../../../models/contact/translations";
+import { translations } from "@wisegar-org/wgo-base-models/build/contact/translations";
 
 export default defineComponent({
   name: "ContactComponent",

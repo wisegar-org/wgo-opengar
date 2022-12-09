@@ -95,7 +95,10 @@
 </template>
 
 <script lang="ts">
-import { CollaboratorRecord, WeeklyStats } from '../../../models/models';
+import {
+  CollaboratorRecord,
+  WeeklyStats,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { StatsCollaboratorColumns } from '../ColumnsCollaborators';
 import { Action } from 'vuex-class';
@@ -118,7 +121,7 @@ export default class StatsCollaborator extends Vue {
     const average =
       this.filterStats.length > 0
         ? this.filterStats
-            .map(week => {
+            .map((week) => {
               return week.average;
             })
             .reduce((a, b) => a + b, 0) / this.filterStats.length
@@ -153,7 +156,7 @@ export default class StatsCollaborator extends Vue {
       maxDate.setHours(0, 0, 0, 0);
       maxDate.setDate(maxDate.getDate() - maxDate.getDay() + 7);
     }
-    return this.stats.filter(stat => {
+    return this.stats.filter((stat) => {
       if (!minDate && !maxDate) return true;
       const date = new Date(stat.weekly);
       if (minDate && date.getTime() - minDate.getTime() < 0) {

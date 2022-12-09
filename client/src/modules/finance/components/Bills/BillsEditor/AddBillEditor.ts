@@ -4,8 +4,8 @@ import {
   CollaboratorRecord,
   ProductRecord,
   ProductsBill,
-  OrganizationDataRecord
-} from '../../../models/models';
+  OrganizationDataRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { githubActions, githubGetters, githubNamespace } from '../../../store';
 import MediaListEditor from '../../../../wgo/components/MediaList/MediaListEditor.vue';
@@ -14,7 +14,7 @@ import { ColumnsProductsBill } from '../ColumnsBills';
 import AddProductBillDialog from './AddProductBillDialog.vue';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from 'src/modules/wgo/models';
 import QEditor from '../../../../wgo/components/QEditor.vue';
@@ -24,8 +24,8 @@ import QEditor from '../../../../wgo/components/QEditor.vue';
     MediaListEditor,
     FilterSelect,
     AddProductBillDialog,
-    QEditor
-  }
+    QEditor,
+  },
 })
 export default class AddBillEditor extends Vue {
   @Prop() close!: () => void;
@@ -56,7 +56,7 @@ export default class AddBillEditor extends Vue {
     clientId: 0,
     discount: 0,
     observations: '',
-    validDays: this.organizationData?.bankValidDays || 30
+    validDays: this.organizationData?.bankValidDays || 30,
   };
   isUpdateBill: boolean;
   docsToAdd: number[] = [];
@@ -84,7 +84,7 @@ export default class AddBillEditor extends Vue {
           clientId: 0,
           observations: '',
           discount: 0,
-          validDays: this.organizationData?.bankValidDays || 30
+          validDays: this.organizationData?.bankValidDays || 30,
         };
     if (this.isUpdateBill) {
       this.billProducts = this.getProducts();
@@ -97,13 +97,13 @@ export default class AddBillEditor extends Vue {
     } = {};
     if (this.billToEdit) {
       this.billClient = this.billToEdit.client;
-      this.billToEdit.products.forEach(prod => {
+      this.billToEdit.products.forEach((prod) => {
         const prodRecord = prod.product;
         billProducts[prod.productId] = {
           ...prod,
           maxCount: prod.count + (prodRecord ? prodRecord.unitCount : 0),
           type: prodRecord ? prodRecord.type : 1,
-          remove: false
+          remove: false,
         };
       });
     }
@@ -142,7 +142,7 @@ export default class AddBillEditor extends Vue {
 
   getProductsList(record: ProductsBill | null) {
     return this.products.filter(
-      prod =>
+      (prod) =>
         !(prod.id in this.billProducts) ||
         this.billProducts[prod.id].remove ||
         (!!record && prod.id === record.productId)
@@ -160,15 +160,15 @@ export default class AddBillEditor extends Vue {
       !!this.bill.clientId &&
       this.billProducts &&
       Object.values(this.billProducts || {}).filter(
-        billProd => !billProd.remove
+        (billProd) => !billProd.remove
       )
     );
   }
 
   getPrice() {
     let price = Object.values(this.billProducts)
-      .filter(prod => !prod.remove)
-      .map(prod => prod.count * prod.price)
+      .filter((prod) => !prod.remove)
+      .map((prod) => prod.count * prod.price)
       .reduce((a, b) => a + b, 0);
     price = this.roundNumber(price);
     const discount = parseFloat(`${this.bill.discount}`);
@@ -183,8 +183,8 @@ export default class AddBillEditor extends Vue {
     this.showLoading(true);
     const billProducts = Object.values(this.billProducts);
     const totalPrice = billProducts
-      .filter(prod => !prod.remove)
-      .map(prod => prod.count * prod.price)
+      .filter((prod) => !prod.remove)
+      .map((prod) => prod.count * prod.price)
       .reduce((a, b) => a + b, 0);
     const result = this.isUpdateBill
       ? await this.updateBill(<BillRecord>{
@@ -198,7 +198,7 @@ export default class AddBillEditor extends Vue {
           observations: this.bill.observations,
           sendDate: this.bill.sendDate,
           validDays: parseInt(`${this.bill.validDays}`),
-          docs: this.docsToAdd
+          docs: this.docsToAdd,
         })
       : await this.addBill(<BillRecord>{
           name: this.bill.name,
@@ -209,7 +209,7 @@ export default class AddBillEditor extends Vue {
           discount: parseFloat(`${this.bill.discount}`),
           validDays: parseInt(`${this.bill.validDays}`),
           observations: this.bill.observations,
-          docs: this.docsToAdd
+          docs: this.docsToAdd,
         });
     this.showLoading(false);
     if (result) {
@@ -217,7 +217,7 @@ export default class AddBillEditor extends Vue {
         message: `Bill ${
           this.isUpdateBill ? 'updated' : 'created'
         } successfully`,
-        type: 'positive'
+        type: 'positive',
       });
       if (!!this.close) {
         this.close();

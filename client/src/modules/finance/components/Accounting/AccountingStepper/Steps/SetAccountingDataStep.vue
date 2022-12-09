@@ -46,19 +46,19 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import {
   AddAccountParams,
-  OrganizationDataRecord
-} from '../../../../models/models';
+  OrganizationDataRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import Editor from '../../../Editor.vue';
 import { ITranslationFinanceAccountingKeys } from '../../TranslationsKeys';
 
 @Component({
   components: {
-    Editor
-  }
+    Editor,
+  },
 })
 export default class SetAccountingDataStep extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })

@@ -2,8 +2,8 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "../../../../models/core/Table";
-import { translations } from "../../../../models/translation/translations";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { translations } from "@wisegar-org/wgo-base-models/build/translation/translations";
 import { TranslationStore } from "../../store/TranslationStore";
 export const getTranslationListSchema = (
   transStore: TranslationStore,

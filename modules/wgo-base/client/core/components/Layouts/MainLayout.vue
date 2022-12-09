@@ -44,16 +44,16 @@
 import { defineComponent, PropType } from "vue";
 import { RouteService } from "../../services/RouteService";
 import LeftDrawer from "../Menu/LeftDrawer.vue";
-import { translations as tranBase } from "../../../../models/core";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 import { BaseTranslateComponent } from "../BaseComponents";
 import LoginBtn from "../LoginBtn/LoginBtn.vue";
 import LanguageSelector from "../../../language/components/LanguageSelector/LanguageSelector.vue";
-import { MenuListItem } from "../../../../models/core/Menu";
+import { MenuListItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { LanguageStore } from "../../../language/store/LanguageStore";
 import { AuthStore } from "../../../authentication/store/AuthStore";
-import { AdminBasePath } from "../../../../models/core/router";
-import { AuthPaths } from "../../../../models/authentication/router";
+import { AdminBasePath } from "@wisegar-org/wgo-base-models/build/core/router";
+import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 
 export default defineComponent({
   name: "AdminMainLayout",

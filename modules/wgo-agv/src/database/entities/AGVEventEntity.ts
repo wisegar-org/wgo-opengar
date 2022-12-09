@@ -8,8 +8,8 @@ import {
   OneToMany,
 } from "typeorm";
 import { EventStateEnum, EventTypeEnum } from "../../models/enums";
-import { WGBaseEntity } from "../../wgo-base/server/core/database/entities/WGBaseEntity";
-import MediaEntity from "../../wgo-base/server/storage/database/entities/MediaEntity";
+import { WGBaseEntity } from "@wisegar-org/wgo-base-server/build/core/database/entities/WGBaseEntity";
+import MediaEntity from "@wisegar-org/wgo-base-server/build/storage/database/entities/MediaEntity";
 import { AGVInscriptionEntity } from "./AGVInscriptionEntity";
 
 @Entity()

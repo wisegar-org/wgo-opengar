@@ -9,11 +9,11 @@ import {
 import { PostgresDataSource } from "../dataSources";
 import { GetWebRootKey } from "../middlewares/HostClientMiddleware";
 import { EventEmitter } from "events";
-import { listenersEvents } from "../wgo-base/server/settings/models/SettingsUtils";
-import { IContextBase } from "../wgo-base/models/core/context";
-import { UserRolesModel } from "../wgo-base/server/authentication/models/UserRolesModel";
-import { translations } from "../wgo-base/models/core";
-import { SUPERADMIN } from "../wgo-base/models/authentication";
+import { listenersEvents } from "@wisegar-org/wgo-base-server/build/settings/models/SettingsUtils";
+import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+import { UserRolesModel } from "@wisegar-org/wgo-base-server/build/authentication/models/UserRolesModel";
+import { translations } from "@wisegar-org/wgo-base-models/build/core";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
 
 export const ctx = {
   dataSource: PostgresDataSource,

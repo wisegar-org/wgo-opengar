@@ -4,28 +4,28 @@ import {
   LanguageResponseGql,
   StoragePageInputGql,
   TranslationFilterResponseGql,
-  TranslationInputGql
+  TranslationInputGql,
 } from 'src/graphql';
 import {
   casinaModelsActionsKeys,
-  casinaModelsNamespace
+  casinaModelsNamespace,
 } from 'src/modules/casina/store/CasinaModels';
 import {
   StorageServiceItem,
-  StorageServicePageModel
-} from '../../../models/StorageModels';
+  StorageServicePageModel,
+} from '@wisegar-org/wgo-base-models/build/StorageModels';
 import {
   languageActions,
   languageGetters,
   languageMutations,
-  languageNamespace
+  languageNamespace,
 } from 'src/modules/wgo/store/Language';
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { Action, Getter, Mutation } from 'vuex-class';
 import {
   CasinaServiceType,
   ITranslationServicesAdminKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from './TranslationsKeys';
 import ServiceEditorDialog from './ServiceEditors/ServiceEditorDialog.vue';
 import ServiceEditorExpanded from './ServiceEditors/ServiceEditorExpanded.vue';
@@ -39,12 +39,12 @@ import { componentsActionsKeys } from 'src/modules/wgo/store/ComponentsState';
   components: {
     ServiceEditorDialog,
     ServiceEditorExpanded,
-    TranslationComponent
-  }
+    TranslationComponent,
+  },
 })
 export default class ServicesComponent extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -53,13 +53,13 @@ export default class ServicesComponent extends Vue {
   language!: LanguageResponseGql;
 
   @Action(casinaModelsActionsKeys.getServicesByPagination, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   loadServices!: (
     data: StoragePageInputGql
   ) => Promise<StorageServicePageModel>;
   @Action(casinaModelsActionsKeys.setCasinaIndexContent, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   setCasinaIndexContent!: (
     data: CasinaIndexContentInputsGql
@@ -74,7 +74,7 @@ export default class ServicesComponent extends Vue {
   traslationServiceValue: NumberDictionary = {};
   transService: TranslationFilterResponseGql = <TranslationFilterResponseGql>{
     key: TranslationIndexServicesKey,
-    id: TranslationIndexServicesKey
+    id: TranslationIndexServicesKey,
   };
 
   maxPage = 0;
@@ -97,7 +97,7 @@ export default class ServicesComponent extends Vue {
       skip: (this.currentPage - 1) * this.servicesXPage,
       take: this.servicesXPage,
       lang: this.language ? this.language.id : 0,
-      loadTranslations: false
+      loadTranslations: false,
     });
 
     this.servicesCount = items.storageItemsCount;
@@ -117,12 +117,12 @@ export default class ServicesComponent extends Vue {
   }
 
   getTranslationItem(traslationValue: NumberDictionary, key: string) {
-    return Object.keys(traslationValue).map(langId => {
+    return Object.keys(traslationValue).map((langId) => {
       const lang = parseInt(langId);
       return {
         languageId: lang,
         key: key,
-        value: traslationValue[lang]
+        value: traslationValue[lang],
       };
     });
   }
@@ -137,27 +137,26 @@ export default class ServicesComponent extends Vue {
 
     const arg = <CasinaIndexContentInputsGql>{
       imageId: 0,
-      translations: translationsToSet
+      translations: translationsToSet,
     };
 
     if (await this.setCasinaIndexContent(arg)) {
       const translations: { [key: string]: string } = {};
       if (this.language.id in this.traslationServiceValue) {
-        translations[TranslationIndexServicesKey] = this.traslationServiceValue[
-          this.language.id
-        ];
+        translations[TranslationIndexServicesKey] =
+          this.traslationServiceValue[this.language.id];
       }
       this.addTranslations(translations);
       this.notify({
-        message: this.translationContent
-          .CASINA_SERVICES_ADMIN_CONTENT_SUCCESS_EDIT,
-        type: 'positive'
+        message:
+          this.translationContent.CASINA_SERVICES_ADMIN_CONTENT_SUCCESS_EDIT,
+        type: 'positive',
       });
     } else {
       this.notify({
-        message: this.translationContent
-          .CASINA_SERVICES_ADMIN_CONTENT_FAIL_EDIT,
-        type: 'negative'
+        message:
+          this.translationContent.CASINA_SERVICES_ADMIN_CONTENT_FAIL_EDIT,
+        type: 'negative',
       });
     }
 
@@ -181,7 +180,8 @@ export default class ServicesComponent extends Vue {
 
   async created() {
     await this.registerTranslations(TranslationsKeys);
-    this.transService.value = this.translationContent.CASINA_INDEX_SERVICES_TEXT;
+    this.transService.value =
+      this.translationContent.CASINA_INDEX_SERVICES_TEXT;
     await this.loadFilter();
     this.innerLoading = false;
   }

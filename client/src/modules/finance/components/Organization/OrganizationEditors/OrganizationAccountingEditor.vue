@@ -50,12 +50,12 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { OrganizationDataRecord } from '../../../models/models';
+import { OrganizationDataRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Action, Getter } from 'vuex-class';
 import { githubActions, githubGetters, githubNamespace } from '../../../store';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
@@ -77,16 +77,18 @@ export default class OrganizationAccountingEditor extends Vue {
       accountingInternetPrice: this.organizationData?.accountingInternetPrice,
       accountingUnit: this.organizationData?.accountingUnit,
       accountingCoin: this.organizationData?.accountingCoin,
-      accountingLabel: this.organizationData?.accountingLabel
+      accountingLabel: this.organizationData?.accountingLabel,
     };
   }
 
   @Watch('organizationData')
   updateValue() {
-    this.accountingData.accountingInternetPrice = this.organizationData?.accountingInternetPrice;
+    this.accountingData.accountingInternetPrice =
+      this.organizationData?.accountingInternetPrice;
     this.accountingData.accountingUnit = this.organizationData?.accountingUnit;
     this.accountingData.accountingCoin = this.organizationData?.accountingCoin;
-    this.accountingData.accountingLabel = this.organizationData?.accountingLabel;
+    this.accountingData.accountingLabel =
+      this.organizationData?.accountingLabel;
   }
 
   async saveAccountingData() {
@@ -94,7 +96,7 @@ export default class OrganizationAccountingEditor extends Vue {
     await this.updateOrganizationData(this.accountingData);
     this.notify({
       message: 'Accounting organization properties modified successfully',
-      type: 'positive'
+      type: 'positive',
     });
     this.showLoading = false;
   }

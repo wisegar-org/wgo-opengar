@@ -24,15 +24,15 @@ import Table from "../../../core/components/Table/Table.vue";
 import { getLanguageListSchema } from "./LanguageListSchema";
 import { BaseResizeComponent } from "../../../core/components/BaseComponents";
 import LanguageDialog from "./LanguageDialog.vue";
-import { translations } from "../../../../models/language/translations";
-import { translations as tranBase } from "../../../../models/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/language/translations";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 import { LanguageStore } from "../../store/LanguageStore";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import {
   ITableLeftButton,
   ITableRowButton,
-} from "../../../../models/core/Table";
-import { ILanguageModel } from "../../../../models/language";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
 
 export default defineComponent({
   name: "LanguageList",

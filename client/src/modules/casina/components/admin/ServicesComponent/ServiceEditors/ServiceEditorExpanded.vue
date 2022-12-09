@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { StorageServiceItem } from '../../../../models/StorageModels';
+import { StorageServiceItem } from '@wisegar-org/wgo-base-models/build/StorageModels';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import ServiceEditor from './ServiceEditor.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
@@ -55,11 +55,11 @@ import { Action, Getter } from 'vuex-class';
 import { ITranslationServicesAdminKeys } from '../TranslationsKeys';
 import {
   casinaModelsActionsKeys,
-  casinaModelsNamespace
+  casinaModelsNamespace,
 } from '../../../../store/CasinaModels';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import { componentsNamespace } from '../../../../../wgo/store';
 import { componentsActionsKeys } from '../../../../../wgo/store/ComponentsState';
@@ -68,8 +68,8 @@ import { INotify } from '../../../../../wgo/models';
 @Component({
   components: {
     ServiceEditor,
-    ConfirmDialog
-  }
+    ConfirmDialog,
+  },
 })
 export default class SeoExpandedEditor extends Vue {
   @Prop() groupName!: string;
@@ -80,7 +80,7 @@ export default class SeoExpandedEditor extends Vue {
   @Prop() onSuccess!: (result: boolean) => unknown;
 
   @Action(casinaModelsActionsKeys.deleteStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   deleteServiceItem!: (id: number) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -96,12 +96,12 @@ export default class SeoExpandedEditor extends Vue {
       if (this.onSuccess) this.onSuccess(true);
       this.notify({
         message: this.translationContent.CASINA_SERVICES_ADMIN_SUCCESS_DELETE,
-        type: 'positive'
+        type: 'positive',
       });
     } else {
       this.notify({
         message: this.translationContent.CASINA_SERVICES_ADMIN_FAIL_DELETE,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading(false);

@@ -160,15 +160,15 @@ import { defineComponent, PropType } from "vue";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import InputCopy from "../../../core/components/InputCopy/InputCopy.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { IUser } from "../../../../models/core";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { AuthStore } from "../../../authentication/store/AuthStore";
 import {
   IAuthRegisterParams,
   SUPERADMIN,
-} from "../../../../models/authentication";
-import { translations as tranBase } from "../../../../models/core";
-import { translations } from "../../../../models/authentication/translations";
+} from "@wisegar-org/wgo-base-models/build/authentication";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 
 export default defineComponent({
   name: "EditUserComponent",

@@ -84,7 +84,7 @@ import {
   IMediaResponseCheck,
   IMediaResponse,
   IMediaInputArg,
-} from "../../../../models/storage";
+} from "@wisegar-org/wgo-base-models/build/storage";
 import { MediaService } from "../../services/MediaService";
 
 export default defineComponent({

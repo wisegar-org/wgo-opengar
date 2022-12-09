@@ -46,11 +46,11 @@ import {
   languageActions,
   languageGetters,
   languageMutations,
-  languageNamespace
+  languageNamespace,
 } from '../../../store/Language';
 import { LanguageResponseGql } from '../../../../../graphql';
 import { userActions, userGetters, userNamespace } from '../../../store/User';
-import { UserLogged } from '../../../models/models';
+import { UserLogged } from '@wisegar-org/wgo-base-models/build/models';
 import { coreUIMutationsKeys } from '../../../store/ComponentsState/mutations';
 import { componentsNamespace } from '../../../store';
 
@@ -61,7 +61,7 @@ export default class LanguageSelect extends Vue {
   @Action(languageActions.loadAllLanguage, { namespace: languageNamespace })
   loadData!: (force: boolean) => Promise<LanguageResponseGql[]>;
   @Action(languageActions.loadAllRegisterTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   loadAllRegisterTranslations!: () => Promise<boolean>;
   @Getter(languageGetters.getEnabledLanguages, { namespace: languageNamespace })
@@ -75,7 +75,7 @@ export default class LanguageSelect extends Vue {
   @Action(userActions.setUserLanguage, { namespace: userNamespace })
   setUserLanguage!: (user: unknown) => Promise<unknown>;
   @Mutation(coreUIMutationsKeys.setInnerLoading, {
-    namespace: componentsNamespace
+    namespace: componentsNamespace,
   })
   setInnerLoading!: (loading: boolean) => void;
   @Prop() languagesConfig!: ILanguageConfig;
@@ -88,7 +88,7 @@ export default class LanguageSelect extends Vue {
       await this.setLanguage(record);
       await this.setUserLanguage({
         uuid: this.userLogged ? this.userLogged.uuid : '0',
-        langId: record.id
+        langId: record.id,
       });
       await this.loadAllRegisterTranslations();
 

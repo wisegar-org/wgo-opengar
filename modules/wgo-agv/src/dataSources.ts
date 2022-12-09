@@ -8,16 +8,16 @@ import {
 } from "@wisegar-org/wgo-settings";
 
 /** Entities */
-import { UserEntity } from "./wgo-base/server/authentication/database/entities/UserEntity";
-import { RoleEntity } from "./wgo-base/server/authentication/database/entities/RoleEntity";
-import { LanguageEntity } from "./wgo-base/server/language/database/entities/LanguageEntity";
-import { TranslationEntity } from "./wgo-base/server/translation/database/entities/TranslationEntity";
-import { SettingsEntity } from "./wgo-base/server/settings/database/entities/SettingsEntity";
-import { ContactMeEntity } from "./wgo-base/server/contact/database/entities/ContactMeEntity";
-import { HistoricEntity } from "./wgo-base/server/historic/database/entities/HistoricEntity";
-import { TemplateEntity } from "./wgo-base/server/template/database/entities/TemplateEntity";
-import { MediaEntity } from "./wgo-base/server/storage/database/entities/MediaEntity";
-import { StorageEntity } from "./wgo-base/server/storage/database/entities/StorageEntity";
+import { UserEntity } from "@wisegar-org/wgo-base-server/build/authentication/database/entities/UserEntity";
+import { RoleEntity } from "@wisegar-org/wgo-base-server/build/authentication/database/entities/RoleEntity";
+import { LanguageEntity } from "@wisegar-org/wgo-base-server/build/language/database/entities/LanguageEntity";
+import { TranslationEntity } from "@wisegar-org/wgo-base-server/build/translation/database/entities/TranslationEntity";
+import { SettingsEntity } from "@wisegar-org/wgo-base-server/build/settings/database/entities/SettingsEntity";
+import { ContactMeEntity } from "@wisegar-org/wgo-base-server/build/contact/database/entities/ContactMeEntity";
+import { HistoricEntity } from "@wisegar-org/wgo-base-server/build/historic/database/entities/HistoricEntity";
+import { TemplateEntity } from "@wisegar-org/wgo-base-server/build/template/database/entities/TemplateEntity";
+import { MediaEntity } from "@wisegar-org/wgo-base-server/build/storage/database/entities/MediaEntity";
+import { StorageEntity } from "@wisegar-org/wgo-base-server/build/storage/database/entities/StorageEntity";
 
 import { AGVEventEntity } from "./database/entities/AGVEventEntity";
 import { AGVInscriptionEntity } from "./database/entities/AGVInscriptionEntity";
@@ -26,14 +26,14 @@ import { AGVNewsletterInscriptionEntity } from "./database/entities/AGVNewslette
 import { AGVNewsletterMessageEntity } from "./database/entities/AGVNewsletterMessageEntity";
 
 /** Migrations */
-import { getAuthenticationMigrations } from "./wgo-base/server/authentication/database/migrations";
-import { getContactMigrations } from "./wgo-base/server/contact/database/migrations";
-import { getHistoricMigrations } from "./wgo-base/server/historic/database/migrations";
-import { getLanguageMigrations } from "./wgo-base/server/language/database/migrations";
-import { getSettingsMigrations } from "./wgo-base/server/settings/database/migrations";
-import { getStorageMigrations } from "./wgo-base/server/storage/database/migrations";
-import { getTemplateMigrations } from "./wgo-base/server/template/database/migrations";
-import { getTranslationMigrations } from "./wgo-base/server/translation/database/migrations";
+import { getAuthenticationMigrations } from "@wisegar-org/wgo-base-server/build/authentication/database/migrations";
+import { getContactMigrations } from "@wisegar-org/wgo-base-server/build/contact/database/migrations";
+import { getHistoricMigrations } from "@wisegar-org/wgo-base-server/build/historic/database/migrations";
+import { getLanguageMigrations } from "@wisegar-org/wgo-base-server/build/language/database/migrations";
+import { getSettingsMigrations } from "@wisegar-org/wgo-base-server/build/settings/database/migrations";
+import { getStorageMigrations } from "@wisegar-org/wgo-base-server/build/storage/database/migrations";
+import { getTemplateMigrations } from "@wisegar-org/wgo-base-server/build/template/database/migrations";
+import { getTranslationMigrations } from "@wisegar-org/wgo-base-server/build/translation/database/migrations";
 import { getAgvMigrations } from "./database/migrations";
 
 const migrations = getAuthenticationMigrations()

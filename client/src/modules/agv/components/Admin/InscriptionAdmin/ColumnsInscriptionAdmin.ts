@@ -1,5 +1,5 @@
 import { ColumnAgvInscriptionTable } from 'src/modules/agv/models/Columns';
-import { AgvInscriptionResponseModel } from '../../../models/GraphqlModels';
+import { AgvInscriptionResponseModel } from '@wisegar-org/wgo-base-models/build/GraphqlModels';
 
 export const nameAgvInscriptionField: ColumnAgvInscriptionTable = {
   name: 'nameAgvInscription',
@@ -10,7 +10,7 @@ export const nameAgvInscriptionField: ColumnAgvInscriptionTable = {
     `${record.nome} ${record.cognome}`,
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 200px'
+  style: 'max-width: 200px',
 };
 
 export const classAgvInscriptionField: ColumnAgvInscriptionTable = {
@@ -21,7 +21,7 @@ export const classAgvInscriptionField: ColumnAgvInscriptionTable = {
   field: (record: AgvInscriptionResponseModel) => record.class,
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px'
+  style: 'max-width: 100px',
 };
 
 export const emailAgvInscriptionField: ColumnAgvInscriptionTable = {
@@ -32,7 +32,7 @@ export const emailAgvInscriptionField: ColumnAgvInscriptionTable = {
   field: (record: AgvInscriptionResponseModel) => record.email,
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px'
+  style: 'max-width: 100px',
 };
 
 export const phoneAgvInscriptionField: ColumnAgvInscriptionTable = {
@@ -43,7 +43,7 @@ export const phoneAgvInscriptionField: ColumnAgvInscriptionTable = {
   field: (record: AgvInscriptionResponseModel) => record.phone,
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 100px'
+  style: 'max-width: 100px',
 };
 
 export const eventTitleAgvInscriptionField: ColumnAgvInscriptionTable = {
@@ -54,14 +54,14 @@ export const eventTitleAgvInscriptionField: ColumnAgvInscriptionTable = {
   field: (record: AgvInscriptionResponseModel) => record.eventTitle || '',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 200px'
+  style: 'max-width: 200px',
 };
 
 export const buttonAgvInscriptionField: ColumnAgvInscriptionTable = {
   name: 'buttonsAgvInscription',
   label: '',
   align: '',
-  style: ''
+  style: '',
 };
 
 export const ColumnsInscriptionAdmin = [
@@ -70,5 +70,5 @@ export const ColumnsInscriptionAdmin = [
   emailAgvInscriptionField,
   phoneAgvInscriptionField,
   eventTitleAgvInscriptionField,
-  buttonAgvInscriptionField
+  buttonAgvInscriptionField,
 ];

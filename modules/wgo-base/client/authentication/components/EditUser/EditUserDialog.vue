@@ -22,12 +22,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { AuthStore } from "../../../authentication/store/AuthStore";
-import { IUser } from "../../../../models/core";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import EditUserComponentVue from "./EditUserComponent.vue";
-import { translations } from "../../../../models/authentication/translations";
+import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 
 export default defineComponent({
   name: "EditUserDialog",

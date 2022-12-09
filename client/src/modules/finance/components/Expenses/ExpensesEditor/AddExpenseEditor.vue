@@ -5,7 +5,7 @@
         label="Provider"
         :options="getValidCollaborators()"
         filterProp="login"
-        @onChange="value => setCollaborator(value)"
+        @onChange="(value) => setCollaborator(value)"
         :value="expense.collaborator"
       />
     </div>
@@ -80,7 +80,7 @@
         filterProp="label"
         :value="repeat"
         @onChange="
-          value => {
+          (value) => {
             setRepeat(value);
           }
         "
@@ -89,7 +89,7 @@
     <MediaListEditor
       :items="expense.bildDocs"
       :addItems="
-        items => {
+        (items) => {
           docsToAdd = items;
         }
       "
@@ -115,25 +115,28 @@
 
 <script lang="ts">
 import { Action, Getter } from 'vuex-class';
-import { Dictionary, ExpenseRecord } from '../../../models/models';
+import {
+  Dictionary,
+  ExpenseRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { githubActions, githubGetters, githubNamespace } from '../../../store';
 import MediaListEditor from '../../../../wgo/components/MediaList/MediaListEditor.vue';
 import moment from 'moment';
 import FilterSelect from '../../FilterSelect.vue';
-import { getFrequencyString } from '../../../models/parsers';
+import { getFrequencyString } from '@wisegar-org/wgo-base-models/build/parsers';
 import { repeatOption } from '../FilterExpenses';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
 @Component({
   components: {
     MediaListEditor,
-    FilterSelect
-  }
+    FilterSelect,
+  },
 })
 export default class EditExpenseEditor extends Vue {
   @Prop() close!: () => void;
@@ -172,14 +175,14 @@ export default class EditExpenseEditor extends Vue {
           name: '',
           description: '',
           cost: 0,
-          repeat: 0
+          repeat: 0,
         };
     this.card_number = this.expense.collaborator
       ? this.expense.collaborator.card_number
       : '';
     this.repeat = {
       label: getFrequencyString(this.expense.repeat),
-      value: this.expense.repeat.toString()
+      value: this.expense.repeat.toString(),
     };
   }
 
@@ -223,7 +226,7 @@ export default class EditExpenseEditor extends Vue {
           date: moment(this.initDate.toString()).toDate(),
           collaboratorId: this.expense.collaboratorId,
           repeat: parseInt(this.repeat ? this.repeat.value : '0'),
-          bildDocs: this.docsToAdd
+          bildDocs: this.docsToAdd,
         })
       : await this.addExpense(<ExpenseRecord>{
           name: this.expense.name,
@@ -232,7 +235,7 @@ export default class EditExpenseEditor extends Vue {
           date: moment(this.initDate.toString()).toDate(),
           collaboratorId: this.expense.collaboratorId,
           repeat: parseInt(this.repeat ? this.repeat.value : '0'),
-          bildDocs: this.docsToAdd
+          bildDocs: this.docsToAdd,
         });
     this.showLoading(false);
     if (result) {
@@ -240,7 +243,7 @@ export default class EditExpenseEditor extends Vue {
         message: `Expense ${
           this.isUpdateExpense ? 'updated' : 'created'
         } successfully`,
-        type: 'positive'
+        type: 'positive',
       });
       if (!!this.close) {
         this.close();

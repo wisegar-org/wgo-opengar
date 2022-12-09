@@ -1,5 +1,5 @@
-import { AgvInscriptionResponseModel } from '../../../models/GraphqlModels';
-import { IInscriptionResponseFilter } from '../../../models/Inscriptions';
+import { AgvInscriptionResponseModel } from '@wisegar-org/wgo-base-models/build/GraphqlModels';
+import { IInscriptionResponseFilter } from '@wisegar-org/wgo-base-models/build/Inscriptions';
 
 function isValidFilter(
   record: AgvInscriptionResponseModel,
@@ -30,5 +30,5 @@ export function filterInscriptionsAdmin(
   data: AgvInscriptionResponseModel[],
   filters: IInscriptionResponseFilter
 ): AgvInscriptionResponseModel[] {
-  return data.filter(item => isValidFilter(item, filters));
+  return data.filter((item) => isValidFilter(item, filters));
 }

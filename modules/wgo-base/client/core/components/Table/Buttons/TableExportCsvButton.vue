@@ -15,12 +15,12 @@
 import { defineComponent, PropType } from "vue";
 import { UtilService } from "../../../services/UtilService";
 import { saveAs } from "file-saver";
-import { translations } from "../../../../../models/core";
+import { translations } from "../@wisegar-org/wgo-base-models/build/core";
 import {
   ITableColumn,
   ITableData,
   ITableSchema,
-} from "../../../../../models/core/Table";
+} from "../@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "TableExportCsvButton",

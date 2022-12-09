@@ -19,7 +19,7 @@ import {
   IChangePasswordParam,
   ICheckUserUniqueUserName,
   ISuccesLogin,
-} from "../../../models/authentication";
+} from "@wisegar-org/wgo-base-models/build/authentication";
 import {
   AUTH_PATH_CHANGE_RESET_PASSWORD,
   AUTH_PATH_CHECK_USER_NAME,
@@ -30,8 +30,8 @@ import {
   AUTH_PATH_REGISTER,
   AUTH_PATH_RESEND_CONFIRMATION,
   AUTH_PATH_RESET_PASSWORD,
-} from "../../../models/authentication/server";
-import { IUser } from "../../../models/core";
+} from "@wisegar-org/wgo-base-models/build/authentication/server";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 
 export class AuthService {
   private apiInstance: ApiService;

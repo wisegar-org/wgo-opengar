@@ -18,7 +18,7 @@ import { useTranslationStore } from "../../stores/translationStore";
 import { useMeta } from "quasar";
 import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
 import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
-import { AuthPaths } from "../../wgo-base/models/authentication/router";
+import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 
 export default defineComponent({
   name: "RegisterChangePasswordPage",

@@ -36,7 +36,7 @@
           :label="translationContent.CASINA_DOCTORS_ADMIN_EMAIL_LABEL"
           standout="bg-primary text-white"
           dense
-          :rules="[val => !!val || translationContent.WGO_ERROR_NULL_FIELD]"
+          :rules="[(val) => !!val || translationContent.WGO_ERROR_NULL_FIELD]"
         />
       </div>
     </div>
@@ -87,36 +87,36 @@
 import {
   MediaResponseGql,
   StorageInputGql,
-  TranslationFilterResponseGql
+  TranslationFilterResponseGql,
 } from '../../../../../../graphql';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import {
   CasinaDoctorType,
-  ITranslationDoctorsAdminKeys
+  ITranslationDoctorsAdminKeys,
 } from '../TranslationsKeys';
 import UploadImageDiv from '../../../../../wgo/components/UploadImageDiv/UploadImageDiv.vue';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
-import { StorageDoctorItem } from '../../../../models/StorageModels';
+import { StorageDoctorItem } from '@wisegar-org/wgo-base-models/build/StorageModels';
 import TranslationSimpleComponent from '../../../../../wgo/components/Translations/TranslationEditors/TranslationSimpleComponent.vue';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import { componentsNamespace } from '../../../../../wgo/store';
 import { componentsActionsKeys } from '../../../../../wgo/store/ComponentsState';
 import { INotify, NumberDictionary } from '../../../../../wgo/models';
 import {
   casinaModelsActionsKeys,
-  casinaModelsNamespace
+  casinaModelsNamespace,
 } from '../../../../store/CasinaModels';
 
 @Component({
   components: {
     UploadImageDiv,
     ConfirmDialog,
-    TranslationSimpleComponent
-  }
+    TranslationSimpleComponent,
+  },
 })
 export default class EditLanguage extends Vue {
   @Prop() close!: (success: boolean) => void;
@@ -132,15 +132,15 @@ export default class EditLanguage extends Vue {
   notify!: (value: INotify) => void;
 
   @Action(casinaModelsActionsKeys.createStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   createDoctorItem!: (data: StorageInputGql) => Promise<boolean>;
   @Action(casinaModelsActionsKeys.modifyStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   modifyDoctorItem!: (data: StorageInputGql) => Promise<boolean>;
   @Action(casinaModelsActionsKeys.deleteStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   deleteDoctorItem!: (id: number) => Promise<boolean>;
 
@@ -152,8 +152,8 @@ export default class EditLanguage extends Vue {
       description: '',
       email: '',
       nameKey: '',
-      descriptionKey: ''
-    }
+      descriptionKey: '',
+    },
   };
   showDeleteConfirm = false;
   translations: { [key: string]: NumberDictionary } = {};
@@ -161,11 +161,11 @@ export default class EditLanguage extends Vue {
     TranslationFilterResponseGql
   >{
     key: 'transDescription',
-    id: 'transDescription'
+    id: 'transDescription',
   };
   transName: TranslationFilterResponseGql = <TranslationFilterResponseGql>{
     key: 'transName',
-    id: 'transName'
+    id: 'transName',
   };
 
   constructor() {
@@ -194,23 +194,23 @@ export default class EditLanguage extends Vue {
       if (this.close) this.close(true);
       this.notify({
         message: this.translationContent.CASINA_DOCTORS_ADMIN_SUCCESS_DELETE,
-        type: 'positive'
+        type: 'positive',
       });
     } else {
       this.notify({
         message: this.translationContent.CASINA_DOCTORS_ADMIN_FAIL_DELETE,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading(false);
   }
 
   getTranslationItem(traslationValue: NumberDictionary) {
-    return Object.keys(traslationValue).map(langId => {
+    return Object.keys(traslationValue).map((langId) => {
       const lang = parseInt(langId);
       return {
         languageId: lang,
-        value: traslationValue[lang]
+        value: traslationValue[lang],
       };
     });
   }
@@ -229,9 +229,9 @@ export default class EditLanguage extends Vue {
       content: `${JSON.stringify({
         email: this.form.content.email,
         description: desc,
-        name
+        name,
       })}`,
-      image: this.form.image ? this.form.image.id : 0
+      image: this.form.image ? this.form.image.id : 0,
     };
 
     const result = this.doctor
@@ -243,7 +243,7 @@ export default class EditLanguage extends Vue {
         message: this.doctor
           ? this.translationContent.CASINA_DOCTORS_ADMIN_SUCCESS_EDIT
           : this.translationContent.CASINA_DOCTORS_ADMIN_SUCCESS_CREATE,
-        type: 'positive'
+        type: 'positive',
       });
       if (this.close) this.close(true);
     } else {
@@ -251,7 +251,7 @@ export default class EditLanguage extends Vue {
         message: this.doctor
           ? this.translationContent.CASINA_DOCTORS_ADMIN_FAIL_EDIT
           : this.translationContent.CASINA_DOCTORS_ADMIN_FAIL_CREATE,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading(false);

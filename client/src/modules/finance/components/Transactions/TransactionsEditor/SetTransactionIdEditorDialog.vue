@@ -34,19 +34,19 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
-import { TransactionRecord } from '../../../models/models';
+import { TransactionRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { githubActions, githubNamespace } from '../../../store';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
 @Component({
   components: {
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class SetTransactionIdEditorDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;
@@ -72,13 +72,13 @@ export default class SetTransactionIdEditorDialog extends Vue {
     this.showLoading = true;
     const result = await this.setTransactionId({
       ...this.transaction,
-      idTransaction: this.idTransaction
+      idTransaction: this.idTransaction,
     });
     this.showLoading = false;
     if (result) {
       this.notify({
         message: 'Transaction id updated successfully ',
-        type: 'positive'
+        type: 'positive',
       });
       if (!!this.close) {
         this.close();

@@ -1,11 +1,11 @@
-import { StorageKeys } from "../../../models/storage/constants";
+import { StorageKeys } from "@wisegar-org/wgo-base-models/build/storage/constants";
 import {
   IExportTranslationsArg,
   ISetTranslationArg,
   ITranslationDeleteArg,
   ITranslationListModel,
   ITranslationModel,
-} from "../../../models/translation";
+} from "@wisegar-org/wgo-base-models/build/translation";
 import { TranslationService } from "../service/TranslationService";
 
 export class TranslationStore {

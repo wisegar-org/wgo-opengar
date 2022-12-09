@@ -25,8 +25,11 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { translations } from "../../../../../models/core";
-import { ITableColumn, ITableSchema } from "../../../../../models/core/Table";
+import { translations } from "../@wisegar-org/wgo-base-models/build/core";
+import {
+  ITableColumn,
+  ITableSchema,
+} from "../@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "TableSelectColumnsButton",

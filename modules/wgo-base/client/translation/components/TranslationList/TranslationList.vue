@@ -39,8 +39,8 @@ import {
   BaseTranslateComponent,
 } from "../../../core/components/BaseComponents";
 import TranslationDialog from "./TranslationDialog.vue";
-import { translations as transBase } from "../../../../models/core";
-import { translations } from "../../../../models/translation/translations";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/translation/translations";
 import { saveAs } from "file-saver";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { TranslationStore } from "../../store/TranslationStore";
@@ -48,8 +48,8 @@ import { LanguageStore } from "../../../language/store/LanguageStore";
 import {
   ITableLeftButton,
   ITableRowButton,
-} from "../../../../models/core/Table";
-import { ITranslationModel } from "../../../../models/translation";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { ITranslationModel } from "@wisegar-org/wgo-base-models/build/translation";
 
 export default defineComponent({
   name: "TranslationList",

@@ -34,10 +34,10 @@ import { AuthStore } from "../../../authentication/store/AuthStore";
 import {
   ITableLeftButton,
   ITableRowButton,
-} from "../../../../models/core/Table";
-import { IUser } from "../../../../models/core";
-import { translations as transBase } from "../../../../models/core";
-import { translations } from "../../../../models/authentication/translations";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 
 export default defineComponent({
   name: "UsersList",

@@ -1,7 +1,7 @@
 import { StorageServiceItem } from 'src/models/StorageModels';
 import { ITableLeftButton, ITableRowButton, ITableSchema } from 'src/wgo-base/core/models/Table';
 import { TranslationStore } from 'src/wgo-base/translation/models/TranslationStore';
-import { translationsDoctorsContent } from '../../../models/translations';
+import { translationsDoctorsContent } from '@wisegar-org/wgo-base-models/build/translations';
 
 export const getServicesListSchema = (
   transStore: TranslationStore,

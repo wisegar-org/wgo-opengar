@@ -20,8 +20,8 @@ import {
   BaseResizeComponent,
   BaseTranslateComponent,
 } from "../../../core/components/BaseComponents";
-import { translations } from "../../../../models/historic/translations";
-import { translations as transBase } from "../../../../models/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/historic/translations";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { saveAs } from "file-saver";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { getHistoricListSchema } from "./HistoricListSchema";
@@ -32,7 +32,7 @@ import {
   ITableLeftButton,
   ITablePagination,
   ITableRowButton,
-} from "../../../../models/core/Table";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "TranslationList",

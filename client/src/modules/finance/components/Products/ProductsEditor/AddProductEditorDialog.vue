@@ -10,14 +10,14 @@
       <AddProductEditor
         :productToEdit="productToEdit"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { ProductRecord } from '../../../models/models';
+import { ProductRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AddProductEditor from './AddProductEditor.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     AddProductEditor,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class AddProductEditorDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

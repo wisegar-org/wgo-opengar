@@ -9,14 +9,14 @@
       <EditAgvEvent
         :close="close"
         :agvEvent="agvEvent"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { AgvEventResponseModel } from '../../../../models/GraphqlModels';
+import { AgvEventResponseModel } from '@wisegar-org/wgo-base-models/build/GraphqlModels';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import EditAgvEvent from './EditAgvEvent.vue';
 import Dialog from '../../../../../wgo/components/Dialog/Dialog.vue';
@@ -24,8 +24,8 @@ import Dialog from '../../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     EditAgvEvent,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class EditAgvEventDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

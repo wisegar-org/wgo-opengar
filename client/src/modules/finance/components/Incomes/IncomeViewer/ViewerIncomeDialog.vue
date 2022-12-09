@@ -10,14 +10,14 @@
       <ViewerIncome
         :income="income"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { IncomeRecord } from '../../../models/models';
+import { IncomeRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ViewerIncome from './ViewerIncome.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     ViewerIncome,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class ViewerIncomeDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

@@ -9,7 +9,7 @@
     <template slot="content">
       <AccountingStepper
         :close="close"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
         :collaborator="collaborator"
         :filterIssues="filterIssues"
         :organizationData="organizationData"
@@ -25,30 +25,30 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import {
   CollaboratorRecord,
   IssuesRecord,
-  OrganizationDataRecord
-} from '../../../models/models';
+  OrganizationDataRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import AccountingStepper from './AccountingStepper.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import { Action, Getter } from 'vuex-class';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import {
   ITranslationFinanceAccountingKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from '../TranslationsKeys';
 
 @Component({
   components: {
     AccountingStepper,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class AccountingStepperDialog extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })

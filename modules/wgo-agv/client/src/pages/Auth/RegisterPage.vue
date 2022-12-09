@@ -19,8 +19,8 @@ import { useMeta } from "quasar";
 import { BaseSeoDataComponent } from "../../wgo-base/client/core/components/BaseComponents";
 import { RouteService } from "../../wgo-base/client/core/services/RouteService";
 import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";
-import { IUser } from "../../wgo-base/models/core";
-import { AuthPaths } from "../../wgo-base/models/authentication/router";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
+import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 
 export default defineComponent({
   name: "RegisterPage",

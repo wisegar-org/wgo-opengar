@@ -1,8 +1,8 @@
 import { IsNullOrUndefined } from "@wisegar-org/wgo-object-extensions";
 import { DataSource } from "typeorm";
-import { SUPERADMIN } from "../../wgo-base/models/authentication";
-import { RoleEntity } from "../../wgo-base/server/authentication/database/entities/RoleEntity";
-import { UserEntity } from "../../wgo-base/server/authentication/database/entities/UserEntity";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
+import { RoleEntity } from "@wisegar-org/wgo-base-server/build/authentication/database/entities/RoleEntity";
+import { UserEntity } from "@wisegar-org/wgo-base-server/build/authentication/database/entities/UserEntity";
 import * as bcrypt from "bcrypt";
 
 export const agvAdminUserSeeder = async (dataSource: DataSource) => {

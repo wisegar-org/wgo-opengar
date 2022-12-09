@@ -1,10 +1,10 @@
-import { translations } from "../../../../models/authentication/translations";
-import { IUser } from "../../../../models/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "../../../../models/core/Table";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 
 export const getAuthUserListSchema = (

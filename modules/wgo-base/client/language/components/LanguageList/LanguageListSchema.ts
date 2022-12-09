@@ -2,9 +2,9 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "../../../../models/core/Table";
-import { ILanguageModel } from "../../../../models/language";
-import { translations } from "../../../../models/language/translations";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
+import { translations } from "@wisegar-org/wgo-base-models/build/language/translations";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 
 export const getLanguageListSchema = (

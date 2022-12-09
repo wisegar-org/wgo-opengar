@@ -1,4 +1,4 @@
-import { CollaboratorRecord } from '../../../models/models';
+import { CollaboratorRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import { githubActions, githubNamespace } from '../../../store';
@@ -6,29 +6,29 @@ import { ApiSettings } from '../../../settings/ApiSettings';
 import { INotify, UserLogged } from '../../../../wgo/models';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { Action, Getter } from 'vuex-class';
 import {
   ITranslationFinanceCollaboratorKeys,
   WGO_FINANCE_COLLABORATOR_ROLE_CLIENT,
   WGO_FINANCE_COLLABORATOR_ROLE_COLLABORATOR,
-  WGO_FINANCE_COLLABORATOR_ROLE_PROVIDER
+  WGO_FINANCE_COLLABORATOR_ROLE_PROVIDER,
 } from '../TranslationsKeys';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from 'src/modules/wgo/store/Language';
 import {
   clientRoleType,
   collaboratorRoleType,
-  providerRoleType
+  providerRoleType,
 } from '../ColumnsCollaborators';
 
 @Component({
   components: {
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class EditAccountingCollaboratorDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;
@@ -37,19 +37,19 @@ export default class EditAccountingCollaboratorDialog extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
   translationContent!: ITranslationFinanceCollaboratorKeys;
   @Action(githubActions.updateCollAccountingProps, {
-    namespace: githubNamespace
+    namespace: githubNamespace,
   })
   updateProperties!: (item: CollaboratorRecord) => Promise<boolean>;
   @Action(githubActions.addClientProvider, {
-    namespace: githubNamespace
+    namespace: githubNamespace,
   })
   createClientProvider!: (item: CollaboratorRecord) => Promise<boolean>;
   @Action(ApiSettings.USER_LOGGED_ACTION, {
-    namespace: ApiSettings.USER_NAMESPACE
+    namespace: ApiSettings.USER_NAMESPACE,
   })
   loadLoggedUser!: () => Promise<void>;
   @Getter(ApiSettings.USER_LOGGED_GETTER, {
-    namespace: ApiSettings.USER_NAMESPACE
+    namespace: ApiSettings.USER_NAMESPACE,
   })
   loggedUser!: UserLogged;
 
@@ -89,7 +89,7 @@ export default class EditAccountingCollaboratorDialog extends Vue {
       place: '',
       // pay_to_internet: '',
       description: '',
-      type: ''
+      type: '',
     };
     this.updatePropsEditor();
   }
@@ -108,7 +108,7 @@ export default class EditAccountingCollaboratorDialog extends Vue {
           cap: `${this.collaborator.cap || ''}`,
           place: `${this.collaborator.place || ''}`,
           description: `${this.collaborator.bio || ''}`,
-          type: `${this.collaborator.type}`
+          type: `${this.collaborator.type}`,
         }
       : {
           name: '',
@@ -121,25 +121,25 @@ export default class EditAccountingCollaboratorDialog extends Vue {
           place: '',
           // pay_to_internet: '',
           description: '',
-          type: ''
+          type: '',
         };
 
     this.selectedRoles = this.editProps.type
       .split(',')
-      .filter(role => this.isValidRole(role))
-      .map(item => ({
+      .filter((role) => this.isValidRole(role))
+      .map((item) => ({
         value: item,
         label:
           item in this.translationContent
             ? (this.translationContent as any)[item]
-            : item
+            : item,
       }));
   }
 
   @Watch('selectedRoles')
   updateTypeRoles() {
     this.editProps.type = (this.selectedRoles || [])
-      .map(item => (typeof item === 'string' ? item : item.value))
+      .map((item) => (typeof item === 'string' ? item : item.value))
       .join(',');
   }
 
@@ -184,9 +184,9 @@ export default class EditAccountingCollaboratorDialog extends Vue {
       this.translationContent.WGO_FINANCE_COLLABORATOR_ROLE_PROVIDER ||
       'Provider';
 
-    this.selectedRoles = this.editProps.type.split(',').map(item => ({
+    this.selectedRoles = this.editProps.type.split(',').map((item) => ({
       value: item,
-      label: (this.translationContent as any)[item] || item
+      label: (this.translationContent as any)[item] || item,
     }));
   }
 
@@ -204,7 +204,7 @@ export default class EditAccountingCollaboratorDialog extends Vue {
           address: this.editProps.address,
           cap: this.editProps.cap,
           place: this.editProps.place,
-          type: this.editProps.type
+          type: this.editProps.type,
         })
       : await this.createClientProvider(<CollaboratorRecord>{
           name: this.editProps.name,
@@ -216,7 +216,7 @@ export default class EditAccountingCollaboratorDialog extends Vue {
           address: this.editProps.address,
           cap: this.editProps.cap,
           place: this.editProps.place,
-          type: this.editProps.type
+          type: this.editProps.type,
         });
 
     if (result) {
@@ -224,7 +224,7 @@ export default class EditAccountingCollaboratorDialog extends Vue {
         message: `Collaborator ${
           this.collaborator ? 'updated' : 'created'
         } successfully`,
-        type: 'positive'
+        type: 'positive',
       });
       if (
         this.collaborator &&

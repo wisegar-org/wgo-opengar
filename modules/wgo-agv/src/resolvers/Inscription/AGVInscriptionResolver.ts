@@ -1,6 +1,6 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { AGVInscriptionModel } from "../../models/Inscription/InscriptionModel";
-import { IContextBase } from "../../wgo-base/models/core/context";
+import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import {
   AGVInscriptionInput,
   AGVInscriptionPageInput,

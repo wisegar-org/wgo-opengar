@@ -26,7 +26,7 @@
         filterProp="label"
         :value="productType"
         @onChange="
-          value => {
+          (value) => {
             setType(value);
           }
         "
@@ -74,7 +74,7 @@
     <MediaListEditor
       :items="product.docs"
       :addItems="
-        items => {
+        (items) => {
           docsToAdd = items;
         }
       "
@@ -100,7 +100,7 @@
 
 <script lang="ts">
 import { Action } from 'vuex-class';
-import { ProductRecord } from '../../../models/models';
+import { ProductRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { githubActions, githubNamespace } from '../../../store';
 
@@ -108,19 +108,19 @@ import MediaListEditor from '../../../../wgo/components/MediaList/MediaListEdito
 import FilterSelect from '../../FilterSelect.vue';
 import {
   getProductTypeOptions,
-  getProductTypeString
-} from '../../../models/parsers';
+  getProductTypeString,
+} from '@wisegar-org/wgo-base-models/build/parsers';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
 @Component({
   components: {
     MediaListEditor,
-    FilterSelect
-  }
+    FilterSelect,
+  },
 })
 export default class AddProductEditor extends Vue {
   @Prop() close!: () => void;
@@ -153,11 +153,11 @@ export default class AddProductEditor extends Vue {
           sellPrice: 0,
           unitCount: 0,
           type: 1,
-          docs: []
+          docs: [],
         };
     this.productType = {
       value: this.product.type,
-      label: getProductTypeString(this.product.type)
+      label: getProductTypeString(this.product.type),
     };
   }
 
@@ -185,7 +185,7 @@ export default class AddProductEditor extends Vue {
           sellPrice: this.product.sellPrice,
           type: this.productType.value,
           unitCount: this.product.type === 1 ? this.product.unitCount : 0,
-          docs: this.docsToAdd
+          docs: this.docsToAdd,
         })
       : await this.addProduct(<ProductRecord>{
           name: this.product.name,
@@ -194,7 +194,7 @@ export default class AddProductEditor extends Vue {
           sellPrice: this.product.sellPrice,
           type: this.productType.value,
           unitCount: this.product.type === 1 ? this.product.unitCount : 0,
-          docs: this.docsToAdd
+          docs: this.docsToAdd,
         });
     this.showLoading(false);
     if (result) {
@@ -202,7 +202,7 @@ export default class AddProductEditor extends Vue {
         message: `Product ${
           this.isUpdateProduct ? 'updated' : 'created'
         } successfully`,
-        type: 'positive'
+        type: 'positive',
       });
       if (!!this.close) {
         this.close();

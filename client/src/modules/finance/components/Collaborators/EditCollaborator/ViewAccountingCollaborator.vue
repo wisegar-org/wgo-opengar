@@ -165,17 +165,17 @@
 
 <script lang="ts">
 import { Action, Getter } from 'vuex-class';
-import { CollaboratorRecord } from '../../../models/models';
+import { CollaboratorRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { ApiSettings } from '../../../settings/ApiSettings';
 import { INotify, UserLogged } from '../../../../wgo/models';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import { ITranslationFinanceCollaboratorKeys } from '../TranslationsKeys';
 import { openURL } from 'quasar';
@@ -183,15 +183,15 @@ import StatsCollaboratorDialog from '../StatsCollaborator/StatsCollaboratorDialo
 
 @Component({
   components: {
-    StatsCollaboratorDialog
-  }
+    StatsCollaboratorDialog,
+  },
 })
 export default class ViewAccountingCollaborator extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
   translationContent!: ITranslationFinanceCollaboratorKeys;
   @Prop() collaborator!: CollaboratorRecord;
   @Getter(ApiSettings.USER_LOGGED_GETTER, {
-    namespace: ApiSettings.USER_NAMESPACE
+    namespace: ApiSettings.USER_NAMESPACE,
   })
   loggedUser!: UserLogged;
 
@@ -226,7 +226,7 @@ export default class ViewAccountingCollaborator extends Vue {
       place: '',
       typeTranslation: '',
       // pay_to_internet: '',
-      description: ''
+      description: '',
     };
 
     this.$nextTick(() => {
@@ -253,7 +253,7 @@ export default class ViewAccountingCollaborator extends Vue {
           cap: `${this.collaborator.cap || ''}`,
           place: `${this.collaborator.place || ''}`,
           typeTranslation: `${this.collaborator.typeTranslation || ''}`,
-          description: `${this.collaborator.bio || ''}`
+          description: `${this.collaborator.bio || ''}`,
         }
       : {
           name: '',
@@ -266,7 +266,7 @@ export default class ViewAccountingCollaborator extends Vue {
           place: '',
           typeTranslation: '',
           // pay_to_internet: '',
-          description: ''
+          description: '',
         };
   }
 }

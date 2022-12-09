@@ -10,14 +10,14 @@
       <IssueDetails
         :issue="issue"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { IssuesRecord } from '../../../models/models';
+import { IssuesRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import IssueDetails from './IssueDetails.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     IssueDetails,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class IssueDetailsDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

@@ -10,14 +10,14 @@
       <ViewerProduct
         :product="product"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { ProductRecord } from '../../../models/models';
+import { ProductRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ViewerProduct from './ViewerProduct.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     ViewerProduct,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class ViewerProductDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

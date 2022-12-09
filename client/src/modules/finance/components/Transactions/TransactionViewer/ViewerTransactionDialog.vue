@@ -10,14 +10,14 @@
       <ViewerTransaction
         :transaction="transaction"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { TransactionRecord } from '../../../models/models';
+import { TransactionRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ViewerTransaction from './ViewerTransaction.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     ViewerTransaction,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class ViewerTransactionDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

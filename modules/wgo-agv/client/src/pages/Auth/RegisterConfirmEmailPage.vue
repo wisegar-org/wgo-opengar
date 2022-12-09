@@ -14,7 +14,7 @@ import { defineComponent } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { RouteService } from "../../wgo-base/client/core/services/RouteService";
 import ConfirmEmailComponent from "../../wgo-base/client/authentication/components/ConfirmEmailComponent.vue";
-import { AuthPaths } from "../../wgo-base/models/authentication/router";
+import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 import { useTranslationStore } from "../../stores/translationStore";
 import { useMeta } from "quasar";
 import { TranslationStore } from "../../wgo-base/client/translation/store/TranslationStore";

@@ -4,28 +4,28 @@ import { accountingActions } from 'src/modules/finance/store/actions/accountigAc
 import { githubGetters, githubNamespace } from 'src/modules/finance/store';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import {
   AccountRecord,
   TemplateHTML,
-  TemplateStyle
-} from '../../../models/models';
+  TemplateStyle,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { INotify } from 'src/modules/wgo/models';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from 'src/modules/wgo/store/Language';
 import {
   ITranslationFinanceAccountingKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from '../TranslationsKeys';
 
 @Component({})
 export default class AccountingTemplatePage extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -35,11 +35,11 @@ export default class AccountingTemplatePage extends Vue {
   @Getter(githubGetters.getAccounting, { namespace: githubNamespace })
   accoutings!: AccountRecord[];
   @Action(accountingActions.loadAccountingTemplate, {
-    namespace: githubNamespace
+    namespace: githubNamespace,
   })
   loadTemplate!: (entityTemplate: string) => Promise<TemplateHTML>;
   @Action(accountingActions.getAccountingDocumentPreview, {
-    namespace: githubNamespace
+    namespace: githubNamespace,
   })
   getBillDocumentPreview!: (config: {
     entityTemplate: string;
@@ -48,11 +48,11 @@ export default class AccountingTemplatePage extends Vue {
     templateStyle: string;
   }) => Promise<string>;
   @Action(accountingActions.saveAccountingTemplate, {
-    namespace: githubNamespace
+    namespace: githubNamespace,
   })
   saveTemplate!: (value: TemplateHTML) => Promise<boolean>;
   @Action(accountingActions.saveAccountingStyleTemplate, {
-    namespace: githubNamespace
+    namespace: githubNamespace,
   })
   saveStyleTemplate!: (value: {
     template: TemplateStyle;
@@ -70,20 +70,20 @@ export default class AccountingTemplatePage extends Vue {
   async save() {
     const saveStyleTemplate = await this.saveStyleTemplate({
       template: this.template.styleTemplate,
-      documentToSet: this.template.id
+      documentToSet: this.template.id,
     });
     const saveTemplate = await this.saveTemplate(this.template);
     if (saveStyleTemplate && saveTemplate) {
       this.notify({
-        message: this.translationContent
-          .WGO_FINANCE_ACCOUNTING_TEMPLATE_SAVE_SUCCESS,
-        type: 'positive'
+        message:
+          this.translationContent.WGO_FINANCE_ACCOUNTING_TEMPLATE_SAVE_SUCCESS,
+        type: 'positive',
       });
     } else {
       this.notify({
-        message: this.translationContent
-          .WGO_FINANCE_ACCOUNTING_TEMPLATE_SAVE_FAIL,
-        type: 'negative'
+        message:
+          this.translationContent.WGO_FINANCE_ACCOUNTING_TEMPLATE_SAVE_FAIL,
+        type: 'negative',
       });
     }
   }
@@ -116,7 +116,7 @@ export default class AccountingTemplatePage extends Vue {
       entityTemplate: this.selectedTemplate,
       idAccounting: this.accoutings.length > 0 ? this.accoutings[0].id : 0,
       templateHTML: this.template.body,
-      templateStyle: this.template.styleTemplate.body
+      templateStyle: this.template.styleTemplate.body,
     });
     this.showLoading = false;
     this.showPreview = true;

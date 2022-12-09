@@ -26,36 +26,36 @@
 
 <script lang="ts">
 import { Action, Getter } from 'vuex-class';
-import { AccountRecord } from '../../../models/models';
+import { AccountRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { githubActions, githubNamespace } from '../../../store';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import AccountingDetails from '../AccountingDetailsDialog/AccountingDetails.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 import { IWGODialogOptions } from '@wisegar-org/quasar-app-extension-wgo-vue-components/src/lib';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import {
   ITranslationFinanceAccountingKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from '../TranslationsKeys';
 
 @Component({
   components: {
     AccountingDetails,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class AccountingConfirmDialog extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -75,7 +75,7 @@ export default class AccountingConfirmDialog extends Vue {
     onClose: () => this.onClose(),
     hideButtons: true,
     fullHeight: true,
-    fullWidth: true
+    fullWidth: true,
   };
 
   async confirmAccounting() {
@@ -83,13 +83,13 @@ export default class AccountingConfirmDialog extends Vue {
     if (await this.confirmAccountingAction(this.accounting.id)) {
       this.notify({
         message: this.translationContent.WGO_FINANCE_ACCOUNTING_CONFIRM_SUCCESS,
-        type: 'positive'
+        type: 'positive',
       });
       this.close();
     } else {
       this.notify({
         message: this.translationContent.WGO_FINANCE_ACCOUNTING_CONFIRM_FAIL,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading = false;
@@ -108,12 +108,14 @@ export default class AccountingConfirmDialog extends Vue {
 
   @Watch('translationContent')
   translationsChange() {
-    this.options.title = this.translationContent.WGO_FINANCE_ACCOUNTING_CONFIRM_TITLE;
+    this.options.title =
+      this.translationContent.WGO_FINANCE_ACCOUNTING_CONFIRM_TITLE;
   }
 
   async mounted() {
     await this.registerTranslations(TranslationsKeys);
-    this.options.title = this.translationContent.WGO_FINANCE_ACCOUNTING_CONFIRM_TITLE;
+    this.options.title =
+      this.translationContent.WGO_FINANCE_ACCOUNTING_CONFIRM_TITLE;
   }
 }
 </script>

@@ -4,9 +4,9 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "../../../../models/core/Table";
-import { ISettingsModel } from "../../../../models/settings";
-import { translations } from "../../../../models/settings/translations";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { ISettingsModel } from "@wisegar-org/wgo-base-models/build/settings";
+import { translations } from "@wisegar-org/wgo-base-models/build/settings/translations";
 
 export const getSettingsListSchema = (
   tranStore: TranslationStore,

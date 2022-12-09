@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
-import { StringDictionary } from "../../../../models/core";
+import { StringDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "EditorToolbar",

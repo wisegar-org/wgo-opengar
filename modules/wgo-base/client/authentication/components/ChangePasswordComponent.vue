@@ -70,10 +70,10 @@ import { defineComponent, PropType } from "vue";
 import { AuthService } from "../services/AuthService";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import Loader from "../../core/components/Loader/Loader.vue";
-import { translations } from "../../../models/authentication/translations";
+import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";
 import { TranslationStore } from "../../translation/store/TranslationStore";
-import { translations as tranBase } from "../../../models/core";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ResetPasswordComponent",

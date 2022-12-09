@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { TransactionRecord } from '../../../models/models';
+import { TransactionRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 

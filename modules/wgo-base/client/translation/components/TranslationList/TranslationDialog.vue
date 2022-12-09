@@ -64,12 +64,12 @@ import { defineComponent, PropType } from "vue";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import SimpleLanguageSelector from "../../../language/components/SimpleLanguageSelector/SimpleLanguageSelector.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations as transBase } from "../../../../models/core";
-import { translations } from "../../../../models/translation/translations";
-import { ITranslationModel } from "../../../../models/translation";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
+import { translations } from "@wisegar-org/wgo-base-models/build/translation/translations";
+import { ITranslationModel } from "@wisegar-org/wgo-base-models/build/translation";
 import { TranslationStore } from "../../store/TranslationStore";
 import { LanguageStore } from "../../../language/store/LanguageStore";
-import { ILanguageModel } from "../../../../models/language";
+import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
 
 export default defineComponent({
   name: "TranslationDialog",

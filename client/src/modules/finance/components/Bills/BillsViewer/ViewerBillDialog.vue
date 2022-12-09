@@ -10,14 +10,14 @@
       <ViewerBill
         :bill="bill"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { BillRecord } from '../../../models/models';
+import { BillRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ViewerBill from './ViewerBill.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     ViewerBill,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class ViewerBillDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

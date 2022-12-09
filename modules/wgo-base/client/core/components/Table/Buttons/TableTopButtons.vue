@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ITableSchema } from "../../../../../models/core/Table";
+import { ITableSchema } from "../@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "TableTopButtons",

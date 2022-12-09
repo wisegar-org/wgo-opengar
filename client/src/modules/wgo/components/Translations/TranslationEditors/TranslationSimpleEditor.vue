@@ -41,27 +41,27 @@ import {
   GetTranslationInputGql,
   LanguageResponseGql,
   TranslationFilterResponseGql,
-  TranslationInputGql
+  TranslationInputGql,
 } from '../../../../../graphql';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../store/ComponentsState';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import LanguageSimpleSelect from '../../Languages/LanguageSelect/LanguageSimpleSelect.vue';
-import { INotify } from '../../../models';
+import { INotify } from '@wisegar-org/wgo-base-models/build/';
 import { ITranslationTranslationKeys } from '../TranslationsKeys';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../store/Language';
 
 @Component({
   components: {
-    LanguageSimpleSelect
-  }
+    LanguageSimpleSelect,
+  },
 })
 export default class TranslationSimpleEditor extends Vue {
   @Action(languageActions.getTranslation, { namespace: languageNamespace })
@@ -77,7 +77,7 @@ export default class TranslationSimpleEditor extends Vue {
 
   selectedLang: LanguageResponseGql = this.language;
   translations: { [key: string]: string } = {
-    [this.language.code]: this.translation.value
+    [this.language.code]: this.translation.value,
   };
   value = this.translation.value;
 
@@ -93,7 +93,7 @@ export default class TranslationSimpleEditor extends Vue {
     if (!(lang.code in this.translations)) {
       this.translations[lang.code] = await this.getTranslation({
         languageId: lang.id,
-        key: this.translation.key
+        key: this.translation.key,
       });
     }
     this.value = this.translations[lang.code];
@@ -104,13 +104,13 @@ export default class TranslationSimpleEditor extends Vue {
       await this.setTranslation({
         languageId: this.selectedLang.id,
         key: this.translation.key,
-        value: this.value
+        value: this.value,
       })
     ) {
       this.translations[this.selectedLang.code] = this.value;
       this.notify({
         message: 'Translation saved',
-        type: 'positive'
+        type: 'positive',
       });
     }
   }

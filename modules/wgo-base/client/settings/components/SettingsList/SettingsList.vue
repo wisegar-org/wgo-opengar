@@ -24,15 +24,15 @@ import Table from "../../../core/components/Table/Table.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { getSettingsListSchema } from "./SettingsListSchema";
 import { BaseResizeComponent } from "../../../core/components/BaseComponents";
-import { translations } from "../../../../models/settings/translations";
-import { translations as tranBase } from "../../../../models/core";
-import { ISettingsModel } from "../../../../models/settings";
+import { translations } from "@wisegar-org/wgo-base-models/build/settings/translations";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
+import { ISettingsModel } from "@wisegar-org/wgo-base-models/build/settings";
 import { SettingsService } from "../../services/SettingsService";
 import SettingsDialog from "./SettingsDialog.vue";
 import {
   ITableLeftButton,
   ITableRowButton,
-} from "../../../../models/core/Table";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 
 export default defineComponent({

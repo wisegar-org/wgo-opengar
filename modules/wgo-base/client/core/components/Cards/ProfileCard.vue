@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { IMediaModel } from "../../../../models/core";
+import { IMediaModel } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { UtilService } from "../../services/UtilService";
 import { BaseTranslateComponent } from "../BaseComponents";

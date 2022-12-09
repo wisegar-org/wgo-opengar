@@ -5,20 +5,23 @@
 </template>
 
 <script lang="ts">
-import { Dictionary, IssuesRecord } from '../../../../models/models';
+import {
+  Dictionary,
+  IssuesRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import SimpleViewIssues from '../../../Issues/SimpleViewIssues/SimpleViewIssues.vue';
 import { Getter } from 'vuex-class';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import { ITranslationFinanceAccountingKeys } from '../../TranslationsKeys';
 
 @Component({
   components: {
-    SimpleViewIssues
-  }
+    SimpleViewIssues,
+  },
 })
 export default class ShowIssuesToAccount extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })

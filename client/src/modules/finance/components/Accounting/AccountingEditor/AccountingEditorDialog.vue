@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts">
-import { AccountRecord } from '../../../models/models';
+import { AccountRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AccountingEditor from './AccountingEditor.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -62,7 +62,7 @@ import { Action, Getter } from 'vuex-class';
 import { githubActions, githubNamespace } from '../../../store';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
@@ -70,23 +70,23 @@ import Editor from '../../Editor.vue';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import {
   ITranslationFinanceAccountingKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from '../TranslationsKeys';
 
 @Component({
   components: {
     AccountingEditor,
     Dialog,
-    Editor
-  }
+    Editor,
+  },
 })
 export default class AccountingEditorDialog extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -112,13 +112,13 @@ export default class AccountingEditorDialog extends Vue {
     if (await this.updateAccounting(this.accountingEdit)) {
       this.notify({
         message: this.translationContent.WGO_FINANCE_ACCOUNTING_EDIT_SUCCESS,
-        type: 'positive'
+        type: 'positive',
       });
       this.close();
     } else {
       this.notify({
         message: this.translationContent.WGO_FINANCE_ACCOUNTING_EDIT_FAIL,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading = false;

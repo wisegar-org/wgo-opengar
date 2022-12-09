@@ -1,11 +1,11 @@
 import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
-import { IContextBase } from "../../wgo-base/models/core/context";
+import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import {
   MEDIA_PATH_POST_FILE,
   MEDIA_PATH_POST_FILES,
-} from "../../wgo-base/models/storage/server";
-import { MediaResolver } from "../../wgo-base/server/storage/resolvers/Media/MediaResolver";
-import { MediaResponse } from "../../wgo-base/server/storage/resolvers/Media/MediaResponses";
+} from "@wisegar-org/wgo-base-models/build/storage/server";
+import { MediaResolver } from "@wisegar-org/wgo-base-server/build/storage/resolvers/Media/MediaResolver";
+import { MediaResponse } from "@wisegar-org/wgo-base-server/build/storage/resolvers/Media/MediaResponses";
 import { MediaInput, MediasInput } from "./MediaInput";
 
 @Resolver()

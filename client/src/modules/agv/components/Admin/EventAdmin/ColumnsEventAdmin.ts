@@ -1,5 +1,5 @@
-import { AgvEventResponseModel } from '../../../models/GraphqlModels';
-import { ColumnAgvEventTable } from '../../../models/Columns';
+import { AgvEventResponseModel } from '@wisegar-org/wgo-base-models/build/GraphqlModels';
+import { ColumnAgvEventTable } from '@wisegar-org/wgo-base-models/build/Columns';
 
 export const titleAgvEventField: ColumnAgvEventTable = {
   name: 'titleAgvEvent',
@@ -9,7 +9,7 @@ export const titleAgvEventField: ColumnAgvEventTable = {
   field: (record: AgvEventResponseModel) => (record.title ? record.title : ''),
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 200px'
+  style: 'max-width: 200px',
 };
 
 export const typeAgvEventField: ColumnAgvEventTable = {
@@ -20,7 +20,7 @@ export const typeAgvEventField: ColumnAgvEventTable = {
   field: (record: AgvEventResponseModel) => (record.type ? record.type : '-'),
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 80px'
+  style: 'max-width: 80px',
 };
 
 export const stateAgvEventField: ColumnAgvEventTable = {
@@ -31,7 +31,7 @@ export const stateAgvEventField: ColumnAgvEventTable = {
   field: (record: AgvEventResponseModel) => (record.state ? record.state : '-'),
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 80px'
+  style: 'max-width: 80px',
 };
 
 export const visibleAgvEventField: ColumnAgvEventTable = {
@@ -43,7 +43,7 @@ export const visibleAgvEventField: ColumnAgvEventTable = {
     record.visible ? 'Visibile' : 'Non Visibile',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 80px'
+  style: 'max-width: 80px',
 };
 
 export const iscrizioniAgvEventField: ColumnAgvEventTable = {
@@ -55,7 +55,7 @@ export const iscrizioniAgvEventField: ColumnAgvEventTable = {
     record.enrollment ? 'Abilitato' : 'Non Abilitato',
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 80px'
+  style: 'max-width: 80px',
 };
 
 export const classAgvEventField: ColumnAgvEventTable = {
@@ -66,7 +66,7 @@ export const classAgvEventField: ColumnAgvEventTable = {
   field: (record: AgvEventResponseModel) => (record.class ? record.class : '-'),
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 80px'
+  style: 'max-width: 80px',
 };
 
 export const inscriptionsAgvEventField: ColumnAgvEventTable = {
@@ -77,14 +77,14 @@ export const inscriptionsAgvEventField: ColumnAgvEventTable = {
   field: (record: AgvEventResponseModel) => `${record.inscriptions}`,
   sortable: true,
   classes: 'ellipsis',
-  style: 'max-width: 80px'
+  style: 'max-width: 80px',
 };
 
 export const buttonAgvEventField: ColumnAgvEventTable = {
   name: 'buttonsAgvEvents',
   label: '',
   align: '',
-  style: ''
+  style: '',
 };
 
 export const ColumnsEventAdmin = [
@@ -95,5 +95,5 @@ export const ColumnsEventAdmin = [
   stateAgvEventField,
   iscrizioniAgvEventField,
   visibleAgvEventField,
-  buttonAgvEventField
+  buttonAgvEventField,
 ];

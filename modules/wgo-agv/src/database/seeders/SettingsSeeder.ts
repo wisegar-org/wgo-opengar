@@ -1,14 +1,14 @@
 import { DataSource } from "typeorm";
-import { settingsAdminSeeder } from "../../wgo-base/server/settings/database/seeder/settings";
+import { settingsAdminSeeder } from "@wisegar-org/wgo-base-server/build/settings/database/seeder/settings";
 import {
   getPop3Settings,
   getSmtpSettings,
-} from "../../wgo-base/server/settings/models/SettingsUtils";
+} from "@wisegar-org/wgo-base-server/build/settings/models/SettingsUtils";
 import { GetConfig } from "@wisegar-org/wgo-settings";
 import {
   SETTINGS_POP3,
   SETTINGS_SMTP,
-} from "../../wgo-base/models/settings/constants";
+} from "@wisegar-org/wgo-base-models/build/settings/constants";
 
 export const settingsSeeder = async (dataSource: DataSource) => {
   //Save keys to database settings

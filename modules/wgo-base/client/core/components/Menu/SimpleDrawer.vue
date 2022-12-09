@@ -42,18 +42,18 @@
     </q-drawer>
   </div>
 </template>
-  
-  <script lang="ts">
+
+<script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { RouteService } from "../../services/RouteService";
 import { BaseTranslateComponent } from "../BaseComponents";
 import LeftDrawerList from "./LeftDrawerList.vue";
-import { translations } from "../../../../models/core";
-import { IMenuItem } from "../../../../models/core/Menu";
+import { translations } from "@wisegar-org/wgo-base-models/build/core";
+import { IMenuItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { AuthStore } from "../../../authentication/store/AuthStore";
-import { AdminBasePath } from "../../../../models/core/router";
-import { SUPERADMIN } from "../../../../models/authentication";
+import { AdminBasePath } from "@wisegar-org/wgo-base-models/build/core/router";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
 
 export default defineComponent({
   name: "SimpleDrawer",
@@ -99,4 +99,3 @@ export default defineComponent({
   emits: ["openAdmin"],
 });
 </script>
-  

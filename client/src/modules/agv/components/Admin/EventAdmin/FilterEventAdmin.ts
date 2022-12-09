@@ -1,9 +1,9 @@
 import {
   EventEnrollmentOptions,
   EventVisibleOptions,
-  IEventResponseFilter
-} from '../../../models/Events';
-import { AgvEventResponseModel } from '../../../models/GraphqlModels';
+  IEventResponseFilter,
+} from '@wisegar-org/wgo-base-models/build/Events';
+import { AgvEventResponseModel } from '@wisegar-org/wgo-base-models/build/GraphqlModels';
 
 function isValidFilter(
   record: AgvEventResponseModel,
@@ -31,5 +31,5 @@ export function filterEventsAdmin(
   data: AgvEventResponseModel[],
   filters: IEventResponseFilter
 ): AgvEventResponseModel[] {
-  return data.filter(item => isValidFilter(item, filters));
+  return data.filter((item) => isValidFilter(item, filters));
 }

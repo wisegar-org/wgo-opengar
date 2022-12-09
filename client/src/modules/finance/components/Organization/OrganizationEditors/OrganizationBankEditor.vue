@@ -88,12 +88,12 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import { OrganizationDataRecord } from '../../../models/models';
+import { OrganizationDataRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Action, Getter } from 'vuex-class';
 import { githubActions, githubGetters, githubNamespace } from '../../../store';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
@@ -119,7 +119,7 @@ export default class OrganizationBankEditor extends Vue {
       bankPlace: this.organizationData?.bankPlace,
       bankAddress: this.organizationData?.bankAddress,
       bankValidDays: this.organizationData?.bankValidDays,
-      bankCap: this.organizationData?.bankCap
+      bankCap: this.organizationData?.bankCap,
     };
   }
 
@@ -140,7 +140,7 @@ export default class OrganizationBankEditor extends Vue {
     await this.updateOrganizationData(this.accountingData);
     this.notify({
       message: 'Organization properties modified successfully',
-      type: 'positive'
+      type: 'positive',
     });
     this.showLoading = false;
   }

@@ -123,21 +123,21 @@
 import {
   AddAccountParams,
   CollaboratorRecord,
-  OrganizationDataRecord
-} from '../../../../models/models';
+  OrganizationDataRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import VisorEditor from '../../../VisorEditor.vue';
 import { Getter } from 'vuex-class';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import { ITranslationFinanceAccountingKeys } from '../../TranslationsKeys';
 
 @Component({
   components: {
-    VisorEditor
-  }
+    VisorEditor,
+  },
 })
 export default class ShowResumeAccount extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })

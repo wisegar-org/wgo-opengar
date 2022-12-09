@@ -136,19 +136,22 @@ import { defineComponent, PropType } from "vue";
 import TranslationComponent from "../../../translation/components/TranslationComponent/TranslationComponent.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations } from "../../../../models/contact/translations";
+import { translations } from "@wisegar-org/wgo-base-models/build/contact/translations";
 import {
   NumberDictionary,
   translations as tranBase,
-} from "../../../../models/core";
+} from "@wisegar-org/wgo-base-models/build/core";
 import { ContactService } from "../../services/ContactService";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { LanguageStore } from "../../../language/store/LanguageStore";
-import { IContactMeInput, IContactModel } from "../../../../models/contact";
+import {
+  IContactMeInput,
+  IContactModel,
+} from "@wisegar-org/wgo-base-models/build/contact";
 import {
   ITranslationInput,
   ITranslationResponse,
-} from "../../../../models/translation";
+} from "@wisegar-org/wgo-base-models/build/translation";
 
 export default defineComponent({
   name: "ContactEditor",

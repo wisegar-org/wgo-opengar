@@ -60,11 +60,11 @@
 import { defineComponent, PropType } from "vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import { TemplateService } from "../../services/TemplateService";
-import { translations } from "../../../../models/template/translations";
+import { translations } from "@wisegar-org/wgo-base-models/build/template/translations";
 import QCKEditor from "../../../core/components/CKEditor/QCKEditor.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
-import { ITemplateResponse } from "../../../../models/template";
+import { ITemplateResponse } from "@wisegar-org/wgo-base-models/build/template";
 
 export default defineComponent({
   props: {

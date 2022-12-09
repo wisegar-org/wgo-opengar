@@ -4,28 +4,28 @@ import {
   LanguageResponseGql,
   StoragePageInputGql,
   TranslationFilterResponseGql,
-  TranslationInputGql
+  TranslationInputGql,
 } from 'src/graphql';
 import {
   casinaModelsActionsKeys,
-  casinaModelsNamespace
+  casinaModelsNamespace,
 } from 'src/modules/casina/store/CasinaModels';
 import {
   StorageDoctorItem,
-  StorageDoctorPageModel
-} from '../../../models/StorageModels';
+  StorageDoctorPageModel,
+} from '@wisegar-org/wgo-base-models/build/StorageModels';
 import {
   languageActions,
   languageGetters,
   languageMutations,
-  languageNamespace
+  languageNamespace,
 } from 'src/modules/wgo/store/Language';
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import { Action, Getter, Mutation } from 'vuex-class';
 import {
   CasinaDoctorType,
   ITranslationDoctorsAdminKeys,
-  TranslationsKeys
+  TranslationsKeys,
 } from './TranslationsKeys';
 import DoctorEditorDialog from './DoctorEditors/DoctorEditorDialog.vue';
 import DoctorEditorExpanded from './DoctorEditors/DoctorEditorExpanded.vue';
@@ -39,12 +39,12 @@ import { componentsActionsKeys } from 'src/modules/wgo/store/ComponentsState';
   components: {
     DoctorEditorDialog,
     DoctorEditorExpanded,
-    TranslationComponent
-  }
+    TranslationComponent,
+  },
 })
 export default class DoctorsComponent extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -53,11 +53,11 @@ export default class DoctorsComponent extends Vue {
   language!: LanguageResponseGql;
 
   @Action(casinaModelsActionsKeys.getDoctorsByPagination, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   loadDoctors!: (data: StoragePageInputGql) => Promise<StorageDoctorPageModel>;
   @Action(casinaModelsActionsKeys.setCasinaIndexContent, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   setCasinaIndexContent!: (
     data: CasinaIndexContentInputsGql
@@ -71,7 +71,7 @@ export default class DoctorsComponent extends Vue {
   loading = false;
   transDoctor: TranslationFilterResponseGql = <TranslationFilterResponseGql>{
     key: TranslationIndexDoctorsKey,
-    id: TranslationIndexDoctorsKey
+    id: TranslationIndexDoctorsKey,
   };
   traslationDoctorValue: NumberDictionary = {};
 
@@ -95,7 +95,7 @@ export default class DoctorsComponent extends Vue {
       skip: (this.currentPage - 1) * this.doctorsXPage,
       take: this.doctorsXPage,
       lang: this.language ? this.language.id : 0,
-      loadTranslations: false
+      loadTranslations: false,
     });
 
     this.doctorsCount = items.storageItemsCount;
@@ -115,12 +115,12 @@ export default class DoctorsComponent extends Vue {
   }
 
   getTranslationItem(traslationValue: NumberDictionary, key: string) {
-    return Object.keys(traslationValue).map(langId => {
+    return Object.keys(traslationValue).map((langId) => {
       const lang = parseInt(langId);
       return {
         languageId: lang,
         key: key,
-        value: traslationValue[lang]
+        value: traslationValue[lang],
       };
     });
   }
@@ -135,26 +135,25 @@ export default class DoctorsComponent extends Vue {
 
     const arg = <CasinaIndexContentInputsGql>{
       imageId: 0,
-      translations: translationsToSet
+      translations: translationsToSet,
     };
 
     if (await this.setCasinaIndexContent(arg)) {
       const translations: { [key: string]: string } = {};
       if (this.language.id in this.traslationDoctorValue) {
-        translations[TranslationIndexDoctorsKey] = this.traslationDoctorValue[
-          this.language.id
-        ];
+        translations[TranslationIndexDoctorsKey] =
+          this.traslationDoctorValue[this.language.id];
       }
       this.addTranslations(translations);
       this.notify({
-        message: this.translationContent
-          .CASINA_DOCTORS_ADMIN_CONTENT_SUCCESS_EDIT,
-        type: 'positive'
+        message:
+          this.translationContent.CASINA_DOCTORS_ADMIN_CONTENT_SUCCESS_EDIT,
+        type: 'positive',
       });
     } else {
       this.notify({
         message: this.translationContent.CASINA_DOCTORS_ADMIN_CONTENT_FAIL_EDIT,
-        type: 'negative'
+        type: 'negative',
       });
     }
 

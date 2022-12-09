@@ -1,8 +1,11 @@
 {
   "name": "@wisegar-org/wgo-base-models",
-  "version": "0.0.1-1",
+  "version": "0.0.1-2",
   "description": "",
   "main": "build/index.js",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "start": "nodemon",
     "build": "npx rimraf ./build && tsc",

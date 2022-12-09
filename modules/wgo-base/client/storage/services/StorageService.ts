@@ -5,14 +5,14 @@ import {
   IStoragePageInput,
   IStorageResponse,
   IStoragePageModel,
-} from "../../../models/storage";
+} from "@wisegar-org/wgo-base-models/build/storage";
 import {
   STORAGE_PATH_DELETE_STORAGE,
   STORAGE_PATH_GET_STORAGE_BY_PAGE,
   STORAGE_PATH_GET_STORAGE_BY_TYPE,
   STORAGE_PATH_POST_STORAGE,
   STORAGE_PATH_PUT_STORAGE,
-} from "../../../models/storage/server";
+} from "@wisegar-org/wgo-base-models/build/storage/server";
 import {
   Q_STORAGE_ITEMSBYPAGE,
   M_STORAGE_CREATEITEM,

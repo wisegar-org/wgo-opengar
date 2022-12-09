@@ -10,14 +10,14 @@
       <StatsCollaborator
         :close="close"
         :collaborator="collaborator"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
 </template>
 
 <script lang="ts">
-import { CollaboratorRecord } from '../../../models/models';
+import { CollaboratorRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import StatsCollaborator from './StatsCollaborator.vue';
 import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
@@ -25,8 +25,8 @@ import Dialog from '../../../../wgo/components/Dialog/Dialog.vue';
 @Component({
   components: {
     StatsCollaborator,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class StatsCollaboratorDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

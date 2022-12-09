@@ -34,15 +34,15 @@
 </template>
 
 <script lang="ts">
-import { AccountRecord } from '../../../models/models';
+import { AccountRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import AccountingPrint from './AccountingPrint.vue';
 import printJS from 'print-js';
 
 @Component({
   components: {
-    AccountingPrint
-  }
+    AccountingPrint,
+  },
 })
 export default class AccountingPrintDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;
@@ -59,7 +59,7 @@ export default class AccountingPrintDialog extends Vue {
       honorColor: true,
       targetStyles: ['*'],
       documentTitle: this.accounting.payment_code,
-      showModal: true
+      showModal: true,
     });
   }
 

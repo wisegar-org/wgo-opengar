@@ -11,10 +11,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import LoginComponent from "../../wgo-base/client/authentication/components/LoginComponent.vue";
-import { ISuccesLogin } from "../../wgo-base/models/authentication";
+import { ISuccesLogin } from "@wisegar-org/wgo-base-models/build/authentication";
 import { RouteService } from "../../wgo-base/client/core/services/RouteService";
 import { useRouter } from "vue-router";
-import { AuthPaths } from "../../wgo-base/models/authentication/router";
+import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 import { useAuthStore } from "../../stores/authStore";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";

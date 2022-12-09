@@ -1,6 +1,6 @@
 <template>
   <div class="row flex q-ma-sm">
-    <div class="col-12 ">
+    <div class="col-12">
       <q-input
         square
         outlined
@@ -111,13 +111,13 @@
 </template>
 
 <script lang="ts">
-import { IssuesRecord } from '../../../models/models';
+import { IssuesRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 import { openURL } from 'quasar';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import { Getter } from 'vuex-class';
 import { ITranslationFinanceIssuesKeys } from '../TranslationsKeys';

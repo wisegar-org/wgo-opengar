@@ -56,9 +56,9 @@
 import { defineComponent, PropType } from "vue";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations } from "../../../../models/language/translations";
-import { translations as tranBase } from "../../../../models/core";
-import { ILanguageModel } from "../../../../models/language";
+import { translations } from "@wisegar-org/wgo-base-models/build/language/translations";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
+import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
 import { LanguageStore } from "../../store/LanguageStore";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 

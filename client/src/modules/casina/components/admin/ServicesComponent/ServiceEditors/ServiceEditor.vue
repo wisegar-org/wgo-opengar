@@ -67,36 +67,36 @@
 <script lang="ts">
 import {
   StorageInputGql,
-  TranslationFilterResponseGql
+  TranslationFilterResponseGql,
 } from '../../../../../../graphql';
-import { StorageServiceItem } from '../../../../models/StorageModels';
+import { StorageServiceItem } from '@wisegar-org/wgo-base-models/build/StorageModels';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Action, Getter } from 'vuex-class';
 import {
   CasinaServiceType,
-  ITranslationServicesAdminKeys
+  ITranslationServicesAdminKeys,
 } from '../TranslationsKeys';
 import ConfirmDialog from '../../../../../wgo/components/ConfirmDialog/ConfirmDialog.vue';
 import TranslationSimpleComponent from '../../../../../wgo/components/Translations/TranslationEditors/TranslationSimpleComponent.vue';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../../wgo/store/ComponentsState';
 import { INotify, NumberDictionary } from '../../../../../wgo/models';
 import {
   casinaModelsActionsKeys,
-  casinaModelsNamespace
+  casinaModelsNamespace,
 } from '../../../../store/CasinaModels';
 
 @Component({
   components: {
     ConfirmDialog,
-    TranslationSimpleComponent
-  }
+    TranslationSimpleComponent,
+  },
 })
 export default class EditLanguage extends Vue {
   @Prop() close!: (success: boolean) => void;
@@ -112,15 +112,15 @@ export default class EditLanguage extends Vue {
   notify!: (value: INotify) => void;
 
   @Action(casinaModelsActionsKeys.createStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   createServiceItem!: (data: StorageInputGql) => Promise<boolean>;
   @Action(casinaModelsActionsKeys.modifyStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   modifyServiceItem!: (data: StorageInputGql) => Promise<boolean>;
   @Action(casinaModelsActionsKeys.deleteStorageItem, {
-    namespace: casinaModelsNamespace
+    namespace: casinaModelsNamespace,
   })
   deleteServiceItem!: (id: number) => Promise<boolean>;
 
@@ -131,20 +131,20 @@ export default class EditLanguage extends Vue {
       titleKey: '',
       descriptionKey: '',
       title: '',
-      description: ''
-    }
+      description: '',
+    },
   };
   showDeleteConfirm = false;
   translations: { [key: string]: NumberDictionary } = {};
   transTitle: TranslationFilterResponseGql = <TranslationFilterResponseGql>{
     key: 'transTitle',
-    id: 'transTitle'
+    id: 'transTitle',
   };
   transDescription: TranslationFilterResponseGql = <
     TranslationFilterResponseGql
   >{
     key: 'transDescription',
-    id: 'transDescription'
+    id: 'transDescription',
   };
 
   constructor() {
@@ -173,23 +173,23 @@ export default class EditLanguage extends Vue {
       if (this.close) this.close(true);
       this.notify({
         message: this.translationContent.CASINA_SERVICES_ADMIN_SUCCESS_DELETE,
-        type: 'positive'
+        type: 'positive',
       });
     } else {
       this.notify({
         message: this.translationContent.CASINA_SERVICES_ADMIN_FAIL_DELETE,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading(false);
   }
 
   getTranslationItem(traslationValue: NumberDictionary) {
-    return Object.keys(traslationValue).map(langId => {
+    return Object.keys(traslationValue).map((langId) => {
       const lang = parseInt(langId);
       return {
         languageId: lang,
-        value: traslationValue[lang]
+        value: traslationValue[lang],
       };
     });
   }
@@ -207,8 +207,8 @@ export default class EditLanguage extends Vue {
       type: this.form.type,
       content: JSON.stringify({
         description: desc,
-        title
-      })
+        title,
+      }),
     };
 
     const result = this.service
@@ -220,7 +220,7 @@ export default class EditLanguage extends Vue {
         message: this.service
           ? this.translationContent.CASINA_SERVICES_ADMIN_SUCCESS_EDIT
           : this.translationContent.CASINA_SERVICES_ADMIN_SUCCESS_CREATE,
-        type: 'positive'
+        type: 'positive',
       });
       if (this.close) this.close(true);
     } else {
@@ -228,7 +228,7 @@ export default class EditLanguage extends Vue {
         message: this.service
           ? this.translationContent.CASINA_SERVICES_ADMIN_FAIL_EDIT
           : this.translationContent.CASINA_SERVICES_ADMIN_FAIL_CREATE,
-        type: 'negative'
+        type: 'negative',
       });
     }
     this.showLoading(false);

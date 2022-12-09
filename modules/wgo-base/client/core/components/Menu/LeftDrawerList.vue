@@ -57,8 +57,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { AuthStore } from "../../../authentication/store/AuthStore";
-import { NumberDictionaryG } from "../../../../models/core";
-import { MenuListItem } from "../../../../models/core/Menu";
+import { NumberDictionaryG } from "@wisegar-org/wgo-base-models/build/core";
+import { MenuListItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { RouteService } from "../../services/RouteService";
 import { UtilService } from "../../services/UtilService";

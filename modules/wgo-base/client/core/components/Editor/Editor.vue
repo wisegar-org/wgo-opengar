@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { StringDictionary } from "../../../../models/core";
+import { StringDictionary } from "@wisegar-org/wgo-base-models/build/core";
 import { BaseResizeComponent } from "../BaseComponents";
 
 export default defineComponent({

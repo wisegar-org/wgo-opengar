@@ -84,15 +84,15 @@
 </template>
 
 <script lang="ts">
-import { ProductRecord } from '../../../models/models';
+import { ProductRecord } from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import MediaListViewer from '../../../../wgo/components/MediaList/MediaListViewer.vue';
-import { getProductTypeString } from '../../../models/parsers';
+import { getProductTypeString } from '@wisegar-org/wgo-base-models/build/parsers';
 
 @Component({
   components: {
-    MediaListViewer
-  }
+    MediaListViewer,
+  },
 })
 export default class ViewerProduct extends Vue {
   @Prop() close!: () => void;

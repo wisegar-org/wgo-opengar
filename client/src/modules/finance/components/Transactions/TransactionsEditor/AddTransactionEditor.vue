@@ -5,7 +5,7 @@
         label="Collaborator"
         :options="getValidCollaborators()"
         filterProp="login"
-        @onChange="value => setCollaborator(value)"
+        @onChange="(value) => setCollaborator(value)"
       />
     </div>
     <q-input
@@ -88,19 +88,22 @@
 
 <script lang="ts">
 import { Action, Getter } from 'vuex-class';
-import { Dictionary, TransactionRecord } from '../../../models/models';
+import {
+  Dictionary,
+  TransactionRecord,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { githubActions, githubGetters, githubNamespace } from '../../../store';
 import FilterSelect from '../../FilterSelect.vue';
 import moment from 'moment';
 import {
   componentsActionsKeys,
-  componentsNamespace
+  componentsNamespace,
 } from '../../../../wgo/store/ComponentsState';
 import { INotify } from '../../../../wgo/models';
 
 @Component({
-  components: { FilterSelect }
+  components: { FilterSelect },
 })
 export default class AddTransactionEditor extends Vue {
   @Prop() close!: () => void;
@@ -127,7 +130,7 @@ export default class AddTransactionEditor extends Vue {
       status: '',
       card_balance: 0,
       cost: 0,
-      date: new Date()
+      date: new Date(),
     };
     this.initDate = moment(this.transaction.date.toString()).format(
       'YYYY/MM/DD'
@@ -149,13 +152,13 @@ export default class AddTransactionEditor extends Vue {
 
   getValidCollaborators() {
     return this.collaborators.filter(
-      collaborator => !!collaborator.card_number
+      (collaborator) => !!collaborator.card_number
     );
   }
 
   setCardBalance() {
     const userTransactions = this.transactions.filter(
-      transaction =>
+      (transaction) =>
         transaction.collaborator.login === this.transaction.collaborator.login
     );
     const countTransactions = userTransactions.length;
@@ -179,13 +182,13 @@ export default class AddTransactionEditor extends Vue {
       cost: this.transaction.cost,
       date: moment(this.initDate).toDate(),
       card_balance:
-        (this.card_balance * 1000 + this.transaction.cost * 1000) / 1000
+        (this.card_balance * 1000 + this.transaction.cost * 1000) / 1000,
     });
     this.showLoading(false);
     if (result) {
       this.notify({
         message: 'Transaction created successfully ',
-        type: 'positive'
+        type: 'positive',
       });
       if (!!this.close) {
         this.close();

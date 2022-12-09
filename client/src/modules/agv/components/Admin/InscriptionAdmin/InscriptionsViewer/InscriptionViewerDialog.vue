@@ -10,7 +10,7 @@
       <InscriptionViewer
         :inscription="inscription"
         :close="() => onClose()"
-        :showLoading="value => (showLoading = value)"
+        :showLoading="(value) => (showLoading = value)"
       />
     </template>
   </Dialog>
@@ -20,13 +20,13 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import InscriptionViewer from './InscriptionViewer.vue';
 import Dialog from '../../../../../wgo/components/Dialog/Dialog.vue';
-import { AgvInscriptionResponseModel } from '../../../../models/GraphqlModels';
+import { AgvInscriptionResponseModel } from '@wisegar-org/wgo-base-models/build/GraphqlModels';
 
 @Component({
   components: {
     InscriptionViewer,
-    Dialog
-  }
+    Dialog,
+  },
 })
 export default class InscriptionViewerDialog extends Vue {
   @Prop({ default: false }) showModal!: boolean;

@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 import { useTranslationStore } from 'src/stores/translationStore';
 import { BaseTranslateComponent } from 'src/wgo-base/core/components/BaseComponents';
 import { TranslationStore } from 'src/wgo-base/translation/models/TranslationStore';
-import { translationsServicesContent, translationsIndexContent } from '../../../models/translations';
+import { translationsServicesContent, translationsIndexContent } from '@wisegar-org/wgo-base-models/build/translations';
 import { translations as transBase, NumberDictionary, IMediaModel } from '../../../wgo-base/core/models';
 import Loader from '../../../wgo-base/core/components/Loader/Loader.vue';
 import { TranslationInput } from 'src/wgo-base/translation/resolvers/TranslationInputs';

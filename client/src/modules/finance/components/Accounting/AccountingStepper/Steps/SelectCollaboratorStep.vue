@@ -5,7 +5,7 @@
     filterProp="login"
     :options="collaborators"
     :value="value"
-    @onChange="value => (selectedUser = value)"
+    @onChange="(value) => (selectedUser = value)"
     :rules="[validationRules]"
     :label="
       translationContent.WGO_FINANCE_ACCOUNTING_STEP_SELECT_COLLABORATOR_LABEL
@@ -17,18 +17,18 @@
 import { Vue, Component, Prop, Watch, Emit } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { githubGetters, githubNamespace } from '../../../../store';
-import { Dictionary } from '../../../../models/models';
+import { Dictionary } from '@wisegar-org/wgo-base-models/build/models';
 import FilterSelect from '../../../FilterSelect.vue';
 import {
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../../wgo/store/Language';
 import { ITranslationFinanceAccountingKeys } from '../../TranslationsKeys';
 
 @Component({
   components: {
-    FilterSelect
-  }
+    FilterSelect,
+  },
 })
 export default class SelectCollaboratorStep extends Vue {
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })
@@ -49,7 +49,7 @@ export default class SelectCollaboratorStep extends Vue {
   isUserValid() {
     return (
       this.collaborators.findIndex(
-        user => this.selectedUser && user.login === this.selectedUser.login
+        (user) => this.selectedUser && user.login === this.selectedUser.login
       ) === -1
     );
   }

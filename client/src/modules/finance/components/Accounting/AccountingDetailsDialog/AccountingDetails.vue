@@ -177,8 +177,8 @@
 import {
   AccountRecord,
   IssuesRecord,
-  OptionFilter
-} from '../../../models/models';
+  OptionFilter,
+} from '@wisegar-org/wgo-base-models/build/models';
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import moment from 'moment';
 import { Action, Getter } from 'vuex-class';
@@ -188,7 +188,7 @@ import VisorEditor from '../../VisorEditor.vue';
 import {
   languageActions,
   languageGetters,
-  languageNamespace
+  languageNamespace,
 } from '../../../../wgo/store/Language';
 import { ITranslationFinanceAccountingKeys } from '../TranslationsKeys';
 import { TranslationsKeys } from '../TranslationsKeys';
@@ -196,12 +196,12 @@ import { TranslationsKeys } from '../TranslationsKeys';
 @Component({
   components: {
     SimpleViewIssues,
-    VisorEditor
-  }
+    VisorEditor,
+  },
 })
 export default class AccountingDetails extends Vue {
   @Action(languageActions.registerTranslations, {
-    namespace: languageNamespace
+    namespace: languageNamespace,
   })
   registerTranslations!: (data: unknown) => Promise<boolean>;
   @Getter(languageGetters.getTranslations, { namespace: languageNamespace })

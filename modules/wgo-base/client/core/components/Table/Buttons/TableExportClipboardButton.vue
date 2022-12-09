@@ -14,12 +14,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { UtilService } from "../../../services/UtilService";
-import { translations } from "../../../../../models/core";
+import { translations } from "../@wisegar-org/wgo-base-models/build/core";
 import {
   ITableColumn,
   ITableData,
   ITableSchema,
-} from "../../../../../models/core/Table";
+} from "../@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "TableExportClipboardButton",
