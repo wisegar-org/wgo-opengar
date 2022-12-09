@@ -5,7 +5,7 @@ import {
   Column,
   CreateDateColumn,
 } from "typeorm";
-import { WGBaseEntity } from "../../wgo-base/core/database/entities/WGBaseEntity";
+import { WGBaseEntity } from "../../wgo-base/server/core/database/entities/WGBaseEntity";
 import AGVEventEntity from "./AGVEventEntity";
 
 @Entity()

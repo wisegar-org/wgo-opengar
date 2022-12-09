@@ -1,10 +1,10 @@
 import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from "type-graphql";
 import AGVEventEntity from "../../database/entities/AGVEventEntity";
 import { AGVEventModel } from "../../models/Event/EventModel";
-import { SUPERADMIN } from "../../wgo-base/authentication/models";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import { HistoricModel } from "../../wgo-base/historic/models/HistoricModel";
-import { HistoricResponse } from "../../wgo-base/historic/resolvers/HistoricResponses";
+import { SUPERADMIN } from "../../wgo-base/models/authentication";
+import { IContextBase } from "../../wgo-base/models/core/context";
+import { HistoricModel } from "../../wgo-base/server/historic/models/HistoricModel";
+import { HistoricResponse } from "../../wgo-base/server/historic/resolvers/HistoricResponses";
 import { AGVEventInput, AGVEventPageInput } from "./AGVEventInputs";
 import {
   AGVEventGetNextsResponse,

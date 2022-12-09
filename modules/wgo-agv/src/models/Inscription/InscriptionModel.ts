@@ -9,8 +9,8 @@ import {
   AGVInscriptionGetPageResponse,
   AGVInscriptionResponse,
 } from "../../resolvers/Inscription/AGVInscriptionResponses";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import { HistoricModel } from "../../wgo-base/historic/models/HistoricModel";
+import { IContextBase } from "../../wgo-base/models/core/context";
+import { HistoricModel } from "../../wgo-base/server/historic/models/HistoricModel";
 import { AGVEventModel } from "../Event/EventModel";
 
 export class AGVInscriptionModel {

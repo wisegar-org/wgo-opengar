@@ -1,7 +1,7 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { AGVNewsletterInscriptionModel } from "../../models/Newsletter/NewsletterInscriptionModel";
 import { AGVNewsletterMessageModel } from "../../models/Newsletter/NewsletterMessageModel";
-import { IContextBase } from "../../wgo-base/core/models/context";
+import { IContextBase } from "../../wgo-base/models/core/context";
 import {
   AGVNewsletterInscriptionInput,
   AGVNewsletterInscriptionPageInput,

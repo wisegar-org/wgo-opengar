@@ -6,14 +6,14 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from "@wisegar-org/wgo-settings";
-import { SUPERADMIN } from "../wgo-base/authentication/models";
-import { translations } from "../wgo-base/core/models";
-import { UserRolesModel } from "../wgo-base/authentication/models/UserRolesModel";
 import { PostgresDataSource } from "../dataSources";
-import { IContextBase } from "../wgo-base/core/models/context";
 import { GetWebRootKey } from "../middlewares/HostClientMiddleware";
 import { EventEmitter } from "events";
-import { listenersEvents } from "../wgo-base/settings/models/SettingsUtils";
+import { listenersEvents } from "../wgo-base/server/settings/models/SettingsUtils";
+import { IContextBase } from "../wgo-base/models/core/context";
+import { UserRolesModel } from "../wgo-base/server/authentication/models/UserRolesModel";
+import { translations } from "../wgo-base/models/core";
+import { SUPERADMIN } from "../wgo-base/models/authentication";
 
 export const ctx = {
   dataSource: PostgresDataSource,
@@ -46,8 +46,10 @@ export const AppContextHandler = async (options: IContextOptions) => {
   if (!tokenPayload) return ctxApp;
   const user = await authModel.getUser(parseInt(tokenPayload.userId));
   if (user) {
-    ctxApp.user = user;
-    ctxApp.user.isSuperAdmin = user.roles.indexOf(SUPERADMIN) !== -1;
+    ctxApp.user = {
+      ...user,
+      isSuperAdmin: user.roles.indexOf(SUPERADMIN) !== -1,
+    };
   }
   // TODO: Add context definition here
   return ctxApp as any;

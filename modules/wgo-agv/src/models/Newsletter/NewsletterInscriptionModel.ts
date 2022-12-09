@@ -5,12 +5,12 @@ import {
 } from "@wisegar-org/wgo-settings";
 import { Repository, ILike, Not, In } from "typeorm";
 import { AGVNewsletterInscriptionEntity } from "../../database/entities/AGVNewsletterInscriptionEntity";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import { EmailModel } from "../../wgo-base/email/models/EmailModel";
-import { getInlineStyle } from "../../wgo-base/email/models/StyleModel";
-import { HistoricModel } from "../../wgo-base/historic/models/HistoricModel";
-import { HandlebarsTemplateModel } from "../../wgo-base/template/models/HandlenarsTemplateModel";
-import { TemplateModel } from "../../wgo-base/template/models/TemplateModel";
+import { IContextBase } from "../../wgo-base/models/core/context";
+import { EmailModel } from "../../wgo-base/server/email/models/EmailModel";
+import { getInlineStyle } from "../../wgo-base/server/email/models/StyleModel";
+import { HistoricModel } from "../../wgo-base/server/historic/models/HistoricModel";
+import { HandlebarsTemplateModel } from "../../wgo-base/server/template/models/HandlenarsTemplateModel";
+import { TemplateModel } from "../../wgo-base/server/template/models/TemplateModel";
 import { AGVNewsletterInscriptionStatusEnum } from "../enums";
 import { AGVInscriptionModel } from "../Inscription/InscriptionModel";
 import {

@@ -10,10 +10,10 @@ import {
   AGVEventGetPageResponse,
   AGVEventResponse,
 } from "../../resolvers/Event/AGVEventResponses";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import { HistoricModel } from "../../wgo-base/historic/models/HistoricModel";
-import { MediaModel } from "../../wgo-base/storage/models/MediaModel";
-import { MediaResponse } from "../../wgo-base/storage/resolvers/Media/MediaResponses";
+import { IContextBase } from "../../wgo-base/models/core/context";
+import { HistoricModel } from "../../wgo-base/server/historic/models/HistoricModel";
+import { MediaModel } from "../../wgo-base/server/storage/models/MediaModel";
+import { MediaResponse } from "../../wgo-base/server/storage/resolvers/Media/MediaResponses";
 import { EventStateEnum, EventTypeEnum } from "../enums";
 
 export class AGVEventModel {

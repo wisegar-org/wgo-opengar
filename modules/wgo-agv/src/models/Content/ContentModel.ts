@@ -1,10 +1,10 @@
 import { AGVContentsInput } from "../../resolvers/Content/AGVContentsInputs";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import StorageEntity from "../../wgo-base/storage/database/entities/StorageEntity";
+import { IContextBase } from "../../wgo-base/models/core/context";
+import StorageEntity from "../../wgo-base/server/storage/database/entities/StorageEntity";
 import {
   StorageItem,
   StorageModel,
-} from "../../wgo-base/storage/models/StorageModel";
+} from "../../wgo-base/server/storage/models/StorageModel";
 
 const agvContentsType = "AGV_CONTENTS_TYPE";
 

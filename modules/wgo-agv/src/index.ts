@@ -3,7 +3,6 @@ import {
   boot,
   ExpirationFreqEnum,
   IServerOptions,
-  NonEmptyArray,
   UseRestMiddleware,
 } from "@wisegar-org/wgo-server";
 import {
@@ -23,14 +22,14 @@ import {
   UseClientSPAHostMiddleware,
   UsePublicMediaHostMiddleware,
 } from "./middlewares/HostClientMiddleware";
-import { roleSuperAdminSeeder } from "./wgo-base/authentication/database/seeder/roles";
-import { userAdminSeeder } from "./wgo-base/authentication/database/seeder/user";
-import { languageDefaultSeeder } from "./wgo-base/language/database/seeder/language";
 import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 import { agvTemplateSeeder } from "./database/seeders/TemplateSeeder";
-import { mediaPublicSeeder } from "./wgo-base/storage/database/seeder/media";
 import { agvAdminUserSeeder } from "./database/seeders/AdminUserSeeder";
+import { roleSuperAdminSeeder } from "./wgo-base/server/authentication/database/seeder/roles";
+import { userAdminSeeder } from "./wgo-base/server/authentication/database/seeder/user";
+import { mediaPublicSeeder } from "./wgo-base/server/storage/database/seeder/media";
+import { languageDefaultSeeder } from "./wgo-base/server/language/database/seeder/language";
 
 const port = GetPortKey();
 

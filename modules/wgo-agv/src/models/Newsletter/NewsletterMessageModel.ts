@@ -5,10 +5,10 @@ import {
 import { ILike, Repository } from "typeorm";
 import { AGVNewsletterInscriptionEntity } from "../../database/entities/AGVNewsletterInscriptionEntity";
 import { AGVNewsletterMessageEntity } from "../../database/entities/AGVNewsletterMessageEntity";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import { EmailModel } from "../../wgo-base/email/models/EmailModel";
-import { getInlineStyle } from "../../wgo-base/email/models/StyleModel";
-import { HistoricModel } from "../../wgo-base/historic/models/HistoricModel";
+import { IContextBase } from "../../wgo-base/models/core/context";
+import { EmailModel } from "../../wgo-base/server/email/models/EmailModel";
+import { getInlineStyle } from "../../wgo-base/server/email/models/StyleModel";
+import { HistoricModel } from "../../wgo-base/server/historic/models/HistoricModel";
 import {
   AGVNewsletterInscriptionStatusEnum,
   AGVNewsletterMessageStatusEnum,

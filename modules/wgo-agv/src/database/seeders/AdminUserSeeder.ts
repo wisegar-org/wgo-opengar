@@ -1,9 +1,9 @@
 import { IsNullOrUndefined } from "@wisegar-org/wgo-object-extensions";
 import { DataSource } from "typeorm";
-import { RoleEntity } from "../../wgo-base/authentication/database/entities/RoleEntity";
-import { UserEntity } from "../../wgo-base/authentication/database/entities/UserEntity";
-import { SUPERADMIN } from "../../wgo-base/authentication/models";
-import { UtilService } from "../../wgo-base/core/services/UtilService";
+import { SUPERADMIN } from "../../wgo-base/models/authentication";
+import { RoleEntity } from "../../wgo-base/server/authentication/database/entities/RoleEntity";
+import { UserEntity } from "../../wgo-base/server/authentication/database/entities/UserEntity";
+import * as bcrypt from "bcrypt";
 
 export const agvAdminUserSeeder = async (dataSource: DataSource) => {
   const adminUserEmail = "assembleagenitorivezia@gmail.com";
@@ -23,7 +23,7 @@ export const agvAdminUserSeeder = async (dataSource: DataSource) => {
     adminUser.isEmailConfirmed = true;
     adminUser.name = "AGV";
     adminUser.lastName = "Admin";
-    adminUser.password = UtilService.hashSync("@dmin.21", 10);
+    adminUser.password = bcrypt.hashSync("@dmin.21", 10);
     adminUser.roles = roleEntity ? [roleEntity] : [];
     const adminUserRegistered = await userRepository.save(adminUser);
     if (!IsNullOrUndefined(adminUserRegistered))
