@@ -2,13 +2,11 @@ import { ApiService } from "../../core/services/ApiService";
 import {
   HISTORIC_PATH_GET_FILTERS,
   HISTORIC_PATH_GET_PAGE,
-} from "@wisegar-org/wgo-base-models/build/historic/server";
-import { Q_HISTORIC_FILTER, Q_HISTORIC_PAGE } from "./HistoricServiceQueries";
-import {
   IHistoricFiltersResponse,
   IHistoricPageInput,
   IHistoricPageResponse,
-} from "@wisegar-org/wgo-base-models/build/historic";
+} from "@wisegar-org/wgo-base-models";
+import { Q_HISTORIC_FILTER, Q_HISTORIC_PAGE } from "./HistoricServiceQueries";
 
 export class HistoricService {
   private readonly apiService: ApiService;

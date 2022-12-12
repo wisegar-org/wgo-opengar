@@ -14,7 +14,7 @@
             </q-item-section>
             <q-item-section top class="self-center">
               <div class="text-h6 text-left">
-                {{ getLabel(translations.RESET_PASSWORD_TITLE) }}
+                {{ getLabel(authTranslations.RESET_PASSWORD_TITLE) }}
               </div>
             </q-item-section>
             <q-item-section top side class="self-center">
@@ -35,7 +35,7 @@
               v-model="email"
               required
               :autofocus="true"
-              :label="getLabel(translations.COLUMN_EMAIL)"
+              :label="getLabel(authTranslations.COLUMN_EMAIL)"
               @keydown.enter.prevent="onReset"
             />
           </q-card-section>
@@ -46,7 +46,7 @@
               color="primary"
               align="around"
               class="btn_width_fix q-mb-md col-12 col-sm-4"
-              :label="getLabel(translations.RESET_LB)"
+              :label="getLabel(authTranslations.RESET_LB)"
               type="submit"
             />
           </q-card-actions>
@@ -62,9 +62,11 @@ import { defineComponent, PropType } from "vue";
 import { AuthService } from "../services/AuthService";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import Loader from "../../core/components/Loader/Loader.vue";
-import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";
-import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  authTranslations,
+  translations as tranBase,
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../translation/store/TranslationStore";
 
 export default defineComponent({
@@ -84,7 +86,7 @@ export default defineComponent({
       confirmPassword: "",
       showLoading: false,
       tranBase,
-      translations,
+      authTranslations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },

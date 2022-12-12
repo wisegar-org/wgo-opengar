@@ -2,7 +2,7 @@
   <div>
     <div ref="placeholder" style="height: 1px"></div>
     <Table
-      :title="translations.TITLE"
+      :title="transTranslations.TITLE"
       :data="tranStore.onlyTranslations"
       :schema="schema"
       :height="componentHeight"
@@ -39,17 +39,17 @@ import {
   BaseTranslateComponent,
 } from "../../../core/components/BaseComponents";
 import TranslationDialog from "./TranslationDialog.vue";
-import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
-import { translations } from "@wisegar-org/wgo-base-models/build/translation/translations";
+import {
+  transTranslations,
+  translations as transBase,
+  ITableLeftButton,
+  ITableRowButton,
+  ITranslationModel,
+} from "@wisegar-org/wgo-base-models";
 import { saveAs } from "file-saver";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { TranslationStore } from "../../store/TranslationStore";
 import { LanguageStore } from "../../../language/store/LanguageStore";
-import {
-  ITableLeftButton,
-  ITableRowButton,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
-import { ITranslationModel } from "@wisegar-org/wgo-base-models/build/translation";
 
 export default defineComponent({
   name: "TranslationList",
@@ -95,7 +95,7 @@ export default defineComponent({
       });
       if (result) {
         const fileUrl = `data:${"text/plain"};base64,${result || ""}`;
-        saveAs(fileUrl, "translations.csv");
+        saveAs(fileUrl, "transTranslations.csv");
       }
     };
     const importTranslations = () => {
@@ -145,7 +145,7 @@ export default defineComponent({
       removeResize,
       resizeTable,
       schema: schema,
-      translations: translations,
+      transTranslations: transTranslations,
       id_input,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
@@ -162,7 +162,7 @@ export default defineComponent({
       (this as any).$q
         .dialog({
           title: this.getLabel(transBase.CONFIRM),
-          message: this.getLabel(translations.DELETE_MSG),
+          message: this.getLabel(transTranslations.DELETE_MSG),
           style: "width: 100%",
           persistent: true,
           focus: "cancel",
@@ -181,7 +181,7 @@ export default defineComponent({
           const result = await this.tranStore.deleteTranslation({
             key: row.key,
           });
-          if (result) this.$emit("success", translations.DELETE_SUCCESS);
+          if (result) this.$emit("success", transTranslations.DELETE_SUCCESS);
         });
     },
     closeDetails() {
@@ -191,7 +191,7 @@ export default defineComponent({
       this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
     onSet() {
-      this.$emit("success", this.getLabel(this.translations.SET_SUCCESS));
+      this.$emit("success", this.getLabel(this.transTranslations.SET_SUCCESS));
     },
     async importTranslations(file: any) {
       const formData = {
@@ -201,7 +201,10 @@ export default defineComponent({
       const result = await this.tranStore.importTranslations(formData);
       this.loading = false;
       if (result)
-        this.$emit("success", this.getLabel(this.translations.IMPORT_SUCCESS));
+        this.$emit(
+          "success",
+          this.getLabel(this.transTranslations.IMPORT_SUCCESS)
+        );
     },
   },
   async created() {

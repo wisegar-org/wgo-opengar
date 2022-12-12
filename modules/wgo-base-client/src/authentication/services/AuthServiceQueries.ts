@@ -9,7 +9,7 @@ import {
   AUTH_PATH_REGISTER,
   AUTH_PATH_RESEND_CONFIRMATION,
   AUTH_PATH_RESET_PASSWORD,
-} from "@wisegar-org/wgo-base-models/build/authentication/server";
+} from "@wisegar-org/wgo-base-models";
 
 export const M_AUTH_LOGIN = gql`
   mutation ${AUTH_PATH_LOGIN}($data: LoginInput!) {

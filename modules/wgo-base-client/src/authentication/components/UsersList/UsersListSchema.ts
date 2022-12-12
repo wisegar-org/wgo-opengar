@@ -1,10 +1,10 @@
-import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
-import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import {
+  authTranslations,
+  IUser,
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 
 export const getAuthUserListSchema = (
@@ -25,7 +25,7 @@ export const getAuthUserListSchema = (
     schema: {
       id: {
         name: "id",
-        label: translations.COLUMN_ID,
+        label: authTranslations.COLUMN_ID,
         field: "id",
         sortable: true,
         visible: false,
@@ -35,7 +35,7 @@ export const getAuthUserListSchema = (
       },
       name: {
         name: "name",
-        label: translations.COLUMN_NAME,
+        label: authTranslations.COLUMN_NAME,
         field: "name",
         sortable: true,
         visible: true,
@@ -45,7 +45,7 @@ export const getAuthUserListSchema = (
       },
       lastName: {
         name: "lastName",
-        label: translations.COLUMN_LAST_NAME,
+        label: authTranslations.COLUMN_LAST_NAME,
         field: "lastName",
         sortable: true,
         visible: true,
@@ -55,7 +55,7 @@ export const getAuthUserListSchema = (
       },
       userName: {
         name: "userName",
-        label: translations.COLUMN_USER_NAME,
+        label: authTranslations.COLUMN_USER_NAME,
         field: "userName",
         sortable: true,
         visible: false,
@@ -65,7 +65,7 @@ export const getAuthUserListSchema = (
       },
       email: {
         name: "email",
-        label: translations.COLUMN_EMAIL,
+        label: authTranslations.COLUMN_EMAIL,
         field: "email",
         sortable: true,
         visible: true,
@@ -75,7 +75,7 @@ export const getAuthUserListSchema = (
       },
       roles: {
         name: "roles",
-        label: translations.COLUMN_ROLES,
+        label: authTranslations.COLUMN_ROLES,
         field: "roles",
         sortable: true,
         visible: true,
@@ -89,7 +89,7 @@ export const getAuthUserListSchema = (
       },
       isEmailConfirmed: {
         name: "isEmailConfirmed",
-        label: translations.COLUMN_IS_CONFIRMED_EMAIL,
+        label: authTranslations.COLUMN_IS_CONFIRMED_EMAIL,
         field: (row: IUser) =>
           row.isEmailConfirmed ? "check_box" : "check_box_outline_blank",
         sortable: true,
@@ -99,7 +99,7 @@ export const getAuthUserListSchema = (
         width: 200,
         type: "icon",
         extra: {
-          tooltip: translations.COLUMN_IS_CONFIRMED_EMAIL,
+          tooltip: authTranslations.COLUMN_IS_CONFIRMED_EMAIL,
           color: "primary",
         },
       },

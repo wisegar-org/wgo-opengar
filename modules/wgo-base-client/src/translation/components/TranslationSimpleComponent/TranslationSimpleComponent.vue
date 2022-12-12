@@ -24,8 +24,10 @@ import Editor from "../../../core/components/Editor/Editor.vue";
 import SimpleLanguageSelector from "../../../language/components/SimpleLanguageSelector/SimpleLanguageSelector.vue";
 import { LanguageStore } from "../../../language/store/LanguageStore";
 import { TranslationStore } from "../../store/TranslationStore";
-import { ITranslationResponse } from "@wisegar-org/wgo-base-models/build/translation";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
+import {
+  ITranslationResponse,
+  ILanguageModel,
+} from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   name: "TranslationSimpleComponent",

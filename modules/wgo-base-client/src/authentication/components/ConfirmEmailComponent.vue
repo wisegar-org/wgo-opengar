@@ -9,7 +9,7 @@
             size="4.4em"
           />
           <div class="q-mt-xl q-mb-sm q-mx-sm">
-            {{ getLabel(translations.VERIFYING_ACCOUNT_LB) }}
+            {{ getLabel(authTranslations.VERIFYING_ACCOUNT_LB) }}
           </div>
         </q-card-section>
       </q-card>
@@ -22,7 +22,7 @@
 import { defineComponent, PropType } from "vue";
 import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
-import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
+import { authTranslations } from "@wisegar-org/wgo-base-models";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";
 import { TranslationStore } from "../../translation/store/TranslationStore";
 
@@ -42,7 +42,7 @@ export default defineComponent({
     const { getLabel } = new BaseTranslateComponent();
     return {
       showLoading: true,
-      translations,
+      authTranslations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },

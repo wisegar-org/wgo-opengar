@@ -2,9 +2,9 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
-import { translations } from "@wisegar-org/wgo-base-models/build/language/translations";
+  languageTranslations,
+  ILanguageModel,
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 
 export const getLanguageListSchema = (
@@ -20,7 +20,7 @@ export const getLanguageListSchema = (
     schema: {
       id: {
         name: "id",
-        label: translations.COLUMN_ID,
+        label: languageTranslations.COLUMN_ID,
         field: "id",
         sortable: true,
         visible: false,
@@ -30,7 +30,7 @@ export const getLanguageListSchema = (
       },
       code: {
         name: "code",
-        label: translations.COLUMN_CODE,
+        label: languageTranslations.COLUMN_CODE,
         field: "code",
         sortable: true,
         visible: true,
@@ -40,7 +40,7 @@ export const getLanguageListSchema = (
       },
       enabled: {
         name: "enabled",
-        label: translations.COLUMN_ENABLED,
+        label: languageTranslations.COLUMN_ENABLED,
         field: (row: ILanguageModel) =>
           row.enabled ? "check_box" : "check_box_outline_blank",
         sortable: true,
@@ -56,7 +56,7 @@ export const getLanguageListSchema = (
       },
       default: {
         name: "default",
-        label: translations.COLUMN_DEFAULT,
+        label: languageTranslations.COLUMN_DEFAULT,
         field: (row: ILanguageModel) =>
           row.default ? "check_box" : "check_box_outline_blank",
         sortable: true,
@@ -86,7 +86,7 @@ export const getLanguageListSchema = (
     code: "id",
     text: ["nome"],
     description: [],
-    title: translations.TITLE,
+    title: languageTranslations.TITLE,
     leftButtons: leftButtons,
     translationStore: tranStore,
     searchStrategy: {

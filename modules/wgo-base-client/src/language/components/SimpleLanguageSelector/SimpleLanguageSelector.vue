@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
+import { ILanguageModel } from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   name: "SimpleLanguageSelector",

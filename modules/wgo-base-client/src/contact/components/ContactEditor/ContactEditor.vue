@@ -5,7 +5,7 @@
         <div class="row items-center justify-between q-table">
           <div class="col-12 col-sm-auto no-wrap">
             <div class="q-table__title ellipsis text-h6">
-              {{ getLabel(translations.CONTACT_ADM_TITLE) }}
+              {{ getLabel(contactTranslations.CONTACT_ADM_TITLE) }}
             </div>
           </div>
           <div class="flex justify-end col-12 col-sm-auto row">
@@ -23,7 +23,7 @@
       </q-card-section>
       <q-card-section>
         <TranslationComponent
-          :label="getLabel(translations.CONTACT_ADM_CONTACT_TITLE_FL)"
+          :label="getLabel(contactTranslations.CONTACT_ADM_CONTACT_TITLE_FL)"
           :langStore="langStore"
           :tranStore="tranStore"
           :translation="objContactTitle"
@@ -34,7 +34,7 @@
           "
         />
         <TranslationComponent
-          :label="getLabel(translations.CONTACT_ADM_CONTACT_CONTENT_FL)"
+          :label="getLabel(contactTranslations.CONTACT_ADM_CONTACT_CONTENT_FL)"
           :langStore="langStore"
           :tranStore="tranStore"
           :translation="objContactContent"
@@ -52,7 +52,7 @@
               outlined
               square
               standout="bg-primary text-white"
-              :label="getLabel(translations.CONTACT_ADM_CONTACT_NAME_FL)"
+              :label="getLabel(contactTranslations.CONTACT_ADM_CONTACT_NAME_FL)"
               v-model="contact.contactName"
             />
           </div>
@@ -62,7 +62,9 @@
               outlined
               square
               standout="bg-primary text-white"
-              :label="getLabel(translations.CONTACT_ADM_CONTACT_ADDRESS_FL)"
+              :label="
+                getLabel(contactTranslations.CONTACT_ADM_CONTACT_ADDRESS_FL)
+              "
               v-model="contact.address"
             />
           </div>
@@ -72,7 +74,9 @@
               outlined
               square
               standout="bg-primary text-white"
-              :label="getLabel(translations.CONTACT_ADM_CONTACT_PHONE_FL)"
+              :label="
+                getLabel(contactTranslations.CONTACT_ADM_CONTACT_PHONE_FL)
+              "
               v-model="contact.phoneNumber"
             />
           </div>
@@ -82,14 +86,16 @@
               outlined
               square
               standout="bg-primary text-white"
-              :label="getLabel(translations.CONTACT_ADM_CONTACT_EMAIL_FL)"
+              :label="
+                getLabel(contactTranslations.CONTACT_ADM_CONTACT_EMAIL_FL)
+              "
               v-model="contact.email"
             />
           </div>
         </div>
 
         <TranslationComponent
-          :label="getLabel(translations.CONTACT_ADM_MAP_TITLE_FL)"
+          :label="getLabel(contactTranslations.CONTACT_ADM_MAP_TITLE_FL)"
           :langStore="langStore"
           :tranStore="tranStore"
           :translation="objMapTitle"
@@ -106,12 +112,12 @@
           square
           standout="bg-primary text-white"
           class="q-pa-sm"
-          :label="getLabel(translations.CONTACT_ADM_CONTACT_MAP_FL)"
+          :label="getLabel(contactTranslations.CONTACT_ADM_CONTACT_MAP_FL)"
           v-model="contact.mapPath"
           type="textarea"
         />
         <div v-if="contact.mapPath" class="text-h6">
-          {{ getLabel(translations.CONTACT_ADM_CONTACT_PREVIEW_FL) }}
+          {{ getLabel(contactTranslations.CONTACT_ADM_CONTACT_PREVIEW_FL) }}
         </div>
         <iframe
           v-if="contact.mapPath"
@@ -136,22 +142,18 @@ import { defineComponent, PropType } from "vue";
 import TranslationComponent from "../../../translation/components/TranslationComponent/TranslationComponent.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations } from "@wisegar-org/wgo-base-models/build/contact/translations";
 import {
   NumberDictionary,
   translations as tranBase,
-} from "@wisegar-org/wgo-base-models/build/core";
+  contactTranslations,
+  IContactMeInput,
+  IContactModel,
+  ITranslationInput,
+  ITranslationResponse,
+} from "@wisegar-org/wgo-base-models";
 import { ContactService } from "../../services/ContactService";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { LanguageStore } from "../../../language/store/LanguageStore";
-import {
-  IContactMeInput,
-  IContactModel,
-} from "@wisegar-org/wgo-base-models/build/contact";
-import {
-  ITranslationInput,
-  ITranslationResponse,
-} from "@wisegar-org/wgo-base-models/build/translation";
 
 export default defineComponent({
   name: "ContactEditor",
@@ -175,21 +177,21 @@ export default defineComponent({
     const contactService = new ContactService();
 
     const objMapTitle: ITranslationResponse = <ITranslationResponse>{
-      key: translations.MAP_TITLE,
-      id: translations.MAP_TITLE,
-      value: getLabel(this.tranStore, translations.MAP_TITLE),
+      key: contactTranslations.MAP_TITLE,
+      id: contactTranslations.MAP_TITLE,
+      value: getLabel(this.tranStore, contactTranslations.MAP_TITLE),
     };
 
     const objContactTitle: ITranslationResponse = <ITranslationResponse>{
-      key: translations.CONTACT_TITLE,
-      id: translations.CONTACT_TITLE,
-      value: getLabel(this.tranStore, translations.CONTACT_TITLE),
+      key: contactTranslations.CONTACT_TITLE,
+      id: contactTranslations.CONTACT_TITLE,
+      value: getLabel(this.tranStore, contactTranslations.CONTACT_TITLE),
     };
 
     const objContactContent: ITranslationResponse = <ITranslationResponse>{
-      key: translations.CONTACT_BODY,
-      id: translations.CONTACT_BODY,
-      value: getLabel(this.tranStore, translations.CONTACT_BODY),
+      key: contactTranslations.CONTACT_BODY,
+      id: contactTranslations.CONTACT_BODY,
+      value: getLabel(this.tranStore, contactTranslations.CONTACT_BODY),
     };
 
     const translationsMapTitle: NumberDictionary = {};
@@ -200,7 +202,7 @@ export default defineComponent({
       contact,
       loading: false,
       tranBase,
-      translations,
+      contactTranslations,
       objMapTitle,
       objContactTitle,
       objContactContent,
@@ -213,11 +215,11 @@ export default defineComponent({
   },
   methods: {
     onChangeIndexContent(
-      translations: NumberDictionary,
+      contactTranslations: NumberDictionary,
       langId: number,
       value: string
     ) {
-      translations[langId] = value;
+      contactTranslations[langId] = value;
     },
     getTranslationItem(traslationValue: NumberDictionary, key: string) {
       return Object.keys(traslationValue).map((langId) => {
@@ -236,15 +238,15 @@ export default defineComponent({
       translationsToSet = translationsToSet.concat(
         this.getTranslationItem(
           this.translationsMapTitle,
-          translations.MAP_TITLE
+          contactTranslations.MAP_TITLE
         ),
         this.getTranslationItem(
           this.translationsContactTitle,
-          translations.CONTACT_TITLE
+          contactTranslations.CONTACT_TITLE
         ),
         this.getTranslationItem(
           this.translationsContactContent,
-          translations.CONTACT_BODY
+          contactTranslations.CONTACT_BODY
         )
       );
 
@@ -262,13 +264,13 @@ export default defineComponent({
         this.$emit(
           "showMessage",
           true,
-          this.getLabel(translations.CONTACT_ADM_SUCCESS_MSG)
+          this.getLabel(contactTranslations.CONTACT_ADM_SUCCESS_MSG)
         );
       } else {
         this.$emit(
           "showMessage",
           false,
-          this.getLabel(translations.CONTACT_ADM_FAIL_MSG)
+          this.getLabel(contactTranslations.CONTACT_ADM_FAIL_MSG)
         );
       }
       this.loading = false;

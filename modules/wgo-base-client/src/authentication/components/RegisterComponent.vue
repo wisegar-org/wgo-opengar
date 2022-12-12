@@ -16,7 +16,7 @@
           </q-item-section>
           <q-item-section top class="self-center">
             <div class="text-h6 text-left">
-              {{ getLabel(translations.REGISTER_TITLE) }}
+              {{ getLabel(authTranslations.REGISTER_TITLE) }}
             </div>
           </q-item-section>
           <q-item-section top side class="self-center">
@@ -39,7 +39,7 @@
                 v-model="user.name"
                 required
                 :autofocus="true"
-                :label="getLabel(translations.COLUMN_NAME)"
+                :label="getLabel(authTranslations.COLUMN_NAME)"
               />
             </div>
 
@@ -50,7 +50,7 @@
                 required
                 class="q-my-sm q-mx-sm"
                 v-model="user.lastName"
-                :label="getLabel(translations.COLUMN_LAST_NAME)"
+                :label="getLabel(authTranslations.COLUMN_LAST_NAME)"
               />
             </div>
 
@@ -61,7 +61,7 @@
                 required
                 class="q-my-sm q-mx-sm"
                 v-model="user.email"
-                :label="getLabel(translations.COLUMN_EMAIL)"
+                :label="getLabel(authTranslations.COLUMN_EMAIL)"
               />
             </div>
             <div class="col-12 col-sm-8">
@@ -71,10 +71,10 @@
                 required
                 class="q-my-sm q-mx-sm"
                 v-model="user.userName"
-                :label="getLabel(translations.COLUMN_USER_NAME)"
+                :label="getLabel(authTranslations.COLUMN_USER_NAME)"
                 :error="!validUserName"
                 :error-message="
-                  getLabel(translations.USER_NAME_EXIST_ERROR_MSG)
+                  getLabel(authTranslations.USER_NAME_EXIST_ERROR_MSG)
                 "
               />
             </div>
@@ -84,7 +84,7 @@
                 class="q-my-sm q-mx-sm"
                 v-model="user.password"
                 :required="true"
-                :label="getLabel(translations.COLUMN_PASSWORD)"
+                :label="getLabel(authTranslations.COLUMN_PASSWORD)"
               />
             </div>
 
@@ -93,10 +93,10 @@
                 class="q-my-sm q-mx-sm"
                 v-model="confirmPassword"
                 :required="true"
-                :label="getLabel(translations.COLUMN_CONFIRM_PASSWORD)"
+                :label="getLabel(authTranslations.COLUMN_CONFIRM_PASSWORD)"
                 @onEnter="registerUser"
                 :isError="user.password !== confirmPassword"
-                :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
+                :error="getLabel(authTranslations.PASSWORD_EQUALS_ERR)"
               />
             </div>
           </q-card-section>
@@ -107,7 +107,7 @@
               color="primary"
               align="around"
               class="btn_width_fix col-12 col-sm-4"
-              :label="getLabel(translations.REGISTER_LB)"
+              :label="getLabel(authTranslations.REGISTER_LB)"
               type="submit"
             />
           </q-card-actions>
@@ -123,14 +123,14 @@ import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
 import { defineComponent, PropType } from "vue";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
-import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";
 import {
   IUser,
   translations as tranBase,
-} from "@wisegar-org/wgo-base-models/build/core";
+  authTranslations,
+  IAuthRegisterParams,
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../translation/store/TranslationStore";
-import { IAuthRegisterParams } from "@wisegar-org/wgo-base-models/build/authentication";
 
 export default defineComponent({
   name: "RegisterComponent",
@@ -158,7 +158,7 @@ export default defineComponent({
       innerLoading: false,
       showLoading: false,
       tranBase,
-      translations,
+      authTranslations,
       validUserName: true,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };

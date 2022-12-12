@@ -1,13 +1,13 @@
 import {
   TEMPLATE_PATH_GET_BY_TYPE,
   TEMPLATE_PATH_POST,
-} from "@wisegar-org/wgo-base-models/build/template/server";
+  ITemplateResponse,
+} from "@wisegar-org/wgo-base-models";
 import { ApiService } from "../../core/services/ApiService";
 import {
   M_TEMPLATE_SET,
   Q_TEMPLATE_GET_BY_TYPE,
 } from "./TemplateServiceQueries";
-import { ITemplateResponse } from "@wisegar-org/wgo-base-models/build/template";
 
 export class TemplateService {
   apiInstance: ApiService;

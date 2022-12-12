@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="translate"
-    :title="getLabel(translations.TITLE_DIALOG)"
+    :title="getLabel(transTranslations.TITLE_DIALOG)"
     :persistent="true"
     :showClose="true"
     maxWidth="900px"
@@ -28,7 +28,7 @@
               v-model="translationList[lang.id].key"
               required
               :readonly="!!translation.key"
-              :label="getLabel(translations.COLUMN_KEY)"
+              :label="getLabel(transTranslations.COLUMN_KEY)"
             />
           </div>
           <div class="col-12">
@@ -39,7 +39,7 @@
               class="q-my-sm q-mx-sm"
               v-model="translationList[lang.id].value"
               required
-              :label="getLabel(translations.COLUMN_VALUE)"
+              :label="getLabel(transTranslations.COLUMN_VALUE)"
             />
           </div>
         </q-card-section>
@@ -64,12 +64,14 @@ import { defineComponent, PropType } from "vue";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import SimpleLanguageSelector from "../../../language/components/SimpleLanguageSelector/SimpleLanguageSelector.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
-import { translations } from "@wisegar-org/wgo-base-models/build/translation/translations";
-import { ITranslationModel } from "@wisegar-org/wgo-base-models/build/translation";
+import {
+  transTranslations,
+  translations as transBase,
+  ITranslationModel,
+  ILanguageModel,
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../store/TranslationStore";
 import { LanguageStore } from "../../../language/store/LanguageStore";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
 
 export default defineComponent({
   name: "TranslationDialog",
@@ -94,7 +96,7 @@ export default defineComponent({
       lang: this.langStore.selectedLang,
       getLabel: (name: string) => getLabel(this.tranStore, name),
       transBase,
-      translations,
+      transTranslations,
     };
   },
   methods: {
@@ -123,10 +125,10 @@ export default defineComponent({
           } as any)
       );
       const result = await this.tranStore.setTranslation({
-        translations: input,
+        transTranslations: input,
       });
       if (result) {
-        this.tranStore.translations[this.translation.key] =
+        this.tranStore.transTranslations[this.translation.key] =
           this.translationList[this.translation.languageId];
         this.tranStore.translationsValue[this.translation.key] =
           this.translationList[this.translation.languageId].value;

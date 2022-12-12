@@ -5,7 +5,7 @@ import {
   STORAGE_PATH_GET_STORAGE_BY_TYPE,
   STORAGE_PATH_POST_STORAGE,
   STORAGE_PATH_PUT_STORAGE,
-} from "@wisegar-org/wgo-base-models/build/storage/server";
+} from "@wisegar-org/wgo-base-models";
 
 export const Q_STORAGE_ALLITEMS = gql`
   query ${STORAGE_PATH_GET_STORAGE_BY_TYPE}($data: StorageAllInput!) {

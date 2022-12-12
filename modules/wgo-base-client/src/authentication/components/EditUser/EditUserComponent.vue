@@ -10,14 +10,14 @@
           class="q-my-sm q-mx-sm"
           v-model="userInput.email"
           :autofocus="true"
-          :label="getLabel(translations.COLUMN_EMAIL)"
+          :label="getLabel(authTranslations.COLUMN_EMAIL)"
         />
         <q-select
           v-else
           outlined
           v-model="userInput.email"
           :options="emailList"
-          :label="getLabel(translations.COLUMN_EMAIL)"
+          :label="getLabel(authTranslations.COLUMN_EMAIL)"
         />
       </div>
 
@@ -29,9 +29,9 @@
           hide-bottom-space
           class="q-my-sm q-mx-sm"
           v-model="userInput.userName"
-          :label="getLabel(translations.COLUMN_USER_NAME)"
+          :label="getLabel(authTranslations.COLUMN_USER_NAME)"
           :error="!validUserName"
-          :error-message="getLabel(translations.USER_NAME_EXIST_ERROR_MSG)"
+          :error-message="getLabel(authTranslations.USER_NAME_EXIST_ERROR_MSG)"
         />
       </div>
       <div class="col-12 col-md-6">
@@ -41,7 +41,7 @@
           class="q-my-sm q-mx-sm"
           v-model="userInput.name"
           required
-          :label="getLabel(translations.COLUMN_NAME)"
+          :label="getLabel(authTranslations.COLUMN_NAME)"
         />
       </div>
 
@@ -52,7 +52,7 @@
           required
           class="q-my-sm q-mx-sm"
           v-model="userInput.lastName"
-          :label="getLabel(translations.COLUMN_LAST_NAME)"
+          :label="getLabel(authTranslations.COLUMN_LAST_NAME)"
         />
       </div>
       <div v-if="isEdition" class="col-12 col-md-6">
@@ -61,14 +61,14 @@
           outlined
           class="q-my-sm q-mx-sm"
           v-model="userInput.code"
-          :label="getLabel(translations.COLUMN_CODE)"
+          :label="getLabel(authTranslations.COLUMN_CODE)"
         />
       </div>
       <div v-if="isEdition" class="col-12 col-md-6">
         <InputCopy
           class="q-my-sm q-mx-sm"
           :textCopy="user.certificate"
-          :label="getLabel(translations.COLUMN_CERTIFICATE)"
+          :label="getLabel(authTranslations.COLUMN_CERTIFICATE)"
         />
       </div>
 
@@ -77,7 +77,7 @@
           class="q-my-sm q-mx-sm"
           v-model="userInput.password"
           :required="false"
-          :label="getLabel(translations.COLUMN_PASSWORD)"
+          :label="getLabel(authTranslations.COLUMN_PASSWORD)"
         />
       </div>
 
@@ -86,10 +86,10 @@
           class="q-my-sm q-mx-sm"
           v-model="confirmPassword"
           :required="false"
-          :label="getLabel(translations.COLUMN_CONFIRM_PASSWORD)"
+          :label="getLabel(authTranslations.COLUMN_CONFIRM_PASSWORD)"
           @onEnter="editUser"
           :isError="userInput.password !== confirmPassword"
-          :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
+          :error="getLabel(authTranslations.PASSWORD_EQUALS_ERR)"
         />
       </div>
       <div v-if="isAdminRol" class="col-12 col-md-6">
@@ -99,7 +99,7 @@
           v-model="userInput.roles"
           multiple
           :options="roles"
-          :label="getLabel(translations.COLUMN_ROLES)"
+          :label="getLabel(authTranslations.COLUMN_ROLES)"
           class="q-my-sm q-mx-sm"
         />
       </div>
@@ -108,7 +108,7 @@
           <q-item tag="label" v-ripple>
             <q-item-section>
               <q-item-label class="text-left">{{
-                getLabel(translations.COLUMN_IS_CONFIRMED_EMAIL)
+                getLabel(authTranslations.COLUMN_IS_CONFIRMED_EMAIL)
               }}</q-item-label>
             </q-item-section>
             <q-item-section avatar>
@@ -160,15 +160,15 @@ import { defineComponent, PropType } from "vue";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import InputCopy from "../../../core/components/InputCopy/InputCopy.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { AuthStore } from "../../store/AuthStore";
 import {
+  IUser,
+  authTranslations,
+  translations as tranBase,
   IAuthRegisterParams,
   SUPERADMIN,
-} from "@wisegar-org/wgo-base-models/build/authentication";
-import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
-import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
+} from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   name: "EditUserComponent",
@@ -215,7 +215,7 @@ export default defineComponent({
       innerLoading: false,
       showLoading: false,
       validUserName: true,
-      translations,
+      authTranslations,
       tranBase,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };

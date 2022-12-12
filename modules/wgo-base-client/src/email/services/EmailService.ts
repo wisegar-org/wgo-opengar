@@ -3,7 +3,12 @@ import {
   EMAIL_PATH_SEND_EMAIL_TO_APP,
   EMAIL_PATH_SEND_EMAIL_FROM_TO_APP,
   EMAIL_PATH_SEND_EMAIL_FROM_TO_ADDRESS_AND_APP,
-} from "@wisegar-org/wgo-base-models/build/email/server";
+  IEmailFromToAppInput,
+  IEmailInput,
+  IEmailResponse,
+  IEmailToAddressAndAppInput,
+  IEmailToAppInput,
+} from "@wisegar-org/wgo-base-models";
 import {
   Q_EMAIL_SENDEMAIL,
   Q_EMAIL_SENDEMAILFROMTOAPP,
@@ -11,13 +16,6 @@ import {
   Q_EMAIL_SENDEMAILTOAPP,
 } from "./EmailServiceQueries";
 import { ApiService } from "../../core/services/ApiService";
-import {
-  IEmailFromToAppInput,
-  IEmailInput,
-  IEmailResponse,
-  IEmailToAddressAndAppInput,
-  IEmailToAppInput,
-} from "@wisegar-org/wgo-base-models/build/email";
 
 export class EmailService {
   private readonly apiService: ApiService;

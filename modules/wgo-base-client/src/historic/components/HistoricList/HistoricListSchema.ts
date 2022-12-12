@@ -2,8 +2,8 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
-import { translations } from "@wisegar-org/wgo-base-models/build/historic/translations";
+  historicTranslations,
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 export const getHistoricListSchema = (
   transStore: TranslationStore,
@@ -14,7 +14,7 @@ export const getHistoricListSchema = (
     schema: {
       id: {
         name: "id",
-        label: translations.COLUMN_ID,
+        label: historicTranslations.COLUMN_ID,
         field: "id",
         sortable: true,
         visible: false,
@@ -24,7 +24,7 @@ export const getHistoricListSchema = (
       },
       entity: {
         name: "entity",
-        label: translations.COLUMN_ENTITY,
+        label: historicTranslations.COLUMN_ENTITY,
         field: "entity",
         sortable: true,
         visible: true,
@@ -35,7 +35,7 @@ export const getHistoricListSchema = (
       },
       action: {
         name: "action",
-        label: translations.COLUMN_ACTION,
+        label: historicTranslations.COLUMN_ACTION,
         field: "action",
         sortable: true,
         visible: true,
@@ -46,7 +46,7 @@ export const getHistoricListSchema = (
       },
       creatoIl: {
         name: "creatoIl",
-        label: translations.COLUMN_CREATE_AT,
+        label: historicTranslations.COLUMN_CREATE_AT,
         field: "creatoIl",
         sortable: true,
         visible: true,
@@ -56,7 +56,7 @@ export const getHistoricListSchema = (
       },
       message: {
         name: "message",
-        label: translations.COLUMN_MESSAGE,
+        label: historicTranslations.COLUMN_MESSAGE,
         field: "message",
         sortable: true,
         visible: true,
@@ -66,7 +66,7 @@ export const getHistoricListSchema = (
       },
       username: {
         name: "username",
-        label: translations.COLUMN_USERNAME,
+        label: historicTranslations.COLUMN_USERNAME,
         field: "username",
         sortable: true,
         visible: true,

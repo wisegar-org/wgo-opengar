@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
+import { ILanguageModel } from "@wisegar-org/wgo-base-models";
 import { LanguageStore } from "../../store/LanguageStore";
 
 export default defineComponent({

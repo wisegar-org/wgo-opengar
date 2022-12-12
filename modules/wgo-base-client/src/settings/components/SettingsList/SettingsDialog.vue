@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="settings"
-    :title="getLabel(translations.TITLE_DIALOG)"
+    :title="getLabel(settingsTranslations.TITLE_DIALOG)"
     :persistent="true"
     :showClose="true"
     maxWidth="900px"
@@ -19,7 +19,7 @@
               class="q-my-sm q-mx-sm"
               v-model="settings.type_settings"
               required
-              :label="getLabel(translations.COLUMN_TYPE_SETTINGS)"
+              :label="getLabel(settingsTranslations.COLUMN_TYPE_SETTINGS)"
             />
           </div>
           <div class="col-12">
@@ -30,7 +30,7 @@
               class="q-my-sm q-mx-sm"
               v-model="keyValue"
               required
-              :label="getLabel(translations.COLUMN_SETTING)"
+              :label="getLabel(settingsTranslations.COLUMN_SETTING)"
             />
           </div>
           <div class="col-12">
@@ -39,7 +39,7 @@
               class="q-my-md q-mx-sm"
               v-model="settings.value.value"
               :required="true"
-              :label="getLabel(translations.COLUMN_VALUE)"
+              :label="getLabel(settingsTranslations.COLUMN_VALUE)"
               :hideBtnSpace="true"
             />
             <q-input
@@ -51,13 +51,13 @@
               v-model="settings.value.value"
               required
               type="number"
-              :label="getLabel(translations.COLUMN_VALUE)"
+              :label="getLabel(settingsTranslations.COLUMN_VALUE)"
             />
             <q-list v-else-if="isBooleanField()" class="q-my-sm q-mx-sm">
               <q-item tag="label" v-ripple>
                 <q-item-section>
                   <q-item-label class="text-left">{{
-                    getLabel(translations.COLUMN_VALUE)
+                    getLabel(settingsTranslations.COLUMN_VALUE)
                   }}</q-item-label>
                 </q-item-section>
                 <q-item-section avatar>
@@ -73,7 +73,7 @@
               class="q-my-sm q-mx-sm"
               v-model="settings.value.value"
               required
-              :label="getLabel(translations.COLUMN_VALUE)"
+              :label="getLabel(settingsTranslations.COLUMN_VALUE)"
             />
           </div>
         </q-card-section>
@@ -95,11 +95,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ISettingsModel } from "@wisegar-org/wgo-base-models/build/settings";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations } from "@wisegar-org/wgo-base-models/build/settings/translations";
-import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  settingsTranslations,
+  translations as tranBase,
+  ISettingsModel,
+} from "@wisegar-org/wgo-base-models";
 import { SettingsService } from "../../services/SettingsService";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
@@ -124,7 +126,7 @@ export default defineComponent({
     return {
       settings: {} as ISettingsModel,
       getLabel: (name: string) => getLabel(this.tranStore, name),
-      translations,
+      settingsTranslations,
       tranBase,
       keyValue,
       settingsService: new SettingsService(),
@@ -147,7 +149,7 @@ export default defineComponent({
           this.isPasswordField()
             ? { type: "password", value: "" }
             : this.settings.value,
-          this.getLabel(this.translations.SET_SUCCESS)
+          this.getLabel(this.settingsTranslations.SET_SUCCESS)
         );
         this.close();
       }

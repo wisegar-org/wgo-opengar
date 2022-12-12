@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import {
   CONTACT_ME_PATH_GET_CONTACT_ME,
   CONTACT_ME_PATH_SET_CONTACT_ME,
-} from "@wisegar-org/wgo-base-models/build/contact/server";
+} from "@wisegar-org/wgo-base-models";
 
 export const Q_CONTACT_DATA = gql`
   query ${CONTACT_ME_PATH_GET_CONTACT_ME} {

@@ -14,7 +14,7 @@
             </q-item-section>
             <q-item-section top class="self-center">
               <div class="text-h6 text-left">
-                {{ getLabel(translations.RESEND_EMAIL_TITLE) }}
+                {{ getLabel(authTranslations.RESEND_EMAIL_TITLE) }}
               </div>
             </q-item-section>
             <q-item-section top side class="self-center">
@@ -35,7 +35,7 @@
               v-model="email"
               required
               :autofocus="true"
-              :label="getLabel(translations.COLUMN_EMAIL)"
+              :label="getLabel(authTranslations.COLUMN_EMAIL)"
             />
           </q-card-section>
           <q-card-actions align="center" vertical class="row q-pa-sm">
@@ -61,9 +61,11 @@
 import { defineComponent, PropType } from "vue";
 import { AuthService } from "../services/AuthService";
 import Loader from "../../core/components/Loader/Loader.vue";
-import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";
-import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  translations as tranBase,
+  authTranslations,
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../translation/store/TranslationStore";
 
 export default defineComponent({
@@ -83,7 +85,7 @@ export default defineComponent({
       email: "",
       showLoading: false,
       tranBase,
-      translations,
+      authTranslations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },

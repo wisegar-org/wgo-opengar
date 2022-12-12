@@ -2,8 +2,8 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
-import { translations } from "@wisegar-org/wgo-base-models/build/translation/translations";
+  transTranslations,
+} from "@wisegar-org/wgo-base-models";
 import { TranslationStore } from "../../store/TranslationStore";
 export const getTranslationListSchema = (
   transStore: TranslationStore,
@@ -18,7 +18,7 @@ export const getTranslationListSchema = (
     schema: {
       id: {
         name: "id",
-        label: translations.COLUMN_ID,
+        label: transTranslations.COLUMN_ID,
         field: "id",
         sortable: true,
         visible: false,
@@ -28,7 +28,7 @@ export const getTranslationListSchema = (
       },
       key: {
         name: "key",
-        label: translations.COLUMN_KEY,
+        label: transTranslations.COLUMN_KEY,
         field: "key",
         sortable: true,
         visible: true,
@@ -39,7 +39,7 @@ export const getTranslationListSchema = (
       },
       value: {
         name: "value",
-        label: translations.COLUMN_VALUE,
+        label: transTranslations.COLUMN_VALUE,
         field: "value",
         sortable: true,
         visible: true,

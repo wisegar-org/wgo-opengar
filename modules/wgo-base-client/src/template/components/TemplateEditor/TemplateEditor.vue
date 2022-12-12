@@ -60,11 +60,13 @@
 import { defineComponent, PropType } from "vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import { TemplateService } from "../../services/TemplateService";
-import { translations } from "@wisegar-org/wgo-base-models/build/template/translations";
+import {
+  templateTranslations,
+  ITemplateResponse,
+} from "@wisegar-org/wgo-base-models";
 import QCKEditor from "../../../core/components/CKEditor/QCKEditor.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
-import { ITemplateResponse } from "@wisegar-org/wgo-base-models/build/template";
 
 export default defineComponent({
   props: {
@@ -119,9 +121,9 @@ export default defineComponent({
     async onSave() {
       const templateService = new TemplateService();
       if (await templateService.setTemplate(this.template)) {
-        this.$emit("success", this.getLabel(translations.TRUE));
+        this.$emit("success", this.getLabel(templateTranslations.TRUE));
       } else {
-        this.$emit("fail", this.getLabel(translations.FALSE));
+        this.$emit("fail", this.getLabel(templateTranslations.FALSE));
       }
     },
     writeToken(text: string) {

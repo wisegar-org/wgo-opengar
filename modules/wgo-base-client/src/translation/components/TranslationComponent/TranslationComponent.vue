@@ -31,8 +31,10 @@ import EditorToolbar from "../../../core/components/Editor/EditorToolbar.vue";
 import { IsStringEmpty } from "@wisegar-org/wgo-object-extensions";
 import { LanguageStore } from "../../../language/store/LanguageStore";
 import { TranslationStore } from "../../store/TranslationStore";
-import { ITranslationResponse } from "@wisegar-org/wgo-base-models/build/translation";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
+import {
+  ITranslationResponse,
+  ILanguageModel,
+} from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   name: "TranslationComponent",

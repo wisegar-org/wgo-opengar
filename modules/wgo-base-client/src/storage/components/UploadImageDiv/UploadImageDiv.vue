@@ -30,8 +30,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { IMediaModel } from "@wisegar-org/wgo-base-models/build/core";
-import { IMediaInputArg } from "@wisegar-org/wgo-base-models/build/storage";
+import { IMediaModel, IMediaInputArg } from "@wisegar-org/wgo-base-models";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { MediaService } from "../../services/MediaService";
 

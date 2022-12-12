@@ -2,7 +2,7 @@
   <div>
     <div ref="placeholder" style="height: 1px"></div>
     <Table
-      :title="translations.TITLE"
+      :title="settingsTranslations.TITLE"
       :data="dataSettings"
       :schema="schema"
       :height="componentHeight"
@@ -24,15 +24,15 @@ import Table from "../../../core/components/Table/Table.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { getSettingsListSchema } from "./SettingsListSchema";
 import { BaseResizeComponent } from "../../../core/components/BaseComponents";
-import { translations } from "@wisegar-org/wgo-base-models/build/settings/translations";
-import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
-import { ISettingsModel } from "@wisegar-org/wgo-base-models/build/settings";
-import { SettingsService } from "../../services/SettingsService";
-import SettingsDialog from "./SettingsDialog.vue";
 import {
+  settingsTranslations,
+  translations as tranBase,
+  ISettingsModel,
   ITableLeftButton,
   ITableRowButton,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
+} from "@wisegar-org/wgo-base-models";
+import { SettingsService } from "../../services/SettingsService";
+import SettingsDialog from "./SettingsDialog.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 
 export default defineComponent({
@@ -78,7 +78,7 @@ export default defineComponent({
       resizeTable,
       dataSettings,
       schema: schema,
-      translations,
+      settingsTranslations,
       loading: false,
       settingsService: new SettingsService(),
     };

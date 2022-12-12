@@ -4,9 +4,9 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
-import { ISettingsModel } from "@wisegar-org/wgo-base-models/build/settings";
-import { translations } from "@wisegar-org/wgo-base-models/build/settings/translations";
+  settingsTranslations,
+  ISettingsModel,
+} from "@wisegar-org/wgo-base-models";
 
 export const getSettingsListSchema = (
   tranStore: TranslationStore,
@@ -21,7 +21,7 @@ export const getSettingsListSchema = (
     schema: {
       type_settings: {
         name: "type_settings",
-        label: translations.COLUMN_TYPE_SETTINGS,
+        label: settingsTranslations.COLUMN_TYPE_SETTINGS,
         field: (row: ISettingsModel) => `WGO_SETTINGS_${row.type_settings}`,
         sortable: true,
         visible: true,
@@ -31,7 +31,7 @@ export const getSettingsListSchema = (
       },
       setting: {
         name: "setting",
-        label: translations.COLUMN_SETTING,
+        label: settingsTranslations.COLUMN_SETTING,
         field: (row: ISettingsModel) => `WGO_SETTINGS_${row.key}`,
         sortable: true,
         visible: true,
@@ -41,7 +41,7 @@ export const getSettingsListSchema = (
       },
       key: {
         name: "key",
-        label: translations.COLUMN_KEY,
+        label: settingsTranslations.COLUMN_KEY,
         field: "key",
         sortable: true,
         visible: true,
@@ -51,7 +51,7 @@ export const getSettingsListSchema = (
       },
       value: {
         name: "value",
-        label: translations.COLUMN_VALUE,
+        label: settingsTranslations.COLUMN_VALUE,
         field: "value",
         sortable: true,
         visible: true,
@@ -63,8 +63,8 @@ export const getSettingsListSchema = (
             return IsStringEmpty(val.value) ? "••••••••" : "";
           } else if (val.type === "boolean") {
             return `${val.value}` === "true"
-              ? translations.TRUE
-              : translations.FALSE;
+              ? settingsTranslations.TRUE
+              : settingsTranslations.FALSE;
           }
           return val.value;
         },
@@ -85,7 +85,7 @@ export const getSettingsListSchema = (
     code: "key",
     text: ["key"],
     description: [],
-    title: translations.TITLE,
+    title: settingsTranslations.TITLE,
     leftButtons: leftButtons,
     translationStore: tranStore,
     searchStrategy: {

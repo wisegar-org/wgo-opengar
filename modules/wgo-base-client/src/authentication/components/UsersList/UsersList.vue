@@ -2,7 +2,7 @@
   <div>
     <div ref="placeholder" style="height: 1px"></div>
     <Table
-      :title="translations.USER_TITLE"
+      :title="authTranslations.USER_TITLE"
       :data="users"
       :schema="schema"
       :height="componentHeight"
@@ -32,12 +32,12 @@ import Loader from "../../../core/components/Loader/Loader.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { AuthStore } from "../../store/AuthStore";
 import {
+  authTranslations,
+  translations as transBase,
   ITableLeftButton,
   ITableRowButton,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
-import { IUser } from "@wisegar-org/wgo-base-models/build/core";
-import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
-import { translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
+  IUser,
+} from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   name: "UsersList",
@@ -114,7 +114,7 @@ export default defineComponent({
       removeResize,
       resizeTable,
       schema: schema,
-      translations: translations,
+      authTranslations: authTranslations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },
@@ -126,8 +126,8 @@ export default defineComponent({
     async onEdit(user: IUser) {
       this.onSuccess(
         this.selectedUser.id
-          ? translations.EDIT_USER_SUCCESS
-          : translations.ADD_USER_SUCCESS
+          ? authTranslations.EDIT_USER_SUCCESS
+          : authTranslations.ADD_USER_SUCCESS
       );
       this.onClose();
     },
@@ -150,7 +150,7 @@ export default defineComponent({
       (this as any).$q
         .dialog({
           title: this.getLabel(transBase.CONFIRM),
-          message: this.getLabel(translations.DELETE_USER_MSG),
+          message: this.getLabel(authTranslations.DELETE_USER_MSG),
           persistent: true,
           style: "width: 100%",
           focus: "cancel",
@@ -167,7 +167,7 @@ export default defineComponent({
         })
         .onOk(async () => {
           const result = await this.authStore.deleteUser({ id: user.id });
-          if (result) this.onSuccess(translations.DELETE_USER_SUCCESS);
+          if (result) this.onSuccess(authTranslations.DELETE_USER_SUCCESS);
         });
     },
   },

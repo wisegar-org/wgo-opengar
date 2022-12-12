@@ -4,7 +4,7 @@ import {
   MEDIA_PATH_GET_FILE,
   MEDIA_PATH_POST_FILE,
   MEDIA_PATH_POST_FILES,
-} from "@wisegar-org/wgo-base-models/build/storage/server";
+} from "@wisegar-org/wgo-base-models";
 
 export const M_MEDIA_UPLOADFILE = gql`
   mutation ${MEDIA_PATH_POST_FILE}($data: MediaInput!, $urlApi: String!) {

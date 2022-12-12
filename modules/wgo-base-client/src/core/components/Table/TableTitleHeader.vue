@@ -58,7 +58,7 @@ import {
   ITableColumn,
   ITableData,
   ITableSchema,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
+} from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   name: "TableTitleHeader",

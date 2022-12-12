@@ -2,7 +2,7 @@
   <div>
     <div ref="placeholder" style="height: 1px"></div>
     <Table
-      :title="translations.TITLE"
+      :title="languageTranslations.TITLE"
       :data="langStore.allLangs"
       :schema="schema"
       :height="componentHeight"
@@ -24,15 +24,15 @@ import Table from "../../../core/components/Table/Table.vue";
 import { getLanguageListSchema } from "./LanguageListSchema";
 import { BaseResizeComponent } from "../../../core/components/BaseComponents";
 import LanguageDialog from "./LanguageDialog.vue";
-import { translations } from "@wisegar-org/wgo-base-models/build/language/translations";
-import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
-import { LanguageStore } from "../../store/LanguageStore";
-import { TranslationStore } from "../../../translation/store/TranslationStore";
 import {
+  languageTranslations,
+  translations as tranBase,
   ITableLeftButton,
   ITableRowButton,
-} from "@wisegar-org/wgo-base-models/build/core/Table";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
+  ILanguageModel,
+} from "@wisegar-org/wgo-base-models";
+import { LanguageStore } from "../../store/LanguageStore";
+import { TranslationStore } from "../../../translation/store/TranslationStore";
 
 export default defineComponent({
   name: "LanguageList",
@@ -83,7 +83,7 @@ export default defineComponent({
       removeResize,
       resizeTable,
       schema: schema,
-      translations,
+      languageTranslations,
     };
   },
   methods: {

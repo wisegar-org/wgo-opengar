@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="language"
-    :title="getLabel(translations.TITLE_DIALOG)"
+    :title="getLabel(languageTranslations.TITLE_DIALOG)"
     :persistent="true"
     :showClose="true"
     maxWidth="900px"
@@ -18,21 +18,21 @@
               class="q-my-sm q-mx-sm"
               v-model="lang.code"
               required
-              :label="getLabel(translations.COLUMN_CODE)"
+              :label="getLabel(languageTranslations.COLUMN_CODE)"
             />
           </div>
           <div class="col-12 col-md-6">
             <q-checkbox
               class="fit"
               v-model="lang.enabled"
-              :label="getLabel(translations.COLUMN_ENABLED)"
+              :label="getLabel(languageTranslations.COLUMN_ENABLED)"
             />
           </div>
           <div class="col-12 col-md-6">
             <q-checkbox
               class="fit"
               v-model="lang.default"
-              :label="getLabel(translations.COLUMN_DEFAULT)"
+              :label="getLabel(languageTranslations.COLUMN_DEFAULT)"
             />
           </div>
         </q-card-section>
@@ -56,9 +56,11 @@
 import { defineComponent, PropType } from "vue";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { translations } from "@wisegar-org/wgo-base-models/build/language/translations";
-import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
+import {
+  languageTranslations,
+  translations as tranBase,
+  ILanguageModel,
+} from "@wisegar-org/wgo-base-models";
 import { LanguageStore } from "../../store/LanguageStore";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 
@@ -81,7 +83,7 @@ export default defineComponent({
     return {
       lang: {} as ILanguageModel,
       getLabel: (name: string) => getLabel(this.tranStore, name),
-      translations,
+      languageTranslations,
       tranBase,
     };
   },
@@ -100,8 +102,8 @@ export default defineComponent({
         this.$emit(
           "success",
           edit
-            ? this.getLabel(this.translations.EDIT_SUCCESS)
-            : this.getLabel(this.translations.ADD_SUCCESS)
+            ? this.getLabel(this.languageTranslations.EDIT_SUCCESS)
+            : this.getLabel(this.languageTranslations.ADD_SUCCESS)
         );
         this.close();
       }

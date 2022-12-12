@@ -4,7 +4,7 @@ import {
   AUTH_PATH_GET_ALL_ROLES,
   AUTH_PATH_GET_ALL_USERS,
   AUTH_PATH_GET_USER,
-} from "@wisegar-org/wgo-base-models/build/authentication/server";
+} from "@wisegar-org/wgo-base-models";
 
 export const M_USER_ROLES_DELETE_USER = gql`
   mutation ${AUTH_PATH_DELETE_USER}($data: IdInput!) {
