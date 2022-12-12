@@ -125,10 +125,10 @@ export default defineComponent({
           } as any)
       );
       const result = await this.tranStore.setTranslation({
-        transTranslations: input,
+        translations: input,
       });
       if (result) {
-        this.tranStore.transTranslations[this.translation.key] =
+        this.tranStore.translations[this.translation.key] =
           this.translationList[this.translation.languageId];
         this.tranStore.translationsValue[this.translation.key] =
           this.translationList[this.translation.languageId].value;
