@@ -1,4 +1,4 @@
-import { serverTranslations } from "./constants";
+import { templateServerTranslations } from "./constants";
 
 export const translations = {
   TITLE: "WGO_TEMPLATE_TITLE",
@@ -7,5 +7,5 @@ export const translations = {
 };
 
 export const getTemplateTranslationsKeys = () => {
-  return Object.values(translations).concat(serverTranslations);
+  return Object.values(translations).concat(templateServerTranslations);
 };

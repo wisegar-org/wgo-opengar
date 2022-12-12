@@ -9,7 +9,7 @@ export const WRONG_USER_DONT_EXIST = "WGO_AUTH_WRONG_USER_DONT_EXIST";
 export const WRONG_USER_NAME = "WGO_AUTH_WRONG_USER_NAME_EXIST";
 export const WRONG_CODE_ALREADY_EXIST = "WGO_AUTH_WRONG_CODE_ALREADY_EXIST";
 
-export const serverTranslations = [
+export const authServerTranslations = [
   WRONG_USER_PASSWORD,
   WRONG_CONFIRM_EMAIL,
   WRONG_TOKEN,

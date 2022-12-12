@@ -18,7 +18,7 @@ export const WRONG_CONTEXT_USER_EMAIL = "WGO_HISTORIC_WRONG_CONTEXT_USER_EMAIL";
 export const WRONG_ENTITY_ID_UNDEFINED =
   "WGO_HISTORIC_WRONG_ENTITY_ID_UNDEFINED";
 
-export const serverTranslations = [
+export const historicServerTranslations = [
   DEFAULT_MESSAGE,
   DEFAULT_CREATE_MESSAGE,
   DEFAULT_ACCESS_MESSAGE,

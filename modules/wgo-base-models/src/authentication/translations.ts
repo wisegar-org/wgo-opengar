@@ -1,4 +1,4 @@
-import { serverTranslations } from "./constants";
+import { authServerTranslations } from "./constants";
 
 export const translations = {
   LOGIN_TITLE: "WGO_AUTH_LOGIN_TITLE",
@@ -47,5 +47,5 @@ export const translations = {
 };
 
 export const getAuthTranslationsKeys = () => {
-  return Object.values(translations).concat(serverTranslations);
+  return Object.values(translations).concat(authServerTranslations);
 };

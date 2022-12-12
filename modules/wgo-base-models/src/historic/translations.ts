@@ -1,4 +1,4 @@
-import { serverTranslations } from "./constants";
+import { historicServerTranslations } from "./constants";
 
 export const translations = {
   TITLE: "WGO_HISTORIC_TITLE",
@@ -11,5 +11,5 @@ export const translations = {
 };
 
 export const getHistoricTranslationsKeys = () => {
-  return Object.values(translations).concat(serverTranslations);
+  return Object.values(translations).concat(historicServerTranslations);
 };

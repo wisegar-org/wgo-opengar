@@ -1,11 +1,5 @@
 export * from "./constants";
-
-export interface ILanguagePostArg {
-  code: string;
-  enabled: boolean;
-  default: boolean;
-}
-
-export interface ILanguageModel extends ILanguagePostArg {
-  id: number;
-}
+export * from "./models";
+export * from "./router";
+export * from "./server";
+export * as languageTranslations from "./translations";

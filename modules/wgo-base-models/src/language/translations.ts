@@ -1,4 +1,4 @@
-import { serverTranslations } from "./constants";
+import { languageServerTranslations } from "./constants";
 
 export const translations = {
   TITLE: "WGO_LANGUAGE_TITLE",
@@ -12,5 +12,5 @@ export const translations = {
 };
 
 export const getLanguageTranslationsKeys = () => {
-  return Object.values(translations).concat(serverTranslations);
+  return Object.values(translations).concat(languageServerTranslations);
 };
