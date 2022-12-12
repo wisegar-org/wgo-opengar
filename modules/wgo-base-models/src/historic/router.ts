@@ -1,6 +1,6 @@
 import { SUPERADMIN } from "../authentication";
 import { AdminBasePath, IRouteObject } from "../core/router";
-import { translations } from "./translations";
+import { historicTranslations } from "./translations";
 
 const HistoricPathsBase = `${AdminBasePath}/lang`;
 
@@ -8,7 +8,7 @@ export const AdminHistoricPaths: IRouteObject = {
   adminLanguage: {
     path: `${HistoricPathsBase}`,
     name: "admin_historic",
-    label: translations.TITLE,
+    label: historicTranslations.TITLE,
     auth: true,
     role: [SUPERADMIN],
   },

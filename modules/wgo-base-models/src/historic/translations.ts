@@ -1,6 +1,6 @@
 import { historicServerTranslations } from "./constants";
 
-export const translations = {
+export const historicTranslations = {
   TITLE: "WGO_HISTORIC_TITLE",
   COLUMN_ID: "WGO_HISTORIC_COLUMN_ID",
   COLUMN_ENTITY: "WGO_HISTORIC_COLUMN_ENTITY",
@@ -11,5 +11,5 @@ export const translations = {
 };
 
 export const getHistoricTranslationsKeys = () => {
-  return Object.values(translations).concat(historicServerTranslations);
+  return Object.values(historicTranslations).concat(historicServerTranslations);
 };

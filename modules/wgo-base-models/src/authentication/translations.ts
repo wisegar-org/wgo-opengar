@@ -1,6 +1,6 @@
 import { authServerTranslations } from "./constants";
 
-export const translations = {
+export const authTranslations = {
   LOGIN_TITLE: "WGO_AUTH_LOGIN_TITLE",
   USER_LB: "WGO_AUTH_USER_LB",
   PASSWORD_LB: "WGO_AUTH_PASSWORD_LB",
@@ -47,5 +47,5 @@ export const translations = {
 };
 
 export const getAuthTranslationsKeys = () => {
-  return Object.values(translations).concat(authServerTranslations);
+  return Object.values(authTranslations).concat(authServerTranslations);
 };

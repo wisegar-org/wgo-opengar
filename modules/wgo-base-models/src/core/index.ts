@@ -6,3 +6,5 @@ export * from "./models";
 export * from "./router";
 export * from "./context";
 export * from "./seo";
+export * from "./Menu";
+export * from "./Table";

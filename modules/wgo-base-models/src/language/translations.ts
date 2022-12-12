@@ -1,6 +1,6 @@
 import { languageServerTranslations } from "./constants";
 
-export const translations = {
+export const languageTranslations = {
   TITLE: "WGO_LANGUAGE_TITLE",
   TITLE_DIALOG: "WGO_LANGUAGE_TITLE_DIALOG",
   COLUMN_ID: "WGO_LANGUAGE_COLUMN_ID",
@@ -12,5 +12,5 @@ export const translations = {
 };
 
 export const getLanguageTranslationsKeys = () => {
-  return Object.values(translations).concat(languageServerTranslations);
+  return Object.values(languageTranslations).concat(languageServerTranslations);
 };

@@ -1,6 +1,6 @@
 import { settingsServerTranslations } from "./constants";
 
-export const translations = {
+export const settingsTranslations = {
   TITLE: "WGO_SETTINGS_TITLE",
   TITLE_DIALOG: "WGO_SETTINGS_TITLE_DIALOG",
   COLUMN_TYPE_SETTINGS: "WGO_SETTINGS_COLUMN_TYPE_SETTINGS",
@@ -13,5 +13,5 @@ export const translations = {
 };
 
 export const getSettingsTranslationsKeys = () => {
-  return Object.values(translations).concat(settingsServerTranslations);
+  return Object.values(settingsTranslations).concat(settingsServerTranslations);
 };

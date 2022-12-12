@@ -1,4 +1,4 @@
-export const translations = {
+export const contactTranslations = {
   MAP_TITLE: "WGO_MAP_CONTENT_TITLE",
   MAP_PHONE_LB: "WGO_MAP_CONTACT_NUMBER_LABEL",
   MAP_EMAIL_LB: "WGO_MAP_CONTACT_EMAIL_LABEL",
@@ -34,5 +34,5 @@ export const translations = {
 };
 
 export const getContactTranslationsKeys = () => {
-  return Object.values(translations);
+  return Object.values(contactTranslations);
 };

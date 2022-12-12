@@ -1,4 +1,4 @@
-export const translations = {
+export const transTranslations = {
   TITLE: "WGO_TRANSLATION_TITLE",
   TITLE_DIALOG: "WGO_TRANSLATION_TITLE_DIALOG",
   COLUMN_ID: "WGO_TRANSLATION_COLUMN_ID",
@@ -11,5 +11,5 @@ export const translations = {
 };
 
 export const getTranslationTranslationsKeys = () => {
-  return Object.values(translations);
+  return Object.values(transTranslations);
 };
