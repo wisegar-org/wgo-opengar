@@ -1,8 +1,10 @@
 import { GraphQLUpload } from "graphql-upload";
 import { Arg, Ctx, Field, InputType, Mutation, Resolver } from "type-graphql";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
-import { TRANSLATION_PATH_IMPORT_TRANSLATION } from "@wisegar-org/wgo-base-models/build/translation/server";
-import { TranslationResolver } from "@wisegar-org/wgo-base-server/build/translation/resolvers/TranslationResolver";
+import {
+  IContextBase,
+  TRANSLATION_PATH_IMPORT_TRANSLATION,
+} from "@wisegar-org/wgo-base-models";
+import { TranslationResolver } from "@wisegar-org/wgo-base-server";
 
 @InputType()
 export class ImportTranslationsInput {

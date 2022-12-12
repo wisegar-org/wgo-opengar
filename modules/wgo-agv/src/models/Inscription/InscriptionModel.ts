@@ -1,4 +1,4 @@
-import { ILike, In, Not, Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 import AGVEventEntity from "../../database/entities/AGVEventEntity";
 import { AGVInscriptionEntity } from "../../database/entities/AGVInscriptionEntity";
 import {
@@ -9,8 +9,8 @@ import {
   AGVInscriptionGetPageResponse,
   AGVInscriptionResponse,
 } from "../../resolvers/Inscription/AGVInscriptionResponses";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
-import { HistoricModel } from "@wisegar-org/wgo-base-server/build/historic/models/HistoricModel";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
+import { HistoricModel } from "@wisegar-org/wgo-base-server";
 import { AGVEventModel } from "../Event/EventModel";
 
 export class AGVInscriptionModel {

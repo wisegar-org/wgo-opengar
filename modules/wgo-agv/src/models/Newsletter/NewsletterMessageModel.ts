@@ -5,10 +5,12 @@ import {
 import { ILike, Repository } from "typeorm";
 import { AGVNewsletterInscriptionEntity } from "../../database/entities/AGVNewsletterInscriptionEntity";
 import { AGVNewsletterMessageEntity } from "../../database/entities/AGVNewsletterMessageEntity";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
-import { EmailModel } from "@wisegar-org/wgo-base-server/build/email/models/EmailModel";
-import { getInlineStyle } from "@wisegar-org/wgo-base-server/build/email/models/StyleModel";
-import { HistoricModel } from "@wisegar-org/wgo-base-server/build/historic/models/HistoricModel";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
+import {
+  EmailModel,
+  getInlineStyle,
+  HistoricModel,
+} from "@wisegar-org/wgo-base-server";
 import {
   AGVNewsletterInscriptionStatusEnum,
   AGVNewsletterMessageStatusEnum,

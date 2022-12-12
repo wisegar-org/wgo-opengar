@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { ctx } from "../../handlers/AppContextHandler";
-import { TemplateModel } from "@wisegar-org/wgo-base-server/build/template/models/TemplateModel";
+import { TemplateModel } from "@wisegar-org/wgo-base-server";
 
 export const agvTemplateSeeder = async (dataSource: DataSource) => {
   const templateService = new TemplateModel({ ...ctx, dataSource });

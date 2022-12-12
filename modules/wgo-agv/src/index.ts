@@ -26,10 +26,12 @@ import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 import { agvTemplateSeeder } from "./database/seeders/TemplateSeeder";
 import { agvAdminUserSeeder } from "./database/seeders/AdminUserSeeder";
-import { roleSuperAdminSeeder } from "@wisegar-org/wgo-base-server/build/authentication/database/seeder/roles";
-import { userAdminSeeder } from "@wisegar-org/wgo-base-server/build/authentication/database/seeder/user";
-import { mediaPublicSeeder } from "@wisegar-org/wgo-base-server/build/storage/database/seeder/media";
-import { languageDefaultSeeder } from "@wisegar-org/wgo-base-server/build/language/database/seeder/language";
+import {
+  roleSuperAdminSeeder,
+  userAdminSeeder,
+  mediaPublicSeeder,
+  languageDefaultSeeder,
+} from "@wisegar-org/wgo-base-server";
 
 const port = GetPortKey();
 

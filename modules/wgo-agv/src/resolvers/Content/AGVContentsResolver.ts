@@ -1,9 +1,7 @@
 import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from "type-graphql";
 import { AGVContentModel } from "../../models/Content/ContentModel";
-import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
-import { HistoricModel } from "@wisegar-org/wgo-base-server/build/historic/models/HistoricModel";
-import { HistoricResponse } from "@wisegar-org/wgo-base-server/build/historic/resolvers/HistoricResponses";
+import { SUPERADMIN, IContextBase } from "@wisegar-org/wgo-base-models";
+import { HistoricModel, HistoricResponse } from "@wisegar-org/wgo-base-server";
 import { AGVContentsInput } from "./AGVContentsInputs";
 import { AGVContentsResponse } from "./AGVContentsResponses";
 
