@@ -13,4 +13,5 @@ export interface IContextBase {
   language: number;
   emiter: EventEmitter;
   listenersEvents: IHandlerSettings[];
+  cypherKey: string;
 }
