@@ -9,16 +9,14 @@ import {
   ISettingValueNumber,
   ISettingValuePassword,
   ISettingValueString,
-} from "@wisegar-org/wgo-base-models/build/settings";
+  IContextBase,
+  APP_SETTINGS,
+  WRONG_TYPE,
+} from "@wisegar-org/wgo-base-models";
 import SettingsEntity from "../database/entities/SettingsEntity";
 import { cypherData, decypherData } from "@wisegar-org/wgo-crypto";
 import { EventEmitter } from "events";
 import { HistoricModel } from "../../historic/models/HistoricModel";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
-import {
-  APP_SETTINGS,
-  WRONG_TYPE,
-} from "@wisegar-org/wgo-base-models/build/settings/constants";
 
 export class SettingsModel {
   private dataSource: DataSource;
@@ -197,7 +195,7 @@ export class SettingsModel {
 
   getSettingPasswordValue(value: string) {
     try {
-      const data = decypherData(value, "TODO: FALTA LA KEY");
+      const data = decypherData(value, this.ctx.cypherKey);
       return (data as any).value;
     } catch (err) {
       return value;
