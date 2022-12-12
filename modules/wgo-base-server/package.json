@@ -42,7 +42,7 @@
     "uuid": "9.0.0"
   },
   "dependencies": {
-    "@wisegar-org/wgo-base-models": "0.0.1-5",
+    "@wisegar-org/wgo-base-models": "0.0.1-6",
     "handlebars": "4.7.7",
     "uuid": "9.0.0"
   }
