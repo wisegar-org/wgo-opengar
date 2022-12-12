@@ -1,6 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import { IContactModel } from "@wisegar-org/wgo-base-models/build/contact";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+import { IContactModel, IContextBase } from "@wisegar-org/wgo-base-models";
 import { HistoricModel } from "../../historic/models/HistoricModel";
 import ContactMeEntity from "../database/entities/ContactMeEntity";
 

@@ -1,6 +1,5 @@
 import { Arg, Mutation, Query, Resolver, Ctx } from "type-graphql";
-import { IContactModel } from "@wisegar-org/wgo-base-models/build/contact";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+import { IContactModel, IContextBase } from "@wisegar-org/wgo-base-models";
 import { ContactMeModel } from "../models/ContactMeModel";
 import { ContactMeInput } from "./ContactMeInputs";
 import { ContactMeResponse } from "./ContactMeResponses";

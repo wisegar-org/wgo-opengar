@@ -5,7 +5,7 @@ import { SettingsModel } from "../../models/SettingsModel";
 import {
   ISettingValueBoolean,
   ISettingValuePassword,
-} from "@wisegar-org/wgo-base-models/build/settings";
+} from "@wisegar-org/wgo-base-models";
 
 export const settingsAdminSeeder = async (
   dataSource: DataSource,

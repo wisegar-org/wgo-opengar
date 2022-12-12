@@ -1,9 +1,6 @@
 import { existsSync, unlinkSync, writeFileSync } from "fs-extra";
 import { join, normalize } from "path";
-import {
-  ITemplateTokens,
-  ITemplateArg,
-} from "@wisegar-org/wgo-base-models/build/template";
+import { ITemplateTokens, ITemplateArg } from "@wisegar-org/wgo-base-models";
 
 export class ParseTemplateModel {
   replaceTokens(body: string, tokens: ITemplateTokens) {

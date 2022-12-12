@@ -1,13 +1,11 @@
 import {
-  IHandlerSettings,
-  ISettingValueBoolean,
-} from "@wisegar-org/wgo-base-models/build/settings";
-import {
   POP3_EVENT_DELETE,
   POP3_EVENT_DELETE_KEYS,
   POP3_EVENT_LOOP,
   POP3_EVENT_LOOP_KEYS,
-} from "@wisegar-org/wgo-base-models/build/settings/constants";
+  IHandlerSettings,
+  ISettingValueBoolean,
+} from "@wisegar-org/wgo-base-models";
 
 export const getPop3Settings = (config: any) => {
   const settings: { [key: string]: any } = {};

@@ -5,12 +5,12 @@ import {
   IGetAllTranslationArg,
   ITransaltionsType,
   ITranslationModel,
-} from "@wisegar-org/wgo-base-models/build/translation";
+  IContextBase,
+  ILanguageModel,
+  StorageKeys,
+} from "@wisegar-org/wgo-base-models";
 import { HistoricModel } from "../../historic/models/HistoricModel";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
-import { ILanguageModel } from "@wisegar-org/wgo-base-models/build/language";
 import { UtilService } from "../../core/services/UtilService";
-import { StorageKeys } from "@wisegar-org/wgo-base-models/build/storage/constants";
 import { LanguageModel } from "../../language/models/LanguageModel";
 
 export class TranslationModel {

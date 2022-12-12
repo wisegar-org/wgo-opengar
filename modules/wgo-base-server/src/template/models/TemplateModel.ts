@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
 import { TemplateEntity } from "../database/entities/TemplateEntity";
 import { TemplateInput } from "../resolvers/TemplateInputs";
 

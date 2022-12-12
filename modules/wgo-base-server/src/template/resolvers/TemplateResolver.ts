@@ -1,9 +1,9 @@
 import { Arg, Ctx, Mutation, Query, Resolver, Authorized } from "type-graphql";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import {
   TEMPLATE_PATH_GET_BY_TYPE,
   TEMPLATE_PATH_POST,
-} from "@wisegar-org/wgo-base-models/build/template/server";
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 import { TemplateModel } from "../models/TemplateModel";
 import { TemplateInput } from "./TemplateInputs";
 import { TemplateResponse } from "./TemplateResponses";

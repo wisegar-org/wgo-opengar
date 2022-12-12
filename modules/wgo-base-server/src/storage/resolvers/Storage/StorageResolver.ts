@@ -1,12 +1,12 @@
 import { Arg, Ctx, Mutation, Query, Resolver, Authorized } from "type-graphql";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import {
   STORAGE_PATH_DELETE_STORAGE,
   STORAGE_PATH_GET_STORAGE_BY_PAGE,
   STORAGE_PATH_GET_STORAGE_BY_TYPE,
   STORAGE_PATH_POST_STORAGE,
   STORAGE_PATH_PUT_STORAGE,
-} from "@wisegar-org/wgo-base-models/build/storage/server";
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 import { StorageItem, StorageModel } from "../../models/StorageModel";
 import {
   StorageAllInput,

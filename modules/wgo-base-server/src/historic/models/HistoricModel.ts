@@ -1,5 +1,4 @@
 import { DataSource, ObjectType, Repository } from "typeorm";
-import { Actions } from "@wisegar-org/wgo-base-models/build/historic";
 import { UserEntity } from "../../authentication/database/entities/UserEntity";
 import { WGBaseEntity } from "../../core/database/entities/WGBaseEntity";
 import { HistoricEntity } from "../database/entities/HistoricEntity";
@@ -9,8 +8,9 @@ import {
   WRONG_CONTEXT_USER_EMAIL,
   WRONG_CONTEXT_USER_ID,
   WRONG_ENTITY_ID_UNDEFINED,
-} from "@wisegar-org/wgo-base-models/build/historic/constants";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+  Actions,
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 
 export class HistoricModel<TEntity extends WGBaseEntity> {
   private dataSource: DataSource;

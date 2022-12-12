@@ -10,6 +10,7 @@ import { EmailServer } from "@wisegar-org/wgo-mailer";
 import { UserUtils } from "./UserUtils";
 import { UserRolesModel } from "./UserRolesModel";
 import {
+  AuthPaths,
   IAuthEditParams,
   IAuthLoginParams,
   IAuthMeParams,
@@ -19,6 +20,7 @@ import {
   IChangePasswordParam,
   ICheckUserUniqueUserName,
   ISuccesLogin,
+  IUser,
   TOKEN_EXP,
   TOKEN_REGISTER_EXP,
   WRONG_CODE_ALREADY_EXIST,
@@ -29,10 +31,8 @@ import {
   WRONG_USER_DONT_EXIST,
   WRONG_USER_NAME,
   WRONG_USER_PASSWORD,
-} from "@wisegar-org/wgo-base-models/build/authentication";
+} from "@wisegar-org/wgo-base-models";
 import { HistoricModel } from "../../historic/models/HistoricModel";
-import { IUser } from "@wisegar-org/wgo-base-models/build/core";
-import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 import { UserEntity } from "../database/entities/UserEntity";
 
 export class AuthModel {

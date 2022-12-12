@@ -1,9 +1,9 @@
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import {
   MEDIA_PATH_DELETE_FILES,
   MEDIA_PATH_GET_FILE,
-} from "@wisegar-org/wgo-base-models/build/storage/server";
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 import { MediaModel } from "../../models/MediaModel";
 import { MediaInputArg, MediasInputArg } from "./MediaInputs";
 import { MediaResponse } from "./MediaResponses";

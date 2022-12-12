@@ -16,8 +16,8 @@ import {
   TRANSLATION_PATH_GET_ALL_BY_KEYS,
   TRANSLATION_PATH_GET_ALL_TRANSLATION,
   TRANSLATION_PATH_SET_TRANSLATION,
-} from "@wisegar-org/wgo-base-models/build/translation/server";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 
 @Resolver()
 export class TranslationResolver {

@@ -1,13 +1,14 @@
 import { EmailServer } from "@wisegar-org/wgo-mailer";
 import { DataSource, In } from "typeorm";
-import { IAuthModelArg } from "@wisegar-org/wgo-base-models/build/authentication";
 import {
   TOKEN_EXP,
   TOKEN_REGISTER_EXP,
   WRONG_USER_DONT_EXIST,
-} from "@wisegar-org/wgo-base-models/build/authentication/constants";
+  IAuthModelArg,
+  IIdInput,
+  IUser,
+} from "@wisegar-org/wgo-base-models";
 import { UserUtils } from "./UserUtils";
-import { IIdInput, IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { UserEntity } from "../database/entities/UserEntity";
 import { RoleEntity } from "../database/entities/RoleEntity";
 

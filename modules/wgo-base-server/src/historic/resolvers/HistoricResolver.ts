@@ -1,9 +1,9 @@
 import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import {
   HISTORIC_PATH_GET_FILTERS,
   HISTORIC_PATH_GET_PAGE,
-} from "@wisegar-org/wgo-base-models/build/historic/server";
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 import { HistoricEntity } from "../database/entities/HistoricEntity";
 import { HistoricModel } from "../models/HistoricModel";
 import { HistoricPageInput } from "./HistoricInputs";

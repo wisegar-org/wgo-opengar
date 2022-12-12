@@ -1,11 +1,11 @@
 import { Arg, Ctx, Query, Resolver } from "type-graphql";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import {
   EMAIL_PATH_SEND_EMAIL,
   EMAIL_PATH_SEND_EMAIL_FROM_TO_ADDRESS_AND_APP,
   EMAIL_PATH_SEND_EMAIL_FROM_TO_APP,
   EMAIL_PATH_SEND_EMAIL_TO_APP,
-} from "@wisegar-org/wgo-base-models/build/email/server";
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 import { EmailModel } from "../models/EmailModel";
 import {
   EmailFromToAppInput,

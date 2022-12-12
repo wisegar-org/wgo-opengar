@@ -1,8 +1,4 @@
 import { DataSource } from "typeorm";
-import {
-  ILanguagePostArg,
-  ILanguageModel,
-} from "@wisegar-org/wgo-base-models/build/language";
 import { HistoricModel } from "../../historic/models/HistoricModel";
 import { LanguageEntity } from "../database/entities/LanguageEntity";
 import {
@@ -10,9 +6,11 @@ import {
   WRONG_LANGUAGE_DONT_EXIST,
   WRONG_LANGUAGE_POST,
   WRONG_LANGUAGE_PUT,
-} from "@wisegar-org/wgo-base-models/build/language/constants";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
-import { IIdInput } from "@wisegar-org/wgo-base-models/build/core";
+  ILanguagePostArg,
+  ILanguageModel,
+  IContextBase,
+  IIdInput,
+} from "@wisegar-org/wgo-base-models";
 
 export class LanguageModel {
   private dataSoure: DataSource;

@@ -5,8 +5,8 @@ import { PostSettingInput } from "./SettingsInputs";
 import {
   SETTINGS_PATH_GET_ALL_SETTINGS,
   SETTINGS_PATH_SET_SETTING,
-} from "@wisegar-org/wgo-base-models/build/settings/server";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+  IContextBase,
+} from "@wisegar-org/wgo-base-models";
 
 @Resolver()
 export class SettingsResolver {

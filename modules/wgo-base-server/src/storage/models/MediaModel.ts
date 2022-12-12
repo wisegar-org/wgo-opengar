@@ -5,10 +5,12 @@ import MediaEntity from "../database/entities/MediaEntity";
 import { v4 as uuidv4 } from "uuid";
 import { HistoricModel } from "../../historic/models/HistoricModel";
 import { MediaResponse } from "../resolvers/Media/MediaResponses";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import { UtilService } from "../../core/services/UtilService";
-import { MEDIA_FILES_PATH } from "@wisegar-org/wgo-base-models/build/storage/constants";
-import { IMediaModel } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  MEDIA_FILES_PATH,
+  IContextBase,
+  IMediaModel,
+} from "@wisegar-org/wgo-base-models";
 
 export class MediaModel {
   private ctx: IContextBase;

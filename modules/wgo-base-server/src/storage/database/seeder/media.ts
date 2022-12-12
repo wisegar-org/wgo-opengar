@@ -1,4 +1,4 @@
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
 import { MediaModel } from "../../models/MediaModel";
 
 export const mediaPublicSeeder = async (ctx: IContextBase) => {

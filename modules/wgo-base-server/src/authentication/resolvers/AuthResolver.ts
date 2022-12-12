@@ -26,7 +26,11 @@ import {
   AUTH_PATH_REGISTER,
   AUTH_PATH_RESEND_CONFIRMATION,
   AUTH_PATH_RESET_PASSWORD,
-} from "@wisegar-org/wgo-base-models/build/authentication/server";
+  IAuthModelArg,
+  IContextBase,
+  SETTINGS_SMTP,
+  SmtpSettings,
+} from "@wisegar-org/wgo-base-models";
 import {
   GetEmailAppAddressKey,
   GetExpiresInKey,
@@ -35,12 +39,8 @@ import {
   GetPublicKey,
 } from "@wisegar-org/wgo-settings";
 import { UserEntity } from "../database/entities/UserEntity";
-import { IAuthModelArg } from "@wisegar-org/wgo-base-models/build/authentication";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core/context";
 import { AuthModel } from "../models/AuthModel";
 import { SettingsModel } from "../../settings/models/SettingsModel";
-import { SETTINGS_SMTP } from "@wisegar-org/wgo-base-models/build/settings/constants";
-import { SmtpSettings } from "@wisegar-org/wgo-base-models/build/settings";
 import { IdInput } from "../../core/resolvers/CoreInputs";
 import { UserRolesModel } from "../models/UserRolesModel";
 import { HistoricResponse } from "../../historic/resolvers/HistoricResponses";
