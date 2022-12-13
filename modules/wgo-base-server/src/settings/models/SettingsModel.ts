@@ -196,20 +196,14 @@ export class SettingsModel {
   getSettingPasswordValue(value: string) {
     try {
       const data = decypherData(value, this.ctx.cypherKey);
-      return (data as any).value;
+      return data;
     } catch (err) {
       return value;
     }
   }
 
   getSettingPassword(key: string, value: string) {
-    return cypherData(
-      {
-        key,
-        value,
-      },
-      this.ctx.cypherKey
-    );
+    return cypherData(value, this.ctx.cypherKey);
   }
 
   getSettingBoolean(value: any) {
