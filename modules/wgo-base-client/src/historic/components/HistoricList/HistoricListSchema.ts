@@ -2,8 +2,8 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-  historicTranslations,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
+import { historicTranslations as translations } from "@wisegar-org/wgo-base-models/build/historic/translations";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 export const getHistoricListSchema = (
   transStore: TranslationStore,
@@ -14,7 +14,7 @@ export const getHistoricListSchema = (
     schema: {
       id: {
         name: "id",
-        label: historicTranslations.COLUMN_ID,
+        label: translations.COLUMN_ID,
         field: "id",
         sortable: true,
         visible: false,
@@ -24,7 +24,7 @@ export const getHistoricListSchema = (
       },
       entity: {
         name: "entity",
-        label: historicTranslations.COLUMN_ENTITY,
+        label: translations.COLUMN_ENTITY,
         field: "entity",
         sortable: true,
         visible: true,
@@ -35,7 +35,7 @@ export const getHistoricListSchema = (
       },
       action: {
         name: "action",
-        label: historicTranslations.COLUMN_ACTION,
+        label: translations.COLUMN_ACTION,
         field: "action",
         sortable: true,
         visible: true,
@@ -46,7 +46,7 @@ export const getHistoricListSchema = (
       },
       creatoIl: {
         name: "creatoIl",
-        label: historicTranslations.COLUMN_CREATE_AT,
+        label: translations.COLUMN_CREATE_AT,
         field: "creatoIl",
         sortable: true,
         visible: true,
@@ -56,7 +56,7 @@ export const getHistoricListSchema = (
       },
       message: {
         name: "message",
-        label: historicTranslations.COLUMN_MESSAGE,
+        label: translations.COLUMN_MESSAGE,
         field: "message",
         sortable: true,
         visible: true,
@@ -66,7 +66,7 @@ export const getHistoricListSchema = (
       },
       username: {
         name: "username",
-        label: historicTranslations.COLUMN_USERNAME,
+        label: translations.COLUMN_USERNAME,
         field: "username",
         sortable: true,
         visible: true,

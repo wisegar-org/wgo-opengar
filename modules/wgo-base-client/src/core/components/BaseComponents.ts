@@ -1,4 +1,5 @@
-import { ISeoModel, ObjectDictionary } from "@wisegar-org/wgo-base-models";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core/seo";
 import { TranslationStore } from "../../translation/store/TranslationStore";
 import { UtilService } from "../services/UtilService";
 

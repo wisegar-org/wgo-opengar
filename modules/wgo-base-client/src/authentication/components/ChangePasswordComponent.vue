@@ -14,7 +14,7 @@
             </q-item-section>
             <q-item-section top class="self-center">
               <div class="text-h6 text-left">
-                {{ getLabel(authTranslations.CHANGE_PASSWORD_TITLE) }}
+                {{ getLabel(translations.CHANGE_PASSWORD_TITLE) }}
               </div>
             </q-item-section>
             <q-item-section top side class="self-center">
@@ -32,19 +32,19 @@
               class="q-my-md q-mx-sm"
               v-model="password"
               :required="true"
-              :label="getLabel(authTranslations.PASSWORD_LB)"
-              :error="getLabel(authTranslations.PASSWORD_EQUALS_ERR)"
+              :label="getLabel(translations.PASSWORD_LB)"
+              :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
               :hideBtnSpace="true"
             />
             <InputSecret
               class="q-my-lg q-mx-sm"
               v-model="confirmPassword"
               :required="true"
-              :label="getLabel(authTranslations.CONFIRM_PASSWORD_LB)"
+              :label="getLabel(translations.CONFIRM_PASSWORD_LB)"
               @onEnter="onReset"
               :isError="password !== confirmPassword"
               :hideBtnSpace="true"
-              :error="getLabel(authTranslations.PASSWORD_EQUALS_ERR)"
+              :error="getLabel(translations.PASSWORD_EQUALS_ERR)"
             />
           </q-card-section>
           <q-card-actions align="center" vertical class="row q-pa-sm">
@@ -70,12 +70,10 @@ import { defineComponent, PropType } from "vue";
 import { AuthService } from "../services/AuthService";
 import InputSecret from "../../core/components/InputSecret/InputSecret.vue";
 import Loader from "../../core/components/Loader/Loader.vue";
+import { authTranslations as translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";
 import { TranslationStore } from "../../translation/store/TranslationStore";
-import {
-  translations as tranBase,
-  authTranslations,
-} from "@wisegar-org/wgo-base-models";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ResetPasswordComponent",
@@ -98,7 +96,7 @@ export default defineComponent({
       translationsContent: {},
       showLoading: false,
       tranBase,
-      authTranslations,
+      translations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },

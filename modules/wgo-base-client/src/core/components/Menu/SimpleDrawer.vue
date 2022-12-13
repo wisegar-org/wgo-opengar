@@ -48,14 +48,12 @@ import { defineComponent, PropType } from "vue";
 import { RouteService } from "../../services/RouteService";
 import { BaseTranslateComponent } from "../BaseComponents";
 import LeftDrawerList from "./LeftDrawerList.vue";
-import {
-  translations,
-  IMenuItem,
-  AdminBasePath,
-  SUPERADMIN,
-} from "@wisegar-org/wgo-base-models";
+import { translations } from "@wisegar-org/wgo-base-models/build/core";
+import { IMenuItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { AuthStore } from "../../../authentication/store/AuthStore";
+import { AdminBasePath } from "@wisegar-org/wgo-base-models/build/core/router";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
 
 export default defineComponent({
   name: "SimpleDrawer",

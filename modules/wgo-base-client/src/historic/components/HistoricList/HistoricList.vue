@@ -2,7 +2,7 @@
   <div>
     <div ref="placeholder" style="height: 1px"></div>
     <Table
-      :title="historicTranslations.TITLE"
+      :title="translations.TITLE"
       :data="histories"
       :schema="schema"
       :height="componentHeight"
@@ -20,19 +20,17 @@ import {
   BaseResizeComponent,
   BaseTranslateComponent,
 } from "../../../core/components/BaseComponents";
-import {
-  historicTranslations,
-  translations as transBase,
-  ITableLeftButton,
-  ITablePagination,
-  ITableRowButton,
-} from "@wisegar-org/wgo-base-models";
-import { saveAs } from "file-saver";
+import { historicTranslations as translations } from "@wisegar-org/wgo-base-models/build/historic/translations";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { getHistoricListSchema } from "./HistoricListSchema";
 import { HistoricService } from "../../services/HistoricService";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { LanguageStore } from "../../../language/store/LanguageStore";
+import {
+  ITableLeftButton,
+  ITablePagination,
+  ITableRowButton,
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "TranslationList",
@@ -80,7 +78,7 @@ export default defineComponent({
       removeResize,
       resizeTable,
       schema: schema,
-      historicTranslations: historicTranslations,
+      translations: translations,
       id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };

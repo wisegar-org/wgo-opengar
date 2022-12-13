@@ -14,13 +14,15 @@ import {
   TRANSLATION_PATH_EXPORT_TRANSLATION,
   TRANSLATION_PATH_IMPORT_TRANSLATION,
   TRANSLATION_PATH_DELETE_TRANSLATION,
+} from "@wisegar-org/wgo-base-models/build/translation/server";
+import {
   IExportTranslationsArg,
   IGetAllTranslationArg,
   IGetAllTranslationsByKeyArg,
   ISetTranslationArg,
   ITranslationDeleteArg,
   ITranslationModel,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/translation";
 
 export class TranslationService {
   private apiInstance: ApiService;

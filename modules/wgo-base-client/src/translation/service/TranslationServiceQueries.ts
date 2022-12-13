@@ -6,7 +6,7 @@ import {
   TRANSLATION_PATH_EXPORT_TRANSLATION,
   TRANSLATION_PATH_IMPORT_TRANSLATION,
   TRANSLATION_PATH_DELETE_TRANSLATION,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/translation/server";
 
 export const Q_TRANSLATION_GETALL = gql`
   query ($data: GetAllTranslationInput!) {

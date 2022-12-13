@@ -12,7 +12,7 @@
 import { defineComponent, PropType } from "vue";
 import { BaseTranslateComponent } from "../BaseComponents";
 import { RouteService } from "../../services/RouteService";
-import { IMenuItem } from "@wisegar-org/wgo-base-models";
+import { IMenuItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { AuthStore } from "../../../authentication/store/AuthStore";
 

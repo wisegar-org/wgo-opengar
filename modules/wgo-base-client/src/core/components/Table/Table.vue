@@ -105,13 +105,13 @@
 import { defineComponent, PropType } from "vue";
 import TableColumns from "./TableColumns.vue";
 import TableTitleHeader from "./TableTitleHeader.vue";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 import {
   ITableColumn,
   ITableData,
   ITablePagination,
   ITableSchema,
-  translations as tranBase,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "Table",
@@ -121,7 +121,7 @@ export default defineComponent({
       default: "",
     },
     data: {
-      type: Array as PropType<ITableData[]>,
+      type: Array as PropType<ITableData[] | any[]>,
       default: [],
     },
     countData: {

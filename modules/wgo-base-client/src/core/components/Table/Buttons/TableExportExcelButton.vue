@@ -16,12 +16,12 @@ import { defineComponent, PropType } from "vue";
 import { UtilService } from "../../../services/UtilService";
 import { saveAs } from "file-saver";
 import ExcelJS from "exceljs";
+import { translations } from "@wisegar-org/wgo-base-models/build/core";
 import {
   ITableColumn,
   ITableData,
   ITableSchema,
-  translations,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 
 export default defineComponent({
   name: "TableExportExcelButton",

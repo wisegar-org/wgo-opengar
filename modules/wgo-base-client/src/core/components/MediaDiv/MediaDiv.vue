@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { IMediaModel } from "@wisegar-org/wgo-base-models";
+import { IMediaModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "MediaDiv",

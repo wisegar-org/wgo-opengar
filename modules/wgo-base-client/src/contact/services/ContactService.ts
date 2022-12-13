@@ -3,7 +3,7 @@ import { ApiService } from "../../core/services/ApiService";
 import {
   CONTACT_ME_PATH_GET_CONTACT_ME,
   CONTACT_ME_PATH_SET_CONTACT_ME,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/contact/server";
 
 export class ContactService {
   private readonly apiService: ApiService;

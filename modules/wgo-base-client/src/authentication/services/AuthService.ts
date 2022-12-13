@@ -11,6 +11,16 @@ import {
   Q_AUTH_VALID_USER_NAME,
 } from "./AuthServiceQueries";
 import {
+  IAuthEditParams,
+  IAuthLoginParams,
+  IAuthMeParams,
+  IAuthRegisterParams,
+  IAuthResendParam,
+  IChangePasswordParam,
+  ICheckUserUniqueUserName,
+  ISuccesLogin,
+} from "@wisegar-org/wgo-base-models/build/authentication";
+import {
   AUTH_PATH_CHANGE_RESET_PASSWORD,
   AUTH_PATH_CHECK_USER_NAME,
   AUTH_PATH_CONFIRM_REGIST,
@@ -20,16 +30,8 @@ import {
   AUTH_PATH_REGISTER,
   AUTH_PATH_RESEND_CONFIRMATION,
   AUTH_PATH_RESET_PASSWORD,
-  IUser,
-  IAuthEditParams,
-  IAuthLoginParams,
-  IAuthMeParams,
-  IAuthRegisterParams,
-  IAuthResendParam,
-  IChangePasswordParam,
-  ICheckUserUniqueUserName,
-  ISuccesLogin,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/authentication/server";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 
 export class AuthService {
   private apiInstance: ApiService;

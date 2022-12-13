@@ -49,7 +49,12 @@
         </div>
       </q-card-section>
       <q-card-section class="q-pt-sm">
-        <QCKEditor v-model="template.body" ref="editor" height="65vh" />
+        <QCKEditor
+          v-model="template.body"
+          ref="editor"
+          height="65vh"
+          :urlApi="urlApi"
+        />
       </q-card-section>
       <Loader :loading="loading" />
     </q-card>
@@ -60,13 +65,11 @@
 import { defineComponent, PropType } from "vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import { TemplateService } from "../../services/TemplateService";
-import {
-  templateTranslations,
-  ITemplateResponse,
-} from "@wisegar-org/wgo-base-models";
+import { templateTranslations as translations } from "@wisegar-org/wgo-base-models/build/template/translations";
 import QCKEditor from "../../../core/components/CKEditor/QCKEditor.vue";
 import Loader from "../../../core/components/Loader/Loader.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
+import { ITemplateResponse } from "@wisegar-org/wgo-base-models/build/template";
 
 export default defineComponent({
   props: {
@@ -76,6 +79,7 @@ export default defineComponent({
     },
     objectToken: { type: Array as PropType<string[]>, default: [] },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    urlApi: { type: String, required: true },
   },
   components: {
     QCKEditor,
@@ -121,9 +125,9 @@ export default defineComponent({
     async onSave() {
       const templateService = new TemplateService();
       if (await templateService.setTemplate(this.template)) {
-        this.$emit("success", this.getLabel(templateTranslations.TRUE));
+        this.$emit("success", this.getLabel(translations.TRUE));
       } else {
-        this.$emit("fail", this.getLabel(templateTranslations.FALSE));
+        this.$emit("fail", this.getLabel(translations.FALSE));
       }
     },
     writeToken(text: string) {

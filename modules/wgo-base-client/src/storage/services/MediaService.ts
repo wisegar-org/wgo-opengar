@@ -1,19 +1,21 @@
 import { ApiService } from "../../core/services/ApiService";
 import {
+  IMediaInputArg,
+  IMediasInputArg,
+} from "@wisegar-org/wgo-base-models/build/storage";
+import {
   MEDIA_PATH_DELETE_FILES,
   MEDIA_PATH_GET_FILE,
   MEDIA_PATH_POST_FILE,
   MEDIA_PATH_POST_FILES,
-  IMediaInputArg,
-  IMediasInputArg,
-  IMediaModel,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/storage/server";
 import {
   M_MEDIA_DELETEFILE,
   M_MEDIA_UPLOADFILE,
   M_MEDIA_UPLOADFILES,
   Q_MEDIA_GETFILE,
 } from "./MediaServiceQueries";
+import { IMediaModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export class MediaService {
   private readonly apiService: ApiService;

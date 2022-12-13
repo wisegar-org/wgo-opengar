@@ -39,7 +39,7 @@ import { defineComponent, PropType } from "vue";
 import MediaDiv from "../MediaDiv/MediaDiv.vue";
 import { minText } from "./Utils";
 import { useRoute } from "vue-router";
-import { IMediaModel } from "@wisegar-org/wgo-base-models";
+import { IMediaModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ModuleCard",

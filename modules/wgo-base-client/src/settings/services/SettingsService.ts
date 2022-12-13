@@ -1,9 +1,11 @@
 import {
   ISetSettingsParam,
   ISettingsModel,
+} from "@wisegar-org/wgo-base-models/build/settings";
+import {
   SETTINGS_PATH_GET_ALL_SETTINGS,
   SETTINGS_PATH_SET_SETTING,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/settings/server";
 import { ApiService } from "../../core/services/ApiService";
 import { M_SETTING_POST, Q_SETTINGS_GETALL } from "./SettingsServiceQueries";
 

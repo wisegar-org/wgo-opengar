@@ -10,9 +10,8 @@ import {
   AUTH_PATH_GET_ALL_ROLES,
   AUTH_PATH_GET_ALL_USERS,
   AUTH_PATH_GET_USER,
-  IIdInput,
-  IUser,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/authentication/server";
+import { IIdInput, IUser } from "@wisegar-org/wgo-base-models/build/core";
 
 export class UserRolesService {
   private apiInstance: ApiService;

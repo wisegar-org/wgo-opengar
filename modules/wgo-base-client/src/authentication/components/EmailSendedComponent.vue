@@ -13,7 +13,7 @@
           </q-item-section>
           <q-item-section top class="self-center">
             <div class="text-h6 text-left">
-              {{ getLabel(authTranslations.EMAIL_SENDED_TITLE) }}
+              {{ getLabel(translations.EMAIL_SENDED_TITLE) }}
             </div>
           </q-item-section>
           <q-item-section top side class="self-center">
@@ -28,10 +28,10 @@
         </q-item>
         <q-card-section class="q-ma-sm q-pt-md">
           <div class="q-ma-md">
-            {{ getLabel(authTranslations.SENDED_TO_LB) }} {{ email }}
+            {{ getLabel(translations.SENDED_TO_LB) }} {{ email }}
           </div>
           <div class="q-my-sm q-mx-sm">
-            {{ getLabel(authTranslations.CHECK_EMAIL_MSG) }}
+            {{ getLabel(translations.CHECK_EMAIL_MSG) }}
           </div>
         </q-card-section>
         <q-card-actions align="center" vertical class="row q-pa-sm">
@@ -54,11 +54,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+import { authTranslations as translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 import { BaseTranslateComponent } from "../../core/components/BaseComponents";
-import {
-  authTranslations,
-  translations as tranBase,
-} from "@wisegar-org/wgo-base-models";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "../../translation/store/TranslationStore";
 
 export default defineComponent({
@@ -75,7 +73,7 @@ export default defineComponent({
     const { getLabel } = new BaseTranslateComponent();
     return {
       tranBase,
-      authTranslations,
+      translations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },

@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import {
   SETTINGS_PATH_GET_ALL_SETTINGS,
   SETTINGS_PATH_SET_SETTING,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/settings/server";
 
 export const Q_SETTINGS_GETALL = gql`
 query ${SETTINGS_PATH_GET_ALL_SETTINGS} {

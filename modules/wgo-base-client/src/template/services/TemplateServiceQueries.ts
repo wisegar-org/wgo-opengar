@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import {
   TEMPLATE_PATH_GET_BY_TYPE,
   TEMPLATE_PATH_POST,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/template/server";
 
 export const Q_TEMPLATE_GET_BY_TYPE = gql`
   query ${TEMPLATE_PATH_GET_BY_TYPE}($type: String!) {

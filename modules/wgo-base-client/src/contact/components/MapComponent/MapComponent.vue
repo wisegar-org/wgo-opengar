@@ -3,7 +3,7 @@
     <div
       class="q-py-xl text-h4"
       v-if="contact.mapPath"
-      v-html="getLabel(contactTranslations.MAP_TITLE)"
+      v-html="getLabel(translations.MAP_TITLE)"
     ></div>
     <iframe
       style="border: 0"
@@ -24,12 +24,10 @@
           <div class="text-body1 text-center">{{ contact.address }}</div>
           <br />
           <div class="text-body1 text-center">
-            {{ getLabel(contactTranslations.MAP_PHONE_LB) }}:
-            {{ contact.phoneNumber }}
+            {{ getLabel(translations.MAP_PHONE_LB) }}: {{ contact.phoneNumber }}
           </div>
           <div class="text-body1 text-center">
-            {{ getLabel(contactTranslations.MAP_EMAIL_LB) }}:
-            {{ contact.email }}
+            {{ getLabel(translations.MAP_EMAIL_LB) }}: {{ contact.email }}
           </div>
         </q-card-section>
       </q-card>
@@ -41,11 +39,9 @@
 import { defineComponent, PropType } from "vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import { ContactService } from "../../services/ContactService";
-import {
-  contactTranslations,
-  IContactModel,
-} from "@wisegar-org/wgo-base-models";
+import { contactTranslations as translations } from "@wisegar-org/wgo-base-models/build/contact/translations";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
+import { IContactModel } from "@wisegar-org/wgo-base-models/build/contact";
 
 export default defineComponent({
   name: "MapComponent",
@@ -59,7 +55,7 @@ export default defineComponent({
 
     return {
       contact,
-      contactTranslations,
+      translations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },

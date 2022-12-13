@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="person"
-    :title="getLabel(authTranslations.EDIT_USER_TITLE)"
+    :title="getLabel(translations.EDIT_USER_TITLE)"
     :persistent="true"
     :showClose="true"
     maxWidth="700px"
@@ -22,11 +22,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { AuthStore } from "../../store/AuthStore";
-import { IUser, authTranslations } from "@wisegar-org/wgo-base-models";
+import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import EditUserComponentVue from "./EditUserComponent.vue";
+import { authTranslations as translations } from "@wisegar-org/wgo-base-models/build/authentication/translations";
 
 export default defineComponent({
   name: "EditUserDialog",
@@ -47,7 +48,7 @@ export default defineComponent({
   data() {
     const { getLabel } = new BaseTranslateComponent();
     return {
-      authTranslations,
+      translations,
       getLabel: (name: string) => getLabel(this.tranStore, name),
     };
   },

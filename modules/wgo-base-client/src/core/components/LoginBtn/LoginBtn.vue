@@ -47,14 +47,11 @@
 import { defineComponent, PropType } from "vue";
 import EditUserDialog from "../../../authentication/components/EditUser/EditUserDialog.vue";
 import { BaseTranslateComponent } from "../BaseComponents";
-import {
-  IUser,
-  translations,
-  AdminBasePath,
-  SUPERADMIN,
-} from "@wisegar-org/wgo-base-models";
+import { IUser, translations } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { AuthStore } from "../../../authentication/store/AuthStore";
+import { AdminBasePath } from "@wisegar-org/wgo-base-models/build/core/router";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
 
 export default defineComponent({
   props: {

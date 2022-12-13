@@ -2,7 +2,7 @@
   <Dialog
     :open="open"
     icon="settings"
-    :title="getLabel(settingsTranslations.TITLE_DIALOG)"
+    :title="getLabel(translations.TITLE_DIALOG)"
     :persistent="true"
     :showClose="true"
     maxWidth="900px"
@@ -19,7 +19,7 @@
               class="q-my-sm q-mx-sm"
               v-model="settings.type_settings"
               required
-              :label="getLabel(settingsTranslations.COLUMN_TYPE_SETTINGS)"
+              :label="getLabel(translations.COLUMN_TYPE_SETTINGS)"
             />
           </div>
           <div class="col-12">
@@ -30,20 +30,20 @@
               class="q-my-sm q-mx-sm"
               v-model="keyValue"
               required
-              :label="getLabel(settingsTranslations.COLUMN_SETTING)"
+              :label="getLabel(translations.COLUMN_SETTING)"
             />
           </div>
           <div class="col-12">
             <InputSecret
-              v-if="isPasswordField()"
+              v-if="typeof settings.value === 'object' && isPasswordField"
               class="q-my-md q-mx-sm"
               v-model="settings.value.value"
               :required="true"
-              :label="getLabel(settingsTranslations.COLUMN_VALUE)"
+              :label="getLabel(translations.COLUMN_VALUE)"
               :hideBtnSpace="true"
             />
             <q-input
-              v-else-if="isNumberField()"
+              v-else-if="typeof settings.value === 'object' && isNumberField"
               autofocus
               square
               outlined
@@ -51,13 +51,16 @@
               v-model="settings.value.value"
               required
               type="number"
-              :label="getLabel(settingsTranslations.COLUMN_VALUE)"
+              :label="getLabel(translations.COLUMN_VALUE)"
             />
-            <q-list v-else-if="isBooleanField()" class="q-my-sm q-mx-sm">
+            <q-list
+              v-else-if="typeof settings.value === 'object' && isBooleanField"
+              class="q-my-sm q-mx-sm"
+            >
               <q-item tag="label" v-ripple>
                 <q-item-section>
                   <q-item-label class="text-left">{{
-                    getLabel(settingsTranslations.COLUMN_VALUE)
+                    getLabel(translations.COLUMN_VALUE)
                   }}</q-item-label>
                 </q-item-section>
                 <q-item-section avatar>
@@ -66,14 +69,24 @@
               </q-item>
             </q-list>
             <q-input
-              v-else
+              v-else-if="typeof settings.value === 'object'"
               autofocus
               square
               outlined
               class="q-my-sm q-mx-sm"
               v-model="settings.value.value"
               required
-              :label="getLabel(settingsTranslations.COLUMN_VALUE)"
+              :label="getLabel(translations.COLUMN_VALUE)"
+            />
+            <q-input
+              v-else
+              autofocus
+              square
+              outlined
+              class="q-my-sm q-mx-sm"
+              v-model="settings.value"
+              required
+              :label="getLabel(translations.COLUMN_VALUE)"
             />
           </div>
         </q-card-section>
@@ -95,13 +108,11 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+import { ISettingsModel } from "@wisegar-org/wgo-base-models/build/settings";
 import Dialog from "../../../core/components/Dialog/Dialog.vue";
 import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import {
-  settingsTranslations,
-  translations as tranBase,
-  ISettingsModel,
-} from "@wisegar-org/wgo-base-models";
+import { settingsTranslations as translations } from "@wisegar-org/wgo-base-models/build/settings/translations";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models/build/core";
 import { SettingsService } from "../../services/SettingsService";
 import InputSecret from "../../../core/components/InputSecret/InputSecret.vue";
 import { TranslationStore } from "../../../translation/store/TranslationStore";
@@ -126,7 +137,7 @@ export default defineComponent({
     return {
       settings: {} as ISettingsModel,
       getLabel: (name: string) => getLabel(this.tranStore, name),
-      settingsTranslations,
+      translations,
       tranBase,
       keyValue,
       settingsService: new SettingsService(),
@@ -146,14 +157,19 @@ export default defineComponent({
       if (result) {
         this.$emit(
           "success",
-          this.isPasswordField()
+          this.isPasswordField
             ? { type: "password", value: "" }
             : this.settings.value,
-          this.getLabel(this.settingsTranslations.SET_SUCCESS)
+          this.getLabel(this.translations.SET_SUCCESS)
         );
         this.close();
       }
     },
+    close() {
+      this.$emit("close");
+    },
+  },
+  computed: {
     isPasswordField() {
       return (this.settings.value as any).type === "password";
     },
@@ -163,15 +179,12 @@ export default defineComponent({
     isBooleanField() {
       return (this.settings.value as any).type === "boolean";
     },
-    close() {
-      this.$emit("close");
-    },
   },
   emits: ["close", "success"],
   watch: {
     stting() {
       this.settings = { ...this.stting };
-      if (this.isBooleanField()) {
+      if (this.isBooleanField) {
         (this.settings.value as any).value =
           (this.settings.value as any).value === "true";
       }

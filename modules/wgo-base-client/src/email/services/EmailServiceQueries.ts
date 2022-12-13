@@ -4,7 +4,7 @@ import {
   EMAIL_PATH_SEND_EMAIL_TO_APP,
   EMAIL_PATH_SEND_EMAIL_FROM_TO_APP,
   EMAIL_PATH_SEND_EMAIL_FROM_TO_ADDRESS_AND_APP,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/email/server";
 
 export const Q_EMAIL_SENDEMAIL = gql`
   query ${EMAIL_PATH_SEND_EMAIL}($data: EmailInput!) {
