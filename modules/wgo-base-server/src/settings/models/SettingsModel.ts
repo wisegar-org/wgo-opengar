@@ -203,7 +203,13 @@ export class SettingsModel {
   }
 
   getSettingPassword(key: string, value: string) {
-    return cypherData(key, value);
+    return cypherData(
+      {
+        key,
+        value,
+      },
+      this.ctx.cypherKey
+    );
   }
 
   getSettingBoolean(value: any) {
