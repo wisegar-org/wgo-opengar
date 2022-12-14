@@ -44,6 +44,7 @@
   "dependencies": {
     "@wisegar-org/wgo-base-models": "0.0.1-7",
     "handlebars": "4.7.7",
+    "inline-css": "4.0.1",
     "uuid": "9.0.0"
   }
 }
