@@ -1,21 +1,22 @@
 import { DataSource } from "typeorm";
 import {
-  settingsAdminSeeder,
   getPop3Settings,
   getSmtpSettings,
+  settingsAdminSeeder,
 } from "@wisegar-org/wgo-base-server";
 import { GetConfig } from "@wisegar-org/wgo-settings";
 import { SETTINGS_POP3, SETTINGS_SMTP } from "@wisegar-org/wgo-base-models";
+import { ctx } from "../../handlers/AppContextHandler";
 
 export const settingsSeeder = async (dataSource: DataSource) => {
   //Save keys to database settings
   await settingsAdminSeeder(
-    dataSource,
+    { ...ctx, dataSource },
     SETTINGS_POP3,
     getPop3Settings(GetConfig<any>())
   );
   await settingsAdminSeeder(
-    dataSource,
+    { ...ctx, dataSource },
     SETTINGS_SMTP,
     getSmtpSettings(GetConfig<any>())
   );
