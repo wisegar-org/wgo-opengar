@@ -39,7 +39,7 @@
       v-model="event.title"
       lazy-rules="ondemand"
       :autofocus="true"
-      label="Titolo"
+      :label="getLabel(translations.COLUMN_TITLE)"
       standout="bg-primary text-white"
       dense
       :rules="[(val) => !!val || 'Il campo è obbligatiorio']"
@@ -48,7 +48,7 @@
       <QCKEditor
         v-model="event.description"
         height="400px"
-        label="Descrizione"
+        :label="getLabel(translations.COLUMN_DESCRIPTION)"
         :urlApi="urlApi"
       />
     </div>
@@ -56,7 +56,7 @@
       <QCKEditor
         v-model="event.shortDescription"
         height="200px"
-        label="Breve Descrizione"
+        :label="getLabel(translations.COLUMN_SHORT_DESCRIPTION)"
         :urlApi="urlApi"
       />
     </div>
@@ -67,7 +67,7 @@
           dense
           filled
           v-model="event.class"
-          label="Corso Scolastico"
+          :label="getLabel(translations.COLUMN_CLASS)"
           :options="classOptions"
           standout="bg-primary text-white"
           lazy-rules="ondemand"
@@ -81,7 +81,7 @@
           filled
           dense
           v-model="event.type"
-          label="Tipo di Evento"
+          :label="getLabel(translations.COLUMN_TYPE)"
           :options="typeOptions"
           standout="bg-primary text-white"
           lazy-rules="ondemand"
@@ -95,7 +95,7 @@
           dense
           filled
           v-model="event.state"
-          label="Stato"
+          :label="getLabel(translations.COLUMN_STATE)"
           :options="stateOptions"
           standout="bg-primary text-white"
           lazy-rules="ondemand"
@@ -111,7 +111,7 @@
           outlined
           :modelValue="getDateStringValue()"
           readonly
-          label="Calendario degli Eventi"
+          :label="getLabel(translations.COLUMN_DATES)"
           standout="bg-primary text-white"
           class="q-pa-sm"
         >
@@ -135,7 +135,7 @@
       </div>
       <div class="col-12 col-sm-6">
         <q-toggle
-          label="Visibile"
+          :label="getLabel(translations.COLUMN_VISIBLE)"
           v-model="event.visible"
           checked-icon="check"
           unchecked-icon="clear"
@@ -143,7 +143,7 @@
       </div>
       <div class="col-12 col-sm-6">
         <q-toggle
-          label="Iscrizioni"
+          :label="getLabel(translations.COLUMN_ENROLLMENT)"
           v-model="event.enrollment"
           checked-icon="check"
           unchecked-icon="clear"
@@ -153,8 +153,8 @@
     <div class="q-pa-sm q-pt-lg">
       <GalleryImage
         :onModify="setListImg"
-        label="Carosello di immagini"
-        btnLabel="Inserisci"
+        :label="getLabel(translations.COLUMN_GALLERY)"
+        :btnLabel="getLabel(transBase.ADD)"
         :mediaList="imgList"
         :urlApi="urlApi"
         @onModify="setListImg"
@@ -168,7 +168,7 @@
         align="center"
         :disable="!isValid()"
         class="col-12 col-sm-auto q-mt-sm q-mx-xl"
-        label="Salva"
+        :label="getLabel(transBase.SAVE)"
         style="width: 150px"
       />
     </q-card-section>

@@ -25,7 +25,7 @@
               lazy-rules="ondemand"
               standout="bg-primary text-white"
               :autofocus="true"
-              label="Titolo"
+              :label="getLabel(translations.COLUMN_TITLE)"
             />
           </div>
           <div class="col-12 col-sm-3">
@@ -35,7 +35,7 @@
               filled
               clearable
               v-model="filterObj.class"
-              label="Corso Scolastico"
+              :label="getLabel(translations.COLUMN_CLASS)"
               :options="classOptions"
               standout="bg-primary text-white"
               lazy-rules="ondemand"
@@ -49,7 +49,7 @@
               dense
               clearable
               v-model="filterObj.type"
-              label="Tipo di Evento"
+              :label="getLabel(translations.COLUMN_TYPE)"
               :options="typeOptions"
               standout="bg-primary text-white"
               lazy-rules="ondemand"
@@ -63,7 +63,7 @@
               filled
               clearable
               v-model="filterObj.state"
-              label="Stato"
+              :label="getLabel(translations.COLUMN_STATE)"
               :options="stateOptions"
               standout="bg-primary text-white"
               lazy-rules="ondemand"
@@ -77,7 +77,7 @@
               filled
               clearable
               v-model="filterObj.enrollment"
-              label="Iscrizioni"
+              :label="getLabel(translations.COLUMN_ENROLLMENT)"
               :options="enrollmentOptions"
               standout="bg-primary text-white"
               lazy-rules="ondemand"
@@ -93,7 +93,7 @@
               filled
               clearable
               v-model="filterObj.visible"
-              label="Visibile"
+              :label="getLabel(translations.COLUMN_VISIBLE)"
               :options="visibleOptions"
               standout="bg-primary text-white"
               lazy-rules="ondemand"
