@@ -1,7 +1,6 @@
 import { EmailHistoryEntity } from './../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from './../database/entities/EmailMediaEntity';
 import { PostgresDataSource } from '../dataSources';
-import { SettingsModel } from '../wgo-base/settings/models/SettingsModel';
 
 import { IPop3ConnectionOptions, Pop3Command } from '@wisegar-org/wgo-pop3';
 import { Buffer } from 'buffer';
@@ -12,10 +11,15 @@ import { READ_EMAILS_INTERVAL } from '../models/constants';
 import PDFService from './PDFService';
 
 import { EmailServer } from '@wisegar-org/wgo-mailer';
-import { Pop3Settings, SmtpSettings } from '../wgo-base/settings/models';
-import { POP3_EVENT_LOOP } from '../wgo-base/settings/models/constants';
-import { SETTINGS_POP3, SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
 import { ctx } from '../handlers/AppContextHandler';
+import { SettingsModel } from '@wisegar-org/wgo-base-server';
+import {
+  Pop3Settings,
+  POP3_EVENT_LOOP,
+  SETTINGS_POP3,
+  SETTINGS_SMTP,
+  SmtpSettings,
+} from '@wisegar-org/wgo-base-models';
 
 export class Pop3Service {
   /**

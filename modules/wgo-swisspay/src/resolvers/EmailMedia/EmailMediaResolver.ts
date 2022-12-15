@@ -1,11 +1,9 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { PostgresDataSource } from '../../dataSources';
-import { DataSource } from 'typeorm';
 import { EmailDetailsResponse, EmailMediaResponse, EmailResponse } from './EmailMediaResponses';
 import { EmailMediaFilterInput } from './EmailMediaInputs';
 import { EmailMediaService } from '../../services/EmailMediaService';
-import { IdInput } from '../../wgo-base/core/resolvers/CoreInputs';
-import { IContextBase } from '../../wgo-base/core/models/context';
+import { IContextBase } from '@wisegar-org/wgo-base-models';
+import { IdInput } from '@wisegar-org/wgo-base-server';
 
 @Resolver()
 export class EmailMediaResolver {

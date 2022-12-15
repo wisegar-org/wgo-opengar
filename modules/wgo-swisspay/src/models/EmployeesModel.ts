@@ -1,5 +1,5 @@
+import { UserResponse } from '@wisegar-org/wgo-base-server';
 import PdfParse from 'pdf-parse';
-import { UserResponse } from '../wgo-base/authentication/resolvers/AuthResponses';
 
 export interface IEmployeeModel {
   id: number;

@@ -1,6 +1,6 @@
+import { RoleEntity } from '@wisegar-org/wgo-base-server';
 import { IsNullOrUndefined } from '@wisegar-org/wgo-object-extensions';
 import { DataSource } from 'typeorm';
-import { RoleEntity } from '../../wgo-base/authentication/database/entities/RoleEntity';
 import { CLIENT_ROLE, USER_ROLE } from '../../models/constants';
 
 export const roleClientSeeder = async (dataSource: DataSource) => {

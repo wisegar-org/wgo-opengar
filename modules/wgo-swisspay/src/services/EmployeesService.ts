@@ -1,5 +1,5 @@
 import { EmailServer } from '@wisegar-org/wgo-mailer';
-import { generateAccessToken, validateAccessToken } from '@wisegar-org/wgo-server';
+import { ExpirationFreqEnum, generateAccessToken, validateAccessToken } from '@wisegar-org/wgo-server';
 import {
   GetEmailAppAddressKey,
   GetExpiresInKey,
@@ -7,11 +7,7 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from '@wisegar-org/wgo-settings';
-import PdfParse from 'pdf-parse';
 import { DataSource } from 'typeorm';
-import { UserRolesModel } from '../wgo-base/authentication/models/UserRolesModel';
-import { UserUtils } from '../wgo-base/authentication/models/UserUtils';
-import { UtilService } from '../wgo-base/core/services/UtilService';
 import { EmployeesEntity } from '../database/entities/EmployeesEntity';
 import {
   IEmployeeDocumentProps,
@@ -27,15 +23,12 @@ import {
   ImportEmployeesInput,
 } from '../resolvers/Employees/EmployeesInput';
 import { EmailMediaService } from './EmailMediaService';
-import PDFService from './PDFService';
-import { SettingsModel } from '../wgo-base/settings/models/SettingsModel';
-import { SETTINGS_SMTP } from '../wgo-base/settings/models/constants';
-import { SmtpSettings } from '../wgo-base/settings/models';
 import { ctx } from '../handlers/AppContextHandler';
 import { readEmployeesFromFile } from './UtilsServices';
-import { UserEntity } from '../wgo-base/authentication/database/entities/UserEntity';
-import { AuthModel } from '../wgo-base/authentication/models/AuthModel';
 import { CLIENT_ROLE, USER_ROLE } from '../models/constants';
+import { SettingsModel } from '@wisegar-org/wgo-base-server/build/settings';
+import { SETTINGS_SMTP, SmtpSettings } from '@wisegar-org/wgo-base-models';
+import { AuthModel, UserRolesModel, UserUtils, UtilService } from '@wisegar-org/wgo-base-server';
 
 export class EmployeesService {
   dataSource: DataSource;
@@ -71,6 +64,7 @@ export class EmployeesService {
     const validatedToken = validateAccessToken({
       publicKey: this.options.publicKey,
       token: token,
+      expirationFreq: ExpirationFreqEnum.Low,
     });
     if (validatedToken) {
       const client = await this.getUserEntityByCriteria({ id: parseInt(`${validatedToken?.userId || 0}`) });

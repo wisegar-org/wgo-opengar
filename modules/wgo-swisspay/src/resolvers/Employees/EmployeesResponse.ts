@@ -1,5 +1,5 @@
+import { UserResponse } from '@wisegar-org/wgo-base-server';
 import { ObjectType, Field } from 'type-graphql';
-import { UserResponse } from '../../wgo-base/authentication/resolvers/AuthResponses';
 
 @ObjectType()
 export class EmployeesResponse {

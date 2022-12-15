@@ -14,9 +14,7 @@ import { EmailController } from './controllers/EmailController';
 import { loopReadEmails } from './services/Pop3Service';
 
 //base seeders
-import { roleSuperAdminSeeder } from './wgo-base/authentication/database/seeder/roles';
-import { userAdminSeeder } from './wgo-base/authentication/database/seeder/user';
-import { languageDefaultSeeder } from './wgo-base/language/database/seeder/language';
+import { roleSuperAdminSeeder, userAdminSeeder, languageDefaultSeeder } from '@wisegar-org/wgo-base-server';
 import { roleClientSeeder, roleUserSeeder } from './database/seeders/ClinetSeeder';
 import { settingsSeeder } from './database/seeders/SettingsSeeder';
 

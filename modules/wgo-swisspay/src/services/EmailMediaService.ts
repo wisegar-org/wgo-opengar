@@ -1,14 +1,13 @@
 import { DataSource, Like, In } from 'typeorm';
-import { IIdInput } from '../wgo-base/core/models';
-import { UtilService } from '../wgo-base/core/services/UtilService';
 import { EmailHistoryEntity } from '../database/entities/EmailHistoryEntity';
 import { EmailMediaEntity } from '../database/entities/EmailMediaEntity';
 import { WRONG_EMAIL_DONT_EXIST } from '../models/EmailMedia/constants';
 import { IEmailDetailsModel, IEmailMediaFilter, IEmailMediaModel, IEmailModel } from '../models/EmailModel';
 import { IEmployeeDocumentProps } from '../models/EmployeesModel';
 import PDFService from './PDFService';
-import { UserResponse } from '../wgo-base/authentication/resolvers/AuthResponses';
 import { EmployeesService } from './EmployeesService';
+import { IIdInput } from '@wisegar-org/wgo-base-models';
+import { UserResponse, UtilService } from '@wisegar-org/wgo-base-server';
 
 export class EmailMediaService {
   dataSource: DataSource;
