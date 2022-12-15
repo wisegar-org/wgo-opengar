@@ -1,5 +1,8 @@
 <template>
-  <router-view />
+  <router-view v-slot="{ Component }">
+    <component :is="Component" />
+    <Loader :loading="appStatusStore.loading" />
+  </router-view>
 </template>
 
 <script lang="ts">
@@ -11,9 +14,13 @@ import { useAuthStore } from "./stores/authStore";
 import { useNotifyStore } from "./stores/notifyStore";
 import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 import { AuthService } from "@wisegar-org/wgo-base-client/build/authentication/services/AuthService";
+import Loader from "@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue";
 
 export default defineComponent({
   name: "App",
+  components: {
+    Loader,
+  },
   setup() {
     const $q = useQuasar();
 
@@ -40,7 +47,6 @@ export default defineComponent({
 
     const authService = new AuthService();
     const appStatusStore = useAppStatusStore();
-
     return {
       authStore: authStore.authStore,
       authService,
