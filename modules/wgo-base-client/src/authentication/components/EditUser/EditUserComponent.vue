@@ -6,7 +6,7 @@
           v-if="emailList.length <= 1"
           square
           outlined
-          :readonly="userInput.id"
+          :readonly="!!userInput.id"
           class="q-my-sm q-mx-sm"
           v-model="userInput.email"
           :autofocus="true"

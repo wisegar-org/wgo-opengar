@@ -7,10 +7,10 @@
     class=""
   >
     <template v-slot:label>
-      <div class="row col-11" :style="style">
+      <div class="row col-11" :style="styleBtn">
         <q-icon left name="language"> </q-icon>
         <div class="text-center q-pl-sm">
-          {{ selected.code }}
+          {{ selectedCode }}
         </div>
       </div>
     </template>
@@ -39,11 +39,17 @@ export default defineComponent({
   props: {
     languages: { type: Array as PropType<ILanguageModel[]>, default: [] },
     selected: { type: Object as PropType<ILanguageModel> },
+    styleBtn: { type: String, default: "" },
   },
   setup() {},
   methods: {
     async selectLanguage(lang: ILanguageModel) {
       this.$emit("select", lang);
+    },
+  },
+  computed: {
+    selectedCode(): string {
+      return this.selected?.code || "";
     },
   },
   emits: ["select"],
