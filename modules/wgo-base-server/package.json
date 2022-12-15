@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo-base-server",
-  "version": "0.0.1-7",
+  "version": "0.0.1-8",
   "description": "",
   "main": "build/index.js",
   "files": [
@@ -36,6 +36,7 @@
     "@wisegar-org/wgo-crypto": "0.0.1-build.7",
     "@wisegar-org/wgo-server": "0.0.1-build.54",
     "bcrypt": "5.1.0",
+    "currency.js": "2.0.4",
     "handlebars": "4.7.7",
     "type-graphql": "1.1.1",
     "typeorm": "0.3.6",
