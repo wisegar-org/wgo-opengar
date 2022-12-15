@@ -1,12 +1,14 @@
-import { MenuListItem } from 'src/wgo-base/core/models/Menu';
+import {
+  MenuListItem,
+  AdminLanguagePaths,
+  AdminTranslationPaths,
+  AdminSettingsPaths,
+  AuthPaths,
+} from '@wisegar-org/wgo-base-models';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
-import { AdminLanguagePaths } from '../wgo-base/language/router';
 import { TestMenu } from './test';
-import { AdminTranslationPaths } from '../wgo-base/translation/router';
-import { AdminSettingsPaths } from '../wgo-base/settings/router';
 import { EmployeesPaths } from 'src/router/paths/employeesPaths';
-import { AuthPaths } from '../wgo-base/authentication/router';
 
 const listItems: MenuListItem[] = [
   {

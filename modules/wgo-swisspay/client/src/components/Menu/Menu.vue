@@ -39,13 +39,12 @@
 import { useDialogPluginComponent } from 'quasar';
 import { PropType, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { BaseTranslateComponent } from '../../wgo-base/core/components/BaseComponents';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
-import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { useTranslationStore } from '../../stores/translationStore';
-import { translations as tranBase } from '../../wgo-base/core/models';
 import { useAuthStore } from '../../stores/authStore';
-import { MenuListItem } from '../../wgo-base/core/models/Menu';
+import { MenuListItem, translations as tranBase } from '@wisegar-org/wgo-base-models';
 
 export default defineComponent({
   name: 'Menu',

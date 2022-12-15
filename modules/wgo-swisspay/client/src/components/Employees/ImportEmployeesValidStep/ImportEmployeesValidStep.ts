@@ -1,19 +1,19 @@
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { defineComponent, PropType } from 'vue';
-import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translations } from '../translations';
-import { translations as transBase } from '../../../wgo-base/core/models/translations';
-import { translations as transAuth } from '../../../wgo-base/authentication/models/translations';
+import { translations as transBase } from '@wisegar-org/wgo-base-models';
+import { translations as transAuth } from '@wisegar-org/wgo-base-models';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { useAuthStore } from 'src/stores/authStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';
 import { useNotifyStore } from 'src/stores/notifyStore';
 import { IEmployeeModel, IEmployeeToImportModel } from '../../../../../src/models/EmployeesModel';
-import { ITableRowButton } from 'src/wgo-base/core/models/Table';
+import { ITableRowButton } from '@wisegar-org/wgo-base-models';
 import { useTranslationStore } from 'src/stores/translationStore';
 import { getImportEmployeesListSchema } from './ImportEmployeesSchema';
-import { translations as tranBase } from '../../../wgo-base/core/models';
-import Table from '../../../wgo-base/core/components/Table/Table.vue';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models';
+import Table from '@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue';
 import ImportEmployeeEditorDialog from './ImportEmployeeEditorDialog.vue';
 
 export default defineComponent({

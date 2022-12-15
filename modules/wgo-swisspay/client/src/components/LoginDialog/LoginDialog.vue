@@ -51,13 +51,12 @@
 <script lang="ts">
 import { useDialogPluginComponent } from 'quasar';
 import { PropType, defineComponent, ref } from 'vue';
-import { IUser } from '../../wgo-base/core/models';
-import Loader from '../../wgo-base/core/components/Loader/Loader.vue';
-import { AuthService } from '../../wgo-base/authentication/services/AuthService';
+import { IUser, AuthPaths } from '@wisegar-org/wgo-base-models';
+import Loader from '@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue';
+import { AuthService } from '@wisegar-org/wgo-base-client/build/authentication/services/AuthService';
 import { useRouter } from 'vue-router';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
-import { AuthPaths } from '../../wgo-base/authentication/router';
-import InputSecret from '../../wgo-base/core/components/InputSecret/InputSecret.vue';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
+import InputSecret from '@wisegar-org/wgo-base-client/build/core/components/InputSecret/InputSecret.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { useAppStatusStore } from '../../stores/appStatusStore';
 

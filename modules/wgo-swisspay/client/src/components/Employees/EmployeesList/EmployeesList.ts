@@ -1,17 +1,20 @@
 import { useAuthStore } from 'src/stores/authStore';
 import { defineComponent, PropType } from 'vue';
-import Table from '../../../wgo-base/core/components/Table/Table.vue';
-import { ITableLeftButton, ITableRowButton } from '../../../wgo-base/core/models/Table';
-import { BaseResizeComponent, BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import Table from '@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue';
+import { ITableLeftButton, ITableRowButton } from '@wisegar-org/wgo-base-models';
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { useRouter } from 'vue-router';
-import { RouteService } from '../../../wgo-base/core/services/RouteService';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';
 import { getEmployeesListSchema } from './EmployeesSchema';
 import { translations } from '../translations';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { Loading } from 'quasar';
-import { IUser, translations as transBase } from '../../../wgo-base/core/models';
+import { IUser, translations as transBase } from '@wisegar-org/wgo-base-models';
 import SendEmployeeMailDialog from '../SendEmployeeMail/SendEmployeeMailDialog.vue';
 import { IEmployeeModel, IEmployeeToImportModel } from '../../../../../src/models/EmployeesModel';
 import SendDocumentStepper from '../SendDocument/SendDocumentStepper.vue';

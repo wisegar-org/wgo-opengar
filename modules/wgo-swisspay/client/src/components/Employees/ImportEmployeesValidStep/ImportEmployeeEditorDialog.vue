@@ -70,12 +70,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { IEmployeeToImportModel } from '../../../../../src/models/EmployeesModel';
-import Dialog from '../../../wgo-base/core/components/Dialog/Dialog.vue';
-import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import Dialog from '@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translations } from '../translations';
-import { translations as tranBase } from '../../../wgo-base/core/models';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models';
 
 export default defineComponent({
   name: 'ImportEmployeeEditorDialog',

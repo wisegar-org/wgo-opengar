@@ -1,8 +1,8 @@
-import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
-import { IUser } from '../../../wgo-base/core/models';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
+import { IUser } from '@wisegar-org/wgo-base-models';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { defineComponent, PropType } from 'vue';
-import Dialog from '../../../wgo-base/core/components/Dialog/Dialog.vue';
+import Dialog from '@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue';
 import { translations } from '../translations';
 import ImportEmployeesUploadStep from '../ImportEmployeesUploadStep/ImportEmployeesUploadStep.vue';
 import ImportEmployeesValidStep from '../ImportEmployeesValidStep/ImportEmployeesValidStep.vue';

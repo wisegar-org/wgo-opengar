@@ -1,12 +1,12 @@
 import { IEmailModel } from '../../../../../src/models/EmailModel';
 import { defineComponent, PropType } from 'vue';
-import Dialog from '../../../wgo-base/core/components/Dialog/Dialog.vue';
-import { UtilService } from '../../../wgo-base/core/services/UtilService';
-import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import Dialog from '@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue';
+import { UtilService } from '@wisegar-org/wgo-base-client/build/core/services/UtilService';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { useTranslationStore } from 'src/stores/translationStore';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { translations } from '../translations';
-import { translations as tranBase } from '../../../wgo-base/core/models';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models';
 
 export default defineComponent({
   name: 'EmailDetailsDialog',

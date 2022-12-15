@@ -29,25 +29,23 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import LoginBtn from '../wgo-base/core/components/LoginBtn/LoginBtn.vue';
+import LoginBtn from '@wisegar-org/wgo-base-client/build/core/components/LoginBtn/LoginBtn.vue';
 import { useAuthStore } from '../stores/authStore';
-import { RouteService } from '../wgo-base/core/services/RouteService';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { useRouter } from 'vue-router';
-import { AuthPaths } from '../wgo-base/authentication/router';
+import { AuthPaths, IUser, authTranslations } from '@wisegar-org/wgo-base-models';
 import { Paths } from '../router/paths';
-import { IUser } from '../wgo-base/core/models';
 import { LinksList } from './MenuSettings';
 import { useQuasar } from 'quasar';
 import Menu from '../components/Menu/Menu.vue';
-import LanguageSelector from '../wgo-base/language/components/LanguageSelector/LanguageSelector.vue';
+import LanguageSelector from '@wisegar-org/wgo-base-client/build/language/components/LanguageSelector/LanguageSelector.vue';
 import { useLanguageStore } from '../stores/languageStore';
 import { useTranslationStore } from '../stores/translationStore';
 import { translations } from './translationsKey';
-import { translations as authTranslations } from '../wgo-base/authentication/models/translations';
-import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
-import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
+import { LanguageStore } from '@wisegar-org/wgo-base-client/build/language/store/LanguageStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { useNotifyStore } from '../stores/notifyStore';
-import { BaseTranslateComponent } from '../wgo-base/core/components/BaseComponents';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { EmployeesService } from '../services/Employees/EmployeesService';
 
 export default defineComponent({

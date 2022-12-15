@@ -61,8 +61,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { IEmailMediaModel } from '../../../../../src/models/EmailModel';
-import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { translations } from '../translations';
 import { useTranslationStore } from '../../../stores/translationStore';
 

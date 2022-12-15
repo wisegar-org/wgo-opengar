@@ -8,11 +8,11 @@
 import { defineComponent } from 'vue';
 import EmailDetails from '../../components/EmailMedia/EmailDetails/EmailDetails.vue';
 import { EmailMediaService } from '../../services/EmailMedia/EmailMediaService';
-import Loader from '../../wgo-base/core/components/Loader/Loader.vue';
+import Loader from '@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { useRoute, useRouter } from 'vue-router';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
-import { AuthPaths } from '../../wgo-base/authentication/router';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
 import { useAppStatusStore } from '../../stores/appStatusStore';
 import { IEmailMediaModel, IEmailModel } from '../../../../src/models/EmailModel';
 

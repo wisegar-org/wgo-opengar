@@ -1,10 +1,10 @@
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { defineComponent, PropType } from 'vue';
-import { IUser } from '../../../wgo-base/core/models';
-import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import { IUser } from '@wisegar-org/wgo-base-models';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translations } from '../translations';
-import { translations as transBase } from '../../../wgo-base/core/models/translations';
-import { translations as transAuth } from '../../../wgo-base/authentication/models/translations';
+import { translations as transBase } from '@wisegar-org/wgo-base-models';
+import { translations as transAuth } from '@wisegar-org/wgo-base-models';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { useAuthStore } from 'src/stores/authStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';

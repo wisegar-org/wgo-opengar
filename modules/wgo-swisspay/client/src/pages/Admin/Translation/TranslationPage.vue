@@ -6,10 +6,10 @@
 import { useTranslationStore } from '../../../stores/translationStore';
 import { defineComponent } from 'vue';
 import { useNotifyStore } from '../../../stores/notifyStore';
-import TranslationList from '../../../wgo-base/translation/components/TranslationList/TranslationList.vue';
+import TranslationList from '@wisegar-org/wgo-base-client/build/translation/components/TranslationList/TranslationList.vue';
 import { useLanguageStore } from '../../../stores/languageStore';
-import { LanguageStore } from '../../../wgo-base/language/models/LanguageStore';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { LanguageStore } from '@wisegar-org/wgo-base-client/build/language/store/LanguageStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 
 export default defineComponent({
   name: 'TranslationPage',

@@ -1,5 +1,5 @@
-import { IIdInput } from '../../wgo-base/core/models';
-import { ApiService } from '../../wgo-base/core/services/ApiService';
+import { IIdInput } from '@wisegar-org/wgo-base-models';
+import { ApiService } from '@wisegar-org/wgo-base-client/build/core/services/ApiService';
 import {
   IEmailMediaModel,
   IEmailMediaFilter,

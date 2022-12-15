@@ -6,8 +6,8 @@
 import { useTranslationStore } from '../../../stores/translationStore';
 import { defineComponent } from 'vue';
 import { useNotifyStore } from '../../../stores/notifyStore';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
-import UsersList from '../../../wgo-base/authentication/components/UsersList/UsersList.vue';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
+import UsersList from '@wisegar-org/wgo-base-client/build/authentication/components/UsersList/UsersList.vue';
 import { useAuthStore } from '../../../stores/authStore';
 
 export default defineComponent({

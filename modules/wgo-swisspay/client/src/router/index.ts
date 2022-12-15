@@ -1,4 +1,4 @@
-import { AuthPaths } from '../wgo-base/authentication/router';
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
 import { route } from 'quasar/wrappers';
 import { useAuthStore } from 'src/stores/authStore';
 import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router';

@@ -1,13 +1,13 @@
 import { useAuthStore } from 'src/stores/authStore';
 import { defineComponent, PropType } from 'vue';
-import { BaseTranslateComponent } from '../../../wgo-base/core/components/BaseComponents';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { useRouter } from 'vue-router';
-import { RouteService } from '../../../wgo-base/core/services/RouteService';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';
 import { translations } from '../translations';
-import { translations as tranBase } from '../../../wgo-base/core/models';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { useQuasar } from 'quasar';
 import { Paths } from '../../../router/paths';
 

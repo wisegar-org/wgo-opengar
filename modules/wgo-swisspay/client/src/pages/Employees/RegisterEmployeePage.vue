@@ -13,17 +13,17 @@
 import { useNotifyStore } from '../../stores/notifyStore';
 import { defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { AuthPaths } from '../../wgo-base/authentication/router';
-import { BaseTranslateComponent } from '../../wgo-base/core/components/BaseComponents';
-import { IUser } from '../../wgo-base/core/models';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
-import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
+import { IUser } from '@wisegar-org/wgo-base-models';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { USER_ROLE } from '../../../../src/models/constants';
 import { Paths } from '../../router/paths';
 import { EmployeesService } from '../../services/Employees/EmployeesService';
 import { useTranslationStore } from '../../stores/translationStore';
 import { translations } from '../../components/Employees/translations';
-import RegisterComponent from '../../wgo-base/authentication/components/RegisterComponent.vue';
+import RegisterComponent from '@wisegar-org/wgo-base-client/build/authentication/components/RegisterComponent.vue';
 
 export default defineComponent({
   components: {

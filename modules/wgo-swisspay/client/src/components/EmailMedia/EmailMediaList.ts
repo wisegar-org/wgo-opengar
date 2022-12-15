@@ -2,19 +2,19 @@ import { IEmailModel, IEmailMediaModel } from '../../../../src/models/EmailModel
 import { EmailMediaService } from 'src/services/EmailMedia/EmailMediaService';
 import { useAuthStore } from 'src/stores/authStore';
 import { defineComponent, computed, PropType } from 'vue';
-import Table from '../../wgo-base/core/components/Table/Table.vue';
-import { ITableData, ITableRowButton } from '../../wgo-base/core/models/Table';
+import Table from '@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue';
+import { ITableData, ITableRowButton } from '@wisegar-org/wgo-base-models';
 import { getEmailMediaListSchema } from './EmailMediaSchema';
 import EmailDetailsDialog from './EmailDetails/EmailDetailsDialog.vue';
-import { BaseResizeComponent } from '../../wgo-base/core/components/BaseComponents';
+import { BaseResizeComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { useRouter } from 'vue-router';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { EmailMediaPaths } from 'src/router/paths/emailMediaPaths';
-import { AuthPaths } from '../../wgo-base/authentication/router';
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
-import { translations as tranBase } from '../../wgo-base/core/models';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models';
 import { translations } from './translations';
-import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 
 export default defineComponent({
   name: 'EmailMediaList',
