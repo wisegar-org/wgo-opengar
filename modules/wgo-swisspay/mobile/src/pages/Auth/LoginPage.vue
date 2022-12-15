@@ -10,15 +10,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import LoginComponent from '../../wgo-base/authentication/components/LoginComponent.vue';
-import { ISuccesLogin } from '../../wgo-base/authentication/models';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
+import LoginComponent from '@wisegar-org/wgo-base-client/build/authentication/components/LoginComponent.vue';
+import { ISuccesLogin } from '@wisegar-org/wgo-base-models';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { useRouter } from 'vue-router';
-import { AuthPaths } from '../../wgo-base/authentication/router';
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
 import { useAuthStore } from '../../stores/authStore';
 import { Paths } from '../../router/paths';
 import { useTranslationStore } from '../../stores/translationStore';
-import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 
 export default defineComponent({
   name: 'LoginPage',

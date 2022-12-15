@@ -1,4 +1,4 @@
-import { IRouteObject, translations } from '../wgo-base/core/models';
+import { IRouteObject, translations } from '@wisegar-org/wgo-base-models';
 
 export const Paths: IRouteObject = {
   home: {

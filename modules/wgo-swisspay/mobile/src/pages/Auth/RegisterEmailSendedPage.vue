@@ -7,11 +7,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import EmailSendedComponent from '../../wgo-base/authentication/components/EmailSendedComponent.vue';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
+import EmailSendedComponent from '@wisegar-org/wgo-base-client/build/authentication/components/EmailSendedComponent.vue';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { Paths } from '../../router/paths';
 import { useTranslationStore } from '../../stores/translationStore';
-import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 
 export default defineComponent({
   name: 'RegisterEmailSendedPage',
