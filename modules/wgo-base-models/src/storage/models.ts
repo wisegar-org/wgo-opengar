@@ -1,5 +1,13 @@
 import { IMediaModel } from "../core";
 
+export interface StorageItem<T> {
+  id: number;
+  type: string;
+  content: T;
+  imageId: number;
+  imageListId: number[];
+}
+
 export interface IStorageAllInput {
   lang: number;
   loadTranslations?: boolean;
