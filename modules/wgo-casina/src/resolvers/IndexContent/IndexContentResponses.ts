@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { MediaResponse } from "../../wgo-base/storage/resolvers/Media/MediaResponses";
+import { MediaResponse } from "@wisegar-org/wgo-base-server";
 
 @ObjectType()
 export class CasinaIndexContentResponse {

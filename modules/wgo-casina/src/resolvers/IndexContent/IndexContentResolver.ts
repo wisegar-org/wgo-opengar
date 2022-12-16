@@ -1,5 +1,5 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { IContextBase } from "../../wgo-base/core/models/context";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
 import { CasinaIndexContentInputs } from "./IndexContentInputs";
 import { IndexContentModel } from "./IndexContentModel";
 import { CasinaIndexContentResponse } from "./IndexContentResponses";

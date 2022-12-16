@@ -1,8 +1,7 @@
 import { DataSource, Repository } from "typeorm";
 import CasinaModuleEntity from "../../database/entities/CasinaModuleEntity";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import { MediaModel } from "../../wgo-base/storage/models/MediaModel";
-import { TranslationModel } from "../../wgo-base/translation/models/TranslationModel";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
+import { MediaModel, TranslationModel } from "@wisegar-org/wgo-base-server";
 import { CasinaIndexContentInputs } from "./IndexContentInputs";
 
 export class IndexContentModel {

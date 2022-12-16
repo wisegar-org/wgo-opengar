@@ -1,5 +1,5 @@
 import { Field, InputType } from "type-graphql";
-import { TranslationInput } from "../../wgo-base/translation/resolvers/TranslationInputs";
+import { TranslationInput } from "@wisegar-org/wgo-base-server";
 
 @InputType()
 export class CasinaIndexContentInputs {

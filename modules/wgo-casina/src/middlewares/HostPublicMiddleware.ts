@@ -2,7 +2,7 @@ import { Express, static as expressStatics } from "express";
 import { existsSync, mkdirpSync } from "fs-extra";
 import { join } from "path";
 import { GetWebRootKey } from "./HostClientMiddleware";
-import { MEDIA_FILES_PATH } from "../wgo-base/storage/models/constants";
+import { MEDIA_FILES_PATH } from "@wisegar-org/wgo-base-models";
 
 const createDir = (path: string, description?: string) => {
   if (!existsSync(path)) {
