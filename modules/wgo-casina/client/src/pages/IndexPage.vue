@@ -19,12 +19,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ContactComponent from '../wgo-base/contact/components/ContactComponent/ContactComponent.vue';
-import MapComponent from '../wgo-base/contact/components/MapComponent/MapComponent.vue';
+import ContactComponent from '@wisegar-org/wgo-base-client/build/contact/components/ContactComponent/ContactComponent.vue';
+import MapComponent from '@wisegar-org/wgo-base-client/build/contact/components/MapComponent/MapComponent.vue';
 import ScheduleComponent from '../components/ScheduleComponent/ScheduleComponent.vue';
 import IndexContent from '../components/IndexContent/IndexContent.vue';
 import { useTranslationStore } from '../stores/translationStore';
-import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 
 export default defineComponent({
   name: 'IndexPage',

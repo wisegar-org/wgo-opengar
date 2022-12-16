@@ -7,12 +7,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { IUser } from '../../wgo-base/core/models';
-import { RouteService } from '../../wgo-base/core/services/RouteService';
-import ChangePasswordComponent from '../../wgo-base/authentication/components/ChangePasswordComponent.vue';
-import { AuthPaths } from '../../wgo-base/authentication/router';
+import { IUser } from '@wisegar-org/wgo-base-models';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
+import ChangePasswordComponent from '@wisegar-org/wgo-base-client/build/authentication/components/ChangePasswordComponent.vue';
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
 import { useTranslationStore } from '../../stores/translationStore';
-import { TranslationStore } from '../../wgo-base/translation/models/TranslationStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 
 export default defineComponent({
   name: 'RegisterChangePasswordPage',

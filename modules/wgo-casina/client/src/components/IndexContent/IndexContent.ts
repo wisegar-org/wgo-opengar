@@ -6,16 +6,16 @@ import {
 } from 'src/models/StorageModels';
 import { useLanguageStore } from 'src/stores/languageStore';
 import { useTranslationStore } from 'src/stores/translationStore';
-import { BaseTranslateComponent } from 'src/wgo-base/core/components/BaseComponents';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { defineComponent } from 'vue';
-import MediaDiv from '../../wgo-base/core/components/MediaDiv/MediaDiv.vue';
-import SimpleCard from '../../wgo-base/core/components/Cards/SimpleCard.vue';
-import ProfileCard from '../../wgo-base/core/components/Cards/ProfileCard.vue';
-import HorizontalProfileCard from '../../wgo-base/core/components/Cards/HorizontalProfileCard.vue';
+import MediaDiv from '@wisegar-org/wgo-base-client/build/core/components/MediaDiv/MediaDiv.vue';
+import SimpleCard from '@wisegar-org/wgo-base-client/build/core/components/Cards/SimpleCard.vue';
+import ProfileCard from '@wisegar-org/wgo-base-client/build/core/components/Cards/ProfileCard.vue';
+import HorizontalProfileCard from '@wisegar-org/wgo-base-client/build/core/components/Cards/HorizontalProfileCard.vue';
 import { translationsIndexContent } from '../../models/translations';
 import { IndexContentModel } from 'src/models/IndexContentModels';
 import { CasinaModelsService } from 'src/services/CasinaModelsService';
-import { StorageService } from '../../wgo-base/storage/services/StorageService';
+import { StorageService } from '@wisegar-org/wgo-base-client/build/storage/services/StorageService';
 import { CasinaDoctorType, CasinaServiceType } from 'src/models/contansts';
 import { ApiSettingsConfig } from 'src/api/ApiOptions';
 

@@ -1,19 +1,19 @@
 import { defineComponent, PropType } from 'vue';
-import Dialog from 'src/wgo-base/core/components/Dialog/Dialog.vue';
-import { LanguageStore } from 'src/wgo-base/language/models/LanguageStore';
-import { TranslationStore } from 'src/wgo-base/translation/models/TranslationStore';
-import { BaseTranslateComponent } from 'src/wgo-base/core/components/BaseComponents';
-import { translationsDoctorsContent } from '@wisegar-org/wgo-base-models/build/translations';
-import { IMediaModel, NumberDictionary, translations as transBase } from 'src/wgo-base/core/models';
+import Dialog from '@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue';
+import { LanguageStore } from '@wisegar-org/wgo-base-client/build/language/store/LanguageStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
+import { translationsDoctorsContent } from '../../../models/translations';
+import { IMediaModel, NumberDictionary, translations as transBase } from '@wisegar-org/wgo-base-models';
 import { StorageDoctorItem } from 'src/models/StorageModels';
 import { CasinaDoctorType } from 'src/models/contansts';
-import UploadImageDiv from 'src/wgo-base/storage/components/UploadImageDiv/UploadImageDiv.vue';
-import TranslationSimpleComponent from 'src/wgo-base/translation/components/TranslationSimpleComponent/TranslationSimpleComponent.vue';
-import { MediaService } from 'src/wgo-base/storage/services/MediaService';
-import { StorageService } from 'src/wgo-base/storage/services/StorageService';
-import { IStorageInput } from 'src/wgo-base/storage/models';
+import UploadImageDiv from '@wisegar-org/wgo-base-client/build/storage/components/UploadImageDiv/UploadImageDiv.vue';
+import TranslationSimpleComponent from '@wisegar-org/wgo-base-client/build/translation/components/TranslationSimpleComponent/TranslationSimpleComponent.vue';
+import { MediaService } from '@wisegar-org/wgo-base-client/build/storage/services/MediaService';
+import { StorageService } from '@wisegar-org/wgo-base-client/build/storage/services/StorageService';
+import { IStorageInput } from '@wisegar-org/wgo-base-models';
 import { useNotifyStore } from 'src/stores/notifyStore';
-import { ITranslationModel } from 'src/wgo-base/translation/models';
+import { ITranslationModel } from '@wisegar-org/wgo-base-models';
 import { ApiSettingsConfig } from 'src/api/ApiOptions';
 
 export default defineComponent({

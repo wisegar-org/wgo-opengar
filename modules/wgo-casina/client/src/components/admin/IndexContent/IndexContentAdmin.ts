@@ -1,21 +1,20 @@
 import { useTranslationStore } from 'src/stores/translationStore';
-import { BaseTranslateComponent } from 'src/wgo-base/core/components/BaseComponents';
-import { TranslationStore } from 'src/wgo-base/translation/models/TranslationStore';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { defineComponent } from 'vue';
-import { translationsIndexContent } from '@wisegar-org/wgo-base-models/build/translations';
-import { translations as transBase, NumberDictionary, IMediaModel } from '../../../wgo-base/core/models';
-import Loader from '../../../wgo-base/core/components/Loader/Loader.vue';
-import { TranslationInput } from 'src/wgo-base/translation/resolvers/TranslationInputs';
+import { translationsIndexContent } from '../../../models/translations';
+import { translations as transBase, NumberDictionary, IMediaModel } from '@wisegar-org/wgo-base-models';
+import Loader from '@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue';
+import { ITranslationInput } from '@wisegar-org/wgo-base-models';
 import { useLanguageStore } from 'src/stores/languageStore';
 import { CasinaModelsService } from 'src/services/CasinaModelsService';
-import { TranslationService } from 'src/wgo-base/translation/service/TranslationService';
 import { useNotifyStore } from 'src/stores/notifyStore';
-import { TranslationResponse } from 'src/wgo-base/translation/resolvers/TranslationResponses';
-import UploadImageDiv from '../../../wgo-base/storage/components/UploadImageDiv/UploadImageDiv.vue';
-import TranslationComponent from '../../../wgo-base/translation/components/TranslationComponent/TranslationComponent.vue';
+import { ITranslationResponse } from '@wisegar-org/wgo-base-models';
+import UploadImageDiv from '@wisegar-org/wgo-base-client/build/storage/components/UploadImageDiv/UploadImageDiv.vue';
+import TranslationComponent from '@wisegar-org/wgo-base-client/build/translation/components/TranslationComponent/TranslationComponent.vue';
 import { ApiSettingsConfig } from 'src/api/ApiOptions';
 import { IndexContentModel } from 'src/models/IndexContentModels';
-import { MediaService } from 'src/wgo-base/storage/services/MediaService';
+import { MediaService } from '@wisegar-org/wgo-base-client/build/storage/services/MediaService';
 
 export default defineComponent({
   name: 'IndexContentAdmin',
@@ -49,7 +48,7 @@ export default defineComponent({
     const { getLabel } = new BaseTranslateComponent();
     const urlApi = ApiSettingsConfig.API_BASE;
 
-    const transContent: TranslationResponse = <TranslationResponse>{
+    const transContent: ITranslationResponse = <ITranslationResponse>{
       key: translationsIndexContent.CASINA_INDEX_CONTENT_TEXT,
       id: translationsIndexContent.CASINA_INDEX_CONTENT_TEXT,
       value: getLabel(
@@ -58,7 +57,7 @@ export default defineComponent({
       ),
     };
 
-    const transTitle: TranslationResponse = <TranslationResponse>{
+    const transTitle: ITranslationResponse = <ITranslationResponse>{
       key: translationsIndexContent.CASINA_INDEX_CONTENT_TEXT_TITLE,
       id: translationsIndexContent.CASINA_INDEX_CONTENT_TEXT_TITLE,
       value: getLabel(
@@ -98,7 +97,7 @@ export default defineComponent({
     },
     async saveData() {
       this.loading = true;
-      let translationsToSet: TranslationInput[] = [];
+      let translationsToSet: ITranslationInput[] = [];
       translationsToSet = translationsToSet
         .concat(this.getTranslationItem(this.traslationValue, this.translations.CASINA_INDEX_CONTENT_TEXT))
         .concat(this.getTranslationItem(this.traslationTitleValue, this.translations.CASINA_INDEX_CONTENT_TEXT_TITLE));

@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { AdminSettingsPaths } from '../../../wgo-base/settings/router';
+import { AdminSettingsPaths } from '@wisegar-org/wgo-base-models';
 
 export const SettingsPathRouter: RouteRecordRaw = {
   path: AdminSettingsPaths.adminSettings.path,

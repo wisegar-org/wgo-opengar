@@ -1,4 +1,4 @@
-import { IMediaModel } from 'src/wgo-base/core/models';
+import { IMediaModel } from '@wisegar-org/wgo-base-models';
 
 export interface IndexContentModel {
   image?: IMediaModel;

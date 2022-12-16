@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { AdminLanguagePaths } from '../../../wgo-base/language/router';
+import { AdminLanguagePaths } from '@wisegar-org/wgo-base-models';
 
 export const LanguagePathRouter: RouteRecordRaw = {
   path: AdminLanguagePaths.adminLanguage.path,

@@ -1,13 +1,8 @@
-import { AuthPaths } from "../wgo-base/authentication/router";
-import { route } from "quasar/wrappers";
-import { useAuthStore } from "src/stores/authStore";
-import {
-  createMemoryHistory,
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from "vue-router";
-import routes from "./routes";
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
+import { route } from 'quasar/wrappers';
+import { useAuthStore } from 'src/stores/authStore';
+import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import routes from './routes';
 
 /*
  * If not building with SSR mode, you can
@@ -20,10 +15,7 @@ import routes from "./routes";
 
 const getBeforeEachFnc = (authStore: any) => {
   return (to: any, from: any, next: any) => {
-    if (
-      (to.meta.auth && !authStore.getAppToken()) ||
-      (to.meta.role && !authStore.isUserInRole(to.meta.role))
-    ) {
+    if ((to.meta.auth && !authStore.getAppToken()) || (to.meta.role && !authStore.isUserInRole(to.meta.role))) {
       next({
         path: AuthPaths.authLogin.path,
         query: { path: to.fullPath },
@@ -37,7 +29,7 @@ const getBeforeEachFnc = (authStore: any) => {
 export default route(function ({ store }) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : process.env.VUE_ROUTER_MODE === "history"
+    : process.env.VUE_ROUTER_MODE === 'history'
     ? createWebHistory
     : createWebHashHistory;
 
@@ -48,9 +40,7 @@ export default route(function ({ store }) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(
-      process.env.MODE === "ssr" ? void 0 : process.env.VUE_ROUTER_BASE
-    ),
+    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
   const authStore = useAuthStore(store);
   const beforeEach = getBeforeEachFnc(authStore.authStore);

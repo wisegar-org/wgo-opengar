@@ -50,22 +50,22 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import LoginBtn from '../wgo-base/core/components/LoginBtn/LoginBtn.vue';
+import LoginBtn from '@wisegar-org/wgo-base-client/build/core/components/LoginBtn/LoginBtn.vue';
 import { useAuthStore } from '../stores/authStore';
-import { RouteService } from '../wgo-base/core/services/RouteService';
+import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { useRouter } from 'vue-router';
-import { AuthPaths } from '../wgo-base/authentication/router';
+import { AuthPaths } from '@wisegar-org/wgo-base-models';
 import { Paths } from '../router/paths';
-import { IUser } from '../wgo-base/core/models';
-import LanguageSelector from '../wgo-base/language/components/LanguageSelector/LanguageSelector.vue';
+import { IUser } from '@wisegar-org/wgo-base-models';
+import LanguageSelector from '@wisegar-org/wgo-base-client/build/language/components/LanguageSelector/LanguageSelector.vue';
 import { useLanguageStore } from '../stores/languageStore';
 import { useTranslationStore } from '../stores/translationStore';
-import { LanguageStore } from '../wgo-base/language/models/LanguageStore';
-import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
-import { translations as transBase } from '../wgo-base/core/models/translations';
-import { BaseTranslateComponent } from '../wgo-base/core/components/BaseComponents';
-import { SUPERADMIN } from '../wgo-base/authentication/models';
-import { AdminPaths } from '../wgo-base/core/router';
+import { LanguageStore } from '@wisegar-org/wgo-base-client/build/language/store/LanguageStore';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
+import { translations as transBase } from '@wisegar-org/wgo-base-models';
+import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
+import { SUPERADMIN } from '@wisegar-org/wgo-base-models';
+import { AdminPaths } from '@wisegar-org/wgo-base-models';
 
 export default defineComponent({
   name: 'MainLayout',

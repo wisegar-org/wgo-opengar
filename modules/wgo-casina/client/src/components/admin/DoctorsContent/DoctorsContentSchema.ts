@@ -1,7 +1,7 @@
 import { StorageDoctorItem } from 'src/models/StorageModels';
-import { ITableLeftButton, ITableRowButton, ITableSchema } from 'src/wgo-base/core/models/Table';
-import { TranslationStore } from 'src/wgo-base/translation/models/TranslationStore';
-import { translationsDoctorsContent } from '@wisegar-org/wgo-base-models/build/translations';
+import { ITableLeftButton, ITableRowButton, ITableSchema } from '@wisegar-org/wgo-base-models';
+import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
+import { translationsDoctorsContent } from '../../../models/translations';
 
 export const getDoctorsListSchema = (
   transStore: TranslationStore,

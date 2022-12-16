@@ -9,7 +9,7 @@
 import { defineComponent } from 'vue';
 import { useNotifyStore } from './stores/notifyStore';
 import { QNotifyCreateOptions, useQuasar } from 'quasar';
-import Loader from './wgo-base/core/components/Loader/Loader.vue';
+import Loader from '@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue';
 import { useAppStatusStore } from './stores/appStatusStore';
 
 export default defineComponent({
