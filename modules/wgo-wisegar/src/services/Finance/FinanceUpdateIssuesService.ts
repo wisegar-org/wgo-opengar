@@ -14,14 +14,14 @@ import {
   FinanceOrganizationSettings,
   WRONG_TOKEN,
 } from "../../models/Finance";
-import { IContextBase } from "../../wgo-base/core/models/context";
-import { SettingsModel } from "../../wgo-base/settings/models/SettingsModel";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
+import { SettingsModel } from "@wisegar-org/wgo-base-server";
 import { FinanceCollaboratorService } from "./FinanceCollaboratorService";
 import { FinanceIssuesService } from "./FinanceIssuesService";
 import { FinanceLabelService } from "./FinanceLabelService";
 import { FinanceProjectService } from "./FinanceProjectService";
 import { FinanceRepositoryService } from "./FinanceRepositoryService";
-import { SETTINGS_FINANCE_ORGANIZATION } from "./FInanceSettings";
+import { SETTINGS_FINANCE_ORGANIZATION } from "./FinanceSettings";
 import { ctx } from "../../handlers/AppContextHandler";
 import { READ_ISSUES_INTERVAL } from "../../models/constants";
 

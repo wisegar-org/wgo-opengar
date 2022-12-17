@@ -1,7 +1,7 @@
 import {
   ISettingValueNumber,
   ISettingValuePassword,
-} from "../../wgo-base/settings/models";
+} from "@wisegar-org/wgo-base-models";
 
 export const SETTINGS_FINANCE_ORGANIZATION = "FINANCE_ORGANIZATION";
 

@@ -5,7 +5,7 @@ import {
   Column,
   BaseEntity,
 } from "typeorm";
-import MediaEntity from "../../wgo-base/storage/database/entities/MediaEntity";
+import { MediaEntity } from "@wisegar-org/wgo-base-server";
 import "reflect-metadata";
 
 @Entity()

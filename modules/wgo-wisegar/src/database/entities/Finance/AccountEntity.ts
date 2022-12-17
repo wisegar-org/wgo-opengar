@@ -13,7 +13,7 @@ import { RepositoryEntity } from "./RepositoryEntity";
 import { ProjectEntity } from "./ProjectEntity";
 import { CollaboratorEntity } from "./CollaboratorEntity";
 import { IssueEntity } from "./IssueEntity";
-import moment from "moment";
+import { GetMaskedDate } from "@wisegar-org/wgo-object-extensions";
 
 export enum AccountingStatus {
   Pending = 1,
@@ -140,7 +140,8 @@ export class AccountEntity extends BaseEntity {
     this.taxes = taxes;
     this.details = details;
     this.payment_comment = payment_comment;
-    this.payment_code = `${contributorCode}${moment(this.date).format(
+    this.payment_code = `${contributorCode}${GetMaskedDate(
+      this.date,
       "YYYYMM"
     )}`;
     this.status = AccountingStatus.Pending;

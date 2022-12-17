@@ -1,5 +1,5 @@
-import { IMediaModel } from "../../wgo-base/core/models";
-import { ITranslationArg } from "../../wgo-base/translation/models";
+import { IMediaModel } from "@wisegar-org/wgo-base-models";
+import { ITranslationArg } from "@wisegar-org/wgo-base-models";
 
 export interface IIndexContentModel {
   image: IMediaModel;

@@ -9,14 +9,14 @@ import {
 
 /********************************* Entities **********************************/
 /** Base Entities */
-import { UserEntity } from "./wgo-base/authentication/database/entities/UserEntity";
-import { RoleEntity } from "./wgo-base/authentication/database/entities/RoleEntity";
-import { LanguageEntity } from "./wgo-base/language/database/entities/LanguageEntity";
-import { TranslationEntity } from "./wgo-base/translation/database/entities/TranslationEntity";
-import { SettingsEntity } from "./wgo-base/settings/database/entities/SettingsEntity";
-import { ContactMeEntity } from "./wgo-base/contact/database/entities/ContactMeEntity";
-import { MediaEntity } from "./wgo-base/storage/database/entities/MediaEntity";
-import { StorageEntity } from "./wgo-base/storage/database/entities/StorageEntity";
+import { UserEntity } from "@wisegar-org/wgo-base-server";
+import { RoleEntity } from "@wisegar-org/wgo-base-server";
+import { LanguageEntity } from "@wisegar-org/wgo-base-server";
+import { TranslationEntity } from "@wisegar-org/wgo-base-server";
+import { SettingsEntity } from "@wisegar-org/wgo-base-server";
+import { ContactMeEntity } from "@wisegar-org/wgo-base-server";
+import { MediaEntity } from "@wisegar-org/wgo-base-server";
+import { StorageEntity } from "@wisegar-org/wgo-base-server";
 
 /** Wisegar Module Entities */
 import { IndexContentEntity } from "./database/entities/IndexContentEntity";
@@ -30,14 +30,14 @@ import { ProjectEntity } from "./database/entities/Finance/ProjectEntity";
 import { RepositoryEntity } from "./database/entities/Finance/RepositoryEntity";
 
 /********************************* Migrations **********************************/
-import { getAuthenticationMigrations } from "./wgo-base/authentication/database/migrations";
-import { getContactMigrations } from "./wgo-base/contact/database/migrations";
-import { getHistoricMigrations } from "./wgo-base/historic/database/migrations";
-import { getLanguageMigrations } from "./wgo-base/language/database/migrations";
-import { getSettingsMigrations } from "./wgo-base/settings/database/migrations";
-import { getStorageMigrations } from "./wgo-base/storage/database/migrations";
-import { getTemplateMigrations } from "./wgo-base/template/database/migrations";
-import { getTranslationMigrations } from "./wgo-base/translation/database/migrations";
+import { getAuthenticationMigrations } from "@wisegar-org/wgo-base-server";
+import { getContactMigrations } from "@wisegar-org/wgo-base-server";
+import { getHistoricMigrations } from "@wisegar-org/wgo-base-server";
+import { getLanguageMigrations } from "@wisegar-org/wgo-base-server";
+import { getSettingsMigrations } from "@wisegar-org/wgo-base-server";
+import { getStorageMigrations } from "@wisegar-org/wgo-base-server";
+import { getTemplateMigrations } from "@wisegar-org/wgo-base-server";
+import { getTranslationMigrations } from "@wisegar-org/wgo-base-server";
 import { getWisegarMigrations } from "./database/migrations";
 
 const migrations = getAuthenticationMigrations()

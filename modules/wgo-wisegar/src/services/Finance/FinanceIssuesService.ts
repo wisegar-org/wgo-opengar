@@ -2,7 +2,7 @@ import { Like, Repository } from "typeorm";
 import AccountEntity from "../../database/entities/Finance/AccountEntity";
 import IssueEntity from "../../database/entities/Finance/IssueEntity";
 import { IFinanceIssuesPageInput } from "../../models/Finance";
-import { IContextBase } from "../../wgo-base/core/models/context";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
 import { FinanceCollaboratorService } from "./FinanceCollaboratorService";
 import { FinanceProjectService } from "./FinanceProjectService";
 import { FinanceRepositoryService } from "./FinanceRepositoryService";
@@ -10,7 +10,10 @@ import {
   setLabel as SetLabelGithub,
   removeLabel as RemoveLabelGithub,
 } from "@wisegar-org/wgo-github";
-import { ObjectDictionary, StringDictionary } from "../../wgo-base/core/models";
+import {
+  ObjectDictionary,
+  StringDictionary,
+} from "@wisegar-org/wgo-base-models";
 
 export class FinanceIssuesService {
   ctx: IContextBase;
