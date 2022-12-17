@@ -1,25 +1,26 @@
 import { IContextOptions } from "@wisegar-org/wgo-server";
 import {
+  GetCypherKey,
   GetEmailAppAddressKey,
   GetExpiresInKey,
   GetHostBaseKey,
   GetPrivateKey,
   GetPublicKey,
 } from "@wisegar-org/wgo-settings";
-import { SUPERADMIN } from "../wgo-base/authentication/models";
-import { translations } from "../wgo-base/core/models";
-import { UserRolesModel } from "../wgo-base/authentication/models/UserRolesModel";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models";
+import { translations } from "@wisegar-org/wgo-base-models";
+import { UserRolesModel, listenersEvents } from "@wisegar-org/wgo-base-server";
 import { PostgresDataSource } from "../dataSources";
-import { IContextBase } from "../wgo-base/core/models/context";
+import { IContextBase } from "@wisegar-org/wgo-base-models";
 import { GetWebRootKey } from "../middlewares/HostClientMiddleware";
 import { EventEmitter } from "events";
-import { listenersEvents } from "../wgo-base/settings/models/SettingsUtils";
 
 export const ctx = {
   dataSource: PostgresDataSource,
   web_root: GetWebRootKey(),
   emiter: new EventEmitter(),
   listenersEvents: listenersEvents,
+  cypherKey: GetCypherKey(),
 } as IContextBase;
 
 const authModel = new UserRolesModel({

@@ -20,9 +20,9 @@ import { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
 import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
-import { roleSuperAdminSeeder } from "./wgo-base/authentication/database/seeder/roles";
-import { userAdminSeeder } from "./wgo-base/authentication/database/seeder/user";
-import { languageDefaultSeeder } from "./wgo-base/language/database/seeder/language";
+import { roleSuperAdminSeeder } from "@wisegar-org/wgo-base-server";
+import { userAdminSeeder } from "@wisegar-org/wgo-base-server";
+import { languageDefaultSeeder } from "@wisegar-org/wgo-base-server";
 import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 
