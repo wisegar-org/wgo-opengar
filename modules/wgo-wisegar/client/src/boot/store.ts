@@ -1,11 +1,11 @@
-import { ApiService } from '../wgo-base/core/services/ApiService';
-import { boot } from 'quasar/wrappers';
-import { getApiServiceOptions } from 'src/api/ApiOptions';
-import { useAuthStore } from 'src/stores/authStore';
-import { useLanguageStore } from 'src/stores/languageStore';
-import { useTranslationStore } from 'src/stores/translationStore';
-import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
-import { Translations } from '../settings/translations';
+import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
+import { boot } from "quasar/wrappers";
+import { getApiServiceOptions } from "src/api/ApiOptions";
+import { useAuthStore } from "src/stores/authStore";
+import { useLanguageStore } from "src/stores/languageStore";
+import { useTranslationStore } from "src/stores/translationStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { Translations } from "../settings/translations";
 
 export default boot(({ app, store, router }) => {
   if (!ApiService.isDefineInstance()) {
@@ -25,7 +25,9 @@ export default boot(({ app, store, router }) => {
 
   //Language store
   const langStore = useLanguageStore(store);
-  langStore.setTranslationStore(translationStore.translationStore as TranslationStore);
+  langStore.setTranslationStore(
+    translationStore.translationStore as TranslationStore
+  );
   app.config.globalProperties.$langStore = langStore;
 
   promises.push(
@@ -34,7 +36,9 @@ export default boot(({ app, store, router }) => {
       const promisesStore: Promise<any>[] = [];
       //register others request on stores workflow
       promisesStore.push(
-        langStore.loadAllLanguages().then(() => translationStore.getAndRegisterTranslations(Translations))
+        langStore
+          .loadAllLanguages()
+          .then(() => translationStore.getAndRegisterTranslations(Translations))
       );
 
       return Promise.all(promisesStore);

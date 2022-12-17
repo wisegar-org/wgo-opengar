@@ -3,10 +3,10 @@ import { defineComponent } from "vue";
 import { IFinanceIssuesModel } from "../../../../../src/models/Finance";
 import { getIssuesListSchema } from "./IssuesListSchema";
 import { useTranslationStore } from "src/stores/translationStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import { ITablePagination } from "src/wgo-base/core/models/Table";
-import Table from "../../../wgo-base/core/components/Table/Table.vue";
-import { BaseResizeComponent } from "src/wgo-base/core/components/BaseComponents";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { ITablePagination } from "@wisegar-org/wgo-base-models";
+import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
+import { BaseResizeComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 
 export default defineComponent({
   name: "IssuesList",

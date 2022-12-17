@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { TranslationStore } from '../wgo-base/translation/models/TranslationStore';
+import { defineStore } from "pinia";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
-export const translationStoreId = 'translationStore';
+export const translationStoreId = "translationStore";
 
 export const useTranslationStore = defineStore({
   id: translationStoreId,

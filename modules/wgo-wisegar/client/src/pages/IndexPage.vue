@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useMeta } from "quasar";
-import { BaseSeoDataComponent } from "../wgo-base/core/components/BaseComponents";
+import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import IndexContent from "../components/IndexContent/IndexContent.vue";
 
 export default defineComponent({

@@ -1,25 +1,25 @@
 import { defineComponent } from "vue";
-import MediaDiv from "../../wgo-base/core/components/MediaDiv/MediaDiv.vue";
-import ModuleCard from "../../wgo-base/core/components/Cards/ModuleCard.vue";
+import MediaDiv from "@wisegar-org/wgo-base-client/build/core/components/MediaDiv/MediaDiv.vue";
+import ModuleCard from "@wisegar-org/wgo-base-client/build/core/components/Cards/ModuleCard.vue";
 import { IIndexContentModel } from "../../../../src/models/IndexContent";
 import { IndexContentService } from "src/services/IndexContent/IndexContentService";
 import { useTranslationStore } from "src/stores/translationStore";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
-import ContactComponent from "../../wgo-base/contact/components/ContactComponent/ContactComponent.vue";
-import MapComponent from "../../wgo-base/contact/components/MapComponent/MapComponent.vue";
-import { StorageItem } from "../../wgo-base/storage/models/StorageModel";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import ContactComponent from "@wisegar-org/wgo-base-client/build/contact/components/ContactComponent/ContactComponent.vue";
+import MapComponent from "@wisegar-org/wgo-base-client/build/contact/components/MapComponent/MapComponent.vue";
 import { StorageIndexContentModules } from "src/models/indexContent";
-import { StorageService } from "../../wgo-base/storage/services/StorageService";
+import { StorageService } from "@wisegar-org/wgo-base-client/build/storage/services/StorageService";
 import { useAuthStore } from "src/stores/authStore";
-import { AuthStore } from "src/wgo-base/authentication/models/AuthStore";
+import { AuthStore } from "@wisegar-org/wgo-base-client/build/authentication/store/AuthStore";
 import { useLanguageStore } from "src/stores/languageStore";
-import { LanguageStore } from "src/wgo-base/language/models/LanguageStore";
+import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
 import { ApiSettingsConfig } from "src/api/ApiOptions";
 import {
   MODULES_STORAGE_TYPE,
   translationsIndexContent as translations,
 } from "../../models";
-import { BaseTranslateComponent } from "src/wgo-base/core/components/BaseComponents";
+import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { StorageItem } from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   name: "IndexContent",

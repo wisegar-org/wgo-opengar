@@ -1,4 +1,4 @@
-import { ApiService } from "../../wgo-base/core/services/ApiService";
+import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 import { ApiSettingsConfig } from "src/api/ApiOptions";
 import {
   M_WISEGAR_SET_INDEXCONTENT,

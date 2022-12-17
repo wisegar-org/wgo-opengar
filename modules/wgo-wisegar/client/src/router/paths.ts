@@ -2,8 +2,8 @@ import {
   translationsFinanceIssues,
   translationsIndexContentAdmin,
 } from "src/models";
-import { AdminBasePath } from "src/wgo-base/core/router";
-import { IRouteObject, translations } from "../wgo-base/core/models";
+import { AdminBasePath } from "@wisegar-org/wgo-base-models";
+import { IRouteObject, translations } from "@wisegar-org/wgo-base-models";
 import { FinanceBasePath } from "./paths/finance";
 
 export const Paths: IRouteObject = {

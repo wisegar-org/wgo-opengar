@@ -14,16 +14,16 @@
 import { defineComponent } from "vue";
 import { useAuthStore } from "../../stores/authStore";
 import { useTranslationStore } from "../../stores/translationStore";
-import MainLayout from "../../wgo-base/core/components/Layouts/MainLayout.vue";
+import MainLayout from "@wisegar-org/wgo-base-client/build/core/components/Layouts/MainLayout.vue";
 import { financeMenuItems as menuItems } from "../../settings/navigation";
 import { useRouter } from "vue-router";
-import { RouteService } from "../../wgo-base/core/services/RouteService";
+import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { useLanguageStore } from "../../stores/languageStore";
-import { AuthStore } from "../../wgo-base/authentication/models/AuthStore";
-import { TranslationStore } from "../../wgo-base/translation/models/TranslationStore";
-import { LanguageStore } from "../../wgo-base/language/models/LanguageStore";
+import { AuthStore } from "@wisegar-org/wgo-base-client/build/authentication/store/AuthStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
 import { Paths } from "../../router/paths";
-import { translations as tranBase } from "../../wgo-base/core/models";
+import { translations as tranBase } from "@wisegar-org/wgo-base-models";
 
 export default defineComponent({
   components: {

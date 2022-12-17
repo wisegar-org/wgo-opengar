@@ -1,11 +1,11 @@
-import { SUPERADMIN } from "src/wgo-base/authentication/models";
-import { AdminContactPaths } from "src/wgo-base/contact/router";
-import { MenuListItem } from "src/wgo-base/core/models/Menu";
-import { AdminLanguagePaths } from "src/wgo-base/language/router";
-import { AdminSettingsPaths } from "src/wgo-base/settings/router";
-import { AdminTranslationPaths } from "src/wgo-base/translation/router";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models";
+import { AdminContactPaths } from "@wisegar-org/wgo-base-models";
+import { MenuListItem } from "@wisegar-org/wgo-base-models";
+import { AdminLanguagePaths } from "@wisegar-org/wgo-base-models";
+import { AdminSettingsPaths } from "@wisegar-org/wgo-base-models";
+import { AdminTranslationPaths } from "@wisegar-org/wgo-base-models";
 import { Paths } from "../router/paths";
-import { AuthPaths } from "../wgo-base/authentication/router";
+import { AuthPaths } from "@wisegar-org/wgo-base-models";
 
 export const financeMenuItems: MenuListItem[] = [
   {

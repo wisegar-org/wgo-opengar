@@ -3,8 +3,8 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "src/wgo-base/core/models/Table";
-import { TranslationStore } from "src/wgo-base/translation/models/TranslationStore";
+} from "@wisegar-org/wgo-base-models";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export const getIssuesListSchema = (
   transStore: TranslationStore,

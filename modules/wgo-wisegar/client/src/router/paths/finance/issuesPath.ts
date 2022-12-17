@@ -1,6 +1,6 @@
 import { Paths } from "src/router/paths";
 import { financeMenuItems } from "src/settings/navigation";
-import { AdminBasePath } from "src/wgo-base/core/router";
+import { AdminBasePath } from "@wisegar-org/wgo-base-models";
 import { RouteRecordRaw } from "vue-router";
 import { FinanceBasePath } from ".";
 
