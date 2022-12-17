@@ -1,17 +1,21 @@
 <template>
-  <UsersList :tranStore="translationStore" :authStore="authStore" @success="success" />
+  <UsersList
+    :tranStore="translationStore"
+    :authStore="authStore"
+    @success="success"
+  />
 </template>
 
 <script lang="ts">
-import { useTranslationStore } from '../../../stores/translationStore';
-import { defineComponent } from 'vue';
-import { useNotifyStore } from '../../../stores/notifyStore';
-import { TranslationStore } from '../../../wgo-base/translation/models/TranslationStore';
-import UsersList from '../../../wgo-base/authentication/components/UsersList/UsersList.vue';
-import { useAuthStore } from '../../../stores/authStore';
+import { useTranslationStore } from "../../../stores/translationStore";
+import { defineComponent } from "vue";
+import { useNotifyStore } from "../../../stores/notifyStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import UsersList from "@wisegar-org/wgo-base-client/build/authentication/components/UsersList/UsersList.vue";
+import { useAuthStore } from "../../../stores/authStore";
 
 export default defineComponent({
-  name: 'AuthUserPage',
+  name: "AuthUserPage",
   components: {
     UsersList,
   },
@@ -28,8 +32,8 @@ export default defineComponent({
   methods: {
     success(msg: string) {
       this.notifyStore.setNotify({
-        position: 'top',
-        type: 'positive',
+        position: "top",
+        type: "positive",
         message: msg,
       });
     },

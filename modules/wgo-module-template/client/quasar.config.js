@@ -89,10 +89,12 @@ module.exports = configure(function (ctx) {
         if (cfg.resolve.fallback) {
           cfg.resolve.fallback["child_process"] = false;
           cfg.resolve.fallback["https"] = false;
+          cfg.resolve.fallback.fs = require.resolve("fs-extra")
         } else {
           cfg.resolve.fallback = {
             child_process: false,
             https: false,
+            fs: require.resolve("fs-extra")
           };
         }
 
