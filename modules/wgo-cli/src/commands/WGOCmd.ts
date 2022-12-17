@@ -102,36 +102,13 @@ export class WgoCommand extends Command {
       }
     });
 
-    const wgoBaseSourcePath = join(wgoRootSourcePath, "modules", "wgo-base");
-    const wgoBuildSourcePath = join(wgoRootSourcePath, "build");
     const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
-
-    /**
-     * Base building
-     */
-    Logger.Line("Installing base dependencies...", () => {
-      if (existsSync(wgoBaseSourcePath)) {
-        runScript(`npm install`, wgoBaseSourcePath, (err) => {
-          Logger.Error(err, true);
-        });
-      }
-    });
 
     /**
      * Server building
      */
     const destination = app_root;
     const buildServerPath = join(wgoServerSourcePath, "build");
-
-    Logger.Line("Installing base dependencies on server...", () => {
-      if (existsSync(wgoBaseSourcePath) && existsSync(wgoServerSourcePath)) {
-        createSymlinkSync(
-          wgoBaseSourcePath,
-          join(wgoServerSourcePath, "src"),
-          "junction"
-        );
-      }
-    });
 
     Logger.Line("Installing server dependencies...", () => {
       if (existsSync(wgoServerSourcePath)) {
@@ -201,7 +178,6 @@ export class WgoCommand extends Command {
     WgoCommand.ExecuteClient({
       clientName,
       buildServerPath,
-      wgoBaseSourcePath,
       wgoServerSourcePath,
       wgoBuildClientSourcePath: join(buildServerPath, clientName),
       wgoClientSourcePath: join(wgoServerSourcePath, clientName),
@@ -214,7 +190,6 @@ export class WgoCommand extends Command {
     WgoCommand.ExecuteClient({
       clientName,
       buildServerPath,
-      wgoBaseSourcePath,
       wgoServerSourcePath,
       wgoBuildClientSourcePath: join(buildServerPath, clientName),
       wgoClientSourcePath: join(wgoServerSourcePath, clientName),
@@ -263,27 +238,10 @@ export class WgoCommand extends Command {
     buildServerPath: string;
     wgoServerSourcePath: string;
     wgoClientSourcePath: string;
-    wgoBaseSourcePath: string;
     wgoBuildClientSourcePath: string;
   }) => {
     const sourceFilesClient = ["package.json", "package-lock.json", ".npmrc"];
     const buildClientPath = join(config.wgoClientSourcePath, "dist", "spa");
-
-    Logger.Line(
-      `Installing base dependencies on ${config.clientName}...`,
-      () => {
-        if (
-          existsSync(config.wgoBaseSourcePath) &&
-          existsSync(config.wgoClientSourcePath)
-        ) {
-          createSymlinkSync(
-            config.wgoBaseSourcePath,
-            join(config.wgoClientSourcePath, "src"),
-            "junction"
-          );
-        }
-      }
-    );
 
     Logger.Line(`Building options.env ${config.clientName} file...`, () => {
       if (existsSync(config.wgoClientSourcePath)) {

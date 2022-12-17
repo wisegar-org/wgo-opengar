@@ -18,6 +18,7 @@
     "build:exe": "npm run build && pkg ./build/index.js --config ./package.json",
     "build:agv": "npm run build && node ./build/index.js agv --ws ./localworkspace --env production --port 5055 --root C://Web//Sites --url https://agv.wisegar.org --git-user yarielre --git-psw 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 --branch main --settings-root C://Web//Settings//agv",
     "build:swisspay": "npm run build && node ./build/index.js wgo --env production --port 5067 --root C://Web//Sites --url https://swisspay.wisegar.org --branch main --settings-root C://Web//Settings//wgo-swisspay --module-name wgo-swisspay",
+    "build:agv2": "npm run build && node ./build/index.js wgo --env production --port 5067 --root C://Web//Sites --url https://swisspay.wisegar.org --branch main --settings-root C://Web//Settings//wgo-agv --module-name wgo-agv",
     "deploy": "npm run build && npm publish"
   },
   "pkg": {
