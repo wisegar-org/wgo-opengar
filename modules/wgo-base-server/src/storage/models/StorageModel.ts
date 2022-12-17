@@ -9,16 +9,9 @@ import {
   IStorageResponse,
   StringDictionary,
   StorageKeys,
+  StorageItem,
 } from "@wisegar-org/wgo-base-models";
 import { TranslationModel } from "../../translation/models/TranslationModel";
-
-export interface StorageItem<T> {
-  id: number;
-  type: string;
-  content: T;
-  imageId: number;
-  imageListId: number[];
-}
 
 export class StorageModel {
   dataSource: DataSource;
