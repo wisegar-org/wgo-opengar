@@ -10,6 +10,7 @@ import {
 import {
   UserEntity,
   RoleEntity,
+  MediaEntity,
   LanguageEntity,
   TranslationEntity,
   SettingsEntity,
@@ -53,6 +54,7 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: [
     UserEntity,
     RoleEntity,
+    MediaEntity,
     LanguageEntity,
     TranslationEntity,
     SettingsEntity,
