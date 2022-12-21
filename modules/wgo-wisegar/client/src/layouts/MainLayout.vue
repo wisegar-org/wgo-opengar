@@ -22,7 +22,7 @@ import { AuthStore } from "@wisegar-org/wgo-base-client/build/authentication/sto
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
 import { Paths } from "../router/paths";
-import { MenuListItem } from "@wisegar-org/wgo-base-models";
+import { MenuListItem } from "@wisegar-org/wgo-base-models/build/core/Menu";
 
 export default defineComponent({
   components: {

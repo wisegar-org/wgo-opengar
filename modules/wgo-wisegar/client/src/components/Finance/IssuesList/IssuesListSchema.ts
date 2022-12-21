@@ -3,7 +3,7 @@ import {
   ITableLeftButton,
   ITableRowButton,
   ITableSchema,
-} from "@wisegar-org/wgo-base-models";
+} from "@wisegar-org/wgo-base-models/build/core/Table";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export const getIssuesListSchema = (

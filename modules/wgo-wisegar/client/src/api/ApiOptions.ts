@@ -1,12 +1,12 @@
 import { Pinia } from "pinia";
 import { IApiServiceOptions } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 import { Environment, getSettings } from "./ApiSettings";
-import { USER_AUTH_TOKEN } from "@wisegar-org/wgo-base-models";
-import { translations } from "@wisegar-org/wgo-base-models";
+import { translations } from "@wisegar-org/wgo-base-models/build/core/translations";
 
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useAuthStore } from "src/stores/authStore";
 import { useTranslationStore } from "src/stores/translationStore";
+import { USER_AUTH_TOKEN } from "@wisegar-org/wgo-base-models/build/authentication/constants";
 import { useLanguageStore } from "src/stores/languageStore";
 const defaultEnv: Environment =
   process.env.NODE_ENV === Environment.Production
@@ -74,6 +74,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       }
     },
     onHeadersSetup: (headers: any) => {
+      debugger;
       headers.language = langStore.languageStore.selectedLang.id || 0;
     },
   };

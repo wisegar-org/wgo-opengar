@@ -7,11 +7,11 @@ import {
   GetPrivateKey,
   GetPublicKey,
 } from "@wisegar-org/wgo-settings";
-import { SUPERADMIN } from "@wisegar-org/wgo-base-models";
-import { translations } from "@wisegar-org/wgo-base-models";
+import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
+import { translations } from "@wisegar-org/wgo-base-models/build/core";
 import { UserRolesModel, listenersEvents } from "@wisegar-org/wgo-base-server";
 import { PostgresDataSource } from "../dataSources";
-import { IContextBase } from "@wisegar-org/wgo-base-models";
+import { IContextBase } from "@wisegar-org/wgo-base-models/build/core";
 import { GetWebRootKey } from "../middlewares/HostClientMiddleware";
 import { EventEmitter } from "events";
 import { FinanceIssuesToken, FinanceIssuesZincTime } from "../models/Finance";

@@ -4,7 +4,7 @@ import { IFinanceIssuesModel } from "../../../../../src/models/Finance";
 import { getIssuesListSchema } from "./IssuesListSchema";
 import { useTranslationStore } from "src/stores/translationStore";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
-import { ITablePagination } from "@wisegar-org/wgo-base-models";
+import { ITablePagination } from "@wisegar-org/wgo-base-models/build/core/Table";
 import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
 import { BaseResizeComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 

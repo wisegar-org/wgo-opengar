@@ -12,7 +12,7 @@ import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import ResendConfirmComponent from "@wisegar-org/wgo-base-client/build/authentication/components/ResendConfirmComponent.vue";
 import { Paths } from "../../router/paths";
-import { AuthPaths } from "@wisegar-org/wgo-base-models";
+import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication";
 import { useTranslationStore } from "../../stores/translationStore";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 

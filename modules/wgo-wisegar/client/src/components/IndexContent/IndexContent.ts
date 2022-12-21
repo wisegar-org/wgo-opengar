@@ -19,7 +19,7 @@ import {
   translationsIndexContent as translations,
 } from "../../models";
 import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
-import { StorageItem } from "@wisegar-org/wgo-base-models";
+import { StorageItem } from "@wisegar-org/wgo-base-models/build/storage/index";
 
 export default defineComponent({
   name: "IndexContent",
