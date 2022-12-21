@@ -65,7 +65,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       });
     },
     onTokenRefresh: (headers: any) => {
-      if (headers) {
+      if (headers && headers.get) {
         const refreshedToken = headers.get("authorization-refresh");
         if (!refreshedToken || refreshedToken === null) return;
         authStore.authStore.setToken(refreshedToken);
