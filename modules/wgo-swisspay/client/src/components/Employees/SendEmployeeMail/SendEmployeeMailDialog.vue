@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { translations } from '../translations';
-import { translations as tranBase } from '@wisegar-org/wgo-base-models';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models/build/core';
 import { defineComponent, PropType } from 'vue';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import Dialog from '@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue';

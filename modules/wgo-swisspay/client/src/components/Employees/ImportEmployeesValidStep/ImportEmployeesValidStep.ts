@@ -2,17 +2,16 @@ import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation
 import { defineComponent, PropType } from 'vue';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translations } from '../translations';
-import { translations as transBase } from '@wisegar-org/wgo-base-models';
-import { translations as transAuth } from '@wisegar-org/wgo-base-models';
+import { translations as transBase } from '@wisegar-org/wgo-base-models/build/core';
+import { authTranslations as transAuth } from '@wisegar-org/wgo-base-models/build/authentication';
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { useAuthStore } from 'src/stores/authStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';
 import { useNotifyStore } from 'src/stores/notifyStore';
 import { IEmployeeModel, IEmployeeToImportModel } from '../../../../../src/models/EmployeesModel';
-import { ITableRowButton } from '@wisegar-org/wgo-base-models';
+import { ITableRowButton } from '@wisegar-org/wgo-base-models/build/core/Table';
 import { useTranslationStore } from 'src/stores/translationStore';
 import { getImportEmployeesListSchema } from './ImportEmployeesSchema';
-import { translations as tranBase } from '@wisegar-org/wgo-base-models';
 import Table from '@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue';
 import ImportEmployeeEditorDialog from './ImportEmployeeEditorDialog.vue';
 
@@ -93,18 +92,18 @@ export default defineComponent({
     deleteEmployee(employee: any) {
       this.$q
         .dialog({
-          title: this.getLabel(tranBase.CONFIRM),
+          title: this.getLabel(transBase.CONFIRM),
           message: this.getLabel(translations.DELETE_EMPLOYEE_MESSAGE),
           persistent: true,
           focus: 'cancel',
           ok: {
             color: 'primary',
-            label: this.getLabel(tranBase.CONFIRM),
+            label: this.getLabel(transBase.CONFIRM),
             tabindex: 0,
           },
           cancel: {
             flat: true,
-            label: this.getLabel(tranBase.CANCEL),
+            label: this.getLabel(transBase.CANCEL),
             tabindex: 1,
           },
         })

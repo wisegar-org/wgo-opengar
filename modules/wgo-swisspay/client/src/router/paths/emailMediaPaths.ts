@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { IRouteObject } from '@wisegar-org/wgo-base-models';
+import { IRouteObject } from '@wisegar-org/wgo-base-models/build/core';
 import { translations } from '../../components/EmailMedia/translations';
 
 export const EmailMediaPaths: IRouteObject = {

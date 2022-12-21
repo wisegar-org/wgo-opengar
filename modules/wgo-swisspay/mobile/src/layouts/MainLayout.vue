@@ -33,9 +33,9 @@ import LoginBtn from '@wisegar-org/wgo-base-client/build/core/components/LoginBt
 import { useAuthStore } from '../stores/authStore';
 import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { useRouter } from 'vue-router';
-import { AuthPaths } from '@wisegar-org/wgo-base-models';
+import { AuthPaths } from '@wisegar-org/wgo-base-models/build/authentication';
 import { Paths } from '../router/paths';
-import { IUser } from '@wisegar-org/wgo-base-models';
+import { IUser } from '@wisegar-org/wgo-base-models/build/core';
 import { LinksList } from './MenuSettings';
 import { useQuasar } from 'quasar';
 import Menu from '../components/Menu/Menu.vue';
@@ -43,7 +43,7 @@ import LanguageSelector from '@wisegar-org/wgo-base-client/build/language/compon
 import { useLanguageStore } from '../stores/languageStore';
 import { useTranslationStore } from '../stores/translationStore';
 import { translations } from './translationsKey';
-import { authTranslations } from '@wisegar-org/wgo-base-models';
+import { authTranslations } from '@wisegar-org/wgo-base-models/build/authentication';
 import { LanguageStore } from '@wisegar-org/wgo-base-client/build/language/store/LanguageStore';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { useNotifyStore } from '../stores/notifyStore';

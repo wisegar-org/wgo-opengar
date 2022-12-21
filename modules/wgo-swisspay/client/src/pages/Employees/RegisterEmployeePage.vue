@@ -13,9 +13,9 @@
 import { useNotifyStore } from '../../stores/notifyStore';
 import { defineComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { AuthPaths } from '@wisegar-org/wgo-base-models';
+import { AuthPaths } from '@wisegar-org/wgo-base-models/build/authentication';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
-import { IUser } from '@wisegar-org/wgo-base-models';
+import { IUser } from '@wisegar-org/wgo-base-models/build/core';
 import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { USER_ROLE } from '../../../../src/models/constants';

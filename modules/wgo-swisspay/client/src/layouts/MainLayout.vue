@@ -33,7 +33,8 @@ import LoginBtn from '@wisegar-org/wgo-base-client/build/core/components/LoginBt
 import { useAuthStore } from '../stores/authStore';
 import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { useRouter } from 'vue-router';
-import { AuthPaths, IUser, authTranslations } from '@wisegar-org/wgo-base-models';
+import { IUser } from '@wisegar-org/wgo-base-models/build/core';
+import { AuthPaths, authTranslations } from '@wisegar-org/wgo-base-models/build/authentication';
 import { Paths } from '../router/paths';
 import { LinksList } from './MenuSettings';
 import { useQuasar } from 'quasar';

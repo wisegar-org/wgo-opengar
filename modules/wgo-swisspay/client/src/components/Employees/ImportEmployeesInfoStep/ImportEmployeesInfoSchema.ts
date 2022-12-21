@@ -1,6 +1,6 @@
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { translations } from '../translations';
-import { ITableSchema, ITableLeftButton, ITableRowButton } from '@wisegar-org/wgo-base-models';
+import { ITableSchema, ITableLeftButton, ITableRowButton } from '@wisegar-org/wgo-base-models/build/core/Table';
 export const getImportEmployeesInfoSchema = (
   tranStore: TranslationStore,
   leftButtons?: ITableLeftButton[],

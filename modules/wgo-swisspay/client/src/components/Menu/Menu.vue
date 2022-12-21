@@ -44,7 +44,7 @@ import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/R
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { useTranslationStore } from '../../stores/translationStore';
 import { useAuthStore } from '../../stores/authStore';
-import { MenuListItem, translations as tranBase } from '@wisegar-org/wgo-base-models';
+import { MenuListItem, translations as tranBase } from '@wisegar-org/wgo-base-models/build/core';
 
 export default defineComponent({
   name: 'Menu',

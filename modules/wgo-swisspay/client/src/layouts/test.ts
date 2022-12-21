@@ -1,4 +1,4 @@
-import { MenuListItem } from '@wisegar-org/wgo-base-models';
+import { MenuListItem } from '@wisegar-org/wgo-base-models/build/core/Menu';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 

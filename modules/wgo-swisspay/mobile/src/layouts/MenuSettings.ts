@@ -1,9 +1,9 @@
-import { MenuListItem } from '@wisegar-org/wgo-base-models';
+import { MenuListItem } from '@wisegar-org/wgo-base-models/build/core/Menu';
 import { Paths } from '../router/paths';
-import { AdminLanguagePaths } from '@wisegar-org/wgo-base-models';
-import { AdminTranslationPaths } from '@wisegar-org/wgo-base-models';
-import { AdminSettingsPaths } from '@wisegar-org/wgo-base-models';
-import { AuthPaths } from '@wisegar-org/wgo-base-models';
+import { AdminLanguagePaths } from '@wisegar-org/wgo-base-models/build/language';
+import { AdminTranslationPaths } from '@wisegar-org/wgo-base-models/build/translation';
+import { AdminSettingsPaths } from '@wisegar-org/wgo-base-models/build/settings';
+import { AuthPaths } from '@wisegar-org/wgo-base-models/build/authentication';
 
 const listItems: MenuListItem[] = [
   {

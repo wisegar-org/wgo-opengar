@@ -1,5 +1,5 @@
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
-import { IUser } from '@wisegar-org/wgo-base-models';
+import { IUser } from '@wisegar-org/wgo-base-models/build/core';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { defineComponent, PropType } from 'vue';
 import Dialog from '@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue';

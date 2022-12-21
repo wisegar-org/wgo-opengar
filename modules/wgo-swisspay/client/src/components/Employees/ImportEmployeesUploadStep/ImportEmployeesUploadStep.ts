@@ -2,7 +2,7 @@ import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation
 import { defineComponent, PropType } from 'vue';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translations } from '../translations';
-import { translations as transBase } from '@wisegar-org/wgo-base-models';
+import { translations as transBase } from '@wisegar-org/wgo-base-models/build/core';
 import { QUploader } from 'quasar';
 
 export default defineComponent({

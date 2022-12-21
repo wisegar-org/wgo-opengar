@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router';
 import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/RouteService';
 import { EmailMediaPaths } from '../../../router/paths/emailMediaPaths';
 import { translations } from '../translations';
-import { translations as tranBase } from '@wisegar-org/wgo-base-models';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models/build/core';
 import { useTranslationStore } from 'src/stores/translationStore';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';

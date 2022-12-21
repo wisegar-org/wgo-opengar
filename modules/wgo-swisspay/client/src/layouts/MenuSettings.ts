@@ -1,10 +1,8 @@
-import {
-  MenuListItem,
-  AdminLanguagePaths,
-  AdminTranslationPaths,
-  AdminSettingsPaths,
-  AuthPaths,
-} from '@wisegar-org/wgo-base-models';
+import { MenuListItem } from '@wisegar-org/wgo-base-models/build/core/Menu';
+import { AdminLanguagePaths } from '@wisegar-org/wgo-base-models/build/language';
+import { AdminTranslationPaths } from '@wisegar-org/wgo-base-models/build/translation';
+import { AdminSettingsPaths } from '@wisegar-org/wgo-base-models/build/settings';
+import { AuthPaths } from '@wisegar-org/wgo-base-models/build/authentication';
 import { Paths } from '../router/paths';
 import { EmailMediaPaths } from '../router/paths/emailMediaPaths';
 import { TestMenu } from './test';

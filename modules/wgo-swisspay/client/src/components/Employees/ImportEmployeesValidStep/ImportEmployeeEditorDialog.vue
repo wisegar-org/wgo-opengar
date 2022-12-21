@@ -75,7 +75,7 @@ import { IEmployeeToImportModel } from '../../../../../src/models/EmployeesModel
 import Dialog from '@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translations } from '../translations';
-import { translations as tranBase } from '@wisegar-org/wgo-base-models';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models/build/core';
 
 export default defineComponent({
   name: 'ImportEmployeeEditorDialog',

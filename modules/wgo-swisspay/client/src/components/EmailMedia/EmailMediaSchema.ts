@@ -1,5 +1,5 @@
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
-import { ITableSchema, ITableLeftButton, ITableRowButton } from '@wisegar-org/wgo-base-models';
+import { ITableSchema, ITableLeftButton, ITableRowButton } from '@wisegar-org/wgo-base-models/build/core/Table';
 import { translations } from './translations';
 
 export const getEmailMediaListSchema = (

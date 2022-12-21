@@ -1,7 +1,7 @@
 import { useAuthStore } from 'src/stores/authStore';
 import { defineComponent, PropType } from 'vue';
 import Table from '@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue';
-import { ITableLeftButton, ITableRowButton } from '@wisegar-org/wgo-base-models';
+import { ITableLeftButton, ITableRowButton } from '@wisegar-org/wgo-base-models/build/core/Table';
 import {
   BaseResizeComponent,
   BaseTranslateComponent,
@@ -14,7 +14,7 @@ import { getEmployeesListSchema } from './EmployeesSchema';
 import { translations } from '../translations';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { Loading } from 'quasar';
-import { IUser, translations as transBase } from '@wisegar-org/wgo-base-models';
+import { IUser, translations as transBase } from '@wisegar-org/wgo-base-models/build/core';
 import SendEmployeeMailDialog from '../SendEmployeeMail/SendEmployeeMailDialog.vue';
 import { IEmployeeModel, IEmployeeToImportModel } from '../../../../../src/models/EmployeesModel';
 import SendDocumentStepper from '../SendDocument/SendDocumentStepper.vue';

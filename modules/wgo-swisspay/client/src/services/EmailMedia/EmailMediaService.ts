@@ -1,4 +1,4 @@
-import { IIdInput } from '@wisegar-org/wgo-base-models';
+import { IIdInput } from '@wisegar-org/wgo-base-models/build/core';
 import { ApiService } from '@wisegar-org/wgo-base-client/build/core/services/ApiService';
 import {
   IEmailMediaModel,

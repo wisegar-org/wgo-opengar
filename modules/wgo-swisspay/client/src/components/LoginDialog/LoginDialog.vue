@@ -51,7 +51,7 @@
 <script lang="ts">
 import { useDialogPluginComponent } from 'quasar';
 import { PropType, defineComponent, ref } from 'vue';
-import { IUser, AuthPaths } from '@wisegar-org/wgo-base-models';
+import { AuthPaths } from '@wisegar-org/wgo-base-models/build/authentication';
 import Loader from '@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue';
 import { AuthService } from '@wisegar-org/wgo-base-client/build/authentication/services/AuthService';
 import { useRouter } from 'vue-router';

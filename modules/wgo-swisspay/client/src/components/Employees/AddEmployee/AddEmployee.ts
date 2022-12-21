@@ -6,7 +6,7 @@ import { RouteService } from '@wisegar-org/wgo-base-client/build/core/services/R
 import { useAppStatusStore } from 'src/stores/appStatusStore';
 import { EmployeesService } from 'src/services/Employees/EmployeesService';
 import { translations } from '../translations';
-import { translations as tranBase } from '@wisegar-org/wgo-base-models';
+import { translations as tranBase } from '@wisegar-org/wgo-base-models/build/core';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { useQuasar } from 'quasar';
 import { Paths } from '../../../router/paths';
