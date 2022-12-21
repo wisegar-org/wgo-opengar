@@ -1,8 +1,8 @@
 import { Pinia } from 'pinia';
 import { IApiServiceOptions } from '@wisegar-org/wgo-base-client/build/core/services/ApiService';
 import { Environment, getSettings } from './ApiSettings';
-import { USER_AUTH_TOKEN } from '@wisegar-org/wgo-base-models';
-import { translations } from '@wisegar-org/wgo-base-models';
+import { USER_AUTH_TOKEN } from '@wisegar-org/wgo-base-models/build/authentication';
+import { translations } from '@wisegar-org/wgo-base-models/build/core';
 
 import { useNotifyStore } from 'src/stores/notifyStore';
 import { useAuthStore } from 'src/stores/authStore';
@@ -57,7 +57,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       });
     },
     onTokenRefresh: (headers: any) => {
-      if (headers) {
+      if (headers && headers.get) {
         const refreshedToken = headers.get('authorization-refresh');
         if (!refreshedToken || refreshedToken === null) return;
         authStore.authStore.setToken(refreshedToken);

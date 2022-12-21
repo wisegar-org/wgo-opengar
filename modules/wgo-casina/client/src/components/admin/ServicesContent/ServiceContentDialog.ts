@@ -4,15 +4,15 @@ import { LanguageStore } from '@wisegar-org/wgo-base-client/build/language/store
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translationsServicesContent } from '../../../models/translations';
-import { NumberDictionary, translations as transBase } from '@wisegar-org/wgo-base-models';
+import { NumberDictionary, translations as transBase } from '@wisegar-org/wgo-base-models/build/core';
 import { StorageServiceItem } from 'src/models/StorageModels';
 import { CasinaDoctorType, CasinaServiceType } from 'src/models/contansts';
 import UploadImageDiv from '@wisegar-org/wgo-base-client/build/storage/components/UploadImageDiv/UploadImageDiv.vue';
 import TranslationSimpleComponent from '@wisegar-org/wgo-base-client/build/translation/components/TranslationSimpleComponent/TranslationSimpleComponent.vue';
 import { StorageService } from '@wisegar-org/wgo-base-client/build/storage/services/StorageService';
-import { IStorageInput } from '@wisegar-org/wgo-base-models';
+import { IStorageInput } from '@wisegar-org/wgo-base-models/build/storage';
 import { useNotifyStore } from 'src/stores/notifyStore';
-import { ITranslationModel } from '@wisegar-org/wgo-base-models';
+import { ITranslationModel } from '@wisegar-org/wgo-base-models/build/translation';
 
 export default defineComponent({
   name: 'ServiceContentDialog',

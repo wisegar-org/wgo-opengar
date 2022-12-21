@@ -4,16 +4,16 @@ import { LanguageStore } from '@wisegar-org/wgo-base-client/build/language/store
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { translationsDoctorsContent } from '../../../models/translations';
-import { IMediaModel, NumberDictionary, translations as transBase } from '@wisegar-org/wgo-base-models';
+import { IMediaModel, NumberDictionary, translations as transBase } from '@wisegar-org/wgo-base-models/build/core';
 import { StorageDoctorItem } from 'src/models/StorageModels';
 import { CasinaDoctorType } from 'src/models/contansts';
 import UploadImageDiv from '@wisegar-org/wgo-base-client/build/storage/components/UploadImageDiv/UploadImageDiv.vue';
 import TranslationSimpleComponent from '@wisegar-org/wgo-base-client/build/translation/components/TranslationSimpleComponent/TranslationSimpleComponent.vue';
 import { MediaService } from '@wisegar-org/wgo-base-client/build/storage/services/MediaService';
 import { StorageService } from '@wisegar-org/wgo-base-client/build/storage/services/StorageService';
-import { IStorageInput } from '@wisegar-org/wgo-base-models';
+import { IStorageInput } from '@wisegar-org/wgo-base-models/build/storage';
 import { useNotifyStore } from 'src/stores/notifyStore';
-import { ITranslationModel } from '@wisegar-org/wgo-base-models';
+import { ITranslationModel } from '@wisegar-org/wgo-base-models/build/translation';
 import { ApiSettingsConfig } from 'src/api/ApiOptions';
 
 export default defineComponent({

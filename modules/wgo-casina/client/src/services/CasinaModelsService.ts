@@ -1,5 +1,5 @@
 import { ApiSettingsConfig } from 'src/api/ApiOptions';
-import { IMediaModel } from '@wisegar-org/wgo-base-models';
+import { IMediaModel } from '@wisegar-org/wgo-base-models/build/core';
 import { ApiService } from '@wisegar-org/wgo-base-client/build/core/services/ApiService';
 import { M_CASINA_ADMIN_SETINDEXCONTENT, Q_CASINA_ADMIN_LOADINDEXCONTENT } from './CasinaModelsServiceQueries';
 

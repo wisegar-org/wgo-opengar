@@ -1,5 +1,5 @@
-import { AdminBasePath } from '@wisegar-org/wgo-base-models';
-import { IRouteObject, translations } from '@wisegar-org/wgo-base-models';
+import { AdminBasePath } from '@wisegar-org/wgo-base-models/build/core';
+import { IRouteObject, translations } from '@wisegar-org/wgo-base-models/build/core';
 import {
   translationsIndexContent,
   translationsDoctorsContent,

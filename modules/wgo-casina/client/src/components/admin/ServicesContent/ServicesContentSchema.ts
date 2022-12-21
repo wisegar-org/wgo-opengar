@@ -1,5 +1,5 @@
 import { StorageServiceItem } from 'src/models/StorageModels';
-import { ITableLeftButton, ITableRowButton, ITableSchema } from '@wisegar-org/wgo-base-models';
+import { ITableLeftButton, ITableRowButton, ITableSchema } from '@wisegar-org/wgo-base-models/build/core/Table';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { translationsDoctorsContent } from '../../../models/translations';
 

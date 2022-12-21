@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { AdminBasePath } from '@wisegar-org/wgo-base-models';
+import { AdminBasePath } from '@wisegar-org/wgo-base-models/build/core';
 import { Paths } from '../../paths';
 
 export const IndexContentAdminPathRouter: RouteRecordRaw = {

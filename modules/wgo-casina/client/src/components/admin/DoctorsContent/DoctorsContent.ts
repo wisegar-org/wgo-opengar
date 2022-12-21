@@ -3,13 +3,13 @@ import { useTranslationStore } from 'src/stores/translationStore';
 import { BaseTranslateComponent } from '@wisegar-org/wgo-base-client/build/core/components/BaseComponents';
 import { TranslationStore } from '@wisegar-org/wgo-base-client/build/translation/store/TranslationStore';
 import { translationsDoctorsContent, translationsIndexContent } from '../../../models/translations';
-import { translations as transBase, NumberDictionary } from '@wisegar-org/wgo-base-models';
+import { translations as transBase, NumberDictionary } from '@wisegar-org/wgo-base-models/build/core';
 import Loader from '@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue';
-import { ITranslationInput } from '@wisegar-org/wgo-base-models';
+import { ITranslationInput } from '@wisegar-org/wgo-base-models/build/translation';
 import { useLanguageStore } from 'src/stores/languageStore';
 import { CasinaModelsService } from 'src/services/CasinaModelsService';
 import { useNotifyStore } from 'src/stores/notifyStore';
-import { ITranslationResponse } from '@wisegar-org/wgo-base-models';
+import { ITranslationResponse } from '@wisegar-org/wgo-base-models/build/translation';
 import TranslationComponent from '@wisegar-org/wgo-base-client/build/translation/components/TranslationComponent/TranslationComponent.vue';
 import { ApiSettingsConfig } from 'src/api/ApiOptions';
 import { StorageService } from '@wisegar-org/wgo-base-client/build/storage/services/StorageService';
@@ -17,7 +17,7 @@ import { CasinaDoctorType } from 'src/models/contansts';
 import { StorageDoctorItem, StorageServiceItem, StorageServiceItemContent } from 'src/models/StorageModels';
 import { getDoctorsListSchema } from './DoctorsContentSchema';
 import Table from '@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue';
-import { ITablePagination, ITableRowButton } from '@wisegar-org/wgo-base-models';
+import { ITablePagination, ITableRowButton } from '@wisegar-org/wgo-base-models/build/core/Table';
 import DoctorContentDialog from './DoctorContentDialog.vue';
 
 export default defineComponent({

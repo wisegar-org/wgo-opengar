@@ -15,6 +15,7 @@ import { TranslationEntity } from "@wisegar-org/wgo-base-server";
 import { SettingsEntity } from "@wisegar-org/wgo-base-server";
 import { MediaEntity } from "@wisegar-org/wgo-base-server";
 import { StorageEntity } from "@wisegar-org/wgo-base-server";
+import { HistoricEntity } from "@wisegar-org/wgo-base-server";
 import { ContactMeEntity } from "@wisegar-org/wgo-base-server";
 import { CasinaModuleEntity } from "./database/entities/CasinaModuleEntity";
 
@@ -56,6 +57,7 @@ export const dataSourceOptions: DataSourceOptions = {
     SettingsEntity,
     MediaEntity,
     StorageEntity,
+    HistoricEntity,
     ContactMeEntity,
     CasinaModuleEntity,
   ],
