@@ -17,6 +17,7 @@ import { SettingsEntity } from "@wisegar-org/wgo-base-server";
 import { ContactMeEntity } from "@wisegar-org/wgo-base-server";
 import { MediaEntity } from "@wisegar-org/wgo-base-server";
 import { StorageEntity } from "@wisegar-org/wgo-base-server";
+import { HistoricEntity } from "@wisegar-org/wgo-base-server";
 
 /** Wisegar Module Entities */
 import { IndexContentEntity } from "./database/entities/IndexContentEntity";
@@ -67,6 +68,7 @@ export const dataSourceOptions: DataSourceOptions = {
     SettingsEntity,
     ContactMeEntity,
     MediaEntity,
+    HistoricEntity,
     IndexContentEntity,
     StorageEntity,
     IssueEntity,

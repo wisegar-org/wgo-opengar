@@ -7,6 +7,7 @@
     "start": "nodemon",
     "build": "npx rimraf build && tsc",
     "build:promote": "npm run build && npm version prerelease",
+    "update:wg-github": "npx rimraf ./node_modules@wisegar-org/wgo-github &&  npm install @wisegar-org/wgo-github@latest -E",
     "update:wg-server": "npx rimraf ./node_modules@wisegar-org/wgo-server &&  npm install @wisegar-org/wgo-server@latest -E",
     "update:wg-settings": "npx rimraf ./node_modules@wisegar-org/wgo-settings &&  npm install @wisegar-org/wgo-settings@latest -E",
     "update:wg-obj-extensions": "npx rimraf ./node_modules@wisegar-org/wgo-object-extensions && npm install @wisegar-org/wgo-object-extensions@latest -E",
@@ -30,7 +31,7 @@
   "dependencies": {
     "@wisegar-org/wgo-base-models": "0.0.1-7",
     "@wisegar-org/wgo-base-server": "0.0.1-8",
-    "@wisegar-org/wgo-github": "0.0.1-build.16",
+    "@wisegar-org/wgo-github": "0.0.1-build.17",
     "@wisegar-org/wgo-object-extensions": "0.0.2-2",
     "@wisegar-org/wgo-server": "0.0.1-build.54",
     "@wisegar-org/wgo-settings": "0.0.1-build.9",

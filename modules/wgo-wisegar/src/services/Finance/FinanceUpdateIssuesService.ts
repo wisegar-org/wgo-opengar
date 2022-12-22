@@ -115,7 +115,7 @@ export class FinanceUpdateIssuesService {
                 issue.assignedTo.url,
                 user.name || "",
                 user.location || "",
-                user.email || "",
+                user.email || `${issue.assignedTo.login}@gmail.com` || "",
                 user.bio || "",
                 true
               );
