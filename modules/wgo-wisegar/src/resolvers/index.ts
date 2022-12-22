@@ -10,6 +10,7 @@ import { MediaResolver } from "@wisegar-org/wgo-base-server";
 import { StorageResolver } from "@wisegar-org/wgo-base-server";
 import { IndexContentResolver } from "./IndexContent/IndexContentResolver";
 import { FinanceIssuesResolver } from "./FinanceIssues/FinanceIssuesResolver";
+import { FinanceIssuesOptionsResolver } from "./FinanceIssuesOptions/FinanceIssuesOptionsResolver";
 
 export const getResolverList = () => {
   return [
@@ -24,5 +25,6 @@ export const getResolverList = () => {
     StorageResolver,
     IndexContentResolver,
     FinanceIssuesResolver,
+    FinanceIssuesOptionsResolver,
   ] as NonEmptyArray<Function>;
 };
