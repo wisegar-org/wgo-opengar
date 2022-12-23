@@ -1,0 +1,63 @@
+pipeline {
+    agent any   
+    tools {
+        nodejs "node16.14.2"
+    }
+
+    environment {
+      GITHUB_ID = credentials('yarielre_github_Id')
+      VPS_NODEJS_ONE_ID = credentials('vps-nodejs-one_id') 
+    }
+    parameters {
+        string(name: "env", defaultValue: "staging")
+        string(name: "port", defaultValue: "5055")
+        string(name: "url", defaultValue: "https://stage.assembleagenitorivezia.ch")
+        string(name: "branch", defaultValue: "main")
+    }
+
+    stages {                        
+        stage("node-version") {
+            steps {
+                dir(".") {
+                    sh "node -v"
+                }
+            }
+        }
+
+        stage("clean-ws") {
+            steps {
+                cleanWs deleteDirs: true
+            }        
+        }
+
+        stage("install-wgo-cli") {
+            steps { 
+                sh "npm config set @wisegar-org:registry https://npm.pkg.github.com"
+                sh 'npm config set //npm.pkg.github.com/:_authToken $GITHUB_ID_PSW'
+                sh "npm install @wisegar-org/wgo@latest -g"
+            }        
+        }
+        
+        stage("build-project") {
+            steps { 
+                sh 'wisegar wgo --ws . --git-user yarielre --git-psw $GITHUB_ID_PSW --env $env --port $port --root /home/wgoadmin/web --url $url --branch $branch --settings-root /home/wgoadmin/settings/wgo-opengar-agv  --module-name wgo-agv'
+            }        
+        }
+
+        stage("ssh-simpliest-publish") {
+            steps {
+                sh 'ls -a'
+                sh 'cd build && ls -a'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 stop wgo-agv-$env'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net rm -rf  /home/wgoadmin/web/wgo-agv-$env-$port'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net mkdir -p /home/wgoadmin/web/wgo-agv-$env-$port'
+                sh 'rsync -az build/ wgoadmin@vps-8399c737.vps.ovh.net:/home/wgoadmin/web/wgo-agv-$env-$port/'
+                sh 'rsync -az build/.[^.]* wgoadmin@vps-8399c737.vps.ovh.net:/home/wgoadmin/web/wgo-agv-$env-$port/'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port; npm install"'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port/clientApp; npm install"'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port; chmod -R 777 ./"'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 start wgo-agv-$env'
+            }        
+        }
+    }
+}
