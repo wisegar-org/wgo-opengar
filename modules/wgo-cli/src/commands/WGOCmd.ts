@@ -7,8 +7,14 @@ import {
   RootCmdOption,
   SettingCmdOption,
   UrlCmdOption,
+  GitUserOption,
+  GitPswOption,
+  WSCmdOption,
 } from "../options/ICmdOptions";
-import { ValidateOption } from "../utils/CmdOptionsParser";
+import {
+  ValidateOption,
+  ValidateOptionalOption,
+} from "../utils/CmdOptionsParser";
 import { Command } from "./Command";
 import { join } from "path";
 import { Logger } from "../utils/Logger";
@@ -23,8 +29,9 @@ import {
   writeFileSync,
   writeJsonSync,
 } from "fs-extra";
-import { wgoGitRepoPath, wgoTmpUserPath } from "../utils/WgoBuildPaths";
+import { getWgoGitRepoPath } from "../utils/WgoBuildPaths";
 import { runScript } from "../utils/ExecScript";
+import { getWorkspacePath } from "../utils/AgvBuildPaths";
 
 export class WgoCommand extends Command {
   public static CMD = "wgo";
@@ -39,6 +46,9 @@ export class WgoCommand extends Command {
   public static SettingCmdOption = SettingCmdOption;
   public static BranchOption = BranchOption;
   public static ModuleOption = ModuleOption;
+  public static GitUserOption = GitUserOption;
+  public static GitPswOption = GitPswOption;
+  public static WSCmdOption = WSCmdOption;
 
   public static Execute = () => {
     ValidateOption(WgoCommand.EnvCmdOption);
@@ -49,6 +59,9 @@ export class WgoCommand extends Command {
     ValidateOption(WgoCommand.BranchOption);
     ValidateOption(WgoCommand.SettingCmdOption);
     ValidateOption(WgoCommand.ModuleOption);
+    ValidateOptionalOption(WgoCommand.WSCmdOption);
+    ValidateOptionalOption(WgoCommand.GitUserOption);
+    ValidateOptionalOption(WgoCommand.GitPswOption);
     if (
       !WgoCommand.EnvCmdOption.exist ||
       !WgoCommand.RootCmdOption.exist ||
@@ -59,6 +72,8 @@ export class WgoCommand extends Command {
       process.exit(1);
     }
 
+    const wgoTmpUserPath = getWorkspacePath(WgoCommand.WSCmdOption);
+    const wgoTmpBuildPath = join(wgoTmpUserPath, "build");
     const wgoRootSourcePath = join(wgoTmpUserPath, "wgo-opengar");
     const app_name = `${WgoCommand.ModuleOption.value}-${WgoCommand.EnvCmdOption.value}-${WgoCommand.PortCmdOption.value}`;
     const app_root = join(
@@ -78,9 +93,12 @@ export class WgoCommand extends Command {
       const repositoryBranch = WgoCommand.BranchOption.exist
         ? WgoCommand.BranchOption.value
         : "production";
-
+      const gitRepoPath = getWgoGitRepoPath(
+        WgoCommand.GitUserOption,
+        WgoCommand.GitPswOption
+      );
       runScript(
-        `git clone ${wgoGitRepoPath} --branch ${repositoryBranch}`,
+        `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
         wgoTmpUserPath,
         (err) => {
           Logger.Error(err, true);
@@ -200,7 +218,14 @@ export class WgoCommand extends Command {
      */
 
     Logger.Line("Cleaning destination ..", () => {
+      emptyDirSync(wgoTmpBuildPath);
       emptyDirSync(destination);
+    });
+
+    Logger.Line("Copy files to build destination ..", () => {
+      if (existsSync(wgoTmpBuildPath) && existsSync(buildServerPath)) {
+        copySync(buildServerPath, wgoTmpBuildPath);
+      }
     });
 
     Logger.Line("Copy files to destination ..", () => {

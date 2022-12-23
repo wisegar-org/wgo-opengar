@@ -87,7 +87,6 @@ export class AgvCommand extends Command {
         );
       }
     });
-    debugger;
     Logger.Line("Downloading last app version...", () => {
       const repositoryBranch = AgvCommand.BranchOption.exist
         ? AgvCommand.BranchOption.value
