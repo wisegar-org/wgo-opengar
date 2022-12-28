@@ -172,6 +172,10 @@ export class WgoCommand extends Command {
           ENV_FILENAME,
           `APP_WEB_HOST=${[WgoCommand.UrlCmdOption.value]} \n`
         );
+        appendFileSync(
+          ENV_FILENAME,
+          `HOST_BASE=${[WgoCommand.UrlCmdOption.value]} \n`
+        );
         if (existsSync(wgoServerSourcePath)) {
           copySync(ENV_FILENAME, join(wgoServerSourcePath, ".env"));
         }
