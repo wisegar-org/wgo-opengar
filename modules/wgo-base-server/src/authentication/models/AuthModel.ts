@@ -181,7 +181,12 @@ export class AuthModel {
       const codeUser = await repo.findOne({
         where: { code: data.code },
       });
-      if (!!data.code && !!codeUser && codeUser.id !== data.id) {
+      if (
+        !!data.code &&
+        !UserUtils.isEmptyCode(data.code) &&
+        !!codeUser &&
+        codeUser.id !== data.id
+      ) {
         throw new Error(WRONG_CODE_ALREADY_EXIST);
       }
       user.name = data.name;

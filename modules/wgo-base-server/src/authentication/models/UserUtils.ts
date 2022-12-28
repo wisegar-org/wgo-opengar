@@ -15,4 +15,7 @@ export const UserUtils = {
       roles: (user.roles || []).map((role: { name: any }) => role.name),
     } as IUser;
   },
+  isEmptyCode(code: string): boolean {
+    return !code.split(" ").join("");
+  },
 };

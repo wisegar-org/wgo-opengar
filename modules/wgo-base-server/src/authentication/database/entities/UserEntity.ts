@@ -37,7 +37,7 @@ export class UserEntity extends WGBaseEntity {
   @Column({ nullable: false, default: "" })
   certificate!: string;
 
-  @Column({ nullable: true, default: " " })
+  @Column({ nullable: true, default: "" })
   code!: string;
 
   @Column({ default: false })
