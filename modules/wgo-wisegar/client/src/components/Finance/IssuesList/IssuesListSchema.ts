@@ -1,4 +1,4 @@
-import { translationsFinanceIssues } from "src/models";
+import { translationsFinanceIssues } from "src/models/translations/finance";
 import {
   ITableLeftButton,
   ITableRowButton,
@@ -48,7 +48,7 @@ export const getIssuesListSchema = (
       },
       title: {
         name: "title",
-        label: "TITLE TRADUCIR",
+        label: translationsFinanceIssues.COLUMN_TITLE,
         field: "title",
         sortable: true,
         visible: true,
@@ -58,7 +58,7 @@ export const getIssuesListSchema = (
       },
       assignedToId: {
         name: "assignedToId",
-        label: "assignedToId TRADUCIR",
+        label: translationsFinanceIssues.COLUMN_ASSIGNED_TO,
         field: "assignedToId",
         sortable: true,
         visible: true,
@@ -71,7 +71,7 @@ export const getIssuesListSchema = (
       },
       status: {
         name: "status",
-        label: "status TRADUCIR",
+        label: translationsFinanceIssues.COLUMN_STATUS,
         field: "status",
         sortable: true,
         visible: true,
@@ -81,7 +81,7 @@ export const getIssuesListSchema = (
       },
       last_comment: {
         name: "last_comment",
-        label: "last_comment TRADUCIR",
+        label: translationsFinanceIssues.COLUMN_LAST_COMMENT,
         field: "last_comment",
         sortable: true,
         visible: true,
@@ -105,7 +105,7 @@ export const getIssuesListSchema = (
     code: "id",
     text: ["title"],
     description: [],
-    title: "",
+    title: translationsFinanceIssues.TITLE,
     leftButtons: leftButtons,
     translationStore: transStore,
     disableFullscreen: true,

@@ -1,12 +1,18 @@
 import { IssuesService } from "../../../services/Finance/IssuesService/IssuesService";
-import { defineComponent } from "vue";
+import { defineComponent, reactive, watch } from "vue";
 import { IFinanceIssuesModel } from "../../../../../src/models/Finance";
 import { getIssuesListSchema } from "./IssuesListSchema";
 import { useTranslationStore } from "src/stores/translationStore";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { ITablePagination } from "@wisegar-org/wgo-base-models/build/core/Table";
 import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
-import { BaseResizeComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { translationsFinanceIssues } from "../../../models/translations/finance";
+import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core/translations";
+import { useAppFinanceFiltersStore } from "src/stores/appFinanceFiltersStore";
 
 export default defineComponent({
   name: "IssuesList",
@@ -21,6 +27,7 @@ export default defineComponent({
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } =
       resizeComponent;
+    const { getLabel } = new BaseTranslateComponent();
 
     const schema = getIssuesListSchema(this.tranStore as any, [], []);
     // schema.rowDblClick
@@ -35,6 +42,33 @@ export default defineComponent({
       sortBy: "",
     } as ITablePagination;
 
+    const filterObj = reactive({
+      labels: "",
+      assignedTo: "",
+      repository: "",
+      minDate: "",
+      maxDate: "",
+      status: "",
+    });
+
+    watch(
+      () => [filterObj],
+      () => {
+        this.loadIssues();
+      },
+      {
+        deep: true,
+      }
+    );
+
+    const statusOptions = [
+      {
+        value: 1,
+        label: translationsFinanceIssues.COLUMN_STATUS_ACCOUNTED,
+      },
+      { value: 2, label: translationsFinanceIssues.COLUMN_STATUS_PENDING },
+    ];
+
     return {
       issues,
       issuesCount,
@@ -42,15 +76,22 @@ export default defineComponent({
       schema,
       pagination,
       componentHeight,
+      transBase,
+      translationsFinanceIssues,
+      filterObj,
+      statusOptions,
       addResize,
       removeResize,
       resizeTable,
+      getLabel: (name: string) => getLabel(this.tranStore as any, name),
     };
   },
   setup() {
     const tranStore = useTranslationStore();
+    const financeFiltersStore = useAppFinanceFiltersStore();
     return {
       tranStore: tranStore.translationStore as TranslationStore,
+      financeFiltersStore,
     };
   },
   methods: {
@@ -60,12 +101,15 @@ export default defineComponent({
     async loadIssues() {
       const result = await this.issuesService.loadIssuesPage({
         descending: this.pagination.descending,
-        filter: {} as any,
+        filter: {
+          ...this.filterObj,
+          status: (this.filterObj.status as any)?.value || 0,
+        } as any,
         sortBy: this.pagination.sortBy,
         skip: (this.pagination.page - 1) * this.pagination.rowsPerPage,
         take: this.pagination.rowsPerPage,
       });
-      if (result && result.issuesCount) {
+      if (result) {
         this.issuesCount = result.issuesCount;
         this.issues = result.issues;
       }
@@ -74,12 +118,18 @@ export default defineComponent({
       this.pagination = pagination;
       await this.loadIssues();
     },
+    getStatusOptions() {
+      return this.statusOptions.map((item: any) => ({
+        value: item.value,
+        label: this.getLabel(item.label),
+      }));
+    },
   },
   async created() {
     this.$nextTick(() => {
       this.addResize(this.onResize);
     });
-    // await this.loadIssues();
+    await this.financeFiltersStore.loadData();
   },
   unmounted() {
     this.removeResize(this.onResize);
