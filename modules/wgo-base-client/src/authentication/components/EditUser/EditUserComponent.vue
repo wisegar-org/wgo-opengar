@@ -207,7 +207,7 @@ export default defineComponent({
         userName: this.user.userName,
         password: "",
         isEmailConfirmed: this.user.isEmailConfirmed,
-        code: this.user.code,
+        code: this.user.code || "",
         roles: this.user.roles,
       } as IAuthRegisterParams,
       emailList,
