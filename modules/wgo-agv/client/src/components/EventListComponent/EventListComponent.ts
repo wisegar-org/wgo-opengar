@@ -1,6 +1,6 @@
 import { IItem } from "src/models/Item";
 import { AgvEventResponseModel } from "src/models/models";
-import { defineComponent, reactive, watch } from "vue";
+import { defineComponent, reactive, ref, watch } from "vue";
 import { EventService } from "../../services/Event/EventService";
 import ItemListComponent from "../ItemListComponent/ItemListComponent.vue";
 
@@ -21,8 +21,8 @@ export default defineComponent({
   },
   data(vm) {
     const items: AgvEventResponseModel[] = [];
-    const textSearch = "";
-    const filterClass = "";
+    const textSearch = ref("");
+    const filterClass = ref("");
     const options: string[] = [];
     const loading = false;
     const pagination = reactive({

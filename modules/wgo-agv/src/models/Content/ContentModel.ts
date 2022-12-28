@@ -1,10 +1,6 @@
 import { AGVContentsInput } from "../../resolvers/Content/AGVContentsInputs";
-import { IContextBase } from "@wisegar-org/wgo-base-models";
-import {
-  StorageEntity,
-  StorageItem,
-  StorageModel,
-} from "@wisegar-org/wgo-base-server";
+import { StorageItem, IContextBase } from "@wisegar-org/wgo-base-models";
+import { StorageEntity, StorageModel } from "@wisegar-org/wgo-base-server";
 
 const agvContentsType = "AGV_CONTENTS_TYPE";
 
