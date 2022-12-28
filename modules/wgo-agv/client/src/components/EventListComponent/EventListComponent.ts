@@ -1,6 +1,6 @@
 import { IItem } from "src/models/Item";
 import { AgvEventResponseModel } from "src/models/models";
-import { defineComponent } from "vue";
+import { defineComponent, reactive, watch } from "vue";
 import { EventService } from "../../services/Event/EventService";
 import ItemListComponent from "../ItemListComponent/ItemListComponent.vue";
 
@@ -25,18 +25,24 @@ export default defineComponent({
     const filterClass = "";
     const options: string[] = [];
     const loading = false;
-    const pagination = {
+    const pagination = reactive({
       rowsPerPage: 5,
       descending: true,
       page: 1,
       sortBy: "startDate",
       rowsNumber: 0,
       max: 1,
-    };
-    const page = pagination.page;
+    });
+
+    watch(
+      pagination,
+      () => {
+        this.loadData();
+      },
+      { deep: true }
+    );
 
     return {
-      page,
       items,
       textSearch,
       filterClass,
@@ -94,9 +100,6 @@ export default defineComponent({
       this.loadData();
     },
     filterClass() {
-      this.loadData();
-    },
-    page() {
       this.loadData();
     },
   },
