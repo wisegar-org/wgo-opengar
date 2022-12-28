@@ -95,9 +95,12 @@ export interface IFinanceIssuesModel {
 
 export interface IFinanceIssuesFilter {
   project: number;
-  repository: number;
-  assignedTo: number;
+  repository: string;
+  assignedTo: string;
   labels: string;
+  minDate: string;
+  maxDate: string;
+  status: number;
 }
 
 export interface IFinanceIssuesPageInput {

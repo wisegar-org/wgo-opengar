@@ -3,9 +3,12 @@ import { Field, InputType } from "type-graphql";
 @InputType()
 export class FinanceIssuesFilterInput {
   @Field(() => Number, { defaultValue: 0 }) project!: number;
-  @Field(() => Number, { defaultValue: 0 }) repository!: number;
-  @Field(() => Number, { defaultValue: 0 }) assignedTo!: number;
+  @Field(() => String, { defaultValue: 0 }) repository!: string;
+  @Field(() => String, { defaultValue: 0 }) assignedTo!: string;
   @Field(() => String, { defaultValue: "" }) labels!: string;
+  @Field(() => String, { defaultValue: "" }) minDate!: string;
+  @Field(() => String, { defaultValue: "" }) maxDate!: string;
+  @Field(() => Number, { defaultValue: 0 }) status!: number;
 }
 
 @InputType()

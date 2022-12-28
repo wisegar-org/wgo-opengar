@@ -1,4 +1,12 @@
-import { Like, Repository } from "typeorm";
+import {
+  Like,
+  Repository,
+  Between,
+  MoreThanOrEqual,
+  LessThanOrEqual,
+  Not,
+  IsNull,
+} from "typeorm";
 import AccountEntity from "../../database/entities/Finance/AccountEntity";
 import IssueEntity from "../../database/entities/Finance/IssueEntity";
 import { IFinanceIssuesPageInput } from "../../models/Finance";
@@ -34,7 +42,7 @@ export class FinanceIssuesService {
     const filter: ObjectDictionary = {};
     const order: StringDictionary = {};
     if (data.filter.assignedTo) {
-      filter.assignedToId = data.filter.assignedTo;
+      filter.assignedTo = { login: data.filter.assignedTo };
     }
     if (data.filter.labels) {
       filter.labels = Like(`%${data.filter.labels}%`);
@@ -43,7 +51,17 @@ export class FinanceIssuesService {
       filter.projectId = data.filter.project;
     }
     if (data.filter.repository) {
-      filter.repositoryId = data.filter.repository;
+      filter.repository = { title: data.filter.repository };
+    }
+    if (data.filter.status) {
+      filter.accountId = data.filter.status === 1 ? Not(IsNull()) : IsNull();
+    }
+    if (data.filter.minDate && data.filter.maxDate) {
+      filter.closed_at = Between(data.filter.minDate, data.filter.maxDate);
+    } else if (data.filter.minDate) {
+      filter.closed_at = MoreThanOrEqual(data.filter.minDate);
+    } else if (data.filter.maxDate) {
+      filter.closed_at = LessThanOrEqual(data.filter.maxDate);
     }
     if (data.sortBy) {
       order[data.sortBy] = data.descending ? "DESC" : "ASC";
@@ -51,16 +69,18 @@ export class FinanceIssuesService {
       order.id = data.descending ? "DESC" : "ASC";
     }
 
-    const result = await this.repo.find({
+    const result = await this.repo.findAndCount({
       where: filter,
       order: order,
       relations: ["assignedTo", "repository"],
+      skip: data.skip,
+      take: data.take,
     });
     //get issues by page
 
     return {
-      issuesCount: result.length,
-      issues: result.slice(data.skip, data.skip + data.take),
+      issuesCount: result[1],
+      issues: result[0],
     };
   }
 

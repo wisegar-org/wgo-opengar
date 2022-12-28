@@ -189,9 +189,9 @@ export class FinanceCollaboratorService {
     return await this.repo.findOne(options);
   }
 
-  async getAllCollaborators(): Promise<CollaboratorEntity[]> {
+  async getAllCollaborators(): Promise<any[]> {
     const filter = await this.getFilterByCollaborator("id");
-    return await this.repo.find({
+    const collaborators = await this.repo.find({
       where: {
         ...filter,
       },
@@ -199,6 +199,25 @@ export class FinanceCollaboratorService {
         name: "ASC",
       },
     });
+
+    return collaborators.map((item) => ({
+      id: item.id,
+      id_github: item.id_github,
+      card_number: item.card_number || 0,
+      pay_by_hours: item.pay_by_hours || 0,
+      login: item.login || "",
+      node_id: item.node_id || "",
+      type: item.type || "",
+      avatar_url: item.avatar_url || "",
+      url: item.url || "",
+      name: item.name || "",
+      location: item.location || "",
+      email: item.email || "",
+      bio: item.bio || "",
+      address: item.address || "",
+      cap: item.cap || "",
+      place: item.place || "",
+    }));
   }
 
   async updateAccountingInfo(
