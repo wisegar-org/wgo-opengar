@@ -1,7 +1,5 @@
-import {
-  translationsFinanceIssues,
-  translationsIndexContentAdmin,
-} from "src/models";
+import { translationsIndexContentAdmin } from "src/models";
+import { translationsFinanceIssues } from "src/models/translations/finance";
 import { AdminBasePath } from "@wisegar-org/wgo-base-models/build/core";
 import { IRouteObject } from "@wisegar-org/wgo-base-models/build/core";
 import { translations } from "@wisegar-org/wgo-base-models/build/core";
