@@ -1,5 +1,4 @@
 import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
-import { ApiSettingsConfig } from "src/api/ApiOptions";
 import { Q_WISEGAR_FINANCE_LOAD_ISSUES_PAGE } from "./IssuesServiceQueries";
 import {
   IFinanceIssuesPageModel,
