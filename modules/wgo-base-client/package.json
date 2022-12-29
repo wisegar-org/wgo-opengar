@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo-base-client",
-  "version": "0.0.1-14",
+  "version": "0.0.1-15",
   "description": "",
   "files": [
     "build"
@@ -16,9 +16,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wisegar-org/wgo-opengar.git"
-  },
-  "dependencies": {
-    "@wisegar-org/wgo-base-models": "0.0.1-8"
   },
   "devDependencies": {
     "@wisegar-org/wgo-base-models": "0.0.1-8",

@@ -3,7 +3,7 @@
     <template v-for="(menuItem, index) in items">
       <!-- Simple Item -->
       <LeftDrawerItem
-        v-if="menuItem.type === 'item'"
+        v-if="menuItem.type === 'item' && isUserInRole(menuItem.role)"
         :key="`${id_group}-item-${index}`"
         :menuItem="menuItem"
         :tranStore="tranStore"
@@ -12,7 +12,7 @@
       />
       <!-- Sub menu item group -->
       <q-list
-        v-else-if="menuItem.type === 'group'"
+        v-else-if="menuItem.type === 'group' && isUserInRole(menuItem.role)"
         :key="`${id_group}-group-${index}`"
       >
         <q-item
@@ -47,7 +47,7 @@
       </q-list>
       <!-- Separator -->
       <q-separator
-        v-else-if="menuItem.type === 'separator'"
+        v-else-if="menuItem.type === 'separator' && isUserInRole(menuItem.role)"
         :key="`${id_group}-sep-${index}`"
       />
     </template>
@@ -105,6 +105,11 @@ export default defineComponent({
         this.routeService.getCurrentPath() || "",
         item.items
       );
+    },
+
+    isUserInRole(roles?: string[]) {
+      if (!roles || !this.authStore.isUserLogged()) return false;
+      return this.authStore.isUserInRole(roles);
     },
 
     getBorderStyle(item: any) {
