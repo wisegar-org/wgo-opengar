@@ -159,9 +159,10 @@ export class MediaModel {
       .select("media.isPublic", "isPublic")
       .addSelect("media.fileName", "fileName")
       .getRawOne();
-    const filePath = media.isPublic
-      ? this.getPublicPath("media/" + media.fileName)
+    const publicPath = media.isPublic
+      ? this.getPublicPath(MEDIA_FILES_PATH)
       : "";
+    const filePath = join(publicPath, media.fileName);
     if (filePath && !existsSync(filePath)) {
       const mediaEntity = await this.mediaRepository.findOne({
         where: {
