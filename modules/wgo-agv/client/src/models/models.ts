@@ -1,5 +1,7 @@
 import { IMediaResponse } from "@wisegar-org/wgo-base-models/build/storage";
 
+export const AGV_ADMIN_ROLE = "admin";
+
 export interface AgvEventResponseModel {
   id: number;
   title: string;

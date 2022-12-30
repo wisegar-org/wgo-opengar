@@ -6,6 +6,7 @@ import {
   IRouteObject,
 } from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
+import { AGV_ADMIN_ROLE } from "src/models/models";
 
 export const AGVTemplateAdminPaths: IRouteObject = {
   template: {
@@ -59,7 +60,7 @@ const getAdminTemplatePage = (url: string, type: string) => ({
   path: url,
   meta: {
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   component: () => import("pages/AdminAgv/AdminTemplatePage.vue"),
   props: () => ({ type }),

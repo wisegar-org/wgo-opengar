@@ -3,6 +3,7 @@ import {
   AdminBasePath,
   IRouteObject,
 } from "@wisegar-org/wgo-base-models/build/core";
+import { AGV_ADMIN_ROLE } from "src/models/models";
 import { RouteRecordRaw } from "vue-router";
 
 export const AGVNewslettersAdminPaths: IRouteObject = {
@@ -42,7 +43,7 @@ export const AGVNewslettersPathRouter: RouteRecordRaw = {
         import("pages/AdminAgv/AdminNewsletterInscriptionsPage.vue"),
       meta: {
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
     },
     {
@@ -53,7 +54,7 @@ export const AGVNewslettersPathRouter: RouteRecordRaw = {
       }),
       meta: {
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
     },
     {
@@ -66,7 +67,7 @@ export const AGVNewslettersPathRouter: RouteRecordRaw = {
         import("pages/AdminAgv/AdminNewsletterMessageEditorPage.vue"),
       meta: {
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
     },
   ],

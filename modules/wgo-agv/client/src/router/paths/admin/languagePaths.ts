@@ -1,4 +1,5 @@
 import { AdminLanguagePaths } from "@wisegar-org/wgo-base-models/build/language/router";
+import { AGV_ADMIN_ROLE } from "src/models/models";
 import { RouteRecordRaw } from "vue-router";
 
 export const LanguagePathRouter: RouteRecordRaw = {
@@ -11,7 +12,7 @@ export const LanguagePathRouter: RouteRecordRaw = {
       component: () => import("pages/Admin/Language/LanguagePage.vue"),
       meta: {
         auth: AdminLanguagePaths.adminLanguage.auth,
-        role: AdminLanguagePaths.adminLanguage.role,
+        role: AdminLanguagePaths.adminLanguage.role?.concat(AGV_ADMIN_ROLE),
       },
     },
   ],

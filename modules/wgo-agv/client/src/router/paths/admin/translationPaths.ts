@@ -1,4 +1,5 @@
 import { AdminTranslationPaths } from "@wisegar-org/wgo-base-models/build/translation/router";
+import { AGV_ADMIN_ROLE } from "src/models/models";
 import { RouteRecordRaw } from "vue-router";
 
 export const TranslationPathRouter: RouteRecordRaw = {
@@ -11,7 +12,9 @@ export const TranslationPathRouter: RouteRecordRaw = {
       component: () => import("pages/Admin/Translation/TranslationPage.vue"),
       meta: {
         auth: AdminTranslationPaths.adminTranslation.auth,
-        role: AdminTranslationPaths.adminTranslation.role,
+        role: AdminTranslationPaths.adminTranslation.role?.concat(
+          AGV_ADMIN_ROLE
+        ),
       },
     },
   ],

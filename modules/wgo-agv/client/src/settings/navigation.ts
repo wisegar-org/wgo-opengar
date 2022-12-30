@@ -11,6 +11,7 @@ import { AdminLanguagePaths } from "@wisegar-org/wgo-base-models/build/language/
 import { AdminSettingsPaths } from "@wisegar-org/wgo-base-models/build/settings/router";
 import { AdminTranslationPaths } from "@wisegar-org/wgo-base-models/build/translation/router";
 import { Paths } from "../router/paths";
+import { AGV_ADMIN_ROLE } from "src/models/models";
 
 export const menuItems: MenuListItem[] = [
   {
@@ -21,12 +22,12 @@ export const menuItems: MenuListItem[] = [
     type: "item",
     label: Paths.home.label,
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   {
     type: "separator",
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   {
     link: AGVEventsAdminPaths.events.path,
@@ -36,7 +37,7 @@ export const menuItems: MenuListItem[] = [
     type: "item",
     label: AGVEventsAdminPaths.events.label,
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   {
     link: AGVInscriptionsAdminPaths.inscriptions.path,
@@ -46,7 +47,7 @@ export const menuItems: MenuListItem[] = [
     type: "item",
     label: AGVInscriptionsAdminPaths.inscriptions.label,
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   {
     icon: "notes",
@@ -61,7 +62,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVContentAdminPaths.contentComitato.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVContentAdminPaths.contentSocialMedia.path,
@@ -71,12 +72,12 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVContentAdminPaths.contentSocialMedia.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
     ],
     type: "group",
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   {
     icon: "mark_email_unread",
@@ -91,7 +92,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateInscription.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVTemplateAdminPaths.templateInscriptionRept.path,
@@ -101,7 +102,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateInscriptionRept.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVTemplateAdminPaths.templateEmailComitato.path,
@@ -111,7 +112,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateEmailComitato.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVTemplateAdminPaths.templateEmailContact.path,
@@ -121,7 +122,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateEmailContact.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVTemplateAdminPaths.templateEmailPoll.path,
@@ -131,7 +132,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateEmailPoll.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVTemplateAdminPaths.templateNewsletterPending.path,
@@ -141,7 +142,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateNewsletterPending.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVTemplateAdminPaths.templateNewsletterConfirmed.path,
@@ -151,7 +152,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateNewsletterConfirmed.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVTemplateAdminPaths.templateNewsletterCancelled.path,
@@ -161,17 +162,17 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVTemplateAdminPaths.templateNewsletterCancelled.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
     ],
     type: "group",
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   {
     type: "separator",
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
   {
     link: AuthPaths.authUsers.path,
@@ -188,7 +189,7 @@ export const menuItems: MenuListItem[] = [
     id: AdminLanguagePaths.adminLanguage.name,
     icon: "language",
     link: AdminLanguagePaths.adminLanguage.path,
-    role: AdminLanguagePaths.adminLanguage.role,
+    role: AdminLanguagePaths.adminLanguage.role?.concat(AGV_ADMIN_ROLE),
     auth: AdminLanguagePaths.adminLanguage.auth,
     color: "purple",
     type: "item",
@@ -198,7 +199,7 @@ export const menuItems: MenuListItem[] = [
     id: AdminTranslationPaths.adminTranslation.name,
     icon: "translate",
     link: AdminTranslationPaths.adminTranslation.path,
-    role: AdminTranslationPaths.adminTranslation.role,
+    role: AdminTranslationPaths.adminTranslation.role?.concat(AGV_ADMIN_ROLE),
     auth: AdminTranslationPaths.adminTranslation.auth,
     color: "",
     type: "item",
@@ -236,7 +237,7 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVNewslettersAdminPaths.newsletterInscriptions.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
       {
         link: AGVNewslettersAdminPaths.newsletterMessages.path,
@@ -246,11 +247,11 @@ export const menuItems: MenuListItem[] = [
         type: "item",
         label: AGVNewslettersAdminPaths.newsletterMessages.label,
         auth: true,
-        role: [SUPERADMIN],
+        role: [SUPERADMIN, AGV_ADMIN_ROLE],
       },
     ],
     type: "group",
     auth: true,
-    role: [SUPERADMIN],
+    role: [SUPERADMIN, AGV_ADMIN_ROLE],
   },
 ];
