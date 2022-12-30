@@ -1,7 +1,11 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col-12 col-md-10">
-      <EventListComponent :eventType="eventType" :detailPath="detailPath" />
+      <EventListComponent
+        :eventType="eventType"
+        :detailPath="detailPath"
+        title="WGO_CORSI"
+      />
     </div>
   </q-page>
 </template>

@@ -1,5 +1,8 @@
+import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { IItem } from "src/models/Item";
 import { AgvEventResponseModel } from "src/models/models";
+import { useTranslationStore } from "src/stores/translationStore";
 import { defineComponent, reactive, ref, watch } from "vue";
 import { EventService } from "../../services/Event/EventService";
 import ItemListComponent from "../ItemListComponent/ItemListComponent.vue";
@@ -7,6 +10,10 @@ import ItemListComponent from "../ItemListComponent/ItemListComponent.vue";
 export default defineComponent({
   name: "EventListComponent",
   props: {
+    title: {
+      type: String,
+      required: true,
+    },
     eventType: {
       type: String,
       required: true,
@@ -42,6 +49,8 @@ export default defineComponent({
       { deep: true }
     );
 
+    const { getLabel } = new BaseTranslateComponent();
+
     return {
       items,
       textSearch,
@@ -50,6 +59,14 @@ export default defineComponent({
       loading,
       pagination,
       eventService: new EventService(),
+      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+    };
+  },
+  setup() {
+    const tranStore = useTranslationStore();
+
+    return {
+      tranStore: tranStore.translationStore,
     };
   },
   methods: {

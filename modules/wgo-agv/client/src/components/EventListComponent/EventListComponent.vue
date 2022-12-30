@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="text-center" style="font-size: xx-large">Corsi</h1>
+    <h1 class="text-center" style="font-size: xx-large">
+      {{ getLabel(title) }}
+    </h1>
     <div class="row justify-center">
       <div class="row display-flex justify-between col-12 q-pa-none">
         <div class="col-12 col-md-8">
