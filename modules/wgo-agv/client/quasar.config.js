@@ -11,6 +11,7 @@
 const { configure } = require("quasar/wrappers");
 const fs = require("fs-extra");
 const buildsettings = fs.readJsonSync("settings.build.json", { throws: false });
+const packageJson = fs.readJsonSync("package.json", { throws: false })
 const path = require("path");
 const env = require("dotenv");
 const envValue = fs.existsSync(".env")
@@ -63,7 +64,7 @@ module.exports = configure(function (ctx) {
       env: {
         API_BASE: hostBase,
         API_GRAPHQL: `${hostBase}/graphql`,
-        VERSION: buildsettings.VERSION,
+        VERSION: packageJson.version || buildsettings.VERSION,
       },
 
       // transpile: false,
