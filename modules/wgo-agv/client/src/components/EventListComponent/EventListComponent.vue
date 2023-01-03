@@ -37,6 +37,7 @@
         :max="pagination.max"
         direction-links
         boundary-links
+        active-design="unelevated"
         icon-first="skip_previous"
         icon-last="skip_next"
         icon-prev="fast_rewind"
