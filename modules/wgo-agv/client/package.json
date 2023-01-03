@@ -1,7 +1,7 @@
 {
-  "name": "client-template",
-  "version": "0.0.1",
-  "description": "Assemblea Genitori Vezia App",
+  "name": "wgo-agv-module-client",
+  "version": "1.0.1-30",
+  "description": "Assemblea Genitori Vezia Web App",
   "productName": "Assemblea Genitori Vezia",
   "author": "Wisegar.org Development Group",
   "private": true,

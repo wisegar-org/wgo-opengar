@@ -1,6 +1,6 @@
 {
   "name": "wgo-agv-module",
-  "version": "0.0.1-build.0",
+  "version": "1.0.1-30",
   "description": "AGV App",
   "main": "build/index.js",
   "scripts": {
