@@ -2,12 +2,13 @@
   "name": "@wisegar-org/wgo-base-client",
   "version": "0.0.1-15",
   "description": "",
+  "type": "module",
   "files": [
     "build"
   ],
   "scripts": {
     "start": "nodemon",
-    "build": "npx rimraf ./build && node build.js",
+    "build": "npx rimraf ./build && node build.cjs",
     "promote": "npm version prerelease && npm run build && npm publish",
     "upgrade": "rimraf node_modules/@wisegar-org/wgo-base-models && npm install @wisegar-org/wgo-base-models@latest -E"
   },
@@ -18,6 +19,8 @@
     "url": "git+https://github.com/wisegar-org/wgo-opengar.git"
   },
   "devDependencies": {
+    "@babel/types": "^7.20.7",
+    "@types/nodemailer": "^6.4.7",
     "@wisegar-org/wgo-base-models": "0.0.1-8",
     "@wisegar-org/wgo-mailer": "0.0.1-build.24",
     "@wisegar-org/wgo-object-extensions": "0.0.2-2",
