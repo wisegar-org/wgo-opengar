@@ -16,3 +16,7 @@ export const AUTH_PATH_DELETE_USER = "deleteUser";
 export const AUTH_PATH_GET_USER = "getUser";
 export const AUTH_PATH_GET_ALL_USERS = "getAllUsers";
 export const AUTH_PATH_GET_ALL_ROLES = "getAllRoles";
+
+export const AUTH_PATH_SET_KEY_LOCAL_STORAGE = "setKeyLocalStorage";
+export const AUTH_PATH_GET_LOCAL_STORAGE = "getLocalStorage";
+export const AUTH_PATH_CLEAR_LOCAL_STORAGE = "clearLocalStorage";

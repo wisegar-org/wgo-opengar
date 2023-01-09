@@ -49,8 +49,3 @@ export interface ICheckUserUniqueUserName {
   id: number;
   userName: string;
 }
-
-export interface ILocalStorage {
-  getItem: (key: string) => null | string | Promise<string>;
-  setItem: (key: string, value: string) => void | Promise<void>;
-}
