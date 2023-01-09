@@ -4,6 +4,7 @@ import {
   USER_AUTH_TOKEN,
 } from "@wisegar-org/wgo-base-models/build/authentication";
 import { IIdInput, IUser } from "@wisegar-org/wgo-base-models/build/core";
+import { LocalStorage } from "../../core/services/LocalStorage";
 import { AuthService } from "../services/AuthService";
 import { UserRolesService } from "../services/UserRolesService";
 
@@ -14,7 +15,7 @@ export class AuthStore {
    *
    */
   constructor() {
-    this.token = localStorage.getItem(USER_AUTH_TOKEN) || "";
+    this.token = LocalStorage.getItem(USER_AUTH_TOKEN) || "";
     this.user = <IUser>{};
   }
 
@@ -35,11 +36,11 @@ export class AuthStore {
   setLogin(login: ISuccesLogin) {
     this.user = login.user;
     this.token = login.token;
-    localStorage.setItem(USER_AUTH_TOKEN, login.token);
+    LocalStorage.setItem(USER_AUTH_TOKEN, login.token);
   }
 
   setToken(token: string) {
-    localStorage.setItem(USER_AUTH_TOKEN, token);
+    LocalStorage.setItem(USER_AUTH_TOKEN, token);
     this.token = token;
   }
 
@@ -48,7 +49,7 @@ export class AuthStore {
   }
 
   getAppToken() {
-    return localStorage.getItem(USER_AUTH_TOKEN) || "";
+    return LocalStorage.getItem(USER_AUTH_TOKEN) || "";
   }
 
   isUserLogged() {
@@ -67,7 +68,7 @@ export class AuthStore {
   }
 
   resetState() {
-    localStorage.clear();
+    LocalStorage.clear();
     this.token = "";
     this.user = <IUser>{};
   }

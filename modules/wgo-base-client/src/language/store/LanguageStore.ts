@@ -5,6 +5,7 @@ import {
 import { TranslationStore } from "../../translation/store/TranslationStore";
 import { LANGUAGE_ID } from "@wisegar-org/wgo-base-models/build/language/constants";
 import { LanguageService } from "../service/LanguageService";
+import { LocalStorage } from "../../core/services/LocalStorage";
 
 export class LanguageStore {
   allLangs: ILanguageModel[];
@@ -51,7 +52,7 @@ export class LanguageStore {
     if (this.selectedLang.id !== langSelected.id) {
       await this.translationStore.setLanguageId(langSelected.id);
     }
-    localStorage.setItem(LANGUAGE_ID, `${langSelected.id}`);
+    LocalStorage.setItem(LANGUAGE_ID, `${langSelected.id}`);
     this.selectedLang = langSelected;
   }
 
