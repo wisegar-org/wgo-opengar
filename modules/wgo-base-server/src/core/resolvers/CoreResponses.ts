@@ -29,3 +29,9 @@ export function GenericArrayResponse<T>(TItemClass: ClassType<T>) {
   }
   return ArrayResponse;
 }
+
+@ObjectType()
+export class LocalStorageResponse {
+  @Field(() => String, { nullable: false })
+  storage?: string;
+}
