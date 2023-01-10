@@ -92,14 +92,16 @@ export class LanguageModel {
 
   async unsetDefaultLanguage() {
     const repository = this.dataSoure.getRepository(LanguageEntity);
-    const defaultLanguage = await repository.findOne({
+    const defaultLanguage = await repository.find({
       where: { default: true },
     });
 
-    if (defaultLanguage) {
-      defaultLanguage.default = false;
-      await repository.save(defaultLanguage);
-      await this.historicModel.createPutHistoric(defaultLanguage);
+    if (defaultLanguage.length) {
+      for (const lang of defaultLanguage) {
+        lang.default = false;
+        await repository.save(lang);
+        await this.historicModel.createPutHistoric(lang);
+      }
     }
   }
 
