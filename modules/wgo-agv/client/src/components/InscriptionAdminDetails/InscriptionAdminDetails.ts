@@ -2,7 +2,7 @@ import { useTranslationStore } from "src/stores/translationStore";
 import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { defineComponent, PropType } from "vue";
 import { translations } from "src/models/translations/inscriptions";
-import Dialog from "@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue";
+import DialogVue from "@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue";
 import { AgvInscriptionResponseModel } from "src/models/models";
 import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
@@ -17,16 +17,17 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { Dialog },
-  data(vm) {
+  components: { DialogVue },
+  data() {
     const { getLabel } = new BaseTranslateComponent();
     return {
       transBase,
       translations,
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const translationStore = useTranslationStore();
 
     return {

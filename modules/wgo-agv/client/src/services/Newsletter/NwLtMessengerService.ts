@@ -12,6 +12,7 @@ import {
   AgvNewsletterMessagePageInput,
   AgvNewsletterMessageInput,
 } from "../../../../src/models/Newsletter";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export class NewsletterMessageService {
   apiInstance: ApiService;
@@ -56,7 +57,7 @@ export class NewsletterMessageService {
         },
         fetchPolicy: "no-cache",
       })) as {
-        data: { agvGetNewsletterMessagesPage: any };
+        data: { agvGetNewsletterMessagesPage: ObjectDictionary };
       };
       if (response && response.data) {
         const {

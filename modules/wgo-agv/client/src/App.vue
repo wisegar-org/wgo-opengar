@@ -1,7 +1,7 @@
 <template>
   <router-view v-slot="{ Component }">
     <component :is="Component" />
-    <Loader :loading="appStatusStore.loading" />
+    <LoaderVue :loading="appStatusStore.loading" />
   </router-view>
 </template>
 
@@ -14,12 +14,16 @@ import { useAuthStore } from "./stores/authStore";
 import { useNotifyStore } from "./stores/notifyStore";
 import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
 import { AuthService } from "@wisegar-org/wgo-base-client/build/authentication/services/AuthService";
-import Loader from "@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue";
+import LoaderVue from "@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue";
+import { useLanguageStore } from "./stores/languageStore";
+import { useTranslationStore } from "./stores/translationStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { Translations } from "./settings/translations";
 
 export default defineComponent({
   name: "App",
   components: {
-    Loader,
+    LoaderVue,
   },
   setup() {
     const $q = useQuasar();
@@ -47,12 +51,24 @@ export default defineComponent({
 
     const authService = new AuthService();
     const appStatusStore = useAppStatusStore();
+    const langStore = useLanguageStore();
+    const translationStore = useTranslationStore();
     return {
       authStore: authStore.authStore,
       authService,
       appStatusStore,
       token: ref(authStore.authStore.token),
+      langStore,
+      translationStore,
     };
+  },
+  async mounted() {
+    this.langStore.setTranslationStore(
+      this.translationStore.translationStore as TranslationStore
+    );
+    await this.authStore.me();
+    await this.langStore.loadAllLanguages();
+    await this.translationStore.getAndRegisterTranslations(Translations);
   },
 });
 </script>

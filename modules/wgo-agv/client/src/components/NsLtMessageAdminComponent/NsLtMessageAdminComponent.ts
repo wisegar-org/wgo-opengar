@@ -9,7 +9,7 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
-import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
+import TableVue from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
 import { AGVNewsletterMessageStatusEnum } from "src/models/Newsletter";
 import { AGVNewslettersAdminPaths } from "src/router/paths/adminAgv/newslettersPaths";
 import {
@@ -23,17 +23,18 @@ import {
 } from "@wisegar-org/wgo-base-models/build/core/Table";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
+import { Router } from "vue-router";
 
 export default defineComponent({
   name: "NsLtMessageAdminComponent",
   components: {
-    Table,
+    TableVue,
     NsLtMessageAdminEditor,
   },
   props: {
     page: { type: Number, default: 0 },
   },
-  data(vm) {
+  data() {
     const { getLabel } = new BaseTranslateComponent();
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } =
@@ -73,7 +74,7 @@ export default defineComponent({
       },
     ];
     const schema = getNewsletterMessageListSchema(
-      this.tranStore as any,
+      this.tranStore as unknown as TranslationStore,
       leftBtns,
       rowBtns
     );
@@ -88,7 +89,7 @@ export default defineComponent({
       rowsPerPage: schema.rowsPerPageDefault,
       sortBy: "",
     } as ITablePagination;
-    const messages: any[] = [];
+    const messages: AgvNewsletterMessageResponse[] = [];
 
     const filterObj = reactive({
       title: "",
@@ -123,11 +124,12 @@ export default defineComponent({
       transBase,
       openDialog: false,
       statusOptions,
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
       newsletterService: new NewsletterMessageService(),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const notifyStore = useNotifyStore();
     const translationStore = useTranslationStore();
     const appStatusStore = useAppStatusStore();
@@ -158,7 +160,7 @@ export default defineComponent({
       await this.loadData();
     },
     createMessage(message: AgvNewsletterMessageResponse) {
-      const routerService = new RouteService(this.$router as any);
+      const routerService = new RouteService(this.$router as Router);
       routerService.goTo(
         AGVNewslettersAdminPaths.newsletterMessagesEditor.path,
         {

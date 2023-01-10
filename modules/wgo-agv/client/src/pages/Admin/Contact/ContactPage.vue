@@ -16,6 +16,8 @@ import ContactEditor from "@wisegar-org/wgo-base-client/build/contact/components
 import { useTranslationStore } from "../../../stores/translationStore";
 import { useLanguageStore } from "../../../stores/languageStore";
 import { useNotifyStore } from "../../../stores/notifyStore";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
 
 export default defineComponent({
   name: "AdminContactPage",
@@ -28,8 +30,8 @@ export default defineComponent({
     const notifyStore = useNotifyStore();
 
     return {
-      tranStore: tranStore.translationStore as any,
-      langStore: langStore.languageStore as any,
+      tranStore: tranStore.translationStore as unknown as TranslationStore,
+      langStore: langStore.languageStore as unknown as LanguageStore,
       notifyStore,
     };
   },

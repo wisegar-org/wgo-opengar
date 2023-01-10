@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRouter } from "vue-router";
+import { Router, useRouter } from "vue-router";
 import ResendConfirmComponent from "@wisegar-org/wgo-base-client/build/authentication/components/ResendConfirmComponent.vue";
 import { Paths } from "../../router/paths";
 import { useTranslationStore } from "../../stores/translationStore";
@@ -17,6 +17,7 @@ import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/co
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "RegisterResendConfirmPage",
@@ -28,7 +29,7 @@ export default defineComponent({
     const seoComponent = new BaseSeoDataComponent();
     useMeta(seoComponent.seoData);
     return {
-      routeService: new RouteService(router as any),
+      routeService: new RouteService(router as Router),
       seoComponent,
     };
   },
@@ -58,7 +59,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina di accesso.",
       },
-    } as any);
+    } as unknown as ISeoModel);
   },
 });
 </script>

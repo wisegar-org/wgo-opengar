@@ -9,7 +9,7 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { useAppContentStore } from "src/stores/appContentStore";
-import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
+import TableVue from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
 import {
   AGVNewsletterInscriptionModel,
   AGVNewsletterInscriptionStatusEnum,
@@ -28,10 +28,10 @@ import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation
 export default defineComponent({
   name: "NsLtInscriptionAdminComponent",
   components: {
-    Table,
+    TableVue,
     NsLtInscriptionAdminEditor,
   },
-  data(vm) {
+  data() {
     const { getLabel } = new BaseTranslateComponent();
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } =
@@ -83,7 +83,7 @@ export default defineComponent({
       },
     ];
     const schema = getNewsletterInscriptionListSchema(
-      this.tranStore as any,
+      this.tranStore as unknown as TranslationStore,
       leftBtns,
       rowBtns
     );
@@ -98,7 +98,7 @@ export default defineComponent({
       rowsPerPage: schema.rowsPerPageDefault,
       sortBy: "",
     } as ITablePagination;
-    const inscriptions: any[] = [];
+    const inscriptions: AgvNewsletterInscriptionResponse[] = [];
 
     const filterObj = reactive({
       email: "",
@@ -134,11 +134,12 @@ export default defineComponent({
       transBase,
       openDialog: false,
       statusOptions,
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
       newsletterService: new NewsletterInscriptionService(),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const notifyStore = useNotifyStore();
     const translationStore = useTranslationStore();
     const appStatusStore = useAppStatusStore();

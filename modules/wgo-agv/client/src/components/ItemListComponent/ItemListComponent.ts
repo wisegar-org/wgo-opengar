@@ -11,7 +11,7 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<IItem[]>,
-      default: [],
+      default: () => [],
     },
     loading: { type: Boolean, default: false },
   },

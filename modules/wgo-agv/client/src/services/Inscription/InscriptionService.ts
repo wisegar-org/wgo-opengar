@@ -10,6 +10,7 @@ import {
   Q_AGV_ALL_INSCRIPTIONS,
   Q_AGV_ALL_INSCRIPTIONS_BY_PAGE,
 } from "./InscriptionServiceQueries";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export class InscriptionService {
   apiInstance: ApiService;
@@ -18,7 +19,7 @@ export class InscriptionService {
   }
 
   async allInscriptionsByPage(
-    filter: any
+    filter: ObjectDictionary
   ): Promise<AgvInscriptionsPageResponseModel> {
     try {
       const response = (await this.apiInstance.query({

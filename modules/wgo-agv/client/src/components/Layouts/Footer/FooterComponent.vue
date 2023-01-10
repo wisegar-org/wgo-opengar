@@ -30,4 +30,4 @@
   </q-footer>
 </template>
 
-<script lang="ts" src="./Footer.ts" />
+<script lang="ts" src="./FooterComponent.ts" />

@@ -2,29 +2,30 @@ import { useTranslationStore } from "src/stores/translationStore";
 import { defineComponent } from "vue";
 import MapComponent from "@wisegar-org/wgo-base-client/build/contact/components/MapComponent/MapComponent.vue";
 import ContactForm from "../ContactForm/ContactForm.vue";
-import Text from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
+import TextVue from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
 import { AGVTemplateEnum, getAgvTemplateKey } from "src/models/Templates";
 import { Dialog } from "quasar";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
 import { TemplateService } from "@wisegar-org/wgo-base-client/build/template/services/TemplateService";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { StringDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ContactComponent",
   components: {
-    Text,
+    TextVue,
     MapComponent,
     ContactForm,
   },
-  data(vm) {
+  data() {
     return {
       showLoader: true,
       emailService: new EmailService(),
       templateService: new TemplateService(),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const tranStore = useTranslationStore();
     const notifyStore = useNotifyStore();
 
@@ -34,7 +35,7 @@ export default defineComponent({
     };
   },
   methods: {
-    async onSubmit(content: any, onReset: () => unknown) {
+    async onSubmit(content: StringDictionary, onReset: () => unknown) {
       this.showLoader = true;
       const subject = `Contatto - ${content.nome} ${content.cognome}`;
 

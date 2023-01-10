@@ -11,18 +11,18 @@ const getClassOptions = () => {
 
 export const EventClassOption = getClassOptions();
 
-export const EventTypeOptions = ['Evento', 'Corso'];
+export const EventTypeOptions = ["Evento", "Corso"];
 
-export const EventStateOptions = ['In sospeso', 'Confermato', 'Annullato'];
+export const EventStateOptions = ["In sospeso", "Confermato", "Annullato"];
 
 export const EventEnrollmentOptions = [
-  { label: 'Abilitato', value: 'true' },
-  { label: 'Non Abilitato', value: 'false' },
+  { label: "Abilitato", value: "true" },
+  { label: "Non Abilitato", value: "false" },
 ];
 
 export const EventVisibleOptions = [
-  { label: 'Visibile', value: 'true' },
-  { label: 'Non Visibile', value: 'false' },
+  { label: "Visibile", value: "true" },
+  { label: "Non Visibile", value: "false" },
 ];
 
 export interface IEventResponseFilter {

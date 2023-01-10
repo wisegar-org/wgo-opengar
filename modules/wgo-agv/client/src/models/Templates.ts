@@ -1,14 +1,14 @@
-import { AGVNewsletterInscriptionStatusEnum } from './Newsletter';
+import { AGVNewsletterInscriptionStatusEnum } from "./Newsletter";
 
-export const AGVTemplateKey = 'AGV_TEMPLATE_DATA_';
+export const AGVTemplateKey = "AGV_TEMPLATE_DATA_";
 
 export const getAgvTemplateKey = (type: string) => {
-  let key = '';
+  let key = "";
   switch (type) {
     case AGVNewsletterInscriptionStatusEnum.Waiting:
     case AGVNewsletterInscriptionStatusEnum.Confirmed:
     case AGVNewsletterInscriptionStatusEnum.Cancelled: {
-      key = 'Newsletter_' + type;
+      key = "Newsletter_" + type;
       break;
     }
     case AGVTemplateEnum.Inscription:
@@ -20,19 +20,19 @@ export const getAgvTemplateKey = (type: string) => {
       break;
     }
     default: {
-      key = 'Unknown_' + type;
+      key = "Unknown_" + type;
       break;
     }
   }
-  return `${AGVTemplateKey}${key.split(' ').join('')}`.toUpperCase();
+  return `${AGVTemplateKey}${key.split(" ").join("")}`.toUpperCase();
 };
 
 export enum AGVTemplateEnum {
-  Inscription = 'Inscription',
-  InscriptionRepeated = 'InscriptionRept',
-  EmailComitato = 'EmailComitato',
-  EmailContact = 'EmailContact',
-  EmailPoll = 'EmailPoll',
+  Inscription = "Inscription",
+  InscriptionRepeated = "InscriptionRept",
+  EmailComitato = "EmailComitato",
+  EmailContact = "EmailContact",
+  EmailPoll = "EmailPoll",
 }
 
 export type AGVTemplateType =

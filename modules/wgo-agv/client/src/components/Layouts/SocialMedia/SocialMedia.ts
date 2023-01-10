@@ -10,7 +10,7 @@ export default defineComponent({
       default: 40,
     },
   },
-  setup(props, ctx) {
+  setup() {
     const contentStore = useAppContentStore();
     return {
       contentStore,

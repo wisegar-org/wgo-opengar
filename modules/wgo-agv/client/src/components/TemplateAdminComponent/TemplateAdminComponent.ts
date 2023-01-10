@@ -5,7 +5,10 @@ import { useTranslationStore } from "src/stores/translationStore";
 import { defineComponent, PropType } from "vue";
 import QCKEditor from "@wisegar-org/wgo-base-client/build/core/components/CKEditor/QCKEditor.vue";
 import { translations } from "src/models/translations/template";
-import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  ObjectDictionary,
+  translations as transBase,
+} from "@wisegar-org/wgo-base-models/build/core";
 import { apiSettings } from "src/api/ApiOptions";
 import { ITemplateResponse } from "@wisegar-org/wgo-base-models/build/template";
 import {
@@ -20,13 +23,16 @@ export default defineComponent({
   name: "TemplateAdminComponent",
   props: {
     type: { type: String, default: "" },
-    objectToken: { type: Array as PropType<string[]>, default: [] },
-    testData: { type: Object as PropType<any>, default: {} },
+    objectToken: { type: Array as PropType<string[]>, default: () => [] },
+    testData: {
+      type: Object as PropType<ObjectDictionary>,
+      default: () => ({}),
+    },
   },
   components: {
     QCKEditor,
   },
-  data(vm) {
+  data() {
     const template: ITemplateResponse = {
       id: 0,
       body: "",
@@ -47,10 +53,11 @@ export default defineComponent({
       addResize,
       removeResize,
       resizeTable,
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const appStatusStore = useAppStatusStore();
     const notifyStore = useNotifyStore();
     const translationStore = useTranslationStore();
@@ -135,9 +142,10 @@ export default defineComponent({
       return this.type ? `WGO_${this.type}_TITLE` : "";
     },
     writeToken(text: string) {
-      const model = (this.$refs.editor as any).$refs.editor.instance.model;
+      const model = (this.$refs.editor as ObjectDictionary).$refs.editor
+        .instance.model;
 
-      model.change((writer: any) => {
+      model.change((writer: ObjectDictionary) => {
         writer.insertText(
           `${text}`,
           model.document.selection.getFirstPosition()

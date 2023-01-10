@@ -17,6 +17,7 @@ import EventListComponent from "../../components/EventListComponent/EventListCom
 import { AGVDetailsPaths } from "../../router/paths/detailsPath";
 import { useMeta } from "quasar";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "CorsiPage",
@@ -46,7 +47,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina eventi.",
       },
-    } as any);
+    } as unknown as ISeoModel);
   },
 });
 </script>

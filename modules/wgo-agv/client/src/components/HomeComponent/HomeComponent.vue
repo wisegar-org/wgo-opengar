@@ -1,22 +1,22 @@
 <template>
   <div class="q-pa-md">
-    <Text
+    <TextVue
       class="text-center text-h1"
       text="Assemblea Genitori Vezia"
       :largeFont="true"
     />
-    <Text
+    <TextVue
       class="text-h5 text-center q-pt-md"
       text="BENVENUTI NEL VOSTRO NUOVO SITO"
     />
-    <Text class="text-body1 q-pt-xl" text="Cari Bambini e Cari Genitori," />
-    <Text
+    <TextVue class="text-body1 q-pt-xl" text="Cari Bambini e Cari Genitori," />
+    <TextVue
       class="text-body1 q-pt-sm"
       text="qui troverere le informazioni sui prossimi appuntamenti,
               doposcuola ed eventi organizzati dal Comitato Genitori o dal
               nostro Comune."
     />
-    <Text
+    <TextVue
       class="text-body1 q-pt-sm"
       text="Venite a dare un’occhiata... stiamo lavorando per voi!"
     />
@@ -43,7 +43,7 @@
         <ItemCard
           title="Prossimo Corso"
           :item="corso"
-          @onEventClick="(item) => onItemClick(item, false)"
+          @onEventClick="(item: any) => onItemClick(item, false)"
         />
       </div>
 
@@ -51,7 +51,7 @@
         <ItemCard
           title="Prossimo Evento"
           :item="evento"
-          @onEventClick="(item) => onItemClick(item, true)"
+          @onEventClick="(item: any) => onItemClick(item, true)"
         />
       </div>
     </div>

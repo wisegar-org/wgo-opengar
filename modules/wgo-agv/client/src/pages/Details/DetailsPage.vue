@@ -11,6 +11,7 @@ import { useMeta } from "quasar";
 import { defineComponent } from "vue";
 import EventDetailsComponent from "../../components/EventDetailsComponent/EventDetailsComponent.vue";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "DetailsPage",
@@ -37,7 +38,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina dei dettagli.",
       },
-    } as any);
+    } as unknown as ISeoModel);
   },
 });
 </script>

@@ -5,6 +5,7 @@ import { translations as transBase } from "@wisegar-org/wgo-base-models/build/co
 import { useTranslationStore } from "src/stores/translationStore";
 import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { AGVPaths } from "src/router/paths/sitePaths";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "HeaderComponent",
@@ -12,12 +13,15 @@ export default defineComponent({
     WebHeader,
     MobileHeader,
   },
-  setup(props, ctx) {
+  setup() {
     const tranStore = useTranslationStore();
     const { getLabel } = new BaseTranslateComponent();
     return {
       getLabel: (name: string) =>
-        getLabel(tranStore.translationStore as any, name),
+        getLabel(
+          tranStore.translationStore as unknown as TranslationStore,
+          name
+        ),
       transBase,
       paths: Object.values(AGVPaths),
     };

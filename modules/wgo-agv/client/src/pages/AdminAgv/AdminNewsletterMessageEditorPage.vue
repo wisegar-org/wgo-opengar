@@ -15,6 +15,7 @@ import { NewsletterMessageService } from "../../services/Newsletter/NwLtMessenge
 import { AGVNewslettersAdminPaths } from "../../router/paths/adminAgv/newslettersPaths";
 import { useAppStatusStore } from "../../stores/appStatusStore";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
+import { Router } from "vue-router";
 
 export default defineComponent({
   name: "AdminNewsletterMessageEditorPage",
@@ -67,7 +68,7 @@ export default defineComponent({
       this.appStatusStore.setLoading(false);
     },
     goToMessage() {
-      const routeService = new RouteService(this.$router as any);
+      const routeService = new RouteService(this.$router as Router);
       routeService.goTo(AGVNewslettersAdminPaths.newsletterMessages.path, {
         page: this.page,
       });

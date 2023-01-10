@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="placeholder" style="height: 1px"></div>
-    <Table
+    <TableVue
       :title="translations.TITLE"
       :data="inscriptions"
       :schema="schema"
@@ -109,7 +109,7 @@
           </div>
         </div>
       </template>
-    </Table>
+    </TableVue>
     <InscriptionAdminDetails
       :open="openDialog"
       @close="onClose"

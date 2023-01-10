@@ -5,6 +5,7 @@ import {
 } from "./ContentServiceQueries";
 import { apiSettings } from "src/api/ApiOptions";
 import { AgvEventResponseModel } from "src/models/models";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export class ContentService {
   apiInstance: ApiService;
@@ -21,7 +22,7 @@ export class ContentService {
         },
         fetchPolicy: "no-cache",
       })) as {
-        data: { agvAllContents: any };
+        data: { agvAllContents: ObjectDictionary };
       };
       if (response && response.data) {
         const {
@@ -36,7 +37,7 @@ export class ContentService {
     }
   }
 
-  async modifyContent(content: any) {
+  async modifyContent(content: ObjectDictionary) {
     try {
       const response = (await this.apiInstance.mutate({
         mutation: M_AGV_MODIFY_CONTENTS,

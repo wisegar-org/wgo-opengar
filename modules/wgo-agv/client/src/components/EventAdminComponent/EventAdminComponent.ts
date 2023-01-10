@@ -1,6 +1,6 @@
 import { defineComponent, reactive, watch } from "vue";
 import { translations } from "../../models/translations/events";
-import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
+import TableVue from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
 import Loader from "@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue";
 import { useTranslationStore } from "src/stores/translationStore";
 import { EventService } from "src/services/Event/EventService";
@@ -27,11 +27,12 @@ import {
 } from "@wisegar-org/wgo-base-models/build/core/Table";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { Router } from "vue-router";
 
 export default defineComponent({
   name: "EventAdminComponent",
   components: {
-    Table,
+    TableVue,
     Loader,
   },
   props: {
@@ -64,7 +65,11 @@ export default defineComponent({
       },
     ];
     const { getLabel } = new BaseTranslateComponent();
-    const schema = getEventListSchema(this.tranStore as any, leftBtns, rowBtns);
+    const schema = getEventListSchema(
+      this.tranStore as unknown as TranslationStore,
+      leftBtns,
+      rowBtns
+    );
     schema.rowDblClick = fnAction;
     schema.rowsPerPage = this.$q.platform.is.mobile
       ? [5, 10, 20, 0]
@@ -76,7 +81,7 @@ export default defineComponent({
       rowsPerPage: schema.rowsPerPageDefault,
       sortBy: "",
     } as ITablePagination;
-    const events: any[] = [];
+    const events: AgvEventResponseModel[] = [];
 
     const typeOptions = EventTypeOptions;
     const stateOptions = EventStateOptions;
@@ -84,8 +89,7 @@ export default defineComponent({
     const enrollmentOptions = EventEnrollmentOptions;
     const visibleOptions = EventVisibleOptions;
 
-    const routeService = new RouteService(this.$router as any);
-    const self = this;
+    const routeService = new RouteService(this.$router as Router);
 
     const filterObj = reactive({
       class: "",
@@ -127,7 +131,8 @@ export default defineComponent({
       translations: translations,
       openDialog: false,
       id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
   setup() {

@@ -1,6 +1,7 @@
 import {
   AgvNewsletterInscriptionInput,
   AgvNewsletterInscriptionPageInput,
+  AgvNewsletterInscriptionResponse,
 } from "../../../../src/models/Newsletter";
 import {
   M_AGV_NEWSLETTER_ADD_INSCRIPTION,
@@ -11,6 +12,7 @@ import {
   Q_AGV_NEWSLETTER_GET_PAGE_INSCRIPTION,
 } from "./NwLtInscriptionServiceQueries";
 import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export class NewsletterInscriptionService {
   apiInstance: ApiService;
@@ -27,7 +29,11 @@ export class NewsletterInscriptionService {
         },
         fetchPolicy: "no-cache",
       })) as {
-        data: { agvGetNewsletterInscriptionByEmail: { inscription: any } };
+        data: {
+          agvGetNewsletterInscriptionByEmail: {
+            inscription: AgvNewsletterInscriptionResponse;
+          };
+        };
       };
       if (response && response.data) {
         const {
@@ -53,7 +59,7 @@ export class NewsletterInscriptionService {
         },
         fetchPolicy: "no-cache",
       })) as {
-        data: { agvGetNewsletterInscriptionsPage: any };
+        data: { agvGetNewsletterInscriptionsPage: ObjectDictionary };
       };
       if (response && response.data) {
         const {

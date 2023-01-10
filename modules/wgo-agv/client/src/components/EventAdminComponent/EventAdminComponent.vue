@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="placeholder" style="height: 1px"></div>
-    <Table
+    <TableVue
       :title="translations.TITLE"
       :data="events"
       :schema="schema"
@@ -104,7 +104,7 @@
           </div>
         </div>
       </template>
-    </Table>
+    </TableVue>
     <Loader :loading="loading" />
   </div>
 </template>

@@ -6,8 +6,11 @@ import {
   createRouter,
   createWebHashHistory,
   createWebHistory,
+  NavigationGuardNext,
 } from "vue-router";
 import routes from "./routes";
+import { AuthStore } from "@wisegar-org/wgo-base-client/build/authentication/store/AuthStore";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 /*
  * If not building with SSR mode, you can
@@ -18,8 +21,12 @@ import routes from "./routes";
  * with the Router instance.
  */
 
-const getBeforeEachFnc = (authStore: any) => {
-  return (to: any, from: any, next: any) => {
+const getBeforeEachFnc = (authStore: AuthStore) => {
+  return (
+    to: ObjectDictionary,
+    from: ObjectDictionary,
+    next: NavigationGuardNext
+  ) => {
     if (
       (to.meta.auth && !authStore.getAppToken()) ||
       (to.meta.role && !authStore.isUserInRole(to.meta.role))

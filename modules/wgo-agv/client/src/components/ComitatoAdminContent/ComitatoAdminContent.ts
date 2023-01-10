@@ -33,10 +33,11 @@ export default defineComponent({
       addResize,
       removeResize,
       resizeTable,
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const notifyStore = useNotifyStore();
     const appStatusStore = useAppStatusStore();
     const appContentStore = useAppContentStore();

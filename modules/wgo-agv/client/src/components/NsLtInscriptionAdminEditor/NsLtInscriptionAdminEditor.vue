@@ -1,5 +1,5 @@
 <template>
-  <Dialog
+  <DialogVue
     :open="open"
     icon="how_to_reg"
     :title="getLabel(translations.INSC_DIALOG_TITLE)"
@@ -65,7 +65,7 @@
         </q-form>
       </div>
     </div>
-  </Dialog>
+  </DialogVue>
 </template>
 
 <script lang="ts" src="./NsLtInscriptionAdminEditor.ts" />

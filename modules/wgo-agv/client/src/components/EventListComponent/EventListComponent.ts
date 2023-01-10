@@ -26,7 +26,7 @@ export default defineComponent({
   components: {
     ItemListComponent,
   },
-  data(vm) {
+  data() {
     const items: AgvEventResponseModel[] = [];
     const textSearch = ref("");
     const filterClass = ref("");
@@ -59,7 +59,8 @@ export default defineComponent({
       loading,
       pagination,
       eventService: new EventService(),
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
   setup() {
@@ -106,7 +107,7 @@ export default defineComponent({
   async created() {
     this.loading = true;
     await this.loadData();
-    let options: string[] = await this.eventService.allEventClass(
+    const options: string[] = await this.eventService.allEventClass(
       this.eventType
     );
     this.options = ["Tutte"].concat(options);

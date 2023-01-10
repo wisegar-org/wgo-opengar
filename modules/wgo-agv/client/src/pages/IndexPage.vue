@@ -7,10 +7,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useMeta } from "quasar";
 import HomeComponent from "../components/HomeComponent/HomeComponent.vue";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "IndexPage",
@@ -34,7 +35,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina iniziale.",
       },
-    } as any);
+    } as unknown as ISeoModel);
   },
 });
 </script>

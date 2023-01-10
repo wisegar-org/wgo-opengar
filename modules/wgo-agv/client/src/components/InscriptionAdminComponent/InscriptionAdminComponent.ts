@@ -5,7 +5,7 @@ import { getInscriptionListSchema } from "./InscriptionAdminComponentSchema";
 import { InscriptionService } from "src/services/Inscription/InscriptionService";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
-import Table from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
+import TableVue from "@wisegar-org/wgo-base-client/build/core/components/Table/Table.vue";
 import { EventClassOption } from "src/models/Events";
 import { useAppContentStore } from "src/stores/appContentStore";
 import InscriptionAdminDetails from "../InscriptionAdminDetails/InscriptionAdminDetails.vue";
@@ -23,8 +23,8 @@ import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation
 
 export default defineComponent({
   name: "InscriptionAdminComponent",
-  components: { Table, InscriptionAdminDetails },
-  data(vm) {
+  components: { TableVue, InscriptionAdminDetails },
+  data() {
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } =
       resizeComponent;
@@ -44,7 +44,7 @@ export default defineComponent({
     const leftBtns: ITableLeftButton[] = [];
     const { getLabel } = new BaseTranslateComponent();
     const schema = getInscriptionListSchema(
-      this.tranStore as any,
+      this.tranStore as unknown as TranslationStore,
       leftBtns,
       rowBtns
     );
@@ -59,7 +59,7 @@ export default defineComponent({
       rowsPerPage: schema.rowsPerPageDefault,
       sortBy: "",
     } as ITablePagination;
-    const inscriptions: any[] = [];
+    const inscriptions: AgvInscriptionResponseModel[] = [];
 
     const filterObj = reactive({
       email: "",
@@ -103,7 +103,8 @@ export default defineComponent({
       eventClassOptions,
       inscriptionSelected,
       id_input: "upload-button-" + Math.random().toString(36).substring(2, 10),
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
   setup() {

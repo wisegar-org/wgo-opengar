@@ -7,6 +7,7 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { useAuthStore } from "src/stores/authStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { USER_AUTH_TOKEN } from "@wisegar-org/wgo-base-models/build/authentication";
+import { LocalStorage } from "@wisegar-org/wgo-base-client/build/core/services/LocalStorage";
 const defaultEnv: Environment =
   process.env.NODE_ENV === Environment.Production
     ? Environment.Production
@@ -27,7 +28,9 @@ export const getApiServiceOptions = (pinia: Pinia) => {
   const authStore = useAuthStore(pinia);
   const tranStore = useTranslationStore(pinia);
   const apiServiceOptions: IApiServiceOptions = {
-    onGenericErrorHandler: (message: string) => {},
+    onGenericErrorHandler: (message: string) => {
+      console.log(message);
+    },
     onGenericErrorHandlerIndex: (message: string, index: number) => {
       console.debug(`GQL Error: ${message}`);
       if (
@@ -46,13 +49,13 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       }
     },
     onGetAuthToken: () => {
-      const token = localStorage.getItem(USER_AUTH_TOKEN) || "";
+      const token = LocalStorage.getItem(USER_AUTH_TOKEN) || "";
       return token;
     },
     onGetBaseUrl: () => {
       return apiSettings.API_GRAPHQL;
     },
-    onNetworkErrorHandler: (message: any) => {
+    onNetworkErrorHandler: (message: string | { message: string }) => {
       console.debug(`GQL Network Error: ${message}`);
       const messageStr =
         typeof message === "string" ? message : message.message;
@@ -64,14 +67,16 @@ export const getApiServiceOptions = (pinia: Pinia) => {
         ),
       });
     },
-    onTokenRefresh: (headers: any) => {
+    onTokenRefresh: (headers: { get?: (key: string) => string }) => {
       if (headers && headers.get) {
         const refreshedToken = headers.get("authorization-refresh");
         if (!refreshedToken || refreshedToken === null) return;
         authStore.authStore.setToken(refreshedToken);
       }
     },
-    onHeadersSetup: (headers: any) => {},
+    onHeadersSetup: (headers: unknown) => {
+      console.debug(headers);
+    },
   };
   return apiServiceOptions;
 };

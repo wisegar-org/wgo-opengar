@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const appStatusId = 'appStatusStore';
+export const appStatusId = "appStatusStore";
 
 export const useAppStatusStore = defineStore({
   id: appStatusId,

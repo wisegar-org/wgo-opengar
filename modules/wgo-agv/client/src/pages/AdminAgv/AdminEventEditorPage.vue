@@ -19,6 +19,7 @@ import { UtilService } from "../../services/UtilService";
 import { AGVEventsAdminPaths } from "../../router/paths/adminAgv/eventsPaths";
 import { useAppStatusStore } from "../../stores/appStatusStore";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
+import { Router } from "vue-router";
 
 export default defineComponent({
   name: "AdminEventEditorPage",
@@ -31,9 +32,9 @@ export default defineComponent({
   },
   data() {
     const classDefault = UtilService.getDefaultClass();
-    const eventObj: any = undefined;
+    const eventObj: AgvEventResponseModel = {} as AgvEventResponseModel;
     const eventService = new EventService();
-    const routeService = new RouteService(this.$router as any);
+    const routeService = new RouteService(this.$router as Router);
     return {
       classDefault,
       eventObj,

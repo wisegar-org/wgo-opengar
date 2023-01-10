@@ -8,7 +8,13 @@
           </div>
 
           <q-card-section
-            class="col-12 col-sm-10 col-md-8 col-lg-8 column display-flex justify-center self-center"
+            class="
+              col-12 col-sm-10 col-md-8 col-lg-8
+              column
+              display-flex
+              justify-center
+              self-center
+            "
           >
             <div
               class="row display-flex justify-center"
@@ -60,10 +66,11 @@ import { useMeta } from "quasar";
 import { defineComponent } from "vue";
 import { useAppContentStore } from "../../stores/appContentStore";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "PollRulesPage",
-  setup(props, ctx) {
+  setup() {
     const appContentStore = useAppContentStore();
     return {
       appContentStore,
@@ -97,7 +104,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina del regolamento.",
       },
-    } as any);
+    } as unknown as ISeoModel);
     await this.appContentStore.loadPollData();
   },
 });

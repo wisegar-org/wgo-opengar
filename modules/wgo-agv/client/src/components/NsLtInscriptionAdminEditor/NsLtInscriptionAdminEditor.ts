@@ -1,5 +1,5 @@
 import { defineComponent, PropType } from "vue";
-import Dialog from "@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue";
+import DialogVue from "@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
@@ -21,9 +21,9 @@ export default defineComponent({
     },
   },
   components: {
-    Dialog,
+    DialogVue,
   },
-  data(vm) {
+  data() {
     const { getLabel } = new BaseTranslateComponent();
     const statusOptions = [
       AGVNewsletterInscriptionStatusEnum.Waiting,
@@ -34,10 +34,11 @@ export default defineComponent({
       statusOptions,
       translations,
       inscriptionService: new NewsletterInscriptionService(),
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const translationStore = useTranslationStore();
     const appStatusStore = useAppStatusStore();
 

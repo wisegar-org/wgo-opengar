@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { useRouter } from "vue-router";
+import { Router, useRouter } from "vue-router";
 import { defineComponent } from "vue";
 import RegisterComponent from "@wisegar-org/wgo-base-client/build/authentication/components/RegisterComponent.vue";
 import { Paths } from "../../router/paths";
@@ -21,6 +21,7 @@ import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/R
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { IUser } from "@wisegar-org/wgo-base-models/build/core";
 import { AuthPaths } from "@wisegar-org/wgo-base-models/build/authentication/router";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "RegisterPage",
@@ -34,7 +35,7 @@ export default defineComponent({
     useMeta(seoComponent.seoData);
     return {
       roles,
-      routeService: new RouteService(router as any),
+      routeService: new RouteService(router as Router),
       seoComponent,
     };
   },
@@ -67,7 +68,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina di accesso.",
       },
-    } as any);
+    } as unknown as ISeoModel);
   },
 });
 </script>

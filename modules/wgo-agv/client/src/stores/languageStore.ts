@@ -12,7 +12,9 @@ export const useLanguageStore = defineStore({
   getters: {},
   actions: {
     setTranslationStore(translationStore: TranslationStore) {
-      this.languageStore.setTranslationStore(translationStore);
+      if (this.languageStore.setTranslationStore)
+        this.languageStore.setTranslationStore(translationStore);
+      else this.languageStore.translationStore = translationStore;
     },
     async loadAllLanguages() {
       await this.languageStore.loadAllLanguage();

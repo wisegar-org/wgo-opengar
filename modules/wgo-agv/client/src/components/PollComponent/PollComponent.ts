@@ -11,7 +11,7 @@ export default defineComponent({
   props: {
     pollData: { type: Object as PropType<IPoll>, required: true },
   },
-  data(vm) {
+  data() {
     const value = this.pollData.labels.yesOrNoHolder;
     const formPoll = <IFormPoll>{
       allergy: value,
@@ -33,7 +33,7 @@ export default defineComponent({
       emailService: new EmailService(),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const notifyStore = useNotifyStore();
     const appStatusStore = useAppStatusStore();
     return {
@@ -68,7 +68,7 @@ export default defineComponent({
 
       if (
         await this.emailService.sendEmailFromToAddressAndApp({
-          subject: `Oggetto: ${this.pollData.header.subject}`,
+          subject: `Oggetto: ${this.pollData.header?.subject}`,
           body: getAgvTemplateKey(AGVTemplateEnum.EmailPoll),
           to: `<${form.parentEmail}> "${form.parentName}"`,
           data: JSON.stringify(dataEmail),

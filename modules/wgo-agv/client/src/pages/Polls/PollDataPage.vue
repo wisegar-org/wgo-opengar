@@ -15,13 +15,14 @@ import { defineComponent } from "vue";
 import PollComponent from "../../components/PollComponent/PollComponent.vue";
 import { useAppContentStore } from "../../stores/appContentStore";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "PollDataPage",
   components: {
     PollComponent,
   },
-  setup(props, ctx) {
+  setup() {
     const appContentStore = useAppContentStore();
     return {
       appContentStore,
@@ -55,7 +56,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina del formulario.",
       },
-    } as any);
+    } as unknown as ISeoModel);
     await this.appContentStore.loadPollData();
   },
 });

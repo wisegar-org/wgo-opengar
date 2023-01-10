@@ -94,7 +94,7 @@ export const useAppContentStore = defineStore({
       return false;
     },
     async loadPollData() {
-      if (!this.pollData.header.title) {
+      if (!this.pollData.header?.title) {
         const pollDataService = new PollService();
         const pollData = await pollDataService.getPollConfig();
         if (pollData) {

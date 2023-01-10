@@ -15,6 +15,7 @@ import {
   Q_AGV_GET_EVENT,
   Q_AGV_GET_EVENTS_CLASS,
 } from "./EventServiceQueries";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export class EventService {
   apiInstance: ApiService;
@@ -95,7 +96,9 @@ export class EventService {
     }
   }
 
-  async allEventsByPage(filter: any): Promise<AgvEventsPageResponseModel> {
+  async allEventsByPage(
+    filter: ObjectDictionary
+  ): Promise<AgvEventsPageResponseModel> {
     try {
       const response = (await this.apiInstance.query({
         query: Q_AGV_ALL_EVENTS_BY_PAGE,

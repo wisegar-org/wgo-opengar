@@ -14,6 +14,7 @@ import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/Api
 
 export default store((arg /* { ssrContext } */) => {
   const pinia = createPinia();
+  console.debug("Pinia arguments", arg);
 
   // You can add Pinia plugins here
   // pinia.use(SomePiniaPlugin)

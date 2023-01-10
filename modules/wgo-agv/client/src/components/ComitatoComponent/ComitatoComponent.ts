@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import Text from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
+import TextVue from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
 import { useAppContentStore } from "src/stores/appContentStore";
 import { IPageContent } from "src/models/Content";
 import ComitatoContactForm from "../ComitatoContactForm/ComitatoContactForm.vue";
@@ -7,17 +7,17 @@ import ComitatoContactForm from "../ComitatoContactForm/ComitatoContactForm.vue"
 export default defineComponent({
   name: "ComitatoComponent",
   components: {
-    Text,
+    TextVue,
     ComitatoContactForm,
   },
-  data(vm) {
+  data() {
     return {
       content: {
         comitatoMembri: "",
       } as IPageContent,
     };
   },
-  setup(props, ctx) {
+  setup() {
     const contentStore = useAppContentStore();
     return {
       contentStore,

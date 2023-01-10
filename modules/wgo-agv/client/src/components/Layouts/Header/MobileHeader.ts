@@ -2,7 +2,7 @@ import { useAuthStore } from "src/stores/authStore";
 import { useLanguageStore } from "src/stores/languageStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { defineComponent, PropType } from "vue";
-import { useRouter } from "vue-router";
+import { Router, useRouter } from "vue-router";
 import SimpleDrawer from "@wisegar-org/wgo-base-client/build/core/components/Menu/SimpleDrawer.vue";
 import { UtilService } from "src/services/UtilService";
 import { AdminBasePath, IRoute } from "@wisegar-org/wgo-base-models/build/core";
@@ -16,12 +16,12 @@ export default defineComponent({
   name: "MobileHeader",
   props: {
     title: { type: String, default: "" },
-    menuList: { type: Array as PropType<IRoute[]>, default: [] },
+    menuList: { type: Array as PropType<IRoute[]>, default: () => [] },
   },
   components: {
     SimpleDrawer,
   },
-  data(vm) {
+  data() {
     const router = useRouter();
     return {
       menuItems: this.menuList.map(
@@ -35,7 +35,7 @@ export default defineComponent({
             type: "item",
           } as IMenuItem)
       ),
-      routeService: new RouteService(router as any) as any,
+      routeService: new RouteService(router as Router),
     };
   },
   setup() {

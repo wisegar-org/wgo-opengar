@@ -13,7 +13,7 @@ export default defineComponent({
   components: {
     EventEnrollmentForm,
   },
-  data(vm) {
+  data() {
     const item: AgvEventResponseModel = <AgvEventResponseModel>{};
     const slide = 1;
     const nameCourse = "";

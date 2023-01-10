@@ -16,7 +16,7 @@ export default defineComponent({
   props: {
     event: { type: Object as PropType<AgvEventResponseModel>, required: true },
   },
-  data(vm) {
+  data() {
     const formContact = {
       id: 0,
       nome: "",
@@ -28,12 +28,13 @@ export default defineComponent({
     };
     const showLoader = false;
     return {
+      showLoader,
       formContact,
       inscriptionService: new InscriptionService(),
       emailService: new EmailService(),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const notifyStore = useNotifyStore();
     const appStatusStore = useAppStatusStore();
     const appContentStore = useAppContentStore();
@@ -113,7 +114,7 @@ export default defineComponent({
           url: window.location.href,
         },
       };
-      let body = getAgvTemplateKey(
+      const body = getAgvTemplateKey(
         alreadyExist
           ? AGVTemplateEnum.InscriptionRepeated
           : AGVTemplateEnum.Inscription

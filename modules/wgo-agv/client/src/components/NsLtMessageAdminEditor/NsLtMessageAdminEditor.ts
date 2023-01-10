@@ -6,7 +6,10 @@ import { translations } from "src/models/translations/newsletter";
 import { useNotifyStore } from "src/stores/notifyStore";
 import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
-import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  ObjectDictionary,
+  translations as transBase,
+} from "@wisegar-org/wgo-base-models/build/core";
 import { useAuthStore } from "src/stores/authStore";
 import { NewsletterMessageService } from "src/services/Newsletter/NwLtMessengerService";
 import {
@@ -27,7 +30,7 @@ export default defineComponent({
   components: {
     QCKEditor,
   },
-  data(vm) {
+  data() {
     const urlApi = apiSettings.API_BASE;
     const { getLabel } = new BaseTranslateComponent();
     const resizeComponent = new BaseResizeComponent();
@@ -49,12 +52,13 @@ export default defineComponent({
       addResize,
       removeResize,
       resizeTable,
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
       emailService: new EmailService(),
       newsletterService: new NewsletterMessageService(),
     };
   },
-  setup(props, ctx) {
+  setup() {
     const notifyStore = useNotifyStore();
     const translationStore = useTranslationStore();
     const appStatusStore = useAppStatusStore();
@@ -129,9 +133,10 @@ export default defineComponent({
       }
     },
     writeToken(text: string) {
-      const model = (this.$refs.editor as any).$refs.editor.instance.model;
+      const model = (this.$refs.editor as ObjectDictionary).$refs.editor
+        .instance.model;
 
-      model.change((writer: any) => {
+      model.change((writer: ObjectDictionary) => {
         writer.insertText(
           `${text}`,
           model.document.selection.getFirstPosition()

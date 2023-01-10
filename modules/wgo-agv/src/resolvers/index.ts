@@ -7,6 +7,7 @@ import { AGVContentsResolver } from "./Content/AGVContentsResolver";
 import { AGVNewsletterResolver } from "./Newsletter/AGVNewsletterResolver";
 import { AGVInscriptionResolver } from "./Inscription/AGVInscriptionResolver";
 import {
+  CoreResolver,
   EmailResolver,
   AuthResolver,
   LanguageResolver,
@@ -20,6 +21,7 @@ import {
 export const getResolverList = () => {
   return [
     AppResolver,
+    CoreResolver,
     AuthResolver,
     LanguageResolver,
     PublicTranslationResolver,

@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="block-text-card-down">
-      <Text class="q-my-none text-h1" :largeFont="true" text="Chi siamo:" />
-      <Text
+      <TextVue class="q-my-none text-h1" :largeFont="true" text="Chi siamo:" />
+      <TextVue
         class="text-body1 q-pt-md"
         text="L’Assemblea Genitori è costituita dai genitori di tutti gli allievi
         della Scuola Elementare e dell’Infanzia e il suo Comitato viene eletto
         durante la riunione annuale."
       />
-      <Text
+      <TextVue
         class="text-body1 q-pt-md"
         text="Essa dà l’opportunità ai membri del Comitato di organizzare varie
         attività da svolgere con i bambini durante i doposcuola. È inoltre
@@ -16,12 +16,12 @@
         deve infatti all’iniziativa dell’Assemblea Generale dei Genitori la
         creazione della mensa scolastica."
       />
-      <Text
+      <TextVue
         class="text-body1 q-pt-md"
         text="Il nostro Comitato non è a fine di lucro."
       />
       <br /><br />
-      <Text
+      <TextVue
         class="text-body1"
         text="Se siete incuriositi e interessati a entrare nel Comitato Genitori
         sarete i benvenuti! Contattateci tramite il formulario qui sotto:"

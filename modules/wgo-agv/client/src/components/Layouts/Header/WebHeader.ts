@@ -9,14 +9,15 @@ import { useTranslationStore } from "src/stores/translationStore";
 import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { UtilService } from "src/services/UtilService";
 import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
+import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 
 export default defineComponent({
   name: "WebHeader",
   props: {
     title: { type: String, default: "" },
-    menuList: { type: Array as PropType<IRoute[]>, default: [] },
+    menuList: { type: Array as PropType<IRoute[]>, default: () => [] },
   },
-  setup(props, ctx) {
+  setup() {
     const authStore = useAuthStore();
     const tranStore = useTranslationStore();
     const { getLabel } = new BaseTranslateComponent();
@@ -24,7 +25,10 @@ export default defineComponent({
       authStore,
       adminPath: AdminBasePath,
       getLabel: (name: string) =>
-        getLabel(tranStore.translationStore as any, name),
+        getLabel(
+          tranStore.translationStore as unknown as TranslationStore,
+          name
+        ),
       transBase,
     };
   },

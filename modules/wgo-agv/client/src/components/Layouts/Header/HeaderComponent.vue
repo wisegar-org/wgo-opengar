@@ -13,4 +13,4 @@
   </q-header>
 </template>
 
-<script lang="ts" src="./Header.ts" />
+<script lang="ts" src="./HeaderComponent.ts" />

@@ -1,27 +1,27 @@
 import { IItem } from "src/models/Item";
 import { AgvEventResponseModel } from "src/models/models";
-import { IPoll } from "src/models/Poll";
 import { AGVDetailsPaths } from "src/router/paths/detailsPath";
 import { AGVPollPaths } from "src/router/paths/pollPaths";
 import { EventService } from "src/services/Event/EventService";
 import { useAppContentStore } from "src/stores/appContentStore";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { defineComponent } from "vue";
-import Text from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
+import TextVue from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
 import BannerComponent from "../BannerComponent/BannerComponent.vue";
 import ItemCard from "../ItemCard/ItemCard.vue";
+import { Router } from "vue-router";
 
 export default defineComponent({
   name: "HomeComponent",
   components: {
-    Text,
+    TextVue,
     ItemCard,
     BannerComponent,
   },
   data() {
     const corso: AgvEventResponseModel | undefined = <AgvEventResponseModel>{};
     const evento: AgvEventResponseModel | undefined = <AgvEventResponseModel>{};
-    const routerService = new RouteService(this.$router as any);
+    const routerService = new RouteService(this.$router as Router);
     return {
       corso,
       evento,
@@ -31,7 +31,7 @@ export default defineComponent({
       rulesPath: AGVPollPaths.pollRules.path,
     };
   },
-  setup(props, ctx) {
+  setup() {
     const appContentStore = useAppContentStore();
     return {
       appContentStore,
@@ -57,8 +57,8 @@ export default defineComponent({
     this.loadingEvents = true;
     const eventService = new EventService();
     const nextsEvents = await eventService.getNextEvents();
-    this.corso = nextsEvents.corso as any;
-    this.evento = nextsEvents.evento as any;
+    this.corso = nextsEvents.corso as AgvEventResponseModel;
+    this.evento = nextsEvents.evento as AgvEventResponseModel;
     this.loadingEvents = false;
   },
 });

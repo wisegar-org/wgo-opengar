@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { Router, useRoute, useRouter } from "vue-router";
 import EmailSendedComponent from "@wisegar-org/wgo-base-client/build/authentication/components/EmailSendedComponent.vue";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { Paths } from "../../router/paths";
@@ -19,6 +19,7 @@ import { useTranslationStore } from "../../stores/translationStore";
 import { useMeta } from "quasar";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "RegisterEmailSendedPage",
@@ -32,7 +33,7 @@ export default defineComponent({
     useMeta(seoComponent.seoData);
     return {
       email: (route.query.email as string) || "",
-      routeService: new RouteService(router as any),
+      routeService: new RouteService(router as Router),
       seoComponent,
     };
   },
@@ -57,7 +58,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina di accesso.",
       },
-    } as any);
+    } as unknown as ISeoModel);
   },
 });
 </script>

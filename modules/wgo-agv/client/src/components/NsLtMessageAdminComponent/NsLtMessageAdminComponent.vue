@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="placeholder" style="height: 1px"></div>
-    <Table
+    <TableVue
       :title="translations.MSG_TITLE"
       :data="messages"
       :schema="schema"
@@ -40,7 +40,7 @@
           </div>
         </div>
       </template>
-    </Table>
+    </TableVue>
   </div>
 </template>
 

@@ -5,13 +5,14 @@ import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/
 import { TemplateService } from "@wisegar-org/wgo-base-client/build/template/services/TemplateService";
 import { defineComponent } from "vue";
 import ContactForm from "../ContactForm/ContactForm.vue";
+import { StringDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ComitatoContactForm",
   components: {
     ContactForm,
   },
-  data(vm) {
+  data() {
     return {
       showLoader: false,
       emailService: new EmailService(),
@@ -25,7 +26,7 @@ export default defineComponent({
     };
   },
   methods: {
-    async onSubmit(content: any, onReset: () => unknown) {
+    async onSubmit(content: StringDictionary, onReset: () => unknown) {
       this.showLoader = true;
 
       const data = {

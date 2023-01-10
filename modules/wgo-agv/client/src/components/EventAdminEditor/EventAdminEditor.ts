@@ -2,7 +2,10 @@ import { defineComponent, PropType } from "vue";
 import UploadImageDiv from "@wisegar-org/wgo-base-client/build/storage/components/UploadImageDiv/UploadImageDiv.vue";
 import GalleryImage from "@wisegar-org/wgo-base-client/build/storage/components/GalleryImage/GalleryImage.vue";
 import QCKEditor from "@wisegar-org/wgo-base-client/build/core/components/CKEditor/QCKEditor.vue";
-import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  StringDictionary,
+  translations as transBase,
+} from "@wisegar-org/wgo-base-models/build/core";
 import { translations } from "src/models/translations/events";
 import { useTranslationStore } from "src/stores/translationStore";
 import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
@@ -16,7 +19,6 @@ import {
   EventTypeOptions,
 } from "src/models/Events";
 import { QPopupProxy } from "quasar";
-import Dialog from "@wisegar-org/wgo-base-client/build/core/components/Dialog/Dialog.vue";
 import { apiSettings } from "src/api/ApiOptions";
 import { IMediaResponse } from "@wisegar-org/wgo-base-models/build/storage";
 import { UtilService } from "@wisegar-org/wgo-base-client/build/core/services/UtilService";
@@ -25,7 +27,6 @@ import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation
 export default defineComponent({
   name: "EventAdminEditor",
   components: {
-    Dialog,
     GalleryImage,
     UploadImageDiv,
     QCKEditor,
@@ -33,7 +34,7 @@ export default defineComponent({
   props: {
     event: { type: Object as PropType<AgvEventResponseModel>, required: true },
   },
-  data(vm) {
+  data() {
     const imgTitle: IMediaResponse = this.event.imgTitle || {};
     const imgList: IMediaResponse[] = this.event.imgList || [];
     const { getLabel } = new BaseTranslateComponent();
@@ -45,7 +46,7 @@ export default defineComponent({
       (this.event.endDate || new Date()).toString(),
       "DD/MM/YYYY"
     );
-    const date: any =
+    const date: StringDictionary | string =
       startDate !== endDate
         ? {
             from: startDate,
@@ -61,7 +62,8 @@ export default defineComponent({
       imgList,
       transBase,
       translations,
-      getLabel: (name: string) => getLabel(this.tranStore as any, name),
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
     };
   },
   setup() {
@@ -102,7 +104,10 @@ export default defineComponent({
         arg.startDate = date ? new Date(date) : undefined;
         arg.endDate = date ? new Date(date) : undefined;
       } else {
-        const { from, to } = this.date as any as { from: string; to: string };
+        const { from, to } = this.date as unknown as {
+          from: string;
+          to: string;
+        };
         const startD = this.getFormatServerDate(from);
         arg.startDate = startD ? new Date(startD) : undefined;
         const endD = this.getFormatServerDate(to);
@@ -142,7 +147,9 @@ export default defineComponent({
       if (typeof this.date === "string") {
         return this.date;
       } else {
-        return `${(this.date as any).from} - ${(this.date as any).to}`;
+        return `${(this.date as StringDictionary).from} - ${
+          (this.date as StringDictionary).to
+        }`;
       }
     },
     getFormatServerDate(value: string | undefined) {

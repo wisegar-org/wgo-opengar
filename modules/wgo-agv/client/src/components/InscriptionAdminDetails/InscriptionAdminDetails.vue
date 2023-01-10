@@ -1,5 +1,5 @@
 <template>
-  <Dialog
+  <DialogVue
     :open="open"
     icon="language"
     :title="getLabel(translations.TITLE_DIALOG)"
@@ -98,7 +98,7 @@
         />
       </q-card-actions>
     </div>
-  </Dialog>
+  </DialogVue>
 </template>
 
 <script lang="ts" src="./InscriptionAdminDetails.ts" />

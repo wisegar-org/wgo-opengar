@@ -19,6 +19,7 @@ import { apiSettings } from "../../api/ApiOptions";
 import { EventTypeOptions, EventClassOption } from "../../models/Events";
 import { AGVNewsletterInscriptionStatusEnum } from "../../models/Newsletter";
 import TemplateAdminComponent from "../../components/TemplateAdminComponent/TemplateAdminComponent.vue";
+import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "AdminSocialMediaContentPage",
@@ -31,7 +32,7 @@ export default defineComponent({
   data() {
     const key = "";
     const objectToken = [""];
-    const testData: any = {};
+    const testData: ObjectDictionary = {};
     return {
       data: {
         key,
@@ -52,7 +53,7 @@ export default defineComponent({
     dataObj() {
       let key: string = getAgvTemplateKey(this.type || "");
       let objectToken = [""];
-      let testData: any = {};
+      let testData: ObjectDictionary = {};
 
       switch (this.type) {
         case AGVTemplateEnum.Inscription:

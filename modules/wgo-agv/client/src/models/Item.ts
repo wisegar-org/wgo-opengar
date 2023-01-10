@@ -1,6 +1,6 @@
 export enum ITemType {
-  Course = 'Corso',
-  Event = 'Evento'
+  Course = "Corso",
+  Event = "Evento",
 }
 
 export interface IItemImg {
@@ -9,9 +9,9 @@ export interface IItemImg {
 }
 
 export enum ItemState {
-  Waiting = 'In sospeso',
-  Confirmed = 'Confermato',
-  Cancelled = 'Annullato'
+  Waiting = "In sospeso",
+  Confirmed = "Confermato",
+  Cancelled = "Annullato",
 }
 
 export interface IItem {

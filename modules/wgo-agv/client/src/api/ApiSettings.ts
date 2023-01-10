@@ -30,8 +30,8 @@ export const getSettings = (env?: Environment): IApiSettings => {
       };
     default:
       return {
-        API_BASE: (settingsBuild as any).API_BASE,
-        API_GRAPHQL: (settingsBuild as any).API_GRAPHQL,
+        API_BASE: (settingsBuild as { API_BASE: string }).API_BASE,
+        API_GRAPHQL: (settingsBuild as { API_GRAPHQL: string }).API_GRAPHQL,
         VERSION: "Dev Version",
         DEFAULT_USER_PROFILE: "icons/profile-user.svg",
       };

@@ -24,6 +24,7 @@
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
+import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ErrorNotFound",
@@ -44,7 +45,7 @@ export default defineComponent({
         content:
           "Assemblea Genitori Vezia - Lavoriamo per i nostri bimbi. Pagina de errore.",
       },
-    } as any);
+    } as unknown as ISeoModel);
   },
 });
 </script>
