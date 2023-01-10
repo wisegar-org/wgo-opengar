@@ -10,6 +10,7 @@ import {
   GitUserOption,
   GitPswOption,
   WSCmdOption,
+  ClientModeOption,
 } from "../options/ICmdOptions";
 import {
   ValidateOption,
@@ -49,6 +50,7 @@ export class WgoCommand extends Command {
   public static GitUserOption = GitUserOption;
   public static GitPswOption = GitPswOption;
   public static WSCmdOption = WSCmdOption;
+  public static ClientModeOption = ClientModeOption;
 
   public static Execute = () => {
     ValidateOption(WgoCommand.EnvCmdOption);
@@ -62,6 +64,7 @@ export class WgoCommand extends Command {
     ValidateOptionalOption(WgoCommand.WSCmdOption);
     ValidateOptionalOption(WgoCommand.GitUserOption);
     ValidateOptionalOption(WgoCommand.GitPswOption);
+    ValidateOptionalOption(WgoCommand.ClientModeOption);
     if (
       !WgoCommand.EnvCmdOption.exist ||
       !WgoCommand.RootCmdOption.exist ||
@@ -81,6 +84,7 @@ export class WgoCommand extends Command {
       app_name
     );
 
+    debugger;
     Logger.Line("Cleaning workspace...", () => {
       if (existsSync(wgoRootSourcePath)) {
         runScript(`npx rimraf ${wgoRootSourcePath}`, wgoTmpUserPath, (err) => {
@@ -203,6 +207,7 @@ export class WgoCommand extends Command {
       wgoServerSourcePath,
       wgoBuildClientSourcePath: join(buildServerPath, clientName),
       wgoClientSourcePath: join(wgoServerSourcePath, clientName),
+      clientModeOption: WgoCommand.ClientModeOption.value,
     });
 
     /**
@@ -215,6 +220,7 @@ export class WgoCommand extends Command {
       wgoServerSourcePath,
       wgoBuildClientSourcePath: join(buildServerPath, clientName),
       wgoClientSourcePath: join(wgoServerSourcePath, clientName),
+      clientModeOption: WgoCommand.ClientModeOption.value,
     });
 
     /**
@@ -268,9 +274,15 @@ export class WgoCommand extends Command {
     wgoServerSourcePath: string;
     wgoClientSourcePath: string;
     wgoBuildClientSourcePath: string;
+    clientModeOption: string;
   }) => {
+    const isSSR = config.clientModeOption === "ssr";
     const sourceFilesClient = ["package.json", "package-lock.json", ".npmrc"];
-    const buildClientPath = join(config.wgoClientSourcePath, "dist", "spa");
+    const buildClientPath = join(
+      config.wgoClientSourcePath,
+      "dist",
+      isSSR ? "ssr" : "spa"
+    );
 
     Logger.Line(`Building options.env ${config.clientName} file...`, () => {
       if (existsSync(config.wgoClientSourcePath)) {
@@ -302,7 +314,8 @@ export class WgoCommand extends Command {
       `Transpiling the ${config.clientName} application code...`,
       () => {
         if (existsSync(config.wgoClientSourcePath)) {
-          runScript(`npx quasar build`, config.wgoClientSourcePath, (err) => {
+          const command = `npx quasar build ${isSSR ? "-m ssr" : ""}`;
+          runScript(command, config.wgoClientSourcePath, (err) => {
             Logger.Error(err, true);
           });
         }

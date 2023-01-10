@@ -140,3 +140,13 @@ export const ModuleOption: ICmdOptions = {
     ParseOption(args, ModuleOption);
   },
 };
+
+export const ClientModeOption: ICmdOptions = {
+  option: "--client-mode",
+  exist: false,
+  value: "",
+  description: "Client build mode. Default is the blank",
+  parse(args) {
+    ParseOption(args, ClientModeOption);
+  },
+};

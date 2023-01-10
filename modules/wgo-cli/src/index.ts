@@ -4,7 +4,7 @@ import { EmptyVersion } from "./options/ICmdOptions";
 import { Logger } from "./utils/Logger";
 
 export const wgoCli = () => {
-  const current_version: string = "0.0.3-3";
+  const current_version: string = "0.0.3-4";
 
   const processVersion = process.env.npm_package_version
     ? process.env.npm_package_version
@@ -44,6 +44,7 @@ export const wgoCli = () => {
       WgoCommand.WSCmdOption.parse(build_args);
       WgoCommand.GitUserOption.parse(build_args);
       WgoCommand.GitPswOption.parse(build_args);
+      WgoCommand.ClientModeOption.parse(build_args);
       WgoCommand.Execute();
       break;
 
