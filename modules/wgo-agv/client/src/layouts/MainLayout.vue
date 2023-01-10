@@ -3,7 +3,7 @@
     :tranStore="tranStore"
     :authStore="authStore"
     :menuItems="menuItems"
-    :langStore="langStore"
+    :langStore="langStore.languageStore"
     :routeService="routeService"
     :homePath="homePath"
     :title="title"
@@ -28,7 +28,7 @@ import {
 } from "@wisegar-org/wgo-base-models/build/core";
 import { AuthStore } from "@wisegar-org/wgo-base-client/build/authentication/store/AuthStore";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
-import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
+// import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store/LanguageStore";
 
 export default defineComponent({
   components: {
@@ -54,7 +54,7 @@ export default defineComponent({
       title,
       authStore: authStore.authStore as AuthStore,
       tranStore: transStore.translationStore as TranslationStore,
-      langStore: langStore.languageStore as LanguageStore,
+      langStore: langStore,
       menuItems,
       homePath: Paths.home.path,
     };

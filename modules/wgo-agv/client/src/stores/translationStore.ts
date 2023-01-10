@@ -19,5 +19,8 @@ export const useTranslationStore = defineStore({
     async getAndRegisterTranslations(keys: string[]) {
       return await this.translationStore.loadAllTranslationByKeys(keys);
     },
+    setTranslationStore(translationStore: TranslationStore) {
+      this.translationStore = translationStore;
+    },
   },
 });

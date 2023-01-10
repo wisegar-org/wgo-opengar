@@ -22,5 +22,8 @@ export const useLanguageStore = defineStore({
     getLanguageStore() {
       return this.languageStore;
     },
+    setLanguageStore(languageStore: LanguageStore) {
+      this.languageStore = languageStore;
+    },
   },
 });

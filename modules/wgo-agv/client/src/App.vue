@@ -17,8 +17,6 @@ import { AuthService } from "@wisegar-org/wgo-base-client/build/authentication/s
 import LoaderVue from "@wisegar-org/wgo-base-client/build/core/components/Loader/Loader.vue";
 import { useLanguageStore } from "./stores/languageStore";
 import { useTranslationStore } from "./stores/translationStore";
-import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
-import { Translations } from "./settings/translations";
 
 export default defineComponent({
   name: "App",
@@ -61,14 +59,6 @@ export default defineComponent({
       langStore,
       translationStore,
     };
-  },
-  async mounted() {
-    this.langStore.setTranslationStore(
-      this.translationStore.translationStore as TranslationStore
-    );
-    await this.authStore.me();
-    await this.langStore.loadAllLanguages();
-    await this.translationStore.getAndRegisterTranslations(Translations);
   },
 });
 </script>
