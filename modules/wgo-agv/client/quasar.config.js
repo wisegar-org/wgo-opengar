@@ -27,6 +27,7 @@ let hostBase = envValue.parsed?.PORT
 if (envValue.parsed?.APP_WEB_HOST) {
   hostBase = envValue.parsed.APP_WEB_HOST;
 }
+const portApp = envValue.parsed?.PORT ? parseInt(envValue.parsed.PORT) + 1 : 8040
 
 module.exports = configure(function (ctx) {
   return {
@@ -120,7 +121,7 @@ module.exports = configure(function (ctx) {
       server: {
         type: "http",
       },
-      port: 8040,
+      port: portApp,
       open: true, // opens browser window automatically
     },
 
@@ -164,7 +165,7 @@ module.exports = configure(function (ctx) {
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
-      prodPort: 3000, // The default port that the production server should use
+      prodPort: portApp, // The default port that the production server should use
       // (gets superseded if process.env.PORT is specified at runtime)
 
       maxAge: 1000 * 60 * 60 * 24 * 30,
