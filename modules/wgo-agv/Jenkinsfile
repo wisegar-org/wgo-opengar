@@ -40,7 +40,7 @@ pipeline {
         
         stage("build-project") {
             steps { 
-                sh 'wisegar wgo --ws . --git-user yarielre --git-psw $GITHUB_ID_PSW --env $env --port $port --root /home/wgoadmin/web --url $url --branch $branch --settings-root /home/wgoadmin/settings/wgo-opengar-agv  --module-name wgo-agv'
+                sh 'wisegar wgo --ws . --git-user yarielre --git-psw $GITHUB_ID_PSW --env $env --port $port --root /home/wgoadmin/web --url $url --branch $branch --settings-root /home/wgoadmin/settings/wgo-opengar-agv  --module-name wgo-agv --client-mode ssr'
             }        
         }
 
