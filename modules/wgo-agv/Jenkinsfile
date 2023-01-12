@@ -54,7 +54,7 @@ pipeline {
                 sh 'rsync -az build/ wgoadmin@vps-8399c737.vps.ovh.net:/home/wgoadmin/web/wgo-agv-$env-$port/'
                 sh 'rsync -az build/.[^.]* wgoadmin@vps-8399c737.vps.ovh.net:/home/wgoadmin/web/wgo-agv-$env-$port/'
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port; npm install"'
-                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port/clientApp; npm install"'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port/client; npm install"'
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port; chmod -R 777 ./"'
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 start wgo-agv-$env'
             }        
