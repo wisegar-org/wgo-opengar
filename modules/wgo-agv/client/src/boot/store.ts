@@ -9,6 +9,8 @@ import { LanguageStore } from "@wisegar-org/wgo-base-client/build/language/store
 import { LocalStorageService } from "@wisegar-org/wgo-base-client/build/core/services/LocalStorageService";
 import { LocalStorage } from "@wisegar-org/wgo-base-client/build/core/services/LocalStorage";
 import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
+import fetch from "cross-fetch";
+globalThis.fetch = fetch;
 
 export default boot(({ app, store }) => {
   if (!ApiService.isDefineInstance()) {
