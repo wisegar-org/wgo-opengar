@@ -21,12 +21,10 @@ const envValue = fs.existsSync(".env")
   : env.config({
     path: "../.env",
   });
-let hostBase = envValue.parsed?.PORT
+const hostBase = envValue.parsed?.PORT
   ? `http://localhost:${envValue.parsed.PORT}`
   : buildsettings.API_BASE;
-if (envValue.parsed?.APP_WEB_HOST) {
-  hostBase = envValue.parsed.APP_WEB_HOST;
-}
+const prodBase = envValue.parsed?.APP_WEB_HOST || hostBase
 const portApp = envValue.parsed?.PORT ? parseInt(envValue.parsed.PORT) + 1 : 8040
 
 module.exports = configure(function (ctx) {
@@ -70,8 +68,9 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: "hash", // available values: 'hash', 'history'
       env: {
-        API_BASE: hostBase,
-        API_GRAPHQL: `${hostBase}/graphql`,
+        ENV: envValue.parsed?.ENV || "development",
+        API_BASE: ctx.prod ? prodBase : hostBase,
+        API_GRAPHQL: `${ctx.prod ? prodBase : hostBase}/graphql`,
         VERSION: packageJson.version || buildsettings.VERSION,
       },
 
