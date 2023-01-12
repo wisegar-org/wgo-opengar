@@ -84,7 +84,6 @@ export class WgoCommand extends Command {
       app_name
     );
 
-    debugger;
     Logger.Line("Cleaning workspace...", () => {
       if (existsSync(wgoRootSourcePath)) {
         runScript(`npx rimraf ${wgoRootSourcePath}`, wgoTmpUserPath, (err) => {
@@ -297,7 +296,9 @@ export class WgoCommand extends Command {
         );
         appendFileSync(
           ENV_FILENAME,
-          `APP_WEB_HOST=${[WgoCommand.UrlCmdOption.value]} \n`
+          `APP_WEB_HOST=${[WgoCommand.UrlCmdOption.value]}${
+            isSSR ? "/api" : ""
+          } \n`
         );
       }
     });
