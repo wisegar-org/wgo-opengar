@@ -5,7 +5,7 @@ import {
 } from "@wisegar-org/wgo-base-models/build/historic/server";
 
 export const Q_HISTORIC_PAGE = gql`
-  query ${HISTORIC_PATH_GET_PAGE}($data: HistoryPageInputGQL!) {
+  query ${HISTORIC_PATH_GET_PAGE}($data: HistoricPageInput!) {
     ${HISTORIC_PATH_GET_PAGE}(data: $data) {
       count
       histories {
