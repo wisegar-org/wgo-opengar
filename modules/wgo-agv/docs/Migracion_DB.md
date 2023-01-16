@@ -18,7 +18,7 @@
 
 * Acceder al servidor de base de datos (consola) para hacer el backup de la base de datos
 
-`pg_dump --column-inserts --data-only -h localhost -p 5432 -U postgres -d db_nombre_origen > backup.sql`
+`pg_dump --column-inserts --data-only -h localhost -p 5432 -U postgres -d nombre_origen_db > backup.sql`
 
 * Acceder a la base de datos destino de la aplicación (pgAdmin) y realizar la siguiente consulta
 
@@ -26,4 +26,4 @@
 
 * Acceder al servidor de base de datos (consola) para restaurar el backup realizado
 
-`psql -d wgo-agv-test -a -U postgres -h localhost -p 5432 < backup.sql`
+`psql -d nombre_destino_db -a -U postgres -h localhost -p 5432 < backup.sql`
