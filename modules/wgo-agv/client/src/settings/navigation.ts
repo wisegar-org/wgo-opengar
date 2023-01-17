@@ -12,6 +12,7 @@ import { AdminSettingsPaths } from "@wisegar-org/wgo-base-models/build/settings/
 import { AdminTranslationPaths } from "@wisegar-org/wgo-base-models/build/translation/router";
 import { Paths } from "../router/paths";
 import { AGV_ADMIN_ROLE } from "src/models/models";
+import { AdminHistoricPaths } from "@wisegar-org/wgo-base-models/build/historic/router";
 
 export const menuItems: MenuListItem[] = [
   {
@@ -221,6 +222,16 @@ export const menuItems: MenuListItem[] = [
     link: AdminSettingsPaths.adminSettings.path,
     role: AdminSettingsPaths.adminSettings.role,
     auth: AdminSettingsPaths.adminSettings.auth,
+    color: "",
+    type: "item",
+  },
+  {
+    label: AdminHistoricPaths.adminHistoric.label,
+    id: AdminHistoricPaths.adminHistoric.name,
+    icon: "list_alt",
+    link: AdminHistoricPaths.adminHistoric.path,
+    role: AdminHistoricPaths.adminHistoric.role,
+    auth: AdminHistoricPaths.adminHistoric.auth,
     color: "",
     type: "item",
   },

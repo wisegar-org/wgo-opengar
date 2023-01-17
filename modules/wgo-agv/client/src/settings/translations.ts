@@ -6,6 +6,7 @@ import { getCoreTranslationsKeys } from "@wisegar-org/wgo-base-models/build/core
 import { getLanguageTranslationsKeys } from "@wisegar-org/wgo-base-models/build/language/translations";
 import { getSettingsTranslationsKeys } from "@wisegar-org/wgo-base-models/build/settings/translations";
 import { getTranslationTranslationsKeys } from "@wisegar-org/wgo-base-models/build/translation/translations";
+import { getHistoricTranslationsKeys } from "@wisegar-org/wgo-base-models/build/historic/translations";
 import { getAGVContentTranslationsKeys } from "src/models/translations/content";
 import { getAGVEventsTranslationsKeys } from "src/models/translations/events";
 import { getAGVInscriptionsTranslationsKeys } from "src/models/translations/inscriptions";
@@ -19,6 +20,7 @@ const tanslations: string[] = getCoreTranslationsKeys()
   .concat(getLanguageTranslationsKeys())
   .concat(getAuthTranslationsKeys())
   .concat(getSettingsTranslationsKeys())
+  .concat(getHistoricTranslationsKeys())
   .concat(getContactTranslationsKeys())
   .concat(getAGVContentTranslationsKeys())
   .concat(getAGVEventsTranslationsKeys())

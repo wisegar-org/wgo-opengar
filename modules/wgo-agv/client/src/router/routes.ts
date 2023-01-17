@@ -2,6 +2,7 @@ import { AdminBasePath } from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
 import { AuthAdminPathRouter } from "./paths/admin/authPaths";
 import { ContactPathRouter } from "./paths/admin/contactPaths";
+import { HistoricPathRouter } from "./paths/admin/historicPaths";
 import { LanguagePathRouter } from "./paths/admin/languagePaths";
 import { SettingsPathRouter } from "./paths/admin/settingsPaths";
 import { TranslationPathRouter } from "./paths/admin/translationPaths";
@@ -36,6 +37,7 @@ const routes: RouteRecordRaw[] = [
   ContactPathRouter,
   TranslationPathRouter,
   SettingsPathRouter,
+  HistoricPathRouter,
   AGVTemplatePathRouter,
   // Always leave this as last one,
   // but you can also remove it
