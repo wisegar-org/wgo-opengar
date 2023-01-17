@@ -48,7 +48,8 @@ pipeline {
             steps {
                 sh 'ls -a'
                 sh 'cd build && ls -a'
-                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 stop wgo-agv-$env'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 stop wgo-agv-$env-$port'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 stop wgo-agv-$env-$port-ssr'
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net rm -rf  /home/wgoadmin/web/wgo-agv-$env-$port'
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net mkdir -p /home/wgoadmin/web/wgo-agv-$env-$port'
                 sh 'rsync -az build/ wgoadmin@vps-8399c737.vps.ovh.net:/home/wgoadmin/web/wgo-agv-$env-$port/'
@@ -56,7 +57,8 @@ pipeline {
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port; npm install"'
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port/client; npm install"'
                 sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net "cd /home/wgoadmin/web/wgo-agv-$env-$port; chmod -R 777 ./"'
-                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 start wgo-agv-$env'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 start wgo-agv-$env-$port'
+                sh 'ssh wgoadmin@vps-8399c737.vps.ovh.net pm2 start wgo-agv-$env-$port-ssr'
             }        
         }
     }

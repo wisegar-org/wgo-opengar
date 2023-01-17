@@ -48,7 +48,7 @@ export default defineComponent({
     const authStore = useAuthStore();
     const transStore = useTranslationStore();
     const langStore = useLanguageStore();
-    const title = tranBase.APP_TITLE;
+    const title = tranBase.APP_ADMIN_TITLE;
 
     return {
       title,

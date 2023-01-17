@@ -4,7 +4,7 @@
       <img src="icons/favicon.png" alt="favicon" />
     </q-avatar>
     <div
-      class="text-h6 q-px-md"
+      class="text-h6 q-px-md col-10 col-sm-9 col-md-6"
       style="max-width: 450px; font-size: 21px; font-weight: normal"
     >
       <div class="cursor-pointer" @click="goToHome" style="width: fit-content">
