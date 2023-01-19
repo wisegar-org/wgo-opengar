@@ -1,6 +1,6 @@
 {
   "name": "wgo-swisspay",
-  "version": "0.0.1-build.0",
+  "version": "0.0.2-0",
   "description": "Template Opengar App Module",
   "main": "build/index.js",
   "scripts": {
