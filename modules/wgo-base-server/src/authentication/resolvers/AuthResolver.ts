@@ -32,7 +32,6 @@ import {
   SmtpSettings,
 } from "@wisegar-org/wgo-base-models";
 import {
-  GetEmailAppAddressKey,
   GetExpiresInKey,
   GetHostBaseKey,
   GetPrivateKey,
@@ -45,6 +44,7 @@ import { IdInput } from "../../core/resolvers/CoreInputs";
 import { UserRolesModel } from "../models/UserRolesModel";
 import { HistoricResponse } from "../../historic/resolvers/HistoricResponses";
 import { HistoricModel } from "../../historic/models/HistoricModel";
+import { EmailModel } from "../../email";
 
 @Resolver()
 export class AuthResolver {
@@ -60,7 +60,9 @@ export class AuthResolver {
       hostBase: GetHostBaseKey(),
       tokenExpiresIn: GetExpiresInKey(),
       tokenRegisterExpiresIn: "24h",
-      emailOptions: { from: GetEmailAppAddressKey() } as any,
+      emailOptions: {
+        from: EmailModel.getFromAppConfig(),
+      } as any,
       transportEmailOptions: {} as any,
       ctx: {} as any,
     };

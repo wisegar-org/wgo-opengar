@@ -109,10 +109,9 @@ export class EmailModel {
       body = body.split("&lt;").join("<").split("&gt;").join(">");
       const configSmtp = await this.getTransportEmailOptions();
       const config = this.getEmailConfig();
-      const from = `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`;
       const result = await this.emailServer.sendByConfig(
         {
-          from: from,
+          from: config.from,
           to: config.to,
           subject: data.subject,
           html: body,
@@ -153,10 +152,9 @@ export class EmailModel {
       body = body.split("&lt;").join("<").split("&gt;").join(">");
       const configSmtp = await this.getTransportEmailOptions();
       const config = this.getEmailConfig();
-      const from = `<${GetEmailSenderKey()}> ${GetEmailSenderNameKey()}`;
       const result = await this.emailServer.sendByConfig(
         {
-          from: from,
+          from: config.from,
           to: config.to,
           subject: data.subject,
           html: body,
@@ -191,9 +189,11 @@ export class EmailModel {
     });
     const to = toSend.splice(0, 1)[0];
     const bcc = toSend.join(",");
+    const from = EmailModel.getFromAppConfig();
     return {
       to,
       bcc,
+      from,
     };
   }
 
@@ -214,5 +214,13 @@ export class EmailModel {
     };
 
     return transportEmailOptions;
+  }
+
+  static getFromAppConfig() {
+    const emailAppAddressKey = GetEmailAppAddressKey().split(",");
+    const emailAppAddressNameKey = GetEmailAppAddressNameKey().split(",");
+    return `<${emailAppAddressKey[0] || GetEmailSenderKey()}> ${
+      emailAppAddressNameKey[0] || GetEmailSenderNameKey()
+    }`;
   }
 }
