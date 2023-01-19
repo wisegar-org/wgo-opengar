@@ -28,8 +28,8 @@ export default defineComponent({
 
     //NOTIFY STORE
     const notifyStore = useNotifyStore();
-    notifyStore.$subscribe((mutation, state) => {
-      $q.notify(state.notify as QNotifyCreateOptions);
+    watch(notifyStore.getNotify, () => {
+      $q.notify(notifyStore.notify as QNotifyCreateOptions);
     });
 
     //AUTH STORE

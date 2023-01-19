@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { reactive } from "vue";
 export const userNotifyId = "notifyStore";
 
 export interface INotify {
@@ -10,7 +11,7 @@ export interface INotify {
 export const useNotifyStore = defineStore({
   id: userNotifyId,
   state: () => ({
-    notify: <INotify>{},
+    notify: reactive(<INotify>{}),
   }),
   getters: {
     getNotify(state) {
