@@ -19,8 +19,10 @@ import {
   IAuthResendParam,
   IChangePasswordParam,
   ICheckUserUniqueUserName,
+  IContextBase,
   ISuccesLogin,
   IUser,
+  IUserContext,
   TOKEN_EXP,
   TOKEN_REGISTER_EXP,
   WRONG_CODE_ALREADY_EXIST,
@@ -41,6 +43,7 @@ export class AuthModel {
   private options: IAuthModelArg;
   private userRolesModel: UserRolesModel;
   private historicModel: HistoricModel<UserEntity>;
+  private ctx: IContextBase;
   /**
    *
    */
@@ -55,6 +58,7 @@ export class AuthModel {
     this.emailService = new EmailServer();
     this.userRolesModel = new UserRolesModel(options);
     this.historicModel = new HistoricModel(UserEntity, options.ctx);
+    this.ctx = options.ctx;
   }
 
   public async login(data: IAuthLoginParams): Promise<ISuccesLogin> {
@@ -318,7 +322,16 @@ export class AuthModel {
       if (user) {
         user.password = bcrypt.hashSync(data.password, 10);
         const result = await repo.save(user);
-        await this.historicModel.createPutHistoric(result);
+        const historicModel = this.ctx.user?.id
+          ? this.historicModel
+          : new HistoricModel(UserEntity, {
+              ...this.ctx,
+              user: <IUserContext>{
+                email: user.email,
+                id: user.id,
+              },
+            });
+        await historicModel.createPutHistoric(result);
         return !!result;
       } else {
         throw new Error(WRONG_USER_DONT_EXIST);
