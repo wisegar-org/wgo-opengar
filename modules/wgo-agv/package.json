@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@types/bcrypt": "5.0.0",
-    "@wisegar-org/wgo-base-models": "0.0.1-10",
-    "@wisegar-org/wgo-base-server": "0.0.1-14",
+    "@wisegar-org/wgo-base-models": "0.0.1-11",
+    "@wisegar-org/wgo-base-server": "0.0.1-16",
     "@wisegar-org/wgo-mailer": "0.0.1-build.24",
     "@wisegar-org/wgo-object-extensions": "0.0.2-2",
     "@wisegar-org/wgo-server": "0.0.1-build.54",
