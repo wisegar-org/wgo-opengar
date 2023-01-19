@@ -243,7 +243,7 @@ export class AuthModel {
       await this.historicModel.createPutHistoric(userEdited);
 
       const msg = this.getConfirmationMsgWithPassword(
-        `${this.options.hostBase}/#${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}`,
+        `${this.options.hostBase}${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}`,
         user.userName,
         password
       );
@@ -289,7 +289,7 @@ export class AuthModel {
           subject: "Wisegar Email Reset Password",
           to: `${data.email}`,
           html: `<div>
-          To reset the password click <a href="${this.options.hostBase}/#${AuthPaths.authChangePassword.path}?token=${token}"> here </a>
+          To reset the password click <a href="${this.options.hostBase}${AuthPaths.authChangePassword.path}?token=${token}"> here </a>
           </div>`,
         },
         this.options.transportEmailOptions
