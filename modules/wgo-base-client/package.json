@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo-base-client",
-  "version": "0.0.1-23",
+  "version": "0.0.1-25",
   "description": "",
   "type": "commonjs",
   "files": [
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@babel/types": "^7.20.7",
     "@types/nodemailer": "^6.4.7",
-    "@wisegar-org/wgo-base-models": "0.0.1-11",
+    "@wisegar-org/wgo-base-models": "0.0.1-14",
     "@wisegar-org/wgo-mailer": "0.0.1-build.24",
     "@wisegar-org/wgo-object-extensions": "0.0.2-2",
     "@wisegar-org/wgo-opengar-core-ui": "0.0.1-build.18",

@@ -1,84 +1,104 @@
 <template>
-  <div class="q-pa-md" style="width: 100%">
-    <q-card flat bordered class="bg-grey-1">
-      <q-card-section class="q-pb-sm">
-        <div class="row" style="width: 100%">
-          <div class="row items-center justify-between q-table">
-            <div class="col-12 col-sm-auto no-wrap">
-              <div class="q-table__title ellipsis">Modelli</div>
-            </div>
-            <div class="flex justify-end col-12 col-sm-auto row">
-              <div
-                v-if="objectToken.length"
-                class="col-12 col-sm-auto q-ml-sm q-mb-sm"
-              >
-                <q-btn-dropdown
-                  unelevated
-                  color="primary"
-                  label="Tokens"
-                  class="fit"
-                >
-                  <q-list>
-                    <q-item
-                      v-for="(item, key) in objectToken"
-                      :key="'tempateeditor-' + key"
-                      clickable
-                      v-close-popup
-                      @click="() => writeToken(item)"
-                    >
-                      <q-item-section>
-                        <q-item-label>{{ item }}</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-btn-dropdown>
-              </div>
-              <div class="col-12 col-sm-auto q-ml-sm q-mb-sm">
-                <q-btn
-                  unelevated
-                  color="primary"
-                  icon="save"
-                  label="Salva"
-                  class="fit"
-                  no-caps
-                  @click="onSave"
-                />
-              </div>
-            </div>
+  <q-card flat class="fit">
+    <q-card-section class="q-pt-md q-pb-none">
+      <div class="row items-center justify-between q-table">
+        <div class="col-12 col-sm-auto no-wrap">
+          <div class="q-table__title ellipsis text-h6">
+            {{ getLabel(templateTranslations.TITLE) }}:
+            {{ getLabel(getTranslationKey()) }}
           </div>
         </div>
-      </q-card-section>
-      <q-card-section class="q-pt-sm">
-        <QCKEditor
-          v-model="template.body"
-          ref="editor"
-          height="65vh"
-          :urlApi="urlApi"
-        />
-      </q-card-section>
-      <Loader :loading="loading" />
-    </q-card>
-  </div>
+        <div class="flex justify-end col-12 col-sm-auto row">
+          <div class="col-12 col-sm-auto q-ml-sm row">
+            <q-btn
+              unelevated
+              color="primary"
+              icon="send"
+              :label="getLabel(templateTranslations.SEND_TEST)"
+              class="col-12 q-my-sm"
+              no-caps
+              @click="sendTest"
+            />
+          </div>
+          <div v-if="objectToken.length" class="col-12 col-sm-auto q-ml-sm row">
+            <q-btn-dropdown
+              unelevated
+              color="primary"
+              label="Tokens"
+              class="col-12 q-my-sm"
+            >
+              <q-list>
+                <q-item
+                  v-for="(item, key) in objectToken"
+                  :key="'tempateeditor-' + key"
+                  clickable
+                  v-close-popup
+                  @click="() => writeToken(item)"
+                >
+                  <q-item-section>
+                    <q-item-label>{{ item }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </div>
+          <div class="col-12 col-sm-auto q-ml-sm row">
+            <q-btn
+              unelevated
+              color="primary"
+              icon="save"
+              :label="getLabel(transBase.SAVE)"
+              class="col-12 q-my-sm"
+              no-caps
+              @click="onSave"
+            />
+          </div>
+        </div>
+      </div>
+    </q-card-section>
+    <div ref="placeholder" style="height: 1px"></div>
+    <q-card-section :style="`height: ${componentHeight}px`">
+      <QCKEditor
+        v-model="template.body"
+        :height="`${componentHeight - 34}px`"
+        :urlApi="urlApi"
+        ref="editor"
+      />
+    </q-card-section>
+    <Loader :loading="loading" />
+  </q-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { BaseTranslateComponent } from "../../../core/components/BaseComponents";
-import { TemplateService } from "../../services/TemplateService";
-import { templateTranslations as translations } from "@wisegar-org/wgo-base-models/build/template/translations";
-import QCKEditor from "../../../core/components/CKEditor/QCKEditor.vue";
-import Loader from "../../../core/components/Loader/Loader.vue";
-import { TranslationStore } from "../../../translation/store/TranslationStore";
+import {
+  ObjectDictionary,
+  translations as transBase,
+} from "@wisegar-org/wgo-base-models/build/core";
 import { ITemplateResponse } from "@wisegar-org/wgo-base-models/build/template";
+import QCKEditor from "../../../core/components/CKEditor/QCKEditor.vue";
+import {
+  BaseResizeComponent,
+  BaseTranslateComponent,
+} from "../../../core/components/BaseComponents";
+import { TemplateService } from "src/template/services/TemplateService";
+import { EmailService } from "src/email/services/EmailService";
+import { TranslationStore } from "src/translation/store/TranslationStore";
+import { templateTranslations } from "@wisegar-org/wgo-base-models/build/template/translations";
+import Loader from "src/core/components/Loader/Loader.vue";
+import { AuthStore } from "src/authentication/store/AuthStore";
 
 export default defineComponent({
+  name: "TemplateEditor",
   props: {
-    type: {
-      type: String,
-      default: "",
-    },
-    objectToken: { type: Array as PropType<string[]>, default: [] },
+    type: { type: String, default: "" },
+    objectToken: { type: Array as PropType<string[]>, default: () => [] },
     tranStore: { type: Object as PropType<TranslationStore>, required: true },
+    authStore: { type: Object as PropType<AuthStore>, required: true },
+    testData: {
+      type: Object as PropType<ObjectDictionary>,
+      default: () => ({}),
+    },
     urlApi: { type: String, required: true },
   },
   components: {
@@ -86,24 +106,43 @@ export default defineComponent({
     Loader,
   },
   data() {
+    const template: ITemplateResponse = {
+      id: 0,
+      body: "",
+      documentType: "",
+      title: "",
+    };
     const { getLabel } = new BaseTranslateComponent();
+    const resizeComponent = new BaseResizeComponent();
+    const { componentHeight, addResize, removeResize, resizeTable } =
+      resizeComponent;
+
     return {
       loading: false,
-      getLabel: (name: string) => getLabel(this.tranStore, name),
-      template: <ITemplateResponse>{
-        id: 0,
-        title: "",
-        body: "",
-        documentType: this.type,
-      },
+      template,
+      transBase,
+      templateTranslations,
+      componentHeight,
+      addResize,
+      removeResize,
+      resizeTable,
+      getLabel: (name: string) =>
+        getLabel(this.tranStore as unknown as TranslationStore, name),
+    };
+  },
+  setup() {
+    return {
+      templateService: new TemplateService(),
+      emailService: new EmailService(),
     };
   },
   methods: {
     async loadTemplate() {
       if (this.type) {
         this.loading = true;
-        const templateService = new TemplateService();
-        const template = await templateService.getTemplateByType(this.type);
+        const template = await this.templateService.getTemplateByType(
+          this.type
+        );
         this.loading = false;
         if (template) {
           this.template = {
@@ -123,32 +162,77 @@ export default defineComponent({
       };
     },
     async onSave() {
-      const templateService = new TemplateService();
-      if (await templateService.setTemplate(this.template)) {
-        this.$emit("success", this.getLabel(translations.TRUE));
+      if (await this.templateService.setTemplate(this.template)) {
+        this.$emit(
+          "onSuccess",
+          this.getLabel(this.templateTranslations.SAVE_SUCCESS)
+        );
       } else {
-        this.$emit("fail", this.getLabel(translations.FALSE));
+        this.$emit(
+          "onFail",
+          this.getLabel(this.templateTranslations.SAVE_FAIL)
+        );
       }
     },
+    async sendTest() {
+      this.loading = true;
+      if (
+        await this.emailService.sendEmailFromToAddressAndApp({
+          subject: `${this.getLabel(this.transBase.TEST)}: ${this.getLabel(
+            this.getTranslationKey()
+          )}`,
+          body: this.template.body,
+          to: `<${this.authStore.user?.email}> "${this.authStore.user?.name} ${this.authStore.user?.lastName}"`,
+          data: JSON.stringify(this.testData),
+        })
+      ) {
+        this.loading = false;
+        this.$emit(
+          "onSuccess",
+          this.getLabel(this.templateTranslations.SEND_SUCCESS)
+        );
+        return true;
+      } else {
+        this.loading = false;
+        this.$emit(
+          "onFail",
+          this.getLabel(this.templateTranslations.SEND_FAIL)
+        );
+        return false;
+      }
+    },
+    getTranslationKey() {
+      return this.type ? `WGO_${this.type}_TITLE` : "";
+    },
     writeToken(text: string) {
-      const model = (this.$refs.editor as any).$refs.editor.$_instance.model;
+      const model = (this.$refs.editor as ObjectDictionary).$refs.editor
+        .instance.model;
 
-      model.change((writer: any) => {
+      model.change((writer: ObjectDictionary) => {
         writer.insertText(
           `${text}`,
           model.document.selection.getFirstPosition()
         );
       });
     },
-  },
-  emits: ["fail", "success"],
-  watch: {
-    type() {
-      void this.loadTemplate();
+    onResize() {
+      this.resizeTable(this.$refs.placeholder as HTMLElement);
     },
   },
-  async mounted() {
+  watch: {
+    type(): void {
+      this.loadTemplate();
+    },
+  },
+  async created() {
+    this.$nextTick(() => {
+      this.addResize(this.onResize);
+    });
     await this.loadTemplate();
   },
+  async unmounted() {
+    this.removeResize(this.onResize);
+  },
+  emits: ["onSuccess", "onFail"],
 });
 </script>
