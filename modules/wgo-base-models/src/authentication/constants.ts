@@ -22,3 +22,9 @@ export const authServerTranslations = [
 export const USER_AUTH_TOKEN = "AUTH_TOKEN";
 export const TOKEN_EXP = "4h";
 export const TOKEN_REGISTER_EXP = "24h";
+
+export enum AuthTemplateEnum {
+  ResetPassword = "ResetPassword",
+  ConfirmEmail = "ConfirmEmail",
+  ConfirmChangeDefaultPassword = "ConfirmChangeDefaultPassword",
+}
