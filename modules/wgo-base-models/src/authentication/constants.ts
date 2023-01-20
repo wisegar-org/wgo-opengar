@@ -28,3 +28,7 @@ export enum AuthTemplateEnum {
   ConfirmEmail = "ConfirmEmail",
   ConfirmChangeDefaultPassword = "ConfirmChangeDefaultPassword",
 }
+
+export const getAuthTemplateKey = (type: string) => {
+  return `TEMPLATE_DATA_AUTH_${type}`.toUpperCase();
+};
