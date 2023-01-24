@@ -1,6 +1,10 @@
 import { DataSource } from "typeorm";
 import { ctx } from "../../handlers/AppContextHandler";
 import { TemplateModel } from "@wisegar-org/wgo-base-server";
+import {
+  getAuthTemplateKey,
+  AuthTemplateEnum,
+} from "@wisegar-org/wgo-base-models";
 
 export const agvTemplateSeeder = async (dataSource: DataSource) => {
   const templateService = new TemplateModel({ ...ctx, dataSource });
@@ -98,6 +102,42 @@ export const agvTemplateSeeder = async (dataSource: DataSource) => {
       title: "AGV_TEMPLATE_DATA_EMAILPOLL",
       body: '<p>Assemblea Genitori di Vezia</p><p>c/o Scuole Elementari Vezia – Casella Postale - 6943 Vezia</p><p><a href="mailto:assembleagenitorivezia@gmail.com">assembleagenitorivezia@gmail.com</a></p><p>&nbsp;</p><p>Cari genitori,<br><br>vi ringraziamo per aver compilato il formulario sottostante per l’anno 2021-2022.</p><p>&nbsp;</p><p>Informazioni bambino:</p><p>Nome e Cognome dell’allievo: {{bambino.nome}}</p><p>Classe frequentata: {{bambino.classe}}</p><p>Fotografie *: {{bambino.fotografie}}</p><p>* verranno scattate delle fotografie di gruppo durante le manifestazioni da pubblicare, senza nominativi, nel nostro sito internet (vedi San Nicolao, Carnevale, …)</p><p>&nbsp;</p><p>Allergie: {{bambino.allergie}}</p><p>A quale alimento: {{bambino.allergieAlimento}}</p><p>Intolleranze alimentari: {{bambino.intolleranze}}</p><p>A quale alimento: {{bambino.intolleranzeAlimento}}</p><p>&nbsp;</p><p>Informazioni genitore:</p><p>Nome e Cognome dei genitori: {{genitore.nome}}</p><p>Indirizzo e-mail: {{genitore.email}}</p><p>No. di cellulare: {{genitore.cellulare}}</p><p>Sono a disposizione per aiutare durante le manifestazioni: {{genitore.disposizione}}</p><p>Sono interessato a far parte del Comitato: {{genitore.interessato}}<br><br>&nbsp;</p><p>Un caro saluto,<br><br>Il Comitato Genitori Vezia</p>',
       documentType: "AGV_TEMPLATE_DATA_EMAILPOLL",
+    });
+  }
+
+  templateEntity = await templateService.getTemplateByType(
+    getAuthTemplateKey(AuthTemplateEnum.ResetPassword)
+  );
+  if (!templateEntity.id) {
+    await templateService.saveTamplate({
+      id: 0,
+      title: getAuthTemplateKey(AuthTemplateEnum.ResetPassword),
+      body: '<p>Ciao</p><p><span style="color:hsl(0,0%,0%);">Se desideri reimpostare la password del tuo utente sul nostro </span><a href="{{url}}">sito</a><span style="color:hsl(0,0%,0%);">, clicca </span><a href="{{linkDiConferma}}">qui</a><span style="color:hsl(0,0%,0%);">!</span></p><p><span style="color:hsl(0,0%,0%);">Saluti</span></p>',
+      documentType: getAuthTemplateKey(AuthTemplateEnum.ResetPassword),
+    });
+  }
+  templateEntity = await templateService.getTemplateByType(
+    getAuthTemplateKey(AuthTemplateEnum.ConfirmEmail)
+  );
+  if (!templateEntity.id) {
+    await templateService.saveTamplate({
+      id: 0,
+      title: getAuthTemplateKey(AuthTemplateEnum.ConfirmEmail),
+      body: '<p>Ciao</p><p><span style="color:hsl(0,0%,0%);">Se vuoi confermare il tuo account sul nostro &nbsp;</span><a href="{{url}}">sito</a><span style="color:hsl(0,0%,0%);">, clicca </span><a href="{{linkDiConferma}}">qui</a><span style="color:hsl(0,0%,0%);">!</span></p><p><span style="color:hsl(0,0%,0%);">Saluti</span></p>',
+      documentType: getAuthTemplateKey(AuthTemplateEnum.ConfirmEmail),
+    });
+  }
+  templateEntity = await templateService.getTemplateByType(
+    getAuthTemplateKey(AuthTemplateEnum.ConfirmChangeDefaultPassword)
+  );
+  if (!templateEntity.id) {
+    await templateService.saveTamplate({
+      id: 0,
+      title: getAuthTemplateKey(AuthTemplateEnum.ConfirmChangeDefaultPassword),
+      body: '<p>Ciao</p><p><span style="color:hsl(0,0%,0%);">Le credenziali per accedere al sito sono:&nbsp;</span></p><p><span style="color:hsl(0,0%,0%);">Utente: </span>{{email}}</p><p><span style="color:hsl(0,0%,0%);">Password: </span>{{password}}</p><p><span style="color:hsl(0,0%,0%);">Si prega di modificare la password il prima possibile.&nbsp;</span></p><p>&nbsp;</p><p><span style="color:hsl(0,0%,0%);">Se vuoi confermare il tuo account sul nostro &nbsp;</span><a href="{{url}}">sito</a><span style="color:hsl(0,0%,0%);">, clicca </span><a href="{{linkDiConferma}}">qui</a><span style="color:hsl(0,0%,0%);">!</span></p><p><span style="color:hsl(0,0%,0%);">Saluti</span></p>',
+      documentType: getAuthTemplateKey(
+        AuthTemplateEnum.ConfirmChangeDefaultPassword
+      ),
     });
   }
 };
