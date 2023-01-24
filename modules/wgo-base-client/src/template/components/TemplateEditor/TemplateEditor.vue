@@ -81,12 +81,12 @@ import {
   BaseResizeComponent,
   BaseTranslateComponent,
 } from "../../../core/components/BaseComponents";
-import { TemplateService } from "src/template/services/TemplateService";
-import { EmailService } from "src/email/services/EmailService";
-import { TranslationStore } from "src/translation/store/TranslationStore";
+import { TemplateService } from "../../../template/services/TemplateService";
+import { EmailService } from "../../../email/services/EmailService";
+import { TranslationStore } from "../../../translation/store/TranslationStore";
 import { templateTranslations } from "@wisegar-org/wgo-base-models/build/template/translations";
-import Loader from "src/core/components/Loader/Loader.vue";
-import { AuthStore } from "src/authentication/store/AuthStore";
+import Loader from "../../../core/components/Loader/Loader.vue";
+import { AuthStore } from "../../../authentication/store/AuthStore";
 
 export default defineComponent({
   name: "TemplateEditor",
