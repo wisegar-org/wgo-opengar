@@ -1,3 +1,7 @@
+import {
+  AuthTemplateEnum,
+  getAuthTemplateKey,
+} from "@wisegar-org/wgo-base-models/build/authentication";
 import { AGVNewsletterInscriptionStatusEnum } from "./Newsletter";
 
 export const AGVTemplateKey = "AGV_TEMPLATE_DATA_";
@@ -5,6 +9,11 @@ export const AGVTemplateKey = "AGV_TEMPLATE_DATA_";
 export const getAgvTemplateKey = (type: string) => {
   let key = "";
   switch (type) {
+    case AuthTemplateEnum.ConfirmEmail:
+    case AuthTemplateEnum.ConfirmChangeDefaultPassword:
+    case AuthTemplateEnum.ResetPassword: {
+      return getAuthTemplateKey(type);
+    }
     case AGVNewsletterInscriptionStatusEnum.Waiting:
     case AGVNewsletterInscriptionStatusEnum.Confirmed:
     case AGVNewsletterInscriptionStatusEnum.Cancelled: {

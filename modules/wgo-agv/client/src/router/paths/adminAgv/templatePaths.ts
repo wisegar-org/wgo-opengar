@@ -1,6 +1,9 @@
 import { AGVNewsletterInscriptionStatusEnum } from "src/models/Newsletter";
 import { AGVTemplateEnum } from "src/models/Templates";
-import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
+import {
+  AuthTemplateEnum,
+  SUPERADMIN,
+} from "@wisegar-org/wgo-base-models/build/authentication";
 import {
   AdminBasePath,
   IRouteObject,
@@ -54,6 +57,21 @@ export const AGVTemplateAdminPaths: IRouteObject = {
     label: "WGO_AGV_TEMPLATE_NEWSLETTER_CANCELLED_EMAIL_ADMIN",
     name: "agv_admin_template_template_cancelled_email",
   },
+  templateAuthConfirmPassword: {
+    path: `${AdminBasePath}/template/confirmPass`,
+    label: "WGO_TEMPLATE_AUTH_CONFIRM_PASS_ADMIN",
+    name: "agv_admin_template_auth_confirm_pass_email",
+  },
+  templateAuthConfirmChangeDefaultPassword: {
+    path: `${AdminBasePath}/template/changePass`,
+    label: "WGO_TEMPLATE_AUTH_CHANGE_PASS_ADMIN",
+    name: "agv_admin_template_auth_change_pass_email",
+  },
+  templateAuthResetPassword: {
+    path: `${AdminBasePath}/template/resetPass`,
+    label: "WGO_TEMPLATE_AUTH_RESET_PASS_ADMIN",
+    name: "agv_admin_template_auth_reset_pass_email",
+  },
 };
 
 const getAdminTemplatePage = (url: string, type: string) => ({
@@ -105,6 +123,18 @@ export const AGVTemplatePathRouter: RouteRecordRaw = {
     getAdminTemplatePage(
       AGVTemplateAdminPaths.templateNewsletterCancelled.path,
       AGVNewsletterInscriptionStatusEnum.Cancelled
+    ),
+    getAdminTemplatePage(
+      AGVTemplateAdminPaths.templateAuthConfirmPassword.path,
+      AuthTemplateEnum.ConfirmEmail
+    ),
+    getAdminTemplatePage(
+      AGVTemplateAdminPaths.templateAuthConfirmChangeDefaultPassword.path,
+      AuthTemplateEnum.ConfirmChangeDefaultPassword
+    ),
+    getAdminTemplatePage(
+      AGVTemplateAdminPaths.templateAuthResetPassword.path,
+      AuthTemplateEnum.ResetPassword
     ),
   ],
 };

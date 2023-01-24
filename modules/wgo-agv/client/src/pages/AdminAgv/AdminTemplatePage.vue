@@ -1,11 +1,16 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col-12">
-      <TemplateAdminComponent
+      <TemplateEditor
         v-if="type"
         :type="dataObj.key"
         :objectToken="dataObj.objectToken"
         :testData="dataObj.testData"
+        :tranStore="tranStore.translationStore"
+        :authStore="authStore.authStore"
+        :urlApi="urlApi"
+        @onSuccess="onSuccess"
+        @onFail="onFail"
       />
     </div>
   </q-page>
@@ -18,8 +23,11 @@ import { useAuthStore } from "../../stores/authStore";
 import { apiSettings } from "../../api/ApiOptions";
 import { EventTypeOptions, EventClassOption } from "../../models/Events";
 import { AGVNewsletterInscriptionStatusEnum } from "../../models/Newsletter";
-import TemplateAdminComponent from "../../components/TemplateAdminComponent/TemplateAdminComponent.vue";
 import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
+import TemplateEditor from "@wisegar-org/wgo-base-client/build/template/components/TemplateEditor/TemplateEditor.vue";
+import { useTranslationStore } from "../../stores/translationStore";
+import { useNotifyStore } from "../../stores/notifyStore";
+import { AuthTemplateEnum } from "@wisegar-org/wgo-base-models/build/authentication/constants";
 
 export default defineComponent({
   name: "AdminSocialMediaContentPage",
@@ -27,13 +35,14 @@ export default defineComponent({
     type: { type: String, defualt: "" },
   },
   components: {
-    TemplateAdminComponent,
+    TemplateEditor,
   },
   data() {
     const key = "";
     const objectToken = [""];
     const testData: ObjectDictionary = {};
     return {
+      urlApi: apiSettings.API_BASE,
       data: {
         key,
         objectToken,
@@ -43,12 +52,31 @@ export default defineComponent({
   },
   setup() {
     const authStore = useAuthStore();
+    const tranStore = useTranslationStore();
+    const notifyStore = useNotifyStore();
 
     return {
       authStore,
+      tranStore,
+      notifyStore,
     };
   },
-  methods: {},
+  methods: {
+    onSuccess(msg: string): void {
+      this.notifyStore.setNotify({
+        message: msg,
+        type: "positive",
+        position: "top",
+      });
+    },
+    onFail(msg: string): void {
+      this.notifyStore.setNotify({
+        message: msg,
+        type: "negative",
+        position: "top",
+      });
+    },
+  },
   computed: {
     dataObj() {
       let key: string = getAgvTemplateKey(this.type || "");
@@ -56,6 +84,43 @@ export default defineComponent({
       let testData: ObjectDictionary = {};
 
       switch (this.type) {
+        case AuthTemplateEnum.ConfirmEmail:
+        case AuthTemplateEnum.ResetPassword: {
+          objectToken = [
+            "{{email}}",
+            "{{nome}}",
+            "{{cognome}}",
+            "{{url}}",
+            "{{linkDiConferma}}",
+          ];
+          testData = {
+            email: this.authStore.getUser?.email || "Utente email",
+            nome: this.authStore.getUser?.name || "Utente nome",
+            cognome: this.authStore.getUser?.name || "Utente nome",
+            url: apiSettings.API_BASE,
+            linkDiConferma: apiSettings.API_BASE,
+          };
+          break;
+        }
+        case AuthTemplateEnum.ConfirmChangeDefaultPassword: {
+          objectToken = [
+            "{{email}}",
+            "{{nome}}",
+            "{{cognome}}",
+            "{{url}}",
+            "{{linkDiConferma}}",
+            "{{password}}",
+          ];
+          testData = {
+            email: this.authStore.getUser?.email || "Utente email",
+            nome: this.authStore.getUser?.name || "Utente nome",
+            cognome: this.authStore.getUser?.name || "Utente nome",
+            url: apiSettings.API_BASE,
+            linkDiConferma: apiSettings.API_BASE,
+            password: "Utente password predefinita",
+          };
+          break;
+        }
         case AGVTemplateEnum.Inscription:
         case AGVTemplateEnum.InscriptionRepeated: {
           objectToken = [

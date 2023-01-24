@@ -1,6 +1,7 @@
 <template>
   <LoginComponent
     :tranStore="tranStore"
+    :hideReister="true"
     @onLogin="onLogin"
     @onRegister="goToRegister"
     @onHome="goToHome"
