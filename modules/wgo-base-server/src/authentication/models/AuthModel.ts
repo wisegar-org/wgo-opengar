@@ -6,11 +6,12 @@ import {
   generateAccessToken,
   validateAccessToken,
 } from "@wisegar-org/wgo-server";
-import { EmailServer } from "@wisegar-org/wgo-mailer";
 import { UserUtils } from "./UserUtils";
 import { UserRolesModel } from "./UserRolesModel";
 import {
   AuthPaths,
+  AuthTemplateEnum,
+  getAuthTemplateKey,
   IAuthEditParams,
   IAuthLoginParams,
   IAuthMeParams,
@@ -36,10 +37,11 @@ import {
 } from "@wisegar-org/wgo-base-models";
 import { HistoricModel } from "../../historic/models/HistoricModel";
 import { UserEntity } from "../database/entities/UserEntity";
+import { EmailModel } from "../../email";
 
 export class AuthModel {
   private dataSource: DataSource;
-  private emailService: EmailServer;
+  private emailModel: EmailModel;
   private options: IAuthModelArg;
   private userRolesModel: UserRolesModel;
   private historicModel: HistoricModel<UserEntity>;
@@ -55,7 +57,7 @@ export class AuthModel {
       tokenRegisterExpiresIn:
         options.tokenRegisterExpiresIn || TOKEN_REGISTER_EXP,
     };
-    this.emailService = new EmailServer();
+    this.emailModel = new EmailModel(options.ctx);
     this.userRolesModel = new UserRolesModel(options);
     this.historicModel = new HistoricModel(UserEntity, options.ctx);
     this.ctx = options.ctx;
@@ -246,21 +248,26 @@ export class AuthModel {
       const userEdited = await repo.save(user);
       await this.historicModel.createPutHistoric(userEdited);
 
-      const msg = this.getConfirmationMsgWithPassword(
-        `${this.options.hostBase}${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}`,
-        user.userName,
-        password
-      );
+      const emailData = {
+        email: user.email,
+        nome: user.name,
+        cognome: user.name,
+        url: this.options.hostBase,
+        linkDiConferma: `${this.options.hostBase}${AuthPaths.authConfirmEmail.path}?token=${user.confirmationToken}`,
+        password: password || "",
+      };
       try {
-        await this.emailService.sendByConfig(
-          {
-            ...this.options.emailOptions,
-            subject: "Wisegar Email Confirmation",
-            to: `${data.email}`,
-            html: msg,
-          },
-          {}
-        );
+        await this.emailModel.sendEmailFromApp({
+          ...this.options.emailOptions,
+          subject: "Wisegar Email Confirmation",
+          to: `${data.email}`,
+          body: getAuthTemplateKey(
+            user.userName && password
+              ? AuthTemplateEnum.ConfirmChangeDefaultPassword
+              : AuthTemplateEnum.ConfirmEmail
+          ),
+          data: JSON.stringify(emailData),
+        });
       } catch (error: any) {
         console.log(error.message);
       }
@@ -287,17 +294,20 @@ export class AuthModel {
           sessionId: -1,
         },
       });
-      await this.emailService.sendByConfig(
-        {
-          ...this.options.emailOptions,
-          subject: "Wisegar Email Reset Password",
-          to: `${data.email}`,
-          html: `<div>
-          To reset the password click <a href="${this.options.hostBase}${AuthPaths.authChangePassword.path}?token=${token}"> here </a>
-          </div>`,
-        },
-        this.options.transportEmailOptions
-      );
+      const emailData = {
+        email: user.email,
+        nome: user.name,
+        cognome: user.name,
+        url: this.options.hostBase,
+        linkDiConferma: `${this.options.hostBase}${AuthPaths.authChangePassword.path}?token=${token}`,
+      };
+      await this.emailModel.sendEmailFromApp({
+        ...this.options.emailOptions,
+        subject: "Wisegar Email Reset Password",
+        to: `${data.email}`,
+        body: getAuthTemplateKey(AuthTemplateEnum.ResetPassword),
+        data: JSON.stringify(emailData),
+      });
       return true;
     }
 

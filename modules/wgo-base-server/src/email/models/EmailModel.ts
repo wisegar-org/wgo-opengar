@@ -51,6 +51,46 @@ export class EmailModel {
     }
   }
 
+  async sendEmailFromApp(data: EmailToAddressAndAppInput) {
+    try {
+      let body = data.body;
+      if (data.data) {
+        const bodyTemplate = await this.templateModel.getTemplateByType(
+          data.body
+        );
+        const dataObj = JSON.parse(data.data) || {};
+        body = this.handlebardModel.getTemplateData(
+          bodyTemplate && bodyTemplate.body ? bodyTemplate.body : data.body,
+          dataObj
+        );
+      }
+      body = await getInlineStyle(body);
+      body = body.split("&lt;").join("<").split("&gt;").join(">");
+      const configSmtp = await this.getTransportEmailOptions();
+      const config = this.getEmailConfig();
+      const result = await this.emailServer.sendByConfig(
+        {
+          from: config.from,
+          to: data.to,
+          subject: data.subject,
+          html: body,
+          // envelope: {
+          //   from: data.from,
+          //   to: config.to,
+          // },
+        },
+        configSmtp
+      );
+      return <EmailResponse>result;
+    } catch (error) {
+      return <EmailResponse>{
+        isSuccess: false,
+        message: "Error",
+        error: error,
+      };
+    }
+  }
+
   async sendEmailToApp(data: EmailToAppInput): Promise<EmailResponse> {
     try {
       let body = data.body;
