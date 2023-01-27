@@ -16,7 +16,7 @@ export class EmailMediaResponse {
 }
 
 @ObjectType()
-export class EmailResponse {
+export class EmailObjectResponse {
   @Field() id!: number;
   @Field() from!: string;
   @Field() to!: string;
@@ -37,5 +37,5 @@ export class EmailResponse {
 @ObjectType()
 export class EmailDetailsResponse {
   @Field(() => EmailMediaResponse) emailMedia!: EmailMediaResponse;
-  @Field(() => EmailResponse) email!: EmailResponse;
+  @Field(() => EmailObjectResponse) email!: EmailObjectResponse;
 }

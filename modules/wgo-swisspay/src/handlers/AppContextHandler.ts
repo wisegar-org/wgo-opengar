@@ -24,7 +24,7 @@ export const ctx = <IContextBase>{
 const authModel = new UserRolesModel({
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
-  hostBase: GetHostBaseKey(),
+  hostBase: `${GetHostBaseKey()}/#`,
   ctx,
   tokenExpiresIn: GetExpiresInKey(),
   tokenRegisterExpiresIn: '24h',
@@ -44,8 +44,10 @@ export const AppContextHandler = async (options: IContextOptions) => {
   if (!tokenPayload) return ctxApp;
   const user = await authModel.getUser(parseInt(tokenPayload.userId));
   if (user) {
-    ctxApp.user = user;
-    ctxApp.user.isSuperAdmin = user.roles.indexOf(SUPERADMIN) !== -1;
+    ctxApp.user = {
+      ...user,
+      isSuperAdmin: user.roles.indexOf(SUPERADMIN) !== -1,
+    };
   }
   // TODO: Add context definition here
   return ctxApp as any;

@@ -1,5 +1,5 @@
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { EmailDetailsResponse, EmailMediaResponse, EmailResponse } from './EmailMediaResponses';
+import { EmailDetailsResponse, EmailMediaResponse, EmailObjectResponse } from './EmailMediaResponses';
 import { EmailMediaFilterInput } from './EmailMediaInputs';
 import { EmailMediaService } from '../../services/EmailMediaService';
 import { IContextBase } from '@wisegar-org/wgo-base-models';
@@ -24,7 +24,7 @@ export class EmailMediaResolver {
   }
 
   @Authorized()
-  @Query(() => EmailResponse)
+  @Query(() => EmailObjectResponse)
   async getEmail(@Arg('data') data: IdInput, @Ctx() ctx: IContextBase) {
     const emailMediaModel = new EmailMediaService(ctx.dataSource);
     const email = await emailMediaModel.getEmailById(data);
