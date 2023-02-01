@@ -7,11 +7,8 @@ export const getGitRepoPath = (
   GitUserOption: ICmdOptions,
   GitPswOption: ICmdOptions
 ) => {
-  if (GitUserOption.exist && GitPswOption.exist)
-    return `https://${GitUserOption.value}:${GitPswOption.value}@github.com/wisegar-org/wgo-agv.git`;
-  if (GitUserOption.exist)
-    return `https://${GitUserOption.value}@github.com/wisegar-org/wgo-agv.git`;
-  return "https://wisegar@dev.azure.com/wisegar/wgo-agv/_git/wgo-agv";
+  if (GitPswOption.exist)
+    return `https://${GitPswOption.value}@dev.azure.com/wisegar/wgo-agv/_git/wgo-agv`;
 };
 
 export const getWorkspacePath = (WSCmdOption: ICmdOptions) => {
