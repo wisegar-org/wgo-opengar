@@ -69,8 +69,8 @@ export class AgvCommand extends Command {
 
     const wgoTmpUserPath = getWorkspacePath(AgvCommand.WSCmdOption);
     const wgoTmpBuildPath = join(wgoTmpUserPath, "build");
-    const wgoRootSourcePath = join(wgoTmpUserPath, "wgo-opengar");
-    const app_name = `${AgvCommand.CMD}-${AgvCommand.EnvCmdOption.value}-${AgvCommand.PortCmdOption.value}`;
+    const wgoRootSourcePath = join(wgoTmpUserPath, "wgo-agv");
+    const app_name = `wgo-${AgvCommand.CMD}-${AgvCommand.EnvCmdOption.value}-${AgvCommand.PortCmdOption.value}`;
     const app_root = join(
       AgvCommand.RootCmdOption.value ? AgvCommand.RootCmdOption.value : "",
       app_name
@@ -102,11 +102,6 @@ export class AgvCommand extends Command {
     });
 
     const wgoServerSourcePath = wgoRootSourcePath;
-    Logger.Line("Validating wgo module name...", () => {
-      if (!existsSync(wgoServerSourcePath)) {
-        Logger.Error(`Module ${AgvCommand.CMD} don't exist`, true);
-      }
-    });
 
     const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
 
