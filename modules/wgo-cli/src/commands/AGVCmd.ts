@@ -26,9 +26,8 @@ import {
   mkdirSync,
   writeFileSync,
 } from "fs-extra";
-import { getWgoGitRepoPath } from "../utils/WgoBuildPaths";
 import { runScript } from "../utils/ExecScript";
-import { getWorkspacePath } from "../utils/AgvBuildPaths";
+import { getGitRepoPath, getWorkspacePath } from "../utils/AgvBuildPaths";
 
 export class AgvCommand extends Command {
   public static CMD = "agv";
@@ -89,7 +88,7 @@ export class AgvCommand extends Command {
       const repositoryBranch = AgvCommand.BranchOption.exist
         ? AgvCommand.BranchOption.value
         : "production";
-      const gitRepoPath = getWgoGitRepoPath(
+      const gitRepoPath = getGitRepoPath(
         AgvCommand.GitUserOption,
         AgvCommand.GitPswOption
       );
