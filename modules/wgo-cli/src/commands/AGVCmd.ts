@@ -1,44 +1,40 @@
 import {
-  appendFileSync,
-  copySync,
-  existsSync,
-  writeFileSync,
-  readJsonSync,
-  emptyDirSync,
-} from "fs-extra";
-import path from "path";
-import {
   BranchOption,
   EnvCmdOption,
-  GitPswOption,
-  GitUserOption,
   GraphUrlCmdOption,
   PortCmdOption,
   RootCmdOption,
   SettingCmdOption,
   UrlCmdOption,
+  GitUserOption,
+  GitPswOption,
   WSCmdOption,
+  ClientModeOption,
 } from "../options/ICmdOptions";
-import {
-  getRootSourcePath,
-  getBuildSourcePath,
-  getServerSourcePath,
-  buildClientSourcePath,
-  getClientSourcePath,
-  getGitRepoPath,
-  getWorkspacePath,
-} from "../utils/AgvBuildPaths";
 import {
   ValidateOption,
   ValidateOptionalOption,
 } from "../utils/CmdOptionsParser";
-import { runScript } from "../utils/ExecScript";
-import { Logger } from "../utils/Logger";
 import { Command } from "./Command";
+import { join } from "path";
+import { Logger } from "../utils/Logger";
+import {
+  appendFileSync,
+  copySync,
+  emptyDirSync,
+  existsSync,
+  mkdirSync,
+  writeFileSync,
+} from "fs-extra";
+import { getWgoGitRepoPath } from "../utils/WgoBuildPaths";
+import { runScript } from "../utils/ExecScript";
+import { getWorkspacePath } from "../utils/AgvBuildPaths";
 
 export class AgvCommand extends Command {
   public static CMD = "agv";
-  public static Description = "Compile & build service & client applications";
+
+  public static Description =
+    "Compile & build service & client agv application";
   public static EnvCmdOption = EnvCmdOption;
   public static PortCmdOption = PortCmdOption;
   public static RootCmdOption = RootCmdOption;
@@ -49,18 +45,20 @@ export class AgvCommand extends Command {
   public static GitUserOption = GitUserOption;
   public static GitPswOption = GitPswOption;
   public static WSCmdOption = WSCmdOption;
+  public static ClientModeOption = ClientModeOption;
 
   public static Execute = () => {
     ValidateOption(AgvCommand.EnvCmdOption);
     ValidateOption(AgvCommand.PortCmdOption);
     ValidateOption(AgvCommand.RootCmdOption);
     ValidateOption(AgvCommand.UrlCmdOption);
+    ValidateOption(AgvCommand.GraphUrlCmdOption);
+    ValidateOption(AgvCommand.BranchOption);
     ValidateOption(AgvCommand.SettingCmdOption);
     ValidateOptionalOption(AgvCommand.WSCmdOption);
-    ValidateOptionalOption(AgvCommand.GraphUrlCmdOption);
-    ValidateOptionalOption(AgvCommand.BranchOption);
     ValidateOptionalOption(AgvCommand.GitUserOption);
     ValidateOptionalOption(AgvCommand.GitPswOption);
+    ValidateOptionalOption(AgvCommand.ClientModeOption);
     if (
       !AgvCommand.EnvCmdOption.exist ||
       !AgvCommand.RootCmdOption.exist ||
@@ -70,77 +68,74 @@ export class AgvCommand extends Command {
       process.exit(1);
     }
 
-    const app_name = `wgo-agv-${AgvCommand.EnvCmdOption.value}-${AgvCommand.PortCmdOption.value}`;
-    const app_root = path.join(
+    const wgoTmpUserPath = getWorkspacePath(AgvCommand.WSCmdOption);
+    const wgoTmpBuildPath = join(wgoTmpUserPath, "build");
+    const wgoRootSourcePath = join(wgoTmpUserPath, "wgo-opengar");
+    const app_name = `${AgvCommand.CMD}-${AgvCommand.EnvCmdOption.value}-${AgvCommand.PortCmdOption.value}`;
+    const app_root = join(
       AgvCommand.RootCmdOption.value ? AgvCommand.RootCmdOption.value : "",
       app_name
     );
 
     Logger.Line("Cleaning workspace...", () => {
-      if (existsSync(getRootSourcePath(AgvCommand.WSCmdOption))) {
-        runScript(
-          `npx rimraf ${getRootSourcePath(AgvCommand.WSCmdOption)}`,
-          getWorkspacePath(AgvCommand.WSCmdOption),
-          (err) => {
-            Logger.Error(err, true);
-          }
-        );
+      if (existsSync(wgoRootSourcePath)) {
+        runScript(`npx rimraf ${wgoRootSourcePath}`, wgoTmpUserPath, (err) => {
+          Logger.Error(err, true);
+        });
       }
     });
+
     Logger.Line("Downloading last app version...", () => {
       const repositoryBranch = AgvCommand.BranchOption.exist
         ? AgvCommand.BranchOption.value
         : "production";
-      const gitRepoPath = getGitRepoPath(
+      const gitRepoPath = getWgoGitRepoPath(
         AgvCommand.GitUserOption,
         AgvCommand.GitPswOption
       );
       runScript(
         `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
-        getWorkspacePath(AgvCommand.WSCmdOption),
+        wgoTmpUserPath,
         (err) => {
           Logger.Error(err, true);
         }
       );
     });
 
+    const wgoServerSourcePath = wgoRootSourcePath;
+    Logger.Line("Validating wgo module name...", () => {
+      if (!existsSync(wgoServerSourcePath)) {
+        Logger.Error(`Module ${AgvCommand.CMD} don't exist`, true);
+      }
+    });
+
+    const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
+
     /**
      * Server building
      */
     const destination = app_root;
-    const sourceFiles = ["package.json", "package-lock.json", ".npmrc"];
-    const buildServerPath = path.join(
-      getServerSourcePath(AgvCommand.WSCmdOption),
-      "build"
-    );
+    const buildServerPath = join(wgoServerSourcePath, "build");
 
     Logger.Line("Installing server dependencies...", () => {
-      if (existsSync(getServerSourcePath(AgvCommand.WSCmdOption))) {
-        runScript(
-          `npm install`,
-          getServerSourcePath(AgvCommand.WSCmdOption),
-          (err) => {
-            Logger.Error(err, true);
-          }
-        );
+      if (existsSync(wgoServerSourcePath)) {
+        runScript(`npm install`, wgoServerSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
       }
     });
 
     Logger.Line("Transpiling the application code...", () => {
-      if (existsSync(getServerSourcePath(AgvCommand.WSCmdOption))) {
-        runScript(
-          `npx tsc`,
-          getServerSourcePath(AgvCommand.WSCmdOption),
-          (err) => {
-            Logger.Error(err, true);
-          }
-        );
+      if (existsSync(wgoServerSourcePath)) {
+        runScript(`npm run build`, wgoServerSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
       }
     });
 
     Logger.Line("Building options.env file...", () => {
       if (existsSync(buildServerPath)) {
-        const ENV_FILENAME = path.join(buildServerPath, ".env");
+        const ENV_FILENAME = join(buildServerPath, ".env");
         writeFileSync(
           ENV_FILENAME,
           `NODE_ENV=${AgvCommand.EnvCmdOption.value} \n`
@@ -149,144 +144,189 @@ export class AgvCommand extends Command {
           ENV_FILENAME,
           `PORT=${AgvCommand.PortCmdOption.value} \n`
         );
-        appendFileSync(ENV_FILENAME, `MODULES=${["agv"]} \n`);
         appendFileSync(ENV_FILENAME, `APP_WEB_ROOT=${app_root} \n`);
+        appendFileSync(
+          ENV_FILENAME,
+          `CLIENT_WEB_ROOT=${join(app_root, "client")} \n`
+        );
+        appendFileSync(
+          ENV_FILENAME,
+          `MOBILE_WEB_ROOT=${join(app_root, "mobile")} \n`
+        );
         appendFileSync(
           ENV_FILENAME,
           `SETTINGS_PATH=${[AgvCommand.SettingCmdOption.value]} \n`
         );
+        appendFileSync(
+          ENV_FILENAME,
+          `APP_WEB_HOST=${[AgvCommand.UrlCmdOption.value]} \n`
+        );
+        appendFileSync(
+          ENV_FILENAME,
+          `HOST_BASE=${[AgvCommand.UrlCmdOption.value]} \n`
+        );
+        if (existsSync(wgoServerSourcePath)) {
+          copySync(ENV_FILENAME, join(wgoServerSourcePath, ".env"));
+        }
       }
     });
 
     Logger.Line("Updating build settings & dependencies...", () => {
-      if (
-        existsSync(getServerSourcePath(AgvCommand.WSCmdOption)) &&
-        existsSync(buildServerPath)
-      ) {
+      if (existsSync(wgoServerSourcePath) && existsSync(buildServerPath)) {
         sourceFiles.forEach((file) => {
           copySync(
-            path.join(getServerSourcePath(AgvCommand.WSCmdOption), file),
-            path.join(buildServerPath, file)
+            join(wgoServerSourcePath, file),
+            join(buildServerPath, file)
           );
         });
-        copySync(buildServerPath, getBuildSourcePath(AgvCommand.WSCmdOption));
       }
     });
 
     /**
      * Client building
      */
-    const sourceFilesClient = [
-      "package.json",
-      "package-lock.json",
-      ".npmrc",
-      "settings.build.json",
-    ];
-    const buildClientPath = path.join(
-      getClientSourcePath(AgvCommand.WSCmdOption),
-      "dist",
-      "ssr"
-    );
-
-    Logger.Line("Installing client dependencies...", () => {
-      if (existsSync(getClientSourcePath(AgvCommand.WSCmdOption))) {
-        runScript(
-          `npm install`,
-          getClientSourcePath(AgvCommand.WSCmdOption),
-          (err) => {
-            Logger.Error(err, true);
-          }
-        );
-      }
+    let clientName = "client";
+    AgvCommand.ExecuteClient({
+      clientName,
+      buildServerPath,
+      wgoServerSourcePath,
+      wgoBuildClientSourcePath: join(buildServerPath, clientName),
+      wgoClientSourcePath: join(wgoServerSourcePath, clientName),
+      clientModeOption: AgvCommand.ClientModeOption.value,
     });
 
-    Logger.Line("Building client settings...", () => {
-      const buildSettings = path.join(
-        getClientSourcePath(AgvCommand.WSCmdOption),
-        "settings.build.json"
-      );
-      const packageSettings = path.join(
-        getClientSourcePath(AgvCommand.WSCmdOption),
-        "package.json"
-      );
-      if (existsSync(getClientSourcePath(AgvCommand.WSCmdOption))) {
-        try {
-          const packageJson = readJsonSync(packageSettings, { throws: false });
-          writeFileSync(
-            buildSettings,
-            JSON.stringify({
-              API_BASE: AgvCommand.UrlCmdOption.value,
-              VERSION: packageJson.version || "unknown",
-              MODULES: "agv",
-            })
-          );
-          appendFileSync(buildSettings, "");
-        } catch (err: any) {
-          Logger.Error(err.message, true);
-        }
-      }
-    });
-
-    Logger.Line("Transpiling the client application code...", () => {
-      if (existsSync(getClientSourcePath(AgvCommand.WSCmdOption))) {
-        runScript(
-          `npx quasar build -m ssr`,
-          getClientSourcePath(AgvCommand.WSCmdOption),
-          (err) => {
-            Logger.Error(err, true);
-          }
-        );
-      }
-    });
-
-    Logger.Line("Updating client build settings & dependencies...", () => {
-      if (
-        existsSync(getServerSourcePath(AgvCommand.WSCmdOption)) &&
-        existsSync(buildServerPath)
-      ) {
-        sourceFilesClient.forEach((file) => {
-          copySync(
-            path.join(getClientSourcePath(AgvCommand.WSCmdOption), file),
-            path.join(buildClientPath, file)
-          );
-        });
-
-        copySync(
-          buildClientPath,
-          buildClientSourcePath(AgvCommand.WSCmdOption)
-        );
-      }
+    /**
+     * Mobile building
+     */
+    clientName = "mobile";
+    AgvCommand.ExecuteClient({
+      clientName,
+      buildServerPath,
+      wgoServerSourcePath,
+      wgoBuildClientSourcePath: join(buildServerPath, clientName),
+      wgoClientSourcePath: join(wgoServerSourcePath, clientName),
+      clientModeOption: AgvCommand.ClientModeOption.value,
     });
 
     /**
      * Deploy En la carpeta root del proyecto
      */
 
-    Logger.Line("Cleaning destination path...", () => {
+    Logger.Line("Cleaning destination ..", () => {
+      emptyDirSync(wgoTmpBuildPath);
       emptyDirSync(destination);
     });
 
-    Logger.Line("Copy files to destination path...", () => {
-      if (
-        existsSync(getBuildSourcePath(AgvCommand.WSCmdOption)) &&
-        existsSync(buildServerPath)
-      ) {
-        copySync(getBuildSourcePath(AgvCommand.WSCmdOption), destination);
+    Logger.Line("Copy files to build destination ..", () => {
+      if (existsSync(wgoTmpBuildPath) && existsSync(buildServerPath)) {
+        copySync(buildServerPath, wgoTmpBuildPath);
+      }
+    });
+
+    Logger.Line("Copy files to destination ..", () => {
+      if (existsSync(destination) && existsSync(buildServerPath)) {
+        copySync(buildServerPath, destination);
       }
     });
 
     Logger.Line("Installing final dependencies...", () => {
       if (existsSync(destination)) {
+        Logger.Line("Installin server dependencies...");
         runScript(`npm install`, destination, (err) => {
           Logger.Error(err, true);
         });
       }
-      const destinationClient = path.join(destination, "clientApp");
+      const destinationClient = join(destination, "client");
       if (existsSync(destinationClient)) {
+        Logger.Line("Installin client dependencies...");
         runScript(`npm install`, destinationClient, (err) => {
           Logger.Error(err, true);
         });
       }
+      const destinationMobile = join(destination, "mobile");
+      if (existsSync(destinationMobile)) {
+        Logger.Line("Installin mobile dependencies...");
+        runScript(`npm install`, destinationMobile, (err) => {
+          Logger.Error(err, true);
+        });
+      }
     });
+  };
+
+  public static ExecuteClient = (config: {
+    clientName: string;
+    buildServerPath: string;
+    wgoServerSourcePath: string;
+    wgoClientSourcePath: string;
+    wgoBuildClientSourcePath: string;
+    clientModeOption: string;
+  }) => {
+    const isSSR = config.clientModeOption === "ssr";
+    const sourceFilesClient = ["package.json", "package-lock.json", ".npmrc"];
+    const buildClientPath = join(
+      config.wgoClientSourcePath,
+      "dist",
+      isSSR ? "ssr" : "spa"
+    );
+
+    Logger.Line(`Building options.env ${config.clientName} file...`, () => {
+      if (existsSync(config.wgoClientSourcePath)) {
+        const ENV_FILENAME = join(config.wgoClientSourcePath, ".env");
+        writeFileSync(
+          ENV_FILENAME,
+          `NODE_ENV=${AgvCommand.EnvCmdOption.value} \n`
+        );
+        appendFileSync(
+          ENV_FILENAME,
+          `PORT=${AgvCommand.PortCmdOption.value} \n`
+        );
+        appendFileSync(
+          ENV_FILENAME,
+          `APP_WEB_HOST=${[AgvCommand.UrlCmdOption.value]}${
+            isSSR ? "/api" : ""
+          } \n`
+        );
+      }
+    });
+
+    Logger.Line(`Installing ${config.clientName} dependencies...`, () => {
+      if (existsSync(config.wgoClientSourcePath)) {
+        runScript(`npm install`, config.wgoClientSourcePath, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
+
+    Logger.Line(
+      `Transpiling the ${config.clientName} application code...`,
+      () => {
+        if (existsSync(config.wgoClientSourcePath)) {
+          const command = `npx quasar build ${isSSR ? "-m ssr" : ""}`;
+          runScript(command, config.wgoClientSourcePath, (err) => {
+            Logger.Error(err, true);
+          });
+        }
+      }
+    );
+
+    Logger.Line(
+      `Updating ${config.clientName} build settings & dependencies...`,
+      () => {
+        mkdirSync(config.wgoBuildClientSourcePath);
+        if (
+          existsSync(config.wgoClientSourcePath) &&
+          existsSync(config.wgoBuildClientSourcePath)
+        ) {
+          sourceFilesClient.forEach((file) => {
+            copySync(
+              join(config.wgoClientSourcePath, file),
+              join(buildClientPath, file)
+            );
+          });
+
+          copySync(buildClientPath, config.wgoBuildClientSourcePath);
+        }
+      }
+    );
   };
 }
