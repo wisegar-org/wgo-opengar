@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo",
-  "version": "0.0.3-7",
+  "version": "0.0.3-8",
   "description": "Wisegar Development CLI",
   "main": "./build/index.js",
   "bin": {
