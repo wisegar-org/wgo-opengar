@@ -1,4 +1,5 @@
 import { AgvCommand } from "./commands/AGVCmd";
+import { IndocsCommand } from "./commands/IndocsCmd";
 import { WgoCommand } from "./commands/WGOCmd";
 import { EmptyVersion } from "./options/ICmdOptions";
 import { Logger } from "./utils/Logger";
@@ -32,6 +33,20 @@ export const wgoCli = () => {
       AgvCommand.GitPswOption.parse(build_args);
       AgvCommand.ClientModeOption.parse(build_args);
       AgvCommand.Execute();
+      break;
+    case IndocsCommand.CMD:
+      IndocsCommand.EnvCmdOption.parse(build_args);
+      IndocsCommand.UrlCmdOption.parse(build_args);
+      IndocsCommand.PortCmdOption.parse(build_args);
+      IndocsCommand.RootCmdOption.parse(build_args);
+      IndocsCommand.SettingCmdOption.parse(build_args);
+      IndocsCommand.BranchOption.parse(build_args);
+      IndocsCommand.GraphUrlCmdOption.parse(build_args);
+      IndocsCommand.WSCmdOption.parse(build_args);
+      IndocsCommand.GitUserOption.parse(build_args);
+      IndocsCommand.GitPswOption.parse(build_args);
+      IndocsCommand.ClientModeOption.parse(build_args);
+      IndocsCommand.Execute();
       break;
     case WgoCommand.CMD:
       WgoCommand.EnvCmdOption.parse(build_args);
