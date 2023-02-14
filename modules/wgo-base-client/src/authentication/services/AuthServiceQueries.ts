@@ -22,6 +22,8 @@ export const M_AUTH_LOGIN = gql`
         email
         roles
         code
+        cap
+        address
         certificate
         isEmailConfirmed
       }
@@ -39,6 +41,8 @@ export const Q_AUTH_ME = gql`
       email
       roles
       code
+      cap
+      address
       certificate
       isEmailConfirmed
     }
@@ -55,6 +59,8 @@ export const M_AUTH_REGISTER = gql`
       email
       roles
       code
+      cap
+      address
       certificate
       isEmailConfirmed
     }
@@ -70,6 +76,8 @@ export const M_AUTH_EDIT_USER = gql`
       email
       roles
       code
+      cap
+      address
       certificate
       isEmailConfirmed
     }

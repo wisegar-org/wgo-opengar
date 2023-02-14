@@ -21,6 +21,8 @@ export const Q_AUTH_GET_USER = gql`
       email
       roles
       code
+      cap
+      address
       certificate
       isEmailConfirmed
     }
@@ -37,6 +39,8 @@ export const Q_AUTH_GET_ALL_USER = gql`
       email
       roles
       code
+      cap
+      address
       certificate
       isEmailConfirmed
     }
