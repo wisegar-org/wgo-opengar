@@ -1,4 +1,4 @@
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 export class UserResponse {
@@ -9,6 +9,8 @@ export class UserResponse {
   @Field() email!: string;
   @Field() isEmailConfirmed!: boolean;
   @Field() code!: string;
+  @Field() cap!: string;
+  @Field() address!: string;
   @Field() certificate!: string;
   @Field(() => [String]) roles!: string[];
 }

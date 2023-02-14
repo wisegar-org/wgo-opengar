@@ -18,6 +18,8 @@ export class RegisterInput {
   @Field() userName!: string;
   @Field() email!: string;
   @Field() password!: string;
+  @Field({ defaultValue: "", nullable: true }) cap!: string;
+  @Field({ defaultValue: "", nullable: true }) address!: string;
   @Field() isEmailConfirmed!: boolean;
   @Field(() => [String], { nullable: true }) roles?: string[];
 }

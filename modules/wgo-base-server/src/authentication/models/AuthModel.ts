@@ -147,6 +147,8 @@ export class AuthModel {
       user.email = data.email;
       user.code = data.code;
       user.certificate = data.certificate;
+      user.cap = data.cap;
+      user.address = data.address;
       const password = data.password
         ? data.password
         : this.getGenericPassword(10);
@@ -202,6 +204,8 @@ export class AuthModel {
       user.roles = await this.userRolesModel.getRolesByString(data.roles || []);
       let result = user;
       user.email = data.email;
+      user.address = data.address || user.address;
+      user.cap = data.cap || user.cap;
       if (data.password) user.password = bcrypt.hashSync(data.password, 10);
       if (user.isEmailConfirmed !== data.isEmailConfirmed) {
         if (data.isEmailConfirmed === true) {

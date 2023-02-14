@@ -40,6 +40,12 @@ export class UserEntity extends WGBaseEntity {
   @Column({ nullable: true, default: "" })
   code!: string;
 
+  @Column({ nullable: true, default: "" })
+  cap!: string;
+
+  @Column({ nullable: true, default: "" })
+  address!: string;
+
   @Column({ default: false })
   isEmailConfirmed?: boolean;
 
