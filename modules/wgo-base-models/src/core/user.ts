@@ -7,5 +7,7 @@ export interface IUser {
   isEmailConfirmed: boolean;
   roles: string[];
   code: string;
+  cap: string;
+  address: string;
   certificate: string;
 }
