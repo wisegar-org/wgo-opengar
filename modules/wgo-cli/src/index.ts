@@ -1,11 +1,12 @@
 import { AgvCommand } from "./commands/AGVCmd";
 import { IndocsCommand } from "./commands/IndocsCmd";
+import { PayslipCommand } from "./commands/PayslipCmd";
 import { WgoCommand } from "./commands/WGOCmd";
 import { EmptyVersion } from "./options/ICmdOptions";
 import { Logger } from "./utils/Logger";
 
 export const wgoCli = () => {
-  const current_version: string = "0.0.3-9";
+  const current_version: string = "0.0.3-11";
 
   const processVersion = process.env.npm_package_version
     ? process.env.npm_package_version
@@ -48,6 +49,21 @@ export const wgoCli = () => {
       IndocsCommand.ClientModeOption.parse(build_args);
       IndocsCommand.Execute();
       break;
+    case PayslipCommand.CMD:
+      PayslipCommand.EnvCmdOption.parse(build_args);
+      PayslipCommand.UrlCmdOption.parse(build_args);
+      PayslipCommand.PortCmdOption.parse(build_args);
+      PayslipCommand.RootCmdOption.parse(build_args);
+      PayslipCommand.SettingCmdOption.parse(build_args);
+      PayslipCommand.BranchOption.parse(build_args);
+      PayslipCommand.GraphUrlCmdOption.parse(build_args);
+      PayslipCommand.WSCmdOption.parse(build_args);
+      PayslipCommand.GitUserOption.parse(build_args);
+      PayslipCommand.GitPswOption.parse(build_args);
+      PayslipCommand.ClientModeOption.parse(build_args);
+      PayslipCommand.AppTypeOption.parse(build_args);
+      PayslipCommand.Execute();
+      break;
     case WgoCommand.CMD:
       WgoCommand.EnvCmdOption.parse(build_args);
       WgoCommand.UrlCmdOption.parse(build_args);
@@ -67,6 +83,8 @@ export const wgoCli = () => {
     default:
       Logger.CmdLine(`Please use one of the available commands:`, () => {
         Logger.Line(`${AgvCommand.CMD} => ${AgvCommand.Description}`);
+        Logger.Line(`${IndocsCommand.CMD} => ${IndocsCommand.Description}`);
+        Logger.Line(`${PayslipCommand.CMD} => ${PayslipCommand.Description}`);
         Logger.Line(`${WgoCommand.CMD} => ${WgoCommand.Description}`);
       });
   }

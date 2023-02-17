@@ -150,3 +150,14 @@ export const ClientModeOption: ICmdOptions = {
     ParseOption(args, ClientModeOption);
   },
 };
+
+export const AppTypeOption: ICmdOptions = {
+  option: "--app-type",
+  exist: false,
+  value: "",
+  description:
+    "Client or Server build mode (client or server). Default is the blank",
+  parse(args) {
+    ParseOption(args, AppTypeOption);
+  },
+};

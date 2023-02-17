@@ -33,7 +33,7 @@ export class IndocsCommand extends Command {
   public static CMD = "indocs";
 
   public static Description =
-    "Compile & build service & client Indocs application";
+    "Compile & build service & client Indocs application (Old Payslip version)";
   public static EnvCmdOption = EnvCmdOption;
   public static PortCmdOption = PortCmdOption;
   public static RootCmdOption = RootCmdOption;
