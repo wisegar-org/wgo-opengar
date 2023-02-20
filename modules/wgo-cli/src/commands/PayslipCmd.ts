@@ -102,34 +102,34 @@ export class PayslipCommand extends Command {
     );
     const destination = app_root;
     const buildPath = join(wgoRootSourcePath, "build");
-    // Logger.Line("Cleaning workspace...", () => {
-    //   if (existsSync(wgoRootSourcePath)) {
-    //     runScript(`npx rimraf ${wgoRootSourcePath}`, wgoTmpUserPath, (err) => {
-    //       Logger.Error(err, true);
-    //     });
-    //   }
-    // });
+    Logger.Line("Cleaning workspace...", () => {
+      if (existsSync(wgoRootSourcePath)) {
+        runScript(`npx rimraf ${wgoRootSourcePath}`, wgoTmpUserPath, (err) => {
+          Logger.Error(err, true);
+        });
+      }
+    });
 
-    // Logger.Line("Downloading last app version...", () => {
-    //   const repositoryBranch = PayslipCommand.BranchOption.exist
-    //     ? PayslipCommand.BranchOption.value
-    //     : "production";
-    //   const getRepoFunc =
-    //     PayslipCommand.AppTypeOption.value === "client"
-    //       ? getGitClientRepoPath
-    //       : getGitServerRepoPath;
-    //   const gitRepoPath = getRepoFunc(
-    //     PayslipCommand.GitUserOption,
-    //     PayslipCommand.GitPswOption
-    //   );
-    //   runScript(
-    //     `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
-    //     wgoTmpUserPath,
-    //     (err) => {
-    //       Logger.Error(err, true);
-    //     }
-    //   );
-    // });
+    Logger.Line("Downloading last app version...", () => {
+      const repositoryBranch = PayslipCommand.BranchOption.exist
+        ? PayslipCommand.BranchOption.value
+        : "production";
+      const getRepoFunc =
+        PayslipCommand.AppTypeOption.value === "client"
+          ? getGitClientRepoPath
+          : getGitServerRepoPath;
+      const gitRepoPath = getRepoFunc(
+        PayslipCommand.GitUserOption,
+        PayslipCommand.GitPswOption
+      );
+      runScript(
+        `git clone ${gitRepoPath} --branch ${repositoryBranch}`,
+        wgoTmpUserPath,
+        (err) => {
+          Logger.Error(err, true);
+        }
+      );
+    });
 
     /**
      * Server building
@@ -239,10 +239,13 @@ export class PayslipCommand extends Command {
     Logger.Line("Updating build settings & dependencies...", () => {
       if (existsSync(wgoServerSourcePath) && existsSync(buildServerPath)) {
         sourceFiles.forEach((file) => {
-          copySync(
-            join(wgoServerSourcePath, file),
-            join(buildServerPath, file)
-          );
+          const filePath = join(wgoServerSourcePath, file);
+          if (existsSync(filePath)) {
+            copySync(
+              join(wgoServerSourcePath, file),
+              join(buildServerPath, file)
+            );
+          }
         });
       }
     });
@@ -311,10 +314,10 @@ export class PayslipCommand extends Command {
           existsSync(wgoBuildClientSourcePath)
         ) {
           sourceFilesClient.forEach((file) => {
-            copySync(
-              join(config.wgoClientSourcePath, file),
-              join(buildClientPath, file)
-            );
+            const filePath = join(config.wgoClientSourcePath, file);
+            if (existsSync(filePath)) {
+              copySync(filePath, join(buildClientPath, file));
+            }
           });
 
           copySync(buildClientPath, wgoBuildClientSourcePath);

@@ -69,7 +69,7 @@ export class IndocsCommand extends Command {
 
     const wgoTmpUserPath = getWorkspacePath(IndocsCommand.WSCmdOption);
     const wgoTmpBuildPath = join(wgoTmpUserPath, "build");
-    const wgoRootSourcePath = join(wgoTmpUserPath, "wgo-indocs");
+    const wgoRootSourcePath = join(wgoTmpUserPath, "wgo-payslip");
     const app_name = `wgo-${IndocsCommand.CMD}-${IndocsCommand.EnvCmdOption.value}-${IndocsCommand.PortCmdOption.value}`;
     const app_root = join(
       IndocsCommand.RootCmdOption.value
@@ -170,10 +170,10 @@ export class IndocsCommand extends Command {
     Logger.Line("Updating build settings & dependencies...", () => {
       if (existsSync(wgoServerSourcePath) && existsSync(buildServerPath)) {
         sourceFiles.forEach((file) => {
-          copySync(
-            join(wgoServerSourcePath, file),
-            join(buildServerPath, file)
-          );
+          const filePath = join(wgoServerSourcePath, file);
+          if (existsSync(filePath)) {
+            copySync(filePath, join(buildServerPath, file));
+          }
         });
       }
     });
@@ -309,19 +309,13 @@ export class IndocsCommand extends Command {
       `Updating ${config.clientName} build settings & dependencies...`,
       () => {
         mkdirSync(config.wgoBuildClientSourcePath);
-        if (
-          existsSync(config.wgoClientSourcePath) &&
-          existsSync(config.wgoBuildClientSourcePath)
-        ) {
-          sourceFilesClient.forEach((file) => {
-            copySync(
-              join(config.wgoClientSourcePath, file),
-              join(buildClientPath, file)
-            );
-          });
-
-          copySync(buildClientPath, config.wgoBuildClientSourcePath);
-        }
+        sourceFilesClient.forEach((file) => {
+          const pathFile = join(config.wgoClientSourcePath, file);
+          if (existsSync(pathFile)) {
+            copySync(pathFile, join(buildClientPath, file));
+          }
+        });
+        copySync(buildClientPath, config.wgoBuildClientSourcePath);
       }
     );
   };
