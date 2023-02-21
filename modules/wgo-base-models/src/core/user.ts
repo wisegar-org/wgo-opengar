@@ -8,6 +8,7 @@ export interface IUser {
   roles: string[];
   code: string;
   cap: string;
+  phone: string;
   address: string;
   certificate: string;
 }
