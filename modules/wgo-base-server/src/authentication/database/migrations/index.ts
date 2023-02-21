@@ -8,6 +8,7 @@ import { addAuthHistoric1668548748218 } from "./1668548748218-addAuthHistoric";
 import { addLanguageAndProfile1668893995656 } from "./1668893995656-addLanguageAndProfile";
 import { addRoleHistoric1668897491219 } from "./1668897491219-addRoleHistoric";
 import { addCapAddressFields1676387599752 } from "./1676387599752-addCapAddressFields";
+import { addPhoneField1677015519596 } from "./1677015519596-addPhoneField";
 
 export const getAuthenticationMigrations = () => {
   return [
@@ -21,5 +22,6 @@ export const getAuthenticationMigrations = () => {
     addLanguageAndProfile1668893995656,
     addRoleHistoric1668897491219,
     addCapAddressFields1676387599752,
+    addPhoneField1677015519596,
   ];
 };

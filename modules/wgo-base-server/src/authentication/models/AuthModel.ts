@@ -148,6 +148,7 @@ export class AuthModel {
       user.code = data.code;
       user.certificate = data.certificate;
       user.cap = data.cap;
+      user.phone = data.phone;
       user.address = data.address;
       const password = data.password
         ? data.password
@@ -206,6 +207,7 @@ export class AuthModel {
       user.email = data.email;
       user.address = data.address || user.address;
       user.cap = data.cap || user.cap;
+      user.phone = data.phone || user.phone;
       if (data.password) user.password = bcrypt.hashSync(data.password, 10);
       if (user.isEmailConfirmed !== data.isEmailConfirmed) {
         if (data.isEmailConfirmed === true) {

@@ -10,6 +10,7 @@ export class UserResponse {
   @Field() isEmailConfirmed!: boolean;
   @Field() code!: string;
   @Field() cap!: string;
+  @Field() phone!: string;
   @Field() address!: string;
   @Field() certificate!: string;
   @Field(() => [String]) roles!: string[];

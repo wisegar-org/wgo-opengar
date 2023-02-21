@@ -13,11 +13,7 @@ export class addCapAddressFields1676387599752 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "users" DROP CONSTRAINT "userName-unique"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "users" ALTER COLUMN "code" SET DEFAULT ' '`
-    );
+    await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "address"`);
+    await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "cap"`);
   }
 }

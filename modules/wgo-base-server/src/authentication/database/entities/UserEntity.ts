@@ -44,6 +44,9 @@ export class UserEntity extends WGBaseEntity {
   cap!: string;
 
   @Column({ nullable: true, default: "" })
+  phone!: string;
+
+  @Column({ nullable: true, default: "" })
   address!: string;
 
   @Column({ default: false })
