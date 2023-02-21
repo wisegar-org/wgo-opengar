@@ -1,6 +1,6 @@
-import { ServiceProvider } from "@wisegar-org/wgo-opengar-core-ui";
 import { get, set, clear } from "local-storage";
 import { LocalStorageService } from "./LocalStorageService";
+import { ServiceProvider } from "./ServiceProvider";
 
 export const LocalStorage = {
   getItem: (key: string): string => {
