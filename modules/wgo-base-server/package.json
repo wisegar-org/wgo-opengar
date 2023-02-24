@@ -25,7 +25,7 @@
     "@types/graphql-upload": "8.0.12",
     "@types/uuid": "^9.0.0",
     "@wisegar-org/wgo-crypto": "0.0.1-build.7",
-    "@wisegar-org/wgo-server": "0.0.1-build.56",
+    "@wisegar-org/wgo-server": "0.0.5-0",
     "bcrypt": "5.1.0",
     "dayjs": "^1.11.7",
     "fs-extra": "11.1.0",
@@ -37,7 +37,7 @@
   "peerDependencies": {
     "@types/bcrypt": "5.0.0",
     "@wisegar-org/wgo-crypto": "0.0.1-build.7",
-    "@wisegar-org/wgo-server": "0.0.1-build.56",
+    "@wisegar-org/wgo-server": "0.0.5-0",
     "bcrypt": "5.1.0",
     "currency.js": "2.0.4",
     "handlebars": "4.7.7",
