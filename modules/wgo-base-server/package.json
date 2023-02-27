@@ -1,6 +1,6 @@
 {
   "name": "@wisegar-org/wgo-base-server",
-  "version": "0.0.1-22",
+  "version": "0.0.1-23",
   "description": "",
   "main": "build/index.js",
   "type": "commonjs",
@@ -32,7 +32,7 @@
     "nodemon": "2.0.20",
     "pg": "^8.9.0",
     "ts-node": "10.9.1",
-    "type-graphql": "1.1.1"
+    "type-graphql": "2.0.0-beta.1"
   },
   "peerDependencies": {
     "@types/bcrypt": "5.0.0",
@@ -41,7 +41,7 @@
     "bcrypt": "5.1.0",
     "currency.js": "2.0.4",
     "handlebars": "4.7.7",
-    "type-graphql": "1.1.1",
+    "type-graphql": "2.0.0-beta.1",
     "typeorm": "0.3.6",
     "uuid": "9.0.0"
   },
