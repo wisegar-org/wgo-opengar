@@ -252,7 +252,14 @@ export class AuthModel {
       });
       user.isEmailConfirmed = false;
       const userEdited = await repo.save(user);
-      await this.historicModel.createPutHistoric(userEdited);
+      try {
+        await this.historicModel.createRegisterHistoric(userEdited);
+      } catch (error) {
+        await this.historicModel.createRegisterHistoric(
+          userEdited,
+          "Modificato"
+        );
+      }
 
       const emailData = {
         email: user.email,
