@@ -12,6 +12,9 @@ export const UserUtils = {
       isEmailConfirmed: !!user.isEmailConfirmed,
       code: user.code,
       certificate: user.certificate,
+      cap: user.cap || "",
+      address: user.address || "",
+      phone: user.phone || "",
       roles: (user.roles || []).map((role: { name: any }) => role.name),
     } as IUser;
   },
