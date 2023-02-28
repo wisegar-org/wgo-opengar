@@ -159,7 +159,7 @@ export class AuthModel {
 
       user = await repo.save(user);
       if (user) {
-        await this.historicModel.createPostHistoric(user);
+        await this.historicModel.createRegisterHistoric(user);
         if (!user.isEmailConfirmed) {
           await this.resendConfirmation(
             data,

@@ -117,6 +117,22 @@ export class HistoricModel<TEntity extends WGBaseEntity> {
     return inserResult.raw;
   }
 
+  public async createRegisterHistoric(
+    entity: UserEntity,
+    customMessage?: string
+  ) {
+    const historicModel = {
+      action: Actions.Add,
+      entity: this.type.name,
+      message: !customMessage ? `Creato` : customMessage,
+      recordId: entity.id,
+      userId: entity.id,
+      username: entity.email,
+      snapshot: "{}",
+    };
+    return this.create(Object.assign(new HistoricEntity(), historicModel));
+  }
+
   public async createAccessHistoric(
     entity: UserEntity,
     customMessage?: string
