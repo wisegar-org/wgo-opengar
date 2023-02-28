@@ -8,11 +8,11 @@ export class UserResponse {
   @Field() userName!: string;
   @Field() email!: string;
   @Field() isEmailConfirmed!: boolean;
-  @Field() code!: string;
-  @Field() cap!: string;
-  @Field() phone!: string;
-  @Field() address!: string;
-  @Field() certificate!: string;
+  @Field({ defaultValue: "", nullable: true }) code!: string;
+  @Field({ defaultValue: "", nullable: true }) cap!: string;
+  @Field({ defaultValue: "", nullable: true }) phone!: string;
+  @Field({ defaultValue: "", nullable: true }) address!: string;
+  @Field({ defaultValue: "", nullable: true }) certificate!: string;
   @Field(() => [String]) roles!: string[];
 }
 
