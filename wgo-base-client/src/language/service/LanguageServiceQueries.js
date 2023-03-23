@@ -1,8 +1,0 @@
-import { __makeTemplateObject } from "tslib";
-import gql from "graphql-tag";
-import { LANGUAGE_PATH_GET_ALL_LANGUAGE, LANGUAGE_PATH_POST_LANGUAGE, LANGUAGE_PATH_PUT_LANGUAGE, } from "@wisegar-org/wgo-base-models/build/language/server";
-export var Q_LANGUAGE_GETALL = gql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\nquery ", " {\n    ", " {\n        id\n\t\tcode\n\t\tenabled\n\t\tdefault\n  }\n}\n"], ["\nquery ", " {\n    ", " {\n        id\n\t\tcode\n\t\tenabled\n\t\tdefault\n  }\n}\n"])), LANGUAGE_PATH_GET_ALL_LANGUAGE, LANGUAGE_PATH_GET_ALL_LANGUAGE);
-export var M_LANGUAGE_POST = gql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\nmutation ", "($data: LanguagePostInput!) {\n    ", "(data: $data) {\n        id\n\t\tcode\n\t\tenabled\n\t\tdefault\n    }\n}\n"], ["\nmutation ", "($data: LanguagePostInput!) {\n    ", "(data: $data) {\n        id\n\t\tcode\n\t\tenabled\n\t\tdefault\n    }\n}\n"])), LANGUAGE_PATH_POST_LANGUAGE, LANGUAGE_PATH_POST_LANGUAGE);
-export var M_LANGUAGE_PUT = gql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\nmutation ", "($data: LanguageInput!) {\n    ", "(data: $data) {\n        id\n\t\tcode\n\t\tenabled\n\t\tdefault\n    }\n}\n"], ["\nmutation ", "($data: LanguageInput!) {\n    ", "(data: $data) {\n        id\n\t\tcode\n\t\tenabled\n\t\tdefault\n    }\n}\n"])), LANGUAGE_PATH_PUT_LANGUAGE, LANGUAGE_PATH_PUT_LANGUAGE);
-var templateObject_1, templateObject_2, templateObject_3;
-//# sourceMappingURL=LanguageServiceQueries.js.map
