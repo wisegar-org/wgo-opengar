@@ -51,3 +51,4 @@ modules/template/settings
 modules/.vscode
 modules/.vs
 modules/wgo-cli/dist
+wgo-swisspay/localStorage.json
