@@ -324,6 +324,9 @@ export class EmployeesService {
               password: '',
               roles: [USER_ROLE],
               id: 0,
+              address: '',
+              cap: '',
+              phone: '',
             });
             const criteria = userRegiterd.code ? { code: userRegiterd.code } : { id: userRegiterd.id };
             user = await userRolesModel.getEntityByCriteria(criteria);
