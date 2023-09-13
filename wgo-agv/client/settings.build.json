@@ -1,5 +1,0 @@
-{
-    "API_BASE": "http://localhost:5030",
-    "API_GRAPHQL": "http://localhost:5030/graphql",
-    "VERSION": "0.0.1"
-}
