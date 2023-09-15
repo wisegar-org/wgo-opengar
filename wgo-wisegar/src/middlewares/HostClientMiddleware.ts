@@ -10,6 +10,11 @@ export const GetWebRootKey = () => {
   if (process.env.APP_WEB_ROOT) return process.env.APP_WEB_ROOT;
   throw "Impossible to get value from APP_WEB_ROOT environment key";
 };
+export const GetHandlebarRootKey = () => {
+  if (process.env.APP_WEB_ROOT) return process.env.APP_WEB_ROOT;
+  
+  throw "Impossible to get value from APP_WEB_ROOT environment key";
+};
 
 export const UseClientSPAHostMiddleware = (App: Express) => {
   if (!existsSync(GetClientWebRootKey())) {

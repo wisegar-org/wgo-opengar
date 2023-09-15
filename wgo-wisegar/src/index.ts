@@ -18,13 +18,17 @@ import { AppController } from "./controllers/AppController";
 import { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
-import { UseClientSPAHostMiddleware } from "./middlewares/HostClientMiddleware";
+import {
+  GetWebRootKey,
+  UseClientSPAHostMiddleware,
+} from "./middlewares/HostClientMiddleware";
 import { roleSuperAdminSeeder } from "@wisegar-org/wgo-base-server";
 import { userAdminSeeder } from "@wisegar-org/wgo-base-server";
 import { languageDefaultSeeder } from "@wisegar-org/wgo-base-server";
 import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 import { loopUpdateIssues } from "./services/Finance/FinanceUpdateIssuesService";
+import { engine } from "express-handlebars";
 
 const port = GetPortKey();
 
@@ -38,6 +42,9 @@ const serverOptions: IServerOptions = {
   maxFiles: 10,
   useCors: true,
   middlewares: (app: Express) => {
+    app.engine("handlebars", engine());
+    // app.set("views engine", "handlebars");
+    // app.set("views", GetWebRootKey);
     UseClientSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
