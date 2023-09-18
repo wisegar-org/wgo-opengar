@@ -1,16 +1,4 @@
 import "reflect-metadata";
-import {
-  boot,
-  ExpirationFreqEnum,
-  IServerOptions,
-  UseRestMiddleware,
-} from "@wisegar-org/wgo-server";
-import {
-  GetPortKey,
-  GetPrivateKey,
-  GetPublicKey,
-  GetExpiresInKey,
-} from "@wisegar-org/wgo-settings";
 import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
 import { AppContextHandler } from "./handlers/AppContextHandler";
 import { errorHandler } from "./handlers/ErrorHandler";
@@ -26,6 +14,18 @@ import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 import { loopUpdateIssues } from "./services/Finance/FinanceUpdateIssuesService";
 import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
+import {
+  GetExpiresInKey,
+  GetPortKey,
+  GetPrivateKey,
+  GetPublicKey,
+} from "wgo-settings";
+import {
+  boot,
+  ExpirationFreqEnum,
+  IServerOptions,
+  UseRestMiddleware,
+} from "wgo-server";
 
 const port = GetPortKey();
 

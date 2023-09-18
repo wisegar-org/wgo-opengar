@@ -13,7 +13,7 @@ import { RepositoryEntity } from "./RepositoryEntity";
 import { ProjectEntity } from "./ProjectEntity";
 import { CollaboratorEntity } from "./CollaboratorEntity";
 import { IssueEntity } from "./IssueEntity";
-import { GetMaskedDate } from "@wisegar-org/wgo-object-extensions";
+import { GetMaskedDate } from "wgo-extensions";
 
 export enum AccountingStatus {
   Pending = 1,

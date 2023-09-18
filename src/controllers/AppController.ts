@@ -1,4 +1,4 @@
-import { Controller, Get } from "@wisegar-org/wgo-server";
+import { Controller, Get } from "wgo-server";
 import { Request, Response } from "express";
 
 @Controller("/api")

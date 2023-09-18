@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 import CollaboratorEntity from "../../database/entities/Finance/CollaboratorEntity";
 import { USER_ROLE } from "../../models/constants";
 import { RoleEntity } from "@wisegar-org/wgo-base-server";
-import { SUPERADMIN } from "@wisegar-org/wgo-base-models";
+import { IAuthRegisterParams, SUPERADMIN } from "@wisegar-org/wgo-base-models";
 import { AuthModel } from "@wisegar-org/wgo-base-server";
 import { UserRolesModel } from "@wisegar-org/wgo-base-server";
 import { IContextBase } from "@wisegar-org/wgo-base-models";
@@ -279,7 +279,8 @@ export class FinanceCollaboratorService {
       const user_name = splitName.splice(0, 1)[0];
       const user_lastName = splitName.length > 0 ? splitName.join(" ") : "";
       const user_email = email !== "" && email.indexOf("@") !== -1 ? email : "";
-      const userResult = await this.authModel.register({
+
+      const authModelParam: IAuthRegisterParams = {
         email: user_email,
         isEmailConfirmed: false,
         roles: [USER_ROLE],
@@ -290,7 +291,11 @@ export class FinanceCollaboratorService {
         certificate: "",
         id: 0,
         password: "",
-      });
+        cap: "",
+        phone: "",
+        address: "",
+      };
+      const userResult = await this.authModel.register(authModelParam);
 
       if (userResult) {
         console.log("Create user by collaborator: ", userResult.userName);

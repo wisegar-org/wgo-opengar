@@ -1,4 +1,4 @@
-import { IContextOptions } from "@wisegar-org/wgo-server";
+import { IContextOptions } from "wgo-server";
 import {
   GetCypherKey,
   GetEmailAppAddressKey,
@@ -6,28 +6,30 @@ import {
   GetHostBaseKey,
   GetPrivateKey,
   GetPublicKey,
-} from "@wisegar-org/wgo-settings";
-import { SUPERADMIN } from "@wisegar-org/wgo-base-models/build/authentication";
-import { translations } from "@wisegar-org/wgo-base-models/build/core";
-import { UserRolesModel, listenersEvents } from "@wisegar-org/wgo-base-server";
+} from "wgo-settings";
 import { PostgresDataSource } from "../dataSources";
-import { IContextBase } from "@wisegar-org/wgo-base-models/build/core";
-import { GetWebRootKey } from "../middlewares/HostAdminMiddleware";
 import { EventEmitter } from "events";
-import { FinanceIssuesToken, FinanceIssuesZincTime } from "../models/Finance";
+import {
+  LanguageModel,
+  listenersEvents,
+  UserRolesModel,
+} from "@wisegar-org/wgo-base-server";
+import {
+  IContextBase,
+  translations,
+  SUPERADMIN,
+} from "@wisegar-org/wgo-base-models";
+import { GetWebRootKey } from "../middlewares/HostAdminMiddleware";
 
-export const ctx = {
+export const ctx = <IContextBase>{
   dataSource: PostgresDataSource,
   web_root: GetWebRootKey(),
   emiter: new EventEmitter(),
-  listenersEvents: listenersEvents.concat([
-    FinanceIssuesZincTime,
-    FinanceIssuesToken,
-  ]),
+  listenersEvents: listenersEvents,
   cypherKey: GetCypherKey(),
-} as IContextBase;
+};
 
-const authModel = new UserRolesModel({
+export const authArg = {
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   hostBase: GetHostBaseKey(),
@@ -36,7 +38,10 @@ const authModel = new UserRolesModel({
   tokenRegisterExpiresIn: "24h",
   emailOptions: { from: GetEmailAppAddressKey() } as any,
   transportEmailOptions: {},
-});
+};
+
+const authModel = new UserRolesModel(authArg);
+const langModel = new LanguageModel(ctx);
 
 export const AppContextHandler = async (options: IContextOptions) => {
   if (!options) {
@@ -51,8 +56,21 @@ export const AppContextHandler = async (options: IContextOptions) => {
   if (!tokenPayload) return ctxApp;
   const user = await authModel.getUser(parseInt(tokenPayload.userId));
   if (user) {
-    ctxApp.user = user;
-    ctxApp.user.isSuperAdmin = user.roles.indexOf(SUPERADMIN) !== -1;
+    ctxApp.user = {
+      ...user,
+      isSuperAdmin: user.roles.indexOf(SUPERADMIN) !== -1,
+    };
+  }
+
+  try {
+    const langId = parseInt(options.requestHeaders.language || "0");
+
+    let language = langId
+      ? await langModel.getLanguage({ id: langId })
+      : await langModel.getDefaultLanguage();
+    ctxApp.language = language ? language.id : 0;
+  } catch {
+    ctxApp.language = 0;
   }
   // TODO: Add context definition here
   return ctxApp as any;
