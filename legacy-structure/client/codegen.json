@@ -1,8 +1,0 @@
-{
-  "schema": "http://localhost:5010/graphql",
-  "generates": {
-    "./src/graphql.d.ts": {
-      "plugins": "typescript"
-    }
-  }
-}
