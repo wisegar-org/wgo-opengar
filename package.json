@@ -38,9 +38,6 @@
     "@wisegar-org/wgo-base-models": "0.0.1-7",
     "@wisegar-org/wgo-base-server": "0.0.1-8",
     "@wisegar-org/wgo-github": "0.0.1-build.17",
-    "@wisegar-org/wgo-object-extensions": "0.0.2-2",
-    "@wisegar-org/wgo-server": "0.0.1-build.54",
-    "@wisegar-org/wgo-settings": "0.0.1-build.9",
     "dayjs": "^1.11.7",
     "express": "4.18.1",
     "express-handlebars": "^7.1.2",
@@ -48,6 +45,8 @@
     "pg": "8.7.3",
     "type-graphql": "1.1.1",
     "typeorm": "0.3.6",
-    "typeorm-extension": "2.1.2"
+    "typeorm-extension": "2.1.2",
+    "wgo-server": "^0.0.2-9",
+    "wgo-settings": "^0.0.1"
   }
 }
