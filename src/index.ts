@@ -18,19 +18,14 @@ import { AppController } from "./controllers/AppController";
 import express, { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
-import {
-  GetHandlebarRootKey,
-  GetHandlebarStaticsKey,
-  GetWebRootKey,
-  UseClientSPAHostMiddleware,
-} from "./middlewares/HostClientMiddleware";
+import { UseHostAdminMiddleware as UseAdminMiddleware } from "./middlewares/HostAdminMiddleware";
 import { roleSuperAdminSeeder } from "@wisegar-org/wgo-base-server";
 import { userAdminSeeder } from "@wisegar-org/wgo-base-server";
 import { languageDefaultSeeder } from "@wisegar-org/wgo-base-server";
 import { getResolverList } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 import { loopUpdateIssues } from "./services/Finance/FinanceUpdateIssuesService";
-import { engine } from "express-handlebars";
+import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
 
 const port = GetPortKey();
 
@@ -44,32 +39,9 @@ const serverOptions: IServerOptions = {
   maxFiles: 10,
   useCors: true,
   middlewares: (app: Express) => {
-    app.engine("handlebars", engine());
-    app.set("view engine", "handlebars");
-    const viewPath = GetHandlebarRootKey();
-    app.set("views", viewPath);
-
-    app.use("/", express.static(GetHandlebarStaticsKey()));
-
-    const elements = [
-      {
-        name: "Leche",
-        age: 2,
-      },
-      {
-        name: "Pan",
-        age: 4,
-      },
-    ];
-    app.get("/hb", (req, res) => {
-      res.render("home", {
-        title: "Express running",
-        admin: true,
-        elements: elements,
-      });
-    });
-    UseClientSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
+    UseAdminMiddleware(app);
+    UseTemplatingMiddleware(app);
   },
   resolvers: getResolverList(),
   privateKey: GetPrivateKey(),

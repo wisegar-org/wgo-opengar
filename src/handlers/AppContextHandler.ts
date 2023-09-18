@@ -12,7 +12,7 @@ import { translations } from "@wisegar-org/wgo-base-models/build/core";
 import { UserRolesModel, listenersEvents } from "@wisegar-org/wgo-base-server";
 import { PostgresDataSource } from "../dataSources";
 import { IContextBase } from "@wisegar-org/wgo-base-models/build/core";
-import { GetWebRootKey } from "../middlewares/HostClientMiddleware";
+import { GetWebRootKey } from "../middlewares/HostAdminMiddleware";
 import { EventEmitter } from "events";
 import { FinanceIssuesToken, FinanceIssuesZincTime } from "../models/Finance";
 

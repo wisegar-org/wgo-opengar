@@ -1,4 +1,4 @@
-import { Express, static as expressStatics } from "express";
+import express, { Express } from "express";
 import { existsSync, mkdirpSync } from "fs-extra";
 import path from "path";
 
@@ -24,10 +24,10 @@ export const GetHandlebarRootKey = () => {
   throw "Impossible to get value from APP_WEB_ROOT environment key";
 };
 
-export const UseClientSPAHostMiddleware = (App: Express) => {
+export const UseHostAdminMiddleware = (app: Express) => {
   if (!existsSync(GetClientWebRootKey())) {
     console.error("Host client folder do not exist!");
     mkdirpSync(GetClientWebRootKey());
   }
-  App.use("/", expressStatics(GetClientWebRootKey()));
+  app.use("/wgo", express.static(GetClientWebRootKey()));
 };
