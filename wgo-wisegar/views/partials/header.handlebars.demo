@@ -1,0 +1,11 @@
+
+<h2>HEADER</h2>
+{{#if admin}}
+    <p>Ciao admin</p>
+    {{#each elements}}
+        <h4>{{this.name}}</h4>
+        <p>{{this.age}}</p>
+    {{/each}}
+{{else}}
+ <p>No admin</p>
+{{/if}}

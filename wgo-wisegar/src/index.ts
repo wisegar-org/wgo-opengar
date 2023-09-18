@@ -15,10 +15,12 @@ import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
 import { AppContextHandler } from "./handlers/AppContextHandler";
 import { errorHandler } from "./handlers/ErrorHandler";
 import { AppController } from "./controllers/AppController";
-import { Express } from "express";
+import express, { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
 import {
+  GetHandlebarRootKey,
+  GetHandlebarStaticsKey,
   GetWebRootKey,
   UseClientSPAHostMiddleware,
 } from "./middlewares/HostClientMiddleware";
@@ -43,8 +45,29 @@ const serverOptions: IServerOptions = {
   useCors: true,
   middlewares: (app: Express) => {
     app.engine("handlebars", engine());
-    // app.set("views engine", "handlebars");
-    // app.set("views", GetWebRootKey);
+    app.set("view engine", "handlebars");
+    const viewPath = GetHandlebarRootKey();
+    app.set("views", viewPath);
+
+    app.use("/", express.static(GetHandlebarStaticsKey()));
+
+    const elements = [
+      {
+        name: "Leche",
+        age: 2,
+      },
+      {
+        name: "Pan",
+        age: 4,
+      },
+    ];
+    app.get("/hb", (req, res) => {
+      res.render("home", {
+        title: "Express running",
+        admin: true,
+        elements: elements,
+      });
+    });
     UseClientSPAHostMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
