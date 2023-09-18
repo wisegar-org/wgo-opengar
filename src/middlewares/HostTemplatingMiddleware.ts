@@ -3,16 +3,16 @@ import { engine } from "express-handlebars";
 import path from "path";
 
 export const GetHandlebarStaticsKey = () => {
-  if (process.env.APP_WEB_ROOT)
-    return path.join(process.env.APP_WEB_ROOT, "public");
+  if (process.env.WEB_ROOT)
+    return path.join(process.env.WEB_ROOT, "public");
 
-  throw "Impossible to get value from APP_WEB_ROOT environment key";
+  throw "Impossible to get value from WEB_ROOT environment key";
 };
 export const GetHandlebarRootKey = () => {
-  if (process.env.APP_WEB_ROOT)
-    return path.join(process.env.APP_WEB_ROOT, "views");
+  if (process.env.WEB_ROOT)
+    return path.join(process.env.WEB_ROOT, "views");
 
-  throw "Impossible to get value from APP_WEB_ROOT environment key";
+  throw "Impossible to get value from WEB_ROOT environment key";
 };
 
 export const UseTemplatingMiddleware = (app: Express) => {

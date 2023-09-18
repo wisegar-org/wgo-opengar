@@ -7,7 +7,7 @@
     "build",
     "public",
     "views",
-    "client/dist/spa"
+    "backoffice/dist/spa"
   ],
   "scripts": {
     "start": "nodemon",
