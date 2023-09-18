@@ -3,9 +3,15 @@
   "version": "0.0.1-build.0",
   "description": "Wisegar App",
   "main": "build/index.js",
+  "files": [
+    "build",
+    "public",
+    "views",
+    "client/dist/spa"
+  ],
   "scripts": {
     "start": "nodemon",
-    "build": "npx rimraf build && tsc",
+    "build": "npx rimraf build && tsc && npm pack",
     "build:promote": "npm run build && npm version prerelease",
     "update:wg-github": "npx rimraf ./node_modules@wisegar-org/wgo-github &&  npm install @wisegar-org/wgo-github@latest -E",
     "update:wg-server": "npx rimraf ./node_modules@wisegar-org/wgo-server &&  npm install @wisegar-org/wgo-server@latest -E",
