@@ -1,8 +1,0 @@
-{
-  "watch": [
-    "src",
-    "../wgo-base/**/*Model.ts"
-  ],
-  "ext": "ts",
-  "exec": "node --inspect=9269 -r ts-node/register ./src/index.ts"
-}
