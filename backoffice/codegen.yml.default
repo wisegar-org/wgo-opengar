@@ -1,0 +1,8 @@
+schema: http://localhost:5001/graphql
+generates:
+  ./src/types/index.ts:
+    plugins:
+      - typescript
+  ./src/types/GraphqlTypes.cs:
+    plugins:
+      - "c-sharp"
