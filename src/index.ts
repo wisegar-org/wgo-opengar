@@ -1,31 +1,35 @@
 import "reflect-metadata";
-import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
-import { AppContextHandler } from "./handlers/AppContextHandler";
-import { errorHandler } from "./handlers/ErrorHandler";
-import { AppController } from "./controllers/AppController";
-import express, { Express } from "express";
-import { dataSourceOptions, PostgresDataSource } from "./dataSources";
-import { createDatabase } from "typeorm-extension";
-import { UseHostAdminMiddleware as UseAdminMiddleware } from "./middlewares/HostAdminMiddleware";
-import { roleSuperAdminSeeder } from "@wisegar-org/wgo-base-server";
-import { userAdminSeeder } from "@wisegar-org/wgo-base-server";
-import { languageDefaultSeeder } from "@wisegar-org/wgo-base-server";
-import { getResolverList } from "./resolvers";
-import { settingsSeeder } from "./database/seeders/SettingsSeeder";
-import { loopUpdateIssues } from "./services/Finance/FinanceUpdateIssuesService";
-import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
-import {
-  GetExpiresInKey,
-  GetPortKey,
-  GetPrivateKey,
-  GetPublicKey,
-} from "wgo-settings";
 import {
   boot,
   ExpirationFreqEnum,
   IServerOptions,
   UseRestMiddleware,
 } from "wgo-server";
+import {
+  GetPortKey,
+  GetPrivateKey,
+  GetPublicKey,
+  GetExpiresInKey,
+} from "wgo-settings";
+import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
+import { AppContextHandler, ctx } from "./handlers/AppContextHandler";
+import { errorHandler } from "./handlers/ErrorHandler";
+import { Express } from "express";
+import { dataSourceOptions, PostgresDataSource } from "./dataSources";
+import { createDatabase } from "typeorm-extension";
+
+import { getResolverList } from "./resolvers";
+import { settingsSeeder } from "./database/seeders/SettingsSeeder";
+
+import {
+  roleSuperAdminSeeder,
+  userAdminSeeder,
+  mediaPublicSeeder,
+  languageDefaultSeeder,
+} from "@wisegar-org/wgo-base-server";
+import { AppController } from "./controllers/AppController";
+import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
+import { UseHostAdminMiddleware } from "./middlewares/HostAdminMiddleware";
 
 const port = GetPortKey();
 
@@ -39,15 +43,18 @@ const serverOptions: IServerOptions = {
   maxFiles: 10,
   useCors: true,
   middlewares: (app: Express) => {
-    UseRestMiddleware(serverOptions);
-    UseAdminMiddleware(app);
+    UseHostAdminMiddleware(app);
     UseTemplatingMiddleware(app);
+    UseRestMiddleware(serverOptions);
   },
   resolvers: getResolverList(),
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
   expirationFreq: ExpirationFreqEnum.Low,
+  gqlValidateSettings: {
+    forbidUnknownValues: false,
+  },
 };
 boot(serverOptions, async () => {
   console.log("Start other services here. ex. database connections");
@@ -73,11 +80,14 @@ boot(serverOptions, async () => {
   await roleSuperAdminSeeder(dataSource); //create superadmin rol
   await userAdminSeeder(dataSource); //create admin user with superadmin rol
   await languageDefaultSeeder(dataSource); //create default language
+  mediaPublicSeeder({ ...ctx, dataSource }); //export public media files
 
   //App seeders
+  //await agvTemplateSeeder(dataSource);
+  //await agvAdminUserSeeder(dataSource);
 
   // Loop function
   setTimeout(async () => {
-    loopUpdateIssues();
+    // loopUpdateIssues();
   }, 0);
 });
