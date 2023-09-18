@@ -1,4 +1,3 @@
-import { AgvNewsletterMessageResponse } from "app/../src/models/Newsletter";
 import { apiSettings } from "src/api/ApiOptions";
 import { defineComponent, PropType } from "vue";
 import QCKEditor from "@wisegar-org/wgo-base-client/build/core/components/CKEditor/QCKEditor.vue";
@@ -18,6 +17,7 @@ import {
 } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { AgvNewsletterMessageResponse } from "app/graphql/graphql";
 
 export default defineComponent({
   name: "NsLtMessageAdminEditor",

@@ -1,9 +1,4 @@
 import {
-  AgvNewsletterInscriptionInput,
-  AgvNewsletterInscriptionPageInput,
-  AgvNewsletterInscriptionResponse,
-} from "../../../../src/models/Newsletter";
-import {
   M_AGV_NEWSLETTER_ADD_INSCRIPTION,
   M_AGV_NEWSLETTER_EDIT_INSCRIPTION,
   M_AGV_NEWSLETTER_RESEND_INSCRIPTIONS_STATUS,
@@ -13,6 +8,11 @@ import {
 } from "./NwLtInscriptionServiceQueries";
 import { ApiService } from "@wisegar-org/wgo-base-client/build/core/services/ApiService";
 import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  AgvNewsletterInscriptionInput,
+  AgvNewsletterInscriptionPageInput,
+  AgvNewsletterInscriptionResponse,
+} from "app/graphql/graphql";
 
 export class NewsletterInscriptionService {
   apiInstance: ApiService;

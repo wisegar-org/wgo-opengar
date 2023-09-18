@@ -1,8 +1,8 @@
 schema: http://localhost:5055/graphql
 generates:
-  ./src/models/graphql.ts:
+  ./src/models/Graphql/graphql.ts:
     plugins:
       - typescript
-  ./src/models/graphql.cs:
+  ./src/models/Graphql/graphql.cs:
     plugins:
       - "c-sharp"

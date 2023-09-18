@@ -1,6 +1,5 @@
 import { defineComponent, reactive, watch } from "vue";
 import NsLtInscriptionAdminEditor from "../NsLtInscriptionAdminEditor/NsLtInscriptionAdminEditor.vue";
-import { AgvNewsletterInscriptionResponse } from "../../../../src/models/Newsletter";
 import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { getNewsletterInscriptionListSchema } from "./NsLtInscriptionAdminComponentSchema";
 import { translations } from "src/models/translations/newsletter";
@@ -24,6 +23,7 @@ import {
   ITableRowButton,
 } from "@wisegar-org/wgo-base-models/build/core/Table";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
+import { AgvNewsletterInscriptionResponse } from "app/graphql/graphql";
 
 export default defineComponent({
   name: "NsLtInscriptionAdminComponent",

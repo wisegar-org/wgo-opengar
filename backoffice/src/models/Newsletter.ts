@@ -4,6 +4,19 @@ export enum AGVNewsletterInscriptionStatusEnum {
   Cancelled = "Annullato",
 }
 
+export function getAGVNewsletterMessageStatusEnum(value: string) {
+  switch (value) {
+    case AGVNewsletterMessageStatusEnum.Sended:
+      return AGVNewsletterMessageStatusEnum.Sended;
+    case AGVNewsletterMessageStatusEnum.Waiting:
+      return AGVNewsletterMessageStatusEnum.Waiting;
+    default:
+      throw new Error(
+        `Case ${value} not found on AGVNewsletterMessageStatusEnum`
+      );
+  }
+}
+
 export enum AGVNewsletterMessageStatusEnum {
   Waiting = "In sospeso",
   Sended = "Inviato",

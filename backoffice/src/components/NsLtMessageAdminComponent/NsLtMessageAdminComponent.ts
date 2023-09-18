@@ -1,6 +1,5 @@
 import { defineComponent, reactive, watch } from "vue";
 import NsLtMessageAdminEditor from "../NsLtMessageAdminEditor/NsLtMessageAdminEditor.vue";
-import { AgvNewsletterMessageResponse } from "../../../../src/models/Newsletter";
 import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { getNewsletterMessageListSchema } from "./NsLtMessageAdminComponentSchema";
 import { translations } from "src/models/translations/newsletter";
@@ -24,6 +23,7 @@ import {
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { Router } from "vue-router";
+import { AgvNewsletterMessageResponse } from "app/graphql/graphql";
 
 export default defineComponent({
   name: "NsLtMessageAdminComponent",
@@ -189,7 +189,8 @@ export default defineComponent({
           },
         })
         .onOk(async () => {
-          if (await this.newsletterService.sendNewsletterMessage(message.id)) {
+          const msgId = message.id ? message.id : 0;
+          if (await this.newsletterService.sendNewsletterMessage(msgId)) {
             await this.loadData();
             this.notifyStore.setNotify({
               message: this.getLabel(

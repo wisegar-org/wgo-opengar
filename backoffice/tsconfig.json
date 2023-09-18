@@ -11,8 +11,9 @@
   },
   "include": [
     "src"
-  ],
+, "Graphql"  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "graphql"
   ]
 }

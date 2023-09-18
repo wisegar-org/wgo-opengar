@@ -8,14 +8,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { AGVNewsletterMessageStatusEnum } from "../../../../src/models/enums";
-import { AGVNewsletterMessageResponse } from "../../../../src/resolvers/Newsletter/AGVNewsletterMessageResponses";
 import NsLtMessageAdminEditor from "../../components/NsLtMessageAdminEditor/NsLtMessageAdminEditor.vue";
 import { NewsletterMessageService } from "../../services/Newsletter/NwLtMessengerService";
 import { AGVNewslettersAdminPaths } from "../../router/paths/adminAgv/newslettersPaths";
 import { useAppStatusStore } from "../../stores/appStatusStore";
 import { RouteService } from "@wisegar-org/wgo-base-client/build/core/services/RouteService";
 import { Router } from "vue-router";
+import { AGVNewsletterMessageStatusEnum, getAGVNewsletterMessageStatusEnum } from "src/models/Newsletter";
 
 export default defineComponent({
   name: "AdminNewsletterMessageEditorPage",
@@ -27,7 +26,7 @@ export default defineComponent({
     NsLtMessageAdminEditor,
   },
   data() {
-    const emptyMessage: AGVNewsletterMessageResponse = {
+    const emptyMessage = {
       id: 0,
       title: "",
       message: "",
@@ -60,7 +59,7 @@ export default defineComponent({
             id: result.id || 0,
             message: result.message,
             title: result.title,
-            status: result.status,
+            status: getAGVNewsletterMessageStatusEnum(result.status),
           };
       } else {
         this.message = { ...this.emptyMessage };

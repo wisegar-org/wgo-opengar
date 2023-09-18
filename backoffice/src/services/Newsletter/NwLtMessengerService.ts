@@ -7,12 +7,12 @@ import {
   Q_AGV_NEWSLETTER_GET_MESSAGE,
   Q_AGV_NEWSLETTER_GET_PAGE_MESSAGE,
 } from "./NwLtMessengerServiceQueries";
-import {
-  AgvNewsletterMessageResponse,
-  AgvNewsletterMessagePageInput,
-  AgvNewsletterMessageInput,
-} from "../../../../src/models/Newsletter";
 import { ObjectDictionary } from "@wisegar-org/wgo-base-models/build/core";
+import {
+  AgvNewsletterMessageInput,
+  AgvNewsletterMessagePageInput,
+  AgvNewsletterMessageResponse,
+} from "../../../graphql/graphql";
 
 export class NewsletterMessageService {
   apiInstance: ApiService;

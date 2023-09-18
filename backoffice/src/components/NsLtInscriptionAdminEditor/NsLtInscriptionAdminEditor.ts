@@ -4,12 +4,12 @@ import { useTranslationStore } from "src/stores/translationStore";
 import { useAppStatusStore } from "src/stores/appStatusStore";
 import { BaseTranslateComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { translations } from "src/models/translations/newsletter";
-import { AgvNewsletterInscriptionResponse } from "../../../../src/models/Newsletter";
 import { AGVNewsletterInscriptionStatusEnum } from "src/models/Newsletter";
 import { translations as transBase } from "@wisegar-org/wgo-base-models/build/core";
 import { NewsletterInscriptionService } from "src/services/Newsletter/NwLtInscriptionService";
 import { TranslationStore } from "@wisegar-org/wgo-base-client/build/translation/store/TranslationStore";
 import { UtilService } from "@wisegar-org/wgo-base-client/build/core/services/UtilService";
+import { AgvNewsletterInscriptionResponse } from "app/graphql/graphql";
 
 export default defineComponent({
   name: "NsLtInscriptionAdminEditor",
