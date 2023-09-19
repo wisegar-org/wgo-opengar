@@ -5,42 +5,56 @@ import {
   GetDBPasswordKey,
   GetDBPortKey,
   GetDBUserNameKey,
-} from "@wisegar-org/wgo-settings";
+} from "wgo-settings";
 
-/********************************* Entities **********************************/
-/** Base Entities */
-import { UserEntity } from "@wisegar-org/wgo-base-server";
-import { RoleEntity } from "@wisegar-org/wgo-base-server";
-import { LanguageEntity } from "@wisegar-org/wgo-base-server";
-import { TranslationEntity } from "@wisegar-org/wgo-base-server";
-import { SettingsEntity } from "@wisegar-org/wgo-base-server";
-import { ContactMeEntity } from "@wisegar-org/wgo-base-server";
-import { MediaEntity } from "@wisegar-org/wgo-base-server";
-import { StorageEntity } from "@wisegar-org/wgo-base-server";
-import { HistoricEntity } from "@wisegar-org/wgo-base-server";
+import {
+  UserEntity,
+  RoleEntity,
+  LanguageEntity,
+  TranslationEntity,
+  SettingsEntity,
+  ContactMeEntity,
+  HistoricEntity,
+  TemplateEntity,
+  MediaEntity,
+  StorageEntity,
+  getAuthenticationMigrations,
+  getContactMigrations,
+  getHistoricMigrations,
+  getLanguageMigrations,
+  getSettingsMigrations,
+  getStorageMigrations,
+  getTemplateMigrations,
+  getTranslationMigrations,
+} from "@wisegar-org/wgo-base-server";
 
-/** Wisegar Module Entities */
-import { IndexContentEntity } from "./database/entities/IndexContentEntity";
+import { getAgvMigrations } from "../modules/database/migrations";
+import AGVEventEntity from "../modules/database/entities/AGVEventEntity";
+import { AGVInscriptionEntity } from "../modules/database/entities/AGVInscriptionEntity";
+import AGVPollEntity from "../modules/database/entities/AGVPollEntity";
+import { AGVNewsletterInscriptionEntity } from "../modules/database/entities/AGVNewsletterInscriptionEntity";
+import { AGVNewsletterMessageEntity } from "../modules/database/entities/AGVNewsletterMessageEntity";
 
-/** Wisegar Github submodule entities */
-import { AccountEntity } from "./database/entities/Finance/AccountEntity";
-import { CollaboratorEntity } from "./database/entities/Finance/CollaboratorEntity";
-import { IssueEntity } from "./database/entities/Finance/IssueEntity";
-import { LabelEntity } from "./database/entities/Finance/LabelEntity";
-import { ProjectEntity } from "./database/entities/Finance/ProjectEntity";
-import { RepositoryEntity } from "./database/entities/Finance/RepositoryEntity";
+/** Entities */
+const entities = [
+  UserEntity,
+  RoleEntity,
+  LanguageEntity,
+  TranslationEntity,
+  SettingsEntity,
+  ContactMeEntity,
+  HistoricEntity,
+  TemplateEntity,
+  MediaEntity,
+  StorageEntity,
+  AGVEventEntity,
+  AGVInscriptionEntity,
+  AGVPollEntity,
+  AGVNewsletterInscriptionEntity,
+  AGVNewsletterMessageEntity,
+];
 
-/********************************* Migrations **********************************/
-import { getAuthenticationMigrations } from "@wisegar-org/wgo-base-server";
-import { getContactMigrations } from "@wisegar-org/wgo-base-server";
-import { getHistoricMigrations } from "@wisegar-org/wgo-base-server";
-import { getLanguageMigrations } from "@wisegar-org/wgo-base-server";
-import { getSettingsMigrations } from "@wisegar-org/wgo-base-server";
-import { getStorageMigrations } from "@wisegar-org/wgo-base-server";
-import { getTemplateMigrations } from "@wisegar-org/wgo-base-server";
-import { getTranslationMigrations } from "@wisegar-org/wgo-base-server";
-import { getWisegarMigrations } from "./database/migrations";
-
+/** Migrations */
 const migrations = getAuthenticationMigrations()
   .concat(getContactMigrations())
   .concat(getHistoricMigrations())
@@ -49,7 +63,7 @@ const migrations = getAuthenticationMigrations()
   .concat(getStorageMigrations())
   .concat(getTemplateMigrations())
   .concat(getTranslationMigrations())
-  .concat(getWisegarMigrations());
+  .concat(getAgvMigrations());
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -57,27 +71,10 @@ export const dataSourceOptions: DataSourceOptions = {
   port: parseInt(`${GetDBPortKey() || 5432}`),
   username: GetDBUserNameKey() || "postgres",
   password: GetDBPasswordKey() || "postgres",
-  database: GetDBNameKey() || "wgo-swisspay",
+  database: GetDBNameKey() || "wgo-template",
   useUTC: true,
   migrationsRun: true,
-  entities: [
-    UserEntity,
-    RoleEntity,
-    LanguageEntity,
-    TranslationEntity,
-    SettingsEntity,
-    ContactMeEntity,
-    MediaEntity,
-    HistoricEntity,
-    IndexContentEntity,
-    StorageEntity,
-    IssueEntity,
-    CollaboratorEntity,
-    LabelEntity,
-    ProjectEntity,
-    RepositoryEntity,
-    AccountEntity,
-  ],
+  entities: entities,
   migrations: migrations,
   subscribers: [],
 };
