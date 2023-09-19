@@ -18,7 +18,7 @@ import { Express } from "express";
 import { dataSourceOptions, PostgresDataSource } from "./dataSources";
 import { createDatabase } from "typeorm-extension";
 
-import { getResolverList } from "./resolvers";
+import { getResolverList as getResolvers } from "./resolvers";
 import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 
 import {
@@ -27,9 +27,9 @@ import {
   mediaPublicSeeder,
   languageDefaultSeeder,
 } from "@wisegar-org/wgo-base-server";
-import { AppController } from "./controllers/AppController";
 import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
 import { UseHostAdminMiddleware } from "./middlewares/HostAdminMiddleware";
+import { getControllers } from "./controllers";
 
 const port = GetPortKey();
 
@@ -37,7 +37,7 @@ const serverOptions: IServerOptions = {
   authenticator: AuthenticationHandler,
   context: AppContextHandler,
   formatError: errorHandler,
-  controllers: [AppController],
+  controllers: getControllers(),
   port: parseInt(port),
   maxFileSize: 5000000000,
   maxFiles: 10,
@@ -47,7 +47,7 @@ const serverOptions: IServerOptions = {
     UseTemplatingMiddleware(app);
     UseRestMiddleware(serverOptions);
   },
-  resolvers: getResolverList(),
+  resolvers: getResolvers(),
   privateKey: GetPrivateKey(),
   publicKey: GetPublicKey(),
   expiresIn: GetExpiresInKey(),
