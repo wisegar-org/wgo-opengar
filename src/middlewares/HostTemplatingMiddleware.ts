@@ -44,7 +44,7 @@ export const UseTemplatingMiddleware = (app: Express) => {
       age: 4,
     },
   ];
-  app.get("/", (req, res) => {
+  app.get("/template", (req, res) => {
     res.render("home", {
       title: "Express running",
       admin: true,
