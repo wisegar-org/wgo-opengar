@@ -19,9 +19,12 @@ import { IndexContentResolver } from "./IndexContent/IndexContentResolver";
 import { FinanceIssuesResolver } from "./FinanceIssues/FinanceIssuesResolver";
 import { FinanceIssuesOptionsResolver } from "./FinanceIssuesOptions/FinanceIssuesOptionsResolver";
 import { getAGVResolvers } from "../../modules";
+import { AGVEventResolver } from "../../modules/resolvers/Event/AGVEventResolver";
+import { AGVContentsResolver } from "../../modules/resolvers/Content/AGVContentsResolver";
+import { AGVNewsletterResolver } from "../../modules/resolvers/Newsletter/AGVNewsletterResolver";
+import { AGVInscriptionResolver } from "../../modules/resolvers/Inscription/AGVInscriptionResolver";
 
 export const getResolverList = () => {
-  const agvResolvers = getAGVResolvers();
   return [
     AppResolver,
     CoreResolver,
@@ -40,6 +43,9 @@ export const getResolverList = () => {
     IndexContentResolver,
     FinanceIssuesResolver,
     FinanceIssuesOptionsResolver,
-    agvResolvers,
+    AGVEventResolver,
+    AGVContentsResolver,
+    AGVNewsletterResolver,
+    AGVInscriptionResolver,
   ] as unknown as NonEmptyArray<Function>;
 };
