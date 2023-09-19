@@ -15,13 +15,24 @@ export const GetHandlebarRootKey = () => {
 };
 
 export const UseTemplatingMiddleware = (app: Express) => {
-  app.engine("handlebars", engine());
-  app.set("view engine", "hbs");
-  const viewPath = GetHandlebarRootKey();
-  app.set("views", viewPath);
-  // app.set("views", path.join(GetWebRootKey(), "modules", "views"));
+  app.engine(
+    "handlebars",
+    engine({
+      extname: ".handlebars",
+      helpers: require("../helpers/HandlebarsHelpers"),
+    })
+  );
+  app.set("view engine", ".handlebars");
 
-  app.use("/", express.static(GetHandlebarStaticsKey()));
+  //app.engine("handlebars", engine());
+  //app.set("view engine", "handlebars");
+  //const viewPath = GetHandlebarRootKey();
+  //app.set("views", viewPath);
+  //app.use("/", express.static(GetHandlebarStaticsKey()));
+
+  /**Using module */
+  app.set("views", path.join(GetWebRootKey(), "modules", "views"));
+  app.use("/", express.static(path.join(GetWebRootKey(), "modules", "public")));
 
   const elements = [
     {
