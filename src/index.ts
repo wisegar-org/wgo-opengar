@@ -30,6 +30,8 @@ import {
 import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
 import { UseHostAdminMiddleware } from "./middlewares/HostAdminMiddleware";
 import { getControllers } from "./controllers";
+import { agvTemplateSeeder } from "../modules/database/seeders/TemplateSeeder";
+import { agvAdminUserSeeder } from "../modules/database/seeders/AdminUserSeeder";
 
 const port = GetPortKey();
 
@@ -83,8 +85,8 @@ boot(serverOptions, async () => {
   mediaPublicSeeder({ ...ctx, dataSource }); //export public media files
 
   //App seeders
-  //await agvTemplateSeeder(dataSource);
-  //await agvAdminUserSeeder(dataSource);
+  await agvTemplateSeeder(dataSource);
+  await agvAdminUserSeeder(dataSource);
 
   // Loop function
   setTimeout(async () => {
