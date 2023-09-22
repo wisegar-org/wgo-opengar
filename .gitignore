@@ -54,5 +54,5 @@ modules/wgo-cli/dist
 wgo-swisspay/localStorage.json
 backoffice/codegen.yml
 settings.*
-public/media
+**/public/media
 localStorage.json
