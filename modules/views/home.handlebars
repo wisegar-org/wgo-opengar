@@ -202,7 +202,13 @@
 
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
 
-          {{> corsotile }}
+          {{#if (notNullOrUndefined corsi) }}
+            {{#each corsi}}
+               {{> tile this}}
+            {{/each}}
+          {{else}}
+            Non ci sono corsi disponibili al momento
+          {{/if}}
 
         </div>
 
@@ -220,7 +226,13 @@
 
         <div class="row" data-aos="zoom-in" data-aos-delay="100">
 
-          {{> corsotile }}
+          {{#if (notNullOrUndefined eventi) }}
+            {{#each eventi}}
+               {{> tile this}}
+            {{/each}}
+          {{else}}
+            Non ci sono eventi disponibili al momento
+          {{/if}}
 
         </div>
 

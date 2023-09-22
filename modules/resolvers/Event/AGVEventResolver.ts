@@ -1,6 +1,6 @@
 import { Arg, Mutation, Query, Resolver, Authorized, Ctx } from "type-graphql";
 import AGVEventEntity from "../../database/entities/AGVEventEntity";
-import { AGVEventModel } from "../../models/Event/EventModel";
+import { EventModel } from "../../models/Event/EventModel";
 import { SUPERADMIN, IContextBase } from "@wisegar-org/wgo-base-models";
 import { HistoricModel, HistoricResponse } from "@wisegar-org/wgo-base-server";
 import { AGVEventInput, AGVEventPageInput } from "./AGVEventInputs";
@@ -14,7 +14,7 @@ import {
 export class AGVEventResolver {
   @Query(() => [AGVEventResponse])
   async agvAllEvents(@Arg("urlApi") urlApi: string, @Ctx() ctx: IContextBase) {
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     return await eventModel.all(urlApi);
   }
 
@@ -24,7 +24,7 @@ export class AGVEventResolver {
     @Arg("urlApi") urlApi: string,
     @Ctx() ctx: IContextBase
   ) {
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     return await eventModel.getPage(data, urlApi);
   }
 
@@ -33,7 +33,7 @@ export class AGVEventResolver {
     @Arg("type") type: string,
     @Ctx() ctx: IContextBase
   ) {
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     return await eventModel.getAllClass(type);
   }
 
@@ -43,7 +43,7 @@ export class AGVEventResolver {
     @Arg("urlApi") urlApi: string,
     @Ctx() ctx: IContextBase
   ) {
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     return await eventModel.getEvent(id, urlApi, true);
   }
 
@@ -52,7 +52,7 @@ export class AGVEventResolver {
     @Arg("urlApi") urlApi: string,
     @Ctx() ctx: IContextBase
   ) {
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     return await eventModel.getNexts(urlApi);
   }
 
@@ -62,7 +62,7 @@ export class AGVEventResolver {
     @Arg("data") data: AGVEventInput,
     @Ctx() ctx: IContextBase
   ) {
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     return await eventModel.create(data);
   }
 
@@ -72,7 +72,7 @@ export class AGVEventResolver {
     @Arg("data") data: AGVEventInput,
     @Ctx() ctx: IContextBase
   ) {
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     return await eventModel.modify(data);
   }
 

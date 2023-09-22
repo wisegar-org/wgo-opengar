@@ -25,7 +25,11 @@ export class AGVEventResponse {
 @ObjectType()
 export class AGVEventGetNextsResponse {
   @Field(() => AGVEventResponse, { nullable: true }) evento!: AGVEventResponse;
+  @Field(() => [AGVEventResponse], { nullable: true, defaultValue: [] })
+  eventi!: AGVEventResponse[];
   @Field(() => AGVEventResponse, { nullable: true }) corso!: AGVEventResponse;
+  @Field(() => [AGVEventResponse], { nullable: true })
+  corsi!: AGVEventResponse[];
 }
 
 @ObjectType()

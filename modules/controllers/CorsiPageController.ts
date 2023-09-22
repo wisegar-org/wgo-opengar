@@ -1,7 +1,7 @@
 import { Controller, Get } from "wgo-server";
 import { Request, Response } from "express";
 import { getDefaultHeader } from "./utils";
-import { AGVEventModel } from "../models/Event/EventModel";
+import { EventModel } from "../models/Event/EventModel";
 import { ctx } from "../../src/handlers/AppContextHandler";
 import { EventTypeEnum } from "../models/enums";
 
@@ -11,7 +11,7 @@ export class CorsiHandlebarsController {
   public async GetCorsiPage(req: Request, res: Response) {
     const defHeader = getDefaultHeader();
     defHeader.headerClass.corsi = "active";
-    const eventModel = new AGVEventModel(ctx);
+    const eventModel = new EventModel(ctx);
     const filter = {
       title: "",
       class: "2022-2023",

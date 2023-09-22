@@ -18,7 +18,7 @@ import {
 } from "@wisegar-org/wgo-base-server";
 import { EventStateEnum, EventTypeEnum } from "../enums";
 
-export class AGVEventModel {
+export class EventModel {
   private eventRepository: Repository<AGVEventEntity>;
   private inscriptionRepository: Repository<AGVInscriptionEntity>;
   private mediaModel: MediaModel;
@@ -37,7 +37,8 @@ export class AGVEventModel {
 
   public async getNexts(urlApi: string): Promise<AGVEventGetNextsResponse> {
     const nowDate = new Date(Date.now());
-    const resultCorso = await this.eventRepository.findOne({
+    const result = {} as AGVEventGetNextsResponse;
+    const resultCorso = await this.eventRepository.find({
       where: {
         startDate: MoreThanOrEqual(nowDate),
         type: EventTypeEnum.Course,
@@ -47,8 +48,17 @@ export class AGVEventModel {
       order: {
         startDate: "ASC",
       },
+      take: 3,
     });
-    const resultEvento = await this.eventRepository.findOne({
+    if (resultCorso && resultCorso.length > 0) {
+      result.corso = await this.ParseShortEvent(resultCorso[0], urlApi, false);
+      result.corsi = [];
+      for await (const corso of resultCorso) {
+        const shortCorso = await this.ParseShortEvent(corso, urlApi, false);
+        result.corsi.push(shortCorso);
+      }
+    }
+    const resultEvento = await this.eventRepository.find({
       where: {
         startDate: MoreThanOrEqual(nowDate),
         type: EventTypeEnum.Event,
@@ -58,14 +68,20 @@ export class AGVEventModel {
       order: {
         startDate: "ASC",
       },
+      take: 3,
     });
 
-    const result = {} as AGVEventGetNextsResponse;
-    if (resultCorso) {
-      result.corso = await this.ParseShortEvent(resultCorso, urlApi, false);
-    }
-    if (resultEvento) {
-      result.evento = await this.ParseShortEvent(resultEvento, urlApi, false);
+    if (resultEvento && resultEvento.length > 0) {
+      result.evento = await this.ParseShortEvent(
+        resultEvento[0],
+        urlApi,
+        false
+      );
+      result.eventi = [];
+      for await (const evento of resultEvento) {
+        const shortEvento = await this.ParseShortEvent(evento, urlApi, false);
+        result.eventi.push(shortEvento);
+      }
     }
     return result;
   }

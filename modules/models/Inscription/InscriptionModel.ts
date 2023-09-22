@@ -12,11 +12,11 @@ import {
 } from "../../resolvers/Inscription/AGVInscriptionResponses";
 import { IContextBase } from "@wisegar-org/wgo-base-models";
 import { HistoricModel } from "@wisegar-org/wgo-base-server";
-import { AGVEventModel } from "../Event/EventModel";
+import { EventModel } from "../Event/EventModel";
 
 export class AGVInscriptionModel {
   private inscriptionRepository: Repository<AGVInscriptionEntity>;
-  private eventModel: AGVEventModel;
+  private eventModel: EventModel;
   private historyModel: HistoricModel<AGVInscriptionEntity>;
 
   /**
@@ -25,7 +25,7 @@ export class AGVInscriptionModel {
   constructor(ctx: IContextBase) {
     this.inscriptionRepository =
       ctx.dataSource.getRepository(AGVInscriptionEntity);
-    this.eventModel = new AGVEventModel(ctx);
+    this.eventModel = new EventModel(ctx);
     this.historyModel = new HistoricModel(AGVInscriptionEntity, ctx);
   }
 

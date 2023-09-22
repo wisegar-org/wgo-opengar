@@ -2,7 +2,7 @@ import { Controller, Get, Post } from "wgo-server";
 import { Request, Response } from "express";
 import { getDefaultHeader } from "./utils";
 import { EmailModel } from "@wisegar-org/wgo-base-server";
-import { AGVEventModel } from "../models/Event/EventModel";
+import { EventModel } from "../models/Event/EventModel";
 import { ctx } from "../../src/handlers/AppContextHandler";
 import { AGVInscriptionModel } from "../models/Inscription/InscriptionModel";
 
@@ -13,7 +13,7 @@ export class DetailsHandlebarsController {
     const defHeader = getDefaultHeader();
     const eventId = req.params.id;
     try {
-      const eventModel = new AGVEventModel(ctx);
+      const eventModel = new EventModel(ctx);
       const event = await eventModel.getEvent(parseInt(eventId), "");
       if (event?.type === "Evento") defHeader.headerClass.eventi = "active";
       else defHeader.headerClass.corsi = "active";
@@ -56,7 +56,7 @@ export class DetailsHandlebarsController {
       id: 0,
     });
     if (!inscrpt.error) {
-      const eventModel = new AGVEventModel(ctx);
+      const eventModel = new EventModel(ctx);
       const event = await eventModel.getEvent(eventId, "");
       const emailModel = new EmailModel(ctx);
       const emailResponse = await emailModel.sendEmailFromToAddressAndApp({
