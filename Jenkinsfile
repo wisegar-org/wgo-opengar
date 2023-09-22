@@ -6,7 +6,6 @@ pipeline {
 
     environment {
       GITHUB_ID = credentials('yarielre_github_Id')
-      VPS_NODEJS_ONE_ID = credentials('vps-nodejs-one_id') 
     }
     parameters {
         string(name: "env", defaultValue: "staging")
