@@ -28,5 +28,5 @@ export const UseHostAdminMiddleware = (app: Express) => {
     console.error("Host client folder do not exist!");
     mkdirpSync(GetBackofficeRootKey());
   }
-  app.use("/", express.static(GetBackofficeRootKey()));
+  app.use("/backoffice", express.static(GetBackofficeRootKey()));
 };

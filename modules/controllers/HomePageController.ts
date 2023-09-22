@@ -4,7 +4,7 @@ import { getDefaultHeader } from "./utils";
 import { AGVEventModel } from "../models/Event/EventModel";
 import { ctx } from "../../src/handlers/AppContextHandler";
 
-@Controller("/hb")
+@Controller("/")
 export class HomeHandlebarsController {
   @Get("/")
   public async GetHomePage(req: Request, res: Response) {

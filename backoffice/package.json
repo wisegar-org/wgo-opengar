@@ -6,7 +6,7 @@
   "author": "Wisegar.org Development Group",
   "private": true,
   "scripts": {
-    "dev": "quasar dev -m ssr",
+    "dev": "quasar dev -m spa",
     "build": "quasar build",
     "gqltypes": "npx graphql-codegen",
     "update-base": "rimraf node_modules/@wisegar-org/wgo-base-models && npm install @wisegar-org/wgo-base-models@latest -E",
