@@ -3,6 +3,9 @@ import {
   boot,
   ExpirationFreqEnum,
   IServerOptions,
+  UseCorsMiddleware,
+  UseGqlServer,
+  UseJwtMiddleware,
   UseRestMiddleware,
 } from "wgo-server";
 import {
@@ -11,55 +14,77 @@ import {
   GetPublicKey,
   GetExpiresInKey,
 } from "wgo-settings";
-import { AuthenticationHandler } from "./handlers/AuthenticationHandler";
-import { AppContextHandler, ctx } from "./handlers/AppContextHandler";
-import { errorHandler } from "./handlers/ErrorHandler";
-import { Express } from "express";
-import { dataSourceOptions, PostgresDataSource } from "./dataSources";
+import { AuthenticationHandler } from "./wgo/handlers/AuthenticationHandler";
+import { AppContextHandler, ctx } from "./wgo/handlers/AppContextHandler";
+import { errorHandler } from "./wgo/handlers/ErrorHandler";
+import { getControllers } from "./wgo/controllers";
 import { createDatabase } from "typeorm-extension";
+import { agvAdminUserSeeder } from "./agv/database/seeders/AdminUserSeeder";
+import { agvTemplateSeeder } from "./agv/database/seeders/TemplateSeeder";
+import { roleSuperAdminSeeder, userAdminSeeder } from "./authentication";
+import { languageDefaultSeeder } from "./language";
+import { mediaPublicSeeder } from "./storage";
+import { dataSourceOptions, PostgresDataSource } from "./wgo/dataSources";
+import { settingsSeeder } from "./wgo/database/seeders/SettingsSeeder";
+import { getResolvers } from "./wgo/resolvers";
+import express from "express";
+import { UseStaticMediaFilesMiddleware } from "./wgo/middlewares/StaticMediaFilesMiddleware";
 
-import { getResolverList as getResolvers } from "./resolvers";
-import { settingsSeeder } from "./database/seeders/SettingsSeeder";
+export async function run(app: any) {
+  const port = GetPortKey();
 
-import {
-  roleSuperAdminSeeder,
-  userAdminSeeder,
-  mediaPublicSeeder,
-  languageDefaultSeeder,
-} from "@wisegar-org/wgo-base-server";
-import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
-import { UseHostAdminMiddleware } from "./middlewares/HostAdminMiddleware";
-import { getControllers } from "./controllers";
-import { agvTemplateSeeder } from "../modules/database/seeders/TemplateSeeder";
-import { agvAdminUserSeeder } from "../modules/database/seeders/AdminUserSeeder";
+  const options: IServerOptions = {
+    app: app,
+    authenticator: AuthenticationHandler,
+    context: AppContextHandler,
+    formatError: errorHandler,
+    controllers: getControllers(),
+    port: parseInt(port),
+    maxFileSize: 5000000000,
+    maxFiles: 10,
+    useCors: true,
+    middlewares: (app: any) => {
+      // UseHostAdminMiddleware(app);
+      // UseTemplatingMiddleware(app);
+      UseStaticMediaFilesMiddleware(app);
+      UseRestMiddleware(options);
+    },
+    resolvers: getResolvers(),
+    privateKey: GetPrivateKey(),
+    publicKey: GetPublicKey(),
+    expiresIn: GetExpiresInKey(),
+    expirationFreq: ExpirationFreqEnum.Low,
+    gqlValidateSettings: {
+      forbidUnknownValues: false,
+    },
+  };
 
-const port = GetPortKey();
+  options.app.use(express.json());
 
-const serverOptions: IServerOptions = {
-  authenticator: AuthenticationHandler,
-  context: AppContextHandler,
-  formatError: errorHandler,
-  controllers: getControllers(),
-  port: parseInt(port),
-  maxFileSize: 5000000000,
-  maxFiles: 10,
-  useCors: true,
-  middlewares: (app: Express) => {
-    UseHostAdminMiddleware(app);
-    UseTemplatingMiddleware(app);
-    UseRestMiddleware(serverOptions);
-  },
-  resolvers: getResolvers(),
-  privateKey: GetPrivateKey(),
-  publicKey: GetPublicKey(),
-  expiresIn: GetExpiresInKey(),
-  expirationFreq: ExpirationFreqEnum.Low,
-  gqlValidateSettings: {
-    forbidUnknownValues: false,
-  },
-};
-boot(serverOptions, async () => {
-  console.log("Start other services here. ex. database connections");
+  options.expirationFreq = options.expirationFreq
+    ? options.expirationFreq
+    : ExpirationFreqEnum.Normal;
+
+  console.debug("Registering Cors middleware");
+  UseCorsMiddleware(options);
+
+  console.debug("Registering Jwt middleware");
+  UseJwtMiddleware(options);
+
+  if (options.controllers && options.controllers.length > 0) {
+    console.debug("Registering Rest middleware");
+    UseRestMiddleware(options);
+  }
+
+  if (options.resolvers && options.resolvers.length > 0) {
+    console.debug("Registering Graphql middleware");
+    UseGqlServer(options);
+  }
+
+  if (options.middlewares) {
+    console.debug("Registering Extras middleware");
+    options.middlewares(options.app);
+  }
 
   await createDatabase({
     ifNotExist: true,
@@ -92,4 +117,4 @@ boot(serverOptions, async () => {
   setTimeout(async () => {
     // loopUpdateIssues();
   }, 0);
-});
+}
