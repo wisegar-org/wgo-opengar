@@ -32,6 +32,7 @@ pipeline {
         
         stage("build-backspace-project") {
             steps { 
+                sh 'ls -a'
                 sh 'cd backspace'
                 sh 'npm install'
                 sh 'npm run build'
@@ -40,8 +41,10 @@ pipeline {
 
         stage("build-project") {
             steps {
+                sh 'ls -a'
                 sh 'npm install' 
                 sh 'npm run build'
+            
             }        
         }
     }
