@@ -90,8 +90,14 @@ namespace GraphQLCodeGen {
     #region AGVEventGetNextsResponse
     public class AGVEventGetNextsResponse {
       #region members
+      [JsonProperty("corsi")]
+      public List<AGVEventResponse> corsi { get; set; }
+    
       [JsonProperty("corso")]
       public AGVEventResponse corso { get; set; }
+    
+      [JsonProperty("eventi")]
+      public List<AGVEventResponse> eventi { get; set; }
     
       [JsonProperty("evento")]
       public AGVEventResponse evento { get; set; }
@@ -1224,6 +1230,313 @@ namespace GraphQLCodeGen {
     }
     #endregion
     
+    #region FinanceAccountResponse
+    public class FinanceAccountResponse {
+      #region members
+      [JsonProperty("id")]
+      public double id { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceAssignedToOption
+    public class FinanceAssignedToOption {
+      #region members
+      [JsonProperty("address")]
+      public string address { get; set; }
+    
+      [JsonProperty("avatar_url")]
+      public string avatar_url { get; set; }
+    
+      [JsonProperty("bio")]
+      public string bio { get; set; }
+    
+      [JsonProperty("cap")]
+      public string cap { get; set; }
+    
+      [JsonProperty("card_number")]
+      public double? card_number { get; set; }
+    
+      [JsonProperty("email")]
+      public string email { get; set; }
+    
+      [JsonProperty("id")]
+      public double? id { get; set; }
+    
+      [JsonProperty("id_github")]
+      public double? id_github { get; set; }
+    
+      [JsonProperty("location")]
+      public string location { get; set; }
+    
+      [JsonProperty("login")]
+      public string login { get; set; }
+    
+      [JsonProperty("name")]
+      public string name { get; set; }
+    
+      [JsonProperty("node_id")]
+      public string node_id { get; set; }
+    
+      [JsonProperty("pay_by_hours")]
+      public double? pay_by_hours { get; set; }
+    
+      [JsonProperty("place")]
+      public string place { get; set; }
+    
+      [JsonProperty("type")]
+      public string type { get; set; }
+    
+      [JsonProperty("url")]
+      public string url { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceCollaboratorResponse
+    public class FinanceCollaboratorResponse {
+      #region members
+      [JsonProperty("email")]
+      public string email { get; set; }
+    
+      [JsonProperty("id")]
+      public double id { get; set; }
+    
+      [JsonProperty("lastName")]
+      public string lastName { get; set; }
+    
+      [JsonProperty("login")]
+      public string login { get; set; }
+    
+      [JsonProperty("name")]
+      public string name { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceIssuesFilterInput
+    public class FinanceIssuesFilterInput {
+      #region members
+      public string assignedTo { get; set; }
+    
+      public string labels { get; set; }
+    
+      public string maxDate { get; set; }
+    
+      public string minDate { get; set; }
+    
+      public double? project { get; set; }
+    
+      public string repository { get; set; }
+    
+      public double? status { get; set; }
+      #endregion
+    
+      #region methods
+      public dynamic GetInputObject()
+      {
+        IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+    
+        var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+        foreach (var propertyInfo in properties)
+        {
+          var value = propertyInfo.GetValue(this);
+          var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+    
+          var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+    
+          if (requiredProp || value != defaultValue)
+          {
+            d[propertyInfo.Name] = value;
+          }
+        }
+        return d;
+      }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceIssuesPageInput
+    public class FinanceIssuesPageInput {
+      #region members
+      public bool? descending { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public FinanceIssuesFilterInput filter { get; set; }
+    
+      public double? skip { get; set; }
+    
+      public string sortBy { get; set; }
+    
+      public double? take { get; set; }
+      #endregion
+    
+      #region methods
+      public dynamic GetInputObject()
+      {
+        IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+    
+        var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+        foreach (var propertyInfo in properties)
+        {
+          var value = propertyInfo.GetValue(this);
+          var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+    
+          var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+    
+          if (requiredProp || value != defaultValue)
+          {
+            d[propertyInfo.Name] = value;
+          }
+        }
+        return d;
+      }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceIssuesPageResponse
+    public class FinanceIssuesPageResponse {
+      #region members
+      [JsonProperty("issues")]
+      public List<FinanceIssuesResponse> issues { get; set; }
+    
+      [JsonProperty("issuesCount")]
+      public double issuesCount { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceIssuesResponse
+    public class FinanceIssuesResponse {
+      #region members
+      [JsonProperty("account")]
+      public FinanceAccountResponse account { get; set; }
+    
+      [JsonProperty("accountId")]
+      public double? accountId { get; set; }
+    
+      [JsonProperty("assignedTo")]
+      public FinanceCollaboratorResponse assignedTo { get; set; }
+    
+      [JsonProperty("assignedToId")]
+      public double? assignedToId { get; set; }
+    
+      [JsonProperty("closed_at")]
+      public any closed_at { get; set; }
+    
+      [JsonProperty("created_at")]
+      public any created_at { get; set; }
+    
+      [JsonProperty("description")]
+      public string description { get; set; }
+    
+      [JsonProperty("hours")]
+      public double hours { get; set; }
+    
+      [JsonProperty("id")]
+      public double id { get; set; }
+    
+      [JsonProperty("labels")]
+      public string labels { get; set; }
+    
+      [JsonProperty("last_comment")]
+      public string last_comment { get; set; }
+    
+      [JsonProperty("milestones")]
+      public string milestones { get; set; }
+    
+      [JsonProperty("number")]
+      public double number { get; set; }
+    
+      [JsonProperty("owner")]
+      public string owner { get; set; }
+    
+      [JsonProperty("project")]
+      public FinanceProjectResponse project { get; set; }
+    
+      [JsonProperty("projectId")]
+      public double? projectId { get; set; }
+    
+      [JsonProperty("repo")]
+      public string repo { get; set; }
+    
+      [JsonProperty("repository")]
+      public FinanceRepositoryResponse repository { get; set; }
+    
+      [JsonProperty("repositoryId")]
+      public double repositoryId { get; set; }
+    
+      [JsonProperty("status")]
+      public string status { get; set; }
+    
+      [JsonProperty("title")]
+      public string title { get; set; }
+    
+      [JsonProperty("updated_at")]
+      public any updated_at { get; set; }
+    
+      [JsonProperty("url")]
+      public string url { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceLabelOption
+    public class FinanceLabelOption {
+      #region members
+      [JsonProperty("id")]
+      public double id { get; set; }
+    
+      [JsonProperty("title")]
+      public string title { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceProjectOption
+    public class FinanceProjectOption {
+      #region members
+      [JsonProperty("id")]
+      public double id { get; set; }
+    
+      [JsonProperty("title")]
+      public string title { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceProjectResponse
+    public class FinanceProjectResponse {
+      #region members
+      [JsonProperty("id")]
+      public double id { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceRepositoryOption
+    public class FinanceRepositoryOption {
+      #region members
+      [JsonProperty("id")]
+      public double id { get; set; }
+    
+      [JsonProperty("title")]
+      public string title { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region FinanceRepositoryResponse
+    public class FinanceRepositoryResponse {
+      #region members
+      [JsonProperty("id")]
+      public double id { get; set; }
+      #endregion
+    }
+    #endregion
+    
     #region GetAllTranslationInput
     public class GetAllTranslationInput {
       #region members
@@ -1495,6 +1808,51 @@ namespace GraphQLCodeGen {
         }
         return d;
       }
+      #endregion
+    }
+    #endregion
+    
+    #region IndexContentInputs
+    public class IndexContentInputs {
+      #region members
+      [Required]
+      [JsonRequired]
+      public double imageId { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public List<TranslationInput> translations { get; set; }
+      #endregion
+    
+      #region methods
+      public dynamic GetInputObject()
+      {
+        IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+    
+        var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+        foreach (var propertyInfo in properties)
+        {
+          var value = propertyInfo.GetValue(this);
+          var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+    
+          var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+    
+          if (requiredProp || value != defaultValue)
+          {
+            d[propertyInfo.Name] = value;
+          }
+        }
+        return d;
+      }
+      #endregion
+    }
+    #endregion
+    
+    #region IndexContentResponse
+    public class IndexContentResponse {
+      #region members
+      [JsonProperty("image")]
+      public MediaResponse image { get; set; }
       #endregion
     }
     #endregion
@@ -1842,6 +2200,9 @@ namespace GraphQLCodeGen {
       [JsonProperty("confirmRegist")]
       public bool confirmRegist { get; set; }
     
+      [JsonProperty("deleteStorageItem")]
+      public bool deleteStorageItem { get; set; }
+    
       [JsonProperty("deleteTranslation")]
       public bool deleteTranslation { get; set; }
     
@@ -1866,11 +2227,17 @@ namespace GraphQLCodeGen {
       [JsonProperty("postMediaFiles")]
       public List<MediaResponse> postMediaFiles { get; set; }
     
+      [JsonProperty("postStorageItem")]
+      public bool postStorageItem { get; set; }
+    
       [JsonProperty("postTemplate")]
       public bool postTemplate { get; set; }
     
       [JsonProperty("putLanguage")]
       public LanguageResponse putLanguage { get; set; }
+    
+      [JsonProperty("putStorageItem")]
+      public bool putStorageItem { get; set; }
     
       [JsonProperty("register")]
       public UserResponse register { get; set; }
@@ -1883,6 +2250,9 @@ namespace GraphQLCodeGen {
     
       [JsonProperty("setContactData")]
       public bool setContactData { get; set; }
+    
+      [JsonProperty("setIndexContent")]
+      public bool setIndexContent { get; set; }
     
       [JsonProperty("setKeyLocalStorage")]
       public bool setKeyLocalStorage { get; set; }
@@ -2053,11 +2423,29 @@ namespace GraphQLCodeGen {
       [JsonProperty("getEventHistory")]
       public HistoricResponse getEventHistory { get; set; }
     
+      [JsonProperty("getFinanceIssues")]
+      public FinanceIssuesPageResponse getFinanceIssues { get; set; }
+    
+      [JsonProperty("getFinanceIssuesAssignedToOptions")]
+      public List<FinanceAssignedToOption> getFinanceIssuesAssignedToOptions { get; set; }
+    
+      [JsonProperty("getFinanceIssuesLabelOptions")]
+      public List<FinanceLabelOption> getFinanceIssuesLabelOptions { get; set; }
+    
+      [JsonProperty("getFinanceIssuesProjectOptions")]
+      public List<FinanceProjectOption> getFinanceIssuesProjectOptions { get; set; }
+    
+      [JsonProperty("getFinanceIssuesRepositoryOptions")]
+      public List<FinanceRepositoryOption> getFinanceIssuesRepositoryOptions { get; set; }
+    
       [JsonProperty("getHistoricFilters")]
       public HistoricFiltersResponse getHistoricFilters { get; set; }
     
       [JsonProperty("getHistoricPage")]
       public HistoricPageResponse getHistoricPage { get; set; }
+    
+      [JsonProperty("getIndexContent")]
+      public IndexContentResponse getIndexContent { get; set; }
     
       [JsonProperty("getLanguage")]
       public LanguageResponse getLanguage { get; set; }
@@ -2067,6 +2455,12 @@ namespace GraphQLCodeGen {
     
       [JsonProperty("getMediaFile")]
       public MediaResponse getMediaFile { get; set; }
+    
+      [JsonProperty("getStorageByPagination")]
+      public StoragePageResponse getStorageByPagination { get; set; }
+    
+      [JsonProperty("getStorageByType")]
+      public List<StorageResponse> getStorageByType { get; set; }
     
       [JsonProperty("getTemplateByType")]
       public TemplateResponse getTemplateByType { get; set; }
@@ -2292,6 +2686,179 @@ namespace GraphQLCodeGen {
     
       [JsonProperty("value")]
       public string value { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region StorageAllInput
+    public class StorageAllInput {
+      #region members
+      [Required]
+      [JsonRequired]
+      public double lang { get; set; }
+    
+      public bool? loadTranslations { get; set; }
+    
+      public string search { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public string type { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public string urlApi { get; set; }
+      #endregion
+    
+      #region methods
+      public dynamic GetInputObject()
+      {
+        IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+    
+        var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+        foreach (var propertyInfo in properties)
+        {
+          var value = propertyInfo.GetValue(this);
+          var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+    
+          var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+    
+          if (requiredProp || value != defaultValue)
+          {
+            d[propertyInfo.Name] = value;
+          }
+        }
+        return d;
+      }
+      #endregion
+    }
+    #endregion
+    
+    #region StorageInput
+    public class StorageInput {
+      #region members
+      [Required]
+      [JsonRequired]
+      public string content { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public double id { get; set; }
+    
+      public double? image { get; set; }
+    
+      public List<double> imageList { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public string type { get; set; }
+      #endregion
+    
+      #region methods
+      public dynamic GetInputObject()
+      {
+        IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+    
+        var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+        foreach (var propertyInfo in properties)
+        {
+          var value = propertyInfo.GetValue(this);
+          var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+    
+          var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+    
+          if (requiredProp || value != defaultValue)
+          {
+            d[propertyInfo.Name] = value;
+          }
+        }
+        return d;
+      }
+      #endregion
+    }
+    #endregion
+    
+    #region StoragePageInput
+    public class StoragePageInput {
+      #region members
+      public bool? descending { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public double lang { get; set; }
+    
+      public bool? loadTranslations { get; set; }
+    
+      public string search { get; set; }
+    
+      public double? skip { get; set; }
+    
+      public string sortBy { get; set; }
+    
+      public double? take { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public string type { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public string urlApi { get; set; }
+      #endregion
+    
+      #region methods
+      public dynamic GetInputObject()
+      {
+        IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+    
+        var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+        foreach (var propertyInfo in properties)
+        {
+          var value = propertyInfo.GetValue(this);
+          var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+    
+          var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+    
+          if (requiredProp || value != defaultValue)
+          {
+            d[propertyInfo.Name] = value;
+          }
+        }
+        return d;
+      }
+      #endregion
+    }
+    #endregion
+    
+    #region StoragePageResponse
+    public class StoragePageResponse {
+      #region members
+      [JsonProperty("storageItems")]
+      public List<StorageResponse> storageItems { get; set; }
+    
+      [JsonProperty("storageItemsCount")]
+      public double storageItemsCount { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region StorageResponse
+    public class StorageResponse {
+      #region members
+      [JsonProperty("content")]
+      public string content { get; set; }
+    
+      [JsonProperty("id")]
+      public double id { get; set; }
+    
+      [JsonProperty("image")]
+      public MediaResponse image { get; set; }
+    
+      [JsonProperty("imageList")]
+      public List<MediaResponse> imageList { get; set; }
+    
+      [JsonProperty("type")]
+      public string type { get; set; }
       #endregion
     }
     #endregion

@@ -1,7 +1,6 @@
 import { ssrMiddleware } from "quasar/wrappers";
-
-export default ssrMiddleware(({ app }) => {
-  app.get("/tmp", (req, res) => {
-    res.send("Send response");
-  });
+import { run } from "@wisegar-org/wgo-base-server";
+export default ssrMiddleware(async ({ app }) => {
+  debugger;
+  await run(app);
 });

@@ -18,6 +18,7 @@
     "@ckeditor/ckeditor5-vue": "5.1.0",
     "@quasar/extras": "^1.0.0",
     "@wisegar-org/wgo-base-client": "0.0.1-39",
+    "@wisegar-org/wgo-base-server": "0.0.1-54",
     "@wisegar-org/wgo-base-models": "0.0.1-20",
     "@wisegar-org/wgo-opengar-core-ui": "0.0.1-build.17",
     "agent-base": "^6.0.2",

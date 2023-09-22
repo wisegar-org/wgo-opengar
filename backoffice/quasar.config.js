@@ -11,21 +11,21 @@
 const { configure } = require("quasar/wrappers");
 const fs = require("fs-extra");
 const buildsettings = fs.readJsonSync("settings.build.json", { throws: false });
-const packageJson = fs.readJsonSync("package.json", { throws: false })
+const packageJson = fs.readJsonSync("package.json", { throws: false });
 const path = require("path");
 const env = require("dotenv");
 const envValue = fs.existsSync(".env")
   ? env.config({
-    path: ".env",
-  })
+      path: ".env",
+    })
   : env.config({
-    path: "../.env",
-  });
+      path: "../.env",
+    });
 const hostBase = envValue.parsed?.PORT
   ? `http://localhost:${envValue.parsed.PORT}`
   : buildsettings.API_BASE;
-const prodBase = envValue.parsed?.APP_WEB_HOST || hostBase
-const portApp = envValue.parsed?.PORT ? parseInt(envValue.parsed.PORT) + 1 : 8040
+const prodBase = envValue.parsed?.APP_WEB_HOST || hostBase;
+const portApp = envValue.parsed?.PORT ? parseInt(envValue.parsed.PORT) : 8040;
 
 module.exports = configure(function (ctx) {
   return {
@@ -34,9 +34,9 @@ module.exports = configure(function (ctx) {
       tsCheckerConfig: {
         eslint: {
           enabled: true,
-          files: './src/**/*.{ts,tsx,js,jsx,vue}',
+          files: "./src/**/*.{ts,tsx,js,jsx,vue}",
         },
-      }
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-webpack/prefetch-feature
@@ -97,12 +97,12 @@ module.exports = configure(function (ctx) {
         if (cfg.resolve.fallback) {
           cfg.resolve.fallback["child_process"] = false;
           cfg.resolve.fallback["https"] = false;
-          cfg.resolve.fallback.fs = require.resolve("fs-extra")
+          cfg.resolve.fallback.fs = require.resolve("fs-extra");
         } else {
           cfg.resolve.fallback = {
             child_process: false,
             https: false,
-            fs: require.resolve("fs-extra")
+            fs: require.resolve("fs-extra"),
           };
         }
 
@@ -128,15 +128,15 @@ module.exports = configure(function (ctx) {
     framework: {
       config: {
         brand: {
-          primary: '#ACCF5A',
-          secondary: '#26A69A',
-          accent: '#9C27B0',
-          dark: '#1D1D1D',
-          positive: '#80a32c',
-          negative: '#C10015',
-          info: '#31CCEC',
-          warning: '#F2C037',
-        }
+          primary: "#ACCF5A",
+          secondary: "#26A69A",
+          accent: "#9C27B0",
+          dark: "#1D1D1D",
+          positive: "#80a32c",
+          negative: "#C10015",
+          info: "#31CCEC",
+          warning: "#F2C037",
+        },
       },
 
       // iconSet: 'material-icons', // Quasar icon set
