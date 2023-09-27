@@ -21,8 +21,8 @@ import { AGVContentsResolver } from "../../agv/resolvers/Content/AGVContentsReso
 import { AGVNewsletterResolver } from "../../agv/resolvers/Newsletter/AGVNewsletterResolver";
 import { AGVInscriptionResolver } from "../../agv/resolvers/Inscription/AGVInscriptionResolver";
 
-export const getResolvers = () => {
-  return [
+export const getResolvers = (resolvers?: Array<any>) => {
+  const defaultControllers = [
     AppResolver,
     CoreResolver,
     AuthResolver,
@@ -44,5 +44,13 @@ export const getResolvers = () => {
     AGVContentsResolver,
     AGVNewsletterResolver,
     AGVInscriptionResolver,
-  ] as unknown as NonEmptyArray<Function>;
+  ];
+
+  if (resolvers && resolvers.length > 0) {
+    return Array.apply(
+      defaultControllers,
+      resolvers
+    ) as unknown as NonEmptyArray<Function>;
+  }
+  return defaultControllers as unknown as NonEmptyArray<Function>;
 };

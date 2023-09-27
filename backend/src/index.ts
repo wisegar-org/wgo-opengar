@@ -30,15 +30,18 @@ import { getResolvers } from "./wgo/resolvers";
 import express from "express";
 import { UseStaticMediaFilesMiddleware } from "./wgo/middlewares/StaticMediaFilesMiddleware";
 
-export async function run(app: any) {
+export async function run(
+  app: any,
+  controllers?: Array<any>,
+  resolvers?: Array<any>
+) {
   const port = GetPortKey();
-
   const options: IServerOptions = {
     app: app,
     authenticator: AuthenticationHandler,
     context: AppContextHandler,
     formatError: errorHandler,
-    controllers: getControllers(),
+    controllers: getControllers(controllers),
     port: parseInt(port),
     maxFileSize: 5000000000,
     maxFiles: 10,
@@ -49,7 +52,7 @@ export async function run(app: any) {
       UseStaticMediaFilesMiddleware(app);
       UseRestMiddleware(options);
     },
-    resolvers: getResolvers(),
+    resolvers: getResolvers(resolvers),
     privateKey: GetPrivateKey(),
     publicKey: GetPublicKey(),
     expiresIn: GetExpiresInKey(),

@@ -38,20 +38,20 @@
         />
       </div>
     </div>
-    <div class="row justify-center" v-if="!loadingEvents">
-      <div v-if="!!corso" class="col-sm-8 col-md-6">
+    <div class="row justify-center" v-if="!refLoading">
+      <div v-if="!!refCorso" class="col-sm-8 col-md-6">
         <ItemCard
           title="Prossimo Corso"
-          :item="corso"
-          @onEventClick="(item: any) => onItemClick(item, false)"
+          :item="refCorso"
+          @onEventClick="(item: any) => funOnItemClick(item, false)"
         />
       </div>
 
-      <div v-if="!!evento" class="col-sm-8 col-md-6">
+      <div v-if="!!refEvento" class="col-sm-8 col-md-6">
         <ItemCard
           title="Prossimo Evento"
-          :item="evento"
-          @onEventClick="(item: any) => onItemClick(item, true)"
+          :item="refEvento"
+          @onEventClick="(item: any) => funOnItemClick(item, true)"
         />
       </div>
     </div>

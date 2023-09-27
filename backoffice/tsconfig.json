@@ -10,10 +10,8 @@
     ]
   },
   "include": [
-    "src"
-, "Graphql"  ],
+    "src", "Graphql", "modules"],
   "exclude": [
-    "node_modules",
-    "graphql"
+    "node_modules", "graphql"
   ]
 }
