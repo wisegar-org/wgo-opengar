@@ -23,7 +23,6 @@ import { AGVInscriptionResolver } from "../../agv/resolvers/Inscription/AGVInscr
 
 export const getResolvers = (resolvers?: Array<any>) => {
   const defaultControllers = [
-    AppResolver,
     CoreResolver,
     AuthResolver,
     LanguageResolver,

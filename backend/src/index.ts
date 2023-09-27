@@ -30,6 +30,7 @@ import express from "express";
 import { UseStaticMediaFilesMiddleware } from "./wgo/middlewares/StaticMediaFilesMiddleware";
 
 export { Controller, Get, Post, Put } from "wgo-server";
+export { Query, Resolver } from "type-graphql";
 
 export async function run(
   app: any,

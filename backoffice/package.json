@@ -6,6 +6,7 @@
   "author": "Wisegar.org Development Group",
   "private": true,
   "scripts": {
+    "start": "nodemon",
     "dev": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
     "gqltypes": "npx graphql-codegen",
@@ -60,7 +61,8 @@
     "@typescript-eslint/parser": "^5.10.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-vue": "^9.0.0"
+    "eslint-plugin-vue": "^9.0.0",
+    "nodemon": "^3.0.1"
   },
   "browserslist": [
     "last 10 Chrome versions",
