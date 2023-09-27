@@ -30,7 +30,7 @@ import { getResolvers } from "./wgo/resolvers";
 import express from "express";
 import { UseStaticMediaFilesMiddleware } from "./wgo/middlewares/StaticMediaFilesMiddleware";
 
-export * from "wgo-server";
+export { Controller, Get, Post, Put } from "wgo-server";
 
 export async function run(
   app: any,
