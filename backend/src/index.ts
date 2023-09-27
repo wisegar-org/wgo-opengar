@@ -17,7 +17,6 @@ import {
 import { AuthenticationHandler } from "./wgo/handlers/AuthenticationHandler";
 import { AppContextHandler, ctx } from "./wgo/handlers/AppContextHandler";
 import { errorHandler } from "./wgo/handlers/ErrorHandler";
-import { getControllers } from "./wgo/controllers";
 import { createDatabase } from "typeorm-extension";
 import { agvAdminUserSeeder } from "./agv/database/seeders/AdminUserSeeder";
 import { agvTemplateSeeder } from "./agv/database/seeders/TemplateSeeder";
@@ -43,7 +42,7 @@ export async function run(
     authenticator: AuthenticationHandler,
     context: AppContextHandler,
     formatError: errorHandler,
-    controllers: getControllers(controllers),
+    controllers: controllers ? controllers : [],
     port: parseInt(port),
     maxFileSize: 5000000000,
     maxFiles: 10,

@@ -23,7 +23,6 @@ import { settingsSeeder } from "./database/seeders/SettingsSeeder";
 
 import { UseTemplatingMiddleware } from "./middlewares/HostTemplatingMiddleware";
 import { UseHostAdminMiddleware } from "./middlewares/HostAdminMiddleware";
-import { getControllers } from "./controllers";
 import { roleSuperAdminSeeder, userAdminSeeder } from "../authentication";
 import { agvAdminUserSeeder } from "../agv/database/seeders/AdminUserSeeder";
 import { agvTemplateSeeder } from "../agv/database/seeders/TemplateSeeder";
@@ -36,7 +35,7 @@ const serverOptions: IServerOptions = {
   authenticator: AuthenticationHandler,
   context: AppContextHandler,
   formatError: errorHandler,
-  controllers: getControllers(),
+  controllers: [],
   port: parseInt(port),
   maxFileSize: 5000000000,
   maxFiles: 10,
