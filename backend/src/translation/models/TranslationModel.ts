@@ -9,9 +9,9 @@ import {
   ILanguageModel,
   StorageKeys,
 } from "@wisegar-org/wgo-base-models";
-import { HistoricModel } from "../../historic/models/HistoricModel";
-import { UtilService } from "../../core/services/UtilService";
-import { LanguageModel } from "../../language/models/LanguageModel";
+import { HistoricModel } from "../../historic";
+import { LanguageModel } from "../../language";
+import { UtilService } from "../../core";
 
 export class TranslationModel {
   private ctx: IContextBase;

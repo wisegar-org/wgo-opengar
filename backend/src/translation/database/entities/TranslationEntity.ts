@@ -5,8 +5,8 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
 } from "typeorm";
-import { WGBaseEntity } from "../../../core/database/entities/WGBaseEntity";
-import { LanguageEntity } from "../../../language/database/entities/LanguageEntity";
+import { WGBaseEntity } from "../../../core";
+import { LanguageEntity } from "../../../language";
 
 @Entity({ name: "translations" })
 export class TranslationEntity extends WGBaseEntity {
