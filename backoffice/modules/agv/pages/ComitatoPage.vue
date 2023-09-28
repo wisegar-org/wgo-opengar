@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-evenly">
     <div class="col-12 col-md-10">
-      <ComitatoComponent />
+      <comitato-component />
     </div>
   </q-page>
 </template>
@@ -9,15 +9,12 @@
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
-import ComitatoComponent from "../../components/ComitatoComponent/ComitatoComponent.vue";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ComitatoPage",
-  components: {
-    ComitatoComponent,
-  },
+  components: {},
   data() {
     const seoComponent = new BaseSeoDataComponent();
     useMeta(seoComponent.seoData);

@@ -2,13 +2,11 @@ import { defineComponent } from "vue";
 import TextVue from "@wisegar-org/wgo-base-client/build/core/components/Text/Text.vue";
 import { useAppContentStore } from "src/stores/appContentStore";
 import { IPageContent } from "src/models/Content";
-import ComitatoContactForm from "../ComitatoContactForm/ComitatoContactForm.vue";
 
 export default defineComponent({
   name: "ComitatoComponent",
   components: {
     TextVue,
-    ComitatoContactForm,
   },
   data() {
     return {

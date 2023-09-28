@@ -28,7 +28,7 @@
       />
       <br />
     </div>
-    <ComitatoContactForm />
+    <comitato-contact-form />
 
     <div class="block-text-card-up block-text-card-down" />
     <div

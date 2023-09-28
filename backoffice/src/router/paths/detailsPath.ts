@@ -1,6 +1,6 @@
 import { IRouteObject } from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
-import { AGVPaths } from "./sitePaths";
+import { HomePageRoute } from "app/modules/agv/routes/HomePageRoute";
 
 export const AGVDetailsPaths: IRouteObject = {
   corsiDetails: {
@@ -21,7 +21,7 @@ export const AGVDetailsPaths: IRouteObject = {
 };
 
 export const DetailsPathRouter: RouteRecordRaw = {
-  path: AGVPaths.home.path,
+  path: HomePageRoute.path,
   component: () => import("../../layouts/SiteMainLayout.vue"),
   children: [
     {

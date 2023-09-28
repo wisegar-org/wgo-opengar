@@ -1,6 +1,6 @@
 import { IRouteObject } from "@wisegar-org/wgo-base-models/build/core";
+import { HomePageRoute } from "app/modules/agv/routes/HomePageRoute";
 import { RouteRecordRaw } from "vue-router";
-import { AGVPaths } from "./sitePaths";
 
 export const AGVPollPaths: IRouteObject = {
   pollData: {
@@ -16,7 +16,7 @@ export const AGVPollPaths: IRouteObject = {
 };
 
 export const PollPathRouter: RouteRecordRaw = {
-  path: AGVPaths.home.path,
+  path: HomePageRoute.path,
   component: () => import("../../layouts/EmptyLayout.vue"),
   children: [
     {

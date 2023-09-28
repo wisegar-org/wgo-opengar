@@ -1,13 +1,9 @@
 import { IRouteObject } from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
 import { HomePageRoute } from "../../../modules/agv/routes/HomePageRoute";
+import { ComitatoPageRoute } from "app/modules/agv/routes/ComitatoPageRoute";
 
 export const AGVPaths: IRouteObject = {
-  home: {
-    path: "/",
-    label: "WGO_HOME",
-    name: "agv_home",
-  },
   comitato: {
     path: "/comitato",
     label: "WGO_COMITATO",
@@ -36,15 +32,11 @@ export const AGVPaths: IRouteObject = {
 };
 
 export const SitePathRouter: RouteRecordRaw = {
-  path: AGVPaths.home.path,
+  path: HomePageRoute.path,
   component: () => import("../../layouts/SiteMainLayout.vue"),
   children: [
     HomePageRoute,
-    {
-      path: AGVPaths.comitato.path,
-      name: AGVPaths.comitato.name,
-      component: () => import("src/pages/Site/ComitatoPage.vue"),
-    },
+    ComitatoPageRoute,
     {
       path: AGVPaths.corsi.path,
       name: AGVPaths.corsi.name,

@@ -4,14 +4,11 @@ import { useNotifyStore } from "src/stores/notifyStore";
 import { EmailService } from "@wisegar-org/wgo-base-client/build/email/services/EmailService";
 import { TemplateService } from "@wisegar-org/wgo-base-client/build/template/services/TemplateService";
 import { defineComponent } from "vue";
-import ContactForm from "../ContactForm/ContactForm.vue";
 import { StringDictionary } from "@wisegar-org/wgo-base-models/build/core";
 
 export default defineComponent({
   name: "ComitatoContactForm",
-  components: {
-    ContactForm,
-  },
+  components: {},
   data() {
     return {
       showLoader: false,

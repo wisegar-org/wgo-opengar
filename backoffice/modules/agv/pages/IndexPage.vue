@@ -8,14 +8,13 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeMount } from "vue";
-import HomeComponent from "../components/HomeComponent/HomeComponent.vue";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 import { useMeta } from "quasar";
 
 export default defineComponent({
   name: "IndexPage",
-  components: { HomeComponent },
+  components: {},
   setup() {
     const seoComponent = new BaseSeoDataComponent();
     useMeta(seoComponent.seoData);
