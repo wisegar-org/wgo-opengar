@@ -1,8 +1,8 @@
 {
-  "name": "wgo-agv-module-client",
+  "name": "wgo-opengar",
   "version": "1.1.4-1",
-  "description": "Assemblea Genitori Vezia Web App",
-  "productName": "Assemblea Genitori Vezia",
+  "description": "WGO Opengar Core Application",
+  "productName": "WGO Opengar",
   "author": "Wisegar.org Development Group",
   "private": true,
   "scripts": {
