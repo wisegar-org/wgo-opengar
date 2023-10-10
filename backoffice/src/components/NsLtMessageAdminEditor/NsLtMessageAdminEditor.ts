@@ -31,7 +31,7 @@ export default defineComponent({
     QCKEditor,
   },
   data() {
-    const urlApi = apiSettings.API_BASE;
+    const urlApi = apiSettings.WEB_API;
     const { getLabel } = new BaseTranslateComponent();
     const resizeComponent = new BaseResizeComponent();
     const { componentHeight, addResize, removeResize, resizeTable } =

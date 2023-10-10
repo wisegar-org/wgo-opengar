@@ -18,7 +18,7 @@ export class ContentService {
       const response = (await this.apiInstance.query({
         query: Q_AGV_ALL_CONTENTS,
         variables: {
-          urlApi: apiSettings.API_BASE,
+          urlApi: apiSettings.WEB_API,
         },
         fetchPolicy: "no-cache",
       })) as {

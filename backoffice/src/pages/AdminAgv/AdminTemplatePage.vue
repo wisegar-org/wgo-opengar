@@ -42,7 +42,7 @@ export default defineComponent({
     const objectToken = [""];
     const testData: ObjectDictionary = {};
     return {
-      urlApi: apiSettings.API_BASE,
+      urlApi: apiSettings.WEB_API,
       data: {
         key,
         objectToken,
@@ -97,8 +97,8 @@ export default defineComponent({
             email: this.authStore.getUser?.email || "Utente email",
             nome: this.authStore.getUser?.name || "Utente nome",
             cognome: this.authStore.getUser?.name || "Utente nome",
-            url: apiSettings.API_BASE,
-            linkDiConferma: apiSettings.API_BASE,
+            url: apiSettings.WEB_API,
+            linkDiConferma: apiSettings.WEB_API,
           };
           break;
         }
@@ -115,8 +115,8 @@ export default defineComponent({
             email: this.authStore.getUser?.email || "Utente email",
             nome: this.authStore.getUser?.name || "Utente nome",
             cognome: this.authStore.getUser?.name || "Utente nome",
-            url: apiSettings.API_BASE,
-            linkDiConferma: apiSettings.API_BASE,
+            url: apiSettings.WEB_API,
+            linkDiConferma: apiSettings.WEB_API,
             password: "Utente password predefinita",
           };
           break;
@@ -156,7 +156,7 @@ export default defineComponent({
               datadiFine: new Date(),
               descrizione: "Descrizione di prova",
               breveDescrizione: "Descrizione di prova",
-              url: apiSettings.API_BASE,
+              url: apiSettings.WEB_API,
             },
           };
           break;
@@ -167,8 +167,8 @@ export default defineComponent({
           objectToken = ["{{email}}", "{{url}}", "{{linkDiConferma}}"];
           testData = {
             email: this.authStore.getUser?.email || "Utente email",
-            url: apiSettings.API_BASE,
-            linkDiConferma: apiSettings.API_BASE,
+            url: apiSettings.WEB_API,
+            linkDiConferma: apiSettings.WEB_API,
           };
           break;
         }

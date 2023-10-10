@@ -53,7 +53,7 @@ export default defineComponent({
             to: endDate,
           }
         : startDate;
-    const urlApi = apiSettings.API_BASE;
+    const urlApi = apiSettings.WEB_API;
 
     return {
       date,

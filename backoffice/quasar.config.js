@@ -7,13 +7,12 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js
-
 const { configure } = require("quasar/wrappers");
 const fs = require("fs-extra");
-const buildsettings = fs.readJsonSync("settings.build.json", { throws: false });
 const packageJson = fs.readJsonSync("package.json", { throws: false });
 const path = require("path");
 const env = require("dotenv");
+
 const envValue = fs.existsSync(".env")
   ? env.config({
       path: ".env",
@@ -21,11 +20,23 @@ const envValue = fs.existsSync(".env")
   : env.config({
       path: "../.env",
     });
-const hostBase = envValue.parsed?.PORT
-  ? `http://localhost:${envValue.parsed.PORT}`
-  : buildsettings.API_BASE;
-const prodBase = envValue.parsed?.APP_WEB_HOST || hostBase;
-const portApp = envValue.parsed?.PORT ? parseInt(envValue.parsed.PORT) : 8040;
+
+if (envValue.error) {
+  console.error(envValue.error);
+  process.exit(1);
+}
+if (!envValue.parsed?.NODE_ENV) {
+  console.error("Invalid NODE_ENV value on environment file (.env)");
+  process.exit(1);
+}
+if (!envValue.parsed?.PORT) {
+  console.error("Invalid PORT value on entironment file (.env)");
+  process.exit(1);
+}
+if (!envValue.parsed?.WEB_API) {
+  console.error("Invalid WEB_API value on entironment file (.env)");
+  process.exit(1);
+}
 
 module.exports = configure(function (ctx) {
   return {
@@ -68,12 +79,12 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: "hash", // available values: 'hash', 'history'
       env: {
-        ENV: envValue.parsed?.ENV || "development",
-        API_BASE: ctx.prod ? prodBase : hostBase,
-        API_GRAPHQL: `${ctx.prod ? prodBase : hostBase}/graphql`,
-        VERSION: packageJson.version || buildsettings.VERSION,
+        NODE_ENV: envValue.parsed?.NODE_ENV,
+        WEB_API: envValue.parsed?.WEB_API,
+        WEB_API_GRAPHQL: `${envValue.parsed?.WEB_API}/graphql`,
+        VERSION: packageJson.version || "0.0.0",
       },
-      htmlFilename: "/modules/agv/index.template.html",
+      htmlFilename: "index.template.html",
       // transpile: false,
       // publicPath: '/',
 
@@ -121,7 +132,7 @@ module.exports = configure(function (ctx) {
       server: {
         type: "http",
       },
-      port: portApp,
+      port: envValue.parsed?.PORT,
       open: true, // opens browser window automatically,
     },
 
@@ -165,7 +176,7 @@ module.exports = configure(function (ctx) {
       // manualStoreHydration: true,
       // manualPostHydrationTrigger: true,
 
-      prodPort: portApp, // The default port that the production server should use
+      prodPort: envValue.parsed?.PORT, // The default port that the production server should use
       // (gets superseded if process.env.PORT is specified at runtime)
 
       maxAge: 1000 * 60 * 60 * 24 * 30,
@@ -175,7 +186,7 @@ module.exports = configure(function (ctx) {
 
       middlewares: [
         ctx.prod ? "compression" : "",
-        // "server",
+        "server",
         "render", // keep this as last one
       ],
     },

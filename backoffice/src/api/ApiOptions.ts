@@ -54,7 +54,7 @@ export const getApiServiceOptions = (pinia: Pinia) => {
       return token;
     },
     onGetBaseUrl: () => {
-      return apiSettings.API_GRAPHQL;
+      return apiSettings.WEB_API_GRAPHQL;
     },
     onNetworkErrorHandler: (message: string | { message: string }) => {
       console.debug(`GQL Network Error: ${message}`);

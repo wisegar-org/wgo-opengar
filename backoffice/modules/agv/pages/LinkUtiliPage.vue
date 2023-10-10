@@ -20,9 +20,9 @@
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
-import LinkCard from "../../components/LinkCard/LinkCard.vue";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
+import LinkCard from "../components/LinkCard/LinkCard.vue";
 
 export default defineComponent({
   name: "LinkUtilPage",

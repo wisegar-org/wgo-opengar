@@ -149,7 +149,7 @@ export async function run(
     options.middlewares(options.app);
   }
 
-    //Init db init
+  //Init db init
   console.debug("Database creation & migrations");
   await createDatabase({
     ifNotExist: true,
@@ -178,10 +178,16 @@ export async function run(
   await agvTemplateSeeder(dataSource);
   await agvAdminUserSeeder(dataSource);
 
+  //Start server
+  options.app.listen(options.port, () => {
+    console.log(`Server is running on port ${options.port}`);
+  });
   // Loop function
   setTimeout(async () => {
     // loopUpdateIssues();
   }, 0);
 }
 
-run(express());
+const app = express();
+
+run(app);

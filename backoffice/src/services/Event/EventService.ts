@@ -29,7 +29,7 @@ export class EventService {
         query: Q_AGV_GET_EVENT,
         variables: {
           id,
-          urlApi: apiSettings.API_BASE,
+          urlApi: apiSettings.WEB_API,
         },
         fetchPolicy: "no-cache",
       })) as {
@@ -53,7 +53,7 @@ export class EventService {
       const response = (await this.apiInstance.query({
         query: Q_AGV_EVENT_GET_NEXTS,
         variables: {
-          urlApi: apiSettings.API_BASE,
+          urlApi: apiSettings.WEB_API,
         },
         fetchPolicy: "no-cache",
       })) as {
@@ -77,7 +77,7 @@ export class EventService {
       const response = (await this.apiInstance.query({
         query: Q_AGV_ALL_EVENTS,
         variables: {
-          urlApi: apiSettings.API_BASE,
+          urlApi: apiSettings.WEB_API,
         },
         fetchPolicy: "no-cache",
       })) as {
@@ -104,7 +104,7 @@ export class EventService {
         query: Q_AGV_ALL_EVENTS_BY_PAGE,
         variables: {
           data: filter,
-          urlApi: apiSettings.API_BASE,
+          urlApi: apiSettings.WEB_API,
         },
         fetchPolicy: "no-cache",
       })) as {

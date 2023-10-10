@@ -45,7 +45,7 @@ export default defineComponent({
       resizeComponent;
 
     return {
-      urlApi: apiSettings.API_BASE,
+      urlApi: apiSettings.WEB_API,
       template,
       transBase,
       translations,

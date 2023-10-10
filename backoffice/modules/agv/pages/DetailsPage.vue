@@ -9,9 +9,9 @@
 <script lang="ts">
 import { useMeta } from "quasar";
 import { defineComponent } from "vue";
-import EventDetailsComponent from "../../components/EventDetailsComponent/EventDetailsComponent.vue";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
+import EventDetailsComponent from "src/components/EventDetailsComponent/EventDetailsComponent.vue";
 
 export default defineComponent({
   name: "DetailsPage",

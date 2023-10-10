@@ -12,12 +12,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import EventListComponent from "../../components/EventListComponent/EventListComponent.vue";
 import { useMeta } from "quasar";
 import { BaseSeoDataComponent } from "@wisegar-org/wgo-base-client/build/core/components/BaseComponents";
 import { ISeoModel } from "@wisegar-org/wgo-base-models/build/core";
 import { ITemType } from "src/models/Item";
 import { CorsoDetailsPageRoute } from "../routes/CorsoDetailsPageRoute";
+import EventListComponent from "src/components/EventListComponent/EventListComponent.vue";
 
 export default defineComponent({
   name: "CorsiPage",

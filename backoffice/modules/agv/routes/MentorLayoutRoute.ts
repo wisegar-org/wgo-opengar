@@ -7,6 +7,7 @@ import { CorsiPageRoute } from "./CorsiPageRoute";
 import { CorsoDetailsPageRoute } from "./CorsoDetailsPageRoute";
 import { EventiPageRoute } from "./EventiPageRoute";
 import { EventoDetailsPageRoute } from "./EventoDetailsPageRoute";
+import { LinkUtiliPageRoute } from "./LinkUtiliPageRoute";
 
 export const MentorLayoutPathRouter: RouteRecordRaw = {
   path: "/",
