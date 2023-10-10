@@ -1,7 +1,6 @@
 import { IRouteObject } from "@wisegar-org/wgo-base-models/build/core";
 import { RouteRecordRaw } from "vue-router";
 import { HomePageRoute } from "../../../modules/agv/routes/HomePageRoute";
-import { ComitatoPageRoute } from "app/modules/agv/routes/ComitatoPageRoute";
 
 export const AGVPaths: IRouteObject = {
   comitato: {
@@ -24,38 +23,10 @@ export const AGVPaths: IRouteObject = {
     label: "WGO_LINK_UTILI",
     name: "agv_links",
   },
-  contatto: {
-    path: "/contatto",
-    label: "WGO_CONTATTO",
-    name: "agv_contatto",
-  },
 };
 
 export const SitePathRouter: RouteRecordRaw = {
   path: HomePageRoute.path,
   component: () => import("../../layouts/SiteMainLayout.vue"),
-  children: [
-    HomePageRoute,
-    ComitatoPageRoute,
-    {
-      path: AGVPaths.corsi.path,
-      name: AGVPaths.corsi.name,
-      component: () => import("src/pages/Site/CorsiPage.vue"),
-    },
-    {
-      path: AGVPaths.eventi.path,
-      name: AGVPaths.eventi.name,
-      component: () => import("src/pages/Site/EventiPage.vue"),
-    },
-    {
-      path: AGVPaths.links.path,
-      name: AGVPaths.links.name,
-      component: () => import("src/pages/Site/LinkUtiliPage.vue"),
-    },
-    {
-      path: AGVPaths.contatto.path,
-      name: AGVPaths.contatto.name,
-      component: () => import("src/pages/Site/ContattoPage.vue"),
-    },
-  ],
+  children: [],
 };

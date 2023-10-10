@@ -15,13 +15,11 @@ import { AGVInscriptionsPathRouter } from "./paths/adminAgv/inscriptionsPaths";
 import { AGVNewslettersPathRouter } from "./paths/adminAgv/newslettersPaths";
 import { AGVTemplatePathRouter } from "./paths/adminAgv/templatePaths";
 import { AuthPathRouter } from "./paths/authPaths";
-import { DetailsPathRouter } from "./paths/detailsPath";
 import { PollPathRouter } from "./paths/pollPaths";
-import { SitePathRouter } from "./paths/sitePaths";
+import { MentorLayoutPathRouter } from "app/modules/agv/routes/MentorLayoutRoute";
 
 const routes: RouteRecordRaw[] = [
-  SitePathRouter,
-  DetailsPathRouter,
+  MentorLayoutPathRouter,
   PollPathRouter,
   AuthPathRouter,
   {

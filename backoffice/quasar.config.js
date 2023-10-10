@@ -73,7 +73,7 @@ module.exports = configure(function (ctx) {
         API_GRAPHQL: `${ctx.prod ? prodBase : hostBase}/graphql`,
         VERSION: packageJson.version || buildsettings.VERSION,
       },
-
+      htmlFilename: "/modules/agv/index.template.html",
       // transpile: false,
       // publicPath: '/',
 
@@ -175,7 +175,7 @@ module.exports = configure(function (ctx) {
 
       middlewares: [
         ctx.prod ? "compression" : "",
-        "server",
+        // "server",
         "render", // keep this as last one
       ],
     },
